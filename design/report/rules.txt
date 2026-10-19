@@ -1,0 +1,11 @@
+✓ Colours only from tokens — no #hex, colour functions or named colours in 13 stylesheets
+✓ Sizes only from the scale — font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 5 rules listed in decisions.json
+✓ Layout steps only at S, M, L — container queries at 22rem, 43rem, 58rem on the column; media only through media.css (--tablet 64em, --narrow 25em, --short 32em tall, input, motion)
+✓ No rounded corners — border-radius only 999px (pills) or 50% (dots)
+✓ Motion only from motion.css — transitions use var(--t-in/out/move) and var(--ease-out/move/leave); the hero's slow drift is the one loop
+✓ Faces only through tokens — font-family is var(--sans), var(--mono) or var(--digits)
+✓ Every token defined and used — 82 variables used, 31 scale roles
+✓ The scale holds its own rules — both ends of 31 roles on the ladder, 9 type pairs ≥ ×1.125, 14 colour pairs
+✓ Every decision complete — 21 decisions: 10 decisions, 3 exceptions, 8 placeholders
+
+all 9 rules hold

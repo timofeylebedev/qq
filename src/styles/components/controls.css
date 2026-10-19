@@ -1,0 +1,80 @@
+/* Controls. The grammar: cells divided by hairlines, never rounded; a pressed or current state fills with ink.
+   Every control is at least 40px (24px for the small round ones inside a cell). */
+
+/* the dark button («В корзину»): ink ground, bold capitals */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
+  min-height: var(--control-h); padding: 0 calc(var(--control-x) + 8px);
+  background: var(--c-ink); color: var(--c-paper);
+  font: 700 var(--type-control) / 1 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
+  transition: background var(--t-out) var(--ease-out);
+}
+/* the focus ring of a filled button is drawn in its ground colour (its text colour would vanish on a light ground) */
+.btn:focus-visible { outline-color: var(--c-ink); }
+.story--dark .btn:focus-visible, .card--dark .btn:focus-visible { outline-color: var(--c-paper); }
+@media (--mouse) { .btn:hover { background: var(--c-black); transition-duration: var(--t-in); } }
+
+/* the arrow button («→ Читать»): an arrow cell and a label cell, filled, a hairline of the ground between them
+   (Figma btn-arrow). Ink on light grounds, white on dark ones (--btn-bg / --btn-fg). */
+.btn-arrow {
+  --btn-bg: var(--c-ink); --btn-fg: var(--c-paper);
+  display: inline-grid; grid-template-columns: auto auto; gap: var(--hair); align-self: start;
+  min-height: var(--control-h); font: 500 var(--type-body-l) / 1 var(--sans);
+}
+.btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); background: var(--btn-bg); color: var(--btn-fg); transition: opacity var(--t-out) var(--ease-out); }
+.btn-arrow__icon { padding-inline: 12px; }
+.btn-arrow svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
+@media (--mouse) {
+  .btn-arrow:hover > span { opacity: 0.85; transition-duration: var(--t-in); }
+  .btn-arrow:hover svg { transform: translateX(3px); transition-duration: var(--t-in); }
+}
+
+/* prev / next: two square cells, one hairline between them */
+.arrows { display: flex; border: var(--hair) solid var(--c-line); }
+.arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background var(--t-out) var(--ease-out); }
+.arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--c-line); }
+.arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
+@media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
+
+/* a pager of numbers (new arrivals): the current one ringed */
+.pager { display: flex; gap: 4px; }
+.pager__dot {
+  display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
+  font-size: var(--type-small); font-feature-settings: "lnum" 1, "tnum" 1; color: var(--c-ink-70);
+  border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+}
+.pager__dot[aria-current="true"] { border-color: var(--c-ink); color: var(--c-ink); }
+@media (--mouse) { .pager__dot:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+
+/* the email field of the footer: a hairline box with the arrow cell at its end */
+.field { display: flex; border: var(--hair) solid var(--c-line); background: var(--c-paper); min-height: var(--control-h); }
+.field input { flex: 1; min-width: 0; border: 0; background: none; padding-inline: var(--control-x); font-size: max(16px, var(--type-body)); }
+.field input::placeholder { color: var(--c-ink-70); }
+.field input:focus-visible { outline: none; }
+.field:focus-within { border-color: var(--c-ink); }
+.field button { display: grid; place-items: center; width: 56px; border-left: var(--hair) solid var(--c-line); }
+
+/* descriptor pills: the only round shapes besides dots */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; align-content: start; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 8px;
+  border: var(--hair) solid var(--c-ink-20); border-radius: 999px;
+  font-size: var(--type-small); line-height: var(--lh-compact); white-space: nowrap;
+}
+.pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--dot); flex: none; }
+
+/* the taste chart: four rows, five dots each, the chosen dots joined. The plot is drawn in units of one row (28) and
+   sized in em, so it scales with the text without stretching. */
+.taste { display: grid; grid-template-columns: 1fr auto; align-items: start; column-gap: 12px; font-size: var(--type-body); }
+.taste__list > div { height: 1.75em; display: flex; align-items: center; }
+.taste__plot { width: calc(1.75em * 82 / 28); height: calc(1.75em * var(--rows)); overflow: visible; }
+.taste__grid { fill: var(--c-ink-40); }
+.taste__line { fill: none; stroke: var(--c-ink); stroke-width: 1; }
+.taste__dot { fill: var(--c-ink); }
+
+/* the heart */
+.fav { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: inherit; }
+.fav svg { width: 24px; height: 24px; }
+.fav { position: relative; }
+.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }
+.fav[aria-pressed="true"] .i-on { opacity: 1; transform: none; transition-duration: var(--t-in); }

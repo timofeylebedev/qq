@@ -1,0 +1,98 @@
+/* A coffee's page.
+
+   The stage: the name and the 3D pack are pinned under the navbar for as long as the five fact tiles take to scroll
+   past; the pack turns once around as they do (scripts/product.js). The tiles are frosted (cloud at 70% with a blur),
+   so the pack shows through them as they cross it. Pinned height: the screen less the navbar and the buy bar.
+   From L the tiles stand at different places across the column (Figma: a scatter); below, one under another.
+
+   The buy bar stays at the foot of the screen through the page: the options as cells, the price, «В корзину».
+   On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
+   the stage, and the stage pins at the whole screen under the navbar. */
+:root:has(.product) { --buybar-h: 88px; }
+body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
+
+.pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h)); position: relative; padding-top: var(--nav-h); }
+.pstage__pin {
+  position: sticky; top: var(--nav-h); height: var(--pin-h); min-height: 22rem;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center;
+  width: min(100% - 2 * var(--gutter), var(--col-max)); margin-inline: auto;
+}
+.pstage__head { justify-self: stretch; padding-top: var(--section-y-s); display: grid; gap: 8px; position: relative; z-index: 6; }
+.pstage__name { font-size: var(--type-h2); max-width: 14em; }
+.pstage__meta { font-size: var(--type-body); color: var(--c-ink-70); }
+.pack--hero { position: relative; inset: auto; max-width: 100%; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
+.pack--hero .pack__still { height: 100%; }
+
+@media (--short) {
+  .pstage { --pin-h: calc(100vh - var(--nav-h)); --pin-h: calc(100svh - var(--nav-h)); }
+  .pstage__pin { min-height: 0; }
+}
+
+.pstage__col { position: relative; z-index: 6; margin-top: calc(-0.18 * var(--pin-h)); padding-bottom: calc(0.4 * var(--pin-h)); }
+.pstage__facts { display: grid; gap: max(40vh, 18rem); gap: max(40svh, 18rem); justify-items: center; }
+.ptile {
+  width: min(100%, 22rem); min-height: 16.5rem; display: flex; flex-direction: column; gap: var(--text-gap);
+  padding: var(--tile-pad); background: var(--c-cloud-70);
+  -webkit-backdrop-filter: blur(40px); backdrop-filter: blur(40px);
+}
+.ptile__title { font-size: var(--type-card-title); }
+.ptile__text { font-size: var(--type-body); line-height: var(--lh-text); }
+.ptile__text b { font-weight: 700; }
+.ptile__lots { display: grid; gap: 6px; font-size: var(--type-body); }
+.ptile__lots li { display: flex; justify-content: space-between; gap: 12px; border-bottom: var(--hair) solid var(--c-ink-10); padding-bottom: 6px; }
+.ptile__lots li span:last-child { font-feature-settings: "tnum" 1; }
+@container col (width >= 58rem) {
+  .pstage__facts { justify-items: start; gap: max(28vh, 12rem); gap: max(28svh, 12rem); }
+  .ptile:nth-child(5n + 1) { justify-self: start; margin-left: 4%; }
+  .ptile:nth-child(5n + 2) { justify-self: end; margin-right: 0; }
+  .ptile:nth-child(5n + 3) { justify-self: center; }
+  .ptile:nth-child(5n + 4) { justify-self: start; margin-left: 16%; }
+  .ptile:nth-child(5n + 5) { justify-self: end; margin-right: 18%; }
+}
+@container col (width >= 43rem) {
+  .pstage__head { position: absolute; top: 0; left: 0; }
+  .pstage__pin { grid-template-rows: minmax(0, 1fr); }
+  .pack--hero { grid-row: 1; }
+}
+
+/* the buy bar: below L two rows of cells (the options; the quantity, the price and the button), from L one row with
+   the button apart on the right, as in Figma */
+.buybar { position: sticky; bottom: 0; z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+@media (--short) { .buybar { position: relative; } }
+.buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
+.buybar__cells { display: contents; }
+.cell { position: relative; display: grid; align-content: center; gap: 2px; min-width: 0; min-height: 52px; padding: 6px 12px; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
+.cell__caption { font-size: var(--type-small); color: var(--c-ink-70); }
+.cell select {
+  appearance: none; -webkit-appearance: none; width: 100%; min-height: 28px; border: 0; background: none; padding: 0 16px 0 0; cursor: pointer;
+  font: 700 var(--type-control) / 1.2 var(--sans); font-size: max(16px, var(--type-control)); text-transform: uppercase; letter-spacing: var(--track-control);
+  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 6px top 55%, right 1px top 55%; background-size: 5px 5px; background-repeat: no-repeat;
+}
+.cell select:focus-visible { outline: none; }
+.cell:focus-within { box-shadow: inset 0 0 0 2px var(--c-ink); }
+.cell--qty { grid-auto-flow: column; justify-content: center; align-items: center; gap: 12px; }
+.cell--qty button { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-70); }
+.cell--qty button[aria-disabled="true"] { opacity: 0.35; cursor: default; }
+.cell--qty svg { width: 24px; height: 24px; }
+.cell--qty output { min-width: 2ch; text-align: center; font: 500 var(--type-control) / 1 var(--sans); font-feature-settings: "tnum" 1; }
+.cell--price { place-content: center; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }
+.buybar__add { min-height: 52px; padding-inline: 12px; }
+@container col (width >= 58rem) {
+  .buybar__inner { grid-template-columns: auto auto; justify-content: space-between; border: 0; background: none; }
+  .buybar__cells { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); }
+  .cell { min-height: 56px; border-bottom: 0; margin-bottom: 0; padding-inline: var(--control-x); }
+  .cell:last-child { border-right: 0; }
+  .buybar__add { min-height: 72px; padding-inline: 32px; }
+}
+
+/* the story */
+.pstory { padding-block: var(--section-y); background: var(--c-cloud); }
+.pstory__statement { max-width: 22em; margin: 0 auto var(--section-gap); text-align: center; font: 700 var(--type-statement) / var(--lh-heading) var(--sans); text-wrap: balance; }
+.pstory__image img { width: 100%; height: auto; }
+.pstory__cols { display: grid; gap: var(--text-gap) var(--block-pad); padding-top: var(--block-pad); font-size: var(--type-body-l); line-height: var(--lh-text); }
+@container col (width >= 43rem) { .pstory__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .pstory__cols { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); } }
+
+.similar .head { margin-bottom: var(--section-y-s); }

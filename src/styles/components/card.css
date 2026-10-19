@@ -1,0 +1,70 @@
+/* The product card, one markup in every list of the site (recommended, catalog, similar coffees).
+
+   Its picture is a 4:5 block (a half-row card in the catalog: square), in one of two looks:
+     light   the 3D pack on the cloud ground (every coffee without a photo)
+     dark    a photo, white text (a coffee that has one in data/site.json)
+   Over the picture: the name and the heart on top, the buy row at the bottom over a fade into the ground. Under the
+   picture: one paragraph, at most three lines. The whole picture links to the coffee.
+
+   Layers, in the page's stacking (the card makes no stacking context of its own, so the one 3D canvas of the page,
+   at z-index 5, falls between them): ground and photo 0 · pack canvas 5 · the link over the picture 6 · name, heart
+   and buy row 7 */
+.card { --ground: var(--c-cloud); --fg: var(--c-ink); --rule: var(--c-ink-20); display: flex; flex-direction: column; min-width: 0; }
+.card--dark { --ground: var(--c-black); --fg: var(--c-paper); --rule: var(--c-white-30); }
+
+.card__media {
+  position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+  background: var(--ground); color: var(--fg);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.card--half .card__media { aspect-ratio: 1; }
+
+.card__photo { position: absolute; inset: 0; z-index: 0; }
+.card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
+@media (--mouse) { .card:hover .card__photo img { transform: scale(1.03); } }
+
+.card__top { position: relative; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
+.card__title { flex: 1; min-width: 0; font-size: var(--type-card-title); overflow-wrap: anywhere; }
+.card__link::after { content: ""; position: absolute; inset: 0; z-index: 6; }
+.card__link:focus-visible { outline: none; }
+.card__link:focus-visible::after { outline: 2px solid var(--fg); outline-offset: -4px; }
+.card__top a, .card__top .fav { position: relative; pointer-events: auto; }   /* the rest of the row lets clicks through to the card's link */
+@media (--mouse) {
+  .card .fav { opacity: 0; transition: opacity var(--t-out) var(--ease-out); }
+  .card:hover .fav, .card .fav:focus-visible, .card .fav[aria-pressed="true"] { opacity: 1; transition-duration: var(--t-in); }
+}
+
+.card__text {
+  padding: 16px 24px 0 0; font-size: var(--type-body); line-height: var(--lh-text);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+}
+
+/* the buy row: weights on the left, the add-to-bag button with the price on the right, divided by hairlines */
+.buy {
+  position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr;
+  padding-top: 56px; background: linear-gradient(to bottom, transparent, var(--ground) 56px);
+  font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
+}
+.buy > * { border-top: var(--hair) solid var(--rule); min-height: var(--control-h); }
+.buy__weights { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; padding: 8px 12px; }
+.weight { position: relative; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
+.weight input { position: absolute; opacity: 0; inset: -8px; margin: 0; cursor: pointer; }
+.weight span { display: inline-flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity var(--t-out) var(--ease-out); }
+.weight span::before { content: ""; width: 8px; height: 8px; border-radius: 50%; border: var(--hair) solid currentColor; }
+.weight input:checked + span { opacity: 1; }
+.weight input:checked + span::before { background: currentColor; }
+.weight input:focus-visible + span { outline: 2px solid currentColor; outline-offset: 4px; }
+.buy__add {
+  display: flex; align-items: center; justify-content: center; gap: 8px; border-left: var(--hair) solid var(--rule);
+  padding-inline: 12px; white-space: nowrap; transition: background var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+}
+.buy__add svg { width: 24px; height: 24px; flex: none; }
+@media (--mouse) { .buy__add:hover { background: var(--fg); color: var(--ground); transition-duration: var(--t-in); } }
+.buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
+@keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
+
+/* the 3D pack in its slot: between the name and the buy row, centred; the still is the same pack, rendered ahead
+   (build/pack-still.mjs), shown until the canvas has drawn and wherever WebGL is missing */
+.pack { position: absolute; inset: 14% 8% 22%; display: grid; place-items: center; pointer-events: none; }
+.pack__still { width: auto; height: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s var(--ease-out); }
+.has-3d .pack[data-live] .pack__still { opacity: 0; }

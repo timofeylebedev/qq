@@ -1,0 +1,53 @@
+{
+  "$about": [
+    "The colours of the site, by role. build/tokens.mjs writes them into src/styles/base/tokens.gen.css as --c-<name> and checks every pair in `contrast` (WCAG 2 ratio). Styles never write a colour literally (build/rules.mjs).",
+    "One ink, cool grey #2d2f33, in alpha steps on light grounds (as the Figma variables «cool gray/NN»), white in alpha steps on dark ones. Grounds: white page, cloud #f6f6f6 for cards and tiles, cool grey for the business section, black for photos and the hero. Lavender is the brand's one colour: eyebrows and the active state, never a surface. Descriptor dots have their own small palette by flavour family (descriptors)."
+  ],
+  "colors": {
+    "ink":        "#2d2f33",
+    "ink-70":     "#2d2f33b3",
+    "ink-60":     "#2d2f3399",
+    "ink-50":     "#2d2f3380",
+    "ink-40":     "#2d2f3366",
+    "ink-20":     "#2d2f3333",
+    "ink-10":     "#2d2f331a",
+    "ink-6":      "#2d2f330f",
+    "paper":      "#ffffff",
+    "cloud":      "#f6f6f6",
+    "cloud-70":   "#f6f6f6b3",
+    "line":       "#d5d5d6",
+    "graphite":   "#424447",
+    "black":      "#000000",
+    "white-80":   "#ffffffcc",
+    "white-60":   "#ffffff99",
+    "white-40":   "#ffffff66",
+    "white-30":   "#ffffff4d",
+    "lavender":   "#b190ec",
+    "lavender-ink": "#7f4fc9"
+  },
+  "contrast": {
+    "$about": "text colour / ground / least ratio: 4.5 for text, 3 for large text (24px and up) and the parts of controls. ink-60 is only for large text (the inactive catalog tabs) and parts of controls (the hollow weight dot); ink-50 and lighter only for lines and decoration. Secondary text is ink-70.",
+    "pairs": [
+      ["ink", "paper", 4.5], ["ink", "cloud", 4.5], ["ink-70", "paper", 4.5], ["ink-70", "cloud", 4.5],
+      ["ink-60", "paper", 3], ["ink-60", "cloud", 3],
+      ["paper", "ink", 4.5], ["white-80", "ink", 4.5], ["white-60", "black", 4.5], ["paper", "graphite", 4.5],
+      ["lavender", "black", 4.5], ["lavender", "ink", 4.5], ["lavender-ink", "paper", 4.5], ["lavender-ink", "cloud", 4.5]
+    ]
+  },
+  "descriptors": {
+    "$about": "The dot before a descriptor: one colour per flavour family; the first family whose word appears in the descriptor wins. The dot is decoration (the word is the information), so it needs 3:1 only against its pill.",
+    "families": [
+      ["chocolate", "#8a5a3c", ["шоколад", "какао", "пралине", "урбеч", "табак"]],
+      ["nuts",      "#b49176", ["орех", "фундук", "грильяж", "печень", "тост", "косточк"]],
+      ["citrus",    "#fe8123", ["апельсин", "цитрус", "грейпфрут", "мандарин", "цедр"]],
+      ["berry",     "#c2366b", ["ягод", "малин", "смородин", "ежевик", "земляни", "клубни", "барбарис"]],
+      ["orchard",   "#7fa33a", ["яблок", "груш", "дыня"]],
+      ["sweet",     "#d1864d", ["карамел", "мед", "крем-брюле", "сахар", "леденц", "варень", "пастил"]],
+      ["tea",       "#9963dd", ["чай", "бергамот", "цвет", "шиповник"]],
+      ["tropical",  "#e0b21f", ["тропик", "маракуй", "банан", "желтые фрукты", "курага"]],
+      ["vine",      "#7d4a6b", ["виноград", "сухофрукт", "ликер", "сидр", "вялен"]],
+      ["spice",     "#7a7a3a", ["хмель", "тмин", "специ", "лакриц"]]
+    ],
+    "default": "#2d2f3366"
+  }
+}

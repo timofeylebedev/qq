@@ -3,8 +3,8 @@
 Status (6 Oct 2026): first pass of the model and renderer done. Animations and interactions are still to be designed.
 
 ## Where it lives in this repo
-- Renderer: `js/pouch3d.js`. Shared mesh and effect maps: `assets/pack/`. Label art: `assets/products/`.
-- Test bench with look sliders and a 24–200 pack stress test: `lab/3d-pack.html` (also published as the artifact "QQ Coffee 3D Pack").
+- Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
+- Test bench with look sliders and a 24–200 pack stress test: `public/lab/3d-pack.html` (on the test site at `/lab/3d-pack.html`; also published as the artifact "QQ Coffee 3D Pack").
 - The Blender model (`qq-pouch-textured.glb`) and the build scripts are in the `qq-pouch-3d.zip` bundle and are not in this repo yet.
 
 ## Source files from the designer
@@ -32,3 +32,14 @@ Status (6 Oct 2026): first pass of the model and renderer done. Animations and i
 - Tear notches are not modelled. Back panel reuses the front's wrinkles, mirrored.
 - Label textures are plain WebP; GPU-compressed textures (KTX2) would cut memory 4–8× if needed.
 - Default look values: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 — awaiting the designer's preferred values.
+
+## On the site (Oct 19, 2026)
+
+- The renderer lives in `src/scripts/pouch3d.js` as an ES module (the original IIFE stays in `public/lab/pouch3d.js` for
+  the test bench at `public/lab/3d-pack.html`). Two additions: `live` slots are measured every frame (the pinned pack
+  of a product page), and `clip` limits a pack to an element's box (packs in rows that scroll sideways).
+- Shared assets: `public/pack/` (mesh, `relief.jpg`, `gloss.jpg`); labels: `public/pack/labels/`.
+- `src/scripts/packs.js` animates the packs (shelf lean with the scroll, pointer tilt, the product page's turn);
+  `build/pack-still.mjs` renders the still shown before WebGL draws.
+- Look values in use: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 (the defaults; still waiting for the
+  designer's preference).

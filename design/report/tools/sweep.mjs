@@ -1,0 +1,73 @@
+// Sweeps the built site (npm run build; served by this script from dist/) at every 10px of width from 320 to 1920
+// (screen 1100 tall) and every 25px of height from 400 to 1100 (1440 wide), and writes design/report/sweep.json:
+//   · every size role of design/scale.json as the browser resolves it (a probe element per role)
+//   · the sizes of the main blocks (hero, featured coffee, image blocks, product stage, buy bar)
+//   · the layout states (columns of each grid, the navbar's mode, the buy bar's rows …)
+//   node design/report/tools/sweep.mjs
+import { chromium } from "playwright";
+import { createServer } from "node:http";
+import { readFile } from "node:fs/promises";
+import { readFileSync, writeFileSync } from "node:fs";
+import { resolve, join, extname } from "node:path";
+
+const root = resolve(import.meta.dirname, "../../..");
+const dist = join(root, "dist");
+const scale = JSON.parse(readFileSync(join(root, "design/scale.json"), "utf8"));
+const ROLES = [...Object.entries(scale.type.roles).map(([k]) => ["--" + k.replace("/", "-"), k]), ...Object.entries(scale.space.roles).map(([k, r]) => [r.css, k])];
+const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".json": "application/json", ".jpg": "image/jpeg" };
+const server = createServer(async (req, res) => {
+  const p = decodeURIComponent(new URL(req.url, "http://x").pathname), f = join(dist, p.endsWith("/") ? p + "index.html" : p);
+  try { const b = await readFile(f); res.writeHead(200, { "content-type": TYPES[extname(f)] || "application/octet-stream" }); res.end(b); } catch { res.writeHead(404); res.end(); }
+}).listen(0);
+const base = `http://localhost:${server.address().port}/`;
+
+function probe(roles) {
+  const r = (x) => Math.round(x * 100) / 100;
+  let box = document.getElementById("__probe");
+  if (!box) {
+    box = document.createElement("div"); box.id = "__probe"; box.style.cssText = "position:absolute;left:0;top:0;visibility:hidden;pointer-events:none";
+    for (const [css] of roles) { const d = document.createElement("div"); d.dataset.css = css; d.style.width = `var(${css})`; d.style.height = "1px"; box.append(d); }
+    document.body.append(box);
+  }
+  const out = {};
+  for (const d of box.children) out[d.dataset.css] = r(d.getBoundingClientRect().width);
+  const q = (s) => document.querySelector(s), rect = (s) => q(s)?.getBoundingClientRect();
+  const cols = (s) => { const e = q(s); if (!e) return null; const t = getComputedStyle(e).gridTemplateColumns; return t === "none" ? 1 : t.split(" ").filter(Boolean).length; };
+  const page = location.pathname;
+  if (q(".hero")) {
+    out.heroH = r(rect(".hero").height); out.heroCols = cols(".hero__grid");
+    out.featuredH = r(rect(".featured__slide").height); out.featuredCols = cols(".featured__slide");
+    out.storyH = r(rect(".story").height);
+    const reel = q(".reel"), card = q(".reel > .card");
+    out.recsPerView = r(reel.getBoundingClientRect().width / (card.getBoundingClientRect().width + parseFloat(getComputedStyle(reel).columnGap)));
+    out.factsCols = cols(".facts__list"); out.businessCols = cols(".business__cards");
+    out.storyLayout = getComputedStyle(q(".story__image")).position === "absolute" ? 2 : 1;
+    out.countdownPx = r(parseFloat(getComputedStyle(q(".hero__count .digits")).fontSize));
+  }
+  if (q("[data-grid]")) { out.catalogTracks = cols("[data-grid]"); out.catalogFirstW = r(rect("[data-grid] > .card").width); out.filterRows = new Set([...document.querySelectorAll(".filter")].map((f) => Math.round(f.getBoundingClientRect().top))).size; }
+  if (q(".pstage")) {
+    out.pinH = r(rect(".pstage__pin").height); out.packW = r(rect(".pack--hero").width); out.packH = r(rect(".pack--hero").height);
+    out.buybarH = r(rect(".buybar").height); out.buybarRows = new Set([...document.querySelectorAll(".buybar .cell, .buybar__add")].map((c) => Math.round(c.getBoundingClientRect().top))).size;
+    out.tileW = r(rect(".ptile").width); out.stageRun = r(rect(".pstage").height);
+  }
+  out.nav = getComputedStyle(q(".nav__links")).display === "none" ? 0 : 1;
+  out.footerCols = cols(".footer__inner"); out.colW = r(rect(".col").width);
+  return out;
+}
+
+const browser = await chromium.launch({ args: ["--disable-3d-apis"] });
+const result = { measured: new Date().toISOString(), width: {}, height: {} };
+for (const path of ["", "catalog/", "coffee/keniya-kisii/"]) {
+  const p = await browser.newPage({ viewport: { width: 1440, height: 1100 } });
+  await p.goto(base + path, { waitUntil: "networkidle" });
+  await p.addStyleTag({ content: "canvas{display:none!important} *{transition:none!important;animation:none!important}" });
+  const name = path || "home";
+  result.width[name] = []; result.height[name] = [];
+  for (let w = 320; w <= 1920; w += 10) { await p.setViewportSize({ width: w, height: 1100 }); await p.waitForTimeout(25); result.width[name].push({ w, ...(await p.evaluate(probe, ROLES)) }); }
+  for (let h = 400; h <= 1100; h += 25) { await p.setViewportSize({ width: 1440, height: h }); await p.waitForTimeout(25); result.height[name].push({ h, ...(await p.evaluate(probe, ROLES)) }); }
+  await p.close();
+  console.log(name, "done");
+}
+await browser.close(); server.close();
+writeFileSync(join(root, "design/report/sweep.json"), JSON.stringify(result));
+console.log("design/report/sweep.json");

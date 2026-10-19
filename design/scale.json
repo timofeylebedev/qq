@@ -1,0 +1,71 @@
+{
+  "$about": [
+    "The size system of the site: every fluid size comes from this file and nowhere else. build/tokens.mjs reads it (npm run tokens, and before every dev and build), checks its rules and writes one CSS formula per size into src/styles/base/tokens.gen.css.",
+    "One range for everything: a size has its value on a 320px screen and on a 1440px one, a straight line in between, constant outside. Above 1440 nothing grows any more; the content column stops at 1520px and wide screens get wider margins (the Figma frames of 1920 and 2560 do the same).",
+    "A screen counts as only as big as its height allows (range.height): a screen 360px tall gets the sizes of a 320 screen, one 920px tall the sizes of a 1440 screen, a straight line in between. So a phone turned sideways gets the phone sizes and a 1366 × 650 laptop window the sizes of a 900px screen, all sizes together.",
+    "One ladder for every size, type and space alike: steps of 2 up to 24, of 4 up to 64, of 8 up to 128, of 16 up to 256. Both ends of every role sit on it.",
+    "Type: two families. Mono (JetBrains Mono Bold in place of PT Mono Bold, upper case, tracked 0.05em) for names and headings; sans (Apercu Pro) for everything you read. The levels in type.relations stay at least ×1.125 apart at both ends of the range, and so at every size between.",
+    "No radius anywhere: QQ is drawn in sharp rectangles and hairlines (the brandbook's grid). Only pills (descriptors, steppers) and dots are round. Not a token: a rule (build/rules.mjs)."
+  ],
+  "range": { "from": 320, "to": 1440, "height": { "from": 360, "to": 920 } },
+  "ladder": { "steps": [[2, 24], [4, 64], [8, 128], [16, 256]] },
+
+  "type": {
+    "roles": {
+      "type/display":    { "px": [40, 64], "family": "mono", "use": "the hero title «Кофе свежей обжарки»" },
+      "type/h2":         { "px": [32, 48], "family": "mono", "use": "section headings, the catalog tabs, the product's name on its page" },
+      "type/h3":         { "px": [28, 40], "family": "mono", "use": "headings of the image blocks (approach, about)" },
+      "type/title":      { "px": [22, 32], "family": "mono", "use": "the name of the featured coffee" },
+      "type/card-title": { "px": [18, 24], "family": "mono", "use": "names on product cards, titles of tiles (business, info blocks, product facts), footer headings" },
+      "type/label":      { "px": [14, 20], "family": "mono", "label": true, "use": "eyebrows above headings («Наш подход»): set apart by colour and case, not size" },
+      "type/statement":  { "px": [24, 48], "family": "sans", "use": "the big sentence of a product's story" },
+      "type/lead":       { "px": [18, 24], "family": "sans", "use": "the caption over the featured photo, the text under a section heading" },
+      "type/body-l":     { "px": [16, 20], "family": "sans", "use": "longer text: the featured description, the story columns, business text" },
+      "type/body":       { "px": [14, 16], "family": "sans", "use": "card descriptions, lists, links of the navbar and the footer, fields" },
+      "type/small":      { "px": [12, 14], "family": "sans", "use": "descriptor pills, captions above values in the buy bar, the copyright" },
+      "type/control":    { "px": [14, 20], "family": "sans", "label": true, "use": "big actions and values set in bold capitals: hero links, «В корзину», buy-bar values" },
+      "type/price":      { "px": [16, 18], "family": "sans", "label": true, "use": "prices and weights on cards (medium capitals)" },
+      "type/countdown":  { "px": [40, 96], "family": "digits", "label": true, "use": "the roast countdown in Technology Bold: a numeral display, the only size set by its figure, not its text" }
+    },
+    "relations": {
+      "min": 1.125,
+      "pairs": [
+        ["type/display", "type/h2"], ["type/h2", "type/h3"], ["type/h3", "type/title"], ["type/title", "type/card-title"],
+        ["type/statement", "type/lead"], ["type/lead", "type/body-l"], ["type/body-l", "type/body"], ["type/body", "type/small"],
+        ["type/card-title", "type/body-l"]
+      ],
+      "$about": "Neighbouring levels that must stay apart at both ends of the range. Not here, on purpose: labels (case and colour set them apart) and the countdown (a figure, not text)."
+    },
+    "lineHeight": { "display": 1.05, "heading": 1.15, "compact": 1.2, "text": 1.35 },
+    "tracking": { "mono": "0.05em", "control": "0.03em" }
+  },
+
+  "space": {
+    "roles": {
+      "page/gutter":     { "px": [16, 48], "css": "--gutter", "use": "side margin of every section: the content column starts here" },
+      "section/pad-y":   { "px": [56, 120], "css": "--section-y", "use": "space above and below a section's content" },
+      "section/pad-y-s": { "px": [40, 64], "css": "--section-y-s", "use": "the tighter edge of a section that follows a related one (new arrivals → recommended)" },
+      "section/gap":     { "px": [24, 48], "css": "--section-gap", "use": "from a section heading to its content" },
+      "grid/gap":        { "px": [12, 24], "css": "--gap", "use": "between cards in a row" },
+      "grid/row-gap":    { "px": [32, 64], "css": "--row-gap", "use": "between rows of product cards (each card carries a description below it)" },
+      "block/pad":       { "px": [24, 48], "css": "--block-pad", "use": "padding of big blocks: the featured text card, the text of image blocks, info blocks" },
+      "tile/pad":        { "px": [16, 32], "css": "--tile-pad", "use": "padding of tiles: product facts, business descriptions, filter cells" },
+      "card/pad":        { "px": [12, 20], "css": "--card-pad", "use": "padding inside product cards (title, heart)" },
+      "text/gap":        { "px": [12, 24], "css": "--text-gap", "use": "a heading → its text" },
+      "action/gap":      { "px": [24, 40], "css": "--action-gap", "use": "a text → its button" },
+      "control/h":       { "px": [48, 56], "css": "--control-h", "use": "height of the card's buy row and of big buttons" },
+      "control/pad-x":   { "px": [16, 24], "css": "--control-x", "use": "side padding of buttons and controls" },
+      "hero/cell-y":     { "px": [20, 40], "css": "--hero-cell-y", "use": "padding above and below the cells of the hero" },
+      "story/min-h":     { "px": [400, 680], "size": true, "css": "--story-h", "use": "least height of the image blocks (approach, about)" },
+      "footer/logo":     { "px": [104, 216], "size": true, "css": "--footer-logo", "use": "width of the flame mark in the footer" },
+      "product/stage":   { "px": [320, 720], "size": true, "css": "--stage", "use": "the 3D pack on a product page: the side of its square (also capped by the screen's height)" }
+    }
+  },
+
+  "steps": {
+    "$about": "The widths at which blocks change their layout: container queries on the content column, shared by every block. Named by what they are, in rem (a visitor's bigger text makes the column count as narrower). M and L leave room for a classic scrollbar at 768 and 1024.",
+    "S": "22rem",
+    "M": "43rem",
+    "L": "58rem"
+  }
+}

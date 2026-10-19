@@ -1,0 +1,31 @@
+{
+  "name": "qq-coffee-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "node build/data.mjs && node build/tokens.mjs",
+    "dev": "vite",
+    "prebuild": "node build/data.mjs && node build/tokens.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "images": "node build/images.mjs",
+    "fonts": "python3 build/fonts.py",
+    "tokens": "node build/tokens.mjs",
+    "data": "node build/data.mjs",
+    "check": "html-validate dist/index.html \"dist/catalog/*.html\" \"dist/coffee/**/*.html\"",
+    "audit": "node build/audit.mjs",
+    "rules": "node build/rules.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "axe-core": "^4.14.0",
+    "html-minifier-terser": "^7.2.0",
+    "html-validate": "^11.16.2",
+    "lightningcss": "^1.33.0",
+    "playwright": "^1.56.0",
+    "sharp": "^0.35.5",
+    "svgo": "^4.1.0",
+    "terser": "^5.51.2",
+    "vite": "^8.3.4"
+  }
+}

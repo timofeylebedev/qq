@@ -1,0 +1,88 @@
+{
+ "approach-bean": {
+  "widths": [
+   600,
+   900,
+   1208
+  ],
+  "ratio": 1.7765
+ },
+ "approach-people": {
+  "widths": [
+   720,
+   1080,
+   1440
+  ],
+  "ratio": 2.1176
+ },
+ "business-cafe": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "business-office": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "farm-drying": {
+  "widths": [
+   672,
+   1008,
+   1344
+  ],
+  "ratio": 1.68
+ },
+ "hero-roast": {
+  "widths": [
+   640,
+   960,
+   1280
+  ],
+  "ratio": 2.2069
+ },
+ "life-box": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "life-jacket": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "life-sniff": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "life-sweater": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "pack-flat": {
+  "widths": [
+   512
+  ],
+  "ratio": 1
+ }
+}
