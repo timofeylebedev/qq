@@ -1,4 +1,4 @@
-✓ Colours only from tokens — no #hex, rgb() or hsl() in 13 stylesheets
+✓ Colours only from tokens — no #hex, colour functions or named colours in 13 stylesheets
 ✓ Sizes only from the scale — font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 5 rules listed in decisions.json
 ✓ Layout steps only at S, M, L — container queries at 22rem, 43rem, 58rem on the column; media only through media.css (--tablet 64em, --narrow 25em, --short 32em tall, input, motion)
 ✓ No rounded corners — border-radius only 999px (pills) or 50% (dots)

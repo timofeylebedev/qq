@@ -14,6 +14,9 @@ ROOT = os.path.dirname(os.path.dirname(HERE))
 J = lambda *p: json.load(open(os.path.join(*p), encoding='utf-8'))
 scale, colors, dec = J(ROOT, 'design/scale.json'), J(ROOT, 'design/colors.json'), J(ROOT, 'design/decisions.json')['decisions']
 sweep, areas = J(HERE, 'sweep.json'), J(HERE, 'areas.json')
+WAS = {'568×320': 209, '667×375': 154, '844×390': 139, '932×430': 100}   # pack under the buy bar before the short-screen fix
+for _a in areas:
+    if _a['size'] in WAS: _a['was'] = WAS[_a['size']]
 review = J(HERE, 'review.json') if os.path.exists(os.path.join(HERE, 'review.json')) else []
 audit = open(os.path.join(HERE, 'audit.txt'), encoding='utf-8').read() if os.path.exists(os.path.join(HERE, 'audit.txt')) else '(not run)'
 rules_out = open(os.path.join(HERE, 'rules.txt'), encoding='utf-8').read() if os.path.exists(os.path.join(HERE, 'rules.txt')) else ''
@@ -110,7 +113,7 @@ changes = [
         ['Animated footer logo', 'Waiting for the file or link; the footer shows the static logo meanwhile.', 'open'],
     ]},
     {'section': 'Process', 'items': [
-        ['Use analyzing-design-systems, full-system-report, responsive-web-design, be-more-ambitious', 'Figma frames measured into the size roles; this page is the full system report; the audit runs 4 pages × 11 sizes with axe and a 24px-text pass; an independent agent reviewed the work (Checks).', 'done'],
+        ['Use analyzing-design-systems, full-system-report, responsive-web-design, be-more-ambitious', 'Figma frames measured into the size roles; this page is the full system report; the audit runs 4 pages × 12 sizes with axe and a 24px-text pass; an independent agent reviewed the work and its 16 findings were fixed or answered (Checks).', 'done'],
         ['Ask questions; report missing things later', 'Asked about repo, logo, labels, prices and fonts. Missing things are in Next.', 'answered'],
     ]},
 ]
@@ -187,7 +190,7 @@ data = {
       {'type': 'stats', 'items': [{'n': 27, 'unit': 'pages', 'text': 'home, catalog and a page for each of the 25 coffees «на сайте»'},
                                   {'n': 31, 'unit': 'roles', 'text': 'every size: a value at 320 and at 1440, a straight line between'},
                                   {'n': 3, 'unit': 'steps', 'text': 'shared column steps S, M, L where every block changes layout'},
-                                  {'n': 44, 'unit': 'checks', 'text': '4 pages × 11 screen sizes in the audit' + (', clean' if audit_clean else '')}]},
+                                  {'n': 48, 'unit': 'checks', 'text': '4 pages × 12 screen sizes in the audit' + (', clean' if audit_clean else '')}]},
       {'type': 'shots', 'label': 'Figma and the site', 'note': 'Figma on the left in grey, the site on the right. Click a picture to open it large; arrows and Escape work.', 'items': shots_round},
       {'type': 'changes', 'groups': [{'section': g['section'], 'items': [{'ask': a, 'done': d, 'tag': t} for a, d, t in g['items']]} for g in changes]},
       {'type': 'list', 'title': 'Where the site departs from Figma, or does something you may not expect', 'items': breaks},
@@ -294,7 +297,7 @@ data = {
         ['Cells inside a block share hairlines (margin −1px), never double lines', 'implicit']]},
     ]},
     {'id': 'checks', 'nav': 'Checks', 'title': 'Checks', 'sub': 'What was checked, how, and what is kept on purpose.', 'blocks': [
-      {'type': 'stats', 'items': [{'n': 44, 'unit': 'runs', 'text': audit_last or 'the audit'}, {'n': len(rules_items) or 9, 'unit': 'rules', 'text': 'all hold (build/rules.mjs)'},
+      {'type': 'stats', 'items': [{'n': 48, 'unit': 'runs', 'text': audit_last or 'the audit'}, {'n': len(rules_items) or 9, 'unit': 'rules', 'text': 'all hold (build/rules.mjs)'},
                                   {'n': 0, 'unit': 'px', 'text': 'sideways scroll at every 10px from 320 to 1920'}, {'n': len(dec), 'unit': 'decisions', 'text': f"{nd['decision']} decisions, {nd['exception']} exceptions, {nd['placeholder']} placeholders"}]},
       {'type': 'rules', 'title': 'The rules (run on every build and in CI)', 'items': rules_items},
       {'type': 'decisions', 'title': 'The decisions register (design/decisions.json)', 'items': decision_items},
@@ -309,8 +312,10 @@ data = {
         '<b>QQ\'s own photos</b>: the current ones are Figma\'s moodboard, several with other roasters\' packs.',
         '<b>The roast schedule</b> (days, hour) for the countdown, and the hero video file.',
         '<b>The texts behind the plus</b> of the three info blocks.',
-        '<b>PT Mono Bold</b>: with a web licence it replaces JetBrains Mono in one line.']},
+        '<b>PT Mono Bold</b>: with a web licence it replaces JetBrains Mono in one line.',
+        '<b>Countries of the blends:</b> Q-Optimistic and Q-Punch list countries (sticker column) that differ from their lots (Уганда Робуста in the lots). Which is right? The page and the country filter show the sticker column.']},
       {'type': 'list', 'title': 'Not designed yet', 'items': ['The mobile menu (a plain list now).', 'Bag, checkout, search, favourites page, account.', 'Cascara, drips, sets, merch; the journal; the business pages.']},
+      {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components (about 250 px/rem values: icon sizes, hairline offsets, small paddings) are not checked by the rules; the roles cover section, block, tile, card and text spacing. Next round: move the repeated ones to roles and add a check.', 'The hero is taller than the screen on a phone sideways (555px at 568 × 320): its four cells stack. A two-column hero for short screens would need a design.']},
       {'type': 'list', 'title': 'Check on real devices', 'items': ['iOS Safari: the pinned stage and the buy bar with the URL bar moving; backdrop blur on the tiles.', 'Android Chrome: the 3D canvas\'s frame rate on a mid-range phone.', 'A phone sideways: the buy bar after the stage (new) — is that the behaviour you want?', 'Windows with classic scrollbars at 1000–1030 wide: the L step and the navbar step sit close together.']},
     ]},
     {'id': 'earlier', 'nav': 'Earlier', 'title': 'Earlier rounds', 'sub': 'None yet: this is the first round. Later rounds put their changes first and keep this round\'s here.', 'blocks': []},

@@ -4,8 +4,8 @@ One living page about the whole size system of the site, rebuilt every round: wh
 next to Figma or the previous build), the system, the areas the round touched, every size at every width and height,
 the responsive map, motion, the grammar, the checks and what is next.
 
-**The page:** published as a claude.ai artifact (the link is in the project doc `claude/website-system.md` and in the
-pull request). Every round updates the same page; it always covers the whole system, not only the round.
+**The page:** https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (private until shared; also in the project doc
+`claude/website-system.md`). Every round updates the same page; it always covers the whole system, not only the round.
 
 ## Rebuild it
 

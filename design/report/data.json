@@ -34,9 +34,9 @@
        "text": "shared column steps S, M, L where every block changes layout"
       },
       {
-       "n": 44,
+       "n": 48,
        "unit": "checks",
-       "text": "4 pages × 11 screen sizes in the audit"
+       "text": "4 pages × 12 screen sizes in the audit, clean"
       }
      ]
     },
@@ -215,7 +215,7 @@
        "items": [
         {
          "ask": "Use analyzing-design-systems, full-system-report, responsive-web-design, be-more-ambitious",
-         "done": "Figma frames measured into the size roles; this page is the full system report; the audit runs 4 pages × 11 sizes with axe and a 24px-text pass; an independent agent reviewed the work (Checks).",
+         "done": "Figma frames measured into the size roles; this page is the full system report; the audit runs 4 pages × 12 sizes with axe and a 24px-text pass; an independent agent reviewed the work and its 16 findings were fixed or answered (Checks).",
          "tag": "done"
         },
         {
@@ -1455,7 +1455,7 @@
       [
        "360×640",
        463,
-       334,
+       326,
        0,
        129,
        2
@@ -1494,34 +1494,34 @@
       ],
       [
        "568×320",
-       352,
+       272,
        320,
-       209,
-       129,
+       "<span class='was'>209</span> 0",
+       "after",
        2
       ],
       [
        "667×375",
-       352,
+       327,
        331,
-       154,
-       129,
+       "<span class='was'>154</span> 0",
+       "after",
        2
       ],
       [
        "844×390",
-       352,
+       342,
        341,
-       139,
-       129,
+       "<span class='was'>139</span> 0",
+       "after",
        2
       ],
       [
        "932×430",
-       352,
+       382,
        370,
-       100,
-       130,
+       "<span class='was'>100</span> 0",
+       "after",
        2
       ],
       [
@@ -4731,7 +4731,7 @@
          "catalogFirstW": 288,
          "filterRows": 7,
          "pinH": 923,
-         "packW": 320,
+         "packW": 288,
          "packH": 320,
          "buybarH": 129.19,
          "buybarRows": 2,
@@ -4788,7 +4788,7 @@
          "catalogFirstW": 297.42,
          "filterRows": 7,
          "pinH": 923,
-         "packW": 323.56,
+         "packW": 297.42,
          "packH": 323.56,
          "buybarH": 129.22,
          "buybarRows": 2,
@@ -4845,7 +4845,7 @@
          "catalogFirstW": 306.84,
          "filterRows": 7,
          "pinH": 923,
-         "packW": 327.14,
+         "packW": 306.84,
          "packH": 327.14,
          "buybarH": 129.23,
          "buybarRows": 2,
@@ -4902,7 +4902,7 @@
          "catalogFirstW": 316.28,
          "filterRows": 7,
          "pinH": 923,
-         "packW": 330.7,
+         "packW": 316.28,
          "packH": 330.7,
          "buybarH": 129.25,
          "buybarRows": 2,
@@ -4959,7 +4959,7 @@
          "catalogFirstW": 325.7,
          "filterRows": 7,
          "pinH": 923,
-         "packW": 334.28,
+         "packW": 325.7,
          "packH": 334.28,
          "buybarH": 129.3,
          "buybarRows": 2,
@@ -5016,7 +5016,7 @@
          "catalogFirstW": 335.14,
          "filterRows": 4,
          "pinH": 923,
-         "packW": 337.84,
+         "packW": 335.14,
          "packH": 337.84,
          "buybarH": 129.31,
          "buybarRows": 2,
@@ -13915,7 +13915,7 @@
          "buybarH": 89,
          "buybarRows": 1,
          "tileW": 352,
-         "stageRun": 2545.86
+         "stageRun": 2565.44
         },
         {
          "h": 425,
@@ -13966,13 +13966,13 @@
          "catalogTracks": 6,
          "catalogFirstW": 693.58,
          "filterRows": 1,
-         "pinH": 352,
+         "pinH": 377,
          "packW": 366.42,
-         "packH": 243.08,
+         "packH": 268.08,
          "buybarH": 89,
          "buybarRows": 1,
          "tileW": 352,
-         "stageRun": 2551.36
+         "stageRun": 2595.94
         },
         {
          "h": 450,
@@ -14023,13 +14023,13 @@
          "catalogTracks": 6,
          "catalogFirstW": 691.88,
          "filterRows": 1,
-         "pinH": 352,
+         "pinH": 402,
          "packW": 384.28,
-         "packH": 241.08,
+         "packH": 291.08,
          "buybarH": 89,
          "buybarRows": 1,
          "tileW": 352,
-         "stageRun": 2556.86
+         "stageRun": 2626.44
         },
         {
          "h": 475,
@@ -14080,13 +14080,13 @@
          "catalogTracks": 6,
          "catalogFirstW": 690.19,
          "filterRows": 1,
-         "pinH": 352,
+         "pinH": 427,
          "packW": 402.14,
-         "packH": 239.08,
+         "packH": 314.08,
          "buybarH": 89,
          "buybarRows": 1,
          "tileW": 352,
-         "stageRun": 2562.36
+         "stageRun": 2656.94
         },
         {
          "h": 500,
@@ -14137,13 +14137,13 @@
          "catalogTracks": 6,
          "catalogFirstW": 688.5,
          "filterRows": 1,
-         "pinH": 363,
+         "pinH": 452,
          "packW": 420,
-         "packH": 248.05,
+         "packH": 337.05,
          "buybarH": 89,
          "buybarRows": 1,
          "tileW": 352,
-         "stageRun": 2578.86
+         "stageRun": 2687.44
         },
         {
          "h": 525,
@@ -15910,9 +15910,9 @@
       {
        "group": "pack",
        "name": "product pack turn (one turn over 5 tiles)",
-       "s": 2,
+       "s": 3,
        "kind": "scroll",
-       "label": "the scroll through the stage"
+       "label": "as long as the scroll through the stage"
       },
       {
        "group": "loop",
@@ -16058,9 +16058,9 @@
      "type": "stats",
      "items": [
       {
-       "n": 44,
+       "n": 48,
        "unit": "runs",
-       "text": "(not run)"
+       "text": "clean — 4 pages × 12 sizes"
       },
       {
        "n": 9,
@@ -16085,7 +16085,7 @@
      "items": [
       {
        "title": "Colours only from tokens",
-       "how": "no #hex, rgb() or hsl() in 13 stylesheets",
+       "how": "no #hex, colour functions or named colours in 13 stylesheets",
        "ok": true
       },
       {
@@ -16309,13 +16309,29 @@
      "title": "The independent review",
      "sub": "A separate agent that had not seen the work checked the built site against the request, the rules and the pages in a browser. Its findings and what was done about each:",
      "items": [
-      "(pending)"
+      "<span class='pill bad'>high</span> The product page scrolled sideways at 280–340 (pack still 320 wide in a 288 pin; 56px over at 280). — the pin's column is minmax(0, 1fr) and the pack max-width 100%: no overflow at 270–340 on both coffees; the audit now includes 280 × 653.",
+      "<span class='pill bad'>high</span> The focus ring of «В корзину» was white on the light buy bar (drawn in the text colour). — filled buttons draw their ring in ink (paper on dark grounds): measured rgb(45, 47, 51).",
+      "<span class='pill bad'>high</span> The 3D canvas could paint over card names, hearts and buy rows (the card's isolation boxed their z-index under the canvas). — no isolation; photo at 0, canvas 5, link 6, name, heart and buy row 7 in the page's stacking; the empty part of the name row lets clicks through.",
+      "<span class='pill bad'>high</span> An open filter panel covered the focused card after tabbing out (WCAG 2.4.11). — a cell closes when the focus leaves it: after six Tabs from «Приготовление» the panel is closed.",
+      "<span class='pill q'>medium</span> Back did nothing for filters (replaceState only). — each change is a history step, typing a price one step; popstate re-reads the address: Кения, Перу, Back → Кения, 2 coffees.",
+      "<span class='pill q'>medium</span> URLSearchParams.size is Safari 17+. — the address is written with toString().",
+      "<span class='pill q'>medium</span> iPhone zoomed into the buy-bar selects (14.4px). — max(16px, --type-control): 16px at 390.",
+      "<span class='pill q'>medium</span> Focus fell to the page when «Меньше» or a slider arrow disabled itself. — aria-disabled instead of disabled; focus stays on «Меньше» at quantity 1.",
+      "<span class='pill q'>medium</span> The home page was too wide under 320 (pager and arrows). — the section head's controls wrap: no overflow at 270–340.",
+      "<span class='pill q'>medium</span> Build targets (Safari 15, Firefox 100) were below what the CSS needs. — targets raised to Chrome/Edge 111, Safari/iOS 16.4, Firefox 121 (container queries and :has()); README lists them.",
+      "<span class='pill x'>low</span> The rules lint had loopholes (oklch, named colours, radius longhands, font shorthand, dvw/svw, delays, unnamed or compound container queries, matchMedia quotes, media.css). — all closed and proven with a planted file (6 of 9 rules failed on it). Not closed: hard-coded spacing lengths in components (about 250) — see Next. <span class='pill x'>partly</span>",
+      "<span class='pill x'>low</span> Q-Optimistic and Q-Punch list countries that contradict their lots (Уганда in the lots). — from the table itself (the sticker column vs the green-coffee column): left as the table says, a question for you in Next. <span class='pill q'>open</span>",
+      "<span class='pill x'>low</span> Колумбия Декаф missing under «Фильтр». — the preparation filter also reads the Применение column: it is there now.",
+      "<span class='pill x'>low</span> «Скоро здесь появятся каскара»; a wrong comment; ?max=0. — «появится каскара / появятся дрипы»; comment fixed; max=0 now means «up to 0» as its cell says.",
+      "<span class='pill x'>low</span> The screen-reader «Показать» button took a tab stop. — tabindex −1 (it stays for the form's validity and Enter).",
+      "<span class='pill x'>low</span> After a sort one card was left alone in the last row. — the number of half-width cards is chosen so the thirds fill their rows: 2, 2 then rows of 3 for «cheap».",
+      "<b>Checked and fine</b> by the review: every 10px 280–1920, heights 360–1100, filter panels on screen, the product stage at five sizes, keyboard reach, filter results against the data, all 25 coffees against an independent CSV parse, reduced motion, 3D clipping, no WebGL, CSP and HTML validity."
      ]
     },
     {
      "type": "pre",
      "summary": "The audit's output (npm run audit)",
-     "text": "(not run)"
+     "text": "✓ 280×653\n✓ 320×568\n✓ 390×844\n✓ 768×1024\n✓ 844×390\n✓ 1024×768\n✓ 1366×650\n✓ 1440×900\n✓ 1920×1080\n✓ 2560×1440\n✓ 390×844 text 24px\n✓ 1366×650 text 24px\n\nclean — 4 pages × 12 sizes\n"
     }
    ]
   },
@@ -16335,7 +16351,8 @@
       "<b>QQ's own photos</b>: the current ones are Figma's moodboard, several with other roasters' packs.",
       "<b>The roast schedule</b> (days, hour) for the countdown, and the hero video file.",
       "<b>The texts behind the plus</b> of the three info blocks.",
-      "<b>PT Mono Bold</b>: with a web licence it replaces JetBrains Mono in one line."
+      "<b>PT Mono Bold</b>: with a web licence it replaces JetBrains Mono in one line.",
+      "<b>Countries of the blends:</b> Q-Optimistic and Q-Punch list countries (sticker column) that differ from their lots (Уганда Робуста in the lots). Which is right? The page and the country filter show the sticker column."
      ]
     },
     {
@@ -16345,6 +16362,14 @@
       "The mobile menu (a plain list now).",
       "Bag, checkout, search, favourites page, account.",
       "Cascara, drips, sets, merch; the journal; the business pages."
+     ]
+    },
+    {
+     "type": "list",
+     "title": "Open in the system",
+     "items": [
+      "Spacing lengths inside components (about 250 px/rem values: icon sizes, hairline offsets, small paddings) are not checked by the rules; the roles cover section, block, tile, card and text spacing. Next round: move the repeated ones to roles and add a check.",
+      "The hero is taller than the screen on a phone sideways (555px at 568 × 320): its four cells stack. A two-column hero for short screens would need a design."
      ]
     },
     {
