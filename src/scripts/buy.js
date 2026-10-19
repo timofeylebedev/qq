@@ -36,7 +36,7 @@ function update(form) {
   const add = form.querySelector(".buy__add");
   if (add) add.setAttribute("aria-label", add.getAttribute("aria-label").replace(/: (.+?), [^,]+, [^,]+$/, `: $1, ${p.weight}, ${rub(p.total)}`));
   const minus = form.querySelector('[data-step="-1"]');
-  if (minus) minus.disabled = p.qty <= 1;
+  if (minus) minus.setAttribute("aria-disabled", String(p.qty <= 1));
 }
 
 export function initBuy() {
@@ -46,7 +46,7 @@ export function initBuy() {
     form.addEventListener("change", () => update(form));
     form.addEventListener("click", (e) => {
       const step = e.target.closest("[data-step]");
-      if (!step) return;
+      if (!step || step.getAttribute("aria-disabled") === "true") return;
       const q = form.querySelector("[data-qty]");
       q.textContent = Math.min(99, Math.max(1, Number(q.textContent) + Number(step.dataset.step)));
       update(form);

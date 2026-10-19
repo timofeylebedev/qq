@@ -9,6 +9,9 @@
   font: 700 var(--type-control) / 1 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
   transition: background var(--t-out) var(--ease-out);
 }
+/* the focus ring of a filled button is drawn in its ground colour (its text colour would vanish on a light ground) */
+.btn:focus-visible { outline-color: var(--c-ink); }
+.story--dark .btn:focus-visible, .card--dark .btn:focus-visible { outline-color: var(--c-paper); }
 @media (--mouse) { .btn:hover { background: var(--c-black); transition-duration: var(--t-in); } }
 
 /* the arrow button («→ Читать»): an arrow cell and a label cell, filled, a hairline of the ground between them
@@ -30,8 +33,8 @@
 .arrows { display: flex; border: var(--hair) solid var(--c-line); }
 .arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background var(--t-out) var(--ease-out); }
 .arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--c-line); }
-.arrows__btn:disabled { color: var(--c-ink-40); cursor: default; }
-@media (--mouse) { .arrows__btn:not(:disabled):hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
+.arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
+@media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
 
 /* a pager of numbers (new arrivals): the current one ringed */
 .pager { display: flex; gap: 4px; }

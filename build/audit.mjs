@@ -8,6 +8,7 @@
 //   · a link or button smaller than 24×24px to tap (WCAG 2.2, 2.5.8)
 //   · axe-core (accessibility) at a phone and a desktop size
 //   · all of the above but axe with the browser's text made bigger (24px), at a phone and a short laptop
+// Sizes: a folded phone (280), phones, a phone sideways, tablets, laptops short and tall, 1920 and 2560.
 // design/decisions.json: an exception with an audit entry is not a failure, but is printed under «Kept as designed».
 // Browser: Playwright's Chromium, with software WebGL (the 3D packs draw as they would).
 import { createServer } from "node:http";
@@ -22,7 +23,7 @@ const dist = join(root, "dist");
 const AXE = await readFile(createRequire(import.meta.url).resolve("axe-core/axe.min.js"), "utf8");
 const PAGES = ["", "catalog/", "coffee/keniya-kisii/", "coffee/q-optimistic/"];
 const SIZES = [
-  { w: 320, h: 568, touch: true, axe: true }, { w: 390, h: 844, touch: true }, { w: 768, h: 1024, touch: true },
+  { w: 280, h: 653, touch: true },   { w: 320, h: 568, touch: true, axe: true }, { w: 390, h: 844, touch: true }, { w: 768, h: 1024, touch: true },
   { w: 844, h: 390, touch: true }, { w: 1024, h: 768, touch: true }, { w: 1366, h: 650 }, { w: 1440, h: 900, axe: true },
   { w: 1920, h: 1080 }, { w: 2560, h: 1440 },
   { w: 390, h: 844, touch: true, font: 24 }, { w: 1366, h: 650, font: 24 }

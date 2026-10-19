@@ -17,7 +17,7 @@ npm run build        # the finished site in dist/
 npm run preview      # dist/ at http://localhost:4173
 npm run rules        # the rules of the system (colours, sizes, steps, motion, decisions)
 npm run check        # validates the HTML of the built pages
-npm run audit        # the built pages in a real browser at 11 screen sizes (needs `npx playwright install chromium`)
+npm run audit        # the built pages in a real browser at 12 screen sizes (needs `npx playwright install chromium`)
 npm run images       # assets-src/img → src/assets/img (AVIF/WebP; commit the outputs)
 npm run fonts        # assets-src/fonts → src/assets/fonts (pip install fonttools brotli)
 node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws, and without WebGL)
@@ -52,9 +52,14 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` (by
 - **A picture:** the original into `assets-src/img` under the same name, `npm run images`, commit the outputs.
 - **Something decided on purpose** (an exception to a rule, a stand-in): `design/decisions.json`.
 
+## Browsers
+
+Chrome and Edge 111+, Safari and iOS 16.4+, Firefox 121+: the layout relies on container queries and `:has()`
+(the build targets in `vite.config.js`). Without WebGL the packs are stills.
+
 ## Status
 
-Home, catalog and coffee pages are built and checked (rules, HTML, the audit at 11 sizes). Not built yet: the bag and
+Home, catalog and coffee pages are built and checked (rules, HTML, the audit at 12 sizes). Not built yet: the bag and
 checkout, search, favourites page, account, the other categories (cascara, drips, sets, merch), the journal, the
 business pages, the mobile menu's design, the animated footer logo. Placeholders (prices, photos, the 3D label, the
 roast schedule) are listed in `design/decisions.json` with what replaces each.

@@ -14,13 +14,13 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h)); position: relative; padding-top: var(--nav-h); }
 .pstage__pin {
   position: sticky; top: var(--nav-h); height: var(--pin-h); min-height: 22rem;
-  display: grid; grid-template-rows: auto minmax(0, 1fr); justify-items: center; align-items: center;
+  display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center;
   width: min(100% - 2 * var(--gutter), var(--col-max)); margin-inline: auto;
 }
 .pstage__head { justify-self: stretch; padding-top: var(--section-y-s); display: grid; gap: 8px; position: relative; z-index: 6; }
 .pstage__name { font-size: var(--type-h2); max-width: 14em; }
 .pstage__meta { font-size: var(--type-body); color: var(--c-ink-70); }
-.pack--hero { position: relative; inset: auto; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
+.pack--hero { position: relative; inset: auto; max-width: 100%; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
 .pack--hero .pack__still { height: 100%; }
 
 @media (--short) {
@@ -65,7 +65,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .cell__caption { font-size: var(--type-small); color: var(--c-ink-70); }
 .cell select {
   appearance: none; -webkit-appearance: none; width: 100%; min-height: 28px; border: 0; background: none; padding: 0 16px 0 0; cursor: pointer;
-  font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
+  font: 700 var(--type-control) / 1.2 var(--sans); font-size: max(16px, var(--type-control)); text-transform: uppercase; letter-spacing: var(--track-control);
   text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: right 6px top 55%, right 1px top 55%; background-size: 5px 5px; background-repeat: no-repeat;
@@ -74,7 +74,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .cell:focus-within { box-shadow: inset 0 0 0 2px var(--c-ink); }
 .cell--qty { grid-auto-flow: column; justify-content: center; align-items: center; gap: 12px; }
 .cell--qty button { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-70); }
-.cell--qty button:disabled { opacity: 0.35; cursor: default; }
+.cell--qty button[aria-disabled="true"] { opacity: 0.35; cursor: default; }
 .cell--qty svg { width: 24px; height: 24px; }
 .cell--qty output { min-width: 2ch; text-align: center; font: 500 var(--type-control) / 1 var(--sans); font-feature-settings: "tnum" 1; }
 .cell--price { place-content: center; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }

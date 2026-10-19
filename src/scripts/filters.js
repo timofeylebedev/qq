@@ -2,15 +2,16 @@
 //   type, line, country, process, prep   any of the ticked values (none ticked: all)
 //   min, max                              the price of 200 g
 //   sort                                  popular (the order of the page), new, expensive, cheap
-// The choice is kept in the address (?country=Кения&sort=new), so a filtered catalog can be shared and the back
-// button works. Only coffee exists for now: the other tabs say so.
+// The choice is kept in the address (?country=Кения&sort=new): every change the visitor makes is a step of the
+// browser's history, so a filtered catalog can be shared and Back undoes the last change. Only coffee exists for now:
+// the other tabs say so.
 export function initFilters() {
   const form = document.querySelector("[data-filters]"), grid = document.querySelector("[data-grid]");
   const cards = [...grid.children];
   const found = document.querySelector("[data-found]"), empty = document.querySelector("[data-empty]");
   const soon = document.querySelector("[data-soon]"), soonWhat = document.querySelector("[data-soon-what]");
   const resets = document.querySelectorAll("[data-reset]");
-  const SOON = { kaskara: "каскара", dripy: "дрипы", sety: "сеты", merch: "мерч" };
+  const SOON = { kaskara: "появится каскара", dripy: "появятся дрипы", sety: "появятся сеты", merch: "появится мерч" };
   const order = new Map(cards.map((c, i) => [c, i]));
 
   // the address ↔ the form
@@ -23,17 +24,17 @@ export function initFilters() {
       else el.value = q.get(el.name) || "";
     }
   };
-  const write = () => {
+  const write = (push) => {
     const q = new URLSearchParams();
     for (const [k, v] of new FormData(form)) if (v !== "" && !(k === "sort" && v === "popular")) q.append(k, v);
-    const url = location.pathname + (q.size ? "?" + q : "") + location.hash;
-    if (url !== location.pathname + location.search + location.hash) history.replaceState(null, "", url);
+    const s = q.toString(), url = location.pathname + (s ? "?" + s : "") + location.hash;
+    if (url !== location.pathname + location.search + location.hash) history[push ? "pushState" : "replaceState"](null, "", url);
   };
 
-  const apply = () => {
+  const apply = (push) => {
     const f = new FormData(form);
     const all = (k) => f.getAll(k);
-    const min = Number(f.get("min")) || 0, max = Number(f.get("max")) || Infinity;
+    const min = Number(f.get("min")) || 0, max = f.get("max") === "" || f.get("max") == null ? Infinity : Number(f.get("max"));
     const has = (card, key, list) => !list.length || list.some((v) => (card.dataset[key] || "").split("|").includes(v));
     let n = 0;
     for (const c of cards) {
@@ -52,8 +53,11 @@ export function initFilters() {
     }[sort];
     const sorted = [...cards].sort(by);
     sorted.forEach((c) => grid.append(c));
-    // the first four that are shown take half a row (only in the order «Популярные», as the page is built)
+    // from L the first cards take half a row and the rest a third: as many halves (an even number, four or more in the
+    // order «Популярные», as the page is built) as it takes for the thirds to fill their last row
     let big = sort === "popular" ? 4 : 0;
+    while (big <= n && (n - big) % 3) big += 2;
+    if (big > n) big = 0;
     for (const c of sorted) {
       if (c.hasAttribute("data-out")) continue;
       c.classList.toggle("card--half", big > 0); c.classList.toggle("card--third", big <= 0); big--;
@@ -73,7 +77,7 @@ export function initFilters() {
       else if (picked.length) { text = picked.join(", "); on = true; }
       v.textContent = text; d.toggleAttribute("data-active", on || (d.dataset.filter === "sort" && sort !== "popular"));
     }
-    write();
+    write(push === true);
     dispatchEvent(new Event("qq:layout"));
   };
 
@@ -105,11 +109,16 @@ export function initFilters() {
     if (open) { open.open = false; open.querySelector("summary").focus(); }
   });
 
-  form.addEventListener("change", apply);
-  form.addEventListener("input", (e) => { if (e.target.type === "number") apply(); });
+  // a cell closes when the keyboard focus leaves it (an open panel must not cover what is focused next)
+  cells.forEach((d) => d.addEventListener("focusout", (e) => { if (d.open && !d.contains(e.relatedTarget) && e.relatedTarget) d.open = false; }));
+
+  form.addEventListener("change", () => apply(true));
+  let typing = 0;   // typing a price is one step of history, not one per digit
+  form.addEventListener("input", (e) => { if (e.target.type === "number") { apply(!typing); clearTimeout(typing); typing = setTimeout(() => (typing = 0), 800); } });
   form.addEventListener("submit", (e) => e.preventDefault());
-  form.addEventListener("reset", () => setTimeout(apply));
-  resets.forEach((b) => b.type !== "reset" && b.addEventListener("click", () => { form.reset(); setTimeout(apply); }));
+  form.addEventListener("reset", () => setTimeout(() => apply(true)));
+  resets.forEach((b) => b.type !== "reset" && b.addEventListener("click", () => { form.reset(); setTimeout(() => apply(true)); }));
   addEventListener("hashchange", tab);
+  addEventListener("popstate", () => { read(); apply(); });
   read(); apply(); tab();
 }

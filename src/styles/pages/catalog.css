@@ -12,8 +12,8 @@
 .tab[aria-current="page"] { color: var(--c-ink); }
 @media (--mouse) { .tab:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
-/* the filters: one row of cells divided by hairlines; each opens its options below it. On a narrow column the row
-   scrolls sideways (and its panels open full width under it). */
+/* the filters: cells divided by hairlines, wrapping onto as many rows as the column needs; each opens its options
+   below it (leftwards when it would stick out on the right). */
 .filters { position: relative; z-index: 20; display: flex; flex-wrap: wrap; align-items: stretch; margin-bottom: var(--section-gap); }
 .filters { --cell-min: 10.5rem; }
 .filter { position: relative; flex: 1 0 var(--cell-min); border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; background: var(--c-paper); }

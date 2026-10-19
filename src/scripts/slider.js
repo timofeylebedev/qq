@@ -11,14 +11,16 @@ export function initSliders() {
     const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth";
     const go = (dx) => track.scrollBy({ left: dx, behavior });
 
-    prev?.addEventListener("click", () => go(-step()));
-    next?.addEventListener("click", () => go(step()));
+    // at an end the arrow is aria-disabled, not disabled: a disabled button would drop the keyboard focus to the page
+    const off = (b) => b.getAttribute("aria-disabled") === "true";
+    prev?.addEventListener("click", () => off(prev) || go(-step()));
+    next?.addEventListener("click", () => off(next) || go(step()));
     dots.forEach((d) => d.addEventListener("click", () => track.scrollTo({ left: items()[Number(d.dataset.go)].offsetLeft - items()[0].offsetLeft, behavior })));
 
     const sync = () => {
       const max = track.scrollWidth - track.clientWidth;
-      if (prev) prev.disabled = track.scrollLeft <= 2;
-      if (next) next.disabled = track.scrollLeft >= max - 2;
+      prev?.setAttribute("aria-disabled", String(track.scrollLeft <= 2));
+      next?.setAttribute("aria-disabled", String(track.scrollLeft >= max - 2));
       const i = Math.round(track.scrollLeft / step());
       dots.forEach((d, j) => d.setAttribute("aria-current", String(i === j)));
     };

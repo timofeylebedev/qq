@@ -82,8 +82,8 @@ export function card(ctx, p, { size = "third", heading = 3 } = {}) {
 function filterData(p) {
   const price = p.weights.find((w) => w.grams === 200)?.price ?? p.weights[0]?.price ?? 0;
   const prep = [];
-  if (p.roasts.some((r) => /Эспрессо|Омни/.test(r.use))) prep.push("espresso");
-  if (p.roasts.some((r) => /Фильтр|Омни/.test(r.use))) prep.push("filter");
+  if (p.roasts.some((r) => /Эспрессо|Омни/.test(r.use)) || p.use.some((u) => /эспрессо/i.test(u))) prep.push("espresso");
+  if (p.roasts.some((r) => /Фильтр|Омни/.test(r.use)) || p.use.some((u) => /фильтр/i.test(u))) prep.push("filter");
   if (p.use.some((u) => /Молочн/.test(u))) prep.push("milk");
   if (p.grind.includes("Турка")) prep.push("turka");
   return ` data-type="${esc(p.type || "")}" data-line="${esc(p.line || "")}" data-countries="${esc(p.countries.join("|"))}"` +

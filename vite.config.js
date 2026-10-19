@@ -39,13 +39,13 @@ export default defineConfig({
   plugins: [pages(), icons(resolve(src, "assets/icons")), typograph(), minifyPages(), csp(), precompress(dist)],
   css: {
     transformer: "lightningcss",
-    lightningcss: { drafts: { customMedia: true }, targets: { chrome: 100 << 16, safari: 15 << 16, ios_saf: 15 << 16, firefox: 100 << 16, edge: 100 << 16 } }
+    lightningcss: { drafts: { customMedia: true }, targets: { chrome: 111 << 16, safari: (16 << 16) | (4 << 8), ios_saf: (16 << 16) | (4 << 8), firefox: 121 << 16, edge: 111 << 16 } }
   },
   server: { watch: { ignored: ["**/src/index.html", "**/src/catalog/**", "**/src/coffee/**"] } },
   build: {
     outDir: dist,
     emptyOutDir: true,
-    target: ["chrome100", "safari15", "ios15", "firefox100", "edge100"],
+    target: ["chrome111", "safari16.4", "ios16.4", "firefox121", "edge111"],   // container queries and :has() (README: Browsers)
     cssMinify: "lightningcss",
     assetsInlineLimit: 0,                       // every font and picture stays a file: the CSP allows fonts only from the site itself
     modulePreload: { polyfill: false },

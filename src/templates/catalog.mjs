@@ -39,13 +39,13 @@ export function render(ctx) {
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
     <form class="filters" data-filters aria-label="Фильтры">
       ${filters}
-      <p class="filters__result" aria-live="polite"><span data-found>${list.length}</span> кофе<button class="filters__reset" type="reset" hidden data-reset>Сбросить</button><button class="sr" type="submit">Показать</button></p>
+      <p class="filters__result" aria-live="polite"><span data-found>${list.length}</span> кофе<button class="filters__reset" type="reset" hidden data-reset>Сбросить</button><button class="sr" type="submit" tabindex="-1">Показать</button></p>
     </form>
     <div class="grid grid--catalog" data-grid>
       ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2 })).join("\n      ")}
     </div>
     <p class="catalog__empty" data-empty hidden>Ничего не нашлось. <button type="button" class="link" data-reset>Сбросить фильтры</button></p>
-    <p class="catalog__soon" data-soon hidden>Скоро здесь появятся <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
+    <p class="catalog__soon" data-soon hidden>Скоро здесь <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
   </div>
 </section>`;
   return page(ctx, {

@@ -39,13 +39,15 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 
 // 1
 {
-  const fails = blocks.filter((b) => /#[0-9a-f]{3,8}\b|\brgba?\(|\bhsla?\(/i.test(b.body)).map(where);
-  rule("Colours only from tokens", `no #hex, rgb() or hsl() in ${styles.length} stylesheets`, fails);
+  const NAMED = /(?<![\w-])(white|black|red|green|blue|gray|grey|silver|yellow|orange|purple|pink|navy|teal|maroon|olive|lime|aqua|fuchsia|brown|gold|beige|ivory)(?![\w-])/i;
+  const fails = blocks.filter((b) => /#[0-9a-f]{3,8}\b|\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color|color-mix)\(/i.test(b.body) ||
+    b.body.split(";").some((d) => d.includes(":") && !/^\s*--/.test(d) && NAMED.test(d.split(":").slice(1).join(":").replace(/var\([^)]*\)/g, "")))).map(where);
+  rule("Colours only from tokens", `no #hex, colour functions or named colours in ${styles.length} stylesheets`, fails);
 }
 // 2
 {
   const allowed = new Set(decisions.flatMap((d) => d.css || []));
-  const unit = /(?<![\w-])-?[\d.]+(vw|vh|svh|dvh|lvh|vmin|vmax|cqi|cqw|cqh)\b|\b(100)?(vw|svh|vh)\b/;
+  const unit = /(?<![\w-])-?[\d.]*([sdl]?v(w|h|i|b|min|max)|cq(w|h|i|b|min|max))\b/;
   const fails = [];
   for (const b of blocks) {
     const decls = b.body.split(";").filter((d) => d.includes(":") && !/^\s*--vp\s*:/.test(d));
@@ -53,6 +55,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
     for (const d of decls) {
       const [prop, ...v] = d.split(":"); const val = v.join(":").trim();
       if (/^\s*font-size$/.test(prop) && !/var\(--type-|^inherit$|^max\(16px, var\(--type-body\)\)$|^12px$/.test(val)) fails.push(where(b) + ` font-size: ${val}`);
+      if (/^\s*font$/.test(prop) && !/var\(--type-|^inherit$/.test(val)) fails.push(where(b) + ` font: ${val} (the size of the shorthand must be a --type-*)`);
     }
   }
   rule("Sizes only from the scale", `font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in ${allowed.size} rules listed in decisions.json`, fails);
@@ -63,19 +66,24 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   const fails = [];
   for (const f of styles) {
     const src = read(f).replace(/\/\*[\s\S]*?\*\//g, "");
-    for (const m of src.matchAll(/@container\s+(\w+)?\s*\(([^)]*)\)/g)) {
-      const v = /(\d+(?:\.\d+)?rem)/.exec(m[2])?.[1];
-      if (!steps.includes(v)) fails.push(`${relative(root, f)}: @container (${m[2]}) is not at S, M or L`);
-      if (m[1] && m[1] !== "col" ) fails.push(`${relative(root, f)}: @container ${m[1]} — layout steps query the column (col)`);
+    for (const m of src.matchAll(/@container\s+([^{]+)\{/g)) {
+      const q = m[1].trim(), name = /^([\w-]+)\s*\(/.exec(q)?.[1];
+      if (name !== "col") fails.push(`${relative(root, f)}: @container ${q} — layout steps query the column by name (col)`);
+      const lens = [...q.matchAll(/(\d+(?:\.\d+)?)([a-z%]+)/g)].map((x) => x[1] + x[2]);
+      if (!lens.length || lens.some((v) => !steps.includes(v))) fails.push(`${relative(root, f)}: @container ${q} is not at S, M or L`);
     }
     for (const m of src.matchAll(/@media\s+([^{]+)\{/g)) if (!/^\(--[\w-]+\)\s*$|^not \(--[\w-]+\)\s*$/.test(m[1].trim()) && !f.endsWith("media.css")) fails.push(`${relative(root, f)}: @media ${m[1].trim()} — use a condition of media.css`);
   }
-  for (const f of scripts) for (const m of read(f).matchAll(/matchMedia\("([^"]+)"\)/g)) if (!/prefers-reduced-motion|width >= 64em/.test(m[1])) fails.push(`${relative(root, f)}: matchMedia(${m[1]})`);
+  for (const f of scripts) for (const m of read(f).matchAll(/matchMedia\(\s*(["'`])(.+?)\1\s*\)/g)) if (!/^\(prefers-reduced-motion: reduce\)$|^\(width >= 64em\)$/.test(m[2])) fails.push(`${relative(root, f)}: matchMedia(${m[2]})`);
+  // the page conditions themselves: only these, each written down in media.css (a new one is a decision of the system)
+  const PAGE = { "--tablet": "(width < 64em)", "--narrow": "(width < 25em)", "--short": "(height < 32em)", "--mouse": "(hover: hover) and (pointer: fine)", "--calm": "(prefers-reduced-motion: reduce)", "--motion": "(prefers-reduced-motion: no-preference)" };
+  const media = read("src/styles/base/media.css").replace(/\/\*[\s\S]*?\*\//g, "");
+  for (const m of media.matchAll(/@custom-media\s+(--[\w-]+)\s+([^;]+);/g)) if (PAGE[m[1]] !== m[2].trim()) fails.push(`media.css: ${m[1]} ${m[2].trim()} — not one of the page conditions of build/rules.mjs`);
   rule("Layout steps only at S, M, L", `container queries at ${steps.join(", ")} on the column; media only through media.css (--tablet 64em, --narrow 25em, --short 32em tall, input, motion)`, fails);
 }
 // 4
 {
-  const fails = blocks.filter((b) => [...b.body.matchAll(/border-radius\s*:\s*([^;]+)/g)].some((m) => !/^(999px|50%)$/.test(m[1].trim()))).map(where);
+  const fails = blocks.filter((b) => [...b.body.matchAll(/border(-(top|bottom|start|end)-(left|right|start|end))?-radius\s*:\s*([^;]+)/g)].some((m) => !/^(999px|50%)$/.test(m[4].trim())) || /clip-path\s*:[^;]*\bround\b/.test(b.body)).map(where);
   rule("No rounded corners", "border-radius only 999px (pills) or 50% (dots)", fails);
 }
 // 5
@@ -83,7 +91,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   const fails = [];
   for (const b of blocks) for (const d of b.body.split(";")) {
     const [prop, ...v] = d.split(":"); const val = v.join(":");
-    if (/^\s*(transition|animation)(-duration|-timing-function)?\s*$/.test(prop) && /\d(m?s)\b|cubic-bezier|\bease\b|linear\b/.test(val.replace(/var\([^)]*\)/g, "").replace(/\b0s\b/g, "")) && !/@keyframes/.test(b.selector)) {
+    if (/^\s*(transition|animation)(-duration|-timing-function|-delay)?\s*$/.test(prop) && /\d(m?s)\b|cubic-bezier|\bease\b|linear\b/.test(val.replace(/var\([^)]*\)/g, "").replace(/\b0s\b/g, "")) && !/@keyframes/.test(b.selector)) {
       if (!(/^\s*animation\s*$/.test(prop) && /\d+s\b/.test(val) && /hero-drift/.test(val)) && !/opacity 0\.3s var\(--ease-out\)/.test(val)) fails.push(where(b) + `: ${prop.trim()}: ${val.trim().slice(0, 50)}`);
     }
   }
@@ -91,7 +99,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 }
 // 6
 {
-  const fails = blocks.filter((b) => /font-family\s*:\s*(?!var\(--(sans|mono|digits)\)|"(Apercu|JetBrains Mono|Technology)")/.test(b.body) || /\bfont\s*:[^;]*\b(Arial|sans-serif|monospace)\b/.test(b.body)).filter((b) => !b.file.endsWith("base.css") && !b.file.endsWith("fonts.css")).map(where);
+  const fails = blocks.filter((b) => /font-family\s*:\s*(?!var\(--(sans|mono|digits)\)|"(Apercu|JetBrains Mono|Technology)")/.test(b.body) || b.body.split(";").some((d) => /^\s*font\s*:/.test(d) && !/var\(--(sans|mono|digits)\)\s*$|:\s*inherit\s*$/.test(d.trim()))).filter((b) => !b.file.endsWith("base.css") && !b.file.endsWith("fonts.css")).map(where);
   rule("Faces only through tokens", "font-family is var(--sans), var(--mono) or var(--digits)", fails);
 }
 // 7
