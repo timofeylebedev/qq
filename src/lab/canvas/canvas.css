@@ -1,0 +1,69 @@
+/* The component canvas (page.mjs, canvas.js). Only the canvas's own frame is styled here: the components keep the
+   site's stylesheet and are never restyled. Colours and type come from the site's tokens.
+
+   No transform anywhere around the components: the world is placed with left/top and scaled with `zoom`, which
+   makes no stacking context. So the one 3D canvas of the page (z-index 5, on <body>) still falls between a card's
+   ground and its name, exactly as on the site. */
+html, body.cv { height: 100%; overflow: hidden; }
+body.cv { background: var(--c-paper); overscroll-behavior: none; }
+
+/* the stage: the whole screen; clips, never scrolls (so focusing a far element can't move it) */
+.cv-stage { position: absolute; inset: 0; overflow: clip; touch-action: none; cursor: default; }
+
+/* the canvas's own focus: a backdrop behind the world, never an ancestor of a component (a focusable ancestor would
+   take the focus of every click inside a component, and the components' own focus rules would see it) */
+.cv-shell { position: absolute; inset: 0; }
+.cv-shell:focus { outline: none; }
+.cv-shell:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+.cv-stage[data-cv-panning], .cv-stage[data-cv-space] { cursor: grab; }
+.cv-stage[data-cv-panning] { cursor: grabbing; user-select: none; }
+.cv-stage:not([data-cv-ready]) .cv-world { visibility: hidden; }
+
+/* the world: canvas.js places the groups in columns by their measured sizes (never by hand, never dragged) */
+.cv-world { position: absolute; left: 0; top: 0; pointer-events: none; }   /* between groups, the shell is hit */
+
+/* a group: a plain title 8px above a dashed box; equal slots filling its rows */
+.cv-group { position: absolute; left: 0; top: 0; width: max-content; pointer-events: auto; }
+.cv-group__title {
+  margin: 0 0 8px; font: 400 var(--type-body) / var(--lh-compact) var(--sans);
+  text-transform: none; letter-spacing: normal; color: var(--c-ink-70);
+}
+.cv-group__box {
+  display: grid; grid-template-columns: repeat(var(--cols), var(--slot)); gap: 64px 48px; align-items: start;
+  padding: 48px; border: 1px dashed var(--c-ink-20);
+}
+.cv-slot-wrap { display: grid; gap: 8px; min-width: 0; }
+.cv-slot__label { font-size: var(--type-small); line-height: var(--lh-compact); color: var(--c-ink-70); }
+
+/* a slot is the column the component sits in: the container its layout steps measure (as .col does on the site) */
+.cv-slot { container: col / inline-size; position: relative; min-width: 0; touch-action: auto; cursor: auto; }
+
+/* grounds and boxes the canvas gives a component that needs one (the same one for every slot of a group) */
+.cv-ground { padding: 32px; }
+.cv-ground > * { position: relative; }
+.cv-box { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
+
+/* a screen: an iframe of a real screen size, cut to the part on show. Its glass undoes the world's zoom and scales the
+   frame back with a transform (canvas.js), so the frame always lays out at exactly its size, one CSS pixel to one
+   device pixel, whatever the zoom: under CSS zoom a 390 × 844 screen would be rounded to another size. The transform
+   makes a stacking context, which a screen may have: it holds no 3D pack of the canvas page. */
+.cv-screen { position: relative; overflow: hidden; outline: 1px solid var(--c-ink-20); background: var(--c-paper); }
+.cv-screen__glass { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.cv-screen iframe { display: block; border: 0; }
+
+/* the camera's controls and the status line: on top of everything, at screen size */
+.cv-ui {
+  position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; align-items: stretch;
+  background: var(--c-paper); border: 1px solid var(--c-ink-20); color: var(--c-ink);
+}
+.cv-ui__btn { display: grid; place-items: center; width: 40px; height: 40px; }
+.cv-ui__btn + .cv-ui__btn, .cv-ui__zoom + .cv-ui__btn, .cv-ui__btn + .cv-ui__zoom { border-left: 1px solid var(--c-ink-20); }
+.cv-ui__btn:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) { .cv-ui__btn:hover { background: var(--c-cloud); } }
+.cv-ui__zoom { display: grid; place-items: center; min-width: 56px; font-size: var(--type-small); font-feature-settings: "tnum" 1; }
+
+.cv-status {
+  position: fixed; left: 16px; bottom: 16px; z-index: 100; max-width: min(36rem, 100% - 32px);
+  padding: 8px 12px; background: var(--c-ink); color: var(--c-paper); font-size: var(--type-small);
+}
+.cv-status:empty { display: none; }

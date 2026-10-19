@@ -49,6 +49,17 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
 
+## The component canvas (`src/lab/canvas`, `npm run canvas`)
+
+- Dev server only (`/lab/canvas/`): it is not a build input and never reaches the test site. Publishing it is Tim's call.
+- It never changes a component: parts are the template functions or are cut out of the rendered pages (`cut()` in
+  `variants.mjs`). A template change that breaks a cut fails loudly; fix the cut, not the template.
+- One group per prop compared; everything else in its slots stays the same (coffee, text, ground, width). What is left
+  out goes into `OMITTED` with the reason. No id may appear twice on the canvas page (each block is there once).
+- No transform around components (the world is placed with left/top and CSS `zoom`), or the 3D canvas at z-index 5
+  stops falling between a card's ground and its name.
+- A new component or block: add its group and run `npm run canvas:check` (it lists every variant it checked).
+
 ## Testing tips
 
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
