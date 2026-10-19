@@ -32,3 +32,14 @@ Status (6 Oct 2026): first pass of the model and renderer done. Animations and i
 - Tear notches are not modelled. Back panel reuses the front's wrinkles, mirrored.
 - Label textures are plain WebP; GPU-compressed textures (KTX2) would cut memory 4–8× if needed.
 - Default look values: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 — awaiting the designer's preferred values.
+
+## On the site (Oct 19, 2026)
+
+- The renderer lives in `src/scripts/pouch3d.js` as an ES module (the original IIFE stays in `public/lab/pouch3d.js` for
+  the test bench at `public/lab/3d-pack.html`). Two additions: `live` slots are measured every frame (the pinned pack
+  of a product page), and `clip` limits a pack to an element's box (packs in rows that scroll sideways).
+- Shared assets: `public/pack/` (mesh, `relief.jpg`, `gloss.jpg`); labels: `public/pack/labels/`.
+- `src/scripts/packs.js` animates the packs (shelf lean with the scroll, pointer tilt, the product page's turn);
+  `build/pack-still.mjs` renders the still shown before WebGL draws.
+- Look values in use: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 (the defaults; still waiting for the
+  designer's preference).
