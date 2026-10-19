@@ -1,0 +1,9 @@
+{
+  "placeholder": true,
+  "$about": "PLACEHOLDER prices: the price table has none yet. One price per price group (column «Ценовая группа») and weight. Replace with real prices and set placeholder to false; the site then stops marking them.",
+  "groups": {
+    "Classic": { "50 г": 250, "200 г": 680, "1 кг": 2600 },
+    "Citric":  { "50 г": 290, "200 г": 780, "1 кг": 2900 },
+    "Special": { "50 г": 390, "200 г": 1180, "1 кг": 4400 }
+  }
+}

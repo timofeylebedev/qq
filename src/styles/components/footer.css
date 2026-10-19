@@ -1,0 +1,39 @@
+/* The footer: the cloud ground, the hairline above it full width, its content on the column. Two halves from L: on
+   the left the flame mark (the animated logo goes here) with the copyright under it; on the right the newsletter and
+   the four groups of links, each a cell divided by hairlines. Below L the links come first and the mark closes the
+   page. */
+.footer { background: var(--c-cloud); border-top: var(--hair) solid var(--line); }
+.footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
+.footer__brand { order: 2; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--block-pad) + env(safe-area-inset-bottom, 0px)); }
+.footer__mark { width: var(--footer-logo); padding-top: 24px; color: var(--c-ink); }
+.footer__mark svg { width: 100%; height: auto; }
+.footer__legal { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: var(--type-small); color: var(--c-ink-70); }
+.footer__legal a { display: inline-block; padding-block: 4px; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: var(--hair); }
+
+.footer__links { order: 1; display: grid; grid-template-columns: minmax(0, 1fr); }
+.footer__news { display: grid; gap: 16px; align-items: center; padding-block: var(--tile-pad); border-bottom: var(--hair) solid var(--line); }
+.footer__news-label { font-weight: 700; font-size: var(--type-body-l); line-height: var(--lh-compact); max-width: 16em; }
+.footer__group { padding-block: var(--tile-pad); border-bottom: var(--hair) solid var(--line); }
+.footer__title { font-size: var(--type-card-title); margin-bottom: 16px; }
+.footer__group ul { display: grid; gap: 4px; }
+.footer__group a { display: inline-block; padding-block: 4px; font-size: var(--type-body); }
+@media (--mouse) { .footer__group a:hover { text-decoration: underline; text-underline-offset: 0.2em; } }
+
+@container col (width >= 22rem) {
+  .footer__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__news { grid-column: 1 / -1; }
+  .footer__group:nth-of-type(odd) { border-right: var(--hair) solid var(--line); padding-right: var(--tile-pad); }
+  .footer__group:nth-of-type(even) { padding-left: var(--tile-pad); }
+}
+@container col (width >= 43rem) {
+  .footer__news { grid-template-columns: 1fr minmax(0, 1.2fr); }
+}
+@container col (width >= 58rem) {
+  .footer__inner { grid-template-columns: 1fr 1fr; }
+  .footer__brand { order: 0; border-right: var(--hair) solid var(--line); padding-right: var(--block-pad); }
+  .footer__links { order: 0; }
+  .footer__news { padding-left: var(--tile-pad); grid-template-columns: 1fr; }
+  .footer__group { padding-bottom: calc(var(--tile-pad) * 2); }
+  .footer__group:nth-of-type(odd) { padding-left: var(--tile-pad); }
+  .footer__group:nth-last-of-type(-n + 2) { border-bottom: 0; }
+}

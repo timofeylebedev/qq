@@ -1,7 +1,13 @@
 .DS_Store
 Thumbs.db
 node_modules/
+dist/
 .env
 *.log
 # designer source files (large PSD/PNG exports) live outside the repo
 source/
+# written by the build from templates and data (build/pages.mjs, build/data.mjs)
+src/index.html
+src/catalog/
+src/coffee/
+src/data/products.json

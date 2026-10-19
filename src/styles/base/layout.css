@@ -1,0 +1,55 @@
+/* Layout: one content column, sections, section heads, the product grids and the reel.
+
+   The column: the gutter on both sides, at most 1520px, centred. It is a container (col), and every block changes its
+   layout at three shared widths of it (design/scale.json "steps"):
+        S 22rem (352px)   two hero cells side by side, two-column facts in tiles
+        M 43rem (688px)   two columns of cards, image blocks side by side, three info blocks in a row
+        L 58rem (928px)   three columns of cards, the featured coffee as two squares, the hero in one row of three
+   Any other step is a written exception (design/decisions.json). */
+.col {
+  container: col / inline-size;
+  width: min(100% - 2 * var(--gutter), var(--col-max));
+  margin-inline: auto;
+}
+.section { padding-block: var(--section-y); }
+.section--first { padding-top: calc(var(--nav-h) + var(--section-y-s)); }
+.section--after-tight { padding-top: 0; }
+
+/* a section heading with its controls (arrows, a pager) on the right */
+.head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: var(--text-gap) var(--gap);
+  margin-bottom: var(--section-gap);
+}
+.head__title { font-size: var(--type-h2); max-width: 22em; }
+.head__aside { display: flex; align-items: center; gap: var(--gap); margin-left: auto; }
+.head__lead { flex-basis: 100%; max-width: 36em; font-size: var(--type-body-l); line-height: var(--lh-text); }
+.head--center { flex-direction: column; text-align: center; }
+.head--center .head__lead { margin-inline: auto; }
+.head--center .head__aside { margin-left: 0; }
+
+/* product grids: one column; two from M; on the catalog six tracks from L, so the first cards take half a row and
+   the rest a third (Figma: two big, two big, then threes). grid--wide stays at two (similar coffees). */
+.grid { display: grid; gap: var(--row-gap) var(--gap); grid-template-columns: minmax(0, 1fr); }
+@container col (width >= 43rem) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container col (width >= 58rem) {
+  .grid--catalog { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .grid--catalog > .card--half { grid-column: span 3; }
+  .grid--catalog > .card--third { grid-column: span 2; }
+}
+
+/* the reel: a row of cards that scrolls sideways (snapping), with a peek of the next card on phones; the arrows of
+   the section head move it by one card. Three cards in view from L, two from M. */
+.reel {
+  --per: 1.15;
+  display: grid; grid-auto-flow: column; gap: var(--gap);
+  grid-auto-columns: calc((100% - (var(--per) - 1) * var(--gap)) / var(--per));
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  position: relative;   /* every row that scrolls sideways is positioned, so nothing positioned inside it escapes its clip */
+}
+.reel::-webkit-scrollbar { display: none; }
+.reel > * { scroll-snap-align: start; }
+@container col (width >= 43rem) { .reel { --per: 2; } }
+@container col (width >= 58rem) { .reel { --per: 3; } }

@@ -1,0 +1,80 @@
+{
+  "$about": "The texts and choices of the site that are not coffees: navigation, footer, the home page's blocks, which coffees each block shows, and the roast schedule. Pages are built from this file and src/data/products.json (build/pages.mjs). Fields marked placeholder are stand-ins until the real content arrives.",
+
+  "roast": {
+    "placeholder": true,
+    "$about": "PLACEHOLDER schedule: weekdays at 10:00 Moscow time. The hero counts down to the next roast; the catalog says when the next parcel leaves.",
+    "days": [1, 2, 3, 4, 5],
+    "hour": 10,
+    "timezoneOffset": 3
+  },
+
+  "nav": {
+    "groups": [
+      [["Кофе", "catalog/"], ["Каскара", "catalog/#kaskara"], ["Дрипы", "catalog/#dripy"], ["Сеты", "catalog/#sety"]],
+      [["Кофейням", "#business"], ["Офисам", "#business"]],
+      [["Журнал", "#"], ["Контакты", "#contacts"]]
+    ]
+  },
+
+  "hero": {
+    "title": "Кофе свежей обжарки",
+    "links": [["Каталог", "catalog/", "arrow-right"], ["Бизнесу", "#business", "arrow-steps"], ["Контакты", "#contacts", "arrow-to-line"]]
+  },
+
+  "featured": { "title": "Новинки", "count": 5, "$about": "the coffees tagged «Новинка» first, then the newest by date, up to count" },
+  "recommended": {
+    "title": "Рекомендуем",
+    "slugs": ["q-optimistic", "braziliya-santa-mariya", "kolumbiya-vush-vush", "q-berry", "efiopiya-bekele", "keniya-nayvasha-pb"]
+  },
+
+  "photos": {
+    "$about": "PLACEHOLDER photos from the Figma moodboard: they show other roasters' packs (SIP, Cafe Public, Paloma, Stereoscope, MARU) and must be replaced before launch. A coffee listed here shows its photo instead of the 3D pack on its card.",
+    "placeholder": true,
+    "bySlug": {
+      "keniya-kisii": ["life-jacket", "Пакет кофе в кармане куртки"],
+      "q-berry": ["life-box", "Коробка кофе в руках"],
+      "efiopiya-bekele": ["life-sniff", "Человек вдыхает аромат кофе из пакета"],
+      "peru-monte-verde": ["life-sweater", "Три пакета кофе в руках"]
+    }
+  },
+
+  "approach": [
+    { "id": "approach", "eyebrow": "Наш подход", "title": "Как мы раскрываем потенциал в кофе и людях, которые его пьют", "action": ["Читать", "#"], "image": ["approach-bean", "Пинцет держит обжаренное кофейное зерно"], "theme": "dark" },
+    { "id": "about", "eyebrow": "О компании", "title": "Кто мы и на чем строится наша компания", "action": ["Читать", "#"], "image": ["approach-people", "Большая компания людей в студии"], "theme": "light" }
+  ],
+
+  "business": {
+    "title": "QQ Coffee для бизнеса",
+    "lead": "Вместе с зерном вы получаете людей, которые в нём разбираются: выездной консалтинг, бесплатную школу бариста, разбор настройки эспрессо и воды. Наши партнёры описывают это скорее как дружеское общение, чем как работу с поставщиком.",
+    "cards": [
+      { "title": "Кофейням", "text": "Зерно, бесплатная школа бариста и выездной консалтинг для партнёров. Спеццена на первый заказ, доставка по Москве от 30 кг, подбор индивидуального сорта.", "href": "#", "image": ["business-cafe", "Каппинг: бариста пробует кофе за столом с чашками"] },
+      { "title": "Офисам", "text": "Свежая обжарка со стабильным профилем и доставкой по России. Подбор зерна под ваше оборудование, поддержка менеджера в чате.", "href": "#", "image": ["business-office", "Пакеты кофе на стойке в солнечном свете"] }
+    ]
+  },
+
+  "facts": [
+    { "icon": "roast", "title": "Обжариваем каждый будний день", "more": "Кофе уходит к вам в день обжарки или на следующий: на пакете стоит дата, и она всегда свежая.", "placeholder": true },
+    { "icon": "card", "title": "Принимаем оплату на сайте и при получении", "more": "Картой или через СБП при заказе, наличными или картой курьеру и в пункте выдачи.", "placeholder": true },
+    { "icon": "truck", "title": "Доставляем СДЭК по Москве и России", "more": "Курьером до двери или в пункт выдачи; срок и цену доставки покажем при оформлении заказа.", "placeholder": true }
+  ],
+
+  "footer": {
+    "newsletter": "Расскажем о появлении скидок и новинок",
+    "groups": [
+      ["Каталог", [["Кофе", "catalog/"], ["Каскара", "catalog/#kaskara"], ["Дрипы", "catalog/#dripy"], ["Сеты", "catalog/#sety"], ["Мерч", "catalog/#merch"], ["В подарок", "#"]]],
+      ["Покупателям", [["Журнал о кофе", "#"], ["Заказ и доставка", "#"], ["Бонусы за покупки", "#"], ["Ответы на вопросы", "#"], ["Чат поддержки ↗", "#"], ["Как готовить кофе", "#"]]],
+      ["Бизнесу", [["Кофейням", "#business"], ["Офисам", "#business"], ["Корпоративные подарки", "#"]]],
+      ["Компания", [["О компании", "#about"], ["Работа в QQ", "#"], ["Контакты", "#contacts"]]]
+    ],
+    "copyright": "2026 © QQ Coffee. Раскрывая потенциал",
+    "privacy": ["Политика конфиденциальности", "#"]
+  },
+
+  "catalog": {
+    "title": "Каталог",
+    "tabs": [["Все", "all"], ["Кофе", "kofe"], ["Каскара", "kaskara"], ["Дрипы", "dripy"], ["Сеты", "sety"], ["Мерч", "merch"]],
+    "featuredCount": 4,
+    "$about": "The first featuredCount coffees of the list take half a row each (the rest a third), as in the Figma catalog."
+  }
+}

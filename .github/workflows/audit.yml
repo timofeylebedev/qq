@@ -1,0 +1,38 @@
+# Checks every pull request in a real browser: `npm run audit` (build/audit.mjs) loads the home page, the catalog and
+# two coffee pages at eleven screen sizes (phones upright and sideways, tablets, laptops, 1440, 1920, 2560, and a phone
+# and a laptop with the browser's text at 24px) and fails on sideways scroll, cut-off text, text under 12px, tap
+# targets under 24px, script errors and axe-core rules. Exceptions decided on purpose are in design/decisions.json.
+name: Responsive audit
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - name: Audit
+        run: |
+          set -o pipefail
+          npm run audit 2>&1 | tee audit.log
+      - name: Summary
+        if: always()
+        run: |
+          { echo "### Responsive audit"; echo; echo '```'; tail -n 60 audit.log 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

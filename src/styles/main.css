@@ -1,0 +1,15 @@
+/* The one stylesheet of the site, in the order of the system: the tokens (generated), the ground, the layout, the
+   components every page shares, the blocks, the pages. */
+@import "./base/media.css";
+@import "./base/tokens.gen.css";
+@import "./base/fonts.css";
+@import "./base/motion.css";
+@import "./base/base.css";
+@import "./base/layout.css";
+@import "./components/controls.css";
+@import "./components/card.css";
+@import "./components/nav.css";
+@import "./components/footer.css";
+@import "./sections/home.css";
+@import "./pages/catalog.css";
+@import "./pages/product.css";
