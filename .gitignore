@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+node_modules/
+.env
+*.log
+# designer source files (large PSD/PNG exports) live outside the repo
+source/

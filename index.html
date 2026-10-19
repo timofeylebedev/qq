@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>QQ Coffee — freshly roasted</title>
+  <meta name="description" content="QQ Coffee roasts small batches and ships them fresh.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sofia+Sans+Extra+Condensed:wght@700;800&display=swap">
+  <link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top">
+    <a class="logo" href="#">QQ</a>
+    <nav aria-label="Main">
+      <a href="#shop">Shop</a>
+      <a href="#roasting">Roasting</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="t-hero">
+      <div class="hero-copy">
+        <span class="eyebrow">Small-batch roastery</span>
+        <h1 id="t-hero">Roasted this week.<br>In your cup next week.</h1>
+        <p class="lede">We roast in small batches and ship within days of roasting, so the coffee reaches you while it still tastes the way it should.</p>
+        <p class="cta"><a class="btn btn-solid" href="#shop">Shop coffee</a> <a class="btn" href="#roasting">How we roast</a></p>
+      </div>
+      <div class="hero-stage">
+        <div class="slot hero-slot" id="hero" role="img" aria-label="3D model of a QQ coffee pouch. Drag sideways to turn it.">
+          <img class="flat" src="assets/products/sumatra-front-1024.webp" alt="" width="1024" height="1497">
+        </div>
+        <p class="hint">Drag to turn · double-tap to flip</p>
+      </div>
+    </section>
+
+    <section class="shop" id="shop" aria-labelledby="t-shop">
+      <div class="section-head">
+        <h2 id="t-shop">Coffee</h2>
+        <p class="lede">Every bag is roasted to order. Tap a pack to see the back.</p>
+      </div>
+      <div class="grid" id="grid" aria-live="polite"></div>
+    </section>
+
+    <section class="band" id="roasting" aria-labelledby="t-roast">
+      <h2 id="t-roast">Roasting</h2>
+      <div class="cols">
+        <div><h3>Small batches</h3><p>Placeholder: batch size, roaster and roast schedule.</p></div>
+        <div><h3>Shipped fresh</h3><p>Placeholder: how many days from roast to dispatch, and the roast date on every bag.</p></div>
+        <div><h3>Sourced with care</h3><p>Placeholder: where the green coffee comes from and who you buy it from.</p></div>
+      </div>
+    </section>
+
+    <section class="about" id="about" aria-labelledby="t-about">
+      <h2 id="t-about">About QQ</h2>
+      <p>Placeholder for the company story: who roasts, where, and since when.</p>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="t-contact">
+      <h2 id="t-contact">Contact</h2>
+      <p>Placeholder: email, address, opening hours for pickup.</p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>© <span id="year"></span> QQ Coffee</span>
+    <a href="lab/3d-pack.html">3D pack lab</a>
+  </footer>
+
+  <script src="js/pouch3d.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>

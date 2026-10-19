@@ -1,0 +1,16 @@
+[
+  {
+    "id": "sumatra-pallung",
+    "name": "Sumatra Pallung",
+    "origin": "Sumatra, Indonesia",
+    "notes": "Tasting notes to come",
+    "weight": "250 g",
+    "price": null,
+    "art": {
+      "front512": "assets/products/sumatra-front-512.webp",
+      "back512": "assets/products/sumatra-back-512.webp",
+      "front1024": "assets/products/sumatra-front-1024.webp",
+      "back1024": "assets/products/sumatra-back-1024.webp"
+    }
+  }
+]
