@@ -21,7 +21,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .pack--hero { position: relative; inset: auto; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
 .pack--hero .pack__still { height: 100%; }
 
-.pstage__col { position: relative; z-index: 6; margin-top: calc(-0.4 * var(--pin-h)); padding-bottom: calc(0.4 * var(--pin-h)); }
+.pstage__col { position: relative; z-index: 6; margin-top: calc(-0.18 * var(--pin-h)); padding-bottom: calc(0.4 * var(--pin-h)); }
 .pstage__facts { display: grid; gap: max(40vh, 18rem); gap: max(40svh, 18rem); justify-items: center; }
 .ptile {
   width: min(100%, 22rem); min-height: 16.5rem; display: flex; flex-direction: column; gap: var(--text-gap);
@@ -48,33 +48,35 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
   .pack--hero { grid-row: 1; }
 }
 
-/* the buy bar */
+/* the buy bar: below L two rows of cells (the options; the quantity, the price and the button), from L one row with
+   the button apart on the right, as in Figma */
 .buybar { position: sticky; bottom: 0; z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
-.buybar__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
-.buybar__cells { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
-.cell { position: relative; display: grid; align-content: center; gap: 2px; min-height: 56px; padding: 8px 12px; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
+.buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
+.buybar__cells { display: contents; }
+.cell { position: relative; display: grid; align-content: center; gap: 2px; min-width: 0; min-height: 52px; padding: 6px 12px; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
 .cell__caption { font-size: var(--type-small); color: var(--c-ink-70); }
 .cell select {
   appearance: none; -webkit-appearance: none; width: 100%; min-height: 28px; border: 0; background: none; padding: 0 16px 0 0; cursor: pointer;
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
+  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
   background-position: right 6px top 55%, right 1px top 55%; background-size: 5px 5px; background-repeat: no-repeat;
 }
 .cell select:focus-visible { outline: none; }
 .cell:focus-within { box-shadow: inset 0 0 0 2px var(--c-ink); }
-.cell--qty { grid-auto-flow: column; justify-content: center; align-items: center; gap: 16px; }
+.cell--qty { grid-auto-flow: column; justify-content: center; align-items: center; gap: 12px; }
 .cell--qty button { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-70); }
 .cell--qty button:disabled { opacity: 0.35; cursor: default; }
 .cell--qty svg { width: 24px; height: 24px; }
 .cell--qty output { min-width: 2ch; text-align: center; font: 500 var(--type-control) / 1 var(--sans); font-feature-settings: "tnum" 1; }
 .cell--price { place-content: center; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }
-.buybar__add { width: 100%; }
+.buybar__add { min-height: 52px; padding-inline: 12px; }
 @container col (width >= 58rem) {
-  .buybar__inner { grid-template-columns: auto auto; justify-content: space-between; }
-  .buybar__cells { display: flex; }
-  .cell { border-bottom: 0; margin-bottom: 0; padding-inline: var(--control-x); }
+  .buybar__inner { grid-template-columns: auto auto; justify-content: space-between; border: 0; background: none; }
+  .buybar__cells { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); }
+  .cell { min-height: 56px; border-bottom: 0; margin-bottom: 0; padding-inline: var(--control-x); }
   .cell:last-child { border-right: 0; }
-  .buybar__add { width: auto; min-height: 72px; padding-inline: 32px; }
+  .buybar__add { min-height: 72px; padding-inline: 32px; }
 }
 
 /* the story */

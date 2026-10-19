@@ -54,7 +54,7 @@ function buybar(p) {
         <select name="${name}">${list.map((x, i) => `<option value="${esc(value(x))}"${(x.sel ?? i === 0) ? " selected" : ""}${x.price != null ? ` data-price="${x.price}"` : ""}>${esc(text(x))}</option>`).join("")}</select>
       </label>`;
   const grind = p.grind.map((g) => ({ value: g, text: GRIND[g] || g }));
-  const roast = p.roasts.map((r) => ({ value: r.use, text: r.level ? `${r.level} (${lower(r.use)})` : r.use }));
+  const roast = p.roasts.map((r) => ({ value: r.use, text: r.level || r.use }));
   const weights = p.weights.map((w) => ({ value: w.label, text: w.label, price: w.price }));
   const def = p.weights.find((w) => w.grams === 200) || p.weights[0];
   return `<form class="buybar" data-buybar data-buy data-slug="${p.slug}" action="#" aria-label="Купить ${esc(p.name)}">
