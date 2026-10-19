@@ -3,8 +3,8 @@
 Status (6 Oct 2026): first pass of the model and renderer done. Animations and interactions are still to be designed.
 
 ## Where it lives in this repo
-- Renderer: `js/pouch3d.js`. Shared mesh and effect maps: `assets/pack/`. Label art: `assets/products/`.
-- Test bench with look sliders and a 24–200 pack stress test: `lab/3d-pack.html` (also published as the artifact "QQ Coffee 3D Pack").
+- Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
+- Test bench with look sliders and a 24–200 pack stress test: `public/lab/3d-pack.html` (on the test site at `/lab/3d-pack.html`; also published as the artifact "QQ Coffee 3D Pack").
 - The Blender model (`qq-pouch-textured.glb`) and the build scripts are in the `qq-pouch-3d.zip` bundle and are not in this repo yet.
 
 ## Source files from the designer
