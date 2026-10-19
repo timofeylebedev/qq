@@ -71,7 +71,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
     for (const m of src.matchAll(/@media\s+([^{]+)\{/g)) if (!/^\(--[\w-]+\)\s*$|^not \(--[\w-]+\)\s*$/.test(m[1].trim()) && !f.endsWith("media.css")) fails.push(`${relative(root, f)}: @media ${m[1].trim()} — use a condition of media.css`);
   }
   for (const f of scripts) for (const m of read(f).matchAll(/matchMedia\("([^"]+)"\)/g)) if (!/prefers-reduced-motion|width >= 64em/.test(m[1])) fails.push(`${relative(root, f)}: matchMedia(${m[1]})`);
-  rule("Layout steps only at S, M, L", `container queries at ${steps.join(", ")} on the column; media only through media.css (--tablet 64em, input, motion)`, fails);
+  rule("Layout steps only at S, M, L", `container queries at ${steps.join(", ")} on the column; media only through media.css (--tablet 64em, --narrow 25em, --short 32em tall, input, motion)`, fails);
 }
 // 4
 {

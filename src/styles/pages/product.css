@@ -5,7 +5,9 @@
    so the pack shows through them as they cross it. Pinned height: the screen less the navbar and the buy bar.
    From L the tiles stand at different places across the column (Figma: a scatter); below, one under another.
 
-   The buy bar stays at the foot of the screen through the page: the options as cells, the price, «В корзину». */
+   The buy bar stays at the foot of the screen through the page: the options as cells, the price, «В корзину».
+   On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
+   the stage, and the stage pins at the whole screen under the navbar. */
 :root:has(.product) { --buybar-h: 88px; }
 body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 
@@ -20,6 +22,11 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .pstage__meta { font-size: var(--type-body); color: var(--c-ink-70); }
 .pack--hero { position: relative; inset: auto; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
 .pack--hero .pack__still { height: 100%; }
+
+@media (--short) {
+  .pstage { --pin-h: calc(100vh - var(--nav-h)); --pin-h: calc(100svh - var(--nav-h)); }
+  .pstage__pin { min-height: 0; }
+}
 
 .pstage__col { position: relative; z-index: 6; margin-top: calc(-0.18 * var(--pin-h)); padding-bottom: calc(0.4 * var(--pin-h)); }
 .pstage__facts { display: grid; gap: max(40vh, 18rem); gap: max(40svh, 18rem); justify-items: center; }
@@ -51,6 +58,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 /* the buy bar: below L two rows of cells (the options; the quantity, the price and the button), from L one row with
    the button apart on the right, as in Figma */
 .buybar { position: sticky; bottom: 0; z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+@media (--short) { .buybar { position: relative; } }
 .buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
 .buybar__cells { display: contents; }
 .cell { position: relative; display: grid; align-content: center; gap: 2px; min-width: 0; min-height: 52px; padding: 6px 12px; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }

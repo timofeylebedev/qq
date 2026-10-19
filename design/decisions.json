@@ -73,6 +73,10 @@
       "why": "the rhythm of the Figma catalog", "decided": "Claude, 2026-10-19", "fix": "" },
     { "id": "buybar-phone", "kind": "decision",
       "what": "On a narrow column the buy bar stays at the foot of the screen in two rows (options; quantity, price, button)",
-      "why": "Figma has the bar only at 1440; buying should stay one tap away", "decided": "Claude, 2026-10-19 (to check with the designer)", "fix": "" }
+      "why": "Figma has the bar only at 1440; buying should stay one tap away", "decided": "Claude, 2026-10-19 (to check with the designer)", "fix": "" },
+    { "id": "short-screens", "kind": "decision",
+      "what": "On a screen under 32em tall (a phone sideways) the buy bar waits after the product stage instead of following the screen, and the stage pins at the whole screen under the navbar (no 22rem floor)",
+      "why": "measured at 844 × 390: the two-row bar took 129 of 390px and covered the pack by 139px; a pinned block must fit the screen or not pin",
+      "decided": "Claude, 2026-10-19", "fix": "" }
   ]
 }

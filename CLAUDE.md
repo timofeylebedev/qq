@@ -33,7 +33,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Layout steps**: container queries on the column `col` at S 22rem, M 43rem, L 58rem. Blocks that run full width
   (hero, image blocks, facts, footer, buy bar) put their content in a `.col` so they change with everything else. A
   container query cannot style its own container: wrap (`<div class="col"><div class="block">`). Page steps only
-  through `media.css` (`--tablet` 64em for the navbar, `--narrow` 25em).
+  through `media.css` (`--tablet` 64em for the navbar, `--narrow` 25em, `--short` 32em tall for the product's buy bar).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`.

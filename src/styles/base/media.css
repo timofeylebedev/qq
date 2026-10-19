@@ -4,11 +4,14 @@
 
         < 64em   the burger instead of the links (the menu is a plain list for now: not designed yet)
         < 25em   the navbar drops its search icon (a 320–399px phone: logo, heart, bag, burger)
+        < 32rem tall   a phone sideways: the product's buy bar stops following the screen (it would take a third
+                 of it) and waits after the stage, which then pins at the whole screen under the navbar
 
-   In em, so a visitor's bigger text gets the layout of a narrower screen. Heights need no steps: every size of
-   design/scale.json counts a short screen as a narrower one, and screen-sized blocks are capped by the height. */
+   In em, so a visitor's bigger text gets the layout of a narrower screen. Otherwise heights need no steps: every size
+   of design/scale.json counts a short screen as a narrower one, and screen-sized blocks are capped by the height. */
 @custom-media --tablet (width < 64em);
 @custom-media --narrow (width < 25em);
+@custom-media --short (height < 32em);
 @custom-media --mouse (hover: hover) and (pointer: fine);
 @custom-media --calm (prefers-reduced-motion: reduce);
 @custom-media --motion (prefers-reduced-motion: no-preference);
