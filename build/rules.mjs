@@ -99,7 +99,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   const all = styles.map(read).join("\n") + read("src/styles/base/tokens.gen.css");
   const defined = new Set([...all.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
   const used = new Set([...(all + scripts.map(read).join("\n")).matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]));
-  const fails = [...used].filter((v) => !defined.has(v) && !["--dot", "--i", "--tiles", "--cols", "--rows", "--buybar-h", "--btn-arrow-fill", "--per", "--ground", "--fg", "--rule"].includes(v)).map((v) => `${v} is used but never defined`);
+  const fails = [...used].filter((v) => !defined.has(v) && !["--dot", "--i", "--tiles", "--cols", "--rows", "--buybar-h", "--per", "--ground", "--fg", "--rule"].includes(v)).map((v) => `${v} is used but never defined`);
   const tokens = roles(scale).map((r) => r.css);
   for (const t of tokens) if (!used.has(t)) fails.push(`${t} (design/scale.json) is never used`);
   rule("Every token defined and used", `${used.size} variables used, ${tokens.length} scale roles`, fails);

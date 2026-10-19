@@ -11,19 +11,18 @@
 }
 @media (--mouse) { .btn:hover { background: var(--c-black); transition-duration: var(--t-in); } }
 
-/* the arrow button («→ Читать»): an arrow cell and a label cell, both bordered (Figma btn-arrow) */
+/* the arrow button («→ Читать»): an arrow cell and a label cell, filled, a hairline of the ground between them
+   (Figma btn-arrow). Ink on light grounds, white on dark ones (--btn-bg / --btn-fg). */
 .btn-arrow {
-  display: inline-grid; grid-template-columns: auto auto; align-self: start;
-  border: var(--hair) solid currentColor; min-height: var(--control-h);
-  font: 500 var(--type-body-l) / 1 var(--sans);
+  --btn-bg: var(--c-ink); --btn-fg: var(--c-paper);
+  display: inline-grid; grid-template-columns: auto auto; gap: var(--hair); align-self: start;
+  min-height: var(--control-h); font: 500 var(--type-body-l) / 1 var(--sans);
 }
-.btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); }
-.btn-arrow__icon { border-right: var(--hair) solid currentColor; }
+.btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); background: var(--btn-bg); color: var(--btn-fg); transition: opacity var(--t-out) var(--ease-out); }
+.btn-arrow__icon { padding-inline: 12px; }
 .btn-arrow svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
 @media (--mouse) {
-  .btn-arrow { transition: background var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
-  .btn-arrow:hover { background: currentColor; transition-duration: var(--t-in); }
-  .btn-arrow:hover > span { color: var(--btn-arrow-fill, var(--c-paper)); }
+  .btn-arrow:hover > span { opacity: 0.85; transition-duration: var(--t-in); }
   .btn-arrow:hover svg { transform: translateX(3px); transition-duration: var(--t-in); }
 }
 

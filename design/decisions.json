@@ -65,7 +65,7 @@
       "why": "the pack turns as the tiles pass: the distance between them is scroll time, which is measured in screens",
       "decided": "Claude, 2026-10-19", "fix": "", "css": [".pstage", ".pstage__facts"] },
     { "id": "countdown-fits-cell", "kind": "exception",
-      "what": "The countdown digits are --type-countdown, or 16% of their cell's width when the cell is narrower (cqi)",
+      "what": "The countdown digits are --type-countdown, or 31% of their cell's width when the cell is narrower (cqi): eight digits are at most 2.7em wide, so they fill at most 85% of the cell",
       "why": "eight digits in a display face: the one size that has to fit a box, not a line", "decided": "Claude, 2026-10-19", "fix": "",
       "css": [".hero__count .digits"] },
     { "id": "photos-in-catalog", "kind": "decision",

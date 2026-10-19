@@ -37,7 +37,7 @@
 .hero__count { display: flex; align-items: center; justify-content: center; }
 /* the digits fill their cell: the countdown size, or less when the cell is narrow (a written exception:
    decisions.json "countdown-fits-cell") */
-.hero__count .digits { font-size: min(var(--type-countdown), 16cqi); }
+.hero__count .digits { font-size: min(var(--type-countdown), 31cqi); }   /* eight digits are at most 2.7em wide: 31% of the cell leaves 15% of air */
 .hero__count [data-roast-count]:not([data-live]) { opacity: 0.25; }
 .hero__note { max-width: 22em; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-white-80); }
 
@@ -113,7 +113,8 @@
    ground, the picture fills the right half of the block to the screen's edge; light: the picture fills the whole
    block behind the text (it has empty space on its left for it). Below M: the text, then the picture. */
 .story { position: relative; overflow: hidden; }
-.story--dark { background: var(--c-black); color: var(--c-paper); --btn-arrow-fill: var(--c-black); }
+.story--dark { background: var(--c-black); color: var(--c-paper); }
+.story--dark .btn-arrow { --btn-bg: var(--c-paper); --btn-fg: var(--c-ink); }
 .story--dark .eyebrow { color: var(--c-lavender); }
 .story--light { background: var(--c-paper); color: var(--c-ink); }
 .story__col { display: grid; }
