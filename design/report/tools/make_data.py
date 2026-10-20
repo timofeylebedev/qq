@@ -376,7 +376,7 @@ A6 = {n['size']: (o, n) for o, n in zip(R6['old'], R6['new'])}
 def a6(size, key, old=False): return A6[size][0 if old else 1][key]
 ROUND3 = J(HERE, 'rounds/round-3.json')
 ROUND5 = J(HERE, 'rounds/round-5.json')
-PR6 = 'https://github.com/timofeylebedev/qq/pulls'
+PR6 = 'https://github.com/timofeylebedev/qq/pull/9'
 TUNER = 'https://claude.ai/artifact/GvQeoJRk2AKU14XjRQvQPJ'
 DIGITS = 'https://claude.ai/artifact/4LtGUy5Q1z2tsYrAb5oGK7'
 def was(old, new): return f"<span class='was'>{old}</span> {new}" if old != new else f"{new}"
@@ -497,7 +497,7 @@ old_plot = [[round(x, 4), round(a, 4)] for x, a in _fade_stops({'curve': [0.25, 
 data = {
   'meta': {'key': 'qq-system-report-r6', 'title_tag': 'QQ Site System, Round 6',
     'name': 'QQ Coffee <span>· the site system</span>',
-    'eyebrow': f"Round 6 · branch round-6 · <a href='{PR6}'>pull request</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a> · <a href='{TUNER}'>fade tuner</a> · <a href='{DIGITS}'>QQ Digits</a>",
+    'eyebrow': f"Round 6 · branch round-6 · <a href='{PR6}'>pull request #9</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a> · <a href='{TUNER}'>fade tuner</a> · <a href='{DIGITS}'>QQ Digits</a>",
     'title': 'One fluid size system for the whole site; round 6: one fade curve everywhere, a designed menu, a hero whose cells own their padding, QQ Digits and an entrance part by part',
     'lede': f"The whole system of the QQ Coffee site: {len(sroles) + len(troles)} size roles drawn as lines from a 320 to a 1440 screen, three shared layout steps and the column at its most, one colour table with one line colour, one motion vocabulary, the 3D packs. Round 6 answers your comments: every fade on cubic-bezier(0.5, 0, 0.5, 1) and a section that shows each fade's values, the navbar's links as even cells 8px apart, the burger's menu designed, the hero rebuilt (its title on the ladder, 48 → 88; cells that own their padding; new layouts below L and below M; the note centred on its cell; an entrance part by part; frames that survive Safari's zoom), QQ Digits as SVG segments, and the pager's ring. Measured at every 10px of width and 25px of height and at 25 real screens; «before» is round 5's build (main).",
     'footer': f"Measured in headless Chromium on the built sites, {sweep['measured'][:10]}. Before = round 5 (main, commit b882645); now = branch round-6. Earlier rounds compared with their own previous builds (round 1 with the Figma frames)."},
