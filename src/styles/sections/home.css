@@ -115,7 +115,10 @@
 .hero__links { grid-template-columns: minmax(0, 1fr); }
 .hero__link svg { flex: none; width: 32px; height: 32px; }
 /* the narrowest columns (below S: a 280–380 screen): a smaller arrow closer to the text, so «Контакты» and its arrow fit */
-@container col (width < 22rem) { .hero__link { gap: 4px; } .hero__link svg { width: 24px; height: 24px; } }
+@container col (width < 22rem) {
+  .hero__link { gap: 4px; } .hero__link svg { width: 24px; height: 24px; }
+  .hero__roast > .hero__caption { letter-spacing: 0; }   /* its 12 letters' tracking is the 4% it lacks in a 108px cell (GitHub's Ubuntu renders it wider) */
+}
 @media (--mouse) {
   .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
 }
