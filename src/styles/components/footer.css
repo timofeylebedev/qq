@@ -1,21 +1,29 @@
-/* The footer: the cloud ground, the hairline above it full width, its content on the column. Two halves from L: on
-   the left the flame mark (the animated logo goes here) with the copyright under it; on the right the newsletter and
-   the four groups of links, each a cell divided by hairlines. Below L the links come first and the mark closes the
-   page. */
+/* The footer: the cloud ground, the hairline above it full width, its content on the column. From L two squares: on
+   the left the animated flame, centred by its mass (not by its box: the flame's tip is thin and its bowl heavy, so
+   the box's middle would set it low), the copyright and the policy at its foot; on the right the newsletter and the
+   four groups of links, each a cell divided by hairlines. A square grows taller only when the links need more room
+   (at the narrowest L). Below L the links come first and the flame closes the page. Once the column has stopped at
+   its 1520px, the two squares are framed by a hairline on each side, as the hero's cells are. */
 .footer { background: var(--c-cloud); border-top: var(--hair) solid var(--line); }
 .footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
-.footer__brand { order: 2; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--block-pad) + env(safe-area-inset-bottom, 0px)); }
-.footer__mark { width: var(--footer-logo); padding-top: 24px; color: var(--c-ink); }
-.footer__mark svg { width: 100%; height: auto; }
-.footer__legal { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: var(--type-small); color: var(--c-ink-70); }
-.footer__legal a { display: inline-block; padding-block: 4px; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: var(--hair); }
+.footer__brand { order: 2; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--tile-pad) + env(safe-area-inset-bottom, 0px)); }
+.footer__mark { display: block; width: var(--footer-logo); }
+.footer__mark img { width: 100%; height: auto; }
+
+/* the copyright and the policy: one size, one colour, one baseline */
+.footer__legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 24px; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
+.footer__legal > * { padding-block: 4px; }
+@media (--mouse) { .footer__legal a:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+.footer__legal a { transition: color var(--t-out) var(--ease-out); }
 
 .footer__links { order: 1; display: grid; grid-template-columns: minmax(0, 1fr); }
-.footer__news { display: grid; gap: 16px; align-items: center; padding-block: var(--tile-pad); border-bottom: var(--hair) solid var(--line); }
-.footer__news-label { font-weight: 700; font-size: var(--type-body-l); line-height: var(--lh-compact); max-width: 16em; }
+/* the newsletter: its line and the field side by side while both fit, the line whole (one line) when it can be */
+.footer__news { display: flex; flex-wrap: wrap; align-items: center; gap: 16px var(--gap); padding-block: var(--tile-pad); border-bottom: var(--hair) solid var(--line); }
+.footer__news-label { flex: 1 1 max-content; max-width: 100%; font-weight: 700; font-size: var(--type-body-l); line-height: var(--lh-compact); }
+.footer__news .field { flex: 1 1 16rem; }
 .footer__group { padding-block: var(--tile-pad); border-bottom: var(--hair) solid var(--line); }
 .footer__title { font-size: var(--type-card-title); margin-bottom: 16px; }
-.footer__group ul { display: grid; gap: 4px; }
+.footer__group ul { display: grid; gap: 2px; }
 .footer__group a { display: inline-block; padding-block: 4px; font-size: var(--type-body); }
 @media (--mouse) { .footer__group a:hover { text-decoration: underline; text-underline-offset: 0.2em; } }
 
@@ -25,15 +33,18 @@
   .footer__group:nth-of-type(odd) { border-right: var(--hair) solid var(--line); padding-right: var(--tile-pad); }
   .footer__group:nth-of-type(even) { padding-left: var(--tile-pad); }
 }
-@container col (width >= 43rem) {
-  .footer__news { grid-template-columns: 1fr minmax(0, 1.2fr); }
-}
 @container col (width >= 58rem) {
-  .footer__inner { grid-template-columns: 1fr 1fr; }
-  .footer__brand { order: 0; border-right: var(--hair) solid var(--line); padding-right: var(--block-pad); }
-  .footer__links { order: 0; }
-  .footer__news { padding-left: var(--tile-pad); grid-template-columns: 1fr; }
-  .footer__group { padding-bottom: calc(var(--tile-pad) * 2); }
+  .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__brand { order: 0; aspect-ratio: 1; place-self: stretch; justify-content: flex-end; border-right: var(--hair) solid var(--line); padding-right: var(--tile-pad); }
+  /* the flame's mass centre (measured over its whole animation: 50.5% across, 62.9% down its box) on the square's middle */
+  .footer__mark { position: absolute; left: 50%; top: 50%; transform: translate(-50.5%, -62.9%); }
+  .footer__links { order: 0; grid-template-rows: auto auto 1fr; }
+  .footer__news { padding-left: var(--tile-pad); }
   .footer__group:nth-of-type(odd) { padding-left: var(--tile-pad); }
   .footer__group:nth-last-of-type(-n + 2) { border-bottom: 0; }
+}
+@container col (width >= 1520px) {
+  .footer__inner { border-inline: var(--hair) solid var(--line); }
+  .footer__brand { padding-left: var(--tile-pad); }
+  .footer__news, .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
 }

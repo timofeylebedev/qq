@@ -52,3 +52,16 @@ Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll la
   `lagMax` 12% of its height and `lagMaxPx` 40px, soft-capped so a jump to an anchor stays small), and a pointer
   pressed on a pack moves it away (`pressLift` −0.45, `pressScale` 0.94, held at least `pressHold` 0.2s; a touch
   waits 90ms in case it is a scroll). Neither with «reduce motion».
+
+## Round 3 (Oct 20, 2026)
+
+- No tilt with the page's scroll any more (Tim): the shelf lean (tilt by place on the screen) and the lean with the
+  scroll's speed are gone. Cards still face a little towards the middle of the screen (`TUNE.turn`) and the pointer.
+- `packs.js` splits a pack's lag in two: the page's scroll (it only trails, as before) and its slot's own move on the
+  page (its row slides, its card rises). Carried, it trails and tilts so its leading edge recedes: sideways in a row
+  (`carryTurn` 0.55 at the full trail), up and down as a card rises (`carryTilt` 0.45). A rising card's slot is
+  measured every frame while it moves (the event `qq:carry` from `slider.js`).
+- `pouch3d.js`: an item's `alpha` (0–1) fades its pack and shadow (blended, premultiplied); a card that rises into
+  place fades in with its pack.
+- The view transition to a coffee's page captures the stills (`html[data-vt]` hides the canvas); arriving that way the
+  big pack starts facing front instead of turning in from a quarter turn.

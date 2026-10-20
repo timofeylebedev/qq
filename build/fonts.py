@@ -4,13 +4,11 @@
 #   Technology 700              the digits of the roast countdown: only 0–9 and the colon (about 2 KB), made
 #                               tabular here (every digit as wide as the widest, drawn in its middle), so the
 #                               countdown does not shift as it ticks and is always as wide as its caption
-#   JetBrains Mono 700          the headings, from Google Fonts (OFL), in its Latin and Cyrillic files as Google
-#                               serves them; it stands in for PT Mono Bold, which Google Fonts has only in Regular
-#                               (design/decisions.json, "font-headings")
+#   PT Mono 700                 the headings and names (ParaType, from Tim, round 3; the ParaType Free Font
+#                               Licence allows embedding on web pages), cut to the same characters as the text face
 #
 # Every face is written as woff2 into src/assets/fonts; src/styles/base/fonts.css names them.
 from pathlib import Path
-import shutil
 from fontTools import subset
 from fontTools.ttLib import TTFont
 
@@ -62,7 +60,4 @@ def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01", tab=False):
 for w in (400, 500, 700):
     make(f"apercu-{w}", TEXT)
 make("technology-700", DIGITS, "kern", tab=True)
-for part in ("latin", "cyrillic"):
-    f = f"jetbrains-mono-{part}-700-normal.woff2"
-    shutil.copy(src / f, out / f)
-    print(f"{f:32} {(out / f).stat().st_size / 1024:6.1f} KB")
+make("pt-mono-700", TEXT, "kern,liga,case")

@@ -1,7 +1,7 @@
 /* The ground of every page: reset, the two families, links, focus, and the few things shared by everything. */
 :root {
   --sans: "Apercu", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --mono: "JetBrains Mono", "PT Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --mono: "PT Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --digits: "Technology", var(--mono);
   --nav-h: 48px;          /* the navbar: one height at every size (a control, not fluid) */
   --hair: 1px;            /* every line of the site */

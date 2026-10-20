@@ -14,6 +14,8 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/assets/icons/mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles/main.css">
+<link rel="expect" href="${ctx.page === "product" ? "#product-title" : "#contacts"}" blocking="render">
+<script vite-ignore src="${ctx.rel || ""}vt.js"></script>
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>
@@ -66,8 +68,9 @@ function navbar(ctx, ground) {
     : `<a class="tabbar__item"${ic === "bag" ? " data-bag" : ""}>`}${icon(ic)}<span>${esc(t)}</span>${ic === "bag" ? '<span class="nav__count" data-bag-count hidden></span>' : ""}</a></li>`).join("")}</ul></nav>`;
 }
 
-// The footer: the flame mark with the copyright on the left, the newsletter and four groups of links on the right.
-// The mark is static for now: the animated logo goes into .footer__mark when it arrives.
+// The footer: the animated flame (the logo from Tim, round 3) with the copyright on the left, the newsletter and four
+// groups of links on the right. From L the two halves are squares. The flame is a file (SMIL, about 27 KB gzipped,
+// loaded lazily); with «reduce motion» its first frame stands still.
 function footer(ctx) {
   const f = ctx.site.footer;
   const groups = f.groups.map(([title, links]) => `<div class="footer__group">
@@ -77,7 +80,7 @@ function footer(ctx) {
   return `<footer class="footer" id="contacts" data-ground="cloud">
  <div class="col"><div class="footer__inner">
   <div class="footer__brand">
-    <div class="footer__mark" data-logo-slot>${icon("mark", 'role="img" aria-label="QQ Coffee"')}</div>
+    <picture class="footer__mark"><source media="(prefers-reduced-motion: reduce)" srcset="/assets/img/logo-flame-still.svg"><img src="/assets/img/logo-flame.svg" alt="QQ Coffee" width="218" height="332" loading="lazy" decoding="async"></picture>
     <div class="footer__legal">
       <p>${esc(f.copyright)}</p>
       <a href="${href(ctx, f.privacy[1])}">${esc(f.privacy[0])}</a>
@@ -98,9 +101,11 @@ function footer(ctx) {
 }
 
 // A section heading with its controls on the right (arrows, a counter); the same on every page.
-export function head({ title, id, level = 2, aside = "", center = false, lead = "" }) {
-  return `<div class="${cls("head", center && "head--center")}">
-    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
+// `middle` stands in the middle of the head (the pager of new arrivals): from M between the title and the aside,
+// below M on its own row under them.
+export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "" }) {
+  return `<div class="${cls("head", center && "head--center", middle && "head--middle")}">
+    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
   </div>`;
 }
 

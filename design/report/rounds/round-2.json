@@ -1,0 +1,292 @@
+{
+ "id": "round2",
+ "nav": "Round 2",
+ "title": "Round 2: what changed (PR #3)",
+ "sub": "Your comments in your order and under your headings, what was done with each (measured before → now), and the two builds side by side.",
+ "blocks": [
+  {
+   "type": "stats",
+   "items": [
+    {
+     "n": 26,
+     "unit": "comments",
+     "text": "19 done, 2 done differently, 5 for you to check"
+    },
+    {
+     "n": 4,
+     "unit": "steps",
+     "text": "of the navbar: every section, four short ones, the burger, the tab bar"
+    },
+    {
+     "n": 0,
+     "unit": "px",
+     "text": "between each countdown part and its link, and between the digits and the caption"
+    },
+    {
+     "n": 10,
+     "unit": "rules",
+     "text": "checked on every build: «one line colour» is new · audit clean"
+    }
+   ]
+  },
+  {
+   "type": "shots",
+   "label": "What it looks like",
+   "note": "Round 1 in grey, round 2 in blue, at the size each caption names. Click a picture to open it large; arrows and Escape work.",
+   "items": [
+    {
+     "title": "Navbar at 1440",
+     "src": "shots/r2-navbar-1440.jpg",
+     "text": "No lines between the groups (16px of air instead); the profile icon added; the bar's own margin is the small 16px; colours of the section under it (black over the hero)."
+    },
+    {
+     "title": "Navbar hover at 1440",
+     "src": "shots/r2-navbar-hover-1440.jpg",
+     "text": "Before: the other links dimmed to 60%. After: only the item under the pointer changes, a white tint at 20% behind it (ink at 6% on light grounds)."
+    },
+    {
+     "title": "Navbar at 1920",
+     "src": "shots/r2-navbar-1920.jpg",
+     "text": "The content stops at the column (1520) widened by the 8px of air in the logo's and icons' boxes: the logo glyph and the last icon stand on the column's edges (200 and 1720)."
+    },
+    {
+     "title": "Navbar at 900: short sections",
+     "src": "shots/r2-navbar-steps-900.jpg",
+     "text": "From 48em to 64em: «Каталог, Бизнесу, Журнал, Контакты» (before: the burger from 64em down)."
+    },
+    {
+     "title": "Navbar at 700: the burger",
+     "src": "shots/r2-navbar-steps-700.jpg",
+     "text": "From 40em to 48em the sections go behind the burger; the tools stay."
+    },
+    {
+     "title": "Phone 390 × 844: tab bar and hero",
+     "src": "shots/r2-phone-390.jpg",
+     "text": "Under 40em the bag, favourites and profile leave the bar for the tab bar (Каталог, Корзина, Избранное, Профиль). The hero: screen less 24 less the tab bar (764), the title in three lines, the countdown as wide as its caption."
+    },
+    {
+     "title": "Navbar over business",
+     "src": "shots/r2-navbar-business-1440.jpg",
+     "text": "Before: white everywhere but the hero. After: cool grey over the business block — it changes once the bar stands wholly on a section, crossing over in 0.6s."
+    },
+    {
+     "title": "Navbar over the dark image block",
+     "src": "shots/r2-navbar-dark-1440.jpg",
+     "text": "Black over «Наш подход», with the white 30% hairline under it."
+    },
+    {
+     "title": "Hero at 1440 × 900",
+     "src": "shots/r2-hero-1440.jpg",
+     "text": "Height 876 (the screen less 24; before 800). Three rows shared by the countdown and the links (104px each, centres within 0px); the eased fade; the title word under word."
+    },
+    {
+     "title": "Hero at 1920 × 1080",
+     "src": "shots/r2-hero-1920.jpg",
+     "text": "The column at its most (1520): the cells are framed by a hairline on each side and the title stands 48px off the left one."
+    },
+    {
+     "title": "Hero at 1024 × 768",
+     "src": "shots/r2-hero-1024.jpg",
+     "text": "744 tall (before 648); digits 247 = caption 247 wide (before the caption wrapped to two lines)."
+    },
+    {
+     "title": "Hero on a Friday afternoon",
+     "src": "shots/r2-hero-date-1440.jpg",
+     "text": "More than a day to the next roast: «ПН, 26 ОКТ» in place of the digits (mono: Technology has no Cyrillic), as wide as the caption."
+    },
+    {
+     "title": "Hero link hover",
+     "src": "shots/r2-hero-hover-1440.jpg",
+     "text": "The link's cell gets the white tint; its arrow still nudges 6px."
+    },
+    {
+     "title": "Lines on white",
+     "src": "shots/r2-lines-featured-1440.jpg",
+     "text": "The pack square's divider was ink 10%, the arrows' #d5d5d6: now every line is ink 20% on light grounds."
+    },
+    {
+     "title": "Product on a phone",
+     "src": "shots/r2-product-390.jpg",
+     "text": "The buy bar stands on the tab bar; the pinned stage is 56px shorter for it."
+    },
+    {
+     "title": "A pack pressed",
+     "src": "shots/r2-pack-press-1440.jpg",
+     "text": "Held down: the pack goes 0.45 back (from its hover lift of +0.35 to −0.10) and to 94% of its size, its shadow closer; it stays while held and returns on release (a click holds it at least 0.2s)."
+    }
+   ]
+  },
+  {
+   "type": "changes",
+   "groups": [
+    {
+     "section": "General",
+     "items": [
+      {
+       "ask": "On reload the scroll position should stay the same",
+       "done": "The site keeps the place itself (<code>scripts/scroll.js</code>): saved per address in the tab, put back instantly after a reload or a step back, and again while fonts, pictures and the packs settle, until you scroll. Measured after a reload: home 3000 → 3000, catalog 2500 → 2500, a coffee 2600 → 2600 (1440 × 900), home 2200 → 2200 (390 × 844). Headless Chromium restored these before too, so the failure you saw is browser-specific: please check where you saw it.",
+       "tag": "check"
+      }
+     ]
+    },
+    {
+     "section": "3D packs",
+     "items": [
+      {
+       "ask": "On scroll should lag a bit behind",
+       "done": "Every pack trails its slot by up to 12% of its height (at most 40px) and catches up at 9 per second: after a quick scroll of 700px on the catalog it trails 38px and is back within 0.5s (38 → 26 → 12 → 5 → 2 px every 60ms). Sideways rows too. Nothing with «reduce motion». <code>TUNE.lag</code>, <code>lagMax</code> in the console.",
+       "tag": "done"
+      },
+      {
+       "ask": "On click moving away a bit (on hold stays moved away)",
+       "done": "A click on a card's pack now also opens its coffee (before, only the name was a link). Pointer down on a pack: 0.45 further from the viewer and 94% of its size (from the hover state +0.35 / 103% to −0.10 / 96.8%), the shadow closer; it stays while held and comes back on release; a quick click holds it for at least 0.2s so it reads. On touch it waits 90ms (a touch may be the start of a scroll).",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Navbar",
+     "items": [
+      {
+       "ask": "1. Remove separating lines between the elements",
+       "done": "The hairlines between the three groups are gone; the groups are 16px apart (the links 8px of padding each side).",
+       "tag": "done"
+      },
+      {
+       "ask": "2. Hovers for links and icons semi-transparent white, not affecting other elements",
+       "done": "Only the hovered item changes: a tint behind its 40px cell (logo, links, icons). White at 20% on dark grounds; on white and cloud, where white cannot show, ink at 6% — the same step in the light ground's ink (decision hover-tint). Before: the other links dimmed to 60%.",
+       "tag": "differently"
+      },
+      {
+       "ask": "3. Left and right padding set to small",
+       "done": "The bar's own margin is 16px at every width (the gutter of a 320 screen), the glyphs 16px from the screen's edges (before 12 → 44 with the gutter).",
+       "tag": "done"
+      },
+      {
+       "ask": "4. [additional padding]",
+       "done": "Read together with 5: the 8px of air inside the logo's and the icons' boxes is counted in the max width. Tell me if you meant something else.",
+       "tag": "check"
+      },
+      {
+       "ask": "5. Max width, systematic, counting the logo's and icons' padding",
+       "done": "The content stops at <code>--col-max + 2 × 8px</code> (1536): from a 1616 screen on, the logo glyph and the last icon glyph stand exactly on the column's edges (measured: 0px off at 1680, 1920 and 2560; before 36, 156 and 476px outside).",
+       "tag": "done"
+      },
+      {
+       "ask": "6. Add profile icon",
+       "done": "A profile icon in the set's 1.5px line, after the bag (and in the tab bar). It leads nowhere yet: there is no profile page.",
+       "tag": "done"
+      },
+      {
+       "ask": "7. Max width for the inner container, systematic with other max widths",
+       "done": "The same width as 5: <code>.nav__in</code> is the content column (1520) plus the 8px of air on each side. One max width for everything on the page.",
+       "tag": "done"
+      },
+      {
+       "ask": "8. Colour by the section behind, smoothly, once fully on it",
+       "done": "Every section says its ground (<code>data-ground</code>: white, cloud, black, cool grey) and the bar takes its colours once its whole 48px stand on that section; while a boundary crosses the bar it keeps its colours. They cross over in 0.6s (<code>--t-move</code>). Measured on the home page: black over the hero, white over the coffees, black over «Наш подход», white over «О компании», cool grey over business, white over the facts. The tab bar follows the section at the screen's foot the same way.",
+       "tag": "done"
+      },
+      {
+       "ask": "9. Smaller sizes: short links, then the burger, then a bottom menu",
+       "done": "Four steps: every section from 64em (1024), «Каталог, Бизнесу, Журнал, Контакты» from 48em (768), the burger below, and under 40em (640) the favourites, bag and profile leave for a tab bar at the foot with «Каталог, Корзина, Избранное, Профиль». The widths are the screens of the column steps L and M, where each row fits with room to spare (the sections 584px + two outer columns of 172px at 1024; the short ones 288 + 2 × 172 at 768). The audit now fails if the sections touch the logo or the tools.",
+       "tag": "done"
+      },
+      {
+       "ask": "10. Links to pages, not anchors; no page, no link",
+       "done": "Only «Кофе» and «Каталог» link (to the catalog). Каскара, Дрипы, Сеты, Кофейням, Офисам, Бизнесу, Журнал, Контакты, search, favourites, bag and profile are labels without a link (<code>&lt;a&gt;</code> without href) until their page exists; each becomes a link by adding its path in data/site.json (decision nav-links-pages). The hero's and the footer's links are unchanged: should the same rule apply there?",
+       "tag": "check"
+      },
+      {
+       "ask": "11. Scrolling above the page turns it white",
+       "done": "Above the top (a touchpad or phone bounce) the bars keep the first section's ground (black on the home page), and the page behind the bounce is that colour too: the top half of the page bounces in its first ground, the bottom half in its last (the footer's cloud). A real bounce cannot be made in a headless browser: please check on your Mac and phone.",
+       "tag": "check"
+      },
+      {
+       "ask": "12. A counter only on the bag",
+       "done": "The favourites count is gone (navbar and tab bar); the bag keeps its lavender count.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Hero",
+     "items": [
+      {
+       "ask": "1. Height: full minus 24px; a system of min and max",
+       "done": "The screen less 24 (less the 56px tab bar on a phone), at most <code>--hero-max</code> (960 → 1200: a portrait tablet, a 2560 screen), and never less than the cells, the fade (<code>--hero-fade</code> 64 → 160) and a strip of photo (<code>--hero-photo</code> 48 → 120) need. Measured: 876 at 1440 × 900 (was 800), 1056 at 1920 × 1080, 744 at 1024 × 768, 764 at 390 × 844; 1067 at 820 × 1180 and 1200 at 2560 × 1440 (the max). Short phones get the content's height: 638 at 320 × 568.",
+       "tag": "done"
+      },
+      {
+       "ask": "2. Ease the black gradient",
+       "done": "An eased fade in 16 stops along an S-curve (cubic-bezier 0.42, 0, 0.58, 1), as tw-easing-gradients, generated into <code>--fade-black</code> from colors.json; 160px tall at 1440 (was 48px, two stops). The featured photo caption and the business cards use the same fade.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. All texts in the three blocks trimmed",
+       "done": "<code>text-box: trim-both cap alphabetic</code> on the title, the day row, the digits, the caption and the links: each row's padding is the space you see (12 → 20px). Chrome and Safari 18.2+; Firefox keeps the line's air.",
+       "tag": "check"
+      },
+      {
+       "ask": "4. Title always three lines",
+       "done": "Word under word, at every width: 3 lines at all 25 screens measured (before 1 or 2 lines below 1024).",
+       "tag": "done"
+      },
+      {
+       "ask": "5. The middle block in three containers, aligned with the three links",
+       "done": "From M the countdown and the links share three equal rows (CSS subgrid): the day and the time beside «Каталог», the digits beside «Бизнесу», the caption beside «Контакты». Centres within 0px at every screen measured (before 3–13px off). Rows are as tall as the digits need: 104px at 1440.",
+       "tag": "done"
+      },
+      {
+       "ask": "6. Left and right border on the inner container from a max width",
+       "done": "A new container step <code>max</code> (1520px: the column at its most). From there the cells are framed by a hairline on each side and the title stands 48px off the left one. 1440 has none; 1680, 1920 and 2560 have them.",
+       "tag": "done"
+      },
+      {
+       "ask": "7. Hover on the links",
+       "done": "The link's whole cell gets the hover tint (white 20%), and the arrow keeps its 6px nudge.",
+       "tag": "done"
+      },
+      {
+       "ask": "8. Elements as wide as «ДО БЛИЖАЙШЕЙ ОБЖАРКИ»",
+       "done": "The caption is 13.9em of the control size; the day row is that wide, the digits are sized to it (control × 13.9 / 3), and the countdown font is now tabular (every digit as wide as «0»), so it is exactly as wide every second: 275 = 275 at 1440, 200 = 200 at 390. The audit checks it at every size (decision countdown-as-caption).",
+       "tag": "done"
+      },
+      {
+       "ask": "9. More than 24h to wait: the date and «До ближайшей обжарки»",
+       "done": "From Friday 10:00 to Sunday 10:00 (with the placeholder weekday schedule) the digits give way to the date of the next roast, «ПН, 26 ОКТ», in the mono of the headings (Technology has no Cyrillic), sized by its letters to the caption's width; screen readers hear «Следующая обжарка в понедельник, 26 октября».",
+       "tag": "differently"
+      },
+      {
+       "ask": "10. On load the bar rises in from opacity 0 and from below",
+       "done": "The cells rise one section gap (24 → 48px) and fade in over 0.9s on <code>--ease-out</code>, 0.2s after the page opens (<code>--t-rise</code>, new). Not with «reduce motion».",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Borders",
+     "items": [
+      {
+       "ask": "Always cool gray 20% on light and white 30% on dark",
+       "done": "One <code>--line</code>, set by each section's ground: ink 20% on white and cloud, white 30% on black and cool grey. Changed: the navbar's line (ink 10% → 20%), the hero's (white 40% → 30%), the featured pack square and the product lots (ink 10%), arrows, fields and the catalog panel (#d5d5d6 or ink). A new rule in <code>build/rules.mjs</code> fails any border that is not <code>var(--line)</code>; only states (the current pager dot, a focused field) may draw in ink, and drawn marks (the weight dot, a chevron) in currentColor.",
+       "tag": "done"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "What this changes that you may not expect",
+   "items": [
+    "The hero is taller than the screen on small and sideways phones: 638 at 320 × 568 (it was 555), 549 at 844 × 390 (was 376) — three title lines and a countdown as wide as its caption take more room. From 390 × 844 up it is the screen less 24.",
+    "Most navbar items lead nowhere now (no page behind them): only «Кофе» / «Каталог» are links. On a phone, «Корзина», «Избранное», «Профиль» in the tab bar do nothing yet.",
+    "At 1024–1600 the navbar's logo no longer lines up with the content column (it stands at 16px; the column at the gutter, up to 48px): that is the «small» padding. From 1616 on they line up.",
+    "The navbar on light grounds hovers in ink, not white (white would be invisible on white).",
+    "On a phone the page ends 56px lower (the tab bar's room under the footer), and the product's pinned stage is 56px shorter.",
+    "The countdown is a little smaller than before at 1440 (93 instead of 96px): its size now follows the caption."
+   ]
+  }
+ ]
+}

@@ -1,12 +1,13 @@
 ✓ Colours only from tokens — no #hex, colour functions or named colours in 13 stylesheets
-✓ Sizes only from the scale — font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 4 rules listed in decisions.json
+✓ Sizes only from the scale — font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 5 rules listed in decisions.json
 ✓ Layout steps only at S, M, L — container queries at 22rem, 43rem, 58rem, 1520px on the column; media only through media.css (--links-full 64em, --links 48em, --phone 40em, --short 32em tall, input, motion)
 ✓ No rounded corners — border-radius only 999px (pills) or 50% (dots)
 ✓ Motion only from motion.css — transitions use var(--t-in/out/move) and var(--ease-out/move/leave); the hero's slow drift is the one loop
 ✓ Faces only through tokens — font-family is var(--sans), var(--mono) or var(--digits)
-✓ Every token defined and used — 89 variables used, 33 scale roles
-✓ The scale holds its own rules — both ends of 33 roles on the ladder, 9 type pairs ≥ ×1.125, 14 colour pairs
-✓ Every decision complete — 26 decisions: 14 decisions, 3 exceptions, 9 placeholders
+✓ Every token defined and used — 97 variables used, 34 scale roles
+✓ The scale holds its own rules — both ends of 34 roles on the ladder, 9 type pairs ≥ ×1.125, 14 colour pairs
+✓ Every decision complete — 31 decisions: 18 decisions, 3 exceptions, 10 placeholders
 ✓ One line colour — every border is var(--line), set by the ground to ink-20 or white-30 (4 places); states may use ink
+✓ Every fade eased — gradients are var(--fade-*) (colors.json fades, the curve of tw-easing-gradients' «ease») or solid bands
 
-all 10 rules hold
+all 11 rules hold
