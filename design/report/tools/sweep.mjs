@@ -64,6 +64,24 @@ function probe(roles) {
   out.navContentW = r(ni.getBoundingClientRect().width);
   out.navLogoX = r(q(".nav__logo svg").getBoundingClientRect().left);
   out.footerCols = cols(".footer__inner"); out.colW = r(rect(".col").width);
+  // round 3: the footer's halves (squares from L), the flame's mass centre against the square's middle, the legal
+  // line's two texts (one baseline), the newsletter's line count
+  const fb = rect(".footer__brand"), fl = rect(".footer__links");
+  out.footerBrandW = r(fb.width); out.footerBrandH = r(fb.height); out.footerLinksW = r(fl.width);
+  out.footerRatio = r(fb.height / fb.width);
+  const mk = q(".footer__mark img, .footer__mark svg")?.getBoundingClientRect();
+  if (mk) out.footerMarkDy = r(mk.top + mk.height * 0.6287 - (fb.top + fb.height / 2));
+  const lg = [...document.querySelectorAll(".footer__legal > *")].map((e) => { const g = document.createRange(); g.selectNodeContents(e); const rr = g.getClientRects(); return rr[rr.length - 1]?.bottom ?? 0; });
+  out.legalDy = r(Math.abs(lg[0] - lg[1]));
+  const nl = q(".footer__news-label"); out.newsLines = Math.round(nl.getBoundingClientRect().height / parseFloat(getComputedStyle(nl).lineHeight));
+  if (q(".featured__slide")) {
+    out.featTextW = r(rect(".featured__text").width); out.featMediaW = r(rect(".featured__media").width);
+    out.featTextH = r(rect(".featured__text").height); out.featMediaH = r(rect(".featured__media").height);
+    const fc = [...document.querySelectorAll(".featured__slide:first-child .featured__facts > *")].map((e) => e.getBoundingClientRect().width);
+    out.featFactsDiff = r(Math.abs(fc[0] - (fc[1] ?? fc[0])));
+    const h = rect(".featured .head"), pg = rect(".featured .pager"); out.pagerDx = r(pg.left + pg.width / 2 - (h.left + h.width / 2));
+    out.reelBleed = r(q(".reel").getBoundingClientRect().width - q(".reel").parentElement.getBoundingClientRect().width);   // how far the row runs past the column
+  }
   return out;
 }
 

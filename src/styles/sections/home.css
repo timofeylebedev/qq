@@ -224,8 +224,10 @@
 
 /* the modal: the screen dimmed, a white box in its middle (from 40em; on a phone a sheet at the foot of the screen,
    as wide as it). The box: the icon, the title, the text; the cross in its corner; at its foot a row of two cells
-   that step to the other blocks. Its white ground is a layer of its own, so it can grow out of the block. */
-.fmodal { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
+   that step to the other blocks. Its white ground is a layer of its own, so it can grow out of the block.
+   100vw: while it is open the page keeps its scrollbar's room (scrollbar-gutter), and the modal covers that strip
+   too (decisions.json "facts-modal"). */
+.fmodal { position: fixed; inset: 0 auto auto 0; width: 100vw; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
 .fmodal:not([open]) { display: none; }
 .fmodal::backdrop { background: transparent; }
 .fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
