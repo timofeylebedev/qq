@@ -2,7 +2,7 @@
 
 An artifact for Tim to tune the four fades of the site (`design/colors.json` fades: hero, caption, card, panel) on
 the real home page: the built page in a frame, a curve (cubic-bezier) per fade with presets, its reach, its stops and
-its lead-in above the text (`--hero-fade`, `--lead-caption`, `--lead-card`, `--lead-panel`).
+its lead-in above the text (`--hero-fade`, `--lead-caption`, `--lead-card`, `--lead-panel`). The curve can be dragged, picked from the presets or typed as four numbers (a whole `cubic-bezier(…)` pastes too; decimal commas with semicolons between).
 
 Rebuild and republish: `npm run build && node design/fade-tuner/build.mjs`, then publish `out/index.html` with the
 files of `out/files.json` (142 files, about 5 MB) and the `db` capability, to the same artifact URL.

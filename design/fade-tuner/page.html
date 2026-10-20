@@ -8,12 +8,12 @@
 @font-face { font-family: "PT Mono"; src: url("site/assets/{{pt-mono-700}}") format("woff2"); font-weight: 700; font-display: swap; }
 :root {
   --ground: #ffffff; --cell: #f6f6f6; --ink: #2d2f33; --soft: #2d2f33b3; --line: #2d2f3333; --tint: #2d2f330f;
-  --accent: #7f4fc9; --on-accent: #ffffff; --stage: #e9e9ea;
+  --accent: #7f4fc9; --on-accent: #ffffff; --stage: #e9e9ea; --bad: #c2362f;
   --sans: "Apercu", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --mono: "PT Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; color-scheme: dark; } }
-:root[data-theme="dark"] { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; --bad: #ff8a80; color-scheme: dark; } }
+:root[data-theme="dark"] { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; --bad: #ff8a80; color-scheme: dark; }
 html, body { height: 100%; }
 body { background: var(--ground); color: var(--ink); font: 400 14px / 1.45 var(--sans); }
 * { box-sizing: border-box; }
@@ -55,7 +55,15 @@ h1, h2, .mono { font-family: var(--mono); font-weight: 700; text-transform: uppe
 .row label { color: var(--soft); }
 .row output { font-variant-numeric: tabular-nums; }
 .row input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
-.bez { grid-column: 1 / -1; font: 12px / 1.3 ui-monospace, Menlo, Consolas, monospace; color: var(--soft); font-variant-numeric: tabular-nums; }
+.bez { grid-column: 1 / -1; display: grid; gap: 4px; }
+.bez__field { display: flex; align-items: center; border: 1px solid var(--line); background: var(--cell); font: 13px / 1.3 ui-monospace, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+.bez__field:focus-within { border-color: var(--accent); }
+.bez__field span { padding-inline: 10px 0; color: var(--soft); white-space: nowrap; }
+.bez__field input { flex: 1; min-width: 0; border: 0; background: none; padding: 8px 2px; font: inherit; }
+.bez__field input:focus-visible { outline: none; }
+.bez__field[data-bad] { border-color: var(--bad); }
+.bez__msg { margin: 0; min-height: 1.3em; font-size: 12px; color: var(--soft); }
+.bez__field[data-bad] + .bez__msg { color: var(--bad); }
 .strip { grid-column: 1 / -1; height: 20px; border: 1px solid var(--line);
   background-image: linear-gradient(45deg, var(--tint) 25%, transparent 25%, transparent 75%, var(--tint) 75%), linear-gradient(45deg, var(--tint) 25%, transparent 25%, transparent 75%, var(--tint) 75%);
   background-size: 10px 10px; background-position: 0 0, 5px 5px; }
@@ -221,7 +229,10 @@ for (const p of PLACES) {
         <div class="row"><label for="${p.key}-s">Stops</label><output id="${p.key}-so"></output><input id="${p.key}-s" type="range" min="4" max="32" step="1"></div>
       </div>
       <div class="ctl" style="grid-column: 1 / -1">${leadCtl}</div>
-      <p class="bez" id="${p.key}-b"></p>
+      <div class="bez">
+        <label class="bez__field" id="${p.key}-bf"><span>cubic-bezier(</span><input id="${p.key}-b" type="text" inputmode="decimal" spellcheck="false" autocomplete="off" aria-describedby="${p.key}-bm"><span>)</span></label>
+        <p class="bez__msg" id="${p.key}-bm">x1, y1, x2, y2: type or paste, Enter to keep.</p>
+      </div>
       <div class="strip"><div id="${p.key}-strip"></div></div>
     </div>`;
   host.append(el);
@@ -259,13 +270,31 @@ for (const p of PLACES) {
     const n = f().stops, st = stops("#000000", { ...f(), reach: 1 }).split(", ");
     ctx.fillStyle = ink;
     st.forEach((s, i) => { const a = +s.match(/\/ ([\d.]+)\)/)[1]; const [x, y] = toPx(i / (n - 1), a); ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill(); });
-    $(`${p.key}-b`).textContent = `cubic-bezier(${c.join(", ")})`;
+    if (document.activeElement !== bezIn) { bezIn.value = c.join(", "); bezOk(true); }
     const hex = Object.values(p.colors).at(-1);
     $(`${p.key}-strip`).style.background = `linear-gradient(to right, ${stops(hex, f())})`;
     const name = Object.entries(PRESETS).find(([, v]) => v.every((x, i) => Math.abs(x - c[i]) < 0.002));
     el.querySelectorAll("[data-p]").forEach((b) => b.setAttribute("aria-pressed", String(!!name && b.dataset.p === name[0])));
     shows.forEach((s) => s());
   }
+  // the curve as four numbers: «0.25, 0.1, 0.25, 1», a whole «cubic-bezier(…)», or with decimal commas «0,25; 0,1; …»
+  const bezIn = $(`${p.key}-b`), bezBox = $(`${p.key}-bf`), bezMsg = $(`${p.key}-bm`);
+  const HINT = "x1, y1, x2, y2: type or paste, Enter to keep.";
+  const bezOk = (ok, why) => { bezBox.toggleAttribute("data-bad", !ok); bezIn.setAttribute("aria-invalid", String(!ok)); bezMsg.textContent = ok ? HINT : why; };
+  const parse = (text) => {
+    let t = text.trim().replace(/^cubic-bezier\s*\(/i, "").replace(/\)\s*;?$/, "").trim();
+    const parts = (t.includes(";") ? t.split(/\s*;\s*/).map((x) => x.replace(",", ".")) : t.split(/[\s,]+/)).filter(Boolean);
+    if (parts.length !== 4) return [null, `Four numbers, please (${parts.length} now).`];
+    const v = parts.map(Number);
+    if (v.some((x) => !Number.isFinite(x))) return [null, "Only numbers: use a dot for decimals, or semicolons between them."];
+    if (v[0] < 0 || v[0] > 1 || v[2] < 0 || v[2] > 1) return [null, "x1 and x2 must be between 0 and 1."];
+    if (v[1] < -0.5 || v[1] > 1.5 || v[3] < -0.5 || v[3] > 1.5) return [null, "y1 and y2 must be between −0.5 and 1.5."];
+    return [v, ""];
+  };
+  bezIn.addEventListener("input", () => { const [v, why] = parse(bezIn.value); bezOk(!!v, why); if (v) setCurve(p.key, v); });
+  const keep = () => { bezIn.value = f().curve.join(", "); bezOk(true); };
+  bezIn.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); keep(); bezIn.select(); } if (e.key === "Escape") keep(); });
+  bezIn.addEventListener("blur", keep);
   let drag = -1;
   const at = (e) => { const r = cv.getBoundingClientRect(); return [((e.clientX - r.left) * cv.width / r.width - P) / S, 1 - ((e.clientY - r.top) * cv.height / r.height - P) / S]; };
   cv.addEventListener("pointerdown", (e) => {
