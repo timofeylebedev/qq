@@ -108,7 +108,8 @@
 .bars__scale li:last-child { transform: none; }
 .bars__cols {
   display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end;
-  background: repeating-linear-gradient(to bottom, var(--c-ink-10) 0 1px, transparent 1px 3rem) top / 100% 12rem no-repeat;
+  --l: linear-gradient(var(--line), var(--line));
+  background: var(--l) 0 0 / 100% 1px no-repeat, var(--l) 0 3rem / 100% 1px no-repeat, var(--l) 0 6rem / 100% 1px no-repeat, var(--l) 0 9rem / 100% 1px no-repeat, var(--l) 0 calc(12rem - 1px) / 100% 1px no-repeat;
 }
 .bars__cols li { display: grid; grid-template-rows: 12rem auto; justify-items: center; }
 .bars__bar { align-self: end; width: min(56%, 2rem); height: calc(var(--v) * 100%); background: var(--c-lavender); }

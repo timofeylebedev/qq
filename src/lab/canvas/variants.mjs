@@ -188,7 +188,7 @@ export function groups(data) {
       ]
     },
 
-    // ── round 3: the blocks of the shop, the account and the information pages (src/templates/blocks.mjs) ──
+    // ── round 4: the blocks of the shop, the account and the information pages (src/templates/blocks.mjs) ──
     {
       id: "phead", title: "Page head · what goes with the title", compares: "count, line, aside", slot: 900,
       slots: [
@@ -260,14 +260,14 @@ export function groups(data) {
       slots: Object.entries(NAV_SCREENS).map(([name, sc]) => ({ label: `${name} ${sc.w} × ${sc.h}, white (the whole screen: the tab bar stands at its foot under 40em; the burger opens the menu under 48em)`, frame: { src: "frame-nav-paper.html", ...sc } }))
     },
     { id: "hero", title: "Hero", compares: "—", slot: SCREEN, page: "", slots: [{ label: "home", html: cut(H, /class="hero"/) }] },
-    { id: "featured", title: "New arrivals", compares: "—", slot: SCREEN, slots: [{ label: "home (slides with a photo or the 3D pack; the pager and the arrows move them)", html: cut(H, /aria-labelledby="featured-title"/) }] },
+    { id: "featured", title: "New arrivals", compares: "—", slot: SCREEN, slots: [{ label: "home (a text square and a photo square; the pager in the middle and the arrows move them)", html: cut(H, /aria-labelledby="featured-title"/) }] },
     { id: "recs", title: "Recommended", compares: "—", slot: SCREEN, slots: [{ label: "home (a row of cards that scrolls sideways)", html: cut(H, /aria-labelledby="recs-title"/) }] },
     {
       id: "story-theme", title: "Image block · theme", compares: "theme", slot: SCREEN,
       slots: [{ label: "dark («Наш подход»)", html: darkStory }, { label: "light («О компании»)", html: lightStory }]
     },
     { id: "business", title: "Business", compares: "—", slot: SCREEN, slots: [{ label: "home", html: cut(H, /class="section business"/) }] },
-    { id: "facts", title: "Facts", compares: "—", slot: SCREEN, slots: [{ label: "home (the plus opens one more sentence)", html: cut(H, /class="facts"/) }] },
+    { id: "facts", title: "Facts", compares: "—", slot: SCREEN, slots: [{ label: "home (a block grows into its modal)", html: cut(H, /class="facts"/) }] },
     { id: "footer", title: "Footer", compares: "—", slot: SCREEN, slots: [{ label: "every page", html: cut(H, /class="footer"/) }] },
     { id: "catalog", title: "Catalog", compares: "—", slot: SCREEN, page: "catalog/", slots: [{ label: "the roast line, tabs, filters and every coffee", html: cut(C, /class="section section--first catalog"/) }] },
     {

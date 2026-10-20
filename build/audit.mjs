@@ -1,6 +1,6 @@
 // The pages checked in a real browser at the screen sizes that matter, after `npm run build`:   npm run audit
 //
-// Pages: home, catalog, two coffees (a single origin and a blend), and the pages of round 3: the shop (the bag and the
+// Pages: home, catalog, two coffees (a single origin and a blend), and the pages of round 4: the shop (the bag and the
 // favourites with a bag and hearts put into the browser first, the three steps of the checkout), the account (profile,
 // orders, one order, purchases, settings, the beans dialog open) and the information pages. At each size the page is scrolled through once, so
 // every block has come in, then measured. It fails (exit code 1) on:

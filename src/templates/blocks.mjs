@@ -1,4 +1,4 @@
-// The blocks shared by the pages of round 3 (shop, account, information pages). One markup each; their looks are in
+// The blocks shared by the pages of round 4 (shop, account, information pages). One markup each; their looks are in
 // src/styles/components/blocks.css and forms.css. Every block stands on the content column (.col) or inside it,
 // so it changes its layout at the shared steps S, M, L.
 import { esc, icon, href, cls, picture, rub } from "./util.mjs";

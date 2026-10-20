@@ -6,11 +6,11 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 ## The project
 
 - The site of QQ Coffee (a roaster of specialty coffee): home, catalog, a page per coffee; the bag, favourites, checkout,
-  account (a placeholder visitor) and the information pages (round 3). Static, Vite, Russian; no shop behind it yet.
+  account (a placeholder visitor) and the information pages (round 4). Static, Vite, Russian; no shop behind it yet.
 - `main` is the test site: every push builds and publishes to https://timofeylebedev.github.io/qq/ (`deploy.yml`).
 - Owner and reviewer: Tim (timofeylebedev). Talk to Tim in the language he writes in.
 - Design: Figma https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website — pages «Главная» (the most complete,
-  frame [1280 — 1439]), «Каталог», «Продукт» (frame [1440 — 1919]); round 3 used the [1440 — 1920] frames of «Корзина»,
+  frame [1280 — 1439]), «Каталог», «Продукт» (frame [1440 — 1919]); round 4 used the [1440 — 1920] frames of «Корзина»,
   «Избранное», «Оформление заказа», «Профиль», «Заказы», «Заказ», «Покупки», «Зернышки», «Настройки», «Бизнесу»,
   «Вопросы и ответы», «Доставка и оплата», «Контакты», «Политика конфиденциальности», «О компании». Figma is
   inspiration, not values: the site has its own fluid system, and only a few Figma frames are responsive. Older Figma
@@ -25,7 +25,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - Measure, don't guess: numbers in PRs come from a browser (Playwright), not from reading the CSS.
 - For a larger round Tim gets an independent review: a separate agent that has not seen the work re-checks it;
   its findings are fixed in a commit "Fixes from the independent review".
-- A design-system round ends with the full system report (skill `full-system-report`): one living page, every round.
+- A design-system round ends with the full system report (skill `full-system-report`): a new page each round (the
+  earlier ones stay where they are), always the whole system. Links in `design/report/README.md`.
 - Anything decided on purpose (an exception, a stand-in) goes into `design/decisions.json`.
 
 ## Rules in the code (build/rules.mjs checks them)
@@ -47,12 +48,19 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
-  capitals for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
+  capitals (PT Mono Bold) for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light).
+- **Every fade is eased**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (the «ease» curve of
+  tw-easing-gradients, 16 stops) or a solid band; never a hand-written transparent → colour.
+- **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
+  positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
 - **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
+- **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
+  cross-document view transition to its coffee's page. `data-out` is the catalog filter's; the reel's waiting cards
+  are `data-wait`.
 - **Pages** are written by `build/pages.mjs` from `src/templates/`; never edit `src/index.html`, `src/catalog/`,
   `src/coffee/` or the other page folders (generated, not committed). Links inside the site go through `href(ctx, to)`;
   an anchor of the same page that is not the home page is written as is (`#contacts`), not through `href`.
@@ -80,7 +88,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
-- `window.qqPacks` (the stage and `TUNE`: lean, hover, the scroll lag, the press) and `window.qqStage.progress` in the console.
+- `window.qqPacks` (the stage and `TUNE`: turn, hover, the scroll lag, the carry of a sliding or rising card, the press) and `window.qqStage.progress` in the console.
 - A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
 

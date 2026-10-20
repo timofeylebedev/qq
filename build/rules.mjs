@@ -101,7 +101,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 }
 // 6
 {
-  const fails = blocks.filter((b) => /font-family\s*:(?!\s*(var\(--(sans|mono|digits)\)|"(Apercu|JetBrains Mono|Technology)"))/.test(b.body) || b.body.split(";").some((d) => /^\s*font\s*:/.test(d) && !/var\(--(sans|mono|digits)\)\s*$|:\s*inherit\s*$/.test(d.trim()))).filter((b) => !b.file.endsWith("base.css") && !b.file.endsWith("fonts.css")).map(where);
+  const fails = blocks.filter((b) => /font-family\s*:(?!\s*(var\(--(sans|mono|digits)\)|"(Apercu|PT Mono|Technology)"))/.test(b.body) || b.body.split(";").some((d) => /^\s*font\s*:/.test(d) && !/var\(--(sans|mono|digits)\)\s*$|:\s*inherit\s*$/.test(d.trim()))).filter((b) => !b.file.endsWith("base.css") && !b.file.endsWith("fonts.css")).map(where);
   rule("Faces only through tokens", "font-family is var(--sans), var(--mono) or var(--digits)", fails);
 }
 // 7
@@ -109,7 +109,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   const all = styles.map(read).join("\n") + read("src/styles/base/tokens.gen.css");
   const defined = new Set([...all.matchAll(/(--[\w-]+)\s*:/g)].map((m) => m[1]));
   const used = new Set([...(all + scripts.map(read).join("\n")).matchAll(/var\((--[\w-]+)/g)].map((m) => m[1]));
-  const fails = [...used].filter((v) => !defined.has(v) && !["--dot", "--i", "--tiles", "--cols", "--rows", "--buybar-h", "--per", "--n", "--ground", "--fg", "--rule", "--v"].includes(v)).map((v) => `${v} is used but never defined`);
+  const fails = [...used].filter((v) => !defined.has(v) && !["--dot", "--i", "--tiles", "--cols", "--rows", "--buybar-h", "--per", "--n", "--ground", "--fg", "--rule", "--bleed-l", "--bleed-r", "--lines", "--sbw", "--v"].includes(v)).map((v) => `${v} is used but never defined`);
   const tokens = roles(scale).map((r) => r.css);
   for (const t of tokens) if (!used.has(t)) fails.push(`${t} (design/scale.json) is never used`);
   rule("Every token defined and used", `${used.size} variables used, ${tokens.length} scale roles`, fails);
@@ -140,6 +140,21 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   const lines = blocks.filter((b) => /(^|;)\s*--line\s*:/.test(b.body)).map((b) => b.body.match(/--line\s*:\s*([^;]+)/)[1].trim());
   for (const l of lines) if (!["var(--c-ink-20)", "var(--c-white-30)"].includes(l)) fails.push(`--line set to ${l}: only ink-20 (light) or white-30 (dark)`);
   rule("One line colour", `every border is var(--line), set by the ground to ink-20 or white-30 (${lines.length} places); states may use ink`, fails);
+}
+// 11
+{
+  // a gradient is either an eased fade (colors.json fades) or a solid band (two stops of one colour, a layer of a
+  // background); a fade written by hand (transparent → colour) shows a hard edge where it ends
+  const fails = [];
+  for (const b of blocks) for (const g of b.body.match(/(repeating-)?(linear|radial|conic)-gradient\((?:[^()]|\([^()]*\))*\)/g) || []) {
+    const inner = g.slice(g.indexOf("(") + 1, -1);
+    if (/var\(--fade(-[\w-]+)?\)/.test(inner)) continue;                                       // a fade, or a card's own (--fade: one of them)
+    const vars = inner.match(/var\(--[\w-]+\)/g) || [];
+    if (!/transparent/.test(inner) && vars.length === 2 && vars[0] === vars[1]) continue;     // a solid band
+    if (/\d+deg/.test(inner) && /currentColor/.test(inner)) continue;                          // a drawn shape (the select's arrow)
+    fails.push(where(b) + `: ${g.slice(0, 60)}`);
+  }
+  rule("Every fade eased", "gradients are var(--fade-*) (colors.json fades, the curve of tw-easing-gradients' «ease») or solid bands", fails);
 }
 
 let bad = 0;

@@ -133,14 +133,16 @@ try {
   await showGroup(page, "facts", 0.9);
   const tops = () => page.evaluate(() => [...document.querySelectorAll("[data-cv-group]")].map((g) => g.offsetTop).join());
   const before = await page.evaluate(() => document.querySelector('[data-cv-group="facts"]').offsetHeight), tops0 = await tops();
-  // the groups under it in its own columns (it may be the last there: then nothing has to move)
-  const under = await page.evaluate(() => { const f = document.querySelector('[data-cv-group="facts"]'); return [...document.querySelectorAll("[data-cv-group]")].filter((g) => g !== f && g.offsetTop > f.offsetTop && g.offsetLeft < f.offsetLeft + f.offsetWidth && f.offsetLeft < g.offsetLeft + g.offsetWidth).length; });
-  for (let i = 0; i < 3; i++) await page.click(`[data-cv-group="facts"] .fact__more >> nth=${i}`);
-  await page.waitForTimeout(400);
+  // an info block grows into its modal (a <dialog> over everything) and shrinks back: the canvas does not move
+  await page.click(`[data-cv-group="facts"] .fact__open >> nth=1`);
+  await page.waitForTimeout(900);
+  const opened = await page.evaluate(() => { const d = document.querySelector('[data-cv-group="facts"] dialog'); return d?.open && !d.querySelector("[data-fact-panel='1']").hidden; });
+  await page.keyboard.press("Escape"); await page.waitForTimeout(900);
+  const closed = await page.evaluate(() => !document.querySelector('[data-cv-group="facts"] dialog').open);
   const after = await page.evaluate(() => document.querySelector('[data-cv-group="facts"]').offsetHeight);
   const below100 = await overlaps();
   await page.evaluate(() => qqCanvas.set({ ...qqCanvas.camera, z: 1 })); await page.waitForTimeout(400);
-  check("A block that expands never overlaps (at its zoom and at 100%)", after > before && !below100.length && !(await overlaps()).length, `${under} groups under it in its columns${(await tops()) !== tops0 ? ", moved down" : ", far enough below to stay"}; facts ${before} → ${after}px${below100.length ? "; overlaps " + below100.join(", ") : ""}`);
+  check("An info block opens its modal and closes it, and nothing moves", opened && closed && after === before && (await tops()) === tops0 && !below100.length && !(await overlaps()).length, `opened ${!!opened}, closed ${closed}; facts ${before} → ${after}px${below100.length ? "; overlaps " + below100.join(", ") : ""}`);
   await page.setViewportSize({ width: 1024, height: 700 }); await page.waitForTimeout(800);
   const resized = await overlaps();
   await page.setViewportSize({ width: 1440, height: 900 }); await page.waitForTimeout(1500);
@@ -349,7 +351,7 @@ try {
     const st = document.querySelector("[data-cv-shell]");
     st.dispatchEvent(new WheelEvent("wheel", { deltaY: -300, ctrlKey: true, clientX: 300, clientY: 300, bubbles: true, cancelable: true }));
     st.focus(); dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
-    document.querySelector('[data-cv-group="facts"] .fact__more').click();
+    document.querySelector('[data-cv-group="facts"] .fact__open').click();
     await new Promise((r) => setTimeout(r, 400));
     return c0 === JSON.stringify(qqCanvas.camera) && qqCanvas.pointers === 0;
   });

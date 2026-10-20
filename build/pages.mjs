@@ -21,7 +21,7 @@ import * as acc from "../src/templates/account.mjs";
 
 const src = resolve(import.meta.dirname, "../src");
 
-// the pages of round 3: address → [the template, the navbar item that is current there]
+// the pages of round 4: address → [the template, the navbar item that is current there]
 const PAGES = [
   ["business/", info.business, "business/"], ["faq/", info.faq], ["delivery/", info.delivery], ["contacts/", info.contactsPage, "contacts/"],
   ["privacy/", info.privacy], ["about/", info.about],

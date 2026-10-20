@@ -1,11 +1,14 @@
 # The system report
 
-One living page about the whole size system of the site, rebuilt every round: what the round changed (with the site
-next to Figma or the previous build), the system, the areas the round touched, every size at every width and height,
-the responsive map, motion, the grammar, the checks and what is next.
+A page about the whole size system of the site, one per round: what the round changed (with the site next to Figma
+or the previous build), the system, the areas the round touched, every size at every width and height, the responsive
+map, motion, the grammar, the checks and what is next. Every page covers the whole system, not only its round, and
+keeps the earlier rounds' «what changed» at its end. Earlier pages stay where they are (Tim, round 3: «keep it
+separate»), so each round publishes a new page.
 
-**The page:** https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (private until shared; also in the project doc
-`claude/website-system.md`). Every round updates the same page; it always covers the whole system, not only the round.
+**The pages** (private until shared; also in the project doc `claude/website-system.md`):
+- Round 3: https://claude.ai/artifact/CESDhXQ6ErVqFQiNT7kuXM
+- Rounds 1–2: https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (round 2's page; round 1's is in its history)
 
 ## Rebuild it
 
@@ -17,13 +20,16 @@ node design/report/tools/areas-round2.mjs <old url> <new url>   # round 2's area
 node design/report/tools/areas.mjs                 # the round's areas at 25 real screens → areas.json
 node design/report/tools/pairs.mjs                 # round 1: Figma (figma/*.png) next to the site → shots/*.jpg
 node design/report/tools/pairs-round2.mjs <old url> <new url>  # round 2: the previous build next to this one → shots/r2-*.jpg
+node design/report/tools/areas-round3.mjs <old url> <new url>   # round 3's areas (footer, new arrivals, the row, the modal) → areas-round3.json
+node design/report/tools/pairs-round3.mjs <old url> <new url>   # round 3: round 2's build next to this one → shots/r3-*.jpg
+node design/report/tools/vt-frames-round3.mjs <new url>          # round 3: the card → page move in four frames (no before)
 npm run -s rules > design/report/rules.txt; npm run -s audit > design/report/audit.txt
 python3 -I design/report/tools/make_data.py        # the words + the measurements → data.json
 python3 -I design/report/build_report.py design/report/data.json /tmp/report.html   # one self-contained page
 ```
 
 The previous build: `git worktree add /tmp/old <last commit of the previous round>`, link node_modules, `npm run build`
-there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json`.
+there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json` (round-1, round-2).
 
 `review.json` holds the independent review's findings with what was done about each (written by hand each round).
 The built HTML is not committed (it repeats the pictures as base64).

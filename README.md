@@ -83,7 +83,7 @@ Chrome and Edge 111+, Safari and iOS 16.4+, Firefox 121+: the layout relies on c
 
 ## Status
 
-Home, catalog, coffee pages and the pages of round 3 (bag, favourites, checkout, account, business, FAQ, delivery,
+Home, catalog, coffee pages and the pages of round 4 (bag, favourites, checkout, account, business, FAQ, delivery,
 contacts, privacy, about) are built and checked (rules, HTML, the audit at 12 sizes). There is no shop behind them yet:
 the bag and favourites live in the visitor's browser, the checkout and the forms send nothing, the account shows a
 placeholder visitor. Not built yet: search, offices, the other categories (cascara, drips, sets, merch), the journal,

@@ -26,8 +26,9 @@
     "lavender-ink": "#7f4fc9"
   },
   "fades": {
-    "$about": "Fades from clear to a colour, eased (as github.com/enisbu/tw-easing-gradients): a straight two-stop gradient shows a hard edge where it ends; these follow an S-curve in 16 stops, so the photo melts into the ground. build/tokens.mjs writes each as --fade-<name>, the stops of a linear-gradient().",
-    "black": { "color": "black", "curve": [0.42, 0, 0.58, 1], "stops": 16 }
+    "$about": "Fades from clear to a colour, eased (as github.com/enisbu/tw-easing-gradients, its standard «ease»): a straight two-stop gradient shows a hard edge where it ends; these follow the curve in 16 stops, so a photo or a pack melts into the ground. Every gradient of the site is one of these (build/rules.mjs). build/tokens.mjs writes each as --fade-<name>, the stops of a linear-gradient().",
+    "black": { "color": "black", "curve": [0.25, 0.1, 0.25, 1], "stops": 16 },
+    "cloud": { "color": "cloud", "curve": [0.25, 0.1, 0.25, 1], "stops": 16 }
   },
   "contrast": {
     "$about": "text colour / ground / least ratio: 4.5 for text, 3 for large text (24px and up) and the parts of controls. ink-60 is only for large text (the inactive catalog tabs) and parts of controls (the hollow weight dot); ink-50 and lighter only for lines and decoration. Secondary text is ink-70.",

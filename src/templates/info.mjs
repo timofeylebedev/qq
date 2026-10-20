@@ -120,10 +120,12 @@ export function faq(ctx) {
 export function delivery(ctx) {
   const { site } = ctx;
   const data = esc(JSON.stringify({ days: site.roast.days, hour: site.roast.hour, tz: site.roast.timezoneOffset }));
-  const items = site.facts.map((f) => ({
-    icon: f.icon, title: f.title, level: 2,
-    html: `<p class="tile__text">${esc(f.more.replace("{hour}", site.roast.hour))}${f.free ? ` От ${rub(site.shop.free)}.` : ""}</p>${f.soon ? `<p class="tile__note" data-roast="${data}"><span data-roast-hours>Ближайшая обжарка — в будний день в ${site.roast.hour}:00</span></p>` : ""}`
-  }));
+  // the three facts of the home page, their sentences as in its modal: «{hour}» the roast hour, «{roast}» the live line
+  // about the next roast (scripts/roast.js); the delivery fact names the free-delivery sum (data/site.json shop)
+  const say = (t, f, last) => t === "{roast}"
+    ? `<p class="tile__note" data-roast="${data}"><span data-roast-in>Ближайшая обжарка — по будням в ${site.roast.hour}:00.</span></p>`
+    : `<p class="tile__text">${esc(t.replace("{hour}", site.roast.hour))}${f.free && last ? ` От ${rub(site.shop.free)}.` : ""}</p>`;
+  const items = site.facts.map((f) => ({ icon: f.icon, title: f.title, level: 2, html: f.more.map((t, i) => say(t, f, i === f.more.length - 1)).join("") }));
   const body = `<section class="section section--first" data-ground="paper" aria-labelledby="delivery-title">
   <div class="col">
     ${pageHead({ title: "Доставка и оплата", id: "delivery-title" })}

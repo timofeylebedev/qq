@@ -29,6 +29,7 @@
 .bitem__media > .media { z-index: 0; }
 .bitem__top { position: relative; z-index: 7; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: var(--card-pad); color: var(--g-fg, var(--c-ink)); }
 .bitem__media:has(.media--photo) .bitem__top, .bitem__media:has(.media--photo) .bitem__row { --g-bg: var(--c-black); --g-fg: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); color: var(--c-paper); }
+.bitem__media:has(.media--photo) .bitem__row { --fade: var(--fade-black); --ground: var(--c-black); }
 .bitem__pick { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; cursor: pointer; }
 .bitem__pick .box { width: 28px; height: 28px; }
 .bitem__tools { display: flex; gap: 16px; }
@@ -38,10 +39,10 @@
 @media (--mouse) { .bitem__remove:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .bitem__row {
   position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr;
-  padding-top: 56px; background: linear-gradient(to bottom, transparent, var(--g-bg, var(--c-cloud)) 56px);
+  --fade: var(--fade-cloud); --ground: var(--c-cloud);
+  padding-top: 56px; background: linear-gradient(to bottom, var(--fade)) top / 100% 56px no-repeat, linear-gradient(var(--ground), var(--ground)) left 0 top 56px / 100% 100% no-repeat;
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
-.bitem__media:not(:has(.media--photo)) .bitem__row { --g-bg: var(--c-cloud); }
 .bitem__row > * { min-height: var(--control-h); border-top: var(--hair) solid var(--line); }
 .bitem__price { display: grid; place-items: center; border-left: var(--hair) solid var(--line); font-feature-settings: "tnum" 1; }
 .stepper { display: flex; align-items: center; justify-content: space-between; padding-inline: 4px; }

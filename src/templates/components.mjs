@@ -59,7 +59,7 @@ export function cardText(p) {
 
 // ── the product card ─────────────────────────────────────────────────────────────────────────────────────────────
 // Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (when site.json gives the coffee
-// a photo). The whole picture links to the coffee's page; the heart and the buy row sit above that link.
+// a photo). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
 export function card(ctx, p, { size = "third", heading = 3 } = {}) {
   const photo = ctx.site.photos.bySlug[p.slug];
   const tone = photo ? "dark" : "light";

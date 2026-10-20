@@ -56,7 +56,7 @@ def _merged_old(axis):
     for page in _old[axis].values():
         for r in page: rows.setdefault(r[k], {}).update(r)
     return [rows[x] for x in sorted(rows)]
-NEW_KEYS = {'--hero-photo', '--hero-fade', '--hero-max'}          # roles the previous build did not have
+NEW_KEYS = {'--modal-w'}                                           # roles the previous build did not have
 before = {ax: [{k: v for k, v in r.items() if k not in NEW_KEYS} for r in _merged_old(ax)] for ax in ('width', 'height')}
 for ax in before:
     for r in before[ax]:
@@ -180,10 +180,11 @@ maprows = [
     {'label': 'Filter rows', 'now': segs('filterRows', lambda v: f"{v} rows" if v > 1 else 'one row')},
     {'label': 'Product stage', 'now': [{'from': 320, 'to': 750, 'label': 'tiles in a column'}, {'from': 750, 'to': 1000, 'label': 'name over pack'}, {'from': 1000, 'to': 1920, 'label': 'tiles scattered'}]},
     {'label': 'Buy bar', 'now': segs('buybarRows', lambda v: f"{v} rows" if v > 1 else 'one row')},
-    {'label': 'Footer', 'now': segs('footerCols', lambda v: f"{v} col")},
+    {'label': 'Footer', 'now': segs('footerRatio', lambda v: 'links, then flame' if v < 0.6 else ('two squares' if abs(v - 1) < 0.02 else 'two halves, taller')), 'before': segs('footerCols', lambda v: 'links, then flame' if v == 1 else 'two halves', before['width'])},
+    {'label': 'Recommended row', 'now': segs('reelBleed', lambda v: 'to the screen\'s edges' if v > 1 else 'the column'), 'before': segs('reelBleed', lambda v: 'to the screen\'s edges' if v > 1 else 'the column', before['width'])},
 ]
 
-R2_IDS = {'countdown-as-caption', 'nav-steps', 'nav-links-pages', 'nav-ground', 'hover-tint', 'one-line-colour', 'hero-height', 'nav-height', 'mobile-menu'}
+R2_IDS = {'footer-squares', 'reel-bleed', 'featured-photos', 'page-transition', 'facts-modal', 'font-headings', 'facts-text'}   # round 3's (new or changed)
 decision_items = [{'id': d['id'], 'kind': d['kind'], 'what': d['what'], 'why': d['why'], 'decided': d['decided'], 'isNew': d['id'] in R2_IDS} for d in dec]
 nd = {k: sum(1 for d in dec if d['kind'] == k) for k in ('decision', 'exception', 'placeholder')}
 audit_clean = 'clean' in audit.splitlines()[-1] if audit.strip() and audit != '(not run)' else False
@@ -202,7 +203,8 @@ R2 = J(HERE, 'areas-round2.json')
 A2 = {r['size']: (o, r) for o, r in zip(R2['old'], R2['new'])}
 def a2(size, key): return A2[size][1][key]
 def a2was(size, key): return A2[size][0][key]
-PR2 = 'https://github.com/timofeylebedev/qq/pulls'
+PR2 = 'https://github.com/timofeylebedev/qq/pull/3'
+PR3 = 'https://github.com/timofeylebedev/qq/pull/5'
 shots_r2 = [
     {'title': 'Navbar at 1440', 'src': 'shots/r2-navbar-1440.jpg', 'text': 'No lines between the groups (16px of air instead); the profile icon added; the bar\'s own margin is the small 16px; colours of the section under it (black over the hero).'},
     {'title': 'Navbar hover at 1440', 'src': 'shots/r2-navbar-hover-1440.jpg', 'text': 'Before: the other links dimmed to 60%. After: only the item under the pointer changes, a white tint at 20% behind it (ink at 6% on light grounds).'},
@@ -275,22 +277,113 @@ nav2_tbl = {'type': 'table', 'title': 'The navbar at 25 screens', 'sub': 'Step: 
     'columns': [{'label': 'Screen'}, {'label': 'Step'}, {'label': 'Icons', 'num': True}, {'label': 'Logo', 'num': True}, {'label': 'Last icon', 'num': True}],
     'rows': [[n['size'], was(o['step'], n['step']), was(o['icons'], n['icons']), was(o['logoX'], n['logoX']), was(o['iconX'], n['iconX'])] for o, n in zip(R2['old'], R2['new'])]}
 
+# ══ Round 3 ════════════════════════════════════════════════════════════════════════════════════════════════════════
+# «before» is round 2's build (branch round-2, commit 7c5f586), swept into sweep-before.json; the round's areas
+# (footer, new arrivals, the recommended row, the info modal) at 25 screens on both builds are in areas-round3.json.
+R3 = J(HERE, 'areas-round3.json')
+A3 = {n['size']: (o, n) for o, n in zip(R3['old'], R3['new'])}
+def a3(size, key, old=False): return A3[size][0 if old else 1][key]
+ROUND2 = J(HERE, 'rounds/round-2.json')
+shots_r3 = [
+    {'title': 'Packs while the page scrolls (1440)', 'src': 'shots/r3-packs-scroll-1440.jpg', 'text': 'A 300px scroll, the picture 200ms in. Before: the packs leaned with their place on the screen and the scroll\'s speed. After: they stay upright (still trailing their slots a little).'},
+    {'title': 'Новинки at 1280', 'src': 'shots/r3-featured-1280.jpg', 'text': f"The pager in the middle of the head ({a3('1280×800','pagerDx')}px off its centre; before {a3('1280×800','pagerDx', True)}); two equal squares {a3('1280×800','featText')} + {a3('1280×800','featMedia')}; a photo on the right without a hairline; the taste box in two even halves ({a3('1280×800','facts')})."},
+    {'title': 'Новинки at 1024', 'src': 'shots/r3-featured-1024.jpg', 'text': f"The tightest square: both {a3('1024×768','featText')} wide and square, the story cut to the {a3('1024×768','lines')} whole lines that fit (before 8)."},
+    {'title': 'Новинки on a phone (390)', 'src': 'shots/r3-featured-390.jpg', 'text': 'Below M the text stands over the photo, the taste chart over the pills; the pager takes its own row under the title and the arrows, centred.'},
+    {'title': 'Рекомендуем sliding (1440)', 'src': 'shots/r3-reel-slide-1440.jpg', 'text': 'The arrow pressed, the picture 220ms in. Before the cards were cut at the column; now the row runs to the screen\'s edges and the packs turn, leading edge away, trailing their slots.'},
+    {'title': 'Рекомендуем rising in (1440)', 'src': 'shots/r3-reel-rise-1440.jpg', 'text': 'The row reaching the screen, 260ms in: the cards rise one after another (90ms apart) from 48px below and from clear; each pack fades with its card and tilts up as it is carried.'},
+    {'title': 'The price hovered', 'src': 'shots/r3-card-hover-price-1440.jpg', 'text': 'Before: the cell filled with ink. After: the bag and the price fade to 60%, the ground stays.'},
+    {'title': 'The heart hovered', 'src': 'shots/r3-card-hover-heart-1440.jpg', 'text': 'The heart fades to 60% under the pointer (it shows when the card is hovered, as before).'},
+    {'title': 'The info blocks (1440)', 'src': 'shots/r3-facts-1440.jpg', 'text': 'No hairline above the three blocks; each is one button with the ringed plus (32px, as in Figma).'},
+    {'title': 'An info block opened (1440)', 'src': 'shots/r3-facts-open-1440.jpg', 'text': f"Before: the plus opened one sentence in the block. After: the block grows into a {a3('1440×900','modalW')}px box over the dimmed page (Figma info-blocks-modal): icon, title, text, the cross, «‹ Доставка | Оплата ›»."},
+    {'title': 'An info block opened (390)', 'src': 'shots/r3-facts-open-390.jpg', 'text': 'On a phone the modal is a sheet at the foot of the screen, as wide as it.'},
+    {'title': 'Footer at 1440', 'src': 'shots/r3-footer-1440.jpg', 'text': f"Two squares {a3('1440×900','fBrand')} (before {a3('1440×900','fBrand', True)}); the animated flame centred by its mass ({a3('1440×900','fMarkDy')}px off the square\'s middle); the newsletter line on one line."},
+    {'title': 'Footer at 1920', 'src': 'shots/r3-footer-1920.jpg', 'text': 'The column at its most: a hairline on each side of the two squares, as the hero\'s cells have.'},
+    {'title': 'The legal line (1440)', 'src': 'shots/r3-footer-legal-1440.jpg', 'text': f"Before: the policy {a3('1440×900','legalDy', True)}px lower than the copyright, underlined. After: one baseline ({a3('1440×900','legalDy')}px), no underline, both ink 70%."},
+    {'title': 'Footer at 1024', 'src': 'shots/r3-footer-1024.jpg', 'text': f"The narrowest L: two halves of {a3('1024×768','fLinks')}, taller than square ({a3('1024×768','fBrand')}) because the links need the room."},
+    {'title': 'Footer on a phone (390)', 'src': 'shots/r3-footer-390.jpg', 'text': 'Below L the links come first and the flame closes the page.'},
+    {'title': 'A card\'s fade (1440)', 'src': 'shots/r3-fade-card-1440.jpg', 'text': 'The fade behind the buy row: before two stops (a visible edge where it ends), now 16 stops on the «ease» curve of tw-easing-gradients.'},
+    {'title': 'A business card\'s fade (1440)', 'src': 'shots/r3-fade-business-1440.jpg', 'text': 'The same eased fade from the photo into the black of the card\'s text cells.'},
+    {'title': 'The hero\'s fade (1440)', 'src': 'shots/r3-fade-hero-1440.jpg', 'text': 'The hero\'s fade now follows «ease» (before an S-curve, 0.42 0 0.58 1): it leaves the photo sooner and settles into black longer.'},
+    {'title': 'PT Mono (1440)', 'src': 'shots/r3-type-1440.jpg', 'text': 'Headings and names in PT Mono Bold, as in Figma (before JetBrains Mono Bold).'},
+    {'title': 'A card opening its coffee (1280)', 'src': 'shots/r3-card-to-page-1280.jpg', 'text': 'After only (before: a plain page load). Frames at 0, 150, 300 and 600ms: the card\'s name and pack travel to the page\'s title and big pack while the rest cross-fades.'},
+]
+changes_r3 = [
+    {'section': '3D packs', 'items': [
+        ['1. No tilt on scroll', 'The shelf lean (a tilt by the pack\'s place on the screen, up to 0.17 rad) and the lean with the scroll\'s speed (up to 0.45 rad) are gone: scrolling the page never tilts a pack. They still trail their slots a little (round 2) and turn towards the pointer.', 'done'],
+    ]},
+    {'section': 'New section (Новинки)', 'items': [
+        ['1. The numbers block centred', f"The head is three columns from M: the title, the pager, the arrows; the pager\'s centre is {a3('1440×900','pagerDx')}px off the head\'s at every screen measured (before {a3('1440×900','pagerDx', True)}px at 1440). Below M it takes its own row, centred.", 'done'],
+        ['2. The card in two columns (the left one became larger sometimes)', f"Two tracks of <code>minmax(0, 1fr)</code>, both squares, and the text square can no longer grow: its story is cut to the whole lines that fit (8 at 1440, {a3('1024×768','lines')} at 1024). Measured: two squares at every L screen ({a3('1024×768','featText')} at 1024, {a3('1440×900','featText')} at 1440, all five slides). In Chromium round 2 measured even too, also with 20px browser text, so I could not see the larger left one: was it in Safari, or on the test site (still round 1)? Whatever made it grow is gone now.", 'check'],
+        ['3. The right column a photo, without a border', 'Every slide shows a photo: the coffee\'s own, else the next of four moodboard photos (a placeholder, decision featured-photos). The hairline is gone with the pack square.', 'done'],
+        ['4. The whole card a link', 'The name\'s link is stretched over the whole slide (text, taste box and photo); the caption lets clicks through. Measured: a click on the story, the pills, the photo and the caption opens the coffee.', 'done'],
+        ['5. The table evenly two columns', f"Two equal halves from M: {a3('1440×900','facts')} at 1440 (before {a3('1440×900','facts', True)}), {a3('1280×800','facts')} at 1280. Two exceptions: below M the chart stands above the pills (a half of a phone can\'t hold the scales\' names and the plot: it squeezed the plot); and on L\'s narrowest screens the chart keeps its size, so its half is a little wider (12px at 1000, 3 at 1024, 0 from 1030).", 'differently'],
+        ['6. A magazine-like swipe: explore options in an artifact', "Five options in a test bench: <a href='https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy'>Новинки: листаем журнал</a> (a stiff page turn, a bending glossy page, a slide-over, a pile, an editorial cut), each dragged by hand or played by the arrows, with a duration control and slow motion. Pick one and it goes on the site.", 'check'],
+    ]},
+    {'section': 'Recommended (Рекомендуем)', 'items': [
+        ['1. Packs tilt horizontally on sliding, lagging a bit behind', 'A pack\'s lag is now two parts: the page\'s scroll (it only trails) and its slot\'s own move on the page. When the row slides the pack trails and turns so its leading edge recedes, up to 0.55 rad at the full trail (<code>TUNE.carryTurn</code>), settling at 9 per second.', 'done'],
+        ['2. The wrapper should not crop the cards', f"The row runs out to the screen\'s edges ({a3('1440×900','reelW')} wide at 1440 against a column of {a3('1440×900','colW')}), padded back, so its cards still stand and snap on the column ({a3('1440×900','firstAt')}px off it); 48px of room under the cards for them to rise.", 'done'],
+        ['3. The new card moves into place from below and from opacity 0; its pack tilts vertically and lags', 'Cards out of view wait 48px below (<code>--section-gap</code>) and clear; coming into view, when the row reaches the screen (one after another, 90ms apart) or sliding in, they rise over 0.9s (<code>--t-rise</code>) and fade in over 0.6s. Their pack is carried: it trails and tilts up (<code>TUNE.carryTilt</code> 0.45) and fades with its card (a new per-pack alpha in the renderer).', 'done'],
+        ['4. The price button: icon and text more transparent, the ground as it was', 'Hovered, the bag and the price go to ink 60% (white 60% on a photo card); the ground stays (before it filled with ink).', 'done'],
+        ['5. The favourite icon more transparent', 'Hovered, the heart goes to ink 60% (white 60% on a photo card).', 'done'],
+        ['6. The whole card, the text under it too, a link', 'The name\'s link is stretched over the whole card; nothing between them is positioned any more (the picture\'s layers share one grid cell). Measured on home, catalog and a coffee\'s page: the picture, the name and the text open the coffee; the heart, the weights and the price button keep their own clicks.', 'done'],
+    ]},
+    {'section': '3 blocks (обжарка, доставка, оплата)', 'items': [
+        ['1. No top border', 'The hairline above the blocks is gone (the business section ends above them).', 'done'],
+        ['2. On click they grow into a modal with description and buttons (Figma)', f"Each block is one button. Pressed, a white ground grows from the block\'s box to the modal\'s ({a3('1440×900','modalW')}px at 1440, {a3('1024×768','modalW')} at 1024: <code>--modal-w</code> 360 → 520), the icon and the title travel to their places at the same size, the plus travels to the corner and turns into the cross; the text and «‹ Доставка | Оплата ›» fade in after (0.6s). The row steps to the other blocks; Esc, the cross or a click beside it shrinks it back into its block. On a phone a sheet at the foot. The roasting text is Figma\'s, with the next roast live («Ближайшая обжарка через 3 часа»).", 'done'],
+    ]},
+    {'section': 'Footer', 'items': [
+        ['1. On larger screens two square containers', f"From L two equal halves, each at least a square: square from about 1360 wide ({a3('1440×900','fBrand')} at 1440, {a3('1920×1080','fBrand')} at 1920); narrower the links need more height and both halves grow with them ({a3('1280×800','fBrand')} at 1280, {a3('1024×768','fBrand')} at 1024).", 'differently'],
+        ['2. At max width, borders on the left and right', 'From the column\'s 1520px (screens from about 1616) a hairline on each side, the copyright and the links standing off them.', 'done'],
+        ['3. The logo optically centred', f"The animated flame (your file, 27 KB gzipped, loaded lazily; its first frame with «reduce motion») is centred by its mass, measured over its whole animation: 50.5% across, 62.9% down its box. That lifts it by 12% of its height, as the Figma footer\'s 40px of a 320px logo. Its mass centre is {a3('1440×900','fMarkDy')}px off the square\'s middle at every L screen.", 'done'],
+        ['4. The small texts properly aligned', f"One size, one colour (ink 70%) and one baseline: {a3('1440×900','legalDy')}px apart (before {a3('1440×900','legalDy', True)}px: the link had its own padding and underline).", 'done'],
+        ['5. «Политика конфиденциальности» without an underline', 'No underline; hovered it darkens to ink.', 'done'],
+        ['6. «Расскажем о появлении скидок и новинок» one line when there is room', f"The line and the field share a row while both fit, and the line keeps whole: one line at {sum(1 for o, n in zip(R3['old'], R3['new']) if n['newsLines'] == 1)} of 25 screens (before {sum(1 for o, n in zip(R3['old'], R3['new']) if o['newsLines'] == 1)}); two only where the screen is narrower than the line.", 'done'],
+        ['PT Mono and the logo animation (your files)', 'PT Mono Bold for every heading and name, cut to the text face\'s characters (13 KB; the ParaType Free Font Licence allows web use); the flame in the footer.', 'done'],
+    ]},
+    {'section': 'Gradients', 'items': [
+        ['All gradients eased (tw-easing-gradients): hero, product card, business card…', 'Every gradient is one of the eased fades of colors.json: 16 stops on CSS\'s standard «ease» (0.25, 0.1, 0.25, 1), the default of tw-easing-gradients; a new cloud fade for light cards. Changed: the card\'s buy row (was two stops), the business cards (two stops), the featured caption (two stops), the hero (was an S-curve). A new rule fails any hand-written fade.', 'done'],
+    ]},
+    {'section': 'Card → product page', 'items': [
+        ['A card on a click transforms into the product page seamlessly (the title and the pack travel)', 'A cross-document view transition: the card\'s name becomes the page\'s title and its pack the big pack, travelling and growing over 0.6s while the pages cross-fade (0.45s); the way back does the same. The 3D canvas cannot be captured, so for that moment the packs show their stills, and the big pack arrives facing front. Chrome 126+ and Safari 18.2+; elsewhere the page simply opens.', 'check'],
+    ]},
+]
+breaks_r3 = [
+    'Every page change now cross-fades (0.45s), not only a card opening its coffee. With «reduce motion» there is no transition.',
+    'While a card rises into place (0.9s) its pack draws above its name and buy row: a moving, fading card is a layer of its own. At rest the layers are as before.',
+    f"The footer is square only from about 1360 wide; at 1024–1350 the links need more than the square ({a3('1024×768','fBrand')} at 1024).",
+    'Card descriptions under the cards are part of the link now, so their text can\'t be selected (it couldn\'t be drag-selected before either).',
+    'The new arrivals cut their story to fewer lines on narrow L screens (4–6 at 1024 instead of 8), so the text square stays square.',
+    'Below M the taste chart and the pills stack again (round 2 had them side by side from S, which squeezed the chart on a phone once the halves were made even).',
+    'Pages for the info blocks («Доставка», «Оплата») are not designed: the modal is the only place their text lives.',
+    'The 3D packs no longer lean when the page scrolls, so the shelf feeling is gone; the trail and the pointer turn remain.',
+]
+def was3(o, n): return f"<span class='was'>{o}</span> {n}" if o != n else f"{n}"
+footer3_tbl = {'type': 'table', 'title': 'The footer at 25 screens', 'sub': 'Brand: the left half (width × height; a square from L where the links fit). Mass: how far the flame\'s mass centre stands from the square\'s middle (from L). Legal: the distance between the baselines of the copyright and the policy. News: the newsletter line\'s lines.',
+    'columns': [{'label': 'Screen'}, {'label': 'Halves', 'num': True}, {'label': 'Brand'}, {'label': 'Mass', 'num': True}, {'label': 'Legal', 'num': True}, {'label': 'News', 'num': True}, {'label': 'Sides'}],
+    'rows': [[n['size'], was3(o['fCols'], n['fCols']), was3(o['fBrand'], n['fBrand']), '—' if n['fMarkDy'] is None else n['fMarkDy'], was3(o['legalDy'], n['legalDy']), was3(o['newsLines'], n['newsLines']), was3(o['sides'], n['sides'])] for o, n in zip(R3['old'], R3['new'])]}
+feat3_tbl = {'type': 'table', 'title': 'New arrivals at 25 screens', 'sub': 'Text / photo: the widths of the two halves (one above the other below L). Heights: text / photo. Taste box: its two cells. Pager: its centre off the head\'s. Lines: the story\'s whole lines.',
+    'columns': [{'label': 'Screen'}, {'label': 'Text', 'num': True}, {'label': 'Photo', 'num': True}, {'label': 'Heights'}, {'label': 'Taste box'}, {'label': 'Pager', 'num': True}, {'label': 'Lines', 'num': True}],
+    'rows': [[n['size'], was3(o['featText'], n['featText']), was3(o['featMedia'], n['featMedia']), was3(o['featH'], n['featH']), was3(o['facts'], n['facts']), was3(o['pagerDx'], n['pagerDx']), was3(o['lines'], n['lines'])] for o, n in zip(R3['old'], R3['new'])]}
+reel3_tbl = {'type': 'table', 'title': 'The recommended row and the info modal at 25 screens', 'sub': 'Row: its width against the column (it runs to the screen\'s edges now). First card: its left edge off the column\'s. Modal: the opened box (width × height; a sheet on a phone).',
+    'columns': [{'label': 'Screen'}, {'label': 'Row', 'num': True}, {'label': 'Column', 'num': True}, {'label': 'First card', 'num': True}, {'label': 'Modal'}, {'label': 'Kind'}],
+    'rows': [[n['size'], was3(o['reelW'], n['reelW']), n['colW'], was3(o['firstAt'], n['firstAt']), f"{n.get('modalW')} × {n.get('modalH')}", n.get('sheet', '—')] for o, n in zip(R3['old'], R3['new'])]}
+
 data = {
-  'meta': {'key': 'qq-system-report', 'title_tag': 'QQ Site System',
+  'meta': {'key': 'qq-system-report-r3', 'title_tag': 'QQ Site System, Round 3',
     'name': 'QQ Coffee <span>· the site system</span>',
-    'eyebrow': f"Round 2 · branch round-2 · <a href='{PR2}'>pull request</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a>",
-    'title': 'One fluid size system for home, catalog and 25 coffee pages; round 2: a navbar on grounds, the hero in rows',
-    'lede': f"The whole system of the QQ Coffee site: {len(sroles) + len(troles)} size roles drawn as lines from a 320 to a 1440 screen, three shared layout steps and the column at its most, one colour table with one line colour, one motion vocabulary, the 3D packs. Round 2 rebuilt the navbar (four steps, the colours of the section under it, a tab bar on phones) and the hero (screen less 24, three shared rows, a countdown as wide as its caption), made every line one colour, and the packs trail and press. Measured at every 10px of width and 25px of height; «before» is round 1's build.",
-    'footer': f"Measured in headless Chromium on the built sites, {sweep['measured'][:10]}. Before = round 1 (branch component-canvas, commit 6673a8f); now = branch round-2. Round 1's «before» was the Figma frames."},
+    'eyebrow': f"Round 3 · branch round-3 · <a href='{PR3}'>pull request</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a>",
+    'title': 'One fluid size system for home, catalog and 25 coffee pages; round 3: the footer in squares, cards that are links, blocks that open, pages that flow',
+    'lede': f"The whole system of the QQ Coffee site: {len(sroles) + len(troles)} size roles drawn as lines from a 320 to a 1440 screen, three shared layout steps and the column at its most, one colour table with one line colour, one motion vocabulary, the 3D packs. Round 3 brought PT Mono and the animated flame, two square halves for the footer, whole-card links, a recommended row that runs to the screen's edges with cards rising in, new arrivals in two equal squares, info blocks that grow into a modal, eased fades everywhere and a card that opens its coffee in one move; the packs no longer tilt with the scroll. Measured at every 10px of width and 25px of height; «before» is round 2's build.",
+    'footer': f"Measured in headless Chromium on the built sites, {sweep['measured'][:10]}. Before = round 2 (branch round-2, commit 7c5f586); now = branch round-3. Round 2's «before» was round 1's build, round 1's the Figma frames."},
   'sections': [
-    {'id': 'changes', 'nav': 'Round 2', 'title': 'Round 2: what changed', 'sub': 'Your comments in your order and under your headings, what was done with each (measured before → now), and the two builds side by side.', 'blocks': [
-      {'type': 'stats', 'items': [{'n': sum(len(g['items']) for g in changes_r2), 'unit': 'comments', 'text': ', '.join(f"{sum(1 for g in changes_r2 for i in g['items'] if i[2] == t)} {w}" for t, w in (('done', 'done'), ('differently', 'done differently'), ('check', 'for you to check')))},
-                                  {'n': 4, 'unit': 'steps', 'text': 'of the navbar: every section, four short ones, the burger, the tab bar'},
-                                  {'n': 0, 'unit': 'px', 'text': 'between each countdown part and its link, and between the digits and the caption'},
-                                  {'n': 10, 'unit': 'rules', 'text': 'checked on every build: «one line colour» is new' + (' · audit clean' if audit_clean else '')}]},
-      {'type': 'shots', 'label': 'What it looks like', 'note': 'Round 1 in grey, round 2 in blue, at the size each caption names. Click a picture to open it large; arrows and Escape work.', 'items': shots_r2},
-      {'type': 'changes', 'groups': [{'section': g['section'], 'items': [{'ask': a, 'done': d, 'tag': t} for a, d, t in g['items']]} for g in changes_r2]},
-      {'type': 'list', 'title': 'What this changes that you may not expect', 'items': breaks_r2},
+    {'id': 'changes', 'nav': 'Round 3', 'title': 'Round 3: what changed', 'sub': 'Your comments in your order and under your headings, what was done with each (measured before → now), and the two builds side by side.', 'blocks': [
+      {'type': 'stats', 'items': [{'n': sum(len(g['items']) for g in changes_r3), 'unit': 'comments', 'text': ', '.join(f"{sum(1 for g in changes_r3 for i in g['items'] if i[2] == t)} {w}" for t, w in (('done', 'done'), ('differently', 'done differently'), ('check', 'for you to check')))},
+                                  {'n': 2, 'unit': 'squares', 'text': f"in the footer from about 1360 wide; the flame's mass {a3('1440×900','fMarkDy')}px off the middle"},
+                                  {'n': 5, 'unit': 'ways', 'text': 'to turn the new arrivals like a magazine, in a test bench'},
+                                  {'n': len(rules_items) or 11, 'unit': 'rules', 'text': 'checked on every build: «every fade eased» is new' + (' · audit clean' if audit_clean else '')}]},
+      {'type': 'shots', 'label': 'What it looks like', 'note': 'Round 2 in grey, round 3 in blue, at the size each caption names. Click a picture to open it large; arrows and Escape work.', 'items': shots_r3},
+      {'type': 'changes', 'groups': [{'section': g['section'], 'items': [{'ask': a, 'done': d, 'tag': t} for a, d, t in g['items']]} for g in changes_r3]},
+      {'type': 'list', 'title': 'What this changes that you may not expect', 'items': breaks_r3},
     ]},
     {'id': 'system', 'nav': 'System', 'title': 'The system', 'sub': 'design/scale.json: one range (320 → 1440), one ladder, roles with two ends. build/tokens.mjs writes one clamp() per role and checks the rules.', 'blocks': [
       {'type': 'ladder', 'title': 'The ladder', 'sub': 'Steps of 2 up to 24, of 4 up to 64, of 8 up to 128, of 16 up to 256. Every end of every role sits on it (dots).', 'values': L,
@@ -314,7 +407,7 @@ data = {
        'columns': [{'label': 'Token'}, {'label': 'Value'}, {'label': 'Use', 'muted': True}],
        'rows': [[f"<code>--c-{k}</code>", f"<span style='display:inline-block;width:12px;height:12px;vertical-align:-1px;margin-right:6px;border:1px solid #444;background:{(v['hex'] if isinstance(v, dict) else v)}'></span><code>{(v['hex'] if isinstance(v, dict) else v)}</code>", (v.get('use', '') if isinstance(v, dict) else '')] for k, v in colors['colors'].items()]},
     ]},
-    {'id': 'navbar', 'nav': 'Navbar', 'title': 'The navbar and the tab bar', 'sub': 'New this round: four steps, the colours of the section under it, one max width with the column, a tab bar on phones.', 'blocks': [
+    {'id': 'navbar', 'nav': 'Navbar', 'title': 'The navbar and the tab bar', 'sub': 'Unchanged in round 3 (round 2 built it: four steps, the colours of the section under it, one max width with the column, a tab bar on phones). The table is round 2\'s measure, round 1 struck.', 'blocks': [
       {'type': 'cards', 'cols': 3, 'items': [
         {'title': 'Steps', 'html': 'Every section in three groups from <b>64em</b> (1024, the screen of L); «Каталог, Бизнесу, Журнал, Контакты» from <b>48em</b> (768, the screen of M); the burger below; under <b>40em</b> (640) the tab bar. In em, so bigger browser text takes the narrower step sooner. <code>media.css</code>: --links-full, --links, --phone.'},
         {'title': 'Width', 'html': 'The bar\'s margin is 16px (the small gutter); its content <code>min(100% − 2 × (16 − 8), --col-max + 2 × 8)</code>: the logo\'s and icons\' boxes carry 8px of air, so the glyphs stand 16px from the edges, and on the column\'s edges once it is at its most (1616 and up).'},
@@ -324,21 +417,61 @@ data = {
         {'title': 'Tab bar', 'html': '56px + the safe area, four equal cells with icon and label (<code>--type-small</code>); the bag\'s count only. Everything fixed to the foot stands on it through <code>--tabbar-h</code> (the buy bar, the toast, the menu\'s height, the hero).'},
       ]},
       nav2_tbl]},
-    {'id': 'hero', 'nav': 'Hero', 'title': 'The hero', 'sub': 'The first screen of the home page: the photo, the eased fade, the title, the countdown to the next roast, three links.', 'blocks': [
+    {'id': 'hero', 'nav': 'Hero', 'title': 'The hero', 'sub': 'The first screen of the home page. Round 3 changed only its fade (the «ease» curve) and its title\'s face (PT Mono). The table is round 2\'s measure, round 1 struck.', 'blocks': [
       {'type': 'cards', 'cols': 3, 'items': [
         {'title': 'Height', 'html': '<code>min(100svh − 24 − tab bar, --hero-max)</code>, and never less than the navbar + <code>--hero-photo</code> (48 → 120) + <code>--hero-fade</code> (64 → 160) + the cells. <code>--hero-max</code> 960 → 1200 stops a portrait tablet or a 2560 screen (decision hero-height).'},
         {'title': 'Rows', 'html': 'Below M the title, the countdown and the links stack. From M the countdown and the links share three equal rows (subgrid), title above; from L the title takes the first cell beside them. Row padding <code>--hero-cell-y</code> 12 → 20; texts trimmed to cap height and baseline.'},
         {'title': 'Countdown', 'html': 'Everything as wide as the caption (13.9em of <code>--type-control</code>): the digits are control × 13.9 / 3 in tabular Technology (build/fonts.py), a date control × 13.9 / (0.65 × its letters) in mono. More than 24h to wait shows the date. Moscow time, the placeholder weekday schedule.'},
         {'title': 'Frame', 'html': 'At the container step <code>max</code> (the column at 1520px) the cells get a hairline on each side and the title 48px of padding.'},
-        {'title': 'Fade', 'html': '<code>--fade-black</code>: 16 stops along cubic-bezier(0.42, 0, 0.58, 1), from colors.json fades; over <code>--hero-fade</code>.'},
+        {'title': 'Fade', 'html': '<code>--fade-black</code>: 16 stops along «ease», cubic-bezier(0.25, 0.1, 0.25, 1) (round 3; was 0.42, 0, 0.58, 1), from colors.json fades; over <code>--hero-fade</code>.'},
         {'title': 'Entrance', 'html': 'The cells rise one section gap and fade in, 0.9s on --ease-out after 0.2s (<code>--t-rise</code>).'},
       ]},
       hero2_tbl]},
+    {'id': 'featured', 'nav': 'Новинки', 'title': 'New arrivals', 'sub': 'One coffee at a time: a text square and a photo square, the pager in the middle of the head. New in round 3.', 'blocks': [
+      {'type': 'cards', 'cols': 3, 'items': [
+        {'title': 'Halves', 'html': 'From L two tracks of <code>minmax(0, 1fr)</code>, both <code>aspect-ratio: 1</code>; below L the text above the photo. The text square never grows: <code>scripts/slider.js</code> cuts the story to the whole lines that fit between the name and the taste box (<code>--lines</code>, at most 8).'},
+        {'title': 'Photo', 'html': 'The coffee\'s own photo, else the next of <code>featured.photos</code> (four moodboard photos, placeholder); its line over the eased black fade. No hairline beside it.'},
+        {'title': 'Head', 'html': 'From M three columns <code>1fr auto 1fr</code>: title, pager, arrows; the pager is in the head\'s middle wherever the title and arrows are. Below M the pager has its own row.'},
+        {'title': 'Taste box', 'html': 'The taste chart and the pills in two equal halves from M (<code>minmax(min-content, 1fr) minmax(0, 1fr)</code>: the chart never shrinks, so on 1000–1030 screens its half is up to 12px wider); below M the chart over the pills.'},
+        {'title': 'Link', 'html': 'The name\'s link stretched over the slide (<code>::after</code>, z-index 6); the caption above it lets clicks through.'},
+        {'title': 'Swipe', 'html': 'Still the ordinary scroll-snap row. A magazine-like turn is being chosen in <a href=\'https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy\'>the test bench</a>.'},
+      ]},
+      feat3_tbl]},
+    {'id': 'reel', 'nav': 'Рекомендуем', 'title': 'The recommended row and the card', 'sub': 'Round 3: the row runs to the screen\'s edges, cards rise into place, a card is one link, its hovers fade back.', 'blocks': [
+      {'type': 'cards', 'cols': 3, 'items': [
+        {'title': 'Bleed', 'html': 'The row is widened by the column\'s margins and padded back (<code>--bleed-l</code>, <code>--bleed-r</code>, measured from the column by script), with <code>scroll-padding</code> the same: its cards stand and snap on the column, but slide out to the screen\'s edges. Without the script it is the column.'},
+        {'title': 'Rise', 'html': 'Out of view a card waits <code>--section-gap</code> below and clear (<code>[data-wait]</code>); in view it rises over <code>--t-rise</code> and fades over <code>--t-move</code> on <code>--ease-out</code>, the first ones 90ms apart. Not with «reduce motion».'},
+        {'title': 'Carried packs', 'html': 'A pack whose slot moves on the page (a sliding row, a rising card) trails it and tilts, leading edge away: <code>carryTurn</code> 0.55 sideways, <code>carryTilt</code> 0.45 up and down, at the full trail (12% of its height, ≤ 40px). The page\'s scroll only trails, never tilts.'},
+        {'title': 'One link', 'html': 'The name\'s link is stretched over <code>.card</code>; the picture\'s layers (photo, pack, name, buy row) share one grid cell, so nothing between is positioned. The heart and the buy row sit above it at z-index 7.'},
+        {'title': 'Hovers', 'html': 'The price button and the heart fade to <code>--fg-soft</code> (ink 60%, white 60% on a photo card); grounds stay.'},
+        {'title': 'Fade', 'html': 'The buy row stands on <code>--fade</code>: the cloud fade on light cards, the black one on photo cards (16 stops, «ease»).'},
+      ]},
+      reel3_tbl]},
+    {'id': 'facts', 'nav': 'Info modal', 'title': 'The info blocks and their modal', 'sub': 'Three blocks that grow into one modal (Figma info-blocks-modal). New in round 3.', 'blocks': [
+      {'type': 'cards', 'cols': 3, 'items': [
+        {'title': 'Blocks', 'html': 'Three buttons divided by hairlines (no line above them now): the icon, the title, the ringed plus (32px). Hover: the tint of the ground.'},
+        {'title': 'Modal', 'html': 'One <code>&lt;dialog&gt;</code> (focus held inside, Esc closes, focus back on its block): a box of <code>--modal-w</code> (360 → 520) over ink 20%; under 40em a sheet at the foot, as wide as the screen. Icon, title (the block\'s size), the text, the cross; «‹ prev | next ›» step to the other blocks.'},
+        {'title': 'Growing', 'html': 'The white ground grows from the block\'s box (an empty box may scale); the icon and title travel at their size; the plus travels and turns 45° into the cross; the text and the step row fade in after 30% of the 0.6s. All on <code>--ease-out</code>; back the same way into the block it shows.'},
+        {'title': 'Stepping', 'html': 'The panel slides out 24px and fades (0.23s), the next slides in (0.45s), the ground eases to the new height.'},
+        {'title': 'Live text', 'html': '«Ближайшая обжарка через N часов» (or minutes, or the day when it is more than a day away) from the roast schedule, as the hero\'s countdown.'},
+        {'title': 'Without motion', 'html': 'With «reduce motion» it simply opens and closes.'},
+      ]}]},
+    {'id': 'footer', 'nav': 'Footer', 'title': 'The footer', 'sub': 'Two halves from L, the animated flame, the legal line. New in round 3.', 'blocks': [
+      {'type': 'cards', 'cols': 3, 'items': [
+        {'title': 'Squares', 'html': 'From L two tracks of <code>minmax(0, 1fr)</code>; the left half is <code>aspect-ratio: 1</code> and stretches with the row, so both are square while the links fit (from about 1360 wide), taller where they need more.'},
+        {'title': 'Flame', 'html': 'Your SMIL file (one path, 109 shapes over 5s, 27 KB gzipped) as a lazy <code>&lt;img&gt;</code>; with «reduce motion» its first frame. <code>--footer-logo</code> wide (104 → 216).'},
+        {'title': 'Optical centre', 'html': 'The flame\'s mass centre, measured over its animation (50.5% across, 62.9% down its box), stands on the square\'s middle: <code>translate(-50.5%, -62.9%)</code>. Its box\'s middle would set it 12% of its height low (the bowl is heavy, the tip thin).'},
+        {'title': 'Legal line', 'html': 'Copyright and policy: <code>--type-small</code>, ink 70%, one baseline (<code>align-items: baseline</code>), no underline; hover darkens the policy.'},
+        {'title': 'Newsletter', 'html': 'The line and the field in one row while both fit (the line <code>flex: 1 1 max-content</code>, the field from 16rem); else the line over the field, whole when it can be.'},
+        {'title': 'Frame', 'html': 'At the step <code>max</code> (the column at 1520) a hairline on each side, the texts standing off it by <code>--tile-pad</code>.'},
+      ]},
+      footer3_tbl]},
     {'id': 'stage', 'nav': 'Product stage', 'title': 'The product stage and the buy bar', 'sub': 'A coffee\'s page: the pack pinned while the fact tiles scroll past, the buy bar at the foot.', 'blocks': [
       {'type': 'cards', 'cols': 3, 'items': [
         {'title': 'Pin', 'html': 'Height <b>100svh − navbar − buy bar</b> (at least 22rem), pinned for as long as the five tiles take to pass; the tiles are 40% of the screen\'s height apart (28% from L), so scroll time is measured in screens (decision product-pin).'},
         {'title': 'Pack', 'html': '<code>--stage</code> 320 → 720, capped by the pin. It turns once around with <code>qqStage.progress</code>; tiles are frosted (cloud 70% + blur 40px) so the pack shows through them.'},
-        {'title': 'Buy bar', 'html': 'Two rows of cells below L (options; quantity, price, «В корзину»), one row from L as in Figma. <b>New this round:</b> on a screen under 32em tall it waits after the stage instead of following the screen, which pins at the whole screen under the navbar (decision short-screens).'},
+        {'title': 'Arriving from a card (round 3)', 'html': 'Opened from a card, the page arrives in a view transition: the card\'s name becomes the title, its pack the big pack. The pack then starts facing front instead of turning in from a quarter turn.'},
+        {'title': 'Buy bar', 'html': 'Two rows of cells below L (options; quantity, price, «В корзину»), one row from L as in Figma. On a screen under 32em tall it waits after the stage instead of following the screen, which pins at the whole screen under the navbar (decision short-screens).'},
       ]},
       stage_tbl]},
     {'id': 'catalog', 'nav': 'Catalog', 'title': 'The catalog', 'sub': 'Tabs, filters kept in the address, the grid.', 'blocks': [
@@ -348,20 +481,25 @@ data = {
         {'title': 'Tabs', 'html': '«Все» and «Кофе» show the coffee; каскара, дрипы, сеты and мерч say they are coming (not in the shop yet).'},
       ]},
       cat_tbl]},
-    {'id': 'picture', 'nav': 'Every size', 'title': 'The whole responsive picture', 'sub': 'Every role and block size as the browser resolves it, every 10px of width (a screen 1100 tall) and every 25px of height (1440 wide). Dashed grey: round 1. Moved this round: --hero-cell-y (20 → 40 became 12 → 20), the hero\'s height, rows, photo strip and digits (Hero tab), the navbar\'s step and content width (Navbar tab), the pinned stage under 640 (the tab bar); new: --hero-photo, --hero-fade, --hero-max (no line before).', 'blocks': [
+    {'id': 'picture', 'nav': 'Every size', 'title': 'The whole responsive picture', 'sub': 'Every role and block size as the browser resolves it, every 10px of width (a screen 1100 tall) and every 25px of height (1440 wide). Dashed grey: round 2. Moved this round: the footer\'s halves (Footer tab: square from about 1360), the story\'s lines and the taste box\'s halves (Новинки tab: the squares measured even in round 2 too), the pager\'s offset, the recommended row\'s width past the column; new: --modal-w (no line before). The type roles and spacing did not move; PT Mono has the same advance (0.6em) as JetBrains Mono, so names keep their widths.', 'blocks': [
       {'type': 'picture',
        'groups': {'type': {'label': 'Type', 'keys': [css_of(k) for k in troles]},
                   'space': {'label': 'Spacing', 'keys': [v['css'] for k, v in sroles.items() if k not in ('story/min-h', 'footer/logo', 'product/stage')]},
                   'blocks': {'label': 'Blocks', 'keys': ['heroH', 'featuredH', 'storyH', 'colW', 'catalogFirstW', '--footer-logo']},
                   'stage': {'label': 'Product stage', 'keys': ['pinH', 'packW', 'packH', 'buybarH', 'tileW']},
                   'hero': {'label': 'Hero', 'keys': ['heroH', 'heroCellsH', 'heroRow', 'heroPhoto', 'digitsW', 'captionW', 'countdownPx', '--hero-cell-y', '--hero-photo', '--hero-fade', '--hero-max']},
-                  'navbar': {'label': 'Navbar', 'keys': ['navStep', 'navContentW', 'navLogoX', 'colW']}},
-       'order': ['type', 'space', 'blocks', 'stage', 'hero', 'navbar'],
+                  'navbar': {'label': 'Navbar', 'keys': ['navStep', 'navContentW', 'navLogoX', 'colW']},
+                  'footer': {'label': 'Footer', 'keys': ['footerBrandW', 'footerBrandH', 'footerLinksW', 'footerRatio', 'footerMarkDy', 'legalDy', 'newsLines', '--footer-logo']},
+                  'featured': {'label': 'Новинки & row', 'keys': ['featTextW', 'featMediaW', 'featTextH', 'featMediaH', 'featFactsDiff', 'pagerDx', 'reelBleed', '--modal-w']}},
+       'order': ['type', 'space', 'blocks', 'stage', 'hero', 'navbar', 'footer', 'featured'],
        'labels': {**{css_of(k): k.split('/')[1] for k in troles}, **{v['css']: k for k, v in sroles.items()},
                   'heroH': 'hero height', 'featuredH': 'Новинки slide', 'storyH': 'image block', 'colW': 'content column', 'catalogFirstW': 'first catalog card',
                   'pinH': 'pinned stage', 'packW': 'pack box width', 'packH': 'pack box height', 'buybarH': 'buy bar', 'tileW': 'fact tile', 'countdownPx': 'countdown font size',
                   'heroCellsH': 'hero cells', 'heroRow': 'hero row (a link)', 'heroPhoto': 'photo above the cells', 'digitsW': 'digits (drawn width)', 'captionW': 'caption (drawn width)',
-                  'navStep': 'navbar step (1 tab bar, 2 burger, 3 short, 4 every section)', 'navContentW': 'navbar content width', 'navLogoX': 'logo glyph from the screen edge'},
+                  'navStep': 'navbar step (1 tab bar, 2 burger, 3 short, 4 every section)', 'navContentW': 'navbar content width', 'navLogoX': 'logo glyph from the screen edge',
+                  'footerBrandW': 'footer: left half width', 'footerBrandH': 'footer: left half height', 'footerLinksW': 'footer: right half width', 'footerRatio': 'footer: left half height ÷ width (1 = square)',
+                  'footerMarkDy': 'flame mass centre off the middle', 'legalDy': 'legal line: baselines apart', 'newsLines': 'newsletter line: lines',
+                  'featTextW': 'Новинки: text width', 'featMediaW': 'Новинки: photo width', 'featTextH': 'Новинки: text height', 'featMediaH': 'Новинки: photo height', 'featFactsDiff': 'taste box: halves differ by', 'pagerDx': 'pager off the head\'s centre', 'reelBleed': 'recommended row past the column'},
        'sweep': {'before': before, 'after': after},
        'axes': {'width': {'label': 'By width', 'x': 'w', 'note': 'Screen width (px), 1100 tall', 'tip': '{x} wide', 'ticks': [320, 768, 1024, 1440, 1920], 'solid': []},
                 'height': {'label': 'By height', 'x': 'h', 'note': 'Screen height (px), 1440 wide', 'tip': '{x} tall', 'ticks': [400, 600, 800, 1000]}}},
@@ -369,7 +507,7 @@ data = {
     {'id': 'map', 'nav': 'Map', 'title': 'Responsive map', 'sub': 'What each block does at each width, from the sweep. Accent lines: the shared column steps (S, M, L land at these screen widths because the column is the screen less two gutters). Dashed: the navbar\'s page step.', 'blocks': [
       {'type': 'map', 'range': [320, 1920], 'ticks': [320, 390, 768, 1024, 1280, 1440, 1920], 'rows': maprows,
        'steps': [{'w': 750, 'label': 'M 43rem'}, {'w': 1000, 'label': 'L 58rem'}, {'w': 1620, 'label': 'max 1520px'}], 'page': [{'w': 640, 'label': 'tab bar 40em'}, {'w': 768, 'label': 'short 48em'}, {'w': 1024, 'label': 'every section 64em'}]},
-      {'type': 'list', 'items': ['Round 2 moved the navbar\'s steps (before: the burger under 64em) and added two: 48em and 40em. The page steps now sit at the screens of the column steps (768 ≈ M, 1024 ≈ L), so with a 16px text the navbar changes together with the blocks. The new container step max (the column at 1520px, from about 1616) frames the hero. No block step moved.','S (22rem column) lands at about 380: it changes small things inside cards (the filter cells, the buy-bar captions), so it shows no row here.',
+      {'type': 'list', 'items': ['Round 3 moved no step. The footer\'s two halves still start at L; they are squares from about 1360 wide (a content width, not a step: below it the links need more height). The recommended row now runs past the column at every width. The info modal turns into a sheet under 40em (the tab bar\'s page step).', 'Round 2 moved the navbar\'s steps (before: the burger under 64em) and added two: 48em and 40em. The page steps now sit at the screens of the column steps (768 ≈ M, 1024 ≈ L), so with a 16px text the navbar changes together with the blocks. The new container step max (the column at 1520px, from about 1616) frames the hero. No block step moved.','S (22rem column) lands at about 380: it changes small things inside cards (the filter cells, the buy-bar captions), so it shows no row here.',
                                  'Every block changes at the same two widths, about 750 and 1000; only the navbar has its own step (64em, so bigger browser text gets the burger sooner).',
                                  'The catalog filter cells wrap by their own width (they flow), so their rows change at 370, 550, 730 and 1260 with no step.']},
     ]},
@@ -379,7 +517,8 @@ data = {
         {'name': 'move', 'use': 'travelling: the hero photo\'s drift', 'code': '--ease-move: cubic-bezier(0.65, 0, 0.35, 1)', 'bez': [0.65, 0, 0.35, 1]},
         {'name': 'leave', 'use': 'going away: the toast leaving', 'code': '--ease-leave: cubic-bezier(0.7, 0, 0.84, 0)', 'bez': [0.7, 0, 0.84, 0]},
         {'name': 'pack follow', 'use': 'the packs follow their targets (scroll lean, pointer turn) at 9 per second', 'code': 'TUNE.follow = 9', 'fn': 'power2.out'},
-        {'name': 'pack lag (new)', 'use': 'how a pack catches up with its slot after a scroll: 1 − e^(−9t), soft-capped at 12% of its height (≤ 40px)', 'code': 'TUNE.lag = 9, lagMax = 0.12, lagMaxPx = 40', 'linear': [[0, 0], [0.06, 0.42], [0.12, 0.66], [0.18, 0.8], [0.24, 0.885], [0.3, 0.933], [0.36, 0.961], [0.42, 0.977], [0.5, 0.989], [0.6, 0.995], [1, 1]]},
+        {'name': 'fade «ease» (new)', 'use': 'every gradient: the opacity of a fade along its length (16 stops), as tw-easing-gradients', 'code': 'colors.json fades: curve [0.25, 0.1, 0.25, 1]', 'bez': [0.25, 0.1, 0.25, 1]},
+        {'name': 'pack lag', 'use': 'how a pack catches up with its slot after a scroll: 1 − e^(−9t), soft-capped at 12% of its height (≤ 40px)', 'code': 'TUNE.lag = 9, lagMax = 0.12, lagMaxPx = 40', 'linear': [[0, 0], [0.06, 0.42], [0.12, 0.66], [0.18, 0.8], [0.24, 0.885], [0.3, 0.933], [0.36, 0.961], [0.42, 0.977], [0.5, 0.989], [0.6, 0.995], [1, 1]]},
       ]},
       {'type': 'durations', 'max': 2, 'rows': [
         {'group': 'hover', 'name': 'hover in (--t-in)', 's': 0.2}, {'group': 'hover', 'name': 'hover out (--t-out)', 's': 0.45},
@@ -391,10 +530,18 @@ data = {
         {'group': 'new', 'name': 'hero cells rise in, after 0.2s (--t-rise)', 's': 1.1, 'label': '0.2s wait + 0.9s'},
         {'group': 'new', 'name': 'pack catches up after a scroll (to 95%)', 's': 0.33, 'kind': 'scroll'},
         {'group': 'new', 'name': 'pack press in / out (16 per second, to 95%)', 's': 0.19}, {'group': 'new', 'name': 'press held at least', 's': 0.2},
+        {'group': 'round 3', 'name': 'card rises into place (--t-rise)', 's': 0.9, 'stagger': 0.09}, {'group': 'round 3', 'name': 'card fades in (--t-move)', 's': 0.6},
+        {'group': 'round 3', 'name': 'info block grows into its modal (--t-move)', 's': 0.6}, {'group': 'round 3', 'name': 'modal text comes in (after 0.18s)', 's': 0.6, 'label': '0.18s wait + 0.42s'},
+        {'group': 'round 3', 'name': 'modal steps to the next block', 's': 0.68, 'label': '0.23s out + 0.45s in'},
+        {'group': 'round 3', 'name': 'card → coffee page: name and pack travel (--t-move)', 's': 0.6}, {'group': 'round 3', 'name': 'pages cross-fade (--t-out)', 's': 0.45},
+        {'group': 'round 3', 'name': 'carried pack settles (to 95%)', 's': 0.33, 'kind': 'scroll'},
+        {'group': 'loop', 'name': 'footer flame (SMIL, 109 shapes)', 's': 5, 'kind': 'loop', 'label': '5s, linear'},
         {'group': 'loop', 'name': 'hero photo drift (alternate)', 's': 40, 'kind': 'loop', 'label': '40s each way'}]},
       {'type': 'cards', 'cols': 2, 'items': [
         {'title': 'In fast, out slow', 'html': 'Hovers come in at 0.2s and leave at 0.45s, so a pointer passing over a list leaves a soft trail (as Flow Medium).'},
-        {'title': 'One loop', 'html': 'The hero photo drifts 8% over 40s and back; it is the only thing that moves by itself, and it stops with «reduce motion».'},
+        {'title': 'Two loops', 'html': 'The hero photo drifts 8% over 40s and back; the footer flame burns in 5s (round 3). Both stop with «reduce motion» (the flame shows its first frame).'},
+        {'title': 'Shared elements (round 3)', 'html': 'Things that belong together travel instead of appearing: a block becomes its modal (its icon, title and plus move; the ground grows), a card becomes its page (name and pack move). Nothing text-bearing is scaled except the name in the page transition, which the browser grows from one size to the other.'},
+        {'title': 'Carried, not leaning (round 3)', 'html': 'The page\'s scroll never tilts a pack; only a pack whose own slot moves (a sliding row, a rising card) tilts, leading edge away, and settles.'},
         {'title': 'Weight (new)', 'html': 'The packs trail the page a little and catch up as it stops, so they feel set on the shelf rather than printed on it; pressed, they give way.'},
         {'title': 'Colour crossings (new)', 'html': 'The bars change colour only when wholly over a section, on the travel curve and time, so a boundary never flickers through them.'},
       ]},
@@ -406,20 +553,22 @@ data = {
         {'title': 'Size', 'html': 'Every size a line from 320 to 1440 on one ladder; the screen\'s height counts; nothing grows past 1440, the column stops at 1520.'},
         {'title': 'Shape', 'html': 'Sharp rectangles divided by hairlines; only pills and dots are round.'},
         {'title': 'Layout', 'html': 'Everything sits in the content column; full-bleed blocks put their content in a column too, so they change at the same steps S, M, L.'},
-        {'title': 'Motion', 'html': 'Three curves, three times, one loop; the packs follow scroll and pointer.'},
+        {'title': 'Motion', 'html': 'Three curves, four times, two loops; things that belong together travel; the packs trail the page and tilt only when carried.'},
       ]},
       {'type': 'table', 'title': 'Rules', 'columns': [{'label': 'Rule'}, {'label': 'Status', 'pill': True}], 'rows': [
         ['Colours only from tokens', 'checked'], ['Sizes only from the scale; screen units only where a decision says', 'checked'], ['Layout steps only at S, M, L, max (and 64em, 48em, 40em, 32em tall)', 'checked'],
         ['No rounded corners except pills and dots', 'checked'], ['Motion only from motion.css', 'checked'], ['Faces only through tokens', 'checked'], ['Every token defined and used', 'checked'],
         ['Type levels ≥ ×1.125 apart at both ends', 'checked'], ['Every decision complete', 'checked'],
-        ['One line colour: borders only var(--line) (new)', 'checked'], ['The navbar\'s sections never touch the logo or the tools (new, audit)', 'checked'], ['The countdown as wide as its caption (new, audit)', 'checked'],
-        ['Every section says its ground (data-ground) (new)', 'written'], ['Links only to pages that exist (new)', 'written'], ['Fixed bars stand on the tab bar (--tabbar-h) (new)', 'written'], ['A hover changes only its own item (new)', 'written'],
+        ['One line colour: borders only var(--line)', 'checked'], ['The navbar\'s sections never touch the logo or the tools (audit)', 'checked'], ['The countdown as wide as its caption (audit)', 'checked'],
+        ['Every fade eased: gradients only var(--fade-*) or solid bands (round 3)', 'checked'], ['A whole card is its link; nothing positioned between the link and .card (round 3)', 'written'],
+        ['Things that belong together travel (block → modal, card → page) (round 3)', 'written'], ['Waiting cards are data-wait; data-out is the filter\'s (round 3)', 'written'],
+        ['Every section says its ground (data-ground)', 'written'], ['Links only to pages that exist', 'written'], ['Fixed bars stand on the tab bar (--tabbar-h)', 'written'], ['A hover changes only its own item', 'written'],
         ['Every row that scrolls sideways is position: relative', 'written'], ['3D canvas at z-index 5; what shows above packs ≥ 6', 'written'],
         ['Links inside the site through href(ctx, to)', 'written'], ['One heading level per section; names in mono, text in Apercu', 'implicit'],
         ['Cells inside a block share hairlines (margin −1px), never double lines', 'implicit']]},
     ]},
     {'id': 'checks', 'nav': 'Checks', 'title': 'Checks', 'sub': 'What was checked, how, and what is kept on purpose.', 'blocks': [
-      {'type': 'stats', 'items': [{'n': 48, 'unit': 'runs', 'text': audit_last or 'the audit'}, {'n': len(rules_items) or 10, 'unit': 'rules', 'text': 'all hold (build/rules.mjs); «one line colour» new'},
+      {'type': 'stats', 'items': [{'n': 48, 'unit': 'runs', 'text': audit_last or 'the audit'}, {'n': len(rules_items) or 11, 'unit': 'rules', 'text': 'all hold (build/rules.mjs); «every fade eased» new'},
                                   {'n': 0, 'unit': 'px', 'text': 'sideways scroll at every 10px from 320 to 1920'}, {'n': len(dec), 'unit': 'decisions', 'text': f"{nd['decision']} decisions, {nd['exception']} exceptions, {nd['placeholder']} placeholders"}]},
       {'type': 'rules', 'title': 'The rules (run on every build and in CI)', 'items': rules_items},
       {'type': 'decisions', 'title': 'The decisions register (design/decisions.json)', 'items': decision_items},
@@ -428,19 +577,27 @@ data = {
     ]},
     {'id': 'next', 'nav': 'Next', 'title': 'Next', 'sub': 'What is open, what I need from you, and what to check on real devices.', 'blocks': [
       {'type': 'list', 'title': 'Questions from this round', 'items': [
-        '<b>Navbar 4, «[additional padding]»:</b> I read it with 5 (the air inside the logo\'s and icons\' boxes). Did you mean something else?',
-        '<b>Hover on light grounds:</b> white is invisible on white, so the tint there is ink at 6%. Keep, or another tint?',
-        '<b>Links without pages:</b> the hero\'s «Бизнесу», «Контакты» and the footer\'s links still go to anchors or «#». Should the same rule (no page, no link) apply there?',
-        '<b>Short phones:</b> the hero is taller than the screen at 320 × 568 and sideways (three title lines and the wide countdown). Is that fine, or should short screens get a tighter hero?',
-        '<b>The reload</b> keeps its place in Chromium (it did before as well): in which browser did you see it jump?']},
-      {'type': 'list', 'title': 'Still needed from you (from round 1)', 'items': [
-        '<b>The animated footer logo</b> (the file or a link).', '<b>Real prices</b> into data/prices.json.', '<b>Each coffee\'s label</b> at 512 and 1024 px, front and back.',
-        '<b>QQ\'s own photos</b> (the current ones are Figma\'s moodboard).', '<b>The roast schedule</b> and the hero video.', '<b>The texts behind the plus</b> of the info blocks.',
-        '<b>PT Mono Bold</b> with a web licence.', '<b>Countries of the blends</b>: the sticker column or the lots?', '<b>Publish the component canvas</b> on the test site?']},
-      {'type': 'list', 'title': 'Not designed yet', 'items': ['The menu behind the burger (a plain list now).', 'Pages for the navbar\'s items: каскара, дрипы, сеты, бизнесу (кофейням, офисам), журнал, контакты, search, favourites, bag, profile.', 'Checkout, account; merch; the journal.']},
-      {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components are not linted yet (icon sizes, small paddings).', 'At 844 × 390 the «В корзину» toast covers the buy bar\'s price (round 1, found by the review).', 'From round 1: on a coffee\'s page at 1440 × 900 the big pack is cut at the top of its box while it settles; card descriptions cannot be drag-selected in Chromium.']},
-      {'type': 'list', 'title': 'Check on real devices', 'items': ['Safari (Mac and iPhone): the bounce above the page stays black on the home page; text-box trim in the hero; the scroll place after a reload.', 'iPhone: the tab bar with the home indicator (safe area), the buy bar standing on it, the URL bar moving.', 'A trackpad and a mouse wheel: is the packs\' lag «a bit», or too much / too little? (TUNE.lag and lagMax in the console.)', 'Pressing a pack on a card: the press shows, then the coffee\'s page opens.']},
+        '<b>The magazine swipe:</b> which of the five in <a href=\'https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy\'>the test bench</a> (and at what duration) goes on the site?',
+        '<b>The footer\'s squares</b> hold from about 1360 wide; below, the links need more height. Fine, or should the links tighten at 1024–1350 to stay square?',
+        '<b>Every page change cross-fades</b> now (the card → page move needs the transition on). Keep it for all pages, or only card → page?',
+        '<b>Photos for the new arrivals:</b> four moodboard photos cycle; a photo per coffee would end the repeat (Индонезия Воносалам shows the same jacket as Кения Найваша).',
+        '<b>The modal\'s texts</b> for payment and delivery are placeholders; the roasting one is Figma\'s.']},
+      {'type': 'list', 'title': 'Still open from round 2', 'items': [
+        '<b>Navbar 4, «[additional padding]»:</b> read with 5 (the air inside the logo\'s and icons\' boxes). Did you mean something else?',
+        '<b>Hover on light grounds:</b> ink 6% (white is invisible on white). Keep?',
+        '<b>Links without pages</b> in the hero and the footer: the same rule as the navbar?',
+        '<b>Short phones:</b> the hero is taller than the screen at 320 × 568 and sideways.',
+        '<b>The reload</b> keeps its place in Chromium: in which browser did it jump?']},
+      {'type': 'list', 'title': 'Still needed from you', 'items': [
+        '<b>Real prices</b> into data/prices.json.', '<b>Each coffee\'s label</b> at 512 and 1024 px, front and back.',
+        '<b>QQ\'s own photos</b> (the current ones are Figma\'s moodboard).', '<b>The roast schedule</b> and the hero video.',
+        '<b>Countries of the blends</b>: the sticker column or the lots?', '<b>Publish the component canvas</b> on the test site?',
+        'Done this round: the animated footer logo and PT Mono Bold (your files).']},
+      {'type': 'list', 'title': 'Not designed yet', 'items': ['The menu behind the burger (a plain list now).', 'Pages for the navbar\'s items and the info blocks: каскара, дрипы, сеты, бизнесу, журнал, контакты, доставка, оплата, search, favourites, bag, profile.', 'Checkout, account; merch; the journal.']},
+      {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components are not linted yet (icon sizes, small paddings).', 'At 844 × 390 the «В корзину» toast covers the buy bar\'s price.', 'On a coffee\'s page at 1440 × 900 the big pack is cut at the top of its box while it settles; card descriptions cannot be selected (they are part of the card\'s link now).']},
+      {'type': 'list', 'title': 'Check on real devices', 'items': ['Safari 18.2+ and Chrome: a card opening its coffee and the way back (the view transition); Firefox simply opens the page.', 'A trackpad, a mouse and a phone: the recommended row sliding and cards rising — is the packs\' tilt «a bit»? (<code>qqPacks.TUNE.carryTurn</code>, <code>carryTilt</code>.)', 'iPhone: the info modal as a sheet over the tab bar and the home indicator.', 'From round 2: the bounce above the page in Safari, text-box trim in the hero, the scroll place after a reload.']},
     ]},
+    {'id': 'round2', 'nav': 'Round 2', 'title': ROUND2['title'], 'sub': "As it was published: your round 2 comments, what was done, round 1 next to round 2. The round 2 page itself stays at <a href='https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a'>QQ Site System</a>.", 'blocks': ROUND2['blocks']},
     {'id': 'earlier', 'nav': 'Round 1', 'title': ROUND1['title'], 'sub': 'As it was published: your round 1 requests, what was built, and the site next to Figma.', 'blocks': ROUND1['blocks']},
   ]}
 json.dump(data, open(os.path.join(HERE, 'data.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
