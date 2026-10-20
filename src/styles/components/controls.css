@@ -23,35 +23,33 @@
 }
 .btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); background: var(--btn-bg); color: var(--btn-fg); transition: opacity var(--t-out) var(--ease-out); }
 .btn-arrow__icon { padding-inline: 12px; }
-.btn-arrow svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
+.btn-arrow svg { width: 24px; height: 24px; }
 @media (--mouse) {
   .btn-arrow:hover > span { opacity: 0.85; transition-duration: var(--t-in); }
-  .btn-arrow:hover svg { transform: translateX(3px); transition-duration: var(--t-in); }
 }
 
 /* prev / next: two square cells, one hairline between them */
 .arrows { display: flex; border: var(--hair) solid var(--line); }
-.arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background var(--t-out) var(--ease-out); }
+.arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
 .arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--line); }
 .arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
-@media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
+@media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* a pager of numbers (new arrivals): the current one ringed */
 .pager { display: flex; gap: 4px; }
 .pager__dot {
   display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
   font-size: var(--type-small); font-feature-settings: "lnum" 1, "tnum" 1; color: var(--c-ink-70);
-  border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+  border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out), background-color var(--t-out) var(--ease-out);
 }
 .pager__dot[aria-current="true"] { border-color: var(--c-ink); color: var(--c-ink); }
-@media (--mouse) { .pager__dot:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+@media (--mouse) { .pager__dot:hover { background-color: var(--tint); color: var(--c-ink); transition-duration: var(--t-in); } }
 
 /* the email field of the footer: a hairline box with the arrow cell at its end */
 .field { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); min-height: var(--control-h); }
 .field input { flex: 1; min-width: 0; border: 0; background: none; padding-inline: var(--control-x); font-size: max(16px, var(--type-body)); }
 .field input::placeholder { color: var(--c-ink-70); }
 .field input:focus-visible { outline: none; }
-.field:focus-within { border-color: var(--c-ink); }
 .field button { display: grid; place-items: center; width: 56px; border-left: var(--hair) solid var(--line); }
 
 /* descriptor pills: the only round shapes besides dots */
@@ -78,6 +76,6 @@
 .fav { position: relative; }
 .fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
 .fav[aria-pressed="true"] .i-on { opacity: 1; transform: none; transition-duration: var(--t-in); }
-/* hovered, the heart fades back (as the price does): its colour, a step lighter */
-.fav svg { transition: color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }
-@media (--mouse) { .fav:hover svg { color: var(--fg-soft, var(--c-ink-60)); transition-duration: var(--t-in); } }
+/* hovered, the heart's own cell is tinted (as every control's: white on dark grounds, ink on light) */
+.fav { transition: background-color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out); }
+@media (--mouse) { .fav:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

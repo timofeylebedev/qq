@@ -13,6 +13,8 @@
 //  9. every decision is complete (id, kind, what, why, decided)
 // 10. one line colour: borders are var(--line) (cool grey 20% on light grounds, white 30% on dark ones, set by the
 //     ground); only a state (the current dot, a focused field) may draw its border in ink
+// 11. every fade eased: gradients are colors.json fades, one over a whole block, or solid bands for lines
+// 12. hovers never move anything (Tim, round 5): a :hover rule tints a ground or fades a colour, never transforms
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve, join, relative } from "node:path";
 import { check, roles } from "./tokens.mjs";
@@ -160,6 +162,12 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
     if (/var\(--fade/.test(d) && gs.length > 1) fails.push(where(b) + `: a fade with a solid band under it (${d.trim().slice(0, 50)}…)`);
   }
   rule("Every fade eased", "gradients are var(--fade-*) (colors.json fades: one per place, eased, over the whole block, no solid band under it) or solid bands for lines", fails);
+}
+
+// 12
+{
+  const fails = blocks.filter((b) => /:hover/.test(b.selector) && /(^|;)\s*(transform|translate|scale|rotate)\s*:/.test(b.body)).map(where);
+  rule("Hovers never move", "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground", fails);
 }
 
 let bad = 0;

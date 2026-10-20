@@ -1,6 +1,6 @@
 // The script of every page: each part starts only if its markup is on the page. The 3D packs, the catalog filters
 // and the product stage load on demand (their own files).
-import { initScroll } from "./scroll.js";
+import { initScroll, initResizeKeep } from "./scroll.js";
 import { initNav } from "./nav.js";
 import { initToggles } from "./toggle.js";
 import { initRoast } from "./roast.js";
@@ -13,6 +13,7 @@ import { initUi } from "./ui.js";
 import { initCheckout } from "./checkout.js";
 
 initScroll();
+initResizeKeep();
 initNav();
 initToggles();
 initRoast();

@@ -11,8 +11,8 @@
    the card). Layers, in the page's stacking (the card makes no stacking context of its own, so the one 3D canvas of
    the page, at z-index 5, falls between them): ground and photo 0 · pack canvas 5 · the link over the card 6 · name,
    heart and buy row 7 */
-.card { --ground: var(--c-cloud); --fade: var(--fade-card-cloud); --fg: var(--c-ink); --fg-soft: var(--c-ink-60); --line: var(--c-ink-20); position: relative; display: flex; flex-direction: column; min-width: 0; }
-.card--dark { --ground: var(--c-black); --fade: var(--fade-card-black); --fg: var(--c-paper); --fg-soft: var(--c-white-60); --line: var(--c-white-30); }
+.card { --ground: var(--c-cloud); --fade: var(--fade-card-cloud); --fg: var(--c-ink); --fg-soft: var(--c-ink-60); --line: var(--c-ink-20); --tint: var(--c-ink-6); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.card--dark { --ground: var(--c-black); --fade: var(--fade-card-black); --fg: var(--c-paper); --fg-soft: var(--c-white-60); --line: var(--c-white-30); --tint: var(--c-white-20); }
 
 .card__media {
   aspect-ratio: 4 / 5; overflow: hidden;
@@ -23,8 +23,7 @@
 .card--half .card__media { aspect-ratio: 1; }
 
 .card__photo { z-index: 0; }
-.card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
-@media (--mouse) { .card:hover .card__photo img { transform: scale(1.03); } }
+.card__photo img { width: 100%; height: 100%; object-fit: cover; }
 
 .card__top { align-self: start; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
 .card__title { flex: 1; min-width: 0; font-size: var(--type-card-title); overflow-wrap: anywhere; }
@@ -44,14 +43,16 @@
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
 }
 
-/* the buy row: weights on the left, the add-to-bag button with the price on the right, divided by hairlines */
+/* the buy row: weights on the left, the add-to-bag button with the price on the right, divided by hairlines. Its
+   fade's lead-in lets clicks through to the card's link (only the two cells take them). Each cell is one control:
+   a click anywhere in the weights picks the other weight (scripts/buy.js); hovered, a cell's ground is tinted. */
 .buy {
-  position: relative; z-index: 7; align-self: end; display: grid; grid-template-columns: 1fr 1fr;
+  position: relative; z-index: 7; align-self: end; display: grid; grid-template-columns: 1fr 1fr; pointer-events: none;
   padding-top: var(--lead-card); background: linear-gradient(to bottom, var(--fade));
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
-.buy > * { border-top: var(--hair) solid var(--line); min-height: var(--control-h); }
-.buy__weights { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; padding: 8px 12px; }
+.buy > * { border-top: var(--hair) solid var(--line); min-height: var(--control-h); pointer-events: auto; }
+.buy__weights { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; padding: 8px 12px; cursor: pointer; transition: background-color var(--t-out) var(--ease-out); }
 .weight { position: relative; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
 .weight input { position: absolute; opacity: 0; inset: -8px; margin: 0; cursor: pointer; }
 .weight span { display: inline-flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity var(--t-out) var(--ease-out); }
@@ -61,11 +62,10 @@
 .weight input:focus-visible + span { outline: 2px solid currentColor; outline-offset: 4px; }
 .buy__add {
   display: flex; align-items: center; justify-content: center; gap: 8px; border-left: var(--hair) solid var(--line);
-  padding-inline: 12px; white-space: nowrap; transition: background var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+  padding-inline: 12px; white-space: nowrap; transition: background-color var(--t-out) var(--ease-out);
 }
 .buy__add svg { width: 24px; height: 24px; flex: none; }
-/* hovered, the price and the bag fade back (the ground stays): the one hover of controls drawn on a picture */
-@media (--mouse) { .buy__add:hover { color: var(--fg-soft); transition-duration: var(--t-in); } }
+@media (--mouse) { .buy__weights:hover, .buy__add:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
 @keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
 

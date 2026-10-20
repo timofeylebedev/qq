@@ -72,10 +72,9 @@
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
   transition: background-color var(--t-out) var(--ease-out);
 }
-.hero__link svg { width: 32px; height: 32px; transition: transform var(--t-out) var(--ease-out); }
+.hero__link svg { width: 32px; height: 32px; }
 @media (--mouse) {
   .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
-  .hero__link:hover svg { transform: translateX(6px); transition-duration: var(--t-in); }
 }
 
 /* the cells rise into place when the page opens */
@@ -136,8 +135,7 @@
 }
 .featured__media { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); color: var(--c-paper); }
 .featured__media picture { position: absolute; inset: 0; }
-.featured__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
-@media (--mouse) { .featured__slide:hover .featured__media img { transform: scale(1.03); } }
+.featured__media img { width: 100%; height: 100%; object-fit: cover; }
 .featured__caption {
   position: relative; z-index: 6; pointer-events: none; padding: var(--lead-caption) calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
   font-size: var(--type-lead); line-height: var(--lh-compact);
@@ -180,15 +178,13 @@
 @container col (width >= 43rem) { .business__cards { grid-template-columns: 1fr 1fr; } }
 .bcard { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); }
 .bcard__image { position: absolute; inset: 0; }
-.bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
-@media (--mouse) { .bcard:hover .bcard__image img { transform: scale(1.03); } }
+.bcard__image img { width: 100%; height: 100%; object-fit: cover; }
 .bcard__info { position: relative; display: grid; padding-top: var(--lead-panel); background: linear-gradient(to bottom, var(--fade-panel)); }
 .bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .bcard__title { font-size: var(--type-card-title); }
 .bcard__title a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
-.bcard__go svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
-@media (--mouse) { .bcard:hover .bcard__go svg { transform: translateX(4px); transition-duration: var(--t-in); } }
+.bcard__go svg { width: 24px; height: 24px; }
 .bcard__text { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-white-80); }
 @container col (width >= 58rem) {
   .bcard__info { grid-template-columns: minmax(9rem, 0.4fr) 1fr; }
@@ -233,6 +229,7 @@
 .fmodal::backdrop { background: transparent; }
 .fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
 .fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; }
+.fmodal__box:focus { outline: none; }   /* the modal opens with the focus on itself, so no control lights up */
 .fmodal__ground { position: absolute; inset: 0; background: var(--c-paper); }
 .fmodal__panel { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 0; }
 .fmodal__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap); padding: calc(var(--block-pad) + 16px) var(--block-pad) calc(var(--block-pad) + 40px); overflow-y: auto; }

@@ -28,3 +28,46 @@ export function initScroll() {
   document.fonts?.ready.then(() => { if (!mine) go(); });
   addEventListener("load", () => { if (!mine) go(); setTimeout(stop, 1500); }, { once: true });
 }
+
+// A change of the window's size keeps the place too (Tim, round 5): the page reflows (cards change columns, sizes
+// follow the screen), so the same scrollY would show something else. The script keeps note of the first block that
+// starts on the screen under the navbar (a heading, a card, a cell) and how far below the bar it stands; after a
+// resize the page is scrolled so that block stands there again. If one block fills the screen past the bar, the
+// point of it at the bar is kept instead. At the very top the page stays at the top.
+export function initResizeKeep() {
+  const line = () => (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 48) + 1;
+  let anchor = null, resizing = 0, raf = 0;
+  const block = (el) => { while (el && el !== document.body && (getComputedStyle(el).display.startsWith("inline") || !el.offsetHeight)) el = el.parentElement; return el; };
+  const pick = () => {
+    if (resizing || "modal" in document.documentElement.dataset) return;
+    const y0 = line();
+    if (scrollY < 1) { anchor = { top: true }; return; }
+    for (let y = y0; y < innerHeight * 0.6; y += 24) {
+      for (const x of [innerWidth / 2, innerWidth / 4, innerWidth * 0.75]) {
+        let el = block(document.elementFromPoint(x, y));
+        if (!el || el === document.body || el.closest(".nav, .tabbar, dialog")) continue;
+        // the outermost block that still starts on the screen under the bar (a card rather than its title)
+        while (el.parentElement && el.parentElement !== document.body && el.parentElement.getBoundingClientRect().top >= y0 - 1) el = el.parentElement;
+        const r = el.getBoundingClientRect();
+        if (r.top >= y0 - 1) { anchor = { el, dy: r.top - y0 }; return; }
+      }
+    }
+    const el = block(document.elementFromPoint(innerWidth / 2, y0));
+    if (el && el !== document.body) { const r = el.getBoundingClientRect(); anchor = { el, f: (y0 - r.top) / r.height }; }
+  };
+  const put = () => {
+    if (!anchor) return;
+    if (anchor.top) { if (scrollY) scrollTo({ top: 0, behavior: "instant" }); return; }
+    if (!anchor.el.isConnected) return;
+    const r = anchor.el.getBoundingClientRect(), y0 = line();
+    const d = "dy" in anchor ? r.top - y0 - anchor.dy : r.top + anchor.f * r.height - y0;
+    if (Math.abs(d) >= 1) scrollTo({ top: scrollY + d, behavior: "instant" });
+  };
+  addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pick); }, { passive: true });
+  addEventListener("resize", () => {
+    put(); requestAnimationFrame(() => { put(); requestAnimationFrame(put); });   // and again once the scripts have laid out
+    clearTimeout(resizing); resizing = setTimeout(() => { resizing = 0; pick(); }, 400);
+  });
+  addEventListener("load", pick, { once: true });
+  pick();
+}

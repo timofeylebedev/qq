@@ -65,3 +65,10 @@ Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll la
   place fades in with its pack.
 - The view transition to a coffee's page captures the stills (`html[data-vt]` hides the canvas); arriving that way the
   big pack starts facing front instead of turning in from a quarter turn.
+
+## Round 5 (Oct 20, 2026)
+
+- No lag any more (Tim): a pack stays exactly in its slot while the page scrolls or its row slides, and a sliding
+  row no longer turns its packs (`carryTurn` is gone). Only a card rising into place still carries its pack: it
+  trails the slot's move up the page and tilts (`carryTilt` 0.45, `TUNE.lag` 9/s).
+- A press anywhere on a card (not its buttons) moves its pack away and holds it there while the pointer is down.

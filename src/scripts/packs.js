@@ -2,10 +2,10 @@
 //
 //   cards      face the viewer, turned a little towards the middle of the screen, and towards the pointer over
 //              their card. The page's scroll never tilts them (Tim, round 3).
-//   every pack trails its slot a little when the page scrolls, and catches up as it stops. When the slot itself
-//              moves on the page (its row slides, its card rises into place), the pack trails it and tilts the way
-//              it is carried: sideways in a sliding row, up and down as a card rises. Pressed, it moves away from
-//              the viewer and stays there while held (a quick click still shows it)
+//   every pack stays exactly in its slot while the page scrolls or its row slides (no lag, no tilt: Tim, round 5).
+//              A card rising into place carries its pack up: the pack trails it a little and tilts up and down as it
+//              goes. Pressed anywhere on its card, a pack moves away from the viewer and stays there while held (a
+//              quick click still shows it)
 //   product    the big pack of a coffee's page turns once around as its fact tiles scroll past (scripts/product.js
 //              gives the progress); it settles in from a quarter turn when the page opens
 //
@@ -18,9 +18,9 @@ export const TUNE = {           // window.qqPacks in the console: try values liv
   turn: 0.3,                    // how much a card's pack turns towards the middle of the screen (rad over the screen)
   hoverTurn: 0.5, hoverTilt: 0.3, hoverLift: 0.35,
   follow: 9,                    // how fast packs follow their targets (1/s)
-  lag: 9,                       // how fast a pack catches up with its slot after a scroll (1/s)
+  lag: 9,                       // how fast a pack catches up with its rising card (1/s)
   lagMax: 0.12, lagMaxPx: 40,   // … and how far it may trail: a share of its slot's height, at most this many px
-  carryTurn: 0.55, carryTilt: 0.45,   // carried by its row or card: the turn (sideways) and tilt (up/down) at the full trail
+  carryTilt: 0.45,              // carried up by its rising card: the tilt (up/down) at the full trail
   pressLift: -0.45, pressScale: 0.94, pressHold: 0.2, pressFollow: 16   // pressed: further away, smaller, held ≥ 0.2s
 };
 
@@ -43,7 +43,7 @@ export async function initPacks() {
       front: `${A}labels/${el.dataset.front}-${px}.webp`, back: `${A}labels/${el.dataset.back}-${px}.webp`,
       fit: hero ? 0.82 : 0.9, live: hero, clip: el.closest("[data-slider]") || undefined
     });
-    const p = { el, it, hero, hx: 0, hy: 0, hover: false, press: false, lx: 0, ly: 0, cx: 0, cy: 0, px: null, py: 0, sx: 0, sy: 0, carryUntil: 0 };
+    const p = { el, it, hero, hx: 0, hy: 0, hover: false, press: false, cy: 0, px: null, py: 0, carryUntil: 0 };
     // a click on the pack opens its coffee, as a click on its name does (the name's link covers only the name)
     const link = el.closest("[data-card], .featured__slide")?.querySelector(".card__link, .featured__name a");
     if (link && !hero) (el.closest("[data-card], .featured__media") || el).addEventListener("click", (e) => {
@@ -51,7 +51,7 @@ export async function initPacks() {
       if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && !e.target.closest("a, button, input, label, select, form")) link.click();
     });
     if (!reduced) {
-      // press: the pointer goes down on the pack itself; it lets go at least pressHold later, so a click reads
+      // press: the pointer goes down anywhere on the card (not its buttons); it lets go at least pressHold later, so a click reads
       let since = 0, wait = 0, off = 0;
       const inside = (e) => { const r = el.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
       const down = () => { clearTimeout(off); p.press = true; since = performance.now(); stage.invalidate(); };
@@ -59,8 +59,8 @@ export async function initPacks() {
         clearTimeout(wait); if (!p.press) return;
         off = setTimeout(() => { p.press = false; stage.invalidate(); }, Math.max(0, TUNE.pressHold * 1000 - (performance.now() - since)));
       };
-      (el.closest("[data-card], .featured__media") || el).addEventListener("pointerdown", (e) => {
-        if (!inside(e) || e.button > 0) return;
+      (el.closest("[data-card], .featured__slide") || el).addEventListener("pointerdown", (e) => {
+        if (e.button > 0 || (hero && !inside(e)) || e.target.closest("button, input, label, select, .buy")) return;
         if (e.pointerType === "touch") wait = setTimeout(down, 90); else down();   // a touch may be the start of a scroll
         addEventListener("pointerup", up, { once: true }); addEventListener("pointercancel", up, { once: true });
       });
@@ -106,7 +106,7 @@ export async function initPacks() {
   stage.onTick = (dt, now) => {
     let moving = false;
     const k = 1 - Math.exp(-dt * TUNE.follow);
-    const sy = scrollY, vw = innerWidth;
+    const vw = innerWidth;
 
     for (const p of items) {
       const it = p.it;
@@ -126,18 +126,17 @@ export async function initPacks() {
         if (a !== it.alpha) { it.alpha = a; moving = true; }
       }
 
-      // the lag, in two parts: the page's scroll (the pack only trails) and the slot's own move on the page (its row
-      // slides, its card rises: the pack trails and tilts). Both soft-capped, so a jump to an anchor stays small.
+      // a card rising into place: its pack trails the slot's own move up the page and tilts with it (soft-capped).
+      // The page's scroll and a sliding row move the slot without any lag (Tim, round 5).
       const m = Math.max(1, Math.min(TUNE.lagMax * it.h, TUNE.lagMaxPx)), decay = Math.exp(-dt * TUNE.lag);
-      if (reduced || p.px === null) { p.lx = p.ly = p.cx = p.cy = 0; }
-      else { p.lx += scrollX - p.sx; p.ly += sy - p.sy; p.cx -= it.x - p.px; p.cy -= it.y - p.py; }
-      p.px = it.x; p.py = it.y; p.sx = scrollX; p.sy = sy;
+      if (reduced || p.px === null || !p.carryUntil) p.cy = 0;
+      else p.cy -= it.y - p.py;
+      p.px = it.x; p.py = it.y;
       const cap = (v) => { v = Math.max(-3 * m, Math.min(3 * m, v)) * decay; return Math.abs(v) < 0.2 ? 0 : v; };
-      p.lx = cap(p.lx); p.ly = cap(p.ly); p.cx = cap(p.cx); p.cy = cap(p.cy);
-      const ox = m * Math.tanh((p.lx + p.cx) / m), oy = m * Math.tanh((p.ly + p.cy) / m);
-      it.ox = ox; it.oy = oy;
-      if (p.lx || p.ly || p.cx || p.cy) moving = true;
-      if (!p.hero) { ry -= Math.tanh(p.cx / m) * TUNE.carryTurn; rx += Math.tanh(p.cy / m) * TUNE.carryTilt; }
+      p.cy = cap(p.cy);
+      it.ox = 0; it.oy = m * Math.tanh(p.cy / m);
+      if (p.cy) moving = true;
+      if (!p.hero) rx += Math.tanh(p.cy / m) * TUNE.carryTilt;
 
       if (!it.visible) { it.rx = rx; it.ry = ry; it.lift = lift; it.scale = scale; continue; }
       const e = Math.abs(rx - it.rx) + Math.abs(ry - it.ry) + Math.abs(lift - it.lift) + Math.abs(scale - it.scale) * 4;

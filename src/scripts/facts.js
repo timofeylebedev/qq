@@ -6,6 +6,8 @@
 // (an empty box may scale), while the icon and the title travel from the block to their places in the modal at the
 // same size, and the block's plus travels to the corner and turns into the cross. The text and the step row fade in
 // after. With «reduce motion» the modal simply opens and closes.
+import { focusFrom } from "./focus.js";
+
 const T = () => {
   const cs = getComputedStyle(document.documentElement);
   const s = (v) => parseFloat(v) * (v.trim().endsWith("ms") ? 1 : 1000);
@@ -84,7 +86,7 @@ export function initFacts() {
   dialog.addEventListener("close", () => {
     for (let i = 0; i < blocks.length; i++) hold(i, false);
     delete document.documentElement.dataset.modal; delete dialog.dataset.morphing;
-    blocks[at]?.focus({ preventScroll: true });
+    focusFrom(blocks[at]);
     busy = false; wantShut = false;
   });
 
@@ -104,7 +106,7 @@ export function initFacts() {
       ground.animate([{ transformOrigin: sheet() ? "50% 100%" : "50% 50%", transform: `scaleY(${h0 / h1})` }, { transformOrigin: sheet() ? "50% 100%" : "50% 50%", transform: "none" }], { duration: t.out, easing: t.ease }),
       neu.animate([{ opacity: 0, transform: `translateX(${24 * dir}px)` }, { opacity: 1, transform: "none" }], { duration: t.out, easing: t.easeOut })
     ];
-    neu.querySelector(`[data-fact-go="${i}"]`)?.focus({ preventScroll: true });
+    focusFrom(neu.querySelector(`[data-fact-go="${i}"]`));
     await Promise.all(anims.map((a) => a.finished));
     busy = false;
   }
