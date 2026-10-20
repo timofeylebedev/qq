@@ -5,12 +5,16 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 
 ## The project
 
-- The site of QQ Coffee (a roaster of specialty coffee): home, catalog, a page per coffee. Static, Vite, Russian.
+- The site of QQ Coffee (a roaster of specialty coffee): home, catalog, a page per coffee; the bag, favourites, checkout,
+  account (a placeholder visitor) and the information pages (round 3). Static, Vite, Russian; no shop behind it yet.
 - `main` is the test site: every push builds and publishes to https://timofeylebedev.github.io/qq/ (`deploy.yml`).
 - Owner and reviewer: Tim (timofeylebedev). Talk to Tim in the language he writes in.
 - Design: Figma https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website — pages «Главная» (the most complete,
-  frame [1280 — 1439]), «Каталог», «Продукт» (frame [1440 — 1919]). Figma is inspiration, not values: the site has its
-  own fluid system, and only a few Figma frames are responsive.
+  frame [1280 — 1439]), «Каталог», «Продукт» (frame [1440 — 1919]); round 3 used the [1440 — 1920] frames of «Корзина»,
+  «Избранное», «Оформление заказа», «Профиль», «Заказы», «Заказ», «Покупки», «Зернышки», «Настройки», «Бизнесу»,
+  «Вопросы и ответы», «Доставка и оплата», «Контакты», «Политика конфиденциальности», «О компании». Figma is
+  inspiration, not values: the site has its own fluid system, and only a few Figma frames are responsive. Older Figma
+  pages use older colours and details: follow the system, not the frame (decision `older-colours`).
 
 ## How to work
 
@@ -36,7 +40,9 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   through `media.css` (the navbar's `--links-full` 64em and `--links` 48em, the tab bar's `--phone` under 40em, `--short`
   32em tall for the product's buy bar). Fixed bars stand on the tab bar: `bottom: var(--tabbar-h)` (0 without one).
 - **Grounds**: every section has `data-ground` (paper, cloud, black, ink); colours on it come from there (`--g-bg`,
-  `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`).
+  `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`). A block on
+  another ground inside a section (the dark panel, a cloud form, a photo) says `data-tone` instead: the same colours,
+  painted by the block, but the bars do not follow it.
 - **One line colour**: every border is `var(--line)` (ink-20 on light grounds, white-30 on dark); states may use ink.
 - **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
@@ -48,7 +54,11 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
 - **Pages** are written by `build/pages.mjs` from `src/templates/`; never edit `src/index.html`, `src/catalog/`,
-  `src/coffee/` (generated, not committed). Links inside the site go through `href(ctx, to)`.
+  `src/coffee/` or the other page folders (generated, not committed). Links inside the site go through `href(ctx, to)`;
+  an anchor of the same page that is not the home page is written as is (`#contacts`), not through `href`.
+- **Shared blocks** of the new pages are in `src/templates/blocks.mjs` (page head, tabs, tiles, form cells, the dark
+  panel, dialogs, contacts): reuse them before writing new markup. The bag and the favourites are written by their
+  scripts before the 3D packs start (`main.js`), so their packs are drawn; a change of layout dispatches `qq:layout`.
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.

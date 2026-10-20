@@ -1,0 +1,137 @@
+/* The account: the head (the name, three numbers, the tabs), the activity tiles and their drawings, orders as rows,
+   purchases as cards, the beans dialog, the settings.
+
+   Drawings (the ring of the beans, the taste profile, the countries, the descriptors, the bars of the beans) mark
+   data in lavender: the brand's one colour stays off surfaces, a mark of data is not one (decision chart-marks). */
+.account .phead { align-items: center; }
+
+/* ── an order as a row: its picture with the count, then the coffees, where it goes, its number and its state ── */
+.orows { display: grid; gap: var(--hair); }
+.orow { position: relative; display: grid; grid-template-columns: minmax(5.5rem, 1fr) minmax(0, 6fr); min-height: 10rem; }
+.orow--item { min-height: 9rem; }
+.orow__media { position: relative; min-width: 0; min-height: 8rem; }
+.orow__media > .badge { position: absolute; z-index: 7; left: 12px; top: 12px; }
+.orow__body { display: flex; flex-direction: column; gap: 6px; padding: var(--tile-pad); min-width: 0; }
+.orow__head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 4px var(--gap); margin-bottom: 6px; }
+.orow__title { flex: 1 1 12rem; }
+.orow__title { font-size: var(--type-card-title); overflow-wrap: anywhere; }
+.orow__link::after { content: ""; position: absolute; inset: 0; z-index: 6; }
+.orow__link:focus-visible { outline: none; }
+.orow__link:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+.orow__sum { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; font-feature-settings: "tnum" 1; }
+.orow__line { font-size: var(--type-body); }
+.orow .status { margin-top: auto; padding-top: var(--text-gap); }
+.orow::before { content: ""; position: absolute; inset: 0; z-index: 5; pointer-events: none; transition: background-color var(--t-out) var(--ease-out); }
+@media (--mouse) { .orow:has(.orow__link:hover)::before { background-color: var(--tint); transition-duration: var(--t-in); } }
+@container col (width >= 43rem) {
+  .orow { grid-template-columns: minmax(8rem, 1fr) minmax(0, 6fr); }
+}
+
+/* one order's state, tracking and number */
+.ostate { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px var(--block-pad); }
+.otrack { display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--block-pad); font-size: var(--type-body); }
+.otrack__num { display: flex; align-items: center; gap: 8px; }
+.orows--items { padding-top: var(--section-gap); }
+.order__back { padding-top: var(--section-gap); }
+
+/* ── a coffee bought: picture with the price and the count, the rating, the name, the last choice ─────────── */
+.pcard { display: flex; flex-direction: column; min-width: 0; }
+.pcard__media { position: relative; aspect-ratio: 1; overflow: hidden; }
+.pcard__top { position: relative; z-index: 7; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 12px; }
+.pcard__top[data-on-photo] { color: var(--c-paper); }
+.pcard__price { font: 500 var(--type-body) / 24px var(--sans); font-feature-settings: "tnum" 1; }
+.pcard__name { margin-top: 16px; margin-bottom: 6px; font-size: var(--type-card-title); overflow-wrap: anywhere; }
+.pcard .card__link::after { display: none; }
+
+/* ── the activity tiles ───────────────────────────────────────────────────────────────────────────────────── */
+.activity .tile { padding: var(--tile-pad); min-height: 21rem; }
+/* the drawings need room: one tile a row on a phone, two from M, four from L */
+@container col (width >= 43rem) { .activity { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .activity { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.activity .tile > :last-child { margin-block: auto; }
+.dial { position: relative; display: grid; place-items: center; width: min(100%, 12.5rem); margin-inline: auto; }
+.dial--big { width: min(100%, 15rem); }
+.ring { width: 100%; height: auto; }
+.ring__track { fill: none; stroke: var(--c-paper); }
+.ring__fill { fill: none; stroke: var(--c-lavender); }
+.dial__in { position: absolute; display: grid; justify-items: center; gap: 2px; text-align: center; }
+.dial__n { display: flex; align-items: center; gap: 4px; font: 700 var(--type-h3) / 1 var(--mono); letter-spacing: 0; }
+.dial__n svg { width: 0.6em; height: 0.75em; }
+.dial__level { font-size: var(--type-body); }
+.dial__next { font-size: var(--type-body); color: var(--c-ink-70); }
+
+/* the taste profile: the drawing in the middle, the four scales' names around it */
+.radar { display: grid; grid-template: ". top ." auto "left plot right" auto ". bottom ." auto / minmax(0, 1fr) minmax(0, 10rem) minmax(0, 1fr); align-items: center; justify-items: center; gap: 6px; }
+.radar__plot { grid-area: plot; width: 100%; height: auto; overflow: visible; }
+.radar__grid { fill: none; stroke: var(--c-ink-20); stroke-width: 1; }
+.radar__axis { stroke: var(--c-ink-20); stroke-width: 1; }
+.radar__shape { fill: var(--c-lavender); fill-opacity: 0.85; stroke: var(--c-lavender-ink); stroke-width: 1.5; stroke-linejoin: round; }
+.radar__label { font-size: var(--type-small); color: var(--c-ink-70); }
+.radar__label--top { grid-area: top; }
+.radar__label--bottom { grid-area: bottom; }
+.radar__label--left { grid-area: left; justify-self: end; writing-mode: vertical-rl; transform: rotate(180deg); }
+.radar__label--right { grid-area: right; justify-self: start; writing-mode: vertical-rl; }
+
+.lands { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px; }
+.land { position: relative; display: grid; place-items: center; height: 3.75rem; }
+.land__shape { width: auto; height: 100%; max-width: 100%; fill: var(--c-paper); }
+.land--got .land__shape { fill: var(--c-lavender); }
+.land__name { font-size: var(--type-small); color: var(--c-ink-70); text-align: center; }
+.land__n { position: absolute; right: 0; top: 0; }
+
+.waffle { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 1px; }
+.waffle span { aspect-ratio: 1; background: var(--c-paper); }
+.waffle .on { background: var(--c-lavender); }
+.waffle__say { margin-top: 12px; font-size: var(--type-body); color: var(--c-ink-70); }
+
+/* ── the beans dialog ─────────────────────────────────────────────────────────────────────────────────────── */
+/* the body of a dialog is a column of its own: its blocks change at the shared steps of their own width */
+.dialog__body { container: col / inline-size; display: grid; grid-template-columns: minmax(0, 1fr); }
+.beans { display: grid; gap: var(--text-gap); padding: var(--section-gap) var(--tile-pad) var(--tile-pad); }
+.beans .ring__track { stroke: var(--c-paper); }
+.beans__foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; font-size: var(--type-body); color: var(--c-ink-70); }
+.refer { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--text-gap); align-items: center; padding: var(--tile-pad); border-top: var(--hair) solid var(--line); font-size: var(--type-body); }
+.refer__text b { font-weight: 500; }
+.refer__text { color: var(--c-ink-70); }
+.refer__text b { color: var(--c-ink); }
+.refer__copy { min-width: 0; max-width: 100%; min-height: 48px; padding-inline: 12px; justify-content: flex-start; font: 500 var(--type-body) / 1.2 var(--sans); text-transform: none; letter-spacing: 0; min-width: 0; }
+.refer__copy span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.refer__copy svg { width: 24px; height: 24px; flex: none; }
+@container col (width >= 22rem) { .refer { grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); } }
+.beans__tabs { padding: var(--tile-pad) var(--tile-pad) 0; }
+.beans__tabs .subtabs { margin-bottom: 0; }
+.beans__panel { display: grid; gap: var(--text-gap); padding: var(--tile-pad) var(--tile-pad) var(--section-gap); }
+/* the bars of the beans by month: a scale on the left, a column per month, the month's name under it */
+.bars { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; margin-bottom: var(--text-gap); font-size: var(--type-small); }
+.bars__scale { display: flex; flex-direction: column; justify-content: space-between; height: 12rem; color: var(--c-ink-70); text-align: right; line-height: 1; }
+.bars__scale li { transform: translateY(-50%); }
+.bars__scale li:last-child { transform: none; }
+.bars__cols {
+  display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); align-items: end;
+  background: repeating-linear-gradient(to bottom, var(--c-ink-10) 0 1px, transparent 1px 3rem) top / 100% 12rem no-repeat;
+}
+.bars__cols li { display: grid; grid-template-rows: 12rem auto; justify-items: center; }
+.bars__bar { align-self: end; width: min(56%, 2rem); height: calc(var(--v) * 100%); background: var(--c-lavender); }
+/* the months stand upright until the column is wide enough (M) to set them side by side */
+.bars__label { padding-top: 0.5em; line-height: 1; white-space: nowrap; writing-mode: vertical-rl; transform: rotate(180deg); }
+.bars__cols li { min-width: 0; }
+@container col (width >= 43rem) {
+  .bars__label { writing-mode: horizontal-tb; transform: none; }
+}
+.history__month { margin-top: var(--text-gap); font: 400 var(--type-body-l) / 1.2 var(--sans); text-transform: none; letter-spacing: 0; }
+.history { display: grid; gap: var(--hair); }
+.hrow { display: grid; gap: 8px; padding: var(--tile-pad); }
+.hrow__head { display: flex; justify-content: space-between; gap: var(--gap); }
+.hrow__title { display: inline-block; padding-block: 4px; font: 700 var(--type-body-l) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+@media (--mouse) { .hrow__title:hover { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.2em; } }
+.hrow__n { font: 700 var(--type-body-l) / var(--lh-heading) var(--mono); font-feature-settings: "tnum" 1; white-space: nowrap; }
+.rules { display: grid; gap: var(--text-gap); padding-left: 1.2em; list-style: disc; font-size: var(--type-body); line-height: var(--lh-text); }
+.dialog__empty { color: var(--c-ink-70); }
+
+/* ── the settings ────────────────────────────────────────────────────────────────────────────────────────────── */
+.settings { display: grid; gap: var(--section-y-s); padding-top: var(--text-gap); }
+.settings__group { display: grid; gap: var(--text-gap); }
+.settings__title { font-size: var(--type-card-title); }
+.settings .form { width: 100%; }
+.settings__out { padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); font-size: var(--type-body); }
+.settings__out .link { min-height: 40px; }

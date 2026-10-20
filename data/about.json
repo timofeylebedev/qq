@@ -1,0 +1,33 @@
+{
+  "$about": "The about page (Figma «О компании», frame [1440 — 1920]): the title over the roast photo, the founder's letter, the team, the approach block, the Instagram strip, the contacts. The Figma team grid repeats seven stock portraits twice; the site shows each person once (placeholder photos: decision about-photos). The Instagram account has no address in Figma yet, so its tiles do not link anywhere.",
+  "title": "Раскрывая потенциал",
+  "letter": [
+    "Мы раскрываем лучшее — в кофе и в людях, которые его пьют: через качество, многогранность, эстетику и бережное отношение к каждому решению.",
+    "Для нас кофе — больше, чем продукт на каждый день. Это способ проявить вкус, внимание к деталям, внутреннюю свободу и уверенность в себе. В каждой чашке — не просто привычный ритуал, а городская энергия, авторский взгляд, тонкая работа с зерном, красота момента и честное удовольствие от хорошо сделанного дела.",
+    "QQ Coffee — для тех, кто выбирает кофе не по привычке, а по внутреннему ощущению. Кто видит красоту в мелочах, доверяет своему вкусу и открыт необычному. Наш кофе — точный, многогранный и живой: премиальный по подходу, городской по характеру и человечный по сути."
+  ],
+  "signature": { "name": "Юрий Головков", "image": "signature" },
+  "team": {
+    "title": "Наша команда",
+    "people": [
+      { "name": "Юра", "role": "Развитие компании, сорсинг, спикер", "image": "team-yura" },
+      { "name": "Влад", "role": "Руководитель производства", "image": "team-vlad" },
+      { "name": "Лина", "role": "Event-менеджмент и взаимодействие с клиентами", "image": "team-lina" },
+      { "name": "Илья", "role": "Обжарка и контроль качества", "image": "team-ilya" },
+      { "name": "Катя", "role": "SMM-менеджер", "image": "team-katya" },
+      { "name": "Лена", "role": "Операционный директор", "image": "team-lena" },
+      { "name": "Антонина", "role": "Взаимодействие с клиентами", "image": "team-antonina" }
+    ]
+  },
+  "instagram": {
+    "title": "Знания о кофе и наша внутренняя кухня в Instagram",
+    "href": null,
+    "posts": [
+      ["insta-cupping", "Каппинг: бариста пробует кофе за столом с чашками"],
+      ["insta-podcast", "Кофейня, в которую едут специально"],
+      ["insta-spoon", "Ложка над чашкой на каппинге"],
+      ["insta-acidity", "Что они называют кислым: невкусную кислотность"],
+      ["insta-drip", "Дрип-пакет над стеклянным чайником"]
+    ]
+  }
+}

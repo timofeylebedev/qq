@@ -1,0 +1,140 @@
+/* The information pages: business (for coffee shops), questions and answers, delivery and payment, contacts, the
+   privacy policy, about the company. */
+
+/* ── business: the hero on cool grey, the title and its actions on the left, the photo filling the right half to the
+   screen's edge (as the dark image block of the home page); below M the photo comes under the text ───────────── */
+.bhero { position: relative; overflow: hidden; background: var(--c-ink); color: var(--c-paper); padding-top: var(--nav-h); }
+.bhero__col { display: grid; }
+.bhero__copy { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; gap: var(--section-gap); padding-block: var(--block-pad); }
+.bhero__text { display: grid; gap: var(--text-gap); min-width: 0; }
+.bhero__title { font-size: var(--type-display); line-height: var(--lh-display); max-width: 12em; overflow-wrap: anywhere; }
+.bhero__lead { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 30em; color: var(--c-white-80); }
+.bhero__actions { display: grid; grid-template-columns: minmax(0, 1fr); border: var(--hair) solid var(--line); }
+.bhero__actions li + li { border-top: var(--hair) solid var(--line); }
+.bhero__action {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; height: 100%; min-height: var(--control-h); padding: 12px var(--control-x);
+  font-size: var(--type-body-l); text-align: left; transition: background-color var(--t-out) var(--ease-out);
+}
+.bhero__action svg { width: 24px; height: 24px; flex: none; transition: transform var(--t-out) var(--ease-out); }
+.bhero__action--main { background: var(--c-paper); color: var(--c-ink); }
+.bhero__action--main:focus-visible { outline-color: var(--c-paper); }
+@media (--mouse) {
+  .bhero__action:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .bhero__action--main:hover { background-color: var(--c-cloud); }
+  .bhero__action:hover svg { transform: translateX(4px); transition-duration: var(--t-in); }
+}
+.bhero__image { margin-inline: calc(-1 * var(--gutter)); }
+.bhero__image img { width: 100%; height: auto; }
+@container col (width >= 22rem) {
+  .bhero__actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .bhero__actions li + li { border-top: 0; border-left: var(--hair) solid var(--line); }
+  .bhero__action { flex-direction: column-reverse; align-items: flex-start; justify-content: flex-end; gap: var(--text-gap); min-height: 6.5rem; padding: var(--tile-pad); }
+}
+/* from M as the dark image block: the text in the left half, the photo filling the right half to the screen's edge */
+@container col (width >= 43rem) {
+  .bhero__col { min-height: var(--story-h); }
+  .bhero__copy { width: 50%; padding-right: var(--block-pad); }
+  .bhero__image { position: absolute; inset: var(--nav-h) 0 0 50%; margin: 0; }
+  .bhero__image img { height: 100%; object-fit: cover; }
+}
+
+/* the two free services: big photos with their text and button at the foot; the price list as a row under them */
+.offers { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--gap); margin-bottom: var(--gap); }
+.offer { position: relative; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; }
+.offer__image { position: absolute; inset: 0; overflow: hidden; }
+.offer__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
+@media (--mouse) { .offer:hover .offer__image img { transform: scale(1.03); } }
+.offer__info {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap);
+  padding: calc(var(--block-pad) * 2) var(--block-pad) var(--block-pad); background: linear-gradient(to bottom, transparent, var(--c-black) var(--block-pad));
+}
+.offer__title { font-size: var(--type-title); max-width: 14em; }
+.offer__text { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-white-80); max-width: 34em; }
+.offer .btn-arrow { --btn-bg: var(--c-paper); --btn-fg: var(--c-ink); margin-top: calc(var(--action-gap) - var(--text-gap)); font: 700 var(--type-control) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.offer .btn-arrow:focus-visible { outline-color: var(--c-paper); }
+@container col (width >= 43rem) { .offers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* what clients say: a photo (the coffee shop with its logo), the words on ink under it */
+.reviews { display: grid; gap: var(--gap); }
+.review { display: flex; flex-direction: column; }
+.review__image { aspect-ratio: 3 / 2; overflow: hidden; background: var(--c-black); }
+.review__image img { width: 100%; height: 100%; object-fit: cover; }
+.review__body { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: var(--section-gap); margin: 0; padding: var(--tile-pad); }
+.review__text { margin: 0; font: 500 var(--type-body-l) / var(--lh-text) var(--sans); }
+.review__who { font-size: var(--type-body); color: var(--c-white-80); }
+@container col (width >= 43rem) { .reviews { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .reviews { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* the reasons: icons in lavender over each tile */
+.tiles--icons .tile { padding: var(--tile-pad); }
+.tiles--facts .tile { min-height: 20rem; padding: var(--block-pad); }
+
+/* ── questions and answers: groups of questions on cloud, each opening its answer ─────────────────────────── */
+.qa-group { margin-top: var(--section-gap); }
+.qa-group__title { margin-bottom: var(--text-gap); font-size: var(--type-card-title); }
+.qa-list { display: grid; }
+.qa + .qa { border-top: var(--hair) solid var(--line); }
+.qa__q {
+  position: relative; display: block; padding: var(--card-pad) calc(var(--control-x) + 32px) var(--card-pad) var(--control-x); cursor: pointer; list-style: none;
+  font: 700 var(--type-body-l) / var(--lh-compact) var(--sans); transition: background-color var(--t-out) var(--ease-out);
+}
+.qa__q::-webkit-details-marker { display: none; }
+.qa__q::after {
+  content: ""; position: absolute; right: var(--control-x); top: 50%; width: 9px; height: 9px; margin-top: -7px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); transition: transform var(--t-out) var(--ease-out);
+}
+.qa[open] .qa__q::after { transform: translateY(4px) rotate(-135deg); }
+.qa__q:focus-visible { outline-offset: -2px; }
+@media (--mouse) { .qa__q:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.qa__a .link { padding-block: 5px; }
+.qa__a { display: grid; gap: 1em; padding: 0 var(--control-x) var(--card-pad); font-size: var(--type-body); line-height: var(--lh-text); max-width: 36em; }
+
+/* ── the privacy policy: a summary on cloud, then the text. Its headings are set in Apercu Bold, as in Figma: long
+   legal headings would be walls in mono capitals (decision prose-headings) ─────────────────────────────────── */
+.note { display: grid; gap: var(--text-gap); padding: var(--tile-pad); margin-bottom: var(--section-gap); font-size: var(--type-body); line-height: var(--lh-text); }
+.note__title, .prose h2, .note h3 { font-family: var(--sans); text-transform: none; letter-spacing: 0; text-wrap: pretty; }
+.note__title { font-size: var(--type-card-title); line-height: var(--lh-compact); }
+.note__item { display: grid; gap: 8px; padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); }
+.note h3 { font-size: var(--type-body); line-height: var(--lh-compact); }
+.note ol { display: grid; gap: 6px; padding-left: 1.4em; list-style: decimal; }
+.note__foot { padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); }
+.prose { display: grid; gap: 1em; font-size: var(--type-body); line-height: var(--lh-text); overflow-wrap: break-word; }
+.prose h2 { margin-top: var(--section-gap); font-size: var(--type-card-title); line-height: var(--lh-compact); }
+.prose h2:first-child { margin-top: 0; }
+.prose ul { display: grid; gap: 0.6em; padding-left: 1.4em; list-style: disc; }
+
+/* ── about: the title over the roast photo, the letter rising over its foot, the team, the strip ─────────────── */
+.ahero { position: relative; display: grid; align-items: center; min-height: var(--story-h); padding-block: calc(var(--nav-h) + var(--section-y)) calc(var(--section-y) * 2); background: var(--c-black); color: var(--c-paper); overflow: hidden; }
+.ahero__bg { position: absolute; inset: 0; }
+.ahero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+.ahero__title { position: relative; font-size: var(--type-display); line-height: var(--lh-display); text-align: center; }
+.letter-wrap { position: relative; z-index: 1; }
+.letter {
+  display: grid; gap: 1em; width: min(100%, 40rem); margin: calc(-1 * var(--section-y)) auto 0; padding: var(--block-pad);
+  font-size: var(--type-lead); line-height: var(--lh-text);
+}
+.letter__sign { margin-top: var(--text-gap); }
+.letter__signature img { width: min(100%, 14rem); height: auto; }
+
+.team { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--row-gap) var(--gap); }
+.person { display: flex; flex-direction: column; gap: 6px; }
+.person__photo { aspect-ratio: 1; overflow: hidden; margin-bottom: 10px; background: var(--c-cloud); }
+.person__photo img { width: 100%; height: 100%; object-fit: cover; }
+.person__name { font-size: var(--type-card-title); }
+.person__role { font-size: var(--type-body); color: var(--c-ink-70); max-width: 20em; }
+@container col (width >= 22rem) { .team { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 43rem) { .team { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .team { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* the Instagram strip: a row of posts (3 : 4) that scrolls sideways where they do not all fit */
+.strip {
+  --per: 1.6;
+  position: relative; display: grid; grid-auto-flow: column; gap: var(--hair);
+  grid-auto-columns: calc((100% - (var(--per) - 1) * var(--hair)) / var(--per));
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
+}
+.strip::-webkit-scrollbar { display: none; }
+.strip__item { scroll-snap-align: start; aspect-ratio: 3 / 4; overflow: hidden; background: var(--c-cloud); }
+.strip__photo img { width: 100%; height: 100%; object-fit: cover; }
+@container col (width >= 43rem) { .strip { --per: 3; } }
+@container col (width >= 58rem) { .strip { --per: 5; } }

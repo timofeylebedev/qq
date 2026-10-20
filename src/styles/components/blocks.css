@@ -1,0 +1,232 @@
+/* The blocks shared by the shop, the account and the information pages (src/templates/blocks.mjs). The same grammar
+   as everywhere: sharp cells divided by hairlines (var(--line)), mono capitals for names and headings, Apercu for
+   what you read, a tint behind the one item under the pointer. Every block stands on the column, so it changes at
+   the shared steps S, M, L. */
+
+/* ── the head of a page: the title (h1 in the size of section headings) with its count, and an aside ──────────── */
+.phead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--text-gap) var(--gap); margin-bottom: var(--section-gap); }
+.phead--line { padding-bottom: var(--tile-pad); border-bottom: var(--hair) solid var(--line); margin-bottom: 0; }
+.phead__main { display: grid; gap: var(--text-gap); flex: 1 1 20rem; min-width: 0; }
+.phead__title { font-size: var(--type-h2); overflow-wrap: anywhere; }
+.phead__count { margin-left: 0.25em; font: 400 var(--type-body) / 1 var(--sans); letter-spacing: 0; vertical-align: super; }
+.phead__count:empty { display: none; }
+.phead__sub { font-size: var(--type-body); color: var(--c-ink-70); }
+.phead__aside { margin-left: auto; }
+
+/* the account's numbers: a figure over its caption */
+.stats { display: flex; gap: var(--block-pad); text-align: center; }
+.stats div { display: flex; flex-direction: column-reverse; gap: 4px; }
+.stats dd { font: 700 var(--type-title) / 1 var(--mono); letter-spacing: var(--track-mono); font-feature-settings: "tnum" 1; }
+.stats dt { font-size: var(--type-body); }
+
+/* ── tabs between pages of one place, or panels of one block: mono capitals on a hairline; the current one in ink
+   with a bar on the line, the others in ink-70 (secondary text: at 18px they are not «large text») ────────────── */
+/* on a narrow column the row scrolls sideways, as the catalog's tabs do */
+.subtabs { position: relative; overflow-x: auto; scrollbar-width: none; border-bottom: var(--hair) solid var(--line); margin-bottom: var(--section-gap); }
+.subtabs::-webkit-scrollbar { display: none; }
+.subtabs ul, .subtabs--form, .subtabs--panels { display: flex; gap: var(--block-pad); }
+.subtabs__tab {
+  position: relative; display: block; padding-block: 12px var(--tile-pad); white-space: nowrap; color: var(--c-ink-70); cursor: pointer;
+  font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono);
+  transition: color var(--t-out) var(--ease-out);
+}
+.subtabs__tab::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; border-bottom: 2px solid transparent; }
+.subtabs__tab[aria-current="page"], .subtabs__tab[aria-selected="true"], .subtabs__tab:has(:checked) { color: var(--c-ink); }
+.subtabs__tab[aria-current="page"]::after, .subtabs__tab[aria-selected="true"]::after, .subtabs__tab:has(:checked)::after { border-bottom-color: currentColor; }
+.subtabs__tab:not([href]):not(button):not(:has(input)) { cursor: default; }
+.subtabs__tab:has(:focus-visible) { outline: 2px solid currentColor; outline-offset: 2px; }
+@media (--mouse) { .subtabs__tab[href]:hover, button.subtabs__tab:hover, .subtabs__tab:has(input):hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+
+/* ── a count in a dot ──────────────────────────────────────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 999px;
+  background: var(--c-ink); color: var(--c-paper); font: 500 var(--type-small) / 1 var(--sans); font-feature-settings: "tnum" 1;
+}
+
+/* ── the picture of a coffee in a list: the 3D pack on cloud, or its photo on black ─────────────────────────── */
+.media { position: absolute; inset: 0; }
+.media .pack { inset: 10% 14% 18%; }
+.media__photo { position: absolute; inset: 0; }
+.media__photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ── the meta line of a coffee or an order: parts divided by a small dot ───────────────────────────────────── */
+.meta { display: flex; flex-wrap: wrap; gap: 0 8px; font-size: var(--type-body); color: var(--c-ink-70); }
+.meta span + span::before { content: "•"; margin-right: 8px; color: var(--c-ink-40); }
+[data-tone="ink"] .meta, [data-tone="black"] .meta { color: var(--c-white-80); }
+[data-tone="ink"] .meta span + span::before { color: var(--c-white-40); }
+
+/* the state of an order: lavender while it is on its way (the active state of the brand), ink once delivered */
+.status { font: 500 var(--type-body) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); }
+.status--now { color: var(--c-lavender-ink); }
+.status--done { color: var(--c-ink); }
+
+/* small actions: an icon with its words («Очистить», «Все заказы»), a big text link with an arrow, a row button */
+.iconlink { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding-inline: 8px; margin-inline: -8px; font-size: var(--type-body); color: inherit; transition: background-color var(--t-out) var(--ease-out); }
+.iconlink svg { width: 24px; height: 24px; flex: none; }
+@media (--mouse) { .iconlink:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.golink-row { display: flex; justify-content: center; padding-top: var(--section-y-s); }
+.golink {
+  display: inline-flex; align-items: center; gap: 12px; min-height: var(--control-h); padding-inline: var(--control-x);
+  font: 700 var(--type-card-title) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono);
+  transition: background-color var(--t-out) var(--ease-out);
+}
+.golink svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
+@media (--mouse) { .golink:hover { background-color: var(--tint); transition-duration: var(--t-in); } .golink:hover svg { transform: translateX(4px); transition-duration: var(--t-in); } }
+.rowlink {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--gap); width: 100%; min-height: calc(var(--control-h) + 2 * var(--tile-pad));
+  padding: var(--tile-pad); background: var(--c-cloud); text-align: left; transition: background-color var(--t-out) var(--ease-out);
+}
+.rowlink svg { width: 32px; height: 32px; transition: transform var(--t-out) var(--ease-out); }
+.rowlink__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+@media (--mouse) { .rowlink:hover { background-color: var(--c-ink-6); transition-duration: var(--t-in); } .rowlink:hover .rowlink__go svg { transform: translateX(6px); transition-duration: var(--t-in); } }
+
+/* ── parts of a page under its head (Отложенные, Активность…): a heading, its content; a hairline between ──── */
+.part { padding-top: var(--section-y-s); }
+.part + .part { margin-top: var(--section-y-s); border-top: var(--hair) solid var(--line); }
+.part__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--text-gap) var(--gap); margin-bottom: var(--section-gap); }
+.part__head .part__title { margin-bottom: 0; }
+.part__title { font-size: var(--type-h3); margin-bottom: var(--section-gap); }
+.part__month { margin-bottom: var(--text-gap); font: 400 var(--type-body-l) / 1.2 var(--sans); text-transform: none; letter-spacing: 0; }
+.part--month + .part--month { border-top: 0; margin-top: 0; }
+
+/* a narrow column for reading (questions, the policy) and for forms (the settings) */
+.narrow { width: min(100%, 40rem); margin-inline: auto; }
+.narrow--form { width: min(100%, 27.5rem); }
+
+/* an empty bag or favourites */
+.empty { display: grid; justify-items: start; gap: var(--text-gap); padding-block: var(--section-y-s); font-size: var(--type-body-l); color: var(--c-ink-70); }
+.empty__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-ink); }
+.empty .btn { margin-top: var(--text-gap); }
+
+/* more grids of cards: the bag (two from M), thirds (three from L), quarters (two from S, four from L) */
+.grid--bag { padding-top: var(--section-gap); }
+@container col (width >= 58rem) {
+  .grid--thirds { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container col (width >= 22rem) {
+  .grid--quarters { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--section-gap); }
+}
+@container col (width >= 58rem) {
+  .grid--quarters { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.grid > [data-out] { display: none; }
+
+/* ── tiles: cells divided by hairlines; each one icon, title, text (delivery, business, legal, activity) ─────── */
+.tiles { display: grid; grid-template-columns: minmax(0, 1fr); padding: 0 1px 1px 0; }
+.tile { display: flex; flex-direction: column; gap: var(--text-gap); min-width: 0; padding: var(--block-pad); border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
+.tile__icon svg { width: 40px; height: 40px; color: var(--c-lavender-ink); }
+.tiles--icons .tile__icon { margin-bottom: var(--section-gap); }
+.tile__title { font-size: var(--type-card-title); max-width: 16em; }
+.tile__text { font-size: var(--type-body); line-height: var(--lh-text); }
+.tile__note { margin-top: auto; padding-top: var(--text-gap); font-size: var(--type-body); color: var(--c-lavender-ink); }
+.tiles--cloud { padding: 0; gap: var(--hair); }
+.tiles--cloud .tile { border: 0; margin: 0; background: var(--c-cloud); }
+.tile__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.tile__more { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-70); transition: color var(--t-out) var(--ease-out); }
+.tile__more svg { width: 24px; height: 24px; }
+@media (--mouse) { .tile__more:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+/* five short cells (the legal details) pair up from S; four text tiles (the business reasons) need M */
+@container col (width >= 22rem) {
+  .tiles--5 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container col (width >= 43rem) {
+  .tiles--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tiles--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .tiles--5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container col (width >= 58rem) {
+  .tiles--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tiles--5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+/* ── the dark panel beside a list (the bag's summary, an order's details) ──────────────────────────────────── */
+.panel { align-self: start; display: grid; font-size: var(--type-body); }
+.panel__part { display: grid; gap: 8px; padding: var(--tile-pad); }
+.panel__part + .panel__part { border-top: var(--hair) solid var(--line); }
+.panel__title { font-size: var(--type-card-title); margin-bottom: 8px; }
+.panel__label { margin-top: 8px; font-weight: 500; }
+.panel__hint { color: var(--c-white-80); font-size: var(--type-body); }
+.panel__field {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px var(--control-x) 12px 16px; background: var(--c-white-20);
+  transition: background-color var(--t-out) var(--ease-out);
+}
+.panel__field > span:first-child { display: grid; gap: 2px; }
+.panel__field svg { width: 24px; height: 24px; flex: none; color: var(--c-white-80); }
+@media (--mouse) { .panel__field:hover { background-color: var(--c-white-30); transition-duration: var(--t-in); } }
+.panel__value { font-weight: 500; }
+.panel__total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: var(--hair) solid var(--line); margin-top: 8px; }
+.panel__sum { font: 700 var(--type-title) / 1 var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; }
+.panel__earn { display: flex; align-items: center; justify-content: flex-end; gap: 4px; color: var(--c-white-80); }
+.panel__earn svg { width: 16px; height: 16px; color: var(--c-lavender); }
+.panel__ok { display: flex; align-items: center; gap: 8px; }
+.panel__ok svg { width: 20px; height: 20px; }
+.panel__part--actions { gap: 4px; }
+.panel__go { width: 100%; }
+.panel__gift {
+  display: grid; place-items: center; min-height: var(--control-h); color: var(--c-white-80);
+  font: 700 var(--type-control) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); transition: background-color var(--t-out) var(--ease-out);
+}
+@media (--mouse) { .panel__gift:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.prows { display: grid; gap: 8px; }
+.prows div { display: flex; justify-content: space-between; gap: 12px; }
+.prows dd { white-space: nowrap; font-feature-settings: "tnum" 1; }
+.prows [hidden] { display: none; }
+.prows div:has(> dd[hidden]) { display: none; }
+
+/* the light button (on dark grounds) */
+.btn--light { background: var(--c-paper); color: var(--c-ink); }
+@media (--mouse) { .btn--light:hover { background: var(--c-cloud); } }
+.panel .btn--light:focus-visible { outline-color: var(--c-paper); }
+
+/* ── a dialog over the page ─────────────────────────────────────────────────────────────────────────────────── */
+.dialog {
+  width: min(100% - 2 * var(--gutter), 27.5rem); max-height: calc(100% - 2 * var(--gutter)); padding: 0; border: 0; overflow: auto;
+  background: var(--c-paper); color: var(--c-ink); overscroll-behavior: contain;
+}
+.dialog--wide { width: min(100% - 2 * var(--gutter), 50rem); }
+.dialog::backdrop { background: var(--c-ink-40); }
+.dialog__head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px var(--tile-pad); background: var(--c-cloud); border-bottom: var(--hair) solid var(--line); }
+.dialog__title { font-size: var(--type-card-title); }
+.dialog__close { display: grid; place-items: center; width: 48px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
+.dialog__close svg { width: 24px; height: 24px; }
+@media (--mouse) { .dialog__close:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+@media (--motion) {
+  .dialog[open] { animation: dialog-in var(--t-move) var(--ease-out); }
+  .dialog[open]::backdrop { animation: fade-in var(--t-move) var(--ease-out); }
+}
+@keyframes dialog-in { from { opacity: 0; transform: translateY(var(--text-gap)); } }
+@keyframes fade-in { from { opacity: 0; } }
+:root:has(.dialog[open]) { overflow: hidden; }
+
+/* ── the company's places on their maps, and the legal details ──────────────────────────────────────────────── */
+.places { display: grid; gap: var(--gap); }
+.place { position: relative; display: grid; }
+.place__map { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: var(--c-cloud); }
+.place__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
+@media (--mouse) { .place__map:hover .place__image img { transform: scale(1.03); } }
+.place__pin { position: absolute; left: 50%; top: 50%; translate: -50% -100%; color: var(--c-ink); }
+.place__pin svg { width: 40px; height: 40px; }
+.place__card { display: grid; gap: 8px; padding: var(--tile-pad); font-size: var(--type-body); line-height: var(--lh-text); }
+.place__card a, .legal__value a { display: inline-block; padding-block: 3px; }
+.place__card a { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.2em; }
+@media (--mouse) { .place__card a:hover { text-decoration-color: transparent; } }
+.place__title { margin-bottom: 8px; font-size: var(--type-card-title); }
+@container col (width >= 22rem) {
+  .place__card { position: absolute; left: var(--tile-pad); top: var(--tile-pad); width: min(100% - 2 * var(--tile-pad), 20rem); }
+}
+@container col (width >= 43rem) { .places { grid-template-columns: 1fr 1fr; } }
+.legal__title { margin: var(--section-y-s) 0 var(--text-gap); font-size: var(--type-card-title); }
+.legal .tile { gap: 4px; padding: var(--tile-pad); font-size: var(--type-body); }
+.legal__key { font-weight: 500; }
+.legal__value a { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.2em; }
+
+/* ── the rating of a coffee bought: two cells at the foot of its picture, like the buy row of a card ─────────── */
+.rate { position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
+.rate button { position: relative; display: grid; place-items: center; min-height: var(--control-h); color: var(--g-fg); transition: background-color var(--t-out) var(--ease-out); }
+.rate .i-off { opacity: 0.7; }
+.rate button + button { border-left: var(--hair) solid var(--line); }
+.rate svg { width: 24px; height: 24px; }
+.rate .i-on { position: absolute; opacity: 0; }
+.rate [aria-pressed="true"] .i-on { opacity: 1; }
+.rate [aria-pressed="true"] .i-off { opacity: 0; }
+@media (--mouse) { .rate button:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

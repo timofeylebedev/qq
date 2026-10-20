@@ -52,7 +52,7 @@ export default defineConfig({
     transformer: "lightningcss",
     lightningcss: { drafts: { customMedia: true }, targets: { chrome: 111 << 16, safari: (16 << 16) | (4 << 8), ios_saf: (16 << 16) | (4 << 8), firefox: 121 << 16, edge: 111 << 16 } }
   },
-  server: { watch: { ignored: ["**/src/index.html", "**/src/catalog/**", "**/src/coffee/**", "**/src/lab/canvas/*.html"] } },
+  server: { watch: { ignored: ["**/src/index.html", "**/src/catalog/**", "**/src/coffee/**", ...["business", "faq", "delivery", "contacts", "privacy", "about", "cart", "favourites", "checkout", "account"].map((d) => `**/src/${d}/**`), "**/src/lab/canvas/*.html"] } },
   build: {
     outDir: dist,
     emptyOutDir: true,

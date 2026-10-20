@@ -86,7 +86,7 @@ function recs(ctx, list) {
 </section>`;
 }
 
-function imageBlock(ctx, b) {
+export function imageBlock(ctx, b) {
   return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">
     <div class="story__text">
@@ -127,7 +127,7 @@ function facts(ctx) {
       <span class="fact__icon">${icon(f.icon)}</span>
       <h2 class="fact__title">${esc(f.title)}</h2>
       <button class="fact__more" type="button" aria-expanded="false" aria-controls="fact-${i}" aria-label="Подробнее: ${esc(f.title)}" data-toggle>${icon("plus")}</button>
-      <p class="fact__text" id="fact-${i}" hidden>${esc(f.more)}</p>
+      <p class="fact__text" id="fact-${i}" hidden>${esc(f.more.replace("{hour}", ctx.site.roast.hour))}</p>
     </li>`).join("\n    ")}
   </ul></div>
 </section>`;

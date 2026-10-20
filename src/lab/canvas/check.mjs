@@ -159,7 +159,7 @@ try {
   await page.evaluate(() => qqCanvas.set({ x: 1e9, y: -1e9, z: 99 })); await frame(page);
   const lost = await page.evaluate(() => { const r = document.querySelector("[data-cv-world]").getBoundingClientRect(), c = qqCanvas.camera; return { z: c.z, visible: Math.min(r.right, innerWidth) - Math.max(r.left, 0) >= 79 && Math.min(r.bottom, innerHeight) - Math.max(r.top, 0) >= 79 }; });
   const ui = await page.evaluate(() => { const r = document.querySelector("[data-cv-ui]").getBoundingClientRect(); return r.top >= 0 && r.right <= innerWidth; });
-  check("Camera stays in bounds (zoom 5–400%, some of the world on screen)", lost.z <= 4 && lost.visible, JSON.stringify(lost));
+  check("Camera stays in bounds (zoom 2–400%, some of the world on screen)", lost.z <= 4 && lost.visible, JSON.stringify(lost));
   const names = await page.evaluate(() => [...document.querySelectorAll("[data-cv-ui] button")].map((b) => b.getAttribute("aria-label")));
   check("Fit and reset are named buttons, on screen however lost the view", ui && names.every(Boolean) && names.includes("Fit all") && names.includes("Reset view"), names.join(", "));
 
@@ -298,10 +298,10 @@ try {
   // ── links ──
   const url0 = page.url();
   await showGroup(page, "hero", 0.6);
-  await page.click('[data-cv-group="hero"] .hero__link >> nth=1');   // «Бизнесу» → #business
+  await page.click('[data-cv-group="hero"] .hero__link >> nth=1');   // «Бизнесу» → business/, a page shown on the canvas
   await page.waitForTimeout(200);
-  const biz = await page.evaluate(() => { const r = document.getElementById("business").getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0 && r.left < innerWidth && r.right > 0; });
-  check("A link to a part of the canvas moves the camera there", biz && page.url() === url0);
+  const biz = await page.evaluate(() => { const r = document.querySelector('[data-cv-group="bhero"]').getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0 && r.left < innerWidth && r.right > 0; });
+  check("A link to a page shown on the canvas moves the camera to its group", biz && page.url() === url0);
   await showGroup(page, "card-tone", 1);
   await page.click('[data-cv-group="card-tone"] .card__link >> nth=0'); await page.waitForTimeout(150);
   const said = await page.textContent("[data-cv-status]");

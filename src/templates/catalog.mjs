@@ -34,7 +34,7 @@ export function render(ctx) {
     <h1 class="sr" id="catalog-title">${esc(site.catalog.title)}</h1>
     <ul class="catalog__info" data-roast="${data}">
       <li>${icon("roast")}<span data-roast-hours>До ближайшей обжарки — скоро</span></li>
-      <li>${icon("truck")}<span data-ship-date>Передадим в доставку в день обжарки</span></li>
+      <li>${icon("truck")}<span data-ship-date>Передадим в доставку на следующий рабочий день после обжарки</span></li>
     </ul>
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
     <form class="filters" data-filters aria-label="Фильтры">
