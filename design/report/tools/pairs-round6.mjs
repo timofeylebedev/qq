@@ -27,8 +27,8 @@ const SHOTS = [
   ["r6-fade-card-1440", "catalog/", 1440, 900, "[data-grid]", { x: 40, y: 340, width: 680, height: 300 }, null],
   ["r6-fade-business-1440", "", 1440, 900, "#business .business__cards", { x: 40, y: 300, width: 680, height: 420 }, up(100)],
   // navbar
-  ["r6-navbar-1440", "", 1440, 900, 0, { x: 380, y: 0, width: 680, height: 48 }, done],
-  ["r6-navbar-hover-1440", "", 1440, 900, 0, { x: 380, y: 0, width: 680, height: 48 }, async (p) => { await done(p); await hoverOn(".nav__links--full li:nth-child(2) a")(p); }],
+  ["r6-navbar-1440", "", 1440, 900, 0, { x: 330, y: 0, width: 780, height: 48 }, done],
+  ["r6-navbar-hover-1440", "", 1440, 900, 0, { x: 330, y: 0, width: 780, height: 48 }, async (p) => { await done(p); await hoverOn(".nav__links--full li:nth-child(2) a")(p); }],
   ["r6-navbar-1100", "", 1100, 800, 0, { x: 0, y: 0, width: 1100, height: 48 }, done],
   ["r6-logo-hover-1440", "", 1440, 900, 0, { x: 0, y: 0, width: 360, height: 48 }, async (p) => { await done(p); await hoverOn(".nav__logo")(p); }],
   // the menu
@@ -51,8 +51,8 @@ const SHOTS = [
   ["r6-hero-intro-1440", "", 1440, 900, 0, null, intro(900), true],
   ["r6-hero-intro-390", "", 390, 844, 0, null, intro(900), true],
   // new arrivals
-  ["r6-pager-1440", "", 1440, 900, ".featured .head", { x: 560, y: 0, width: 320, height: 120 }, async (p) => { await done(p); await up(40)(p); }],
-  ["r6-pager-hover-1440", "", 1440, 900, ".featured .head", { x: 560, y: 0, width: 320, height: 120 }, async (p) => { await done(p); await up(40)(p); await hoverOn(".pager__dot:nth-child(3)")(p); }]
+  ["r6-pager-1440", "", 1440, 900, ".featured .head", { x: 560, y: 48, width: 320, height: 110 }, async (p) => { await done(p); await up(40)(p); }],
+  ["r6-pager-hover-1440", "", 1440, 900, ".featured .head", { x: 560, y: 48, width: 320, height: 110 }, async (p) => { await done(p); await up(40)(p); await hoverOn(".pager__dot:nth-child(3)")(p); }]
 ];
 const label = (text, color, w) => Buffer.from(`<svg width="${w}" height="34" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#0a0a0a"/><text x="2" y="23" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="600" fill="${color}">${text}</text></svg>`);
 const browser = await chromium.launch({ args: ["--use-gl=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
