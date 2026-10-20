@@ -39,7 +39,9 @@
 .hero__title span { display: block; }
 
 /* the countdown: three rows of one width, the caption's (13.9em of its own size: measured, build/audit.mjs) */
-.hero__roast, .hero__links { display: grid; grid-template-rows: repeat(3, 1fr); border-top: var(--hair) solid var(--line); }
+/* below M nothing stands beside the countdown, so its rows take what they need; from M they share the links' rows */
+.hero__roast, .hero__links { display: grid; border-top: var(--hair) solid var(--line); }
+.hero__links { grid-template-rows: repeat(3, 1fr); }
 .hero__roast {
   --dial: 13.9em;
   position: relative; justify-items: center; align-items: center; text-align: center;

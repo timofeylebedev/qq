@@ -3,7 +3,8 @@
 //   · every size role of design/scale.json as the browser resolves it (a probe element per role)
 //   · the sizes of the main blocks (hero, featured coffee, image blocks, product stage, buy bar)
 //   · the layout states (columns of each grid, the navbar's mode, the buy bar's rows …)
-//   node design/report/tools/sweep.mjs
+//   node design/report/tools/sweep.mjs [--dist=<a built site, default dist/>] [--out=<file, default sweep.json>]
+// A round sweeps the previous build too (its dist from a worktree of the last commit) into sweep-before.json.
 import { chromium } from "playwright";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
@@ -11,7 +12,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, join, extname } from "node:path";
 
 const root = resolve(import.meta.dirname, "../../..");
-const dist = join(root, "dist");
+const arg = (k) => process.argv.find((a) => a.startsWith(`--${k}=`))?.slice(k.length + 3);
+const dist = arg("dist") || join(root, "dist"), OUT = arg("out") || join(root, "design/report/sweep.json");
 const scale = JSON.parse(readFileSync(join(root, "design/scale.json"), "utf8"));
 const ROLES = [...Object.entries(scale.type.roles).map(([k]) => ["--" + k.replace("/", "-"), k]), ...Object.entries(scale.space.roles).map(([k, r]) => [r.css, k])];
 const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".webp": "image/webp", ".avif": "image/avif", ".woff2": "font/woff2", ".json": "application/json", ".jpg": "image/jpeg" };
@@ -43,6 +45,11 @@ function probe(roles) {
     out.factsCols = cols(".facts__list"); out.businessCols = cols(".business__cards");
     out.storyLayout = getComputedStyle(q(".story__image")).position === "absolute" ? 2 : 1;
     out.countdownPx = r(parseFloat(getComputedStyle(q(".hero__count .digits")).fontSize));
+    const tw = (e) => { if (!e) return null; const g = document.createRange(); g.selectNodeContents(e); return r(g.getBoundingClientRect().width); };
+    out.digitsW = tw(q(".hero__count .digits")); out.captionW = tw(q(".hero__caption"));
+    out.heroRow = r(q(".hero__links li").getBoundingClientRect().height);
+    out.heroCellsH = r(rect(".hero__grid").height);
+    out.heroPhoto = r(rect(".hero__info").top - rect(".hero").top);
   }
   if (q("[data-grid]")) { out.catalogTracks = cols("[data-grid]"); out.catalogFirstW = r(rect("[data-grid] > .card").width); out.filterRows = new Set([...document.querySelectorAll(".filter")].map((f) => Math.round(f.getBoundingClientRect().top))).size; }
   if (q(".pstage")) {
@@ -50,7 +57,12 @@ function probe(roles) {
     out.buybarH = r(rect(".buybar").height); out.buybarRows = new Set([...document.querySelectorAll(".buybar .cell, .buybar__add")].map((c) => Math.round(c.getBoundingClientRect().top))).size;
     out.tileW = r(rect(".ptile").width); out.stageRun = r(rect(".pstage").height);
   }
-  out.nav = getComputedStyle(q(".nav__links")).display === "none" ? 0 : 1;
+  // the navbar's step: 0 tab bar, 1 burger, 2 short sections, 3 every section (round 1 had burger or links)
+  const shown = (s) => { const e = q(s); return !!e && getComputedStyle(e).display !== "none" && e.getBoundingClientRect().width > 0; };
+  out.nav = shown(".tabbar") ? 0 : shown(".nav__burger") ? 1 : shown(".nav__links--short") ? 2 : 3;
+  const ni = q(".nav__in") || q(".nav__bar");
+  out.navContentW = r(ni.getBoundingClientRect().width);
+  out.navLogoX = r(q(".nav__logo svg").getBoundingClientRect().left);
   out.footerCols = cols(".footer__inner"); out.colW = r(rect(".col").width);
   return out;
 }
@@ -69,5 +81,5 @@ for (const path of ["", "catalog/", "coffee/keniya-kisii/"]) {
   console.log(name, "done");
 }
 await browser.close(); server.close();
-writeFileSync(join(root, "design/report/sweep.json"), JSON.stringify(result));
-console.log("design/report/sweep.json");
+writeFileSync(OUT, JSON.stringify(result));
+console.log(OUT);
