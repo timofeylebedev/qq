@@ -5,6 +5,8 @@
   "scripts": {
     "predev": "node build/data.mjs && node build/tokens.mjs",
     "dev": "vite",
+    "precanvas": "node build/data.mjs && node build/tokens.mjs",
+    "canvas": "vite --open /lab/canvas/",
     "prebuild": "node build/data.mjs && node build/tokens.mjs",
     "build": "vite build",
     "preview": "vite preview",
@@ -14,7 +16,8 @@
     "data": "node build/data.mjs",
     "check": "html-validate dist/index.html \"dist/catalog/*.html\" \"dist/coffee/**/*.html\"",
     "audit": "node build/audit.mjs",
-    "rules": "node build/rules.mjs"
+    "rules": "node build/rules.mjs",
+    "canvas:check": "node src/lab/canvas/check.mjs"
   },
   "dependencies": {},
   "devDependencies": {

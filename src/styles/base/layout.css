@@ -5,6 +5,7 @@
         S 22rem (352px)   two hero cells side by side, two-column facts in tiles
         M 43rem (688px)   two columns of cards, image blocks side by side, three info blocks in a row
         L 58rem (928px)   three columns of cards, the featured coffee as two squares, the hero in one row of three
+        max 1520px        the column at its most (--col-max): the margins grow; the hero's cells get a frame
    Any other step is a written exception (design/decisions.json). */
 .col {
   container: col / inline-size;

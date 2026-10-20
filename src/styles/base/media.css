@@ -1,16 +1,19 @@
 /* The page-level conditions (custom media, replaced by the build). Blocks do not use screen widths: they change
    their layout at the shared column steps S, M, L (container queries on .col, see layout.css). These steps are only
-   for what belongs to the whole page: the navbar and its menu.
+   for what belongs to the whole page: the navbar, its menu and the tab bar.
 
-        < 64em   the burger instead of the links (the menu is a plain list for now: not designed yet)
-        < 25em   the navbar drops its search icon (a 320–399px phone: logo, heart, bag, burger)
+        ≥ 64em   --links-full   every section in the navbar, in three groups (the screen of the column's L step)
+        ≥ 48em   --links        four short sections (the screen of the column's M step); below, the burger
+        < 40em   --phone        the bag, favourites and profile move to the tab bar at the foot of the screen
         < 32rem tall   a phone sideways: the product's buy bar stops following the screen (it would take a third
                  of it) and waits after the stage, which then pins at the whole screen under the navbar
 
-   In em, so a visitor's bigger text gets the layout of a narrower screen. Otherwise heights need no steps: every size
-   of design/scale.json counts a short screen as a narrower one, and screen-sized blocks are capped by the height. */
-@custom-media --tablet (width < 64em);
-@custom-media --narrow (width < 25em);
+   Each row fits its step with room to spare (measured: the sections 584px + the two outer columns of 172px at 1024,
+   the short ones 288px + 2 × 172px at 768; build/audit.mjs checks the bar never overflows). In em, so a visitor's bigger text gets the layout of a narrower screen. Otherwise heights
+   need no steps: every size of design/scale.json counts a short screen as a narrower one. */
+@custom-media --links-full (width >= 64em);
+@custom-media --links (width >= 48em);
+@custom-media --phone (width < 40em);
 @custom-media --short (height < 32em);
 @custom-media --mouse (hover: hover) and (pointer: fine);
 @custom-media --calm (prefers-reduced-motion: reduce);

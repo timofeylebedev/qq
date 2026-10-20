@@ -5,15 +5,27 @@
   --digits: "Technology", var(--mono);
   --nav-h: 48px;          /* the navbar: one height at every size (a control, not fluid) */
   --hair: 1px;            /* every line of the site */
-  --line: var(--c-ink-20);
   --col-max: 1520px;      /* the content column stops here; above, the margins grow */
   color-scheme: light;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
+/* Grounds: every section says what it stands on (data-ground in the templates), and everything on it takes its
+   colours from there: the ground itself, the text, the one line colour of the site and the hover tint. Lines are always
+   cool grey at 20% on light grounds and white at 30% on dark ones (build/rules.mjs: borders only in var(--line)).
+   The hover tint is white on dark grounds; on light ones, where white would not show, the same step of ink. */
+:root, [data-ground="paper"], [data-ground="cloud"] { --g-bg: var(--c-paper); --g-fg: var(--c-ink); --line: var(--c-ink-20); --tint: var(--c-ink-6); }
+[data-ground="cloud"] { --g-bg: var(--c-cloud); }
+[data-ground="black"], [data-ground="ink"] { --g-bg: var(--c-black); --g-fg: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); }
+[data-ground="ink"] { --g-bg: var(--c-ink); }
+
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: calc(var(--nav-h) + 16px); }
+html { scroll-padding-top: calc(var(--nav-h) + 16px); background: var(--c-paper); }
+/* what shows when the page bounces past its top or foot: the ground of that end of the page (scripts/nav.js) */
+html[data-over="cloud"] { background: var(--c-cloud); }
+html[data-over="black"] { background: var(--c-black); }
+html[data-over="ink"] { background: var(--c-ink); }
 @media (--motion) { html { scroll-behavior: smooth; } }
 body {
   margin: 0;
@@ -58,7 +70,7 @@ a { color: inherit; text-decoration: none; }
 
 /* a toast for «added to the bag» */
 .toast {
-  position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+  position: fixed; left: 50%; bottom: calc(16px + max(var(--tabbar-h), env(safe-area-inset-bottom, 0px))); z-index: 60;
   padding: 12px 20px; background: var(--c-ink); color: var(--c-paper); font-size: var(--type-body);
   transform: translate(-50%, calc(100% + 32px)); visibility: hidden;
   transition: transform var(--t-out) var(--ease-leave), visibility 0s var(--t-out);

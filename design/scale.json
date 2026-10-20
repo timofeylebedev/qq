@@ -24,8 +24,7 @@
       "type/body":       { "px": [14, 16], "family": "sans", "use": "card descriptions, lists, links of the navbar and the footer, fields" },
       "type/small":      { "px": [12, 14], "family": "sans", "use": "descriptor pills, captions above values in the buy bar, the copyright" },
       "type/control":    { "px": [14, 20], "family": "sans", "label": true, "use": "big actions and values set in bold capitals: hero links, «В корзину», buy-bar values" },
-      "type/price":      { "px": [16, 18], "family": "sans", "label": true, "use": "prices and weights on cards (medium capitals)" },
-      "type/countdown":  { "px": [40, 96], "family": "digits", "label": true, "use": "the roast countdown in Technology Bold: a numeral display, the only size set by its figure, not its text" }
+      "type/price":      { "px": [16, 18], "family": "sans", "label": true, "use": "prices and weights on cards (medium capitals)" }
     },
     "relations": {
       "min": 1.125,
@@ -55,7 +54,10 @@
       "action/gap":      { "px": [24, 40], "css": "--action-gap", "use": "a text → its button" },
       "control/h":       { "px": [48, 56], "css": "--control-h", "use": "height of the card's buy row and of big buttons" },
       "control/pad-x":   { "px": [16, 24], "css": "--control-x", "use": "side padding of buttons and controls" },
-      "hero/cell-y":     { "px": [20, 40], "css": "--hero-cell-y", "use": "padding above and below the cells of the hero" },
+      "hero/cell-y":     { "px": [12, 20], "css": "--hero-cell-y", "use": "padding above and below each row of the hero's cells (three rows: the roast's parts beside the three links)" },
+      "hero/photo":      { "px": [48, 120], "size": true, "css": "--hero-photo", "use": "the least photo the hero shows between the navbar and the fade into its cells" },
+      "hero/fade":       { "px": [64, 160], "size": true, "css": "--hero-fade", "use": "the eased fade from the hero's photo into the black of its cells" },
+      "hero/max":        { "px": [960, 1200], "size": true, "css": "--hero-max", "use": "the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here)" },
       "story/min-h":     { "px": [400, 680], "size": true, "css": "--story-h", "use": "least height of the image blocks (approach, about)" },
       "footer/logo":     { "px": [104, 216], "size": true, "css": "--footer-logo", "use": "width of the flame mark in the footer" },
       "product/stage":   { "px": [320, 720], "size": true, "css": "--stage", "use": "the 3D pack on a product page: the side of its square (also capped by the screen's height)" }
@@ -63,9 +65,10 @@
   },
 
   "steps": {
-    "$about": "The widths at which blocks change their layout: container queries on the content column, shared by every block. Named by what they are, in rem (a visitor's bigger text makes the column count as narrower). M and L leave room for a classic scrollbar at 768 and 1024.",
+    "$about": "The widths at which blocks change their layout: container queries on the content column, shared by every block. Named by what they are, in rem (a visitor's bigger text makes the column count as narrower). M and L leave room for a classic scrollbar at 768 and 1024. max is the column at its most (--col-max, in px as it is): from there on the margins grow, and a full-width block may frame its column.",
     "S": "22rem",
     "M": "43rem",
-    "L": "58rem"
+    "L": "58rem",
+    "max": "1520px"
   }
 }

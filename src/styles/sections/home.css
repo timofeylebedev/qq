@@ -1,68 +1,107 @@
 /* The blocks of the home page. */
 
 /* ── hero ───────────────────────────────────────────────────────────────────────────────────────────────────────
-   A black screen with the roast photo, and one row of cells at its foot: the title, the countdown to the next roast,
-   three links. The cells sit on the content column like everything else (so the title starts at the same edge as
-   every heading below); the hairline above them runs the full width. Height: 40vw + 14rem (800 on a 1440 screen, as
-   in Figma) or the screen less 120px, whichever is more (on a phone the cells are tall, and the photo still needs
-   room above them); at most the screen less a 48px peek of what follows; at least what the cells need.
-   Cells: one column; from M the title above and two cells under it; from L three in a row. */
+   A black screen with the roast photo, and at its foot the cells: the title, the countdown to the next roast, three
+   links. The cells sit on the content column like everything else (the title starts at the edge of every heading
+   below); the hairline above them runs the full width, and once the column has stopped at its 1520px it is framed
+   by a hairline on each side as well.
+
+   Height: the screen less a 24px peek of what follows (and less the tab bar on a phone), at most --hero-max (a tall
+   portrait screen, a 2560 one), and never less than the cells, the fade and --hero-photo of photo under the navbar
+   need (a phone sideways: there the hero is taller than the screen, its cells come first).
+
+   Cells: one column; from M the title above and two cells under it; from L three in a row. The countdown and the
+   links share three equal rows, so the day and the time stand beside «Каталог», the digits beside «Бизнесу» and the
+   caption beside «Контакты». Everything in the countdown is as wide as its caption «До ближайшей обжарки». The text
+   of every cell is trimmed to its capitals and baseline, so a cell's padding is the space you see. The cells rise
+   in when the page opens. */
 .hero {
-  --rule: var(--c-white-40);
   position: relative; display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: min(100vh - 48px, max(40vw + 14rem, 100vh - 7.5rem)); min-height: min(100svh - 48px, max(40vw + 14rem, 100svh - 7.5rem));
-  padding-top: var(--nav-h); background: var(--c-black); color: var(--c-paper); overflow: hidden;
+  min-height: min(100vh - 24px - var(--tabbar-h), var(--hero-max)); min-height: min(100svh - 24px - var(--tabbar-h), var(--hero-max));
+  padding-top: calc(var(--nav-h) + var(--hero-photo)); background: var(--c-black); color: var(--c-paper); overflow: hidden;
 }
 .hero__bg { position: absolute; inset: 0; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; opacity: 0.85; }
 @media (--motion) { .hero__bg img { animation: hero-drift 40s var(--ease-move) infinite alternate; } }
 @keyframes hero-drift { to { transform: scale(1.08) translate(-1.5%, -1%); } }
-.hero__info { position: relative; padding-top: 48px; background: linear-gradient(to bottom, transparent, var(--c-black) 48px); }
-.hero__info::before { content: ""; position: absolute; left: 0; right: 0; top: 48px; border-top: var(--hair) solid var(--rule); }
+
+/* the eased fade (colors.json fades) into the black under the cells and the hairline above them */
+.hero__info {
+  position: relative; padding-top: var(--hero-fade);
+  background: linear-gradient(to bottom, var(--fade-black)) top / 100% var(--hero-fade) no-repeat, linear-gradient(var(--c-black), var(--c-black)) left 0 top var(--hero-fade) / 100% 100% no-repeat;
+}
+.hero__info::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); }
+
 .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .hero__grid > * { min-width: 0; }
-.hero__title { font-size: var(--type-display); line-height: var(--lh-display); padding-block: var(--hero-cell-y); max-width: 9em; }
+.hero__title, .hero__now, .hero__caption, .hero__link > span, .hero__count > * { text-box: trim-both cap alphabetic; }
+.hero__title { align-self: center; padding-block: calc(var(--hero-cell-y) * 2); font-size: var(--type-display); line-height: var(--lh-display); }
+.hero__title span { display: block; }
 
+/* the countdown: three rows of one width, the caption's (13.9em of its own size: measured, build/audit.mjs) */
+/* below M nothing stands beside the countdown, so its rows take what they need; from M they share the links' rows */
+.hero__roast, .hero__links { display: grid; border-top: var(--hair) solid var(--line); }
+.hero__links { grid-template-rows: repeat(3, 1fr); }
 .hero__roast {
-  container: roast / inline-size;
-  display: grid; grid-template-rows: auto 1fr auto; justify-items: center; gap: 12px;
-  padding: var(--hero-cell-y) 0; border-top: var(--hair) solid var(--rule); text-align: center;
-}
-.hero__now, .hero__caption { font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); }
-.hero__now { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; width: min(100%, 16rem); }
-.hero__now > :first-child { justify-self: start; }
-.hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
-.hero__info-btn { justify-self: end; display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; }
-.hero__info-btn svg { width: 20px; height: 20px; }
-.hero__count { display: flex; align-items: center; justify-content: center; }
-/* the digits fill their cell: the countdown size, or less when the cell is narrow (a written exception:
-   decisions.json "countdown-fits-cell") */
-.hero__count .digits { font-size: min(var(--type-countdown), 31cqi); }   /* eight digits are at most 2.7em wide: 31% of the cell leaves 15% of air */
-.hero__count [data-roast-count]:not([data-live]) { opacity: 0.25; }
-.hero__note { max-width: 22em; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-white-80); }
-
-.hero__links { border-top: var(--hair) solid var(--rule); }
-.hero__links li + li { border-top: var(--hair) solid var(--rule); }
-.hero__link {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  min-height: 56px; height: 100%; padding-block: calc(var(--hero-cell-y) * 0.75);
+  --dial: 13.9em;
+  position: relative; justify-items: center; align-items: center; text-align: center;
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
 }
+.hero__roast > :not(.hero__note) { width: var(--dial); max-width: 100%; padding-block: var(--hero-cell-y); }
+.hero__now, .hero__caption { white-space: nowrap; }
+.hero__now { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+.hero__now > :first-child { justify-self: start; }
+.hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
+.hero__info-btn { justify-self: end; display: grid; place-items: center; width: 40px; height: 40px; margin: -12px -10px; transition: background-color var(--t-out) var(--ease-out); }
+.hero__info-btn svg { width: 20px; height: 20px; }
+.hero__count { display: flex; align-items: center; justify-content: center; }
+/* the digits and the date as wide as the caption: the caption is 13.9em of the control size, the eight digits 3em
+   of their own (tabular: build/fonts.py), a date of n letters in mono 0.65em each (scripts/roast.js gives --n) (a written exception: decisions.json "countdown-as-caption") */
+.hero__count .digits { font-size: calc(var(--type-control) * 13.9 / 3); }
+.hero__count [data-roast-count]:not([data-live]) { opacity: 0.25; }
+.hero__date { font: 700 calc(var(--type-control) * 13.9 / (0.65 * var(--n, 10))) / 1 var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; }
+.hero__note {
+  grid-row: 2 / 4; grid-column: 1; z-index: 1; align-self: stretch; justify-self: stretch; display: grid; place-items: center;
+  padding: var(--hero-cell-y) 0; background: var(--c-black);
+  font: 400 var(--type-small) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
+}
+.hero__note[hidden] { display: none; }
+
+.hero__links li + li { border-top: var(--hair) solid var(--line); }
+.hero__link {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 56px; height: 100%; padding-block: var(--hero-cell-y);
+  font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
+  transition: background-color var(--t-out) var(--ease-out);
+}
 .hero__link svg { width: 32px; height: 32px; transition: transform var(--t-out) var(--ease-out); }
-@media (--mouse) { .hero__link:hover svg { transform: translateX(6px); transition-duration: var(--t-in); } }
+@media (--mouse) {
+  .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .hero__link:hover svg { transform: translateX(6px); transition-duration: var(--t-in); }
+}
+
+/* the cells rise into place when the page opens */
+@media (--motion) { .hero__grid { animation: hero-rise var(--t-rise) var(--ease-out) var(--t-in) both; } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(var(--section-gap)); } }
 
 @container col (width >= 43rem) {
-  .hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .hero__title { grid-column: 1 / -1; max-width: none; }
-  .hero__roast { padding-right: var(--block-pad); }
-  .hero__links { border-left: var(--hair) solid var(--rule); display: grid; grid-template-rows: repeat(3, 1fr); }
-  .hero__link { padding-left: var(--block-pad); }
+  .hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto repeat(3, 1fr); }
+  .hero__title { grid-column: 1 / -1; }
+  .hero__roast, .hero__links { grid-row: 2 / 5; grid-template-rows: subgrid; }
+  .hero__roast { padding-inline: var(--tile-pad); }
+  .hero__links { border-left: var(--hair) solid var(--line); }
+  .hero__link { padding-inline: var(--block-pad); }
 }
 @container col (width >= 58rem) {
-  .hero__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .hero__title { grid-column: auto; padding-right: var(--block-pad); }
-  .hero__roast, .hero__links { border-top: 0; border-left: var(--hair) solid var(--rule); }
-  .hero__roast { padding-inline: var(--block-pad); }
+  .hero__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
+  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); }
+  .hero__roast, .hero__links { grid-row: 1 / 4; border-top: 0; border-left: var(--hair) solid var(--line); }
+}
+/* the column at its most (the step max, 1520px): the margins grow beside it, so the cells are framed by a hairline
+   on each side, and the title stands off the left one as the links do */
+@container col (width >= 1520px) {
+  .hero__grid { border-inline: var(--hair) solid var(--line); }
+  .hero__title { padding-left: var(--block-pad); }
 }
 
 /* ── new arrivals ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -84,18 +123,18 @@
 .featured__name { font-size: var(--type-title); }
 .featured__name a::after { content: ""; }
 .featured__about { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 34em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 8; overflow: hidden; }
-.featured__facts { display: grid; border: var(--hair) solid var(--c-ink-20); }
+.featured__facts { display: grid; border: var(--hair) solid var(--line); }
 .featured__facts > * { padding: 16px; }
-.featured__facts > * + * { border-top: var(--hair) solid var(--c-ink-20); }
+.featured__facts > * + * { border-top: var(--hair) solid var(--line); }
 @container col (width >= 22rem) {
   .featured__facts { grid-template-columns: auto minmax(0, 1fr); }
-  .featured__facts > * + * { border-top: 0; border-left: var(--hair) solid var(--c-ink-20); }
+  .featured__facts > * + * { border-top: 0; border-left: var(--hair) solid var(--line); }
 }
 .featured__media { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; }
 .featured__media picture { position: absolute; inset: 0; }
 .featured__media img { width: 100%; height: 100%; object-fit: cover; }
 .featured__media--photo { background: var(--c-black); color: var(--c-paper); }
-.featured__media--pack { background: var(--c-cloud); border-top: var(--hair) solid var(--c-ink-10); }
+.featured__media--pack { background: var(--c-cloud); border-top: var(--hair) solid var(--line); }
 .featured__media--pack .pack { inset: 8% 12% 24%; }
 .featured__caption {
   position: relative; z-index: 6; padding: 64px calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
@@ -105,7 +144,7 @@
 @container col (width >= 58rem) {
   .featured__slide { grid-template-columns: 1fr 1fr; }
   .featured__text { min-height: 100%; aspect-ratio: 1; }
-  .featured__media--pack { border-top: 0; border-left: var(--hair) solid var(--c-ink-10); }
+  .featured__media--pack { border-top: 0; border-left: var(--hair) solid var(--line); }
 }
 
 /* ── image blocks (our approach, about us) ──────────────────────────────────────────────────────────────────────
@@ -134,7 +173,7 @@
 /* ── business ───────────────────────────────────────────────────────────────────────────────────────────────────
    The one block on cool grey: a centred heading and its lead, two cards (photo, then a dark band with the title
    and an arrow on the left, the text on the right). */
-.business { background: var(--c-ink); color: var(--c-paper); --c-ink-20: var(--c-white-30); }
+.business { background: var(--c-ink); color: var(--c-paper); }
 .business .head__lead { color: var(--c-white-80); }
 .business__cards { display: grid; gap: var(--gap); }
 @container col (width >= 43rem) { .business__cards { grid-template-columns: 1fr 1fr; } }
@@ -143,7 +182,7 @@
 .bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
 @media (--mouse) { .bcard:hover .bcard__image img { transform: scale(1.03); } }
 .bcard__info { position: relative; display: grid; padding-top: 40px; background: linear-gradient(to bottom, transparent, var(--c-black) 40px); }
-.bcard__info > * { border-top: var(--hair) solid var(--c-white-30); padding: var(--tile-pad); }
+.bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .bcard__title { font-size: var(--type-card-title); }
 .bcard__title a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
@@ -153,7 +192,7 @@
 @container col (width >= 58rem) {
   .bcard__info { grid-template-columns: minmax(9rem, 0.4fr) 1fr; }
   .bcard__head { flex-direction: column; justify-content: space-between; gap: 40px; }
-  .bcard__text { border-left: var(--hair) solid var(--c-white-30); }
+  .bcard__text { border-left: var(--hair) solid var(--line); }
 }
 
 /* ── facts (three info blocks) ──────────────────────────────────────────────────────────────────────────────────

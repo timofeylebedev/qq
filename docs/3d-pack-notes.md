@@ -1,6 +1,6 @@
 # 3D coffee pack for the web — working notes
 
-Status (6 Oct 2026): first pass of the model and renderer done. Animations and interactions are still to be designed.
+Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll lag and press are designed (round 2), the look values still wait for the designer.
 
 ## Where it lives in this repo
 - Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
@@ -43,3 +43,12 @@ Status (6 Oct 2026): first pass of the model and renderer done. Animations and i
   `build/pack-still.mjs` renders the still shown before WebGL draws.
 - Look values in use: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 (the defaults; still waiting for the
   designer's preference).
+
+## Round 2 (Oct 20, 2026)
+
+- `pouch3d.js`: an item's `ox`, `oy` draw the pack that far off its slot (px); a pressed pack's shadow stays close
+  (the shadow's distance is floored at 0.6 for a negative lift).
+- `packs.js`: every pack trails its slot a little when the page or its row scrolls (`TUNE.lag` 9/s, at most
+  `lagMax` 12% of its height and `lagMaxPx` 40px, soft-capped so a jump to an anchor stays small), and a pointer
+  pressed on a pack moves it away (`pressLift` −0.45, `pressScale` 0.94, held at least `pressHold` 0.2s; a touch
+  waits 90ms in case it is a scroll). Neither with «reduce motion».

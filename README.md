@@ -13,6 +13,8 @@ decisions are explained in [`design/README.md`](design/README.md).
 ```sh
 npm install          # once (Node 22 or newer)
 npm run dev          # the site at http://localhost:5173, reloads on every change (also of a template or the data)
+npm run canvas       # the component canvas at http://localhost:5173/lab/canvas/ (dev server only, never published)
+npm run canvas:check # the canvas in a real browser: every variant there, the camera, clicks and keys at any zoom
 npm run build        # the finished site in dist/
 npm run preview      # dist/ at http://localhost:4173
 npm run rules        # the rules of the system (colours, sizes, steps, motion, decisions)
@@ -37,11 +39,12 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | `build/` | `data.mjs` (CSV → products.json), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `audit.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
 | `public/pack/` | the 3D pack: mesh, effect maps, label art (fetched by the page) |
 | `public/lab/3d-pack.html` | the 3D pack test bench (look sliders, a 24–200 pack stress test) |
+| `src/lab/canvas/` | the component canvas: `variants.mjs` (what it shows: groups, sample data, what is left out), `page.mjs` (writes the page), `canvas.js` (layout and camera), `check.mjs` |
 | `docs/3d-pack-notes.md` | how the 3D pack is built |
 | `assets-src/` | originals of the pictures and fonts (not published) |
 
-Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` (by `build/pages.mjs`) and
-`src/data/products.json` (by `build/data.mjs`). Edit the templates and the data instead.
+Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` (by `build/pages.mjs`),
+`src/data/products.json` (by `build/data.mjs`) and `src/lab/canvas/*.html` (by `src/lab/canvas/page.mjs`). Edit the templates and the data instead.
 
 ## Changing things
 
@@ -51,6 +54,21 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` (by
 - **A size:** `design/scale.json` (two numbers: at a 320 and at a 1440 screen). **A colour:** `design/colors.json`.
 - **A picture:** the original into `assets-src/img` under the same name, `npm run images`, commit the outputs.
 - **Something decided on purpose** (an exception to a rule, a stand-in): `design/decisions.json`.
+- **A new component or variant on the canvas:** a group in `src/lab/canvas/variants.mjs` (one prop compared at a time).
+
+### The component canvas
+
+Every component and page block on one surface you pan and zoom, each variant beside the others: pills, the taste
+chart, the 3D pack, cards, section heads, buttons, then the navbar, hero, new arrivals, recommended, image blocks,
+business, facts, footer, catalog, product stage, buy bar, product story and similar coffees. The parts are cut out of
+the real rendered pages, so it shows exactly what the templates make, with the site's own scripts running (the packs,
+sliders, filters, buy row). The navbar and the product stage run on screens of their own (iframes 390, 768 and 1440
+wide), as they depend on the page's width and scroll.
+
+Drag empty space (or Space + drag, or the middle button) to pan, Ctrl/⌘ + wheel or a pinch to zoom; on the canvas
+itself the arrows pan, + and − zoom, 1 fits all and 0 resets. Links to another part of the canvas move the view there;
+links that would leave it are not followed (Ctrl/⌘-click opens them). Only the view is saved, in this browser.
+«В корзину» and the heart work as on the site and keep their bag in this browser's storage of the dev server.
 
 ## Browsers
 

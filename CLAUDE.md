@@ -30,13 +30,19 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   height counting through `--vp`. No `vw`/`vh`/`cqi` in the styles except in rules a decision lists (`css` field).
   Font sizes are `var(--type-*)`. Both ends of a role sit on the ladder; type levels in `relations` stay ×1.125 apart.
 - **Colours** from `design/colors.json` only (`--c-*`). Secondary text is `--c-ink-70`; ink-60 only for large text.
-- **Layout steps**: container queries on the column `col` at S 22rem, M 43rem, L 58rem. Blocks that run full width
-  (hero, image blocks, facts, footer, buy bar) put their content in a `.col` so they change with everything else. A
+- **Layout steps**: container queries on the column `col` at S 22rem, M 43rem, L 58rem (and `max` 1520px: the column at
+  its most, for a frame). Blocks that run full width (hero, image blocks, facts, footer, buy bar) put their content in a `.col` so they change with everything else. A
   container query cannot style its own container: wrap (`<div class="col"><div class="block">`). Page steps only
-  through `media.css` (`--tablet` 64em for the navbar, `--narrow` 25em, `--short` 32em tall for the product's buy bar).
+  through `media.css` (the navbar's `--links-full` 64em and `--links` 48em, the tab bar's `--phone` under 40em, `--short`
+  32em tall for the product's buy bar). Fixed bars stand on the tab bar: `bottom: var(--tabbar-h)` (0 without one).
+- **Grounds**: every section has `data-ground` (paper, cloud, black, ink); colours on it come from there (`--g-bg`,
+  `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`).
+- **One line colour**: every border is `var(--line)` (ink-20 on light grounds, white-30 on dark); states may use ink.
+- **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
+  The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
-  curves of `motion.css`.
+  curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
 - **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
@@ -49,11 +55,23 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
 
+## The component canvas (`src/lab/canvas`, `npm run canvas`)
+
+- Dev server only (`/lab/canvas/`): it is not a build input and never reaches the test site. Publishing it is Tim's call.
+- It never changes a component: parts are the template functions or are cut out of the rendered pages (`cut()` in
+  `variants.mjs`). A template change that breaks a cut fails loudly; fix the cut, not the template.
+- One group per prop compared; everything else in its slots stays the same (coffee, text, ground, width). What is left
+  out goes into `OMITTED` with the reason. No id may appear twice on the canvas page (each block is there once).
+- No transform around components (the world is placed with left/top and CSS `zoom`), or the 3D canvas at z-index 5
+  stops falling between a card's ground and its name.
+- A new component or block: add its group and run `npm run canvas:check` (it lists every variant it checked).
+
 ## Testing tips
 
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
-- `window.qqPacks` (the stage and `TUNE`) and `window.qqStage.progress` in the console.
+- `window.qqPacks` (the stage and `TUNE`: lean, hover, the scroll lag, the press) and `window.qqStage.progress` in the console.
+- A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
 
 ## Where Claude runs

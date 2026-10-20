@@ -34,7 +34,7 @@
 .filter[data-active] .filter__value::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-lavender-ink); margin-right: 6px; vertical-align: middle; }
 .filter__options {
   position: absolute; left: -1px; right: -1px; top: 100%; display: grid; gap: 2px; padding: 8px;
-  background: var(--c-paper); border: var(--hair) solid var(--c-ink); min-width: 14rem;
+  background: var(--c-paper); border: var(--hair) solid var(--line); min-width: 14rem;
   max-height: 24rem; overflow: auto; box-shadow: 0 16px 32px var(--c-ink-10);
 }
 .option { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 4px 8px; cursor: pointer; }
