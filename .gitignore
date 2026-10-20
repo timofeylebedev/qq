@@ -10,6 +10,16 @@ source/
 src/index.html
 src/catalog/
 src/coffee/
+src/business/
+src/faq/
+src/delivery/
+src/contacts/
+src/privacy/
+src/about/
+src/cart/
+src/favourites/
+src/checkout/
+src/account/
 src/data/products.json
 # the component canvas page and its preview documents (src/lab/canvas/page.mjs, dev server only)
 src/lab/canvas/*.html

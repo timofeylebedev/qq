@@ -1,12 +1,13 @@
 // Buying, until there is a shop behind the site: the weight a visitor picks updates the price; «В корзину» puts the
 // coffee into a bag kept in this browser (localStorage) and shows how many items it holds; the heart does the same
-// for favourites (only the bag shows a count in the navbar). There is no bag page and no checkout yet (design/decisions.json "no-shop-yet").
-const KEY = "qq-bag", FAV = "qq-fav";
-const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: only this page */ } };
-const rub = (n) => (n ? Number(n).toLocaleString("ru-RU").replace(/ /g, " ") + " ₽" : "—");
+// for favourites (only the bag shows a count in the navbar). The bag page (scripts/cart.js) and the favourites
+// (scripts/favs.js) read the same storage; there is no order behind the checkout yet (design/decisions.json "no-shop-yet").
+export const KEY = "qq-bag", FAV = "qq-fav";
+export const load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v != null && Array.isArray(v) === Array.isArray(d) && typeof v === typeof d ? v : d; } catch { return d; } };
+export const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: only this page */ } };
+export const rub = (n) => (n || n === 0 ? Number(n).toLocaleString("ru-RU").replace(/\s/g, "\u00a0") + "\u00a0₽" : "—");
 
-function badge() {
+export function badge() {
   const bag = load(KEY, []), fav = load(FAV, []);
   const n = bag.reduce((s, x) => s + (x.qty || 1), 0);
   for (const el of document.querySelectorAll("[data-bag-count]")) { el.textContent = n; el.hidden = !n; }
@@ -14,7 +15,7 @@ function badge() {
 }
 
 let toastTimer;
-function toast(text) {
+export function toast(text) {
   const t = document.querySelector("[data-toast]");
   if (!t) return;
   t.textContent = text; t.dataset.on = "";

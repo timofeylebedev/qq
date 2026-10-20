@@ -23,6 +23,20 @@
   ],
   "ratio": 1
  },
+ "business-consulting": {
+  "widths": [
+   480,
+   668
+  ],
+  "ratio": 1
+ },
+ "business-hero": {
+  "widths": [
+   480,
+   720
+  ],
+  "ratio": 0.9587
+ },
  "business-office": {
   "widths": [
    480,
@@ -30,6 +44,49 @@
    1200
   ],
   "ratio": 1
+ },
+ "business-school": {
+  "widths": [
+   480,
+   668
+  ],
+  "ratio": 1
+ },
+ "client-boris": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
+ },
+ "client-brrrew": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
+ },
+ "client-coffeebean": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
+ },
+ "client-korevud": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
+ },
+ "client-mono": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
+ },
+ "client-news": {
+  "widths": [
+   438
+  ],
+  "ratio": 1.5
  },
  "farm-drying": {
   "widths": [
@@ -46,6 +103,36 @@
    1280
   ],
   "ratio": 2.2069
+ },
+ "insta-acidity": {
+  "widths": [
+   315
+  ],
+  "ratio": 0.75
+ },
+ "insta-cupping": {
+  "widths": [
+   244
+  ],
+  "ratio": 0.581
+ },
+ "insta-drip": {
+  "widths": [
+   244
+  ],
+  "ratio": 0.581
+ },
+ "insta-podcast": {
+  "widths": [
+   315
+  ],
+  "ratio": 0.75
+ },
+ "insta-spoon": {
+  "widths": [
+   315
+  ],
+  "ratio": 0.75
  },
  "life-box": {
   "widths": [
@@ -79,9 +166,71 @@
   ],
   "ratio": 1
  },
+ "map-office": {
+  "widths": [
+   480,
+   684
+  ],
+  "ratio": 1
+ },
+ "map-plant": {
+  "widths": [
+   480,
+   684
+  ],
+  "ratio": 1
+ },
  "pack-flat": {
   "widths": [
    512
+  ],
+  "ratio": 1
+ },
+ "signature": {
+  "widths": [
+   347
+  ],
+  "ratio": 5.7833
+ },
+ "team-antonina": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-ilya": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-katya": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-lena": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-lina": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-vlad": {
+  "widths": [
+   330
+  ],
+  "ratio": 1
+ },
+ "team-yura": {
+  "widths": [
+   330
   ],
   "ratio": 1
  }

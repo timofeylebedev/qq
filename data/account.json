@@ -1,0 +1,78 @@
+{
+  "$about": "PLACEHOLDER account: the visitor «Марк Новиков» of the Figma account pages, so the profile, orders, an order, purchases, beans and settings can be built and reviewed before there is a shop behind the site (decision account-placeholder). Items name a coffee by slug, a weight, a grind and a roast (its use); prices come from the coffee (data/prices.json, placeholders too), so totals add up. Everything the profile shows (lots, processes, Q, countries, descriptors, the taste profile, purchases, the beans) is worked out from these orders and beans.opening / beans.before by src/templates/account-data.mjs.",
+  "placeholder": true,
+  "person": { "first": "Марк", "last": "Новиков", "phone": "+7 915 800 65 45", "email": "mnovikov@gmail.com" },
+  "addresses": [
+    { "type": "Курьером", "address": "г Москва, Мещерский пр-кт, д 3" },
+    { "type": "Самовывоз", "address": "г. Москва, ул. Льва Толстого, д. 16" }
+  ],
+  "letters": [["sale", "Скидки", false], ["coffee", "Новые сорта", true], ["journal", "Новые статьи", false]],
+  "beans": {
+    "$about": "The balance is worked out: opening (what was left from orders before the six below) + 1% of every delivered order − what orders spent. The bars by month: earlier months from «before» (orders not listed here), the months of the orders below from them.",
+    "opening": 58,
+    "before": [["Окт", 3], ["Ноя", 7], ["Дек", 14], ["Янв", 7], ["Фев", 17], ["Мар", 14], ["Апр", 20], ["Май", 7], ["Июнь", 14]],
+    "months": ["Окт", "Ноя", "Дек", "Янв", "Фев", "Мар", "Апр", "Май", "Июнь", "Июль", "Авг", "Сен"],
+    "rate": "1 зернышко = 1 рубль",
+    "earn": 0.01,
+    "levels": [["Новичок", 0], ["Гуру", 482]],
+    "referral": { "text": "100 зернышек за каждого, кто совершит покупку", "hint": "Поделитесь реферальной ссылкой, чтобы получать бонусы", "link": "qqcoffee.ru/?ref=5da07f5326386" },
+    "rules": [
+      "За каждый заказ начисляем зернышки: 1% его суммы. Они приходят, когда заказ доставлен.",
+      "Зернышками можно оплатить часть следующего заказа: 1 зернышко = 1 рубль.",
+      "За каждого друга, который сделает первый заказ по вашей ссылке, — 100 зернышек."
+    ]
+  },
+  "orders": [
+    { "id": "433273", "date": "2026-08-18T15:32", "status": "roasting", "track": "1264786672",
+      "delivery": { "type": "Курьером", "address": "г. Москва, ул. Льва Толстого, д. 16", "price": 415 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "comment": "Позвонить за час, домофон не работает.",
+      "payment": { "type": "Оплата картой", "paid": true }, "beansSpent": 114,
+      "items": [
+        { "slug": "keniya-nayvasha-pb", "weight": "200 г", "grind": "В зернах", "roast": "Эспрессо", "qty": 1 },
+        { "slug": "q-finch", "weight": "200 г", "grind": "В зернах", "roast": "Эспрессо", "qty": 2 },
+        { "slug": "braziliya-santa-mariya", "weight": "200 г", "grind": "Эспрессо", "roast": "Эспрессо", "qty": 1 }
+      ] },
+    { "id": "432112", "date": "2026-08-09T11:05", "status": "delivered", "delivered": "2026-08-12", "track": "1264520411",
+      "delivery": { "type": "Курьером", "address": "г. Москва, ул. Льва Толстого, д. 16", "price": 415 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "payment": { "type": "Оплата картой", "paid": true },
+      "items": [
+        { "slug": "kolumbiya-antiokiya", "weight": "200 г", "grind": "В зернах", "roast": "Фильтр", "qty": 1 },
+        { "slug": "efiopiya-bekele", "weight": "200 г", "grind": "Фильтр", "roast": "Фильтр", "qty": 1 }
+      ] },
+    { "id": "431870", "date": "2026-08-02T19:48", "status": "delivered", "delivered": "2026-08-05", "track": "1264301876",
+      "delivery": { "type": "Самовывоз", "address": "г. Москва, ул. Льва Толстого, д. 16", "price": 240 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "payment": { "type": "Оплата при получении", "paid": true },
+      "items": [
+        { "slug": "braziliya-santa-mariya", "weight": "1 кг", "grind": "В зернах", "roast": "Эспрессо", "qty": 1 },
+        { "slug": "keniya-nayvasha-pb", "weight": "200 г", "grind": "В зернах", "roast": "Фильтр", "qty": 1 }
+      ] },
+    { "id": "430954", "date": "2026-07-24T09:12", "status": "delivered", "delivered": "2026-07-28", "track": "1263987402",
+      "delivery": { "type": "Курьером", "address": "г Москва, Мещерский пр-кт, д 3", "price": 415 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "payment": { "type": "Оплата картой", "paid": true },
+      "items": [
+        { "slug": "ruanda-gitsumbi", "weight": "200 г", "grind": "В зернах", "roast": "Фильтр", "qty": 1 },
+        { "slug": "q-finch", "weight": "200 г", "grind": "Турка", "roast": "Эспрессо", "qty": 1 }
+      ] },
+    { "id": "430411", "date": "2026-07-15T14:30", "status": "delivered", "delivered": "2026-07-18", "track": "1263650127",
+      "delivery": { "type": "Самовывоз", "address": "г. Москва, ул. Льва Толстого, д. 16", "price": 240 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "payment": { "type": "Оплата картой", "paid": true },
+      "items": [
+        { "slug": "indoneziya-meruri", "weight": "200 г", "grind": "В зернах", "roast": "Фильтр", "qty": 1 },
+        { "slug": "peru-monte-verde", "weight": "200 г", "grind": "Фильтр", "roast": "Фильтр", "qty": 1 },
+        { "slug": "kolumbiya-antiokiya", "weight": "200 г", "grind": "В зернах", "roast": "Эспрессо", "qty": 1 }
+      ] },
+    { "id": "429876", "date": "2026-07-03T08:55", "status": "delivered", "delivered": "2026-07-07", "track": "1263311590",
+      "delivery": { "type": "Курьером", "address": "г Москва, Мещерский пр-кт, д 3", "price": 415 },
+      "recipient": { "name": "Марк Новиков", "phone": "+7 910 810 94 61", "email": "mnovikov@gmail.com" },
+      "payment": { "type": "Оплата картой", "paid": true },
+      "items": [
+        { "slug": "q-finch", "weight": "200 г", "grind": "В зернах", "roast": "Эспрессо", "qty": 1 },
+        { "slug": "q-optimistic", "weight": "200 г", "grind": "В зернах", "roast": "Эспрессо", "qty": 1 }
+      ] }
+  ]
+}

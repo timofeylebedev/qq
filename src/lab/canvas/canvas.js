@@ -14,7 +14,7 @@
 // Only the camera is saved (localStorage, versioned). window.qqCanvas exposes it for testing.
 const KEY = "qq-site:component-canvas:camera";
 const VERSION = 1;
-const Z = { min: 0.05, max: 4 };
+const Z = { min: 0.02, max: 4 };   // 2%: «fit all» must reach the whole world (round 4 added the shop, account and information blocks)
 const KEEP = 80;            // px of the world that always stays on screen
 const STEP = 64;            // an arrow key moves this far (× 4 with Shift)
 

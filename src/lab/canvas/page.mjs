@@ -15,7 +15,8 @@ const WIDEST = 3360;     // a group spans at most two of canvas.js's columns (2 
 const PAD = 48, GAP = 48; // a group's padding and the gap between its slots (canvas.css)
 
 export function data() {
-  return { site: read("data/site.json"), products: read("src/data/products.json").products };
+  const site = read("data/site.json"), products = read("src/data/products.json").products, company = read("data/company.json");
+  return { site, products, company, ctx: { site, products, company, page: "canvas", rel: REL } };
 }
 
 function slot(g, s) {

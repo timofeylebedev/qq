@@ -1,0 +1,66 @@
+/* Forms of cells (the checkout, the settings, the request of the business page): one column on the cloud ground, at
+   most 27.5rem (the Figma 440), cells divided by hairlines; a caption in small capitals over its field; choices with
+   a sharp box (a round one for one of several); the button across the foot. Fields are at least 16px (iOS zooms
+   into smaller ones). */
+.form { display: grid; width: min(100%, 27.5rem); margin-inline: auto; }
+.form__head { padding: var(--card-pad) var(--control-x) 0; }
+.form__head .subtabs { margin-bottom: 0; border-bottom: 0; }
+.form__title { padding: 4px 0 var(--card-pad); font-size: var(--type-card-title); }
+.form__submit { width: 100%; border-top: 0; }
+.form--dialog { width: 100%; }
+
+.fcell { display: grid; gap: 6px; min-width: 0; padding: var(--card-pad) var(--control-x); border: 0; margin: 0; }
+/* cells divided by hairlines (after the cell's own reset, so it wins) */
+.form > * + * { border-top: var(--hair) solid var(--line); }
+.fcell__label, legend.fcell__label { padding: 0; font: 500 var(--type-small) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); }
+legend.fcell__label { float: left; width: 100%; margin-bottom: 6px; }
+.fcell__input {
+  width: 100%; min-height: 24px; padding: 0; border: 0; background: none;
+  font-size: max(16px, var(--type-body)); line-height: 1.3;
+}
+.fcell__input::placeholder { color: var(--c-ink-70); opacity: 1; }
+.fcell__input:focus-visible { outline: none; }
+.fcell:focus-within:has(.fcell__input) { box-shadow: inset 0 0 0 2px var(--c-ink); }
+.fcell__value { font-size: max(16px, var(--type-body)); }
+.fcell--action { padding-block: 8px; }
+.fcell--checks { gap: 4px; }
+.fcell .choice:first-of-type { margin-top: 0; }
+
+/* a choice: the box, its words, and on the right a note (a price and a time) */
+.choice { display: flex; align-items: center; gap: 12px; min-height: 40px; font-size: var(--type-body); cursor: pointer; }
+.choice__aside { margin-left: auto; color: var(--c-ink-70); white-space: nowrap; }
+[data-tone="ink"] .choice__aside { color: var(--c-white-80); }
+
+/* the box of a checkbox (sharp) or a radio (round): drawn in the text's colour; checked, it fills and shows a tick or
+   a dot in the ground's colour */
+.box {
+  appearance: none; -webkit-appearance: none; flex: none; position: relative; display: grid; place-items: center;
+  width: 24px; height: 24px; margin: 0; border: 1.5px solid currentColor; background: transparent; color: inherit; cursor: pointer;
+  transition: background-color var(--t-out) var(--ease-out);
+}
+.box::after { content: ""; width: 14px; height: 11px; clip-path: polygon(0 50%, 11% 36%, 36% 68%, 89% 0, 100% 14%, 36% 96%); }
+.box:checked, .box:indeterminate { background: currentColor; }
+.box:indeterminate::after { width: 12px; height: 2px; clip-path: none; background: var(--g-bg); }
+.box:checked::after { background: var(--g-bg); }
+.box--round { border-radius: 50%; }
+.box--round::after { width: 10px; height: 10px; clip-path: none; border-radius: 50%; }
+.box--round:checked { background: transparent; }
+.box--round:checked::after { background: currentColor; }
+.box:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+/* two choices as one switch (pay now / on delivery): two cells, the chosen one filled */
+.seg { display: grid; grid-template-columns: 1fr 1fr; border: var(--hair) solid var(--line); }
+.seg label { position: relative; display: grid; place-items: center; min-height: 40px; padding: 8px 12px; text-align: center; cursor: pointer; transition: background-color var(--t-out) var(--ease-out); }
+.seg label + label { border-left: var(--hair) solid var(--line); }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg label:has(:checked) { background: var(--g-fg); color: var(--g-bg); }
+.seg label:has(:focus-visible) { outline: 2px solid currentColor; outline-offset: 2px; }
+@media (--mouse) { .seg label:not(:has(:checked)):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+
+/* a field with its arrow cell (the sign-in, as the footer's email field) on the cloud ground, bigger */
+.field--big { min-height: 64px; border-color: transparent; background: var(--g-bg); }
+.field--big input { font-size: max(16px, var(--type-body-l)); padding-inline: var(--control-x); }
+.field--big button { width: 64px; border-left-color: transparent; transition: background-color var(--t-out) var(--ease-out); }
+.field--big button svg { width: 32px; height: 32px; }
+.field--big:focus-within { border-color: var(--c-ink); }
+@media (--mouse) { .field--big button:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

@@ -8,8 +8,13 @@
 @import "./base/layout.css";
 @import "./components/controls.css";
 @import "./components/card.css";
+@import "./components/blocks.css";
+@import "./components/forms.css";
 @import "./components/nav.css";
 @import "./components/footer.css";
 @import "./sections/home.css";
 @import "./pages/catalog.css";
 @import "./pages/product.css";
+@import "./pages/shop.css";
+@import "./pages/account.css";
+@import "./pages/info.css";
