@@ -9,9 +9,9 @@
    On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
    the stage, and the stage pins at the whole screen under the navbar. */
 :root:has(.product) { --buybar-h: 88px; }
-body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
+body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16px); }
 
-.pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h)); position: relative; padding-top: var(--nav-h); }
+.pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); position: relative; padding-top: var(--nav-h); }
 .pstage__pin {
   position: sticky; top: var(--nav-h); height: var(--pin-h); min-height: 22rem;
   display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center;
@@ -24,7 +24,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .pack--hero .pack__still { height: 100%; }
 
 @media (--short) {
-  .pstage { --pin-h: calc(100vh - var(--nav-h)); --pin-h: calc(100svh - var(--nav-h)); }
+  .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--tabbar-h)); }
   .pstage__pin { min-height: 0; }
 }
 
@@ -39,7 +39,7 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 .ptile__text { font-size: var(--type-body); line-height: var(--lh-text); }
 .ptile__text b { font-weight: 700; }
 .ptile__lots { display: grid; gap: 6px; font-size: var(--type-body); }
-.ptile__lots li { display: flex; justify-content: space-between; gap: 12px; border-bottom: var(--hair) solid var(--c-ink-10); padding-bottom: 6px; }
+.ptile__lots li { display: flex; justify-content: space-between; gap: 12px; border-bottom: var(--hair) solid var(--line); padding-bottom: 6px; }
 .ptile__lots li span:last-child { font-feature-settings: "tnum" 1; }
 @container col (width >= 58rem) {
   .pstage__facts { justify-items: start; gap: max(28vh, 12rem); gap: max(28svh, 12rem); }
@@ -57,7 +57,8 @@ body:has(.product) .toast { bottom: calc(var(--buybar-h) + 16px); }
 
 /* the buy bar: below L two rows of cells (the options; the quantity, the price and the button), from L one row with
    the button apart on the right, as in Figma */
-.buybar { position: sticky; bottom: 0; z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+.buybar { position: sticky; bottom: var(--tabbar-h); z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+@media (--phone) { .buybar { padding-bottom: 8px; } }
 @media (--short) { .buybar { position: relative; } }
 .buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
 .buybar__cells { display: contents; }

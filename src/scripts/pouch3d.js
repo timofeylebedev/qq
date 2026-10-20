@@ -23,7 +23,9 @@
 // ES module version for the site (the original IIFE is public/lab/pouch3d.js, used by the lab page).
 // Changes: exported instead of window.Pouch3D; an item added with { live: true } is measured again every frame
 // (a slot that is pinned with position: sticky moves on the page as you scroll); an item added with { clip: element }
-// is drawn only inside that element's box (a pack in a row that scrolls sideways must not spill past the row).
+// is drawn only inside that element's box (a pack in a row that scrolls sideways must not spill past the row);
+// an item's ox, oy draw it that far off its slot (the packs trail the page a little as it scrolls: scripts/packs.js);
+// an item's alpha (0–1) fades its pack and its shadow (a card fading in as it rises into place).
 const root = window;
 
 
@@ -53,6 +55,7 @@ const root = window;
   // and the light in the photo — so a pack at rest is the approved mockup, and it only departs from it as it moves.
   var PACK_FS = [
     'precision mediump float;',
+    'uniform float uAlpha;',
     'uniform sampler2D uArt; uniform sampler2D uRelief; uniform sampler2D uGloss;',
     'uniform vec3 uL0; uniform vec3 uH0; uniform vec4 uK;', // uK = relief, light response, sheen, rim
     'varying vec2 vUv; varying vec3 vN; varying vec3 vL; varying vec3 vV; varying float vFx;',
@@ -70,7 +73,7 @@ const root = window;
     '  float scr  = clamp(1.15 * gl + uK.z * (sNow - sRest) + uK.w * max(rim, 0.0), 0.0, 1.0) * vFx;',
     '  vec3 c = art * mul;',
     '  c += scr * (1.0 - c);',
-    '  gl_FragColor = vec4(c, 1.0);',
+    '  gl_FragColor = vec4(c * uAlpha, uAlpha);',
     '}'
   ].join('\n');
 
@@ -262,9 +265,9 @@ const root = window;
     function add(el, art) {
       var it = {
         el: el, front: art.front, back: art.back || art.front, key: art.key || '',
-        rx: 0, ry: 0, scale: 1, lift: 0, shadow: 1, fit: art.fit || 0.80, visible: false, live: !!art.live,
+        rx: 0, ry: 0, scale: 1, lift: 0, shadow: 1, alpha: 1, fit: art.fit || 0.80, visible: false, live: !!art.live,
         clipEl: art.clip || null, clip: null,
-        x: 0, y: 0, w: 0, h: 0
+        x: 0, y: 0, w: 0, h: 0, ox: 0, oy: 0       // ox, oy: where the pack is drawn off its slot (a lag, px)
       };
       items.push(it); measureOne(it); invalidate();
       return it;
@@ -351,13 +354,13 @@ const root = window;
         it = items[i];
         if (it.live) measureOne(it);
         var mY = it.h * (pad - 1) * 0.5;
-        it.visible = it.w > 0 && it.y + it.h + mY > canvasTop && it.y - mY < canvasTop + cssH;
+        it.visible = it.w > 0 && it.y + it.oy + it.h + mY > canvasTop && it.y + it.oy - mY < canvasTop + cssH;
         if (it.visible) vis++;
       }
 
       function viewportFor(it) {
         var w = it.w * pad, h = it.h * pad;
-        var x = (it.x - (w - it.w) / 2) * dpr, yTop = (it.y - canvasTop - (h - it.h) / 2) * dpr;
+        var x = (it.x + it.ox - (w - it.w) / 2) * dpr, yTop = (it.y + it.oy - canvasTop - (h - it.h) / 2) * dpr;
         gl.viewport(Math.round(x), Math.round(H - yTop - h * dpr), Math.round(w * dpr), Math.round(h * dpr));
         // world height seen through this viewport, so the pack fills `fit` of the slot's height (or width, if narrower)
         var slotFit = Math.min(it.h, it.w * PACK_H) * it.fit;
@@ -374,14 +377,14 @@ const root = window;
         gl.disableVertexAttribArray(1); gl.disableVertexAttribArray(2); gl.disableVertexAttribArray(3);
         gl.uniform1f(sp.u.uPad, 0.50);
         for (i = 0; i < items.length; i++) {
-          it = items[i]; if (!it.visible || it.shadow <= 0.001 || !scissorFor(it)) continue;
+          it = items[i]; if (!it.visible || it.shadow <= 0.001 || it.alpha <= 0.002 || !scissorFor(it)) continue;
           viewportFor(it); setVP(vp, it._f, it._aspect, near, far);
           var cy = Math.abs(Math.cos(it.ry)), sy = Math.abs(Math.sin(it.ry)), cx = Math.abs(Math.cos(it.rx)), sx = Math.abs(Math.sin(it.rx));
           var hw = (0.5 * cy + 0.15 * look.depth * sy) * it.scale * 0.94, hh = (PACK_H * 0.5 * cx + 0.15 * look.depth * sx) * it.scale * 0.96;
-          var far2 = 1 + it.lift * 2.2;                             // a lifted pack throws a longer, softer shadow
+          var far2 = Math.max(0.6, 1 + it.lift * 2.2);              // a lifted pack throws a longer, softer shadow; a pressed one a closer one
           gl.uniformMatrix4fv(sp.u.uVP, false, vp);
           gl.uniform4f(sp.u.uRect, 0.07 * far2, -0.09 * far2, hw, hh);
-          gl.uniform3f(sp.u.uSh, 0.06 * far2, 0.34 * far2, look.shadow * it.shadow / Math.sqrt(far2));
+          gl.uniform3f(sp.u.uSh, 0.06 * far2, 0.34 * far2, look.shadow * it.shadow * it.alpha / Math.sqrt(far2));
           gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); calls++;
         }
         gl.depthMask(true);
@@ -403,7 +406,10 @@ const root = window;
         gl.uniform4f(pp.u.uK, look.relief, look.light, look.sheen, look.rim);
         gl.uniform1f(pp.u.uDepth, look.depth);
         for (i = 0; i < items.length; i++) {
-          it = items[i]; if (!it.visible || !scissorFor(it)) continue;
+          it = items[i]; if (!it.visible || it.alpha <= 0.002 || !scissorFor(it)) continue;
+          // a pack fading in or out (alpha < 1) is blended, premultiplied, over what is under it
+          if (it.alpha < 0.998) { gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); } else gl.disable(gl.BLEND);
+          gl.uniform1f(pp.u.uAlpha, Math.min(1, it.alpha));
           viewportFor(it); setMVP(mvp, it._f, it._aspect, near, far, it);
           var cX = Math.cos(it.rx), sX = Math.sin(it.rx), cY = Math.cos(it.ry), sY = Math.sin(it.ry);
           // light and camera in the pack's own space: R^T * v

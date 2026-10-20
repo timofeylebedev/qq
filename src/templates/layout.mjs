@@ -1,10 +1,10 @@
 // The frame of every page: <head>, the navbar, the footer, and the one stylesheet and script of the site.
 import { esc, icon, href, cls } from "./util.mjs";
 
-export function page(ctx, { title, description, body, navTheme = "light", main = "" }) {
+export function page(ctx, { title, description, body, ground = "paper", main = "" }) {
   const { site } = ctx;
   return `<!doctype html>
-<html lang="ru" data-root="${ctx.rel || "./"}">
+<html lang="ru" data-root="${ctx.rel || "./"}" data-over="${ground}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,11 +14,13 @@ export function page(ctx, { title, description, body, navTheme = "light", main =
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/assets/icons/mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles/main.css">
+<link rel="expect" href="${ctx.page === "product" ? "#product-title" : "#contacts"}" blocking="render">
+<script vite-ignore src="${ctx.rel || ""}vt.js"></script>
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">К содержанию</a>
-${navbar(ctx, navTheme)}
+${navbar(ctx, ground)}
 <main id="main"${main ? ` class="${main}"` : ""}>
 ${body}
 </main>
@@ -29,41 +31,56 @@ ${footer(ctx)}
 `;
 }
 
-// The navbar: the logo, the sections in three groups, the tools (search, favourites, bag, profile). Under 64em the
-// sections go into a menu behind the burger (the menu is not designed yet: a plain list, see design/decisions.json).
-// navTheme "dark" is the navbar over the black hero; it turns light once the hero has scrolled away (scripts/nav.js).
-function navbar(ctx, navTheme) {
-  const groups = ctx.site.nav.groups;
-  const links = groups.map((g) => `<li class="nav__group"><ul>${g.map(([t, to]) => `<li><a href="${href(ctx, to)}">${esc(t)}</a></li>`).join("")}</ul></li>`).join("");
-  return `<header class="nav" data-nav data-theme="${navTheme}">
-  <div class="nav__bar">
+// The navbar: the logo, the sections, the tools (search, favourites, bag, profile), in four steps (media.css):
+//   wide        every section, in three groups («Кофе, Каскара, Дрипы, Сеты · Кофейням, Офисам · Журнал, Контакты»)
+//   --links     four short sections («Каталог, Бизнесу, Журнал, Контакты»)
+//   below       the burger: the menu lists the groups (not designed yet: a plain list, design/decisions.json)
+//   --phone     the bag, favourites and profile leave the bar for the tab bar at the foot of the screen
+// An item links only to a page that exists (data/site.json nav): the others are labels without a link (<a> without
+// href) until their page is made. The navbar takes the colour of the section under it (data-ground, scripts/nav.js).
+const navItem = (ctx, [t, to], c = "") => to
+  ? `<a${c ? ` class="${c}"` : ""} href="${href(ctx, to)}"${ctx.here === to ? ' aria-current="page"' : ""}>${esc(t)}</a>`
+  : `<a${c ? ` class="${c}"` : ""}>${esc(t)}</a>`;
+
+function navbar(ctx, ground) {
+  const { groups, short, tabs } = ctx.site.nav;
+  const full = groups.map((g) => `<li class="nav__group"><ul>${g.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></li>`).join("");
+  const tool = (name, label, extra = "", cls = "", inner = "") => `<a class="nav__tool${cls}"${extra}>${icon(name)}<span class="sr">${label}</span>${inner}</a>`;
+  return `<header class="nav" data-nav data-ground="${ground}">
+  <div class="nav__bar"><div class="nav__in">
     <a class="nav__logo" href="${ctx.rel || "./"}" aria-label="QQ Coffee, на главную">${icon("logo")}</a>
-    <nav class="nav__links" aria-label="Разделы"><ul>${links}</ul></nav>
+    <nav class="nav__links nav__links--full" aria-label="Разделы"><ul>${full}</ul></nav>
+    <nav class="nav__links nav__links--short" aria-label="Разделы"><ul>${short.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></nav>
     <div class="nav__tools">
-      <a class="nav__tool nav__tool--wide" href="#" aria-label="Поиск">${icon("search")}</a>
-      <a class="nav__tool" href="#" aria-label="Избранное">${icon("heart")}<span class="nav__count" data-fav-count hidden></span></a>
-      <a class="nav__tool" href="#" aria-label="Корзина" data-bag>${icon("bag")}<span class="nav__count" data-bag-count hidden></span></a>
+      ${tool("search", "Поиск")}
+      ${tool("heart", "Избранное", "", " nav__tool--tab")}
+      ${tool("bag", "Корзина", " data-bag", " nav__tool--tab", '<span class="nav__count" data-bag-count hidden></span>')}
+      ${tool("profile", "Профиль", "", " nav__tool--tab")}
       <button class="nav__tool nav__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню" data-menu-button>${icon("menu")}</button>
     </div>
-  </div>
+  </div></div>
   <div class="menu" id="menu" data-menu hidden>
-    <nav aria-label="Меню"><ul>${groups.flat().map(([t, to]) => `<li><a href="${href(ctx, to)}">${esc(t)}</a></li>`).join("")}</ul></nav>
+    <nav aria-label="Меню"><ul>${groups.flat().map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></nav>
   </div>
-</header>`;
+</header>
+<nav class="tabbar" data-tabbar data-ground="paper" aria-label="Покупки"><ul>${tabs.map(([t, to, ic]) => `<li>${to
+    ? `<a class="tabbar__item" href="${href(ctx, to)}"${ctx.here === to ? ' aria-current="page"' : ""}>`
+    : `<a class="tabbar__item"${ic === "bag" ? " data-bag" : ""}>`}${icon(ic)}<span>${esc(t)}</span>${ic === "bag" ? '<span class="nav__count" data-bag-count hidden></span>' : ""}</a></li>`).join("")}</ul></nav>`;
 }
 
-// The footer: the flame mark with the copyright on the left, the newsletter and four groups of links on the right.
-// The mark is static for now: the animated logo goes into .footer__mark when it arrives.
+// The footer: the animated flame (the logo from Tim, round 3) with the copyright on the left, the newsletter and four
+// groups of links on the right. From L the two halves are squares. The flame is a file (SMIL, about 27 KB gzipped,
+// loaded lazily); with «reduce motion» its first frame stands still.
 function footer(ctx) {
   const f = ctx.site.footer;
   const groups = f.groups.map(([title, links]) => `<div class="footer__group">
       <h2 class="footer__title">${esc(title)}</h2>
       <ul>${links.map(([t, to]) => `<li><a href="${href(ctx, to)}">${esc(t)}</a></li>`).join("")}</ul>
     </div>`).join("\n    ");
-  return `<footer class="footer" id="contacts">
+  return `<footer class="footer" id="contacts" data-ground="cloud">
  <div class="col"><div class="footer__inner">
   <div class="footer__brand">
-    <div class="footer__mark" data-logo-slot>${icon("mark", 'role="img" aria-label="QQ Coffee"')}</div>
+    <picture class="footer__mark"><source media="(prefers-reduced-motion: reduce)" srcset="/assets/img/logo-flame-still.svg"><img src="/assets/img/logo-flame.svg" alt="QQ Coffee" width="218" height="332" loading="lazy" decoding="async"></picture>
     <div class="footer__legal">
       <p>${esc(f.copyright)}</p>
       <a href="${href(ctx, f.privacy[1])}">${esc(f.privacy[0])}</a>
@@ -84,9 +101,11 @@ function footer(ctx) {
 }
 
 // A section heading with its controls on the right (arrows, a counter); the same on every page.
-export function head({ title, id, level = 2, aside = "", center = false, lead = "" }) {
-  return `<div class="${cls("head", center && "head--center")}">
-    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
+// `middle` stands in the middle of the head (the pager of new arrivals): from M between the title and the aside,
+// below M on its own row under them.
+export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "" }) {
+  return `<div class="${cls("head", center && "head--center", middle && "head--middle")}">
+    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
   </div>`;
 }
 

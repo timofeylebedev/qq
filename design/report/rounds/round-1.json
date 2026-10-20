@@ -1,0 +1,232 @@
+{
+ "id": "round1",
+ "nav": "Round 1",
+ "title": "Round 1: what was built (PR #1, merged 19 Oct)",
+ "sub": "Your requests in the order you gave them, what was done with each, and the site next to Figma.",
+ "blocks": [
+  {
+   "type": "stats",
+   "items": [
+    {
+     "n": 27,
+     "unit": "pages",
+     "text": "home, catalog and a page for each of the 25 coffees «на сайте»"
+    },
+    {
+     "n": 31,
+     "unit": "roles",
+     "text": "every size: a value at 320 and at 1440, a straight line between"
+    },
+    {
+     "n": 3,
+     "unit": "steps",
+     "text": "shared column steps S, M, L where every block changes layout"
+    },
+    {
+     "n": 48,
+     "unit": "checks",
+     "text": "4 pages × 12 screen sizes in the audit, clean"
+    }
+   ]
+  },
+  {
+   "type": "shots",
+   "label": "Figma and the site",
+   "note": "Figma on the left in grey, the site on the right. Click a picture to open it large; arrows and Escape work.",
+   "items": [
+    {
+     "title": "Hero at 1280",
+     "src": "shots/hero-1280.jpg",
+     "text": "The Figma hero (left) and the site: title, countdown to the next roast (Technology digits, Moscow time) and three links in cells divided by hairlines. The site adds the navbar over the photo."
+    },
+    {
+     "title": "Новинки at 1280",
+     "src": "shots/featured-1280.jpg",
+     "text": "The featured slider: text, taste chart and descriptor pills on cloud grey, the 3D pack instead of the photo (Figma mixes photos and packs; the site uses a photo only where data/site.json gives one)."
+    },
+    {
+     "title": "Рекомендуем at 1280",
+     "src": "shots/recs-1280.jpg",
+     "text": "Three cards per view from M, 1.1 on a phone so the next card peeks; 3D packs lean as the row scrolls."
+    },
+    {
+     "title": "Наш подход at 1280",
+     "src": "shots/approach-1280.jpg",
+     "text": "The image block: eyebrow in lavender, h3 in mono capitals, the filled «Читать» button with its arrow cell, as in Figma."
+    },
+    {
+     "title": "Для бизнеса at 1280",
+     "src": "shots/business-1280.jpg",
+     "text": "Two cards with photo, name and text cells; one column below M."
+    },
+    {
+     "title": "Facts and footer at 1280",
+     "src": "shots/facts-footer-1280.jpg",
+     "text": "Three info cells with a plus (the text behind it is a placeholder), the footer with the static logo (the animated one is awaited)."
+    },
+    {
+     "title": "Product: first screen at 1440",
+     "src": "shots/product-top-1440.jpg",
+     "text": "Name and meta pinned, the 3D pack on the stage, the buy bar fixed at the foot (one row from L, as in Figma)."
+    },
+    {
+     "title": "Product: fact tiles at 1440",
+     "src": "shots/product-tiles-1440.jpg",
+     "text": "Five frosted tiles scattered across the column as in Figma; the pack turns once around while they pass (window.qqStage.progress)."
+    },
+    {
+     "title": "Product: story at 1440",
+     "src": "shots/product-story-1440.jpg",
+     "text": "The big sentence (statement 24→48), the photo, the table text in columns."
+    },
+    {
+     "title": "Product: similar coffees at 1440",
+     "src": "shots/product-similar-1440.jpg",
+     "text": "Four coffees nearest in taste (decision similar-coffees)."
+    },
+    {
+     "title": "Catalog at 1440",
+     "src": "shots/catalog-1440.jpg",
+     "text": "Info row, tabs, seven filter cells in one row from 1260 wide, the first four cards half a row, then thirds."
+    },
+    {
+     "title": "Home on a phone (390 × 844)",
+     "src": "shots/phones-home-390.jpg",
+     "text": "Hero stacked in one column with 120px of the next block peeking; the featured coffee with text above the pack."
+    },
+    {
+     "title": "Catalog and product on a phone (390 × 844)",
+     "src": "shots/phones-shop-390.jpg",
+     "text": "Filters in four rows of cells; the product stage with the two-row buy bar; a fact tile crossing the pack."
+    },
+    {
+     "title": "Home at 844 × 390 (phone sideways)",
+     "src": "shots/home-844x390.jpg",
+     "text": "Sizes count the screen as a 320 one (its height decides): the hero fits with 14px of the next block showing."
+    },
+    {
+     "title": "Home at 2560 × 1440",
+     "src": "shots/home-2560.jpg",
+     "text": "Nothing grows past 1440; the column stops at 1520 and the margins take the rest."
+    }
+   ]
+  },
+  {
+   "type": "changes",
+   "groups": [
+    {
+     "section": "The site",
+     "items": [
+      {
+       "ask": "Build the QQ Coffee website from the Figma file, hosted on GitHub",
+       "done": "Static Vite site in <code>timofeylebedev/qq</code>, branch <code>site-system</code>; every push to <code>main</code> publishes to <a href='https://timofeylebedev.github.io/qq/'>timofeylebedev.github.io/qq</a> (deploy.yml; Pages source must be set to GitHub Actions once).",
+       "tag": "done"
+      },
+      {
+       "ask": "Start with the main, catalog and product pages; other pages only as context",
+       "done": "Home, catalog and one page per coffee (25), from one set of components. Not built: bag, checkout, search, favourites, account, other categories, journal, business pages (see Next).",
+       "tag": "done"
+      },
+      {
+       "ask": "Figma is general inspiration, not exact values or structure",
+       "done": "Sizes come from the site's own scale; structure follows Figma (sections, cells, hairlines, mono capitals). Where Figma differs between frames, the site takes one line through them: e.g. h2 32→48 where Figma has 32 / 36 / 40 / 48 steps.",
+       "tag": "differently"
+      }
+     ]
+    },
+    {
+     "section": "The system",
+     "items": [
+      {
+       "ask": "A fluid system, not breakpoints (exceptions allowed)",
+       "done": "Every size is a straight line from its value at 320 to its value at 1440 (31 roles in <code>design/scale.json</code>), constant outside; the screen's height counts (a screen 360 tall gets the 320 sizes, 920 tall the 1440 sizes). Layout changes at only three shared column steps S 22rem, M 43rem, L 58rem, plus the navbar at 64em. Four exceptions use screen units on purpose, listed in decisions.json.",
+       "tag": "done"
+      },
+      {
+       "ask": "A system within pages and between screen sizes",
+       "done": "One ladder (steps 2/4/8/16), type levels ≥ ×1.125 apart at both ends, colours only from <code>design/colors.json</code> with contrast checks, one motion vocabulary; <code>build/rules.mjs</code> checks 9 rules on every build and in CI.",
+       "tag": "done"
+      },
+      {
+       "ask": "Flow Medium's size system as inspiration",
+       "done": "Taken from it: roles with two ends, the height-capped viewport (<code>--vp</code>), the ladder, relations, a decisions register, the rules check, the audit at 11 sizes, this report. Not taken: its modular ratio (QQ's Figma uses round values).",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Data and content",
+     "items": [
+      {
+       "ask": "Use the CSV, only rows «На сайте» = «Да»",
+       "done": "25 coffees from <code>data/products.csv</code> (Колумбия Вуш-Вуш appeared twice: the fuller row wins). Taste scores, descriptors, processing, lots, countries, tags and roast use reach the cards, filters and product tiles.",
+       "tag": "done"
+      },
+      {
+       "ask": "Prices",
+       "done": "Placeholder prices per price group and weight in <code>data/prices.json</code>, marked as such (decision price-placeholder).",
+       "tag": "check"
+      },
+      {
+       "ask": "Labels on the packs",
+       "done": "The Sumatra label on every pack, as you chose (decision pack-label).",
+       "tag": "done"
+      },
+      {
+       "ask": "Fonts: Apercu (attached), Google fonts, Technology",
+       "done": "Apercu Pro 400/500/700 self-hosted and subset; headings in JetBrains Mono Bold (Google has PT Mono only in Regular — decision font-headings); countdown digits in Technology Bold (your file, 1.2 KB subset).",
+       "tag": "differently"
+      }
+     ]
+    },
+    {
+     "section": "Product page and 3D",
+     "items": [
+      {
+       "ask": "The pack moves in 3D on scroll",
+       "done": "The pack is pinned under the navbar while five fact tiles scroll past and turns once around with them; it settles in from a quarter turn on load; still with «reduce motion».",
+       "tag": "done"
+      },
+      {
+       "ask": "Packs on grey use the existing 3D model",
+       "done": "One WebGL canvas per page draws every card's pack (your renderer as an ES module); cards lean with the scroll and turn to the pointer. A still of the same pack shows before WebGL draws and without it.",
+       "tag": "done"
+      },
+      {
+       "ask": "Animated footer logo",
+       "done": "Waiting for the file or link; the footer shows the static logo meanwhile.",
+       "tag": "open"
+      }
+     ]
+    },
+    {
+     "section": "Process",
+     "items": [
+      {
+       "ask": "Use analyzing-design-systems, full-system-report, responsive-web-design, be-more-ambitious",
+       "done": "Figma frames measured into the size roles; this page is the full system report; the audit runs 4 pages × 12 sizes with axe and a 24px-text pass; an independent agent reviewed the work and its 16 findings were fixed or answered (Checks).",
+       "tag": "done"
+      },
+      {
+       "ask": "Ask questions; report missing things later",
+       "done": "Asked about repo, logo, labels, prices and fonts. Missing things are in Next.",
+       "tag": "answered"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "Where the site departs from Figma, or does something you may not expect",
+   "items": [
+    "Headings are JetBrains Mono, not PT Mono: narrower, with a different «Ж» and «Ш». A licence for PT Mono Bold swaps it in one line.",
+    "Sizes in between Figma frames are not Figma's: the site draws one line through each role, so e.g. the hero title is 55 at 1024 where Figma would show 56 (768 frame) or 64 (990 frame).",
+    "The countdown is 96 at 1440 and above, where Figma's 1920 frame has 128: nothing grows past 1440.",
+    "Figma's featured slide has a photo; the site shows the 3D pack unless data/site.json names a photo for that coffee.",
+    "On a phone sideways the hero is taller than the screen (555 px at 568 × 320): the title, the countdown and three links stack in one column below M.",
+    "The photos are Figma's moodboard, several with other roasters' packs: to replace before launch."
+   ]
+  }
+ ]
+}

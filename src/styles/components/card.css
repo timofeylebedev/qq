@@ -4,31 +4,36 @@
      light   the 3D pack on the cloud ground (every coffee without a photo)
      dark    a photo, white text (a coffee that has one in data/site.json)
    Over the picture: the name and the heart on top, the buy row at the bottom over a fade into the ground. Under the
-   picture: one paragraph, at most three lines. The whole picture links to the coffee.
+   picture: one paragraph, at most three lines. The whole card, its text too, is the link to the coffee (the name's
+   link stretched over the card); the heart and the buy row sit above it.
 
-   Layers, in the page's stacking (the card makes no stacking context of its own, so the one 3D canvas of the page,
-   at z-index 5, falls between them): ground and photo 0 · pack canvas 5 · the link over the picture 6 · name, heart
-   and buy row 7 */
-.card { --ground: var(--c-cloud); --fg: var(--c-ink); --rule: var(--c-ink-20); display: flex; flex-direction: column; min-width: 0; }
-.card--dark { --ground: var(--c-black); --fg: var(--c-paper); --rule: var(--c-white-30); }
+   The picture's layers share one grid cell (nothing in it is positioned, so the stretched link reaches past it to
+   the card). Layers, in the page's stacking (the card makes no stacking context of its own, so the one 3D canvas of
+   the page, at z-index 5, falls between them): ground and photo 0 · pack canvas 5 · the link over the card 6 · name,
+   heart and buy row 7 */
+.card { --ground: var(--c-cloud); --fade: var(--fade-cloud); --fg: var(--c-ink); --fg-soft: var(--c-ink-60); --line: var(--c-ink-20); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.card--dark { --ground: var(--c-black); --fade: var(--fade-black); --fg: var(--c-paper); --fg-soft: var(--c-white-60); --line: var(--c-white-30); }
 
 .card__media {
-  position: relative; aspect-ratio: 4 / 5; overflow: hidden;
+  aspect-ratio: 4 / 5; overflow: hidden;
   background: var(--ground); color: var(--fg);
-  display: flex; flex-direction: column; justify-content: space-between;
+  display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr);
 }
+.card__media > * { grid-area: 1 / 1; }
 .card--half .card__media { aspect-ratio: 1; }
 
-.card__photo { position: absolute; inset: 0; z-index: 0; }
+.card__photo { z-index: 0; }
 .card__photo img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
 @media (--mouse) { .card:hover .card__photo img { transform: scale(1.03); } }
 
-.card__top { position: relative; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
+.card__top { align-self: start; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
 .card__title { flex: 1; min-width: 0; font-size: var(--type-card-title); overflow-wrap: anywhere; }
+/* the name's link, stretched over the whole card (it is positioned against .card: nothing between is positioned) */
+.card__link { pointer-events: auto; }
 .card__link::after { content: ""; position: absolute; inset: 0; z-index: 6; }
 .card__link:focus-visible { outline: none; }
-.card__link:focus-visible::after { outline: 2px solid var(--fg); outline-offset: -4px; }
-.card__top a, .card__top .fav { position: relative; pointer-events: auto; }   /* the rest of the row lets clicks through to the card's link */
+.card__link:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.card__top .fav { position: relative; z-index: 7; pointer-events: auto; }   /* the rest of the row lets clicks through to the card's link */
 @media (--mouse) {
   .card .fav { opacity: 0; transition: opacity var(--t-out) var(--ease-out); }
   .card:hover .fav, .card .fav:focus-visible, .card .fav[aria-pressed="true"] { opacity: 1; transition-duration: var(--t-in); }
@@ -41,11 +46,11 @@
 
 /* the buy row: weights on the left, the add-to-bag button with the price on the right, divided by hairlines */
 .buy {
-  position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr;
-  padding-top: 56px; background: linear-gradient(to bottom, transparent, var(--ground) 56px);
+  position: relative; z-index: 7; align-self: end; display: grid; grid-template-columns: 1fr 1fr;
+  padding-top: 56px; background: linear-gradient(to bottom, var(--fade)) top / 100% 56px no-repeat, linear-gradient(var(--ground), var(--ground)) left 0 top 56px / 100% 100% no-repeat;
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
-.buy > * { border-top: var(--hair) solid var(--rule); min-height: var(--control-h); }
+.buy > * { border-top: var(--hair) solid var(--line); min-height: var(--control-h); }
 .buy__weights { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; padding: 8px 12px; }
 .weight { position: relative; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
 .weight input { position: absolute; opacity: 0; inset: -8px; margin: 0; cursor: pointer; }
@@ -55,16 +60,20 @@
 .weight input:checked + span::before { background: currentColor; }
 .weight input:focus-visible + span { outline: 2px solid currentColor; outline-offset: 4px; }
 .buy__add {
-  display: flex; align-items: center; justify-content: center; gap: 8px; border-left: var(--hair) solid var(--rule);
+  display: flex; align-items: center; justify-content: center; gap: 8px; border-left: var(--hair) solid var(--line);
   padding-inline: 12px; white-space: nowrap; transition: background var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
 }
 .buy__add svg { width: 24px; height: 24px; flex: none; }
-@media (--mouse) { .buy__add:hover { background: var(--fg); color: var(--ground); transition-duration: var(--t-in); } }
+/* hovered, the price and the bag fade back (the ground stays): the one hover of controls drawn on a picture */
+@media (--mouse) { .buy__add:hover { color: var(--fg-soft); transition-duration: var(--t-in); } }
 .buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
 @keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
 
 /* the 3D pack in its slot: between the name and the buy row, centred; the still is the same pack, rendered ahead
    (build/pack-still.mjs), shown until the canvas has drawn and wherever WebGL is missing */
 .pack { position: absolute; inset: 14% 8% 22%; display: grid; place-items: center; pointer-events: none; }
+/* in a card the pack is a layer of the picture's grid: the same box, as margins (a share of the width: 4:5 and 1:1) */
+.card .pack { position: relative; inset: auto; margin: 17.5% 8% 27.5%; }
+.card--half .pack { margin: 14% 8% 22%; }
 .pack__still { width: auto; height: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s var(--ease-out); }
 .has-3d .pack[data-live] .pack__still { opacity: 0; }

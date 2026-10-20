@@ -1,6 +1,6 @@
 # 3D coffee pack for the web — working notes
 
-Status (6 Oct 2026): first pass of the model and renderer done. Animations and interactions are still to be designed.
+Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll lag and press are designed (round 2), the look values still wait for the designer.
 
 ## Where it lives in this repo
 - Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
@@ -43,3 +43,25 @@ Status (6 Oct 2026): first pass of the model and renderer done. Animations and i
   `build/pack-still.mjs` renders the still shown before WebGL draws.
 - Look values in use: depth 1.0, relief 2.0, light 0.75, sheen 0.35, shadow 0.38 (the defaults; still waiting for the
   designer's preference).
+
+## Round 2 (Oct 20, 2026)
+
+- `pouch3d.js`: an item's `ox`, `oy` draw the pack that far off its slot (px); a pressed pack's shadow stays close
+  (the shadow's distance is floored at 0.6 for a negative lift).
+- `packs.js`: every pack trails its slot a little when the page or its row scrolls (`TUNE.lag` 9/s, at most
+  `lagMax` 12% of its height and `lagMaxPx` 40px, soft-capped so a jump to an anchor stays small), and a pointer
+  pressed on a pack moves it away (`pressLift` −0.45, `pressScale` 0.94, held at least `pressHold` 0.2s; a touch
+  waits 90ms in case it is a scroll). Neither with «reduce motion».
+
+## Round 3 (Oct 20, 2026)
+
+- No tilt with the page's scroll any more (Tim): the shelf lean (tilt by place on the screen) and the lean with the
+  scroll's speed are gone. Cards still face a little towards the middle of the screen (`TUNE.turn`) and the pointer.
+- `packs.js` splits a pack's lag in two: the page's scroll (it only trails, as before) and its slot's own move on the
+  page (its row slides, its card rises). Carried, it trails and tilts so its leading edge recedes: sideways in a row
+  (`carryTurn` 0.55 at the full trail), up and down as a card rises (`carryTilt` 0.45). A rising card's slot is
+  measured every frame while it moves (the event `qq:carry` from `slider.js`).
+- `pouch3d.js`: an item's `alpha` (0–1) fades its pack and shadow (blended, premultiplied); a card that rises into
+  place fades in with its pack.
+- The view transition to a coffee's page captures the stills (`html[data-vt]` hides the canvas); arriving that way the
+  big pack starts facing front instead of turning in from a quarter turn.

@@ -1,6 +1,6 @@
 // Buying, until there is a shop behind the site: the weight a visitor picks updates the price; «В корзину» puts the
 // coffee into a bag kept in this browser (localStorage) and shows how many items it holds; the heart does the same
-// for favourites. There is no bag page and no checkout yet (design/decisions.json "no-shop-yet").
+// for favourites (only the bag shows a count in the navbar). There is no bag page and no checkout yet (design/decisions.json "no-shop-yet").
 const KEY = "qq-bag", FAV = "qq-fav";
 const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
 const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode: only this page */ } };
@@ -10,7 +10,6 @@ function badge() {
   const bag = load(KEY, []), fav = load(FAV, []);
   const n = bag.reduce((s, x) => s + (x.qty || 1), 0);
   for (const el of document.querySelectorAll("[data-bag-count]")) { el.textContent = n; el.hidden = !n; }
-  for (const el of document.querySelectorAll("[data-fav-count]")) { el.textContent = fav.length; el.hidden = !fav.length; }
   for (const b of document.querySelectorAll("[data-fav]")) b.setAttribute("aria-pressed", String(fav.includes(b.dataset.fav)));
 }
 

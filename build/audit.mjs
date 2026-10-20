@@ -6,6 +6,8 @@
 //   · text cut off: a line of text outside a box that clips it (rows that scroll sideways are left out), or off screen
 //   · text under 12px as drawn
 //   · a link or button smaller than 24×24px to tap (WCAG 2.2, 2.5.8)
+//   · the navbar: its sections running into the logo or the tools (each step of media.css must fit its row)
+//   · the hero's countdown: the day row, the digits (or the date) not as wide as the caption (decision countdown-as-caption)
 //   · axe-core (accessibility) at a phone and a desktop size
 //   · all of the above but axe with the browser's text made bigger (24px), at a phone and a short laptop
 // Sizes: a folded phone (280), phones, a phone sideways, tablets, laptops short and tall, 1920 and 2560.
@@ -82,6 +84,19 @@ function measure() {
     if (after.content !== "none" && after.position === "absolute") continue;   // a link stretched over its card
     if (Math.min(r.width, r.height) < 23.5) out.targets.push(`${path(e)} ${Math.round(r.width)}×${Math.round(r.height)}px`);
   }
+  out.bars = [];
+  const vis = (q) => [...document.querySelectorAll(q)].find(shown);
+  const logo = vis(".nav__logo"), links = vis(".nav__links"), tools = vis(".nav__tools");
+  if (links && logo && tools) {
+    const a = logo.getBoundingClientRect(), b = links.querySelector("ul").getBoundingClientRect(), c = tools.getBoundingClientRect();
+    if (b.left < a.right + 8 || b.right > c.left - 8) out.bars.push(`navbar: the sections (${Math.round(b.left)}–${Math.round(b.right)}) run into the logo or the tools (${Math.round(a.right)}, ${Math.round(c.left)})`);
+  }
+  const cap = vis(".hero__caption");
+  if (cap) {
+    const tw = (e) => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width; };
+    const w = tw(cap), dial = vis(".hero__count .digits") || vis(".hero__date"), now = vis(".hero__now");
+    for (const [n, x] of [["digits", tw(dial)], ["day row", now.getBoundingClientRect().width]]) if (Math.abs(x - w) > w * 0.04) out.bars.push(`hero: the ${n} ${Math.round(x)}px, the caption ${Math.round(w)}px`);
+  }
   return out;
 }
 
@@ -99,7 +114,7 @@ for (const s of sizes) {
     await page.goto(base + pagePath, { waitUntil: "networkidle" });
     const H = await page.evaluate(() => document.documentElement.scrollHeight);
     for (let y = 0; y < H; y += s.h * 0.8) { await page.evaluate((y) => scrollTo(0, y), y); await page.waitForTimeout(60); }
-    await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(300);
+    await page.evaluate(() => scrollTo(0, 0)); await page.waitForTimeout(900);   // the bars cross over to the first ground on --t-move
     const m = await page.evaluate(measure);
     const where = `${label} /${pagePath}`;
     const add = (kind, list) => list.forEach((x) => { problems.push(`${where}: ${kind}: ${x}`); fails++; });
@@ -107,6 +122,7 @@ for (const s of sizes) {
     add("text cut", [...new Set(m.clipped)].slice(0, 6));
     add("text < 12px", [...new Set(m.small)].slice(0, 6));
     add("tap target < 24px", [...new Set(m.targets)].slice(0, 6));
+    add("bar", m.bars);
     add("script error", errors);
     if (s.axe || s.font) {
       await page.addScriptTag({ content: AXE });

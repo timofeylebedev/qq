@@ -26,9 +26,9 @@ ladder.
 
 ### Type
 
-Two voices: **mono** (JetBrains Mono Bold, in capitals, tracked 0.05em) for names and headings — it stands in for PT
-Mono Bold, which Google Fonts has only in Regular (decision `font-headings`); **sans** (Apercu Pro) for everything you
-read. The countdown is Technology Bold.
+Two voices: **mono** (PT Mono Bold, in capitals, tracked 0.05em) for names and headings (decision `font-headings`); **sans** (Apercu Pro) for everything you
+read. The countdown is Technology Bold (made tabular by `build/fonts.py`), sized so it is exactly as wide as its caption
+«До ближайшей обжарки» (decision `countdown-as-caption`); a date in its place is set in the mono.
 
 | Role | 320 → 1440 | Family | Used by |
 |---|---|---|---|
@@ -45,7 +45,6 @@ read. The countdown is Technology Bold.
 | `type/small` | 12 → 14 | sans | descriptor pills, captions above values in the buy bar, the copyright |
 | `type/control` | 14 → 20 | sans (label) | big actions and values set in bold capitals: hero links, «В корзину», buy-bar values |
 | `type/price` | 16 → 18 | sans (label) | prices and weights on cards (medium capitals) |
-| `type/countdown` | 40 → 96 | digits (label) | the roast countdown in Technology Bold: a numeral display, the only size set by its figure, not its text |
 **The levels keep their distance.** Each pair in `type.relations` is at least ×1.125 apart at both ends of the range,
 and so at every size in between (the ratio of two straight lines can only move from its value at one end to its value at
 the other): display/h2, h2/h3, h3/title, title/card-title, statement/lead, lead/body-l, body-l/body, body/small and
@@ -68,7 +67,10 @@ card-title/body-l. Labels (eyebrows, control text, prices) are set apart by case
 | `action/gap` | `--action-gap` | 24 → 40 | a text → its button |
 | `control/h` | `--control-h` | 48 → 56 | height of the card's buy row and of big buttons |
 | `control/pad-x` | `--control-x` | 16 → 24 | side padding of buttons and controls |
-| `hero/cell-y` | `--hero-cell-y` | 20 → 40 | padding above and below the cells of the hero |
+| `hero/cell-y` | `--hero-cell-y` | 12 → 20 | padding above and below each row of the hero's cells (three rows shared by the countdown and the links) |
+| `hero/photo` | `--hero-photo` | 48 → 120 (size) | the least photo the hero shows under the navbar |
+| `hero/fade` | `--hero-fade` | 64 → 160 (size) | the eased fade from the photo into the cells' black |
+| `hero/max` | `--hero-max` | 960 → 1200 (size) | the most the hero may be tall; below it the hero is the screen less a 24px peek |
 | `story/min-h` | `--story-h` | 400 → 680 (size) | least height of the image blocks (approach, about) |
 | `footer/logo` | `--footer-logo` | 104 → 216 (size) | width of the flame mark in the footer |
 | `product/stage` | `--stage` | 320 → 720 (size) | the 3D pack on a product page: the side of its square (also capped by the screen's height) |
@@ -86,7 +88,9 @@ changes its layout when the column reaches one of three shared widths:
 
 Full-width blocks (hero, image blocks, info blocks, footer, buy bar) put their content on the column too, so they
 change together with everything else and every block's text starts at the same edge. The only page-level steps:
-the navbar's links turn into the burger under 64em, and the search icon leaves under 25em (`media.css`).
+the navbar's four steps (`media.css`): every section from 64em (the screen of L), four short ones from 48em (the screen
+of M), the burger below, and under 40em a tab bar at the foot of the screen with the catalog, bag, favourites and
+profile. One more container step, `max` (1520px), is the column at its most: the hero frames its cells there.
 
 ## Colour
 
@@ -101,13 +105,19 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
 
 - **Cells and hairlines.** Controls and groups are cells divided by 1px lines (the hero's cells, the buy row of a card,
   the filters, the arrows, the info blocks, the business band, the footer); lists of things are cards with gaps.
+  Every line is `--line`: cool grey at 20% on light grounds, white at 30% on dark ones (each section says its ground,
+  `data-ground`; `build/rules.mjs` checks). Only a state (the current pager dot, a focused field) draws in ink.
+- **Grounds lead.** The navbar and the tab bar take the colours of the section under them once they stand wholly on it.
+- **Hover tints one thing.** Behind the item under the pointer, white at 20% on dark grounds, ink at 6% on light ones;
+  nothing else on the bar dims.
 - **No rounded corners.** Only pills and dots are round.
 - **A card is one step off its ground**: cloud cards on white, black photo cards, black business cards on cool grey.
 - **Names are mono capitals**, everything you read is Apercu.
 - **Motion:** things arrive on `--ease-out`, travel on `--ease-move`, leave on `--ease-leave`; hovers come in at 0.2s and
   go out at 0.45s. The 3D packs lean with the page as it scrolls (seen from above or below, like goods on a shelf) and
-  turn toward the pointer; on a coffee's page the pack turns once around as its facts pass. With «reduce motion»
-  nothing moves.
+  turn toward the pointer; they trail their place a little while the page scrolls and catch up as it stops; pressed,
+  a pack moves away from the viewer and stays while held. On a coffee's page the pack turns once around as its facts
+  pass. The hero's cells rise into place when the page opens (`--t-rise`). With «reduce motion» nothing moves.
 
 ## The 3D pack
 

@@ -14,16 +14,27 @@ const dist = resolve(root, "dist");
 const writePages = () => JSON.parse(execFileSync(process.execPath, ["-e",
   `import("./build/pages.mjs").then(m => process.stdout.write(JSON.stringify(m.pages())))`], { cwd: root, encoding: "utf8" }));
 
+// the component canvas (src/lab/canvas): written for the dev server only, never part of the build
+const canvas = resolve(src, "lab/canvas");
+// (a canvas that can't be written — a template changed so a part can't be cut out — is reported, and the site still runs)
+function writeCanvas(server) {
+  try { execFileSync(process.execPath, ["src/lab/canvas/page.mjs"], { cwd: root, encoding: "utf8", stdio: "pipe" }); }
+  catch (e) { server.config.logger.error(`component canvas not written: ${(e.stderr || e.message).trim().split("\n").find((l) => /Error/.test(l)) || e.message}`); }
+}
+
 function pages() {
   return {
     name: "qq-pages",
     configureServer(server) {
-      const watched = [resolve(src, "templates"), resolve(root, "data"), resolve(src, "data")];
+      writeCanvas(server);
+      const watched = [resolve(src, "templates"), resolve(root, "data"), resolve(src, "data"), canvas];
       server.watcher.add(watched);
       server.watcher.on("change", (file) => {
+        if (file.startsWith(canvas) && !/[/\\](page|variants)\.mjs$/.test(file)) return;   // only these write it; its .js and .css reload by themselves
         if (watched.some((d) => file.startsWith(d))) {
           if (file.startsWith(resolve(root, "data"))) execFileSync(process.execPath, ["build/data.mjs"], { cwd: root });
           writePages();
+          writeCanvas(server);
           server.ws.send({ type: "full-reload" });
         }
       });
@@ -41,7 +52,7 @@ export default defineConfig({
     transformer: "lightningcss",
     lightningcss: { drafts: { customMedia: true }, targets: { chrome: 111 << 16, safari: (16 << 16) | (4 << 8), ios_saf: (16 << 16) | (4 << 8), firefox: 121 << 16, edge: 111 << 16 } }
   },
-  server: { watch: { ignored: ["**/src/index.html", "**/src/catalog/**", "**/src/coffee/**"] } },
+  server: { watch: { ignored: ["**/src/index.html", "**/src/catalog/**", "**/src/coffee/**", "**/src/lab/canvas/*.html"] } },
   build: {
     outDir: dist,
     emptyOutDir: true,

@@ -21,7 +21,7 @@ export function pages() {
   const base = { site, products };
   const out = [
     ["index.html", home.render({ ...base, page: "home", rel: "" })],
-    ["catalog/index.html", catalog.render({ ...base, page: "catalog", rel: "../" })],
+    ["catalog/index.html", catalog.render({ ...base, page: "catalog", here: "catalog/", rel: "../" })],
     ...products.map((p) => [`coffee/${p.slug}/index.html`, product.render({ ...base, page: "product", rel: "../../" }, p)])
   ];
   if (existsSync(resolve(src, "coffee"))) rmSync(resolve(src, "coffee"), { recursive: true });

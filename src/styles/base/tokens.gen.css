@@ -18,7 +18,6 @@
   --type-small: clamp(0.75rem, calc(0.75rem + (var(--vp) - 20rem) * 2 / 1120), 0.875rem);            /* 12 → 14: descriptor pills, captions above values in the buy bar, the copyright */
   --type-control: clamp(0.875rem, calc(0.875rem + (var(--vp) - 20rem) * 6 / 1120), 1.25rem);          /* 14 → 20: big actions and values set in bold capitals: hero links, «В корзину», buy-bar values */
   --type-price: clamp(1rem, calc(1rem + (var(--vp) - 20rem) * 2 / 1120), 1.125rem);            /* 16 → 18: prices and weights on cards (medium capitals) */
-  --type-countdown: clamp(2.5rem, calc(2.5rem + (var(--vp) - 20rem) * 56 / 1120), 6rem);        /* 40 → 96: the roast countdown in Technology Bold: a numeral display, the only size set by its figure, not its text */
   /* space */
   --gutter: clamp(16px, calc(16px + (var(--vp) - 20rem) * 32 / 1120), 48px);                /* 16 → 48: side margin of every section: the content column starts here */
   --section-y: clamp(56px, calc(56px + (var(--vp) - 20rem) * 64 / 1120), 120px);             /* 56 → 120: space above and below a section's content */
@@ -33,10 +32,14 @@
   --action-gap: clamp(24px, calc(24px + (var(--vp) - 20rem) * 16 / 1120), 40px);            /* 24 → 40: a text → its button */
   --control-h: clamp(48px, calc(48px + (var(--vp) - 20rem) * 8 / 1120), 56px);             /* 48 → 56: height of the card's buy row and of big buttons */
   --control-x: clamp(16px, calc(16px + (var(--vp) - 20rem) * 8 / 1120), 24px);             /* 16 → 24: side padding of buttons and controls */
-  --hero-cell-y: clamp(20px, calc(20px + (var(--vp) - 20rem) * 20 / 1120), 40px);           /* 20 → 40: padding above and below the cells of the hero */
+  --hero-cell-y: clamp(12px, calc(12px + (var(--vp) - 20rem) * 8 / 1120), 20px);           /* 12 → 20: padding above and below each row of the hero's cells (three rows: the roast's parts beside the three links) */
   /* size */
+  --hero-photo: clamp(48px, calc(48px + (var(--vp) - 20rem) * 72 / 1120), 120px);            /* 48 → 120: the least photo the hero shows between the navbar and the fade into its cells */
+  --hero-fade: clamp(64px, calc(64px + (var(--vp) - 20rem) * 96 / 1120), 160px);             /* 64 → 160: the eased fade from the hero's photo into the black of its cells */
+  --hero-max: clamp(960px, calc(960px + (var(--vp) - 20rem) * 240 / 1120), 1200px);              /* 960 → 1200: the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here) */
   --story-h: clamp(400px, calc(400px + (var(--vp) - 20rem) * 280 / 1120), 680px);               /* 400 → 680: least height of the image blocks (approach, about) */
   --footer-logo: clamp(104px, calc(104px + (var(--vp) - 20rem) * 112 / 1120), 216px);           /* 104 → 216: width of the flame mark in the footer */
+  --modal-w: clamp(360px, calc(360px + (var(--vp) - 20rem) * 160 / 1120), 520px);               /* 360 → 520: width of a modal (an info block opened); under 40em (the tab bar's step) a modal is a sheet as wide as the screen */
   --stage: clamp(320px, calc(320px + (var(--vp) - 20rem) * 400 / 1120), 720px);                 /* 320 → 720: the 3D pack on a product page: the side of its square (also capped by the screen's height) */
 
   /* line heights and tracking */
@@ -59,15 +62,19 @@
   --c-paper: #ffffff;
   --c-cloud: #f6f6f6;
   --c-cloud-70: rgb(246 246 246 / 0.7);
-  --c-line: #d5d5d6;
   --c-graphite: #424447;
   --c-black: #000000;
   --c-white-80: rgb(255 255 255 / 0.8);
   --c-white-60: rgb(255 255 255 / 0.6);
   --c-white-40: rgb(255 255 255 / 0.4);
   --c-white-30: rgb(255 255 255 / 0.3);
+  --c-white-20: rgb(255 255 255 / 0.2);
   --c-lavender: #b190ec;
   --c-lavender-ink: #7f4fc9;
+
+  /* eased fades (colors.json fades): the stops of linear-gradient(to bottom, var(--fade-black)) */
+  --fade-black: rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.05) 6.67%, rgb(0 0 0 / 0.152) 13.33%, rgb(0 0 0 / 0.295) 20%, rgb(0 0 0 / 0.445) 26.67%, rgb(0 0 0 / 0.576) 33.33%, rgb(0 0 0 / 0.683) 40%, rgb(0 0 0 / 0.767) 46.67%, rgb(0 0 0 / 0.834) 53.33%, rgb(0 0 0 / 0.885) 60%, rgb(0 0 0 / 0.925) 66.67%, rgb(0 0 0 / 0.954) 73.33%, rgb(0 0 0 / 0.976) 80%, rgb(0 0 0 / 0.99) 86.67%, rgb(0 0 0 / 0.998) 93.33%, rgb(0 0 0 / 1) 100%;
+  --fade-cloud: rgb(246 246 246 / 0) 0%, rgb(246 246 246 / 0.05) 6.67%, rgb(246 246 246 / 0.152) 13.33%, rgb(246 246 246 / 0.295) 20%, rgb(246 246 246 / 0.445) 26.67%, rgb(246 246 246 / 0.576) 33.33%, rgb(246 246 246 / 0.683) 40%, rgb(246 246 246 / 0.767) 46.67%, rgb(246 246 246 / 0.834) 53.33%, rgb(246 246 246 / 0.885) 60%, rgb(246 246 246 / 0.925) 66.67%, rgb(246 246 246 / 0.954) 73.33%, rgb(246 246 246 / 0.976) 80%, rgb(246 246 246 / 0.99) 86.67%, rgb(246 246 246 / 0.998) 93.33%, rgb(246 246 246 / 1) 100%;
 
   /* descriptor dots, by flavour family */
   --c-taste-chocolate: #8a5a3c;

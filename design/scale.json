@@ -4,7 +4,7 @@
     "One range for everything: a size has its value on a 320px screen and on a 1440px one, a straight line in between, constant outside. Above 1440 nothing grows any more; the content column stops at 1520px and wide screens get wider margins (the Figma frames of 1920 and 2560 do the same).",
     "A screen counts as only as big as its height allows (range.height): a screen 360px tall gets the sizes of a 320 screen, one 920px tall the sizes of a 1440 screen, a straight line in between. So a phone turned sideways gets the phone sizes and a 1366 × 650 laptop window the sizes of a 900px screen, all sizes together.",
     "One ladder for every size, type and space alike: steps of 2 up to 24, of 4 up to 64, of 8 up to 128, of 16 up to 256. Both ends of every role sit on it.",
-    "Type: two families. Mono (JetBrains Mono Bold in place of PT Mono Bold, upper case, tracked 0.05em) for names and headings; sans (Apercu Pro) for everything you read. The levels in type.relations stay at least ×1.125 apart at both ends of the range, and so at every size between.",
+    "Type: two families. Mono (PT Mono Bold, upper case, tracked 0.05em) for names and headings; sans (Apercu Pro) for everything you read. The levels in type.relations stay at least ×1.125 apart at both ends of the range, and so at every size between.",
     "No radius anywhere: QQ is drawn in sharp rectangles and hairlines (the brandbook's grid). Only pills (descriptors, steppers) and dots are round. Not a token: a rule (build/rules.mjs)."
   ],
   "range": { "from": 320, "to": 1440, "height": { "from": 360, "to": 920 } },
@@ -24,8 +24,7 @@
       "type/body":       { "px": [14, 16], "family": "sans", "use": "card descriptions, lists, links of the navbar and the footer, fields" },
       "type/small":      { "px": [12, 14], "family": "sans", "use": "descriptor pills, captions above values in the buy bar, the copyright" },
       "type/control":    { "px": [14, 20], "family": "sans", "label": true, "use": "big actions and values set in bold capitals: hero links, «В корзину», buy-bar values" },
-      "type/price":      { "px": [16, 18], "family": "sans", "label": true, "use": "prices and weights on cards (medium capitals)" },
-      "type/countdown":  { "px": [40, 96], "family": "digits", "label": true, "use": "the roast countdown in Technology Bold: a numeral display, the only size set by its figure, not its text" }
+      "type/price":      { "px": [16, 18], "family": "sans", "label": true, "use": "prices and weights on cards (medium capitals)" }
     },
     "relations": {
       "min": 1.125,
@@ -55,17 +54,22 @@
       "action/gap":      { "px": [24, 40], "css": "--action-gap", "use": "a text → its button" },
       "control/h":       { "px": [48, 56], "css": "--control-h", "use": "height of the card's buy row and of big buttons" },
       "control/pad-x":   { "px": [16, 24], "css": "--control-x", "use": "side padding of buttons and controls" },
-      "hero/cell-y":     { "px": [20, 40], "css": "--hero-cell-y", "use": "padding above and below the cells of the hero" },
+      "hero/cell-y":     { "px": [12, 20], "css": "--hero-cell-y", "use": "padding above and below each row of the hero's cells (three rows: the roast's parts beside the three links)" },
+      "hero/photo":      { "px": [48, 120], "size": true, "css": "--hero-photo", "use": "the least photo the hero shows between the navbar and the fade into its cells" },
+      "hero/fade":       { "px": [64, 160], "size": true, "css": "--hero-fade", "use": "the eased fade from the hero's photo into the black of its cells" },
+      "hero/max":        { "px": [960, 1200], "size": true, "css": "--hero-max", "use": "the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here)" },
       "story/min-h":     { "px": [400, 680], "size": true, "css": "--story-h", "use": "least height of the image blocks (approach, about)" },
       "footer/logo":     { "px": [104, 216], "size": true, "css": "--footer-logo", "use": "width of the flame mark in the footer" },
+      "modal/w":         { "px": [360, 520], "size": true, "css": "--modal-w", "use": "width of a modal (an info block opened); under 40em (the tab bar's step) a modal is a sheet as wide as the screen" },
       "product/stage":   { "px": [320, 720], "size": true, "css": "--stage", "use": "the 3D pack on a product page: the side of its square (also capped by the screen's height)" }
     }
   },
 
   "steps": {
-    "$about": "The widths at which blocks change their layout: container queries on the content column, shared by every block. Named by what they are, in rem (a visitor's bigger text makes the column count as narrower). M and L leave room for a classic scrollbar at 768 and 1024.",
+    "$about": "The widths at which blocks change their layout: container queries on the content column, shared by every block. Named by what they are, in rem (a visitor's bigger text makes the column count as narrower). M and L leave room for a classic scrollbar at 768 and 1024. max is the column at its most (--col-max, in px as it is): from there on the margins grow, and a full-width block may frame its column.",
     "S": "22rem",
     "M": "43rem",
-    "L": "58rem"
+    "L": "58rem",
+    "max": "1520px"
   }
 }

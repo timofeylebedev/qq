@@ -11,3 +11,5 @@ src/index.html
 src/catalog/
 src/coffee/
 src/data/products.json
+# the component canvas page and its preview documents (src/lab/canvas/page.mjs, dev server only)
+src/lab/canvas/*.html
