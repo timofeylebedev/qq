@@ -13,8 +13,12 @@
    Cells: one column; from M the title above and two cells under it; from L three in a row. The countdown and the
    links share three equal rows, so the day and the time stand beside «Каталог», the digits beside «Бизнесу» and the
    caption beside «Контакты». Everything in the countdown is as wide as its caption «До ближайшей обжарки». The text
-   of every cell is trimmed to its capitals and baseline, so a cell's padding is the space you see. The cells rise
-   in when the page opens. */
+   of every cell is trimmed to its capitals and baseline, so a cell's padding is the space you see.
+   From L the title fills its cell: its longest word «обжарки» (4.5em of ink) runs from the cell's edge to its
+   padding, so the title grows with the column up to its 1520px (89px at 1440, 91px from 1920; decision
+   "hero-title-fills-cell"), and its three lines with their padding set the height of the cells: the three rows
+   share it. The hairlines between cells run out to the screen's edges beside the column; once the column stops,
+   they stop at its frame. The whole block (the fade, the hairline above and the cells) rises in when the page opens. */
 .hero {
   position: relative; display: flex; flex-direction: column; justify-content: flex-end;
   min-height: min(100vh - 24px - var(--tabbar-h), var(--hero-max)); min-height: min(100svh - 24px - var(--tabbar-h), var(--hero-max));
@@ -29,6 +33,8 @@
    solid band: Tim, round 5); --hero-fade of it stands above the hairline over the cells */
 .hero__info { position: relative; padding-top: var(--hero-fade); background: linear-gradient(to bottom, var(--fade-hero)); }
 .hero__info::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); }
+@media (--motion) { .hero__info { animation: hero-rise var(--t-rise) var(--ease-out) var(--t-in) both; } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(var(--section-gap)); } }
 
 .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
 .hero__grid > * { min-width: 0; }
@@ -38,7 +44,10 @@
 
 /* the countdown: three rows of one width, the caption's (13.9em of its own size: measured, build/audit.mjs) */
 /* below M nothing stands beside the countdown, so its rows take what they need; from M they share the links' rows */
-.hero__roast, .hero__links { display: grid; border-top: var(--hair) solid var(--line); }
+.hero__roast, .hero__links { --out-l: var(--gutter); --out-r: var(--gutter); display: grid; }
+.hero__roast::before, .hero__links::before, .hero__links li + li::before { content: ""; position: absolute; top: 0; left: calc(-1 * var(--out-l, 0px)); right: calc(-1 * var(--out-r, 0px)); border-top: var(--hair) solid var(--line); pointer-events: none; }
+.hero__links { position: relative; }
+.hero__links li { position: relative; }
 .hero__links { grid-template-rows: repeat(3, 1fr); }
 .hero__roast {
   --dial: 13.9em;
@@ -51,6 +60,7 @@
 .hero__now > :first-child { justify-self: start; }
 .hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
 .hero__info-btn { justify-self: end; display: grid; place-items: center; width: 40px; height: 40px; margin: -12px -10px; transition: background-color var(--t-out) var(--ease-out); }
+.hero__info-btn[aria-expanded="true"] { background-color: var(--tint); }   /* open: it stays lit, as when hovered */
 .hero__info-btn svg { width: 20px; height: 20px; }
 .hero__count { display: flex; align-items: center; justify-content: center; }
 /* the digits and the date as wide as the caption: the caption is 13.9em of the control size, the eight digits 3em
@@ -61,11 +71,12 @@
 .hero__note {
   grid-row: 2 / 4; grid-column: 1; z-index: 1; align-self: stretch; justify-self: stretch; display: grid; place-items: center;
   padding: var(--hero-cell-y) 0; background: var(--c-black);
-  font: 400 var(--type-small) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
+  font: 400 var(--type-body) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
 }
+.hero__note { text-box: trim-both cap alphabetic; text-wrap: balance; }   /* trimmed to its capitals and baseline: centred by what you see */
 .hero__note[hidden] { display: none; }
 
-.hero__links li + li { border-top: var(--hair) solid var(--line); }
+
 .hero__link {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
   min-height: 56px; height: 100%; padding-block: var(--hero-cell-y);
@@ -77,28 +88,29 @@
   .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
 }
 
-/* the cells rise into place when the page opens */
-@media (--motion) { .hero__grid { animation: hero-rise var(--t-rise) var(--ease-out) var(--t-in) both; } }
-@keyframes hero-rise { from { opacity: 0; transform: translateY(var(--section-gap)); } }
 
 @container col (width >= 43rem) {
   .hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto repeat(3, 1fr); }
   .hero__title { grid-column: 1 / -1; }
   .hero__roast, .hero__links { grid-row: 2 / 5; grid-template-rows: subgrid; }
+  .hero__roast { --out-r: 0px; }
+  .hero__links { --out-l: 0px; }
   .hero__roast { padding-inline: var(--tile-pad); }
   .hero__links { border-left: var(--hair) solid var(--line); }
   .hero__link { padding-inline: var(--block-pad); }
 }
 @container col (width >= 58rem) {
   .hero__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
-  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); }
-  .hero__roast, .hero__links { grid-row: 1 / 4; border-top: 0; border-left: var(--hair) solid var(--line); }
+  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); font-size: max(var(--type-display), calc((100cqi / 3 - var(--block-pad)) / 4.5)); }
+  .hero__roast, .hero__links { grid-row: 1 / 4; border-left: var(--hair) solid var(--line); }
+  .hero__roast::before, .hero__links::before { content: none; }
 }
 /* the column at its most (the step max, 1520px): the margins grow beside it, so the cells are framed by a hairline
    on each side, and the title stands off the left one as the links do */
 @container col (width >= 1520px) {
   .hero__grid { border-inline: var(--hair) solid var(--line); }
-  .hero__title { padding-left: var(--block-pad); }
+  .hero__title { padding-left: var(--block-pad); font-size: max(var(--type-display), calc((100cqi / 3 - 2 * var(--block-pad)) / 4.5)); }
+  .hero__links li { --out-r: 0px; }
 }
 
 /* ── new arrivals ───────────────────────────────────────────────────────────────────────────────────────────────

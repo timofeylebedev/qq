@@ -32,7 +32,7 @@ ${footer(ctx)}
 }
 
 // The navbar: the logo, the sections, the tools (search, favourites, bag, profile), in four steps (media.css):
-//   wide        every section, in three groups («Кофе, Каскара, Дрипы, Сеты · Кофейням, Офисам · Журнал, Контакты»)
+//   wide        every section in one row («Кофе, Каскара, Дрипы, Сеты, Кофейням, Офисам, Журнал, Контакты»)
 //   --links     four short sections («Каталог, Бизнесу, Журнал, Контакты»)
 //   below       the burger: the menu lists the groups (not designed yet: a plain list, design/decisions.json)
 //   --phone     the bag, favourites and profile leave the bar for the tab bar at the foot of the screen
@@ -44,7 +44,7 @@ const navItem = (ctx, [t, to], c = "") => to
 
 function navbar(ctx, ground) {
   const { groups, short, tabs } = ctx.site.nav;
-  const full = groups.map((g) => `<li class="nav__group"><ul>${g.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></li>`).join("");
+  const full = groups.flat().map((x) => `<li>${navItem(ctx, x)}</li>`).join("");   // one row (Tim, round 5); the groups stay in the data for the menu
   // the tools (search, favourites, bag, profile): an icon each, linked when its page exists; the bag shows its count
   const tool = ([label, to, ic]) => {
     const cls = "nav__tool" + (ic === "search" ? "" : " nav__tool--tab");
