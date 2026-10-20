@@ -1,7 +1,7 @@
 {
  "meta": {
-  "key": "qq-system-report",
-  "title_tag": "QQ Site System",
+  "key": "qq-system-report-r3",
+  "title_tag": "QQ Site System, Round 3",
   "name": "QQ Coffee <span>· the site system</span>",
   "eyebrow": "Round 3 · branch round-3 · <a href='https://github.com/timofeylebedev/qq/pull/5'>pull request</a> · <a href='https://timofeylebedev.github.io/qq/'>test site</a> · <a href='https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website'>Figma</a>",
   "title": "One fluid size system for home, catalog and 25 coffee pages; round 3: the footer in squares, cards that are links, blocks that open, pages that flow",
@@ -35658,7 +35658,7 @@
    "id": "round2",
    "nav": "Round 2",
    "title": "Round 2: what changed (PR #3)",
-   "sub": "As it was published: your round 2 comments, what was done, round 1 next to round 2.",
+   "sub": "As it was published: your round 2 comments, what was done, round 1 next to round 2. The round 2 page itself stays at <a href='https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a'>QQ Site System</a>.",
    "blocks": [
     {
      "type": "stats",

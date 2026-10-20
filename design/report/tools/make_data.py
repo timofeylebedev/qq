@@ -369,7 +369,7 @@ reel3_tbl = {'type': 'table', 'title': 'The recommended row and the info modal a
     'rows': [[n['size'], was3(o['reelW'], n['reelW']), n['colW'], was3(o['firstAt'], n['firstAt']), f"{n.get('modalW')} × {n.get('modalH')}", n.get('sheet', '—')] for o, n in zip(R3['old'], R3['new'])]}
 
 data = {
-  'meta': {'key': 'qq-system-report', 'title_tag': 'QQ Site System',
+  'meta': {'key': 'qq-system-report-r3', 'title_tag': 'QQ Site System, Round 3',
     'name': 'QQ Coffee <span>· the site system</span>',
     'eyebrow': f"Round 3 · branch round-3 · <a href='{PR3}'>pull request</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a>",
     'title': 'One fluid size system for home, catalog and 25 coffee pages; round 3: the footer in squares, cards that are links, blocks that open, pages that flow',
@@ -597,7 +597,7 @@ data = {
       {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components are not linted yet (icon sizes, small paddings).', 'At 844 × 390 the «В корзину» toast covers the buy bar\'s price.', 'On a coffee\'s page at 1440 × 900 the big pack is cut at the top of its box while it settles; card descriptions cannot be selected (they are part of the card\'s link now).']},
       {'type': 'list', 'title': 'Check on real devices', 'items': ['Safari 18.2+ and Chrome: a card opening its coffee and the way back (the view transition); Firefox simply opens the page.', 'A trackpad, a mouse and a phone: the recommended row sliding and cards rising — is the packs\' tilt «a bit»? (<code>qqPacks.TUNE.carryTurn</code>, <code>carryTilt</code>.)', 'iPhone: the info modal as a sheet over the tab bar and the home indicator.', 'From round 2: the bounce above the page in Safari, text-box trim in the hero, the scroll place after a reload.']},
     ]},
-    {'id': 'round2', 'nav': 'Round 2', 'title': ROUND2['title'], 'sub': 'As it was published: your round 2 comments, what was done, round 1 next to round 2.', 'blocks': ROUND2['blocks']},
+    {'id': 'round2', 'nav': 'Round 2', 'title': ROUND2['title'], 'sub': "As it was published: your round 2 comments, what was done, round 1 next to round 2. The round 2 page itself stays at <a href='https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a'>QQ Site System</a>.", 'blocks': ROUND2['blocks']},
     {'id': 'earlier', 'nav': 'Round 1', 'title': ROUND1['title'], 'sub': 'As it was published: your round 1 requests, what was built, and the site next to Figma.', 'blocks': ROUND1['blocks']},
   ]}
 json.dump(data, open(os.path.join(HERE, 'data.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)

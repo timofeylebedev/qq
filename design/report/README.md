@@ -1,11 +1,14 @@
 # The system report
 
-One living page about the whole size system of the site, rebuilt every round: what the round changed (with the site
-next to Figma or the previous build), the system, the areas the round touched, every size at every width and height,
-the responsive map, motion, the grammar, the checks and what is next.
+A page about the whole size system of the site, one per round: what the round changed (with the site next to Figma
+or the previous build), the system, the areas the round touched, every size at every width and height, the responsive
+map, motion, the grammar, the checks and what is next. Every page covers the whole system, not only its round, and
+keeps the earlier rounds' «what changed» at its end. Earlier pages stay where they are (Tim, round 3: «keep it
+separate»), so each round publishes a new page.
 
-**The page:** https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (private until shared; also in the project doc
-`claude/website-system.md`). Every round updates the same page; it always covers the whole system, not only the round.
+**The pages** (private until shared; also in the project doc `claude/website-system.md`):
+- Round 3: https://claude.ai/artifact/CESDhXQ6ErVqFQiNT7kuXM
+- Rounds 1–2: https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (round 2's page; round 1's is in its history)
 
 ## Rebuild it
 

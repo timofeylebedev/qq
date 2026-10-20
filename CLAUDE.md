@@ -21,7 +21,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - Measure, don't guess: numbers in PRs come from a browser (Playwright), not from reading the CSS.
 - For a larger round Tim gets an independent review: a separate agent that has not seen the work re-checks it;
   its findings are fixed in a commit "Fixes from the independent review".
-- A design-system round ends with the full system report (skill `full-system-report`): one living page, every round.
+- A design-system round ends with the full system report (skill `full-system-report`): a new page each round (the
+  earlier ones stay where they are), always the whole system. Links in `design/report/README.md`.
 - Anything decided on purpose (an exception, a stand-in) goes into `design/decisions.json`.
 
 ## Rules in the code (build/rules.mjs checks them)
