@@ -36,3 +36,5 @@ jobs:
         if: always()
         run: |
           { echo "### Responsive audit"; echo; echo '```'; tail -n 60 audit.log 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          # each problem also as an annotation on the pull request (readable through the checks API too)
+          grep -E '^[0-9]+×[0-9]+[^:]*: ' audit.log 2>/dev/null | head -n 40 | while IFS= read -r line; do echo "::error title=Audit::$line"; done || true
