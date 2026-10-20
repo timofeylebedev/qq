@@ -36,7 +36,7 @@ export function initScroll() {
 // point of it at the bar is kept instead. At the very top the page stays at the top.
 export function initResizeKeep() {
   const line = () => (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 48) + 1;
-  let anchor = null, resizing = 0, raf = 0;
+  let anchor = null, resizing = 0, scrolling = 0, width = innerWidth;
   const block = (el) => { while (el && el !== document.body && (getComputedStyle(el).display.startsWith("inline") || !el.offsetHeight)) el = el.parentElement; return el; };
   const pick = () => {
     if (resizing || "modal" in document.documentElement.dataset) return;
@@ -56,15 +56,25 @@ export function initResizeKeep() {
     if (el && el !== document.body) { const r = el.getBoundingClientRect(); anchor = { el, f: (y0 - r.top) / r.height }; }
   };
   const put = () => {
-    if (!anchor) return;
+    if (!anchor || scrolling) return;
     if (anchor.top) { if (scrollY) scrollTo({ top: 0, behavior: "instant" }); return; }
     if (!anchor.el.isConnected) return;
     const r = anchor.el.getBoundingClientRect(), y0 = line();
     const d = "dy" in anchor ? r.top - y0 - anchor.dy : r.top + anchor.f * r.height - y0;
     if (Math.abs(d) >= 1) scrollTo({ top: scrollY + d, behavior: "instant" });
   };
-  addEventListener("scroll", () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(pick); }, { passive: true });
+  // the place is taken once a scroll has come to rest (not every frame), and never while a scroll is moving: a phone
+  // changes its height (the toolbar hides) in the middle of a fling, and that must not stop it
+  let rest = 0;
+  addEventListener("scroll", () => {
+    if (resizing) return;
+    clearTimeout(scrolling); clearTimeout(rest);
+    scrolling = setTimeout(() => { scrolling = 0; }, 150);
+    rest = setTimeout(pick, 160);
+  }, { passive: true });
   addEventListener("resize", () => {
+    if (innerWidth === width) return;            // only a change of width reflows the page; a height change is a toolbar
+    width = innerWidth;
     put(); requestAnimationFrame(() => { put(); requestAnimationFrame(put); });   // and again once the scripts have laid out
     clearTimeout(resizing); resizing = setTimeout(() => { resizing = 0; pick(); }, 400);
   });

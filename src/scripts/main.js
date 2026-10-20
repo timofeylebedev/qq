@@ -1,5 +1,6 @@
 // The script of every page: each part starts only if its markup is on the page. The 3D packs, the catalog filters
 // and the product stage load on demand (their own files).
+import "./focus.js";   // focus rings for the keyboard only
 import { initScroll, initResizeKeep } from "./scroll.js";
 import { initNav } from "./nav.js";
 import { initToggles } from "./toggle.js";

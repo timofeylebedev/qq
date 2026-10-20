@@ -157,7 +157,7 @@ function facts(ctx) {
   <dialog class="fmodal" id="facts-modal" data-facts-modal data-ground="paper" aria-labelledby="fact-0-title">
     <div class="fmodal__dim"></div>
     <div class="fmodal__box" tabindex="-1" autofocus>
-      <div class="fmodal__ground" data-morph="ground"></div>
+      <div class="fmodal__ground"></div>
       <button class="fmodal__close" type="button" aria-label="Закрыть" data-fact-close><span data-morph="plus">${icon("plus")}</span></button>
       ${panels}
     </div>

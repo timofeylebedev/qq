@@ -80,9 +80,8 @@ export function contrast(fg, bg) {
 const cssColor = (hex) => { const [r, g, b, a] = rgba(hex); return a === 255 ? hex : `rgb(${r} ${g} ${b} / ${Math.round((a / 255) * 100) / 100})`; };
 
 // ── write ────────────────────────────────────────────────────────────────────────────────────────────────────────
-// an eased fade: transparent → colour along a cubic-bezier curve, sampled at even steps (the opacity at x is the
-// curve's y where its x is x)
-// an eased fade: `stops` points of the curve from clear (0) to the colour (1), spread over 0 … reach × 100% of the
+// an eased fade: transparent → colour along a cubic-bezier curve (the opacity at x is the curve's y where its x is
+// x), `stops` points of the curve from clear (0) to the colour (1), spread over 0 … reach × 100% of the
 // block (the last one holds to its foot when reach < 1)
 export function fade(hex, { curve: [x1, y1, x2, y2], stops, reach = 1 }) {
   const bz = (t, a, b) => 3 * (1 - t) ** 2 * t * a + 3 * (1 - t) * t ** 2 * b + t ** 3;

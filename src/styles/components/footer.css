@@ -45,7 +45,7 @@
   .footer__mark { position: absolute; left: 50%; top: 50%; transform: translate(-50.5%, -62.9%); }
   .footer__links { order: 0; grid-template-rows: auto auto 1fr; }
   .footer__news { padding-left: var(--tile-pad); --out-l: 0px; }
-  .footer__group:nth-of-type(odd) { padding-left: var(--tile-pad); }
+  .footer__group:nth-of-type(odd) { padding-left: var(--tile-pad); --out-l: 0px; }
   .footer__group:nth-last-of-type(-n + 2)::after { content: none; }
 }
 @container col (width >= 1520px) {

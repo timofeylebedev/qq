@@ -74,7 +74,7 @@
   .reel[data-rise] > * { transition: opacity var(--t-move) var(--ease-out), transform var(--t-rise) var(--ease-out); }
   .reel[data-rise] > [data-wait] { opacity: 0; transform: translateY(var(--section-gap)); transition-duration: 0s; }
   /* a card sliding out of the column sinks away: the rise reversed */
-  .reel[data-rise] > [data-wait="out"] { transition: opacity var(--t-out) var(--ease-leave), transform var(--t-out) var(--ease-leave); }
+  .reel[data-rise] > [data-wait="out"] { transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }
 }
 @container col (width >= 43rem) { .reel { --per: 2; } }
 @container col (width >= 58rem) { .reel { --per: 3; } }

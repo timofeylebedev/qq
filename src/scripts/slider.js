@@ -68,9 +68,9 @@ function bleed(track) {
 }
 
 // Cards show only inside the column (Tim, round 5): out of it they wait below, transparent. Coming into it (the row
-// reaching the screen, or a card sliding in) they rise; sliding out of it they sink away the same way, reversed.
-// A card counts as in when at least half of it is in the column; where the row shows fewer than two whole cards
-// (a phone: the next card peeks in) any part of it is enough.
+// reaching the screen, or a card sliding in) a card rises once half of it is in; as soon as it starts to slide out of
+// it, it sinks away the same way, reversed. So at rest no card shows beyond the column, however far a swipe went.
+// Where the row shows fewer than two whole cards (a phone: the next card peeks in) any part in the column is enough.
 function rise(track) {
   if (calm() || !("IntersectionObserver" in window)) return;
   const cards = [...track.children];
@@ -87,18 +87,26 @@ function rise(track) {
     if ("wait" in c.dataset) return;
     c.style.transitionDelay = "0ms";
     c.dataset.wait = "out";              // leaving: the rise reversed (layout.css), not the instant wait of a card never shown
-    dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 900 } }));
+    dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 700, tilt: false } }));   // its pack goes with it, upright
   };
   // sideways: the column's box is the row's less the margins it was widened by (--bleed)
   let side = null;
+  const seen = new WeakMap();
   const watch = () => {
     side?.disconnect();
     const l = parseFloat(track.style.getPropertyValue("--bleed-l")) || 0, r = parseFloat(track.style.getPropertyValue("--bleed-r")) || 0;
     side = new IntersectionObserver((list) => {
       if (!shown) return;
       const few = parseFloat(getComputedStyle(track).getPropertyValue("--per")) < 2;
-      for (const e of list) (e.isIntersecting && (few || e.intersectionRatio >= 0.5) ? up : down)(e.target);
-    }, { root: track, rootMargin: `0px ${-r}px 0px ${-l}px`, threshold: [0, 0.5] });
+      for (const e of list) {
+        const c = e.target, now = e.isIntersecting ? e.intersectionRatio : 0, was = seen.get(c) ?? now;
+        seen.set(c, now);
+        if (few) (now > 0 ? up : down)(c);
+        else if (now >= 0.98) up(c);           // wholly in
+        else if (now < was) down(c);           // on its way out
+        else if (now >= 0.5) up(c);            // half way in
+      }
+    }, { root: track, rootMargin: `0px ${-r}px 0px ${-l}px`, threshold: [0, 0.5, 0.98, 1] });
     if (shown) for (const c of cards) side.observe(c);
   };
   new ResizeObserver(watch).observe(document.documentElement);

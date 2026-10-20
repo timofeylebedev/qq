@@ -110,6 +110,7 @@ export function initFacts() {
     focusFrom(panels[j].querySelector(`[data-fact-go="${i}"]`));
     await into.finished;
     busy = false;
+    if (wantShut) shut();            // the cross or Esc pressed while the text was changing
   }
 
   blocks.forEach((b, i) => b.addEventListener("click", () => open(i)));

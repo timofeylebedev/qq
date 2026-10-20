@@ -1,8 +1,10 @@
-// Focus moved by a script shows its ring only when the visitor is using the keyboard (Tim, round 5: a click changes
-// nothing). The browsers' own rule (:focus-visible) follows the last input; a script passes it on with focusVisible.
+// Focus shows only for the keyboard (Tim, round 5: a click changes nothing). The browsers' own rule (:focus-visible)
+// follows the last input; here the page also keeps html[data-keyed] while the keyboard is in use, for the text fields
+// (a field always matches :focus-visible, so its ring is drawn only under data-keyed), and scripts that move the focus
+// pass it on with focusVisible.
 let key = false;
-addEventListener("keydown", (e) => { if (!e.metaKey && !e.altKey && !e.ctrlKey) key = true; }, true);
-addEventListener("pointerdown", () => { key = false; }, true);
+const set = (on) => { key = on; document.documentElement.toggleAttribute("data-keyed", on); };
+addEventListener("keydown", (e) => { if (!e.metaKey && !e.altKey && !e.ctrlKey && !key) set(true); }, true);
+addEventListener("pointerdown", () => { if (key) set(false); }, true);
 
-export const keyed = () => key;
 export function focusFrom(el, opts = {}) { el?.focus({ preventScroll: true, ...opts, focusVisible: key }); }

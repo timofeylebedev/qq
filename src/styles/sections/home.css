@@ -14,8 +14,9 @@
    links share three equal rows, so the day and the time stand beside «Каталог», the digits beside «Бизнесу» and the
    caption beside «Контакты». Everything in the countdown is as wide as its caption «До ближайшей обжарки». The text
    of every cell is trimmed to its capitals and baseline, so a cell's padding is the space you see.
-   From L the title fills its cell: its longest word «обжарки» (4.5em of ink) runs from the cell's edge to its
-   padding, so the title grows with the column up to its 1520px (89px at 1440, 91px from 1920; decision
+   From L the title fills its cell: its longest word «обжарки» (4.55em) runs from the cell's edge to its padding, so
+   the title grows with the column, until it reaches its size at the column's 1520px (88px at 1440, 90px from about
+   1500 on, never less as the frame comes in; decision
    "hero-title-fills-cell"), and its three lines with their padding set the height of the cells: the three rows
    share it. The hairlines between cells run out to the screen's edges beside the column; once the column stops,
    they stop at its frame. The whole block (the fade, the hairline above and the cells) rises in when the page opens. */
@@ -70,11 +71,13 @@
 .hero__date { font: 700 calc(var(--type-control) * 13.9 / (0.65 * var(--n, 10))) / 1 var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; }
 .hero__note {
   grid-row: 2 / 4; grid-column: 1; z-index: 1; align-self: stretch; justify-self: stretch; display: grid; place-items: center;
-  padding: var(--hero-cell-y) 0; background: var(--c-black);
-  font: 400 var(--type-body) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
+  padding: var(--hero-cell-y) 0;
+  font: 400 var(--type-body) / var(--lh-text) var(--sans); font-size: max(16px, var(--type-body)); text-transform: none; letter-spacing: 0; color: var(--c-white-80);   /* 16px at every size (Tim, round 5) */
 }
 .hero__note { text-box: trim-both cap alphabetic; text-wrap: balance; }   /* trimmed to its capitals and baseline: centred by what you see */
 .hero__note[hidden] { display: none; }
+/* open, the note takes the place of the digits and the caption (no ground of its own: the fade shows through) */
+.hero__roast:has(.hero__note:not([hidden])) > :is(.hero__count, .hero__caption) { visibility: hidden; }
 
 
 .hero__link {
@@ -101,7 +104,7 @@
 }
 @container col (width >= 58rem) {
   .hero__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
-  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); font-size: max(var(--type-display), calc((100cqi / 3 - var(--block-pad)) / 4.5)); }
+  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); font-size: max(var(--type-display), min(calc((100cqi / 3 - var(--block-pad)) / 4.55), calc((var(--col-max) / 3 - 2 * var(--block-pad)) / 4.55))); }
   .hero__roast, .hero__links { grid-row: 1 / 4; border-left: var(--hair) solid var(--line); }
   .hero__roast::before, .hero__links::before { content: none; }
 }
@@ -109,7 +112,7 @@
    on each side, and the title stands off the left one as the links do */
 @container col (width >= 1520px) {
   .hero__grid { border-inline: var(--hair) solid var(--line); }
-  .hero__title { padding-left: var(--block-pad); font-size: max(var(--type-display), calc((100cqi / 3 - 2 * var(--block-pad)) / 4.5)); }
+  .hero__title { padding-left: var(--block-pad); }
   .hero__links li { --out-r: 0px; }
 }
 
@@ -141,7 +144,7 @@
 .featured__facts .taste { column-gap: 8px; }   /* the scales' names and the plot fit a half from L's narrowest */
 /* the taste chart's rows are 1.75em tall, so its words stand (1.75em − their capitals) / 2 below the cell's padding:
    the same air is added at its sides, and the four rows sit in an even frame (Tim, round 5) */
-.featured__facts > .taste { padding-inline: calc(12px + (1.75em - 1cap) / 2); }
+.featured__facts > .taste { padding-inline: calc(12px + (1.75em - 1cap) / 2); align-content: center; }   /* in the middle when the pills make the box taller */
 .featured__facts > * + * { border-top: var(--hair) solid var(--line); }
 /* two even halves from M; narrower a half could not hold the scales' names and the plot, so they stack */
 @container col (width >= 43rem) {
@@ -243,7 +246,8 @@
 
 /* the modal: the screen dimmed, a white box in its middle (from 40em; on a phone a sheet at the foot of the screen,
    as wide as it). The box: the icon, the title, the text; the cross in its corner; at its foot a row of two cells
-   that step to the other blocks. Its white ground is a layer of its own, so it can grow out of the block.
+   that step to the other blocks. Opening, the whole box starts on the block, cut to its size, and grows into
+   place (scripts/facts.js); its white ground is a layer under the panels.
    While it is open the page stops scrolling; where the browser draws a scrollbar, the page and its fixed bars are
    padded by its width (--sbw, scripts/facts.js), so nothing behind the modal moves. */
 .fmodal { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
@@ -255,14 +259,13 @@
 .fmodal__ground { position: absolute; inset: 0; background: var(--c-paper); }
 .fmodal__panel { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 0; }
 .fmodal__panel[data-off] { visibility: hidden; }   /* the three share one cell: the box is as tall as the tallest, so stepping moves nothing */
-.fmodal__body { flex: 1; }
-.fmodal__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap); padding: calc(var(--block-pad) + 16px) var(--block-pad) calc(var(--block-pad) + 40px); overflow-y: auto; }
+.fmodal__body { flex: 1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap); padding: calc(var(--block-pad) + 16px) var(--block-pad) calc(var(--block-pad) + 40px); overflow-y: auto; }
 .fmodal__title { max-width: 14em; margin-top: calc(var(--section-gap) - var(--text-gap)); }
 .fmodal__text { display: grid; gap: 12px; font-size: var(--type-body); line-height: var(--lh-text); }
 .fmodal__close { position: absolute; z-index: 2; top: 4px; right: 4px; display: grid; place-items: center; width: 48px; height: 48px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
 .fmodal__close > span { display: grid; transform: rotate(45deg); }
 .fmodal__nav { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
-.fmodal__step { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--control-h); padding: calc(var(--tile-pad) * 0.75) 12px; font-size: var(--type-body); line-height: 1.1; transition: background-color var(--t-out) var(--ease-out); }   /* 66px at 1440, as Figma's */
+.fmodal__step { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--control-h); padding: calc(var(--tile-pad) * 0.75) 12px; font-size: var(--type-body); line-height: 1.1; transition: background-color var(--t-out) var(--ease-out); }   /* 65px at 1440 (Figma: 66) */
 .fmodal__step + .fmodal__step { border-left: var(--hair) solid var(--line); }
 .fmodal__step svg { width: 16px; height: 16px; flex: none; }
 @media (--mouse) {

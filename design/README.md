@@ -69,7 +69,8 @@ card-title/body-l. Labels (eyebrows, control text, prices) are set apart by case
 | `control/pad-x` | `--control-x` | 16 → 24 | side padding of buttons and controls |
 | `hero/cell-y` | `--hero-cell-y` | 12 → 20 | padding above and below each row of the hero's cells (three rows shared by the countdown and the links) |
 | `hero/photo` | `--hero-photo` | 48 → 120 (size) | the least photo the hero shows under the navbar |
-| `hero/fade` | `--hero-fade` | 64 → 160 (size) | the eased fade from the photo into the cells' black |
+| `fact/icon` | `--fact-icon` | 40 → 56 (size) | the icon of an info block and of its modal |
+| `hero/fade` | `--hero-fade` | 64 → 160 (size) | the lead-in of the hero's fade above its cells (the fade runs under the whole block) |
 | `hero/max` | `--hero-max` | 960 → 1200 (size) | the most the hero may be tall; below it the hero is the screen less a 24px peek |
 | `story/min-h` | `--story-h` | 400 → 680 (size) | least height of the image blocks (approach, about) |
 | `footer/logo` | `--footer-logo` | 104 → 216 (size) | width of the flame mark in the footer |
@@ -106,21 +107,28 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
 - **Cells and hairlines.** Controls and groups are cells divided by 1px lines (the hero's cells, the buy row of a card,
   the filters, the arrows, the info blocks, the business band, the footer); lists of things are cards with gaps.
   Every line is `--line`: cool grey at 20% on light grounds, white at 30% on dark ones (each section says its ground,
-  `data-ground`; `build/rules.mjs` checks). Only a state (the current pager dot, a focused field) draws in ink.
+  `data-ground`; `build/rules.mjs` checks). Only a state (the current pager dot, a focused select) draws in ink.
+  Below the column's max the hairlines between a full-width block's cells (the hero, the info blocks, the footer)
+  run out to the screen's edges on the sides where the column ends; from the max the block is framed instead.
 - **Grounds lead.** The navbar and the tab bar take the colours of the section under them once they stand wholly on it.
   A block on another ground inside a section (the dark panel beside the bag, a cloud form, a photo card) says
   `data-tone`: it gets the same colours (`--g-bg`, `--g-fg`, `--line`, `--tint`) and paints its own ground, but the
   bars do not follow it.
-- **Hover tints one thing.** Behind the item under the pointer, white at 20% on dark grounds, ink at 6% on light ones;
-  nothing else on the bar dims.
+- **Hover tints one thing, and moves nothing.** Behind the item under the pointer (a link, an icon, an arrow, a pager
+  number, a card's cell, the heart), white at 20% on dark grounds, ink at 6% on light ones; nothing else dims, no icon
+  or photo moves (`build/rules.mjs`: «Hovers never move»). A pointer's focus changes nothing; the keyboard's shows the ring.
+- **Fades are eased and whole.** Every fade (`design/colors.json` fades: hero, caption, panel, card) is a curve in
+  16 stops laid over the whole block it stands under, never a fade over a solid band; tuned in the fade tuner
+  (`design/fade-tuner/`).
 - **No rounded corners.** Only pills and dots are round.
 - **A card is one step off its ground**: cloud cards on white, black photo cards, black business cards on cool grey.
 - **Names are mono capitals**, everything you read is Apercu.
 - **Motion:** things arrive on `--ease-out`, travel on `--ease-move`, leave on `--ease-leave`; hovers come in at 0.2s and
-  go out at 0.45s. The 3D packs lean with the page as it scrolls (seen from above or below, like goods on a shelf) and
-  turn toward the pointer; they trail their place a little while the page scrolls and catch up as it stops; pressed,
-  a pack moves away from the viewer and stays while held. On a coffee's page the pack turns once around as its facts
-  pass. The hero's cells rise into place when the page opens (`--t-rise`). With «reduce motion» nothing moves.
+  go out at 0.45s. The 3D packs face a little toward the middle of the screen and turn toward the pointer; they stay
+  exactly in their slots while the page scrolls or a row slides; a card rising into place carries its pack up;
+  pressed anywhere on its card, a pack moves away from the viewer and stays while held. On a coffee's page the pack
+  turns once around as its facts pass. The hero's block rises into place when the page opens (`--t-rise`). Cards of
+  a sideways row show only inside the column: they rise in and sink away. With «reduce motion» nothing moves.
 
 ## The 3D pack
 

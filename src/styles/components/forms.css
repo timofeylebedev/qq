@@ -20,6 +20,7 @@ legend.fcell__label { float: left; width: 100%; margin-bottom: 6px; }
 }
 .fcell__input::placeholder { color: var(--c-ink-70); opacity: 1; }
 .fcell__input:focus-visible { outline: none; }
+html[data-keyed] .fcell:focus-within:has(.fcell__input) { box-shadow: inset 0 0 0 2px var(--c-ink); }
 .fcell__value { font-size: max(16px, var(--type-body)); }
 .fcell--action { padding-block: 8px; }
 .fcell--checks { gap: 4px; }
@@ -61,4 +62,5 @@ legend.fcell__label { float: left; width: 100%; margin-bottom: 6px; }
 .field--big input { font-size: max(16px, var(--type-body-l)); padding-inline: var(--control-x); }
 .field--big button { width: 64px; border-left-color: transparent; transition: background-color var(--t-out) var(--ease-out); }
 .field--big button svg { width: 32px; height: 32px; }
+html[data-keyed] .field--big:focus-within { border-color: var(--c-ink); }
 @media (--mouse) { .field--big button:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

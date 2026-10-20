@@ -12,7 +12,7 @@
 //  8. the scale holds its own rules (ladder, type relations, contrast: build/tokens.mjs)
 //  9. every decision is complete (id, kind, what, why, decided)
 // 10. one line colour: borders are var(--line) (cool grey 20% on light grounds, white 30% on dark ones, set by the
-//     ground); only a state (the current dot, a focused field) may draw its border in ink
+//     ground); only a state (the current dot, a field focused from the keyboard) may draw its border in ink
 // 11. every fade eased: gradients are colors.json fades, one over a whole block, or solid bands for lines
 // 12. hovers never move anything (Tim, round 5): a :hover rule tints a ground or fades a colour, never transforms
 import { readFileSync, readdirSync, statSync } from "node:fs";

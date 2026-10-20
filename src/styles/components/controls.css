@@ -50,6 +50,7 @@
 .field input { flex: 1; min-width: 0; border: 0; background: none; padding-inline: var(--control-x); font-size: max(16px, var(--type-body)); }
 .field input::placeholder { color: var(--c-ink-70); }
 .field input:focus-visible { outline: none; }
+html[data-keyed] .field:focus-within { border-color: var(--c-ink); }   /* the keyboard's ring (scripts/focus.js); a click shows the caret only */
 .field button { display: grid; place-items: center; width: 56px; border-left: var(--hair) solid var(--line); }
 
 /* descriptor pills: the only round shapes besides dots */

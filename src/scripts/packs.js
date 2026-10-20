@@ -99,7 +99,7 @@ export async function initPacks() {
   // a card rising into place (scripts/slider.js) moves its slot without a scroll: measure it every frame meanwhile
   addEventListener("qq:carry", (e) => {
     const until = performance.now() + (e.detail?.ms || 1000);
-    for (const p of items) if (!p.hero && e.detail?.el?.contains(p.el)) { p.carryUntil = until; p.it.live = true; }
+    for (const p of items) if (!p.hero && e.detail?.el?.contains(p.el)) { p.carryUntil = until; p.it.live = true; p.tilt = e.detail.tilt !== false; }
     stage.invalidate();
   });
 
@@ -129,7 +129,7 @@ export async function initPacks() {
       // a card rising into place: its pack trails the slot's own move up the page and tilts with it (soft-capped).
       // The page's scroll and a sliding row move the slot without any lag (Tim, round 5).
       const m = Math.max(1, Math.min(TUNE.lagMax * it.h, TUNE.lagMaxPx)), decay = Math.exp(-dt * TUNE.lag);
-      if (reduced || p.px === null || !p.carryUntil) p.cy = 0;
+      if (reduced || p.px === null || !p.carryUntil || !p.tilt) p.cy = 0;   // a card sinking away takes its pack upright, no trail
       else p.cy -= it.y - p.py;
       p.px = it.x; p.py = it.y;
       const cap = (v) => { v = Math.max(-3 * m, Math.min(3 * m, v)) * decay; return Math.abs(v) < 0.2 ? 0 : v; };

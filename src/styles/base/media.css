@@ -2,7 +2,7 @@
    their layout at the shared column steps S, M, L (container queries on .col, see layout.css). These steps are only
    for what belongs to the whole page: the navbar, its menu and the tab bar.
 
-        ≥ 64em   --links-full   every section in the navbar, in three groups (the screen of the column's L step)
+        ≥ 64em   --links-full   every section in the navbar, in one row (the screen of the column's L step)
         ≥ 48em   --links        four short sections (the screen of the column's M step); below, the burger
         < 40em   --phone        the bag, favourites and profile move to the tab bar at the foot of the screen
         < 32rem tall   a phone sideways: the product's buy bar stops following the screen (it would take a third

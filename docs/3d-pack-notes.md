@@ -1,6 +1,6 @@
 # 3D coffee pack for the web — working notes
 
-Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll lag and press are designed (round 2), the look values still wait for the designer.
+Status (20 Oct 2026): model and renderer on the site; hover, press and the carry of a rising card are designed (rounds 2–5; no lag or lean with the scroll since round 5), the look values still wait for the designer.
 
 ## Where it lives in this repo
 - Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
