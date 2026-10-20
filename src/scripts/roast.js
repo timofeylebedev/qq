@@ -39,8 +39,9 @@ export function initRoast() {
       // more than a day to wait (a weekend): the day of the roast instead of the digits, «Пт, 9 Окт»
       const far = left > 24 * 3600;
       const text = `${pad(Math.floor(left / 3600))}:${pad(Math.floor(left / 60) % 60)}:${pad(left % 60)}`;
-      if (count) count.textContent = text;
-      if (digits) { setDigits(digits, text); digits.hidden = far && !!date; }
+      // more than a day to wait: the date stands in the digits' place (an <svg> has no `hidden` property: the attribute)
+      if (count) count.textContent = far && date ? "" : text;
+      if (digits) { setDigits(digits, text); digits.toggleAttribute("hidden", far && !!date); }
       if (date) {
         date.hidden = !far;
         if (far) { date.textContent = `${DAYS_LONG[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS_SHORT[at.getUTCMonth()]}`; date.style.setProperty("--n", date.textContent.length); }

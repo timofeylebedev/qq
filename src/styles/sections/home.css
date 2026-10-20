@@ -41,10 +41,10 @@
 /* below L the title stands at the top, over a fade from the navbar's black (colors.json fades.top, laid upside
    down from above the section to --hero-fade past the title's foot) */
 .hero__title {
-  position: relative; isolation: isolate; padding: var(--gutter); padding-right: max(var(--gutter), 100% - 11em - var(--gutter));
+  position: relative; isolation: isolate; padding: var(--gutter); width: fit-content; max-width: calc(11em + 2 * var(--gutter));
   font-size: var(--type-hero); line-height: var(--lh-display); text-wrap: wrap;
 }
-.hero__title::before { content: ""; position: absolute; z-index: -1; inset: calc(-1 * var(--nav-h)) 0 calc(-1 * var(--hero-fade)); background: linear-gradient(to top, var(--fade-top)); pointer-events: none; }
+.hero__title::before { content: ""; position: absolute; z-index: -1; inset: calc(-1 * var(--nav-h)) calc(100% - 100vw) calc(-1 * var(--hero-fade)) 0; background: linear-gradient(to top, var(--fade-top)); pointer-events: none; }   /* to the screen's right edge (the title starts at its left one; the hero clips the rest) */
 
 /* the dock: the countdown and the links, over the eased fade into black (colors.json fades.hero) with its lead-in
    (--hero-fade) above the hairline */
@@ -65,6 +65,8 @@
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
 }
 .hero__roast > :not(.hero__note) { width: var(--dial); max-width: 100%; padding-block: var(--hero-cell-y); }
+/* each part in its own row (the note, over all three, must not push them to new ones) */
+.hero__now { grid-area: 1 / 1; } .hero__count { grid-area: 2 / 1; } .hero__caption { grid-area: 3 / 1; }
 .hero__now { white-space: nowrap; }
 /* the caption keeps one line wherever it fits (its own width), else takes two, balanced; in the narrowest cells (a
    280 screen, a big browser text) it grows no larger than its longer line «До ближайшей» (8.6em, a little air: 8.8) allows */
@@ -85,18 +87,23 @@
 .digits .sg.on { fill-opacity: 1; transition-duration: var(--t-seg-on); }
 .hero__count .digits[hidden] { display: none; }
 
-/* the «i» opens a note in the countdown's place: laid over the whole cell (it never makes the cell taller) and centred
-   on it by what you see (trimmed, balanced), the day row hidden but the «i» kept where it is; as much air on both
-   sides of the text as the «i» needs, so the text never runs into it and stays in the middle (Tim, round 6) */
+/* the «i» opens a note in the countdown's place: over the whole cell and centred on it by what you see (its text
+   trimmed and balanced), the day row hidden but the «i» kept where it is, above the note; as much air above and
+   below the text as the «i»'s row takes, so the text never runs into it and stays in the middle (Tim, round 6). It
+   takes the cell's place in the grid, so where the text needs more room than the cell has (the narrowest phones, a
+   big browser text) the cell grows instead of cutting it */
 .hero__note {
-  position: absolute; inset: 0; z-index: 1; display: grid; place-items: center;
-  padding: calc(var(--hero-cell-y) * 2 + 20px) var(--gutter);
+  grid-area: 1 / 1 / -1 / -1; z-index: 1; display: grid; place-items: center; align-self: stretch; justify-self: stretch;
+  padding: calc(var(--hero-cell-y) * 2 + 20px) 0;
   font: 400 var(--type-body) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
-  text-box: trim-both cap alphabetic; text-wrap: balance;
 }
+.hero__note > span { display: block; text-box: trim-both cap alphabetic; text-wrap: balance; }
+.hero__info-btn { position: relative; z-index: 2; }
 .hero__note[hidden] { display: none; }
 .hero__roast:has(.hero__note:not([hidden])) > :is(.hero__count, .hero__caption, .hero__now) { visibility: hidden; }
 .hero__roast:has(.hero__note:not([hidden])) .hero__info-btn { visibility: visible; }
+/* where the cell grows for the note, its rows grow too: the «i» keeps to the top of its row, so the text stays clear of it */
+.hero__roast:has(.hero__note:not([hidden])) > .hero__now { align-self: start; }
 
 .hero__link {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -104,7 +111,10 @@
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
   transition: background-color var(--t-out) var(--ease-out);
 }
+.hero__links { grid-template-columns: minmax(0, 1fr); }
 .hero__link svg { flex: none; width: 32px; height: 32px; }
+/* the narrowest columns (below S: a 280–380 screen): a smaller arrow closer to the text, so «Контакты» and its arrow fit */
+@container col (width < 22rem) { .hero__link { gap: 4px; } .hero__link svg { width: 24px; height: 24px; } }
 @media (--mouse) {
   .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
 }
@@ -124,12 +134,13 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__roast { grid-row: 1; padding-inline: 0; }
   .hero__roast > :not(.hero__note) { width: auto; max-width: none; justify-self: stretch; padding-inline: var(--gutter); }
   .hero__roast > .hero__caption { font-size: var(--type-control); }
+  .hero__now { grid-area: 1 / 1; } .hero__count { grid-area: 1 / 2; } .hero__caption { grid-area: 1 / 3; }
   .hero__roast > .hero__count { justify-self: center; width: min(var(--dial), 100% - 2 * var(--gutter)); padding-inline: 0; }
   .hero__links { grid-row: 2; border-left: 0; }
   .hero__links::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: var(--hair) solid var(--line); pointer-events: none; }
   .hero__links li + li { border-left: var(--hair) solid var(--line); }
   .hero__links li + li::before { content: none; }
-  .hero__note { left: calc(100% / 3); padding: 8px var(--gutter); }   /* side by side: over the digits and the caption, beside the «i» */
+  .hero__note { grid-area: 1 / 2 / 2 / -1; padding: 8px var(--gutter); }   /* side by side: over the digits and the caption, beside the «i» */
 }
 /* from L: one row of three cells; the title fills its cell, and the cells share three rows */
 @container col (width >= 58rem) {
@@ -145,7 +156,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__grid::before { z-index: -1; top: calc(-1 * var(--hero-fade)); bottom: 0; background: linear-gradient(to bottom, var(--fade-hero)); }
   .hero__grid::after { top: 0; border-top: var(--hair) solid var(--line); }
   .hero__title {
-    grid-row: 1 / 4; align-self: center; padding-right: var(--gutter);
+    grid-row: 1 / 4; align-self: center; width: auto; max-width: none;
     font-size: max(48px, min(var(--type-hero), (var(--cell) - 2 * var(--gutter)) / 4.55));
   }
   .hero__title::before { content: none; }
@@ -153,12 +164,13 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__dock::before { content: none; }
   .hero__roast, .hero__links { grid-row: 1 / 4; grid-column: auto; grid-template-columns: none; grid-template-rows: subgrid; border-left: var(--hair) solid var(--line); }
   .hero__roast { padding-inline: var(--gutter); }
+  .hero__now { grid-area: 1 / 1; } .hero__count { grid-area: 2 / 1; } .hero__caption { grid-area: 3 / 1; }
   .hero__roast > :not(.hero__note), .hero__roast > .hero__count { width: var(--dial); max-width: 100%; justify-self: center; padding-inline: 0; }
   .hero__roast > .hero__caption { width: max-content; }
   .hero__links::before { content: none; }
   .hero__links li + li { border-left: 0; }
   .hero__links li + li::before { content: ""; }
-  .hero__note { left: 0; padding: calc(var(--hero-cell-y) * 2 + 20px) var(--gutter); }
+  .hero__note { grid-area: 1 / 1 / -1 / -1; padding: calc(var(--hero-cell-y) * 2 + 20px) 0; }
 }
 /* the column at its most (the step max, 1520px): the margins grow beside it, so the cells stay on the column,
    framed by a hairline on each side. Also as a page condition (--framed: a screen of 1616px, where the column is

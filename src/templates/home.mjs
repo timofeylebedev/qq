@@ -41,7 +41,7 @@ function hero(ctx) {
             <button class="hero__info-btn" type="button" aria-expanded="false" aria-controls="roast-note" aria-label="Как мы обжариваем" data-toggle>${icon("info")}</button></p>
           <p class="hero__count" data-hero-part><span class="sr"><span data-roast-say>Следующая обжарка через </span><span data-roast-count>00:00:00</span></span>${digitsSVG("00:00:00", { lit: false })}<span class="hero__date" data-roast-date hidden></span></p>
           <p class="hero__caption" aria-hidden="true" data-hero-part>До ближайшей обжарки</p>
-          <p class="hero__note" id="roast-note" hidden>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</p>
+          <p class="hero__note" id="roast-note" hidden><span>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</span></p>
         </div>
         <ul class="hero__links">${hero.links.map(([t, to, ic]) => `<li data-hero-part><a class="hero__link" href="${href(ctx, to)}"><span>${esc(t)}</span>${icon(ic)}</a></li>`).join("")}</ul>
       </div>
