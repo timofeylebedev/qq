@@ -12,27 +12,36 @@ export function initNav() {
   const root = document.documentElement;
   const grounds = [...document.querySelectorAll("main [data-ground], body > footer[data-ground]")];
 
-  // the ground wholly under the band [top, bottom] of the screen, or null while a boundary crosses it
-  const under = (top, bottom) => {
+  // the ground under the band [top, bottom] of the screen: the section that holds it wholly; else, if the grounds at
+  // its two edges are the same (two white sections meeting), that one; else null while the boundary crosses it — or,
+  // when the bar has no colour of its own yet (the page has just opened, or jumped), the ground under its middle
+  const at = (y) => { let best = null, h = Infinity; for (const el of grounds) { const r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > y && r.height < h) { best = el.dataset.ground; h = r.height; } } return best; };
+  const under = (top, bottom, fresh) => {
     let best = null, h = Infinity;
     for (const el of grounds) {
       const r = el.getBoundingClientRect();
       if (r.top <= top + 0.5 && r.bottom >= bottom - 0.5 && r.height < h) { best = el.dataset.ground; h = r.height; }
     }
-    return best;
+    if (best) return best;
+    const a = at(top + 0.5), b = at(bottom - 0.5);
+    return a && a === b ? a : fresh ? at((top + bottom) / 2) : null;
   };
   const first = grounds[0]?.dataset.ground || "paper", last = grounds[grounds.length - 1]?.dataset.ground || "paper";
-  let queued = false;
+  let queued = false, lastY = null;
   const update = () => {
-    if (!grounds.length) return;   // a page without sections (the component canvas's navbar frames) keeps its ground
     queued = false;
+    if (!grounds.length) return;   // a page without sections (the component canvas's navbar frames) keeps its ground
+    // a jump (the first look, a reload in the middle of the page, an anchor, End): no colour to keep, and no crossing
+    const fresh = lastY === null || Math.abs(scrollY - lastY) > innerHeight / 2;
+    lastY = scrollY;
     const top = scrollY <= 0, end = scrollY + innerHeight >= root.scrollHeight - 1;
-    const g = top ? first : under(0, nav.offsetHeight);
-    if (g && nav.dataset.ground !== g) nav.dataset.ground = g;
-    if (tabbar && tabbar.offsetHeight) {
-      const t = end ? last : under(innerHeight - tabbar.offsetHeight, innerHeight);
-      if (t && tabbar.dataset.ground !== t) tabbar.dataset.ground = t;
-    }
+    const set = (bar, g) => {
+      if (!g || bar.dataset.ground === g) return;
+      if (fresh) { bar.dataset.instant = ""; requestAnimationFrame(() => requestAnimationFrame(() => delete bar.dataset.instant)); }
+      bar.dataset.ground = g;
+    };
+    set(nav, top ? first : under(0, nav.offsetHeight, fresh));
+    if (tabbar && tabbar.offsetHeight) set(tabbar, end ? last : under(innerHeight - tabbar.offsetHeight, innerHeight, fresh));
     // the colour behind a bounce: the first ground in the top half of the page, the last in the bottom half
     const over = scrollY + innerHeight / 2 < root.scrollHeight / 2 ? first : last;
     if (root.dataset.over !== over) root.dataset.over = over;

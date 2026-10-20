@@ -15,6 +15,7 @@
   background: var(--g-bg); color: var(--g-fg);
   transition: background-color var(--t-move) var(--ease-move), color var(--t-move) var(--ease-move);
 }
+.nav[data-instant], .nav[data-instant] .nav__bar, .tabbar[data-instant] { transition: none; }   /* after a jump: no crossing */
 .nav__bar { height: var(--nav-h); border-bottom: var(--hair) solid var(--line); transition: border-color var(--t-move) var(--ease-move); }
 .nav__in {
   display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 100%;
@@ -83,6 +84,7 @@
     font-size: var(--type-small); line-height: 1; transition: background-color var(--t-out) var(--ease-out);
   }
   .tabbar__item svg { width: 24px; height: 24px; }
+  .tabbar__item:focus-visible { outline-offset: -4px; }   /* the cells touch the screen's edges: the ring goes inside */
   .tabbar__item[aria-current="page"] span { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: var(--hair); }
   .tabbar .nav__count { top: 4px; right: auto; left: calc(50% + 6px); }
 }

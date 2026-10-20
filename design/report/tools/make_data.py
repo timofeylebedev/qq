@@ -227,7 +227,7 @@ changes_r2 = [
     ]},
     {'section': '3D packs', 'items': [
         ['On scroll should lag a bit behind', 'Every pack trails its slot by up to 12% of its height (at most 40px) and catches up at 9 per second: after a quick scroll of 700px on the catalog it trails 38px and is back within 0.5s (38 → 26 → 12 → 5 → 2 px every 60ms). Sideways rows too. Nothing with «reduce motion». <code>TUNE.lag</code>, <code>lagMax</code> in the console.', 'done'],
-        ['On click moving away a bit (on hold stays moved away)', 'Pointer down on a pack: 0.45 further from the viewer and 94% of its size (from the hover state +0.35 / 103% to −0.10 / 96.8%), the shadow closer; it stays while held and comes back on release; a quick click holds it for at least 0.2s so it reads. On touch it waits 90ms (a touch may be the start of a scroll).', 'done'],
+        ['On click moving away a bit (on hold stays moved away)', 'A click on a card\'s pack now also opens its coffee (before, only the name was a link). Pointer down on a pack: 0.45 further from the viewer and 94% of its size (from the hover state +0.35 / 103% to −0.10 / 96.8%), the shadow closer; it stays while held and comes back on release; a quick click holds it for at least 0.2s so it reads. On touch it waits 90ms (a touch may be the start of a scroll).', 'done'],
     ]},
     {'section': 'Navbar', 'items': [
         ['1. Remove separating lines between the elements', 'The hairlines between the three groups are gone; the groups are 16px apart (the links 8px of padding each side).', 'done'],
@@ -284,7 +284,7 @@ data = {
     'footer': f"Measured in headless Chromium on the built sites, {sweep['measured'][:10]}. Before = round 1 (branch component-canvas, commit 6673a8f); now = branch round-2. Round 1's «before» was the Figma frames."},
   'sections': [
     {'id': 'changes', 'nav': 'Round 2', 'title': 'Round 2: what changed', 'sub': 'Your comments in your order and under your headings, what was done with each (measured before → now), and the two builds side by side.', 'blocks': [
-      {'type': 'stats', 'items': [{'n': 27, 'unit': 'comments', 'text': '23 done, 3 done differently or to check, 1 read with the next (navbar 4)'},
+      {'type': 'stats', 'items': [{'n': sum(len(g['items']) for g in changes_r2), 'unit': 'comments', 'text': ', '.join(f"{sum(1 for g in changes_r2 for i in g['items'] if i[2] == t)} {w}" for t, w in (('done', 'done'), ('differently', 'done differently'), ('check', 'for you to check')))},
                                   {'n': 4, 'unit': 'steps', 'text': 'of the navbar: every section, four short ones, the burger, the tab bar'},
                                   {'n': 0, 'unit': 'px', 'text': 'between each countdown part and its link, and between the digits and the caption'},
                                   {'n': 10, 'unit': 'rules', 'text': 'checked on every build: «one line colour» is new' + (' · audit clean' if audit_clean else '')}]},
@@ -438,7 +438,7 @@ data = {
         '<b>QQ\'s own photos</b> (the current ones are Figma\'s moodboard).', '<b>The roast schedule</b> and the hero video.', '<b>The texts behind the plus</b> of the info blocks.',
         '<b>PT Mono Bold</b> with a web licence.', '<b>Countries of the blends</b>: the sticker column or the lots?', '<b>Publish the component canvas</b> on the test site?']},
       {'type': 'list', 'title': 'Not designed yet', 'items': ['The menu behind the burger (a plain list now).', 'Pages for the navbar\'s items: каскара, дрипы, сеты, бизнесу (кофейням, офисам), журнал, контакты, search, favourites, bag, profile.', 'Checkout, account; merch; the journal.']},
-      {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components are not linted yet (icon sizes, small paddings).', 'From round 1: on a coffee\'s page at 1440 × 900 the big pack is cut at the top of its box while it settles; card descriptions cannot be drag-selected in Chromium.']},
+      {'type': 'list', 'title': 'Open in the system', 'items': ['Spacing lengths inside components are not linted yet (icon sizes, small paddings).', 'At 844 × 390 the «В корзину» toast covers the buy bar\'s price (round 1, found by the review).', 'From round 1: on a coffee\'s page at 1440 × 900 the big pack is cut at the top of its box while it settles; card descriptions cannot be drag-selected in Chromium.']},
       {'type': 'list', 'title': 'Check on real devices', 'items': ['Safari (Mac and iPhone): the bounce above the page stays black on the home page; text-box trim in the hero; the scroll place after a reload.', 'iPhone: the tab bar with the home indicator (safe area), the buy bar standing on it, the URL bar moving.', 'A trackpad and a mouse wheel: is the packs\' lag «a bit», or too much / too little? (TUNE.lag and lagMax in the console.)', 'Pressing a pack on a card: the press shows, then the coffee\'s page opens.']},
     ]},
     {'id': 'earlier', 'nav': 'Round 1', 'title': ROUND1['title'], 'sub': 'As it was published: your round 1 requests, what was built, and the site next to Figma.', 'blocks': ROUND1['blocks']},

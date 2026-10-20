@@ -44,6 +44,12 @@ export async function initPacks() {
       fit: hero ? 0.82 : 0.9, live: hero, clip: el.closest("[data-slider]") || undefined
     });
     const p = { el, it, hero, hx: 0, hy: 0, hover: false, press: false, lx: 0, ly: 0, px: null, py: 0 };
+    // a click on the pack opens its coffee, as a click on its name does (the name's link covers only the name)
+    const link = el.closest("[data-card], .featured__slide")?.querySelector(".card__link, .featured__name a");
+    if (link && !hero) (el.closest("[data-card], .featured__media") || el).addEventListener("click", (e) => {
+      const r = el.getBoundingClientRect();
+      if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && !e.target.closest("a, button, input, label, select, form")) link.click();
+    });
     if (!reduced) {
       // press: the pointer goes down on the pack itself; it lets go at least pressHold later, so a click reads
       let since = 0, wait = 0, off = 0;

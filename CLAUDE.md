@@ -38,7 +38,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Grounds**: every section has `data-ground` (paper, cloud, black, ink); colours on it come from there (`--g-bg`,
   `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`).
 - **One line colour**: every border is `var(--line)` (ink-20 on light grounds, white-30 on dark); states may use ink.
-- **Links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
+- **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
+  The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light).
