@@ -5,7 +5,8 @@
   --vp: min(100vw, 2 * 100svh - 25rem);
 
   /* type */
-  --type-display: clamp(3rem, calc(3rem + (var(--vp) - 20rem) * 40 / 1120), 5.5rem);          /* 48 → 88: the hero title «Кофе свежей обжарки»: below L at this size, at most two words a line; from L it fills its cell between 48 and this (Tim, round 6: 48 at least, on the ladder) */
+  --type-hero: clamp(3rem, calc(3rem + (var(--vp) - 20rem) * 40 / 1120), 5.5rem);             /* 48 → 88: the home hero's title «Кофе свежей обжарки»: below L at this size, at most two words a line; from L it fills its cell between 48 and this (Tim, round 6: 48 at least, on the ladder) */
+  --type-display: clamp(2.5rem, calc(2.5rem + (var(--vp) - 20rem) * 24 / 1120), 4rem);          /* 40 → 64: the titles of the business and about pages' heroes (the home hero's own was this until round 6) */
   --type-h2: clamp(2rem, calc(2rem + (var(--vp) - 20rem) * 16 / 1120), 3rem);               /* 32 → 48: section headings, the catalog tabs, the product's name on its page */
   --type-h3: clamp(1.75rem, calc(1.75rem + (var(--vp) - 20rem) * 12 / 1120), 2.5rem);               /* 28 → 40: headings of the image blocks (approach, about) */
   --type-title: clamp(1.375rem, calc(1.375rem + (var(--vp) - 20rem) * 10 / 1120), 2rem);            /* 22 → 32: the name of the featured coffee */

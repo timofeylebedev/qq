@@ -44,12 +44,28 @@ function probe(roles) {
     out.recsPerView = r(reel.getBoundingClientRect().width / (card.getBoundingClientRect().width + parseFloat(getComputedStyle(reel).columnGap)));
     out.factsCols = cols(".facts__list"); out.businessCols = cols(".business__cards");
     out.storyLayout = getComputedStyle(q(".story__image")).position === "absolute" ? 2 : 1;
-    out.countdownPx = r(parseFloat(getComputedStyle(q(".hero__count .digits")).fontSize));
+    // the digits: their em (round 6: QQ Digits as SVG, «00:00:00» 3em wide, so a third of the drawing's width)
+    const dg = q(".hero__count .digits"), svg = dg?.tagName.toLowerCase() === "svg";
     const tw = (e) => { if (!e) return null; const g = document.createRange(); g.selectNodeContents(e); return r(g.getBoundingClientRect().width); };
-    out.digitsW = tw(q(".hero__count .digits")); out.captionW = tw(q(".hero__caption"));
+    out.countdownPx = svg ? r(dg.getBoundingClientRect().width / 3) : r(parseFloat(getComputedStyle(dg).fontSize));
+    out.digitsW = svg ? r(dg.getBoundingClientRect().width) : tw(dg); out.captionW = tw(q(".hero__caption"));
     out.heroRow = r(q(".hero__links li").getBoundingClientRect().height);
-    out.heroCellsH = r(rect(".hero__grid").height);
-    out.heroPhoto = r(rect(".hero__info").top - rect(".hero").top);
+    // the cells: from the hairline over them to their foot (round 6: below L the title stands apart, at the top)
+    const dock = q(".hero__dock"), wideHero = !dock || getComputedStyle(q(".hero__grid")).display === "grid";
+    const fade = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hero-fade")) || 0;
+    const cellsTop = wideHero ? rect(".hero__grid").top : dock.getBoundingClientRect().top + parseFloat(getComputedStyle(dock).paddingTop);
+    out.heroCellsH = r((wideHero ? rect(".hero__grid").bottom : dock.getBoundingClientRect().bottom) - cellsTop);
+    out.heroPhoto = r(cellsTop - fade - rect(".hero").top);
+    // round 6: the title's lines and where its text starts; a link's padding at its sides; the frame
+    { const t = q(".hero__title"), g = document.createRange(); g.selectNodeContents(t); const rr = [...g.getClientRects()];
+      const fz = parseFloat(getComputedStyle(t).fontSize); out.heroTitleLines = new Set(rr.filter((x) => x.width > 1).map((x) => Math.round((x.top + x.height / 2) / (fz * 0.5)))).size; out.heroTitleX = r(Math.min(...rr.map((x) => x.left))); }
+    // the link cell as you see it: below the max its lines run to the screen's edges, so an outer side is the screen's
+    out.heroFrame = parseFloat(getComputedStyle(q(".hero__grid")).borderLeftWidth) > 0 ? 1 : 0;
+    // round 6's layouts: 1 the title on top and the dock in two columns, 2 the dock in two rows, 3 a row of three cells
+    if (dock) out.heroLayout = getComputedStyle(q(".hero__grid")).display === "grid" ? 3 : getComputedStyle(q(".hero__roast")).gridTemplateColumns.split(" ").filter(Boolean).length > 1 ? 2 : 1;
+    { const a = q(".hero__link"), s = a.querySelector("span").getBoundingClientRect(), i = a.querySelector("svg").getBoundingClientRect(), b = a.getBoundingClientRect(), c = rect(".col");
+      const L = !out.heroFrame && b.left <= c.left + 1 ? 0 : b.left, R = !out.heroFrame && b.right >= c.right - 1 ? innerWidth : b.right;
+      out.heroLinkPadL = r(s.left - L); out.heroLinkPadR = r(R - i.right); }
     // round 5: the title's size, where the line between the first two links ends (0: at the screen's edge), the
     // info block's plus from its corner, the business gap, the taste cell's side
     out.heroTitlePx = r(parseFloat(getComputedStyle(q(".hero__title")).fontSize));
@@ -71,6 +87,12 @@ function probe(roles) {
   const ni = q(".nav__in") || q(".nav__bar");
   out.navContentW = r(ni.getBoundingClientRect().width);
   out.navLogoX = r(q(".nav__logo svg").getBoundingClientRect().left);
+  // round 6: the link cells of the navbar: the gap between two, the padding beside a link's text
+  { const ls = [...document.querySelectorAll(".nav__links")].find((n) => n.getBoundingClientRect().width > 0);
+    if (ls) { const as = [...ls.querySelectorAll("a")], a0 = as[0].getBoundingClientRect(), a1 = as[1].getBoundingClientRect(), g = document.createRange(); g.selectNodeContents(as[0]);
+      // the tint is the link's box, or (round 5) a ::before drawn wider than it
+      const bf = getComputedStyle(as[0], "::before"), wider = bf.content !== "none" && bf.position === "absolute" ? -parseFloat(bf.left) || 0 : 0;
+      out.navLinkGap = r(a1.left - a0.right - 2 * wider); out.navLinkPad = r(g.getBoundingClientRect().left - a0.left + wider); } else { out.navLinkGap = null; out.navLinkPad = null; } }
   out.footerCols = cols(".footer__inner"); out.colW = r(rect(".col").width);
   // round 3: the footer's halves (squares from L), the flame's mass centre against the square's middle, the legal
   // line's two texts (one baseline), the newsletter's line count

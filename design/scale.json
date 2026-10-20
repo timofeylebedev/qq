@@ -12,7 +12,8 @@
 
   "type": {
     "roles": {
-      "type/display":    { "px": [48, 88], "family": "mono", "use": "the hero title «Кофе свежей обжарки»: below L at this size, at most two words a line; from L it fills its cell between 48 and this (Tim, round 6: 48 at least, on the ladder)" },
+      "type/hero":       { "px": [48, 88], "family": "mono", "use": "the home hero's title «Кофе свежей обжарки»: below L at this size, at most two words a line; from L it fills its cell between 48 and this (Tim, round 6: 48 at least, on the ladder)" },
+      "type/display":    { "px": [40, 64], "family": "mono", "use": "the titles of the business and about pages' heroes (the home hero's own was this until round 6)" },
       "type/h2":         { "px": [32, 48], "family": "mono", "use": "section headings, the catalog tabs, the product's name on its page" },
       "type/h3":         { "px": [28, 40], "family": "mono", "use": "headings of the image blocks (approach, about)" },
       "type/title":      { "px": [22, 32], "family": "mono", "use": "the name of the featured coffee" },
@@ -29,7 +30,7 @@
     "relations": {
       "min": 1.125,
       "pairs": [
-        ["type/display", "type/h2"], ["type/h2", "type/h3"], ["type/h3", "type/title"], ["type/title", "type/card-title"],
+        ["type/hero", "type/display"], ["type/display", "type/h2"], ["type/h2", "type/h3"], ["type/h3", "type/title"], ["type/title", "type/card-title"],
         ["type/statement", "type/lead"], ["type/lead", "type/body-l"], ["type/body-l", "type/body"], ["type/body", "type/small"],
         ["type/card-title", "type/body-l"]
       ],

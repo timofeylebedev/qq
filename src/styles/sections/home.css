@@ -14,9 +14,9 @@
    Height: the screen less a 24px peek of what follows (and less the tab bar on a phone), at most --hero-max, and
    never less than its parts need (a phone sideways: there the hero is taller than the screen).
 
-   The title: from L it fills its cell, «обжарки» (4.55em) from padding to padding, between 48px and --type-display
+   The title: from L it fills its cell, «обжарки» (4.55em) from padding to padding, between 48px and --type-hero
    (88px at most, both on the ladder; decision "hero-title-fills-cell"), its three lines setting the height of the
-   cells; below L it is --type-display (48 → 88), at most two words a line (Tim, round 6), at the top over an eased
+   cells; below L it is --type-hero (48 → 88), at most two words a line (Tim, round 6), at the top over an eased
    fade from the navbar's black. The text of every cell is trimmed to its capitals and baseline, so a cell's padding
    is the space you see. The countdown's digits are as wide as its caption, or as their cell allows where the
    caption has to take two lines (decision "countdown-as-caption"). The whole dock rises in when the page opens,
@@ -42,7 +42,7 @@
    down from above the section to --hero-fade past the title's foot) */
 .hero__title {
   position: relative; isolation: isolate; padding: var(--gutter); padding-right: max(var(--gutter), 100% - 11em - var(--gutter));
-  font-size: var(--type-display); line-height: var(--lh-display); text-wrap: wrap;
+  font-size: var(--type-hero); line-height: var(--lh-display); text-wrap: wrap;
 }
 .hero__title::before { content: ""; position: absolute; z-index: -1; inset: calc(-1 * var(--nav-h)) 0 calc(-1 * var(--hero-fade)); background: linear-gradient(to top, var(--fade-top)); pointer-events: none; }
 
@@ -68,8 +68,7 @@
 .hero__now { white-space: nowrap; }
 /* the caption keeps one line wherever it fits (its own width), else takes two, balanced; in the narrowest cells (a
    280 screen, a big browser text) it grows no larger than its longer line «До ближайшей» (8.6em, a little air: 8.8) allows */
-.hero__roast { container-type: inline-size; }
-.hero__roast > .hero__caption { width: max-content; text-wrap: balance; font-size: min(var(--type-control), 100cqi / 8.8); }
+.hero__roast > .hero__caption { width: max-content; text-wrap: balance; font-size: min(var(--type-control), ((100cqi + 2 * var(--bleed)) / 2 - 2 * var(--gutter)) / 8.8); }   /* 100cqi: the column; a cell is half of it and its bleed (no container of its own: it would undo the shared rows) */
 .hero__now { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
 .hero__now > :first-child { justify-self: start; }
 .hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
@@ -124,6 +123,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__roast, .hero__links { grid-row: auto; grid-column: 1 / -1; grid-template-rows: none; grid-template-columns: subgrid; }
   .hero__roast { grid-row: 1; padding-inline: 0; }
   .hero__roast > :not(.hero__note) { width: auto; max-width: none; justify-self: stretch; padding-inline: var(--gutter); }
+  .hero__roast > .hero__caption { font-size: var(--type-control); }
   .hero__roast > .hero__count { justify-self: center; width: min(var(--dial), 100% - 2 * var(--gutter)); padding-inline: 0; }
   .hero__links { grid-row: 2; border-left: 0; }
   .hero__links::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: var(--hair) solid var(--line); pointer-events: none; }
@@ -146,7 +146,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__grid::after { top: 0; border-top: var(--hair) solid var(--line); }
   .hero__title {
     grid-row: 1 / 4; align-self: center; padding-right: var(--gutter);
-    font-size: max(48px, min(var(--type-display), (var(--cell) - 2 * var(--gutter)) / 4.55));
+    font-size: max(48px, min(var(--type-hero), (var(--cell) - 2 * var(--gutter)) / 4.55));
   }
   .hero__title::before { content: none; }
   .hero__dock { grid-column: 2 / 4; grid-row: 1 / 4; grid-template-columns: subgrid; grid-template-rows: subgrid; padding-top: 0; background: none; }

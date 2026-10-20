@@ -33,7 +33,8 @@ its cell where the caption takes two lines (decision `countdown-as-caption`); a 
 
 | Role | 320 → 1440 | Family | Used by |
 |---|---|---|---|
-| `type/display` | 48 → 88 | mono | the hero title «Кофе свежей обжарки» (from L it fills its cell, between 48 and this) |
+| `type/hero` | 48 → 88 | mono | the home hero's title «Кофе свежей обжарки» (from L it fills its cell, between 48 and this; round 6) |
+| `type/display` | 40 → 64 | mono | the titles of the business and about heroes |
 | `type/h2` | 32 → 48 | mono | section headings, the catalog tabs, the product's name on its page |
 | `type/h3` | 28 → 40 | mono | headings of the image blocks (approach, about) |
 | `type/title` | 22 → 32 | mono | the name of the featured coffee |
@@ -49,7 +50,7 @@ its cell where the caption takes two lines (decision `countdown-as-caption`); a 
 **The levels keep their distance.** Each pair in `type.relations` is at least ×1.125 apart at both ends of the range,
 and so at every size in between (the ratio of two straight lines can only move from its value at one end to its value at
 the other): display/h2, h2/h3, h3/title, title/card-title, statement/lead, lead/body-l, body-l/body, body/small and
-card-title/body-l. Labels (eyebrows, control text, prices) are set apart by case and weight, not size.
+card-title/body-l, and hero/display. Labels (eyebrows, control text, prices) are set apart by case and weight, not size.
 
 ### Space
 
