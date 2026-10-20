@@ -12,12 +12,18 @@ the responsive map, motion, the grammar, the checks and what is next.
 ```sh
 npm run build && npm run preview &                 # the site at http://localhost:4173
 node design/report/tools/sweep.mjs                 # every role and block, every 10px of width and 25px of height → sweep.json
+node design/report/tools/sweep.mjs --dist=<previous build's dist> --out=design/report/sweep-before.json   # «before»
+node design/report/tools/areas-round2.mjs <old url> <new url>   # round 2's areas (navbar, hero) on both builds
 node design/report/tools/areas.mjs                 # the round's areas at 25 real screens → areas.json
-node design/report/tools/pairs.mjs                 # Figma (figma/*.png) or the old build next to the site → shots/*.jpg
+node design/report/tools/pairs.mjs                 # round 1: Figma (figma/*.png) next to the site → shots/*.jpg
+node design/report/tools/pairs-round2.mjs <old url> <new url>  # round 2: the previous build next to this one → shots/r2-*.jpg
 npm run -s rules > design/report/rules.txt; npm run -s audit > design/report/audit.txt
 python3 -I design/report/tools/make_data.py        # the words + the measurements → data.json
 python3 -I design/report/build_report.py design/report/data.json /tmp/report.html   # one self-contained page
 ```
+
+The previous build: `git worktree add /tmp/old <last commit of the previous round>`, link node_modules, `npm run build`
+there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json`.
 
 `review.json` holds the independent review's findings with what was done about each (written by hand each round).
 The built HTML is not committed (it repeats the pictures as base64).

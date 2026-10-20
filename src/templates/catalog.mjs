@@ -29,7 +29,7 @@ export function render(ctx) {
     choice("prep", "Приготовление", "checkbox", [["espresso", "Эспрессо"], ["filter", "Фильтр"], ["milk", "С молоком"], ["turka", "Турка"]], null, "4 способа")
   ].join("\n      ");
 
-  const body = `<section class="section section--first catalog" aria-labelledby="catalog-title">
+  const body = `<section class="section section--first catalog" data-ground="paper" aria-labelledby="catalog-title">
   <div class="col">
     <h1 class="sr" id="catalog-title">${esc(site.catalog.title)}</h1>
     <ul class="catalog__info" data-roast="${data}">

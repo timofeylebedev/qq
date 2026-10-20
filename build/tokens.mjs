@@ -80,6 +80,15 @@ export function contrast(fg, bg) {
 const cssColor = (hex) => { const [r, g, b, a] = rgba(hex); return a === 255 ? hex : `rgb(${r} ${g} ${b} / ${Math.round((a / 255) * 100) / 100})`; };
 
 // ── write ────────────────────────────────────────────────────────────────────────────────────────────────────────
+// an eased fade: transparent → colour along a cubic-bezier curve, sampled at even steps (the opacity at x is the
+// curve's y where its x is x)
+function fade(hex, { curve: [x1, y1, x2, y2], stops }) {
+  const bz = (t, a, b) => 3 * (1 - t) ** 2 * t * a + 3 * (1 - t) * t ** 2 * b + t ** 3;
+  const yAt = (x) => { let lo = 0, hi = 1; for (let i = 0; i < 40; i++) { const m = (lo + hi) / 2; bz(m, x1, x2) < x ? (lo = m) : (hi = m); } return bz((lo + hi) / 2, y1, y2); };
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  return Array.from({ length: stops }, (_, i) => { const x = i / (stops - 1); return `rgb(${r} ${g} ${b} / ${+yAt(x).toFixed(3)}) ${+(x * 100).toFixed(2)}%`; }).join(", ");
+}
+
 export function generate() {
   const sc = read("design/scale.json"), colors = read("design/colors.json");
   check(sc, colors);
@@ -102,6 +111,8 @@ export function generate() {
   for (const [k, v] of Object.entries(sc.type.tracking)) lines.push(`  --track-${k}: ${v};`);
   lines.push("", "  /* colours */");
   for (const [k, v] of Object.entries(colors.colors)) lines.push(`  --c-${k}: ${cssColor(v)};`);
+  lines.push("", "  /* eased fades (colors.json fades): the stops of linear-gradient(to bottom, var(--fade-black)) */");
+  for (const [k, f] of Object.entries(colors.fades || {})) if (!k.startsWith("$")) lines.push(`  --fade-${k}: ${fade(colors.colors[f.color], f)};`);
   lines.push("", "  /* descriptor dots, by flavour family */");
   for (const [k, v] of colors.descriptors.families) lines.push(`  --c-taste-${k}: ${v};`);
   lines.push(`  --c-taste-other: ${cssColor(colors.descriptors.default)};`);

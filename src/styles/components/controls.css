@@ -30,9 +30,9 @@
 }
 
 /* prev / next: two square cells, one hairline between them */
-.arrows { display: flex; border: var(--hair) solid var(--c-line); }
+.arrows { display: flex; border: var(--hair) solid var(--line); }
 .arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background var(--t-out) var(--ease-out); }
-.arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--c-line); }
+.arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--line); }
 .arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
 @media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
 
@@ -47,18 +47,18 @@
 @media (--mouse) { .pager__dot:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
 /* the email field of the footer: a hairline box with the arrow cell at its end */
-.field { display: flex; border: var(--hair) solid var(--c-line); background: var(--c-paper); min-height: var(--control-h); }
+.field { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); min-height: var(--control-h); }
 .field input { flex: 1; min-width: 0; border: 0; background: none; padding-inline: var(--control-x); font-size: max(16px, var(--type-body)); }
 .field input::placeholder { color: var(--c-ink-70); }
 .field input:focus-visible { outline: none; }
 .field:focus-within { border-color: var(--c-ink); }
-.field button { display: grid; place-items: center; width: 56px; border-left: var(--hair) solid var(--c-line); }
+.field button { display: grid; place-items: center; width: 56px; border-left: var(--hair) solid var(--line); }
 
 /* descriptor pills: the only round shapes besides dots */
 .pills { display: flex; flex-wrap: wrap; gap: 6px; align-content: start; }
 .pill {
   display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 8px;
-  border: var(--hair) solid var(--c-ink-20); border-radius: 999px;
+  border: var(--hair) solid var(--line); border-radius: 999px;
   font-size: var(--type-small); line-height: var(--lh-compact); white-space: nowrap;
 }
 .pill::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--dot); flex: none; }

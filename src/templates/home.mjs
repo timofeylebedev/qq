@@ -16,22 +16,25 @@ export function render(ctx) {
   return page(ctx, {
     title: "QQ Coffee — кофе свежей обжарки",
     description: "QQ Coffee — обжарщик спешелти-кофе: свежая обжарка каждый будний день, доставка по Москве и России.",
-    navTheme: "dark", main: "home", body
+    ground: "black", main: "home", body
   });
 }
 
+// The hero: a photo and, at its foot, the title, the roast countdown and three links. The countdown and the links
+// share three rows (the day and the time beside «Каталог», the digits beside «Бизнесу», the caption beside
+// «Контакты»); the title is set word under word, always three lines.
 function hero(ctx) {
   const { hero, roast } = ctx.site;
   const data = esc(JSON.stringify({ days: roast.days, hour: roast.hour, tz: roast.timezoneOffset }));
-  return `<section class="hero" data-hero aria-labelledby="hero-title">
+  return `<section class="hero" data-hero data-ground="black" aria-labelledby="hero-title">
   ${picture("hero-roast", "", { sizes: "100vw", cls: "hero__bg", eager: true, decorative: true })}
   <div class="hero__info">
     <div class="col"><div class="hero__grid">
-      <h1 class="hero__title" id="hero-title">${esc(hero.title)}</h1>
+      <h1 class="hero__title" id="hero-title">${hero.title.split(" ").map((w) => `<span>${esc(w)}</span>`).join(" ")}</h1>
       <div class="hero__roast" data-roast="${data}">
         <p class="hero__now"><span data-roast-day>&nbsp;</span><span class="hero__clock" data-roast-clock>&nbsp;</span>
           <button class="hero__info-btn" type="button" aria-expanded="false" aria-controls="roast-note" aria-label="Как мы обжариваем" data-toggle>${icon("info")}</button></p>
-        <p class="hero__count"><span class="sr">Следующая обжарка через </span><span class="digits" data-roast-count>00:00:00</span></p>
+        <p class="hero__count"><span class="sr" data-roast-say>Следующая обжарка через </span><span class="digits" data-roast-count>00:00:00</span><span class="hero__date" data-roast-date hidden></span></p>
         <p class="hero__caption" aria-hidden="true">До ближайшей обжарки</p>
         <p class="hero__note" id="roast-note" hidden>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</p>
       </div>
@@ -62,7 +65,7 @@ function featured(ctx, list) {
       ${media}
     </article>`;
   }).join("\n    ");
-  return `<section class="section section--first featured" aria-labelledby="featured-title">
+  return `<section class="section section--first featured" data-ground="paper" aria-labelledby="featured-title">
   <div class="col">
     ${head({ title: ctx.site.featured.title, id: "featured-title", aside: pager + arrows("Новинки", "featured") })}
     <div class="featured__track" data-slider="featured" tabindex="-1">
@@ -73,7 +76,7 @@ function featured(ctx, list) {
 }
 
 function recs(ctx, list) {
-  return `<section class="section section--after-tight" aria-labelledby="recs-title">
+  return `<section class="section section--after-tight" data-ground="paper" aria-labelledby="recs-title">
   <div class="col">
     ${head({ title: ctx.site.recommended.title, id: "recs-title", aside: arrows("Рекомендуем", "recs") })}
     <div class="reel" data-slider="recs" tabindex="-1">
@@ -84,7 +87,7 @@ function recs(ctx, list) {
 }
 
 function imageBlock(ctx, b) {
-  return `<section class="${cls("story", `story--${b.theme}`)}" id="${b.id}" aria-labelledby="${b.id}-title">
+  return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">
     <div class="story__text">
       <p class="eyebrow">${esc(b.eyebrow)}</p>
@@ -98,7 +101,7 @@ function imageBlock(ctx, b) {
 
 function business(ctx) {
   const b = ctx.site.business;
-  return `<section class="section business" id="business" aria-labelledby="business-title">
+  return `<section class="section business" data-ground="ink" id="business" aria-labelledby="business-title">
   <div class="col">
     ${head({ title: b.title, id: "business-title", center: true, lead: b.lead })}
     <div class="business__cards">
@@ -118,7 +121,7 @@ function business(ctx) {
 }
 
 function facts(ctx) {
-  return `<section class="facts" aria-label="Как мы работаем">
+  return `<section class="facts" data-ground="paper" aria-label="Как мы работаем">
   <div class="col"><ul class="facts__list">
     ${ctx.site.facts.map((f, i) => `<li class="fact">
       <span class="fact__icon">${icon(f.icon)}</span>
