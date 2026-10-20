@@ -42,7 +42,7 @@ export function rendered(data) {
     home: home.render({ site, products, page: "home", rel: REL }),
     catalog: catalog.render({ site, products, page: "catalog", rel: REL }),
     product: product.render({ site, products, page: "product", rel: REL }, p),
-    frame: (navTheme) => page({ site, products, page: "canvas", rel: REL }, { title: "Navbar — QQ Coffee", description: "", body: "", navTheme })
+    frame: (ground) => page({ site, products, page: "canvas", rel: REL }, { title: "Navbar — QQ Coffee", description: "", body: "", ground })
   };
 }
 
@@ -74,6 +74,9 @@ function samples({ site, products }) {
 // Slot widths are the widths these parts have on a 1440px screen (column 1344 = 1440 − 2 × 48 gutter).
 const SCREEN = 1440, CARD = 432, HALF = 660;
 const SCREENS = { phone: { w: 390, h: 844 }, tablet: { w: 768, h: 1024 }, desktop: { w: 1440, h: 900 } };
+// the navbar's four steps (media.css): the tab bar, the burger, the short sections, every section
+const NAV_SCREENS = { "phone (tab bar)": { w: 390, h: 844 }, "small tablet (burger)": { w: 700, h: 900 }, "tablet (short sections)": { w: 768, h: 1024 }, "desktop (every section)": { w: 1440, h: 900 } };
+export const GROUNDS = [["paper", "white"], ["cloud", "cloud (the footer, a product's story)"], ["black", "black (the hero, the dark image block)"], ["ink", "cool grey (business)"]];
 
 export function groups(data) {
   const s = samples(data);
@@ -175,15 +178,12 @@ export function groups(data) {
 
     // ── page blocks ──
     {
-      id: "nav-theme", title: "Navbar · theme", compares: "theme", slot: SCREEN, break: true,
-      slots: [
-        { label: "light — desktop 1440 × 900 (the top shown)", frame: { src: "frame-nav-light.html", ...SCREENS.desktop, crop: 160 } },
-        { label: "dark (over the hero) — desktop 1440 × 900 (the top shown)", frame: { src: "frame-nav-dark.html", ...SCREENS.desktop, crop: 160 } }
-      ]
+      id: "nav-theme", title: "Navbar · ground", compares: "the section under it", slot: SCREEN, break: true,
+      slots: GROUNDS.map(([g, name]) => ({ label: `${name} — desktop 1440 × 900 (the top shown)`, frame: { src: `frame-nav-${g}.html`, ...SCREENS.desktop, crop: 160 } }))
     },
     {
       id: "nav-screen", title: "Navbar · screen", compares: "screen width", slot: SCREEN,
-      slots: Object.entries(SCREENS).map(([name, sc]) => ({ label: `${name} ${sc.w} × ${sc.h}, light (the top shown; the burger opens the menu below 64em)`, frame: { src: "frame-nav-light.html", ...sc, crop: 600 } }))
+      slots: Object.entries(NAV_SCREENS).map(([name, sc]) => ({ label: `${name} ${sc.w} × ${sc.h}, white (the whole screen: the tab bar stands at its foot under 40em; the burger opens the menu under 48em)`, frame: { src: "frame-nav-paper.html", ...sc } }))
     },
     { id: "hero", title: "Hero", compares: "—", slot: SCREEN, page: "", slots: [{ label: "home", html: cut(H, /class="hero"/) }] },
     { id: "featured", title: "New arrivals", compares: "—", slot: SCREEN, slots: [{ label: "home (slides with a photo or the 3D pack; the pager and the arrows move them)", html: cut(H, /aria-labelledby="featured-title"/) }] },

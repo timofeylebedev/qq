@@ -15,7 +15,7 @@ export function render(ctx, p) {
 
 function stage(ctx, p) {
   const tiles = facts(p);
-  return `<section class="pstage" data-stage aria-labelledby="product-title" style="--tiles: ${tiles.length}">
+  return `<section class="pstage" data-stage data-ground="paper" aria-labelledby="product-title" style="--tiles: ${tiles.length}">
   <div class="pstage__pin">
     <div class="pstage__head">
       <h1 class="pstage__name" id="product-title">${esc(p.name)}</h1>
@@ -77,7 +77,7 @@ function buybar(p) {
 
 function story(p) {
   const cols = p.about.length ? p.about : [p.short];
-  return `<section class="pstory" aria-labelledby="story-title">
+  return `<section class="pstory" data-ground="cloud" aria-labelledby="story-title">
   <div class="col">
     <p class="pstory__statement" id="story-title">${esc(p.short)}</p>
     ${picture("farm-drying", "Сушка кофе на африканских кроватях", { sizes: "(min-width: 90em) 1344px, 100vw", cls: "pstory__image" })}
@@ -95,7 +95,7 @@ function similar(ctx, p) {
   const score = (q) => ["density", "acidity", "sweetness", "ferment"].reduce((s, k) => s + Math.abs((p.taste[k] ?? 0) - (q.taste[k] ?? 0)), 0)
     - 0.75 * [...fam(q)].filter((f) => mine.has(f)).length + (q.line === p.line ? 0 : 0.5);
   const list = ctx.products.filter((q) => q.slug !== p.slug).sort((a, b) => score(a) - score(b)).slice(0, 4);
-  return `<section class="section similar" aria-labelledby="similar-title">
+  return `<section class="section similar" data-ground="paper" aria-labelledby="similar-title">
   <div class="col">
     ${head({ title: "Кофе с похожим вкусом", id: "similar-title", center: true })}
     <div class="grid grid--wide">

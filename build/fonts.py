@@ -1,7 +1,9 @@
 # The fonts of the site, made from the originals in assets-src/fonts (npm run fonts; needs `pip install fonttools brotli`).
 #
 #   Apercu Pro 400 / 500 / 700  the text face (from the designer): Latin, Cyrillic, punctuation, ₽, arrows
-#   Technology 700              the digits of the roast countdown: only 0–9 and the colon (about 2 KB)
+#   Technology 700              the digits of the roast countdown: only 0–9 and the colon (about 2 KB), made
+#                               tabular here (every digit as wide as the widest, drawn in its middle), so the
+#                               countdown does not shift as it ticks and is always as wide as its caption
 #   JetBrains Mono 700          the headings, from Google Fonts (OFL), in its Latin and Cyrillic files as Google
 #                               serves them; it stands in for PT Mono Bold, which Google Fonts has only in Regular
 #                               (design/decisions.json, "font-headings")
@@ -25,7 +27,20 @@ TEXT = ",".join([
 DIGITS = "U+0030-003A"
 
 
-def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01"):
+def tabular(font, chars="0123456789"):
+    cmap, glyf, hmtx = font.getBestCmap(), font["glyf"], font["hmtx"]
+    names = [cmap[ord(c)] for c in chars]
+    width = max(hmtx[n][0] for n in names)
+    for n in names:
+        adv, lsb = hmtx[n]
+        dx = round((width - adv) / 2)
+        g = glyf[n]
+        if dx and g.numberOfContours > 0:
+            g.coordinates.translate((dx, 0)); g.recalcBounds(glyf)
+        hmtx[n] = (width, lsb + dx)
+
+
+def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01", tab=False):
     opts = subset.Options()
     opts.flavor = "woff2"
     opts.layout_features = features.split(",")
@@ -33,6 +48,8 @@ def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01"):
     opts.notdef_outline = True
     opts.hinting = False
     font = TTFont(src / f"{name}.ttf")
+    if tab:
+        tabular(font)
     s = subset.Subsetter(opts)
     s.populate(unicodes=subset.parse_unicodes(unicodes))
     s.subset(font)
@@ -44,7 +61,7 @@ def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01"):
 
 for w in (400, 500, 700):
     make(f"apercu-{w}", TEXT)
-make("technology-700", DIGITS, "kern")
+make("technology-700", DIGITS, "kern", tab=True)
 for part in ("latin", "cyrillic"):
     f = f"jetbrains-mono-{part}-700-normal.woff2"
     shutil.copy(src / f, out / f)

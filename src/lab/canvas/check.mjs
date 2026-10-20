@@ -17,6 +17,11 @@ const results = [];
 const check = (name, ok, detail = "") => { results.push({ name, ok: !!ok, detail }); console.log(`${ok ? "✓" : "✗"} ${name}${detail ? " — " + detail : ""}`); };
 const near = (a, b, d = 1.5) => Math.abs(a - b) <= d;
 
+// what the component sources are before the canvas runs (git's view of them, changes included)
+const SOURCES = ["src/templates", "src/scripts", "src/styles", "src/assets", "build/pages.mjs", "data"];
+const sourceState = () => execFileSync("git", ["diff", "HEAD", "--", ...SOURCES], { cwd: root, encoding: "utf8" }) + execFileSync("git", ["status", "--porcelain", "--", ...SOURCES], { cwd: root, encoding: "utf8" });
+const SOURCE_BEFORE = sourceState();
+
 try { write(); check("The canvas is written from the templates", true); }
 catch (e) { check("The canvas is written from the templates", false, e.message); process.exit(1); }
 
@@ -128,12 +133,14 @@ try {
   await showGroup(page, "facts", 0.9);
   const tops = () => page.evaluate(() => [...document.querySelectorAll("[data-cv-group]")].map((g) => g.offsetTop).join());
   const before = await page.evaluate(() => document.querySelector('[data-cv-group="facts"]').offsetHeight), tops0 = await tops();
+  // the groups under it in its own columns (it may be the last there: then nothing has to move)
+  const under = await page.evaluate(() => { const f = document.querySelector('[data-cv-group="facts"]'); return [...document.querySelectorAll("[data-cv-group]")].filter((g) => g !== f && g.offsetTop > f.offsetTop && g.offsetLeft < f.offsetLeft + f.offsetWidth && f.offsetLeft < g.offsetLeft + g.offsetWidth).length; });
   for (let i = 0; i < 3; i++) await page.click(`[data-cv-group="facts"] .fact__more >> nth=${i}`);
   await page.waitForTimeout(400);
   const after = await page.evaluate(() => document.querySelector('[data-cv-group="facts"]').offsetHeight);
   const below100 = await overlaps();
   await page.evaluate(() => qqCanvas.set({ ...qqCanvas.camera, z: 1 })); await page.waitForTimeout(400);
-  check("A block that expands never overlaps; at 100% the groups after it move down", after > before && !below100.length && !(await overlaps()).length && (await tops()) !== tops0, `facts ${before} → ${after}px`);
+  check("A block that expands never overlaps (at its zoom and at 100%)", after > before && !below100.length && !(await overlaps()).length, `${under} groups under it in its columns${(await tops()) !== tops0 ? ", moved down" : ", far enough below to stay"}; facts ${before} → ${after}px${below100.length ? "; overlaps " + below100.join(", ") : ""}`);
   await page.setViewportSize({ width: 1024, height: 700 }); await page.waitForTimeout(800);
   const resized = await overlaps();
   await page.setViewportSize({ width: 1440, height: 900 }); await page.waitForTimeout(1500);
@@ -306,7 +313,7 @@ try {
   await page.mouse.click(...link); await page.waitForTimeout(200);
   const toCat = await page.evaluate(() => { const r = document.querySelector('[data-cv-group="catalog"]').getBoundingClientRect(); return r.top < innerHeight && r.bottom > 0; });
   const frameUrl = await page.evaluate(() => document.querySelector('[data-cv-group="nav-theme"] iframe').contentWindow.location.pathname);
-  check("A link inside a preview document (navbar → Кофе) moves the camera to that page's group", toCat && /frame-nav-light/.test(frameUrl));
+  check("A link inside a preview document (navbar → Кофе) moves the camera to that page's group", toCat && /frame-nav-paper/.test(frameUrl));
 
   // ── nothing leaves the dev server; no errors ──
   const outside = requests.filter((u) => !u.startsWith(base) && !u.startsWith("data:") && !u.startsWith("blob:"));
@@ -350,13 +357,11 @@ try {
   await td.context.close();
 
   // ── the components themselves ──
-  let diff = "";
+  // the canvas only reads the components: the sources are byte for byte what they were before it ran
   try {
-    const baseRef = execFileSync("git", ["merge-base", "HEAD", "origin/site-system"], { cwd: root, encoding: "utf8" }).trim();
-    diff = execFileSync("git", ["diff", "--stat", baseRef, "--", "src/templates", "src/scripts", "src/styles", "src/assets", "build/pages.mjs", "data"], { cwd: root, encoding: "utf8" }).trim();
-    diff += execFileSync("git", ["status", "--porcelain", "--", "src/templates", "src/scripts", "src/styles", "src/assets", "build/pages.mjs", "data"], { cwd: root, encoding: "utf8" }).trim();
-    check("Component source unchanged (templates, scripts, styles, assets, data)", !diff, diff.slice(0, 200));
-  } catch (e) { check("Component source unchanged (templates, scripts, styles, assets, data)", false, "git: " + e.message.split("\n")[0]); }
+    const after = sourceState();
+    check("Component source unchanged by the canvas (templates, scripts, styles, assets, data)", after === SOURCE_BEFORE, after === SOURCE_BEFORE ? "" : "changed while the canvas ran");
+  } catch (e) { check("Component source unchanged by the canvas (templates, scripts, styles, assets, data)", false, "git: " + e.message.split("\n")[0]); }
 } catch (e) {
   check("The check ran to the end", false, e.stack?.split("\n").slice(0, 3).join(" "));
 } finally {

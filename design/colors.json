@@ -15,15 +15,19 @@
     "paper":      "#ffffff",
     "cloud":      "#f6f6f6",
     "cloud-70":   "#f6f6f6b3",
-    "line":       "#d5d5d6",
     "graphite":   "#424447",
     "black":      "#000000",
     "white-80":   "#ffffffcc",
     "white-60":   "#ffffff99",
     "white-40":   "#ffffff66",
     "white-30":   "#ffffff4d",
+    "white-20":   "#ffffff33",
     "lavender":   "#b190ec",
     "lavender-ink": "#7f4fc9"
+  },
+  "fades": {
+    "$about": "Fades from clear to a colour, eased (as github.com/enisbu/tw-easing-gradients): a straight two-stop gradient shows a hard edge where it ends; these follow an S-curve in 16 stops, so the photo melts into the ground. build/tokens.mjs writes each as --fade-<name>, the stops of a linear-gradient().",
+    "black": { "color": "black", "curve": [0.42, 0, 0.58, 1], "stops": 16 }
   },
   "contrast": {
     "$about": "text colour / ground / least ratio: 4.5 for text, 3 for large text (24px and up) and the parts of controls. ink-60 is only for large text (the inactive catalog tabs) and parts of controls (the hollow weight dot); ink-50 and lighter only for lines and decoration. Secondary text is ink-70.",

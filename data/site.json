@@ -10,11 +10,14 @@
   },
 
   "nav": {
+    "$about": "The navbar's items at its four steps (src/styles/base/media.css): all the sections in three groups on a wide screen; four short ones below that; then the burger (the menu lists the groups); on a phone the bag, favourites and profile move to the tab bar at the foot of the screen. An item links only to a page that exists: one without a second value is a label without a link until its page is made.",
     "groups": [
-      [["Кофе", "catalog/"], ["Каскара", "catalog/#kaskara"], ["Дрипы", "catalog/#dripy"], ["Сеты", "catalog/#sety"]],
-      [["Кофейням", "#business"], ["Офисам", "#business"]],
-      [["Журнал", "#"], ["Контакты", "#contacts"]]
-    ]
+      [["Кофе", "catalog/"], ["Каскара"], ["Дрипы"], ["Сеты"]],
+      [["Кофейням"], ["Офисам"]],
+      [["Журнал"], ["Контакты"]]
+    ],
+    "short": [["Каталог", "catalog/"], ["Бизнесу"], ["Журнал"], ["Контакты"]],
+    "tabs": [["Каталог", "catalog/", "catalog"], ["Корзина", null, "bag"], ["Избранное", null, "heart"], ["Профиль", null, "profile"]]
   },
 
   "hero": {

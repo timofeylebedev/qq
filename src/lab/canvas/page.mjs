@@ -8,7 +8,7 @@
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { read, esc } from "../../templates/util.mjs";
-import { groups, rendered, cut, REL } from "./variants.mjs";
+import { groups, rendered, cut, REL, GROUNDS } from "./variants.mjs";
 
 const here = import.meta.dirname;
 const WIDEST = 3360;     // a group spans at most two of canvas.js's columns (2 × 1600 + the gap between): wider rows wrap
@@ -90,9 +90,8 @@ export function framePages(d = data()) {
   const pages = rendered(d);
   const without = (html, ...parts) => parts.reduce((h, re) => h.replace(cut(h, re), ""), html);
   return {
-    "frame-nav-light.html": without(pages.frame("light"), /class="footer"/),
-    "frame-nav-dark.html": without(pages.frame("dark"), /class="footer"/),
-    "frame-stage.html": without(pages.product, /class="nav"/, /class="footer"/, /class="pstory"/, /class="section similar"/)
+    ...Object.fromEntries(GROUNDS.map(([g]) => [`frame-nav-${g}.html`, without(pages.frame(g), /class="footer"/)])),
+    "frame-stage.html": without(pages.product, /class="nav"/, /class="tabbar"/, /class="footer"/, /class="pstory"/, /class="section similar"/)
   };
 }
 
