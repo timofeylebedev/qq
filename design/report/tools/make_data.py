@@ -204,7 +204,7 @@ A2 = {r['size']: (o, r) for o, r in zip(R2['old'], R2['new'])}
 def a2(size, key): return A2[size][1][key]
 def a2was(size, key): return A2[size][0][key]
 PR2 = 'https://github.com/timofeylebedev/qq/pull/3'
-PR3 = 'https://github.com/timofeylebedev/qq/pulls'
+PR3 = 'https://github.com/timofeylebedev/qq/pull/5'
 shots_r2 = [
     {'title': 'Navbar at 1440', 'src': 'shots/r2-navbar-1440.jpg', 'text': 'No lines between the groups (16px of air instead); the profile icon added; the bar\'s own margin is the small 16px; colours of the section under it (black over the hero).'},
     {'title': 'Navbar hover at 1440', 'src': 'shots/r2-navbar-hover-1440.jpg', 'text': 'Before: the other links dimmed to 60%. After: only the item under the pointer changes, a white tint at 20% behind it (ink at 6% on light grounds).'},

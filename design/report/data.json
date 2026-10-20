@@ -3,7 +3,7 @@
   "key": "qq-system-report",
   "title_tag": "QQ Site System",
   "name": "QQ Coffee <span>· the site system</span>",
-  "eyebrow": "Round 3 · branch round-3 · <a href='https://github.com/timofeylebedev/qq/pulls'>pull request</a> · <a href='https://timofeylebedev.github.io/qq/'>test site</a> · <a href='https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website'>Figma</a>",
+  "eyebrow": "Round 3 · branch round-3 · <a href='https://github.com/timofeylebedev/qq/pull/5'>pull request</a> · <a href='https://timofeylebedev.github.io/qq/'>test site</a> · <a href='https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website'>Figma</a>",
   "title": "One fluid size system for home, catalog and 25 coffee pages; round 3: the footer in squares, cards that are links, blocks that open, pages that flow",
   "lede": "The whole system of the QQ Coffee site: 34 size roles drawn as lines from a 320 to a 1440 screen, three shared layout steps and the column at its most, one colour table with one line colour, one motion vocabulary, the 3D packs. Round 3 brought PT Mono and the animated flame, two square halves for the footer, whole-card links, a recommended row that runs to the screen's edges with cards rising in, new arrivals in two equal squares, info blocks that grow into a modal, eased fades everywhere and a card that opens its coffee in one move; the packs no longer tilt with the scroll. Measured at every 10px of width and 25px of height; «before» is round 2's build.",
   "footer": "Measured in headless Chromium on the built sites, 2026-10-20. Before = round 2 (branch round-2, commit 7c5f586); now = branch round-3. Round 2's «before» was round 1's build, round 1's the Figma frames."
