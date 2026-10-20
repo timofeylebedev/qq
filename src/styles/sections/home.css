@@ -69,8 +69,9 @@
 .hero__now { grid-area: 1 / 1; } .hero__count { grid-area: 2 / 1; } .hero__caption { grid-area: 3 / 1; }
 .hero__now { white-space: nowrap; }
 /* the caption keeps one line wherever it fits (its own width), else takes two, balanced; in the narrowest cells (a
-   280 screen, a big browser text) it grows no larger than its longer line «До ближайшей» (8.6em, a little air: 8.8) allows */
-.hero__roast > .hero__caption { width: max-content; text-wrap: balance; font-size: min(var(--type-control), ((100cqi + 2 * var(--bleed)) / 2 - 2 * var(--gutter)) / 8.8); }   /* 100cqi: the column; a cell is half of it and its bleed (no container of its own: it would undo the shared rows) */
+   280 screen, a big browser text) it grows no larger than its longer line «До ближайшей» allows (8.6–9em, by the
+   browser's rendering; 9.4 leaves air), never under 12px */
+.hero__roast > .hero__caption { width: max-content; text-wrap: balance; font-size: max(12px, min(var(--type-control), ((100cqi + 2 * var(--bleed)) / 2 - 2 * var(--gutter)) / 9.4)); }   /* 100cqi: the column; a cell is half of it and its bleed (no container of its own: it would undo the shared rows) */
 .hero__now { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
 .hero__now > :first-child { justify-self: start; }
 .hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
