@@ -1,5 +1,4 @@
-// The navbar and the tab bar take the colours of the section under them; the menu behind the burger (a plain list
-// for now, not designed yet).
+// The navbar and the tab bar take the colours of the section under them; the menu behind the burger.
 //
 // Every section says its ground (data-ground: paper, cloud, black, ink). A bar changes only once it stands wholly over
 // one section (its whole height inside the section's box), and its colours cross over smoothly (nav.css); while a
@@ -51,15 +50,19 @@ export function initNav() {
   addEventListener("resize", queue, { passive: true });
   update();
 
+  // the logo on the home page is not a link (it would reload the page): a click takes the page back to its top
+  nav.querySelector("[data-to-top]")?.addEventListener("click", () => scrollTo({ top: 0 }));
+
   const button = nav.querySelector("[data-menu-button]"), menu = nav.querySelector("[data-menu]");
   if (!button || !menu) return;
+  // open, the menu slides in from under the bar (nav.css); closed, it is hidden from the reader and the keyboard too
+  const isOpen = () => nav.hasAttribute("data-open");
   const set = (open) => {
     button.setAttribute("aria-expanded", String(open));
-    menu.hidden = !open;
     nav.toggleAttribute("data-open", open);
   };
-  button.addEventListener("click", () => set(menu.hidden));
-  addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { set(false); button.focus(); } });
+  button.addEventListener("click", () => set(!isOpen()));
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) { set(false); button.focus(); } });
   menu.addEventListener("click", (e) => { if (e.target.closest("a[href]")) set(false); });
   matchMedia("(width >= 48em)").addEventListener("change", (e) => { if (e.matches) set(false); });
 }

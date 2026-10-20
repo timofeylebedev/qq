@@ -8,13 +8,16 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-leave: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-glass: linear;   /* a segment of the countdown's digits turning on or off, as on LCD glass (--t-seg-on/off: digits.json) */
   --t-in: 0.2s;
   --t-out: 0.45s;
   --t-move: 0.6s;
-  --t-rise: 0.9s;         /* a block rising into place once, when the page opens (the hero's cells) */
+  --t-rise: 0.9s;         /* a block rising into place (a card of a row coming into view) */
+  --t-intro: 1.4s;
+  --t-wait: 3s;           /* how long the hero waits hidden for its entrance's script before it shows anyway */        /* the hero's dock rising into place when the page opens; its parts follow one by one (scripts/hero.js) */
 }
 @media (--calm) {
-  :root { --t-in: 0s; --t-out: 0s; --t-move: 0s; --t-rise: 0s; }
+  :root { --t-in: 0s; --t-out: 0s; --t-move: 0s; --t-rise: 0s; --t-intro: 0s; --t-seg-on: 0s; --t-seg-off: 0s; }
   html { scroll-behavior: auto !important; }
 }
 

@@ -1,8 +1,7 @@
 /* The faces of the site (made by build/fonts.py). Apercu Pro for text, PT Mono Bold for headings and names
-   (design/decisions.json "font-headings"), Technology Bold for the digits
-   of the roast countdown. */
+   (design/decisions.json "font-headings"). The countdown's digits are not a font: QQ Digits are drawn as SVG
+   segments (build/digits.mjs, design/digits.json). */
 @font-face { font-family: "Apercu"; src: url("../../assets/fonts/apercu-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Apercu"; src: url("../../assets/fonts/apercu-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
 @font-face { font-family: "Apercu"; src: url("../../assets/fonts/apercu-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
 @font-face { font-family: "PT Mono"; src: url("../../assets/fonts/pt-mono-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
-@font-face { font-family: "Technology"; src: url("../../assets/fonts/technology-700.woff2") format("woff2"); font-weight: 700; font-display: block; }

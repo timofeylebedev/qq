@@ -1,9 +1,6 @@
 # The fonts of the site, made from the originals in assets-src/fonts (npm run fonts; needs `pip install fonttools brotli`).
 #
 #   Apercu Pro 400 / 500 / 700  the text face (from the designer): Latin, Cyrillic, punctuation, ₽, arrows
-#   Technology 700              the digits of the roast countdown: only 0–9 and the colon (about 2 KB), made
-#                               tabular here (every digit as wide as the widest, drawn in its middle), so the
-#                               countdown does not shift as it ticks and is always as wide as its caption
 #   PT Mono 700                 the headings and names (ParaType, from Tim, round 3; the ParaType Free Font
 #                               Licence allows embedding on web pages), cut to the same characters as the text face
 #
@@ -22,7 +19,6 @@ TEXT = ",".join([
     "U+2010-2015", "U+2018-201E", "U+2022", "U+2026", "U+2032-2033", "U+2039-203A",
     "U+20BD", "U+2116", "U+2190-2193", "U+2212", "U+2248", "U+2260", "U+2264-2265",
 ])
-DIGITS = "U+0030-003A"
 
 
 def tabular(font, chars="0123456789"):
@@ -59,5 +55,4 @@ def make(name, unicodes, features="kern,liga,lnum,tnum,case,ss01", tab=False):
 
 for w in (400, 500, 700):
     make(f"apercu-{w}", TEXT)
-make("technology-700", DIGITS, "kern", tab=True)
 make("pt-mono-700", TEXT, "kern,liga,case")

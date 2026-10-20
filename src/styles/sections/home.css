@@ -1,119 +1,174 @@
 /* The blocks of the home page. */
 
 /* ── hero ───────────────────────────────────────────────────────────────────────────────────────────────────────
-   A black screen with the roast photo, and at its foot the cells: the title, the countdown to the next roast, three
-   links. The cells sit on the content column like everything else (the title starts at the edge of every heading
-   below); the hairline above them runs the full width, and once the column has stopped at its 1520px it is framed
-   by a hairline on each side as well.
+   A black screen with the roast photo, the title, and a dock of two cells at the photo's foot: the countdown to the
+   next roast and three links. Each of the two has three parts (the day and the time, the digits, the caption;
+   «Каталог», «Бизнесу», «Контакты») and they line up part by part:
+        below M    the title at the top of the section; under the photo the dock in two columns, three shared rows
+        M → L      the title at the top; the dock in two rows, three shared columns (the parts side by side)
+        from L     one row of three cells, the title first, the dock's three shared rows beside it
+   Every cell owns its padding, the same on both sides (Tim, round 6): the gutter, so its text still starts where
+   the page's column does. Below the column's max the cells run to the screen's edges (the grid reaches over the
+   gutters), so their hairlines do too and no padding of a higher box shows; from the max they are framed.
 
-   Height: the screen less a 24px peek of what follows (and less the tab bar on a phone), at most --hero-max (a tall
-   portrait screen, a 2560 one), and never less than the cells, the fade and --hero-photo of photo under the navbar
-   need (a phone sideways: there the hero is taller than the screen, its cells come first).
+   Height: the screen less a 24px peek of what follows (and less the tab bar on a phone), at most --hero-max, and
+   never less than its parts need (a phone sideways: there the hero is taller than the screen).
 
-   Cells: one column; from M the title above and two cells under it; from L three in a row. The countdown and the
-   links share three equal rows, so the day and the time stand beside «Каталог», the digits beside «Бизнесу» and the
-   caption beside «Контакты». Everything in the countdown is as wide as its caption «До ближайшей обжарки». The text
-   of every cell is trimmed to its capitals and baseline, so a cell's padding is the space you see.
-   From L the title fills its cell: its longest word «обжарки» (4.55em) runs from the cell's edge to its padding, so
-   the title grows with the column, until it reaches its size at the column's 1520px (88px at 1440, 90px from about
-   1500 on, never less as the frame comes in; decision
-   "hero-title-fills-cell"), and its three lines with their padding set the height of the cells: the three rows
-   share it. The hairlines between cells run out to the screen's edges beside the column; once the column stops,
-   they stop at its frame. The whole block (the fade, the hairline above and the cells) rises in when the page opens. */
+   The title: from L it fills its cell, «обжарки» (4.55em) from padding to padding, between 48px and --type-display
+   (88px at most, both on the ladder; decision "hero-title-fills-cell"), its three lines setting the height of the
+   cells; below L it is --type-display (48 → 88), at most two words a line (Tim, round 6), at the top over an eased
+   fade from the navbar's black. The text of every cell is trimmed to its capitals and baseline, so a cell's padding
+   is the space you see. The countdown's digits are as wide as its caption, or as their cell allows where the
+   caption has to take two lines (decision "countdown-as-caption"). The whole dock rises in when the page opens,
+   and inside it each cell part by part, the title line by line (scripts/hero.js). */
 .hero {
   position: relative; display: flex; flex-direction: column; justify-content: flex-end;
   min-height: min(100vh - 24px - var(--tabbar-h), var(--hero-max)); min-height: min(100svh - 24px - var(--tabbar-h), var(--hero-max));
-  padding-top: calc(var(--nav-h) + var(--hero-photo)); background: var(--c-black); color: var(--c-paper); overflow: hidden;
+  padding-top: var(--nav-h); background: var(--c-black); color: var(--c-paper); overflow: hidden;
 }
 .hero__bg { position: absolute; inset: 0; }
 .hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; opacity: 0.85; }
 @media (--motion) { .hero__bg img { animation: hero-drift 40s var(--ease-move) infinite alternate; } }
 @keyframes hero-drift { to { transform: scale(1.08) translate(-1.5%, -1%); } }
 
-/* one eased fade (colors.json fades.hero) from the photo into black, laid under the whole block, cells and all (no
-   solid band: Tim, round 5); --hero-fade of it stands above the hairline over the cells */
-.hero__info { position: relative; padding-top: var(--hero-fade); background: linear-gradient(to bottom, var(--fade-hero)); }
-.hero__info::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); }
-@media (--motion) { .hero__info { animation: hero-rise var(--t-rise) var(--ease-out) var(--t-in) both; } }
-@keyframes hero-rise { from { opacity: 0; transform: translateY(var(--section-gap)); } }
-
-.hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.hero__info { position: relative; display: flex; flex-direction: column; flex: 1; }
+.hero__info > .col { display: flex; flex: 1; }
+/* the cells reach over the gutters to the screen's edges (until the column stops, below) */
+.hero__grid { --bleed: var(--gutter); position: relative; isolation: isolate; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: var(--hero-photo); margin-inline: calc(-1 * var(--bleed)); min-width: 0; }
 .hero__grid > * { min-width: 0; }
-.hero__title, .hero__now, .hero__caption, .hero__link > span, .hero__count > * { text-box: trim-both cap alphabetic; }
-.hero__title { align-self: center; padding-block: calc(var(--hero-cell-y) * 2); font-size: var(--type-display); line-height: var(--lh-display); }
-.hero__title span { display: block; }
+.hero__title, .hero__now, .hero__caption, .hero__link > span, .hero__count > .hero__date { text-box: trim-both cap alphabetic; }
 
-/* the countdown: three rows of one width, the caption's (13.9em of its own size: measured, build/audit.mjs) */
-/* below M nothing stands beside the countdown, so its rows take what they need; from M they share the links' rows */
-.hero__roast, .hero__links { --out-l: var(--gutter); --out-r: var(--gutter); display: grid; }
-.hero__roast::before, .hero__links::before, .hero__links li + li::before { content: ""; position: absolute; top: 0; left: calc(-1 * var(--out-l, 0px)); right: calc(-1 * var(--out-r, 0px)); border-top: var(--hair) solid var(--line); pointer-events: none; }
-.hero__links { position: relative; }
+/* below L the title stands at the top, over a fade from the navbar's black (colors.json fades.top, laid upside
+   down from above the section to --hero-fade past the title's foot) */
+.hero__title {
+  position: relative; isolation: isolate; padding: var(--gutter); padding-right: max(var(--gutter), 100% - 11em - var(--gutter));
+  font-size: var(--type-display); line-height: var(--lh-display); text-wrap: wrap;
+}
+.hero__title::before { content: ""; position: absolute; z-index: -1; inset: calc(-1 * var(--nav-h)) 0 calc(-1 * var(--hero-fade)); background: linear-gradient(to top, var(--fade-top)); pointer-events: none; }
+
+/* the dock: the countdown and the links, over the eased fade into black (colors.json fades.hero) with its lead-in
+   (--hero-fade) above the hairline */
+.hero__dock {
+  position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); align-self: stretch;
+  padding-top: var(--hero-fade); background: linear-gradient(to bottom, var(--fade-hero));
+}
+.hero__dock::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); pointer-events: none; }
+.hero__roast, .hero__links { position: relative; display: grid; grid-row: 1 / 4; grid-template-rows: subgrid; }
+.hero__links { grid-column: 2; border-left: var(--hair) solid var(--line); }
 .hero__links li { position: relative; }
-.hero__links { grid-template-rows: repeat(3, 1fr); }
+.hero__links li + li::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: var(--hair) solid var(--line); pointer-events: none; }
+
+/* the countdown: its parts one width, the caption's (13.9em of its own size), or the cell's where that is less */
 .hero__roast {
   --dial: 13.9em;
-  position: relative; justify-items: center; align-items: center; text-align: center;
+  grid-column: 1; grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center; text-align: center; padding-inline: var(--gutter);
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
 }
 .hero__roast > :not(.hero__note) { width: var(--dial); max-width: 100%; padding-block: var(--hero-cell-y); }
-.hero__now, .hero__caption { white-space: nowrap; }
+.hero__now { white-space: nowrap; }
+/* the caption keeps one line wherever it fits (its own width), else takes two, balanced; in the narrowest cells (a
+   280 screen, a big browser text) it grows no larger than its longer line «До ближайшей» (8.6em, a little air: 8.8) allows */
+.hero__roast { container-type: inline-size; }
+.hero__roast > .hero__caption { width: max-content; text-wrap: balance; font-size: min(var(--type-control), 100cqi / 8.8); }
 .hero__now { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
 .hero__now > :first-child { justify-self: start; }
 .hero__clock { font-feature-settings: "lnum" 1, "tnum" 1; }
 .hero__info-btn { justify-self: end; display: grid; place-items: center; width: 40px; height: 40px; margin: -12px -10px; transition: background-color var(--t-out) var(--ease-out); }
 .hero__info-btn[aria-expanded="true"] { background-color: var(--tint); }   /* open: it stays lit, as when hovered */
 .hero__info-btn svg { width: 20px; height: 20px; }
-.hero__count { display: flex; align-items: center; justify-content: center; }
-/* the digits and the date as wide as the caption: the caption is 13.9em of the control size, the eight digits 3em
-   of their own (tabular: build/fonts.py), a date of n letters in mono 0.65em each (scripts/roast.js gives --n) (a written exception: decisions.json "countdown-as-caption") */
-.hero__count .digits { font-size: calc(var(--type-control) * 13.9 / 3); }
-.hero__count [data-roast-count]:not([data-live]) { opacity: 0.25; }
-.hero__date { font: 700 calc(var(--type-control) * 13.9 / (0.65 * var(--n, 10))) / 1 var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; }
-.hero__note {
-  grid-row: 2 / 4; grid-column: 1; z-index: 1; align-self: stretch; justify-self: stretch; display: grid; place-items: center;
-  padding: var(--hero-cell-y) 0;
-  font: 400 var(--type-body) / var(--lh-text) var(--sans); font-size: max(16px, var(--type-body)); text-transform: none; letter-spacing: 0; color: var(--c-white-80);   /* 16px at every size (Tim, round 5) */
-}
-.hero__note { text-box: trim-both cap alphabetic; text-wrap: balance; }   /* trimmed to its capitals and baseline: centred by what you see */
-.hero__note[hidden] { display: none; }
-/* open, the note takes the place of the digits and the caption (no ground of its own: the fade shows through) */
-.hero__roast:has(.hero__note:not([hidden])) > :is(.hero__count, .hero__caption) { visibility: hidden; }
+/* the digits: QQ Digits as SVG segments (build/digits.mjs), «00:00:00» drawn 3em wide, so as wide as their box; the
+   date (more than a day to wait) fills the box with its letters, 0.65em each in mono (scripts/roast.js gives --n) */
+.hero__count { display: grid; place-items: center; container-type: inline-size; }
+.hero__count > * { grid-area: 1 / 1; }
+.hero__date { font: 700 max(var(--type-small), calc(100cqi / (0.65 * var(--n, 10)))) / 1 var(--mono); letter-spacing: var(--track-mono); white-space: nowrap; }
+.digits { width: 100%; height: auto; overflow: visible; fill: currentColor; }
+.digits .sg { fill-opacity: var(--trace-dark); transition: fill-opacity var(--t-seg-off) var(--ease-glass); }
+.digits .sg.on { fill-opacity: 1; transition-duration: var(--t-seg-on); }
+.hero__count .digits[hidden] { display: none; }
 
+/* the «i» opens a note in the countdown's place: laid over the whole cell (it never makes the cell taller) and centred
+   on it by what you see (trimmed, balanced), the day row hidden but the «i» kept where it is; as much air on both
+   sides of the text as the «i» needs, so the text never runs into it and stays in the middle (Tim, round 6) */
+.hero__note {
+  position: absolute; inset: 0; z-index: 1; display: grid; place-items: center;
+  padding: calc(var(--hero-cell-y) * 2 + 20px) var(--gutter);
+  font: 400 var(--type-body) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
+  text-box: trim-both cap alphabetic; text-wrap: balance;
+}
+.hero__note[hidden] { display: none; }
+.hero__roast:has(.hero__note:not([hidden])) > :is(.hero__count, .hero__caption, .hero__now) { visibility: hidden; }
+.hero__roast:has(.hero__note:not([hidden])) .hero__info-btn { visibility: visible; }
 
 .hero__link {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  min-height: 56px; height: 100%; padding-block: var(--hero-cell-y);
+  min-height: 56px; height: 100%; padding: var(--hero-cell-y) var(--gutter);
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
   transition: background-color var(--t-out) var(--ease-out);
 }
-.hero__link svg { width: 32px; height: 32px; }
+.hero__link svg { flex: none; width: 32px; height: 32px; }
 @media (--mouse) {
   .hero__link:hover, .hero__info-btn:hover { background-color: var(--tint); transition-duration: var(--t-in); }
 }
 
+/* the entrance (scripts/hero.js): from the first frame the parts wait hidden (html[data-intro], set in <head> unless
+   «reduce motion»), and the script takes them from there; should it never run, they fade in after --t-wait */
+html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: hero-wait var(--t-in) var(--ease-out) var(--t-wait) both; }
+@keyframes hero-wait { from { opacity: 0; } }
+/* while split into lines (the entrance), the title's trim moves onto its first and last line, so its height holds */
+.hero__title > .hero__line:first-child { text-box: trim-start cap alphabetic; }
+.hero__title > .hero__line:last-child { text-box: trim-end cap alphabetic; }
 
+/* M → L: the dock in two rows, the countdown's parts side by side over the three links */
 @container col (width >= 43rem) {
-  .hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto repeat(3, 1fr); }
-  .hero__title { grid-column: 1 / -1; }
-  .hero__roast, .hero__links { grid-row: 2 / 5; grid-template-rows: subgrid; }
-  .hero__roast { --out-r: 0px; }
-  .hero__links { --out-l: 0px; }
-  .hero__roast { padding-inline: var(--tile-pad); }
-  .hero__links { border-left: var(--hair) solid var(--line); }
-  .hero__link { padding-inline: var(--block-pad); }
+  .hero__dock { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto; }
+  .hero__roast, .hero__links { grid-row: auto; grid-column: 1 / -1; grid-template-rows: none; grid-template-columns: subgrid; }
+  .hero__roast { grid-row: 1; padding-inline: 0; }
+  .hero__roast > :not(.hero__note) { width: auto; max-width: none; justify-self: stretch; padding-inline: var(--gutter); }
+  .hero__roast > .hero__count { justify-self: center; width: min(var(--dial), 100% - 2 * var(--gutter)); padding-inline: 0; }
+  .hero__links { grid-row: 2; border-left: 0; }
+  .hero__links::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: var(--hair) solid var(--line); pointer-events: none; }
+  .hero__links li + li { border-left: var(--hair) solid var(--line); }
+  .hero__links li + li::before { content: none; }
+  .hero__note { left: calc(100% / 3); padding: 8px var(--gutter); }   /* side by side: over the digits and the caption, beside the «i» */
 }
+/* from L: one row of three cells; the title fills its cell, and the cells share three rows */
 @container col (width >= 58rem) {
-  .hero__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); }
-  .hero__title { grid-column: auto; grid-row: 1 / 4; padding-right: var(--block-pad); font-size: max(var(--type-display), min(calc((100cqi / 3 - var(--block-pad)) / 4.55), calc((var(--col-max) / 3 - 2 * var(--block-pad)) / 4.55))); }
-  .hero__roast, .hero__links { grid-row: 1 / 4; border-left: var(--hair) solid var(--line); }
-  .hero__roast::before, .hero__links::before { content: none; }
+  /* the row stands at the photo's foot, at least --hero-photo under the navbar, over the eased fade into black
+     (fades.hero) with its lead-in above the hairline; the fade and the hairline run the screen's whole width, past
+     the frame too (the hero clips them) */
+  .hero__grid {
+    --cell: calc((100cqi + 2 * var(--bleed)) / 3);
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); gap: 0;
+    flex: 1; align-self: flex-end; margin-top: calc(var(--hero-photo) + var(--hero-fade));
+  }
+  .hero__grid::before, .hero__grid::after { content: ""; position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); pointer-events: none; }
+  .hero__grid::before { z-index: -1; top: calc(-1 * var(--hero-fade)); bottom: 0; background: linear-gradient(to bottom, var(--fade-hero)); }
+  .hero__grid::after { top: 0; border-top: var(--hair) solid var(--line); }
+  .hero__title {
+    grid-row: 1 / 4; align-self: center; padding-right: var(--gutter);
+    font-size: max(48px, min(var(--type-display), (var(--cell) - 2 * var(--gutter)) / 4.55));
+  }
+  .hero__title::before { content: none; }
+  .hero__dock { grid-column: 2 / 4; grid-row: 1 / 4; grid-template-columns: subgrid; grid-template-rows: subgrid; padding-top: 0; background: none; }
+  .hero__dock::before { content: none; }
+  .hero__roast, .hero__links { grid-row: 1 / 4; grid-column: auto; grid-template-columns: none; grid-template-rows: subgrid; border-left: var(--hair) solid var(--line); }
+  .hero__roast { padding-inline: var(--gutter); }
+  .hero__roast > :not(.hero__note), .hero__roast > .hero__count { width: var(--dial); max-width: 100%; justify-self: center; padding-inline: 0; }
+  .hero__roast > .hero__caption { width: max-content; }
+  .hero__links::before { content: none; }
+  .hero__links li + li { border-left: 0; }
+  .hero__links li + li::before { content: ""; }
+  .hero__note { left: 0; padding: calc(var(--hero-cell-y) * 2 + 20px) var(--gutter); }
 }
-/* the column at its most (the step max, 1520px): the margins grow beside it, so the cells are framed by a hairline
-   on each side, and the title stands off the left one as the links do */
+/* the column at its most (the step max, 1520px): the margins grow beside it, so the cells stay on the column,
+   framed by a hairline on each side. Also as a page condition (--framed: a screen of 1616px, where the column is
+   at its most at any height): Safari zoomed out measures the column's container query in its own units, and the
+   frame vanished (Tim, round 6) */
 @container col (width >= 1520px) {
-  .hero__grid { border-inline: var(--hair) solid var(--line); }
-  .hero__title { padding-left: var(--block-pad); }
-  .hero__links li { --out-r: 0px; }
+  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); border-inline: var(--hair) solid var(--line); }
+}
+@media (--framed) {
+  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); border-inline: var(--hair) solid var(--line); }
 }
 
 /* ── new arrivals ───────────────────────────────────────────────────────────────────────────────────────────────
@@ -242,7 +297,8 @@
   .fact__open { padding-inline: var(--block-pad); }
   .fact:first-child .fact__open { padding-left: 0; }
 }
-@container col (width >= 1520px) { .fact:first-child .fact__open { padding-left: var(--block-pad); } .facts__list { border-inline: var(--hair) solid var(--line); } }
+@container col (width >= 1520px) { .fact:first-child .fact__open { padding-left: var(--block-pad); } .facts__list { border-inline: var(--hair) solid var(--line); } .fact + .fact::before { left: 0; right: 0; } }
+@media (--framed) { .fact:first-child .fact__open { padding-left: var(--block-pad); } .facts__list { border-inline: var(--hair) solid var(--line); } .fact + .fact::before { left: 0; right: 0; } }   /* the same, for Safari zoomed out (media.css --framed) */
 
 /* the modal: the screen dimmed, a white box in its middle (from 40em; on a phone a sheet at the foot of the screen,
    as wide as it). The box: the icon, the title, the text; the cross in its corner; at its foot a row of two cells

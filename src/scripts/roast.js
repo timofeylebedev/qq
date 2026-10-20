@@ -5,6 +5,8 @@ const DAYS_LONG = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
 const DAYS_SAY = ["в воскресенье", "в понедельник", "во вторник", "в среду", "в четверг", "в пятницу", "в субботу"];
 const MONTHS_SHORT = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
+import { setDigits } from "./digits.js";
+
 const pad = (n) => String(n).padStart(2, "0");
 // 1 час, 2 часа, 5 часов
 const plural = (n, [one, few, many]) => n % 10 === 1 && n % 100 !== 11 ? one : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? few : many;
@@ -28,7 +30,7 @@ export function initRoast() {
     const day = el.querySelector("[data-roast-day]"), clock = el.querySelector("[data-roast-clock]");
     const date = el.querySelector("[data-roast-date]"), say = el.querySelector("[data-roast-say]");
     const count = el.querySelector("[data-roast-count]"), hours = el.querySelector("[data-roast-hours]"), ship = el.querySelector("[data-ship-date]");
-    const inn = el.querySelector("[data-roast-in]");
+    const inn = el.querySelector("[data-roast-in]"), digits = el.querySelector("svg.digits");
     const tick = () => {
       const { now, at } = nextRoast(cfg);
       const left = Math.max(0, Math.floor((at - now) / 1000));
@@ -36,7 +38,9 @@ export function initRoast() {
       if (clock) clock.textContent = `${pad(now.getUTCHours())}:${pad(now.getUTCMinutes())}`;
       // more than a day to wait (a weekend): the day of the roast instead of the digits, «Пт, 9 Окт»
       const far = left > 24 * 3600;
-      if (count) { count.textContent = `${pad(Math.floor(left / 3600))}:${pad(Math.floor(left / 60) % 60)}:${pad(left % 60)}`; count.dataset.live = ""; count.hidden = far && !!date; }
+      const text = `${pad(Math.floor(left / 3600))}:${pad(Math.floor(left / 60) % 60)}:${pad(left % 60)}`;
+      if (count) count.textContent = text;
+      if (digits) { setDigits(digits, text); digits.hidden = far && !!date; }
       if (date) {
         date.hidden = !far;
         if (far) { date.textContent = `${DAYS_LONG[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS_SHORT[at.getUTCMonth()]}`; date.style.setProperty("--n", date.textContent.length); }

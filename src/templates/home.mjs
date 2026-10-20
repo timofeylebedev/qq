@@ -2,6 +2,7 @@
 import { page, head, arrows } from "./layout.mjs";
 import { card, pills, tasteChart, cardText } from "./components.mjs";
 import { esc, icon, href, picture, cls } from "./util.mjs";
+import { digitsSVG } from "../../build/digits.mjs";
 
 export function render(ctx) {
   const { site, products } = ctx;
@@ -20,9 +21,12 @@ export function render(ctx) {
   });
 }
 
-// The hero: a photo and, at its foot, the title, the roast countdown and three links. The countdown and the links
-// share three rows (the day and the time beside «Каталог», the digits beside «Бизнесу», the caption beside
-// «Контакты»); the title is set word under word, always three lines.
+// The hero: a photo, the title, the roast countdown and three links. The countdown and the links stand in a dock
+// at the foot of the photo; their three parts each (the day and the time, the digits, the caption; «Каталог»,
+// «Бизнесу», «Контакты») line up: in three shared rows from L (the title beside them) and below M, in three shared
+// columns between M and L. From L the title is the first of three cells in a row; below L it stands at the top of
+// the section, two words a line at most. The digits are QQ Digits drawn as SVG segments (build/digits.mjs), all
+// unlit until the script lights them (scripts/digits.js).
 function hero(ctx) {
   const { hero, roast } = ctx.site;
   const data = esc(JSON.stringify({ days: roast.days, hour: roast.hour, tz: roast.timezoneOffset }));
@@ -30,15 +34,17 @@ function hero(ctx) {
   ${picture("hero-roast", "", { sizes: "100vw", cls: "hero__bg", eager: true, decorative: true })}
   <div class="hero__info">
     <div class="col"><div class="hero__grid">
-      <h1 class="hero__title" id="hero-title">${hero.title.split(" ").map((w) => `<span>${esc(w)}</span>`).join(" ")}</h1>
-      <div class="hero__roast" data-roast="${data}">
-        <p class="hero__now"><span data-roast-day>&nbsp;</span><span class="hero__clock" data-roast-clock>&nbsp;</span>
-          <button class="hero__info-btn" type="button" aria-expanded="false" aria-controls="roast-note" aria-label="Как мы обжариваем" data-toggle>${icon("info")}</button></p>
-        <p class="hero__count"><span class="sr" data-roast-say>Следующая обжарка через </span><span class="digits" data-roast-count>00:00:00</span><span class="hero__date" data-roast-date hidden></span></p>
-        <p class="hero__caption" aria-hidden="true">До ближайшей обжарки</p>
-        <p class="hero__note" id="roast-note" hidden>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</p>
+      <h1 class="hero__title" id="hero-title" data-hero-title>${esc(hero.title)}</h1>
+      <div class="hero__dock">
+        <div class="hero__roast" data-roast="${data}">
+          <p class="hero__now" data-hero-part><span data-roast-day>&nbsp;</span><span class="hero__clock" data-roast-clock>&nbsp;</span>
+            <button class="hero__info-btn" type="button" aria-expanded="false" aria-controls="roast-note" aria-label="Как мы обжариваем" data-toggle>${icon("info")}</button></p>
+          <p class="hero__count" data-hero-part><span class="sr"><span data-roast-say>Следующая обжарка через </span><span data-roast-count>00:00:00</span></span>${digitsSVG("00:00:00", { lit: false })}<span class="hero__date" data-roast-date hidden></span></p>
+          <p class="hero__caption" aria-hidden="true" data-hero-part>До ближайшей обжарки</p>
+          <p class="hero__note" id="roast-note" hidden>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</p>
+        </div>
+        <ul class="hero__links">${hero.links.map(([t, to, ic]) => `<li data-hero-part><a class="hero__link" href="${href(ctx, to)}"><span>${esc(t)}</span>${icon(ic)}</a></li>`).join("")}</ul>
       </div>
-      <ul class="hero__links">${hero.links.map(([t, to, ic]) => `<li><a class="hero__link" href="${href(ctx, to)}"><span>${esc(t)}</span>${icon(ic)}</a></li>`).join("")}</ul>
     </div></div>
   </div>
 </section>`;

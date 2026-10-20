@@ -27,12 +27,13 @@ ladder.
 ### Type
 
 Two voices: **mono** (PT Mono Bold, in capitals, tracked 0.05em) for names and headings (decision `font-headings`); **sans** (Apercu Pro) for everything you
-read. The countdown is Technology Bold (made tabular by `build/fonts.py`), sized so it is exactly as wide as its caption
-«До ближайшей обжарки» (decision `countdown-as-caption`); a date in its place is set in the mono.
+read. The countdown's digits are QQ Digits, seven-segment digits drawn as SVG by the build (`build/digits.mjs` from
+`design/digits.json`; decision `qq-digits`), «00:00:00» 3em wide, as wide as its caption «До ближайшей обжарки» or as
+its cell where the caption takes two lines (decision `countdown-as-caption`); a date in its place is set in the mono.
 
 | Role | 320 → 1440 | Family | Used by |
 |---|---|---|---|
-| `type/display` | 40 → 64 | mono | the hero title «Кофе свежей обжарки» |
+| `type/display` | 48 → 88 | mono | the hero title «Кофе свежей обжарки» (from L it fills its cell, between 48 and this) |
 | `type/h2` | 32 → 48 | mono | section headings, the catalog tabs, the product's name on its page |
 | `type/h3` | 28 → 40 | mono | headings of the image blocks (approach, about) |
 | `type/title` | 22 → 32 | mono | the name of the featured coffee |
@@ -84,14 +85,17 @@ changes its layout when the column reaches one of three shared widths:
 | Step | Column | Viewport (about) | What changes |
 |---|---|---|---|
 | S | 22rem (352px) | 390 | the featured coffee's facts side by side; the footer's links in two columns |
-| M | 43rem (688px) | 768 (with room for a classic scrollbar) | two columns of cards; image blocks side by side; three info blocks; the hero title over two cells |
+| M | 43rem (688px) | 768 (with room for a classic scrollbar) | two columns of cards; image blocks side by side; three info blocks; the hero's countdown and links side by side in two rows |
 | L | 58rem (928px) | 1024 | three columns of cards (the catalog: halves, then thirds); the featured coffee as two squares; the hero in a row of three; the product's fact tiles scattered; the buy bar in one row; the footer in two halves |
 
 Full-width blocks (hero, image blocks, info blocks, footer, buy bar) put their content on the column too, so they
 change together with everything else and every block's text starts at the same edge. The only page-level steps:
-the navbar's four steps (`media.css`): every section from 64em (the screen of L), four short ones from 48em (the screen
+the navbar's four steps (`media.css`): every section from 70em (1120px: its eight link cells need the room), four short ones from 48em (the screen
 of M), the burger below, and under 40em a tab bar at the foot of the screen with the catalog, bag, favourites and
-profile. One more container step, `max` (1520px), is the column at its most: the hero frames its cells there.
+profile. One more container step, `max` (1520px), is the column at its most: the hero, the info blocks and the footer are
+framed there (and also from a 1616px screen, the page condition `--framed`, because Safari zoomed out measures the
+container query in its own units). Below it the hero's cells reach over the gutters to the screen's edges, each
+padded by the gutter on both sides, so their text still starts on the column (Tim, round 6).
 
 ## Colour
 
@@ -117,9 +121,9 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
 - **Hover tints one thing, and moves nothing.** Behind the item under the pointer (a link, an icon, an arrow, a pager
   number, a card's cell, the heart), white at 20% on dark grounds, ink at 6% on light ones; nothing else dims, no icon
   or photo moves (`build/rules.mjs`: «Hovers never move»). A pointer's focus changes nothing; the keyboard's shows the ring.
-- **Fades are eased and whole.** Every fade (`design/colors.json` fades: hero, caption, panel, card) is a curve in
-  16 stops laid over the whole block it stands under, never a fade over a solid band; tuned in the fade tuner
-  (`design/fade-tuner/`).
+- **Fades are eased and whole.** Every fade (`design/colors.json` fades: hero, top, caption, panel, card) is one curve,
+  cubic-bezier(0.5, 0, 0.5, 1) (Tim's pick in the fade tuner, round 6), in 16 stops laid over the whole block it
+  stands under, never a fade over a solid band; tuned in the fade tuner (`design/fade-tuner/`).
 - **No rounded corners.** Only pills and dots are round.
 - **A card is one step off its ground**: cloud cards on white, black photo cards, black business cards on cool grey.
 - **Names are mono capitals**, everything you read is Apercu.
@@ -127,8 +131,11 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
   go out at 0.45s. The 3D packs face a little toward the middle of the screen and turn toward the pointer; they stay
   exactly in their slots while the page scrolls or a row slides; a card rising into place carries its pack up;
   pressed anywhere on its card, a pack moves away from the viewer and stays while held. On a coffee's page the pack
-  turns once around as its facts pass. The hero's block rises into place when the page opens (`--t-rise`). Cards of
-  a sideways row show only inside the column: they rise in and sink away. With «reduce motion» nothing moves.
+  turns once around as its facts pass. Cards of
+  a sideways row show only inside the column: they rise in and sink away. When the home page opens the hero's dock
+  rises (`--t-intro`) and its cells arrive part by part: the title line by line, the countdown row by row, the links
+  one by one (GSAP, `scripts/hero.js`). The countdown's segments fade on and off like LCD glass (`--ease-glass`).
+  The burger's menu slides down from under the bar. With «reduce motion» nothing moves.
 
 ## The 3D pack
 

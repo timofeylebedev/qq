@@ -2,19 +2,24 @@
    their layout at the shared column steps S, M, L (container queries on .col, see layout.css). These steps are only
    for what belongs to the whole page: the navbar, its menu and the tab bar.
 
-        ≥ 64em   --links-full   every section in the navbar, in one row (the screen of the column's L step)
+        ≥ 70em   --links-full   every section in the navbar, in one row (1120px: the eight link cells, 14px each
+                                side of the text and 8px apart, need 708px plus the two outer columns; Tim, round 6)
         ≥ 48em   --links        four short sections (the screen of the column's M step); below, the burger
         < 40em   --phone        the bag, favourites and profile move to the tab bar at the foot of the screen
+        ≥ 1616px --framed       the column at its most at any height (1520 + 2 × the 48px gutter): the frames of the
+                 hero, the info blocks and the footer, as well as at the container step max (Safari zoomed out
+                 measures that query in its own units, Tim, round 6); px, as the column's 1520px are
         < 32rem tall   a phone sideways: the product's buy bar stops following the screen (it would take a third
                  of it) and waits after the stage, which then pins at the whole screen under the navbar
 
-   Each row fits its step with room to spare (measured: the sections 584px + the two outer columns of 172px at 1024,
-   the short ones 288px + 2 × 172px at 768; build/audit.mjs checks the bar never overflows). In em, so a visitor's bigger text gets the layout of a narrower screen. Otherwise heights
+   Each row fits its step with room to spare (measured: the sections 708px + the two outer columns of 172px at 1120,
+   the short ones 360px + 2 × 172px at 768; build/audit.mjs checks the bar never overflows). In em, so a visitor's bigger text gets the layout of a narrower screen. Otherwise heights
    need no steps: every size of design/scale.json counts a short screen as a narrower one. */
-@custom-media --links-full (width >= 64em);
+@custom-media --links-full (width >= 70em);
 @custom-media --links (width >= 48em);
 @custom-media --phone (width < 40em);
 @custom-media --short (height < 32em);
+@custom-media --framed (width >= 1616px);
 @custom-media --mouse (hover: hover) and (pointer: fine);
 @custom-media --calm (prefers-reduced-motion: reduce);
 @custom-media --motion (prefers-reduced-motion: no-preference);

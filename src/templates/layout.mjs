@@ -15,7 +15,8 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <link rel="icon" href="/assets/icons/mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles/main.css">
 <link rel="expect" href="${ctx.page === "product" ? "#product-title" : "#contacts"}" blocking="render">
-<script vite-ignore src="${ctx.rel || ""}vt.js"></script>
+<script vite-ignore src="${ctx.rel || ""}vt.js"></script>${ctx.page === "home" ? `
+<script>matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.setAttribute("data-intro","")</script>` : ""}
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>
@@ -34,10 +35,12 @@ ${footer(ctx)}
 // The navbar: the logo, the sections, the tools (search, favourites, bag, profile), in four steps (media.css):
 //   wide        every section in one row («Кофе, Каскара, Дрипы, Сеты, Кофейням, Офисам, Журнал, Контакты»)
 //   --links     four short sections («Каталог, Бизнесу, Журнал, Контакты»)
-//   below       the burger: the menu lists the groups (not designed yet: a plain list, design/decisions.json)
+//   below       the burger: the menu, every section in cells (two columns from the tab bar's step up), sliding in
+//               from under the bar
 //   --phone     the bag, favourites and profile leave the bar for the tab bar at the foot of the screen
 // An item links only to a page that exists (data/site.json nav): the others are labels without a link (<a> without
-// href) until their page is made. The navbar takes the colour of the section under it (data-ground, scripts/nav.js).
+// href) until their page is made. On the home page the logo is not a link (it would only reload the page, Tim, round 6):
+// it is a button that takes the page back to its top, with no hover ground. The navbar takes the colour of the section under it (data-ground, scripts/nav.js).
 const navItem = (ctx, [t, to], c = "") => to
   ? `<a${c ? ` class="${c}"` : ""} href="${href(ctx, to)}"${ctx.here === to ? ' aria-current="page"' : ""}>${esc(t)}</a>`
   : `<a${c ? ` class="${c}"` : ""}>${esc(t)}</a>`;
@@ -53,7 +56,9 @@ function navbar(ctx, ground) {
   };
   return `<header class="nav" data-nav data-ground="${ground}">
   <div class="nav__bar"><div class="nav__in">
-    <a class="nav__logo" href="${ctx.rel || "./"}" aria-label="QQ Coffee, на главную">${icon("logo")}</a>
+    ${ctx.page === "home"
+      ? `<button class="nav__logo" type="button" aria-label="QQ Coffee, к началу страницы" data-to-top>${icon("logo")}</button>`
+      : `<a class="nav__logo" href="${ctx.rel || "./"}" aria-label="QQ Coffee, на главную">${icon("logo")}</a>`}
     <nav class="nav__links nav__links--full" aria-label="Разделы"><ul>${full}</ul></nav>
     <nav class="nav__links nav__links--short" aria-label="Разделы"><ul>${short.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></nav>
     <div class="nav__tools">
@@ -61,7 +66,7 @@ function navbar(ctx, ground) {
       <button class="nav__tool nav__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню" data-menu-button>${icon("menu")}</button>
     </div>
   </div></div>
-  <div class="menu" id="menu" data-menu hidden>
+  <div class="menu" id="menu" data-menu>
     <nav aria-label="Меню"><ul>${groups.flat().map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></nav>
   </div>
 </header>
