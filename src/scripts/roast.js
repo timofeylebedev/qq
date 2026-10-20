@@ -13,8 +13,8 @@ const plural = (n, [one, few, many]) => n % 10 === 1 && n % 100 !== 11 ? one : n
 const local = (tz) => new Date(Date.now() + tz * 3600e3);
 
 // the next roast after now, in the same shifted clock
-export function nextRoast({ days, hour, tz }) {
-  const now = local(tz);
+export function nextRoast({ days, hour, tz, from }) {
+  const now = from || local(tz);
   for (let d = 0; d < 8; d++) {
     const t = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + d, hour));
     if (days.includes(t.getUTCDay()) && t > now) return { now, at: t };
@@ -52,7 +52,8 @@ export function initRoast() {
         inn.textContent = left > 24 * 3600 ? `Ближайшая обжарка ${DAYS_SAY[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS[at.getUTCMonth()]}.`
           : h >= 1 ? `Ближайшая обжарка через ${h} ${plural(h, ["час", "часа", "часов"])}.` : `Ближайшая обжарка через ${m} ${plural(m, ["минуту", "минуты", "минут"])}.`;
       }
-      if (ship) ship.textContent = `Передадим в доставку в ${DAYS_LONG[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS[at.getUTCMonth()]}`;
+      // the parcel leaves on the next roast day after the roast (data/site.json facts: «на следующий рабочий день после обжарки»)
+      if (ship) { const out = nextRoast({ ...cfg, from: at }).at; ship.textContent = `Передадим в доставку в ${DAYS_LONG[out.getUTCDay()]}, ${out.getUTCDate()} ${MONTHS[out.getUTCMonth()]}`; }
     };
     tick();
     // the countdown ticks every second; the catalog line once a minute

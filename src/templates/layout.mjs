@@ -45,17 +45,19 @@ const navItem = (ctx, [t, to], c = "") => to
 function navbar(ctx, ground) {
   const { groups, short, tabs } = ctx.site.nav;
   const full = groups.map((g) => `<li class="nav__group"><ul>${g.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></li>`).join("");
-  const tool = (name, label, extra = "", cls = "", inner = "") => `<a class="nav__tool${cls}"${extra}>${icon(name)}<span class="sr">${label}</span>${inner}</a>`;
+  // the tools (search, favourites, bag, profile): an icon each, linked when its page exists; the bag shows its count
+  const tool = ([label, to, ic]) => {
+    const cls = "nav__tool" + (ic === "search" ? "" : " nav__tool--tab");
+    const extra = (to ? ` href="${href(ctx, to)}"` : "") + (to && ctx.here === to ? ' aria-current="page"' : "") + (ic === "bag" ? " data-bag" : "");
+    return `<a class="${cls}"${extra}>${icon(ic)}<span class="sr">${esc(label)}</span>${ic === "bag" ? '<span class="nav__count" data-bag-count hidden></span>' : ""}</a>`;
+  };
   return `<header class="nav" data-nav data-ground="${ground}">
   <div class="nav__bar"><div class="nav__in">
     <a class="nav__logo" href="${ctx.rel || "./"}" aria-label="QQ Coffee, на главную">${icon("logo")}</a>
     <nav class="nav__links nav__links--full" aria-label="Разделы"><ul>${full}</ul></nav>
     <nav class="nav__links nav__links--short" aria-label="Разделы"><ul>${short.map((x) => `<li>${navItem(ctx, x)}</li>`).join("")}</ul></nav>
     <div class="nav__tools">
-      ${tool("search", "Поиск")}
-      ${tool("heart", "Избранное", "", " nav__tool--tab")}
-      ${tool("bag", "Корзина", " data-bag", " nav__tool--tab", '<span class="nav__count" data-bag-count hidden></span>')}
-      ${tool("profile", "Профиль", "", " nav__tool--tab")}
+      ${ctx.site.nav.tools.map(tool).join("\n      ")}
       <button class="nav__tool nav__burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню" data-menu-button>${icon("menu")}</button>
     </div>
   </div></div>
@@ -77,7 +79,7 @@ function footer(ctx) {
       <h2 class="footer__title">${esc(title)}</h2>
       <ul>${links.map(([t, to]) => `<li><a href="${href(ctx, to)}">${esc(t)}</a></li>`).join("")}</ul>
     </div>`).join("\n    ");
-  return `<footer class="footer" id="contacts" data-ground="cloud">
+  return `<footer class="footer" data-ground="cloud">
  <div class="col"><div class="footer__inner">
   <div class="footer__brand">
     <picture class="footer__mark"><source media="(prefers-reduced-motion: reduce)" srcset="/assets/img/logo-flame-still.svg"><img src="/assets/img/logo-flame.svg" alt="QQ Coffee" width="218" height="332" loading="lazy" decoding="async"></picture>

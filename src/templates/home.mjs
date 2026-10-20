@@ -88,7 +88,7 @@ function recs(ctx, list) {
 </section>`;
 }
 
-function imageBlock(ctx, b) {
+export function imageBlock(ctx, b) {
   return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">
     <div class="story__text">

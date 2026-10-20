@@ -12,6 +12,10 @@ import { head, arrows, page } from "../../templates/layout.mjs";
 import * as home from "../../templates/home.mjs";
 import * as catalog from "../../templates/catalog.mjs";
 import * as product from "../../templates/product.mjs";
+import * as info from "../../templates/info.mjs";
+import * as shop from "../../templates/shop.mjs";
+import * as acc from "../../templates/account.mjs";
+import { pageHead, subtabs, tiles, field, check, radio } from "../../templates/blocks.mjs";
 
 // ── the rendered pages, and a cutter for their parts ─────────────────────────────────────────────────────────────
 // cut(html, attrs) finds the first element whose opening tag matches `attrs` (a regex over the tag) and returns the
@@ -36,9 +40,14 @@ export const REL = "../../";
 export const PRODUCT = "keniya-kisii";   // a single origin with a photo; the audit's coffee too
 
 export function rendered(data) {
-  const { site, products } = data;
+  const { site, products, company } = data;
   const p = products.find((x) => x.slug === PRODUCT);
+  const c = { site, products, company, rel: REL };
   return {
+    business: info.business({ ...c, page: "business" }), faq: info.faq({ ...c, page: "faq" }), about: info.about({ ...c, page: "about" }),
+    privacy: info.privacy({ ...c, page: "privacy" }), delivery: info.delivery({ ...c, page: "delivery" }),
+    cart: shop.cart({ ...c, page: "cart" }), details: shop.checkoutDetails({ ...c, page: "details" }), shipping: shop.checkoutDelivery({ ...c, page: "shipping" }),
+    profile: acc.profile({ ...c, page: "account" }), order: acc.order({ ...c, page: "order" }, "433273"), purchases: acc.purchases({ ...c, page: "purchases" }),
     home: home.render({ site, products, page: "home", rel: REL }),
     catalog: catalog.render({ site, products, page: "catalog", rel: REL }),
     product: product.render({ site, products, page: "product", rel: REL }, p),
@@ -83,6 +92,9 @@ export function groups(data) {
   const pages = rendered(data);
   const { home: H, catalog: C, product: P } = pages;
   const lightStory = cut(H, /class="story story--light"/), darkStory = cut(H, /class="story story--dark"/);
+  // the account's head and its parts are cut from the order (which has no tabs) and the purchases page: each id once
+  const PR = pages.purchases;
+  const TABS = [["Профиль", "account/"], ["Активность", null], ["Заказы", "account/orders/"], ["Покупки", "account/purchases/"], ["Настройки", "account/settings/"]];
 
   return [
     // ── components ──
@@ -176,6 +188,68 @@ export function groups(data) {
       ]
     },
 
+    // ── round 4: the blocks of the shop, the account and the information pages (src/templates/blocks.mjs) ──
+    {
+      id: "phead", title: "Page head · what goes with the title", compares: "count, line, aside", slot: 900,
+      slots: [
+        { label: "title only (information pages)", html: pageHead({ title: "Контакты", id: "cv-ph-1" }) },
+        { label: "a count and the hairline (the bag, the favourites)", html: pageHead({ title: "Корзина", id: "cv-ph-2", count: 6, line: true }) },
+        { label: "numbers aside (the account)", html: cut(PR, /class="phead"/) }
+      ]
+    },
+    {
+      id: "subtabs", title: "Tabs of a place", compares: "the current one", slot: 900,
+      slots: [
+        { label: "Профиль current (Активность: a label, no page)", html: subtabs(data.ctx, TABS, { label: "Пример 1", here: "account/" }) },
+        { label: "Настройки current", html: subtabs(data.ctx, TABS, { label: "Пример 2", here: "account/settings/" }) }
+      ]
+    },
+    {
+      id: "tiles-cols", title: "Tiles · columns", compares: "how many in a row (from L)", slot: SCREEN - 96,
+      slots: [
+        { label: "three (delivery and payment)", html: cut(pages.delivery, /class="tiles tiles--3/) },
+        { label: "four (the business page's reasons)", html: cut(pages.business, /class="tiles tiles--4/) },
+        { label: "five (legal details)", html: cut(pages.business, /class="tiles tiles--5/) }
+      ]
+    },
+    {
+      id: "form-cells", title: "Form · cells", compares: "kind of cell", slot: 440,
+      slots: [
+        { label: "fields with hints (your details; Себе / В подарок)", html: cut(pages.details, /data-checkout-step="details"/).replace(/id="co-/g, 'id="cv-co-').replace(/for="co-/g, 'for="cv-co-') },
+        { label: "a field and radio choices (delivery)", html: cut(pages.shipping, /data-checkout-step="delivery"/).replace(/id="co-/g, 'id="cv2-co-').replace(/for="co-/g, 'for="cv2-co-') },
+        { label: "values, an action, checkboxes", html: `<div class="form" data-tone="cloud">${field({ name: "cv", label: "Телефон", value: "+7 915 800 65 45", id: "cv-f-1" })}<div class="fcell fcell--checks">${check("cv-l", "Скидки", { checked: true })}${check("cv-l", "Новые сорта")}</div><div class="fcell">${radio("cv-r", "a", "Курьером", "415 ₽ • 1–2 дня", { checked: true })}</div></div>` }
+      ]
+    },
+    {
+      id: "panel", title: "Dark panel", compares: "what it sums up", slot: 440,
+      slots: [
+        { label: "the bag (figures filled by its script)", html: cut(pages.cart, /data-cart-summary/) },
+        { label: "an order", html: cut(pages.order, /class="panel"/) }
+      ]
+    },
+    {
+      id: "orow", title: "Order row", compares: "an order or one coffee of it", slot: 900,
+      slots: [
+        { label: "an order (the profile, the orders)", html: cut(pages.profile, /class="orow"/) },
+        { label: "a coffee of an order (one order's page)", html: cut(pages.order, /class="orow orow--item"/) }
+      ]
+    },
+    {
+      id: "pcard", title: "Coffee bought · tone", compares: "tone", slot: 330,
+      slots: [
+        { label: "the 3D pack, bought twice or more", html: cut(PR, /class="pcard" data-card data-slug="q-finch"/) },
+        { label: "a photo", html: cut(PR, /class="pcard" data-card data-slug="efiopiya-bekele"/) }
+      ]
+    },
+    { id: "activity", title: "Activity", compares: "—", slot: SCREEN, slots: [{ label: "the profile (the beans' plus opens their dialog)", html: cut(pages.profile, /class="tiles tiles--cloud activity"/) }] },
+    { id: "places", title: "Contacts", compares: "—", slot: SCREEN, slots: [{ label: "the contacts, business and about pages", html: cut(pages.business, /class="places"/) }] },
+    { id: "qa", title: "Questions and answers", compares: "—", slot: 640, slots: [{ label: "a group (each question opens its answer)", html: cut(pages.faq, /class="qa-group"/) }] },
+    { id: "note", title: "Summary note", compares: "—", slot: 640, slots: [{ label: "the privacy policy", html: cut(pages.privacy, /class="note"/) }] },
+    { id: "bhero", title: "Business hero", compares: "—", slot: SCREEN, page: "business/", slots: [{ label: "business (the first two actions open the request form)", html: cut(pages.business, /class="bhero"/) }] },
+    { id: "offers", title: "Offers", compares: "—", slot: SCREEN, slots: [{ label: "business", html: cut(pages.business, /class="offers"/) }] },
+    { id: "reviews", title: "Reviews", compares: "—", slot: SCREEN, slots: [{ label: "business", html: cut(pages.business, /class="reviews"/) }] },
+    { id: "team", title: "Team", compares: "—", slot: SCREEN, slots: [{ label: "about", html: cut(pages.about, /class="team"/) }] },
+
     // ── page blocks ──
     {
       id: "nav-theme", title: "Navbar · ground", compares: "the section under it", slot: SCREEN, break: true,
@@ -221,5 +295,8 @@ export const OMITTED = [
   ["Page blocks at other widths", "the canvas draws in your window: sizes follow its width and height (design/README.md, `--vp`). Only the navbar and the product stage are shown on screens of their own; more screens would each need their own 3D canvas"],
   ["Navbar dark on a phone", "theme and screen are compared separately"],
   ["Catalog's empty and «soon» states", "reached by filtering or by its tabs"],
-  ["Every combination of props", "one prop at a time"]
+  ["Every combination of props", "one prop at a time"],
+  ["A line of the bag, an empty bag or favourites", "written by scripts/cart.js and scripts/favs.js from this browser's bag: see cart/ and favourites/"],
+  ["The request form and the beans dialog", "dialogs over their page: open them on business/ and account/"],
+  ["The about page's title over the photo and the founder's letter", "one page block, seen on about/"]
 ];

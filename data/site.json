@@ -13,16 +13,17 @@
     "$about": "The navbar's items at its four steps (src/styles/base/media.css): all the sections in three groups on a wide screen; four short ones below that; then the burger (the menu lists the groups); on a phone the bag, favourites and profile move to the tab bar at the foot of the screen. An item links only to a page that exists: one without a second value is a label without a link until its page is made.",
     "groups": [
       [["Кофе", "catalog/"], ["Каскара"], ["Дрипы"], ["Сеты"]],
-      [["Кофейням"], ["Офисам"]],
-      [["Журнал"], ["Контакты"]]
+      [["Кофейням", "business/"], ["Офисам"]],
+      [["Журнал"], ["Контакты", "contacts/"]]
     ],
-    "short": [["Каталог", "catalog/"], ["Бизнесу"], ["Журнал"], ["Контакты"]],
-    "tabs": [["Каталог", "catalog/", "catalog"], ["Корзина", null, "bag"], ["Избранное", null, "heart"], ["Профиль", null, "profile"]]
+    "short": [["Каталог", "catalog/"], ["Бизнесу", "business/"], ["Журнал"], ["Контакты", "contacts/"]],
+    "tabs": [["Каталог", "catalog/", "catalog"], ["Корзина", "cart/", "bag"], ["Избранное", "favourites/", "heart"], ["Профиль", "account/", "profile"]],
+    "tools": [["Поиск", null, "search"], ["Избранное", "favourites/", "heart"], ["Корзина", "cart/", "bag"], ["Профиль", "account/", "profile"]]
   },
 
   "hero": {
     "title": "Кофе свежей обжарки",
-    "links": [["Каталог", "catalog/", "arrow-right"], ["Бизнесу", "#business", "arrow-steps"], ["Контакты", "#contacts", "arrow-to-line"]]
+    "links": [["Каталог", "catalog/", "arrow-right"], ["Бизнесу", "business/", "arrow-steps"], ["Контакты", "contacts/", "arrow-to-line"]]
   },
 
   "featured": { "title": "Новинки", "count": 5, "$about": "the coffees tagged «Новинка» first, then the newest by date, up to count. Every slide shows a photo: the coffee's own (photos.bySlug), else the next of photos (PLACEHOLDER, the moodboard's, until each new coffee has its own)",
@@ -45,34 +46,34 @@
 
   "approach": [
     { "id": "approach", "eyebrow": "Наш подход", "title": "Как мы раскрываем потенциал в кофе и людях, которые его пьют", "action": ["Читать", "#"], "image": ["approach-bean", "Пинцет держит обжаренное кофейное зерно"], "theme": "dark" },
-    { "id": "about", "eyebrow": "О компании", "title": "Кто мы и на чем строится наша компания", "action": ["Читать", "#"], "image": ["approach-people", "Большая компания людей в студии"], "theme": "light" }
+    { "id": "about", "eyebrow": "О компании", "title": "Кто мы и на чем строится наша компания", "action": ["Читать", "about/"], "image": ["approach-people", "Большая компания людей в студии"], "theme": "light" }
   ],
 
   "business": {
     "title": "QQ Coffee для бизнеса",
     "lead": "Вместе с зерном вы получаете людей, которые в нём разбираются: выездной консалтинг, бесплатную школу бариста, разбор настройки эспрессо и воды. Наши партнёры описывают это скорее как дружеское общение, чем как работу с поставщиком.",
     "cards": [
-      { "title": "Кофейням", "text": "Зерно, бесплатная школа бариста и выездной консалтинг для партнёров. Спеццена на первый заказ, доставка по Москве от 30 кг, подбор индивидуального сорта.", "href": "#", "image": ["business-cafe", "Каппинг: бариста пробует кофе за столом с чашками"] },
+      { "title": "Кофейням", "text": "Зерно, бесплатная школа бариста и выездной консалтинг для партнёров. Спеццена на первый заказ, доставка по Москве от 30 кг, подбор индивидуального сорта.", "href": "business/", "image": ["business-cafe", "Каппинг: бариста пробует кофе за столом с чашками"] },
       { "title": "Офисам", "text": "Свежая обжарка со стабильным профилем и доставкой по России. Подбор зерна под ваше оборудование, поддержка менеджера в чате.", "href": "#", "image": ["business-office", "Пакеты кофе на стойке в солнечном свете"] }
     ]
   },
 
   "facts": [
     { "icon": "roast", "short": "Обжарка", "title": "Обжариваем каждый будний день", "more": ["Если вы сделали заказ в день обжарки после {hour}:00, он перенесется на следующий обжарочный день.", "{roast}"], "placeholder": true },
-    { "icon": "card", "short": "Оплата", "title": "Принимаем оплату на сайте и при получении", "more": ["Картой или через СБП при заказе, наличными или картой курьеру и в пункте выдачи."], "placeholder": true },
-    { "icon": "truck", "short": "Доставка", "title": "Доставляем СДЭК по Москве и России", "more": ["Курьером до двери или в пункт выдачи; срок и цену доставки покажем при оформлении заказа."], "placeholder": true }
+    { "icon": "card", "short": "Оплата", "title": "Принимаем оплату на сайте и при получении", "more": ["Картой или наличными. Принимаем на сайте карты МИР, VISA, Mastercard и Халва."], "placeholder": true },
+    { "icon": "truck", "short": "Доставка", "title": "Доставляем СДЭК по Москве и России", "more": ["Курьером и в пункты выдачи. Передаем в доставку на следующий рабочий день после обжарки. Доставим бесплатно при наборе минимальной суммы."], "free": true, "placeholder": true }
   ],
 
   "footer": {
     "newsletter": "Расскажем о появлении скидок и новинок",
     "groups": [
       ["Каталог", [["Кофе", "catalog/"], ["Каскара", "catalog/#kaskara"], ["Дрипы", "catalog/#dripy"], ["Сеты", "catalog/#sety"], ["Мерч", "catalog/#merch"], ["В подарок", "#"]]],
-      ["Покупателям", [["Журнал о кофе", "#"], ["Заказ и доставка", "#"], ["Бонусы за покупки", "#"], ["Ответы на вопросы", "#"], ["Чат поддержки ↗", "#"], ["Как готовить кофе", "#"]]],
-      ["Бизнесу", [["Кофейням", "#business"], ["Офисам", "#business"], ["Корпоративные подарки", "#"]]],
-      ["Компания", [["О компании", "#about"], ["Работа в QQ", "#"], ["Контакты", "#contacts"]]]
+      ["Покупателям", [["Журнал о кофе", "#"], ["Заказ и доставка", "delivery/"], ["Бонусы за покупки", "account/beans/"], ["Ответы на вопросы", "faq/"], ["Чат поддержки ↗", "#"], ["Как готовить кофе", "#"]]],
+      ["Бизнесу", [["Кофейням", "business/"], ["Офисам", "#business"], ["Корпоративные подарки", "#"]]],
+      ["Компания", [["О компании", "about/"], ["Работа в QQ", "#"], ["Контакты", "contacts/"]]]
     ],
     "copyright": "2026 © QQ Coffee. Раскрывая потенциал",
-    "privacy": ["Политика конфиденциальности", "#"]
+    "privacy": ["Политика конфиденциальности", "privacy/"]
   },
 
   "catalog": {
@@ -80,5 +81,27 @@
     "tabs": [["Все", "all"], ["Кофе", "kofe"], ["Каскара", "kaskara"], ["Дрипы", "dripy"], ["Сеты", "sety"], ["Мерч", "merch"]],
     "featuredCount": 4,
     "$about": "The first featuredCount coffees of the list take half a row each (the rest a third), as in the Figma catalog."
+  },
+
+  "shop": {
+    "$about": "The bag and checkout (cart/, checkout/): delivery by CDEK, its prices and the free-delivery threshold, and which coffees are out of stock. PLACEHOLDER values from Figma: the cart shows courier 415 ₽ • 2 дня and «Бесплатно от 1799 ₽», the checkout 490 ₽ and 240 ₽ • 1–2 дня; the site uses 415 and 240 everywhere (decision shop-numbers).",
+    "placeholder": true,
+    "free": 1799,
+    "delivery": [
+      {
+        "id": "courier",
+        "title": "Курьером",
+        "price": 415,
+        "days": "1–2 дня"
+      },
+      {
+        "id": "pickup",
+        "title": "Самовывоз",
+        "price": 240,
+        "days": "1–2 дня"
+      }
+    ],
+    "city": "Москва",
+    "unavailable": []
   }
 }

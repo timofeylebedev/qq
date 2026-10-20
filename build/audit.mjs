@@ -1,9 +1,12 @@
 // The pages checked in a real browser at the screen sizes that matter, after `npm run build`:   npm run audit
 //
-// Pages: home, catalog, two coffees (a single origin and a blend). At each size the page is scrolled through once, so
+// Pages: home, catalog, two coffees (a single origin and a blend), and the pages of round 4: the shop (the bag and the
+// favourites with a bag and hearts put into the browser first, the three steps of the checkout), the account (profile,
+// orders, one order, purchases, settings, the beans dialog open) and the information pages. At each size the page is scrolled through once, so
 // every block has come in, then measured. It fails (exit code 1) on:
 //   · sideways scroll: the page wider than the screen
-//   · text cut off: a line of text outside a box that clips it (rows that scroll sideways are left out), or off screen
+//   · text cut off: a line of text outside a box that clips it (rows that scroll sideways and text ending in an ellipsis
+//     are left out), or off screen
 //   · text under 12px as drawn
 //   · a link or button smaller than 24×24px to tap (WCAG 2.2, 2.5.8)
 //   · the navbar: its sections running into the logo or the tools (each step of media.css must fit its row)
@@ -23,7 +26,17 @@ import { chromium } from "playwright";
 const root = resolve(import.meta.dirname, "..");
 const dist = join(root, "dist");
 const AXE = await readFile(createRequire(import.meta.url).resolve("axe-core/axe.min.js"), "utf8");
-const PAGES = ["", "catalog/", "coffee/keniya-kisii/", "coffee/q-optimistic/"];
+const PAGES = ["", "catalog/", "coffee/keniya-kisii/", "coffee/q-optimistic/",
+  "cart/", "favourites/", "checkout/", "checkout/details/", "checkout/delivery/",
+  "account/", "account/beans/", "account/orders/", "account/orders/433273/", "account/purchases/", "account/settings/",
+  "business/", "faq/", "delivery/", "contacts/", "privacy/", "about/"];
+// what a visitor has put into this browser before the shop pages are measured: a bag with a photo coffee, a pack coffee,
+// a big quantity and a line put aside; favourites with photos and packs
+const STATE = {
+  "qq-bag": [{ slug: "braziliya-santa-mariya", weight: "200 г", qty: 1 }, { slug: "q-berry", weight: "1 кг", qty: 12 },
+    { slug: "kolumbiya-chayna-alta", weight: "200 г", grind: "Фильтр", roast: "Фильтр", qty: 1 }, { slug: "efiopiya-bekele", weight: "200 г", qty: 1, later: true }],
+  "qq-fav": ["q-optimistic", "keniya-kisii", "kolumbiya-chayna-alta", "efiopiya-bekele"]
+};
 const SIZES = [
   { w: 280, h: 653, touch: true },   { w: 320, h: 568, touch: true, axe: true }, { w: 390, h: 844, touch: true }, { w: 768, h: 1024, touch: true },
   { w: 844, h: 390, touch: true }, { w: 1024, h: 768, touch: true }, { w: 1366, h: 650 }, { w: 1440, h: 900, axe: true },
@@ -50,14 +63,16 @@ function measure() {
   const name = (e) => e.tagName.toLowerCase() + (typeof e.className === "string" && e.className ? "." + e.className.trim().split(/\s+/)[0] : "");
   const path = (e) => { const p = []; for (let x = e; x && x !== document.body && p.length < 3; x = x.parentElement) p.unshift(name(x)); return p.join(" > "); };
   const shown = (e) => { for (let x = e; x; x = x.parentElement) { const s = getComputedStyle(x); if (s.display === "none" || s.visibility === "hidden" || +s.opacity === 0) return false; } const r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-  const skip = (e) => e.closest(".sprite, .sr, [data-slider], .tabs, .menu, .toast, .skip");
+  const skip = (e) => e.closest(".sprite, .sr, [data-slider], .tabs, .subtabs, .menu, .toast, .skip");
   const out = { sideways: document.documentElement.scrollWidth - vw, clipped: [], small: [], targets: [] };
   for (const e of document.querySelectorAll("h1, h2, h3, p, a, button, dt, dd, span, li, label, output, select, summary")) {
     if (skip(e) || !e.textContent.trim() || !shown(e) || e.children.length > 3) continue;
     // the box of its visible text (text for screen readers only, .sr, is left out)
     const rects = [];
     const tw = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
-    for (let n; (n = tw.nextNode()); ) { if (!n.textContent.trim() || n.parentElement.closest(".sr")) continue; const r = document.createRange(); r.selectNodeContents(n); rects.push(r.getBoundingClientRect()); }
+    // (text that ends in an ellipsis is cut on purpose: its range runs past its box, and is left out)
+    const ellipsed = (x) => { for (; x && x !== e.parentElement; x = x.parentElement) { const s = getComputedStyle(x); if (s.textOverflow === "ellipsis" && s.overflowX !== "visible") return true; } return false; };
+    for (let n; (n = tw.nextNode()); ) { if (!n.textContent.trim() || n.parentElement.closest(".sr") || ellipsed(n.parentElement)) continue; const r = document.createRange(); r.selectNodeContents(n); rects.push(r.getBoundingClientRect()); }
     if (!rects.length) continue;
     const t = { left: Math.min(...rects.map((q) => q.left)), right: Math.max(...rects.map((q) => q.right)), top: Math.min(...rects.map((q) => q.top)), bottom: Math.max(...rects.map((q) => q.bottom)) };
     if (t.right > vw + 1 || t.left < -1) out.clipped.push(`${path(e)} past the screen by ${Math.round(Math.max(t.right - vw, -t.left))}px`);
@@ -106,6 +121,7 @@ const sizes = SIZES.filter((s) => !only || only.includes(`${s.w}x${s.h}${s.font 
 for (const s of sizes) {
   const label = `${s.w}×${s.h}${s.font ? ` text ${s.font}px` : ""}`;
   const ctx = await browser.newContext({ viewport: { width: s.w, height: s.h }, isMobile: !!s.touch, hasTouch: !!s.touch, deviceScaleFactor: 1, bypassCSP: true });
+  await ctx.addInitScript((st) => { if (!localStorage.getItem("qq-bag")) for (const [k, v] of Object.entries(st)) localStorage.setItem(k, JSON.stringify(v)); }, STATE);
   let fails = 0;
   for (const pagePath of PAGES) {
     const page = await ctx.newPage();
