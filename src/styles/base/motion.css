@@ -17,3 +17,15 @@
   :root { --t-in: 0s; --t-out: 0s; --t-move: 0s; --t-rise: 0s; }
   html { scroll-behavior: auto !important; }
 }
+
+/* From one page of the site to another the pages cross-fade; a card opening its coffee (and the way back) carries its
+   name and its pack to the page's title and big pack (scripts/transition.js names them). Not with «reduce motion». */
+@media (--motion) { @view-transition { navigation: auto; } }
+::view-transition-group(*) { animation-duration: var(--t-move); animation-timing-function: var(--ease-out); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-out); }
+/* the name: its old and new text cross-fade while it travels and grows; the pack keeps the shape of its still */
+::view-transition-old(coffee-name), ::view-transition-new(coffee-name) { height: 100%; width: auto; object-fit: none; object-position: left top; }
+::view-transition-old(coffee-pack), ::view-transition-new(coffee-pack) { height: 100%; width: auto; margin-inline: auto; }
+/* while the pages are captured the 3D canvas stays out and every pack shows its still */
+html[data-vt] canvas { visibility: hidden; }
+html[data-vt] .pack .pack__still { opacity: 1 !important; transition: none !important; }

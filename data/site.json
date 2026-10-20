@@ -25,7 +25,8 @@
     "links": [["Каталог", "catalog/", "arrow-right"], ["Бизнесу", "#business", "arrow-steps"], ["Контакты", "#contacts", "arrow-to-line"]]
   },
 
-  "featured": { "title": "Новинки", "count": 5, "$about": "the coffees tagged «Новинка» first, then the newest by date, up to count" },
+  "featured": { "title": "Новинки", "count": 5, "$about": "the coffees tagged «Новинка» first, then the newest by date, up to count. Every slide shows a photo: the coffee's own (photos.bySlug), else the next of photos (PLACEHOLDER, the moodboard's, until each new coffee has its own)",
+    "photos": [["life-jacket", "Пакет кофе в кармане куртки"], ["life-sweater", "Три пакета кофе в руках"], ["life-sniff", "Человек вдыхает аромат кофе из пакета"], ["life-box", "Коробка кофе в руках"]], "placeholder": true },
   "recommended": {
     "title": "Рекомендуем",
     "slugs": ["q-optimistic", "braziliya-santa-mariya", "kolumbiya-vush-vush", "q-berry", "efiopiya-bekele", "keniya-nayvasha-pb"]
@@ -57,9 +58,9 @@
   },
 
   "facts": [
-    { "icon": "roast", "title": "Обжариваем каждый будний день", "more": "Кофе уходит к вам в день обжарки или на следующий: на пакете стоит дата, и она всегда свежая.", "placeholder": true },
-    { "icon": "card", "title": "Принимаем оплату на сайте и при получении", "more": "Картой или через СБП при заказе, наличными или картой курьеру и в пункте выдачи.", "placeholder": true },
-    { "icon": "truck", "title": "Доставляем СДЭК по Москве и России", "more": "Курьером до двери или в пункт выдачи; срок и цену доставки покажем при оформлении заказа.", "placeholder": true }
+    { "icon": "roast", "short": "Обжарка", "title": "Обжариваем каждый будний день", "more": ["Если вы сделали заказ в день обжарки после {hour}:00, он перенесется на следующий обжарочный день.", "{roast}"], "placeholder": true },
+    { "icon": "card", "short": "Оплата", "title": "Принимаем оплату на сайте и при получении", "more": ["Картой или через СБП при заказе, наличными или картой курьеру и в пункте выдачи."], "placeholder": true },
+    { "icon": "truck", "short": "Доставка", "title": "Доставляем СДЭК по Москве и России", "more": ["Курьером до двери или в пункт выдачи; срок и цену доставки покажем при оформлении заказа."], "placeholder": true }
   ],
 
   "footer": {

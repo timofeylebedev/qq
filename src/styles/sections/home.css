@@ -106,45 +106,45 @@
 
 /* ── new arrivals ───────────────────────────────────────────────────────────────────────────────────────────────
    One coffee at a time, sliding sideways: a text square (name, the story of the lot, the taste chart and its
-   descriptors in a hairline box) and a picture square (a photo with the coffee's short line, or the 3D pack).
-   From L side by side; the squares grow when their text needs more room. */
+   descriptors in a hairline box of two even halves) and a photo square (a photo with the coffee's short line, over
+   an eased fade). From L the two squares stand side by side, always two equal halves; the story gives way (it is
+   cut to the lines that fit) rather than the squares growing. The whole slide is the link to the coffee. */
 .featured__track {
   display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
   overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
   position: relative;
 }
 .featured__track::-webkit-scrollbar { display: none; }
-.featured__slide { scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 1fr); }
+.featured__slide { position: relative; scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 1fr); }
 .featured__text {
   display: flex; flex-direction: column; justify-content: space-between; gap: var(--section-gap);
-  padding: var(--block-pad); background: var(--c-cloud);
+  min-width: 0; padding: var(--block-pad); background: var(--c-cloud);
 }
 .featured__intro { display: grid; gap: var(--text-gap); }
 .featured__name { font-size: var(--type-title); }
-.featured__name a::after { content: ""; }
-.featured__about { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 34em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 8; overflow: hidden; }
+.featured__name a::after { content: ""; position: absolute; inset: 0; z-index: 6; }
+.featured__name a:focus-visible { outline: none; }
+.featured__name a:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+.featured__about { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 34em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 8); line-clamp: var(--lines, 8); overflow: hidden; }
 .featured__facts { display: grid; border: var(--hair) solid var(--line); }
-.featured__facts > * { padding: 16px; }
+.featured__facts > * { min-width: 0; padding: 16px; }
 .featured__facts > * + * { border-top: var(--hair) solid var(--line); }
 @container col (width >= 22rem) {
-  .featured__facts { grid-template-columns: auto minmax(0, 1fr); }
+  .featured__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .featured__facts > * + * { border-top: 0; border-left: var(--hair) solid var(--line); }
 }
-.featured__media { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; }
+.featured__media { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); color: var(--c-paper); }
 .featured__media picture { position: absolute; inset: 0; }
-.featured__media img { width: 100%; height: 100%; object-fit: cover; }
-.featured__media--photo { background: var(--c-black); color: var(--c-paper); }
-.featured__media--pack { background: var(--c-cloud); border-top: var(--hair) solid var(--line); }
-.featured__media--pack .pack { inset: 8% 12% 24%; }
+.featured__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
+@media (--mouse) { .featured__slide:hover .featured__media img { transform: scale(1.03); } }
 .featured__caption {
-  position: relative; z-index: 6; padding: 64px calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
+  position: relative; z-index: 6; pointer-events: none; padding: 64px calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
   font-size: var(--type-lead); line-height: var(--lh-compact);
+  background: linear-gradient(to bottom, var(--fade-black));
 }
-.featured__media--photo .featured__caption { background: linear-gradient(to bottom, transparent, var(--c-black)); }
 @container col (width >= 58rem) {
-  .featured__slide { grid-template-columns: 1fr 1fr; }
-  .featured__text { min-height: 100%; aspect-ratio: 1; }
-  .featured__media--pack { border-top: 0; border-left: var(--hair) solid var(--line); }
+  .featured__slide { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+  .featured__text { aspect-ratio: 1; overflow: hidden; }
 }
 
 /* ── image blocks (our approach, about us) ──────────────────────────────────────────────────────────────────────
@@ -181,7 +181,7 @@
 .bcard__image { position: absolute; inset: 0; }
 .bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
 @media (--mouse) { .bcard:hover .bcard__image img { transform: scale(1.03); } }
-.bcard__info { position: relative; display: grid; padding-top: 40px; background: linear-gradient(to bottom, transparent, var(--c-black) 40px); }
+.bcard__info { position: relative; display: grid; padding-top: 40px; background: linear-gradient(to bottom, var(--fade-black)) top / 100% 40px no-repeat, linear-gradient(var(--c-black), var(--c-black)) left 0 top 40px / 100% 100% no-repeat; }
 .bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .bcard__title { font-size: var(--type-card-title); }
@@ -196,23 +196,59 @@
 }
 
 /* ── facts (three info blocks) ──────────────────────────────────────────────────────────────────────────────────
-   Three cells divided by hairlines on the column: an icon, a title, a plus that opens one more sentence. */
-.facts { border-top: var(--hair) solid var(--line); }
+   Three cells divided by hairlines on the column: an icon, a title, a plus. A cell is one button; pressed, it grows
+   into the modal below (scripts/facts.js). No hairline above: the block before it ends the business section. */
 .facts__list { display: grid; }
-.fact {
-  position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; gap: 0 16px;
-  padding: var(--block-pad) 0 calc(var(--block-pad) * 1.5);
-}
 .fact + .fact { border-top: var(--hair) solid var(--line); }
+.fact__open {
+  position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr; gap: 0 16px;
+  width: 100%; height: 100%; padding: var(--block-pad) 0 calc(var(--block-pad) * 1.5); text-align: left;
+  transition: background-color var(--t-out) var(--ease-out);
+}
 .fact__icon svg { width: 40px; height: 40px; color: var(--c-lavender-ink); }
-.fact__more { grid-row: 1; grid-column: 2; align-self: start; display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-40); }
-.fact__more svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
-.fact__more[aria-expanded="true"] svg { transform: rotate(45deg); }
-@media (--mouse) { .fact__more:hover { color: var(--c-ink); } }
-.fact__title { grid-column: 1 / -1; align-self: end; margin-top: var(--section-gap); font-size: var(--type-card-title); max-width: 14em; }
-.fact__text { grid-column: 1 / -1; padding-top: var(--text-gap); font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); max-width: 28em; }
+.fact__more { grid-row: 1; grid-column: 2; align-self: start; display: grid; place-items: center; margin: -12px; width: 40px; height: 40px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
+.fact__more svg, .fmodal__close svg { width: 32px; height: 32px; }
+.fact__title { grid-column: 1 / -1; align-self: end; margin-top: var(--section-gap); max-width: 14em; }
+.fact__title, .fmodal__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); text-wrap: balance; }
+@media (--mouse) {
+  .fact__open:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .fact__open:hover .fact__more { color: var(--c-ink); transition-duration: var(--t-in); }
+}
 @container col (width >= 43rem) {
   .facts__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .fact + .fact { border-top: 0; border-left: var(--hair) solid var(--line); padding-left: var(--block-pad); }
-  .fact { padding-right: var(--block-pad); }
+  .fact + .fact { border-top: 0; border-left: var(--hair) solid var(--line); }
+  .fact__open { padding-inline: var(--block-pad); }
+  .fact:first-child .fact__open { padding-left: 0; }
 }
+@container col (width >= 1520px) { .fact:first-child .fact__open { padding-left: var(--block-pad); } .facts__list { border-inline: var(--hair) solid var(--line); } }
+
+/* the modal: the screen dimmed, a white box in its middle (from 40em; on a phone a sheet at the foot of the screen,
+   as wide as it). The box: the icon, the title, the text; the cross in its corner; at its foot a row of two cells
+   that step to the other blocks. Its white ground is a layer of its own, so it can grow out of the block. */
+.fmodal { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
+.fmodal:not([open]) { display: none; }
+.fmodal::backdrop { background: transparent; }
+.fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
+.fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; }
+.fmodal__ground { position: absolute; inset: 0; background: var(--c-paper); }
+.fmodal__panel { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 0; }
+.fmodal__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap); padding: calc(var(--block-pad) + 16px) var(--block-pad) calc(var(--block-pad) + 40px); overflow-y: auto; }
+.fmodal__icon svg { width: 40px; height: 40px; color: var(--c-lavender-ink); }
+.fmodal__title { max-width: 14em; margin-top: calc(var(--section-gap) - var(--text-gap)); }
+.fmodal__text { display: grid; gap: 12px; font-size: var(--type-body); line-height: var(--lh-text); }
+.fmodal__close { position: absolute; z-index: 1; top: 4px; right: 4px; display: grid; place-items: center; width: 48px; height: 48px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
+.fmodal__close > span { display: grid; transform: rotate(45deg); }
+.fmodal__nav { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
+.fmodal__step { display: flex; align-items: center; justify-content: center; gap: 8px; padding: var(--tile-pad) 12px; font-size: var(--type-body); line-height: var(--lh-compact); transition: background-color var(--t-out) var(--ease-out); }
+.fmodal__step + .fmodal__step { border-left: var(--hair) solid var(--line); }
+.fmodal__step svg { width: 16px; height: 16px; flex: none; }
+@media (--mouse) {
+  .fmodal__close:hover { color: var(--c-ink); transition-duration: var(--t-in); }
+  .fmodal__step:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+}
+@media (--phone) {
+  .fmodal { place-items: end stretch; }
+  .fmodal__box { width: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+.fmodal[data-morphing] .fmodal__body { overflow: visible; }   /* the travelling icon and title are not cut by the box */
+html[data-modal] { overflow: hidden; scrollbar-gutter: stable; }

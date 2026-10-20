@@ -39,6 +39,7 @@
   --hero-max: clamp(960px, calc(960px + (var(--vp) - 20rem) * 240 / 1120), 1200px);              /* 960 → 1200: the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here) */
   --story-h: clamp(400px, calc(400px + (var(--vp) - 20rem) * 280 / 1120), 680px);               /* 400 → 680: least height of the image blocks (approach, about) */
   --footer-logo: clamp(104px, calc(104px + (var(--vp) - 20rem) * 112 / 1120), 216px);           /* 104 → 216: width of the flame mark in the footer */
+  --modal-w: clamp(360px, calc(360px + (var(--vp) - 20rem) * 160 / 1120), 520px);               /* 360 → 520: width of a modal (an info block opened); below M a modal is a sheet as wide as the screen */
   --stage: clamp(320px, calc(320px + (var(--vp) - 20rem) * 400 / 1120), 720px);                 /* 320 → 720: the 3D pack on a product page: the side of its square (also capped by the screen's height) */
 
   /* line heights and tracking */
@@ -72,7 +73,8 @@
   --c-lavender-ink: #7f4fc9;
 
   /* eased fades (colors.json fades): the stops of linear-gradient(to bottom, var(--fade-black)) */
-  --fade-black: rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.009) 6.67%, rgb(0 0 0 / 0.036) 13.33%, rgb(0 0 0 / 0.082) 20%, rgb(0 0 0 / 0.147) 26.67%, rgb(0 0 0 / 0.232) 33.33%, rgb(0 0 0 / 0.332) 40%, rgb(0 0 0 / 0.443) 46.67%, rgb(0 0 0 / 0.557) 53.33%, rgb(0 0 0 / 0.668) 60%, rgb(0 0 0 / 0.768) 66.67%, rgb(0 0 0 / 0.853) 73.33%, rgb(0 0 0 / 0.918) 80%, rgb(0 0 0 / 0.964) 86.67%, rgb(0 0 0 / 0.991) 93.33%, rgb(0 0 0 / 1) 100%;
+  --fade-black: rgb(0 0 0 / 0) 0%, rgb(0 0 0 / 0.05) 6.67%, rgb(0 0 0 / 0.152) 13.33%, rgb(0 0 0 / 0.295) 20%, rgb(0 0 0 / 0.445) 26.67%, rgb(0 0 0 / 0.576) 33.33%, rgb(0 0 0 / 0.683) 40%, rgb(0 0 0 / 0.767) 46.67%, rgb(0 0 0 / 0.834) 53.33%, rgb(0 0 0 / 0.885) 60%, rgb(0 0 0 / 0.925) 66.67%, rgb(0 0 0 / 0.954) 73.33%, rgb(0 0 0 / 0.976) 80%, rgb(0 0 0 / 0.99) 86.67%, rgb(0 0 0 / 0.998) 93.33%, rgb(0 0 0 / 1) 100%;
+  --fade-cloud: rgb(246 246 246 / 0) 0%, rgb(246 246 246 / 0.05) 6.67%, rgb(246 246 246 / 0.152) 13.33%, rgb(246 246 246 / 0.295) 20%, rgb(246 246 246 / 0.445) 26.67%, rgb(246 246 246 / 0.576) 33.33%, rgb(246 246 246 / 0.683) 40%, rgb(246 246 246 / 0.767) 46.67%, rgb(246 246 246 / 0.834) 53.33%, rgb(246 246 246 / 0.885) 60%, rgb(246 246 246 / 0.925) 66.67%, rgb(246 246 246 / 0.954) 73.33%, rgb(246 246 246 / 0.976) 80%, rgb(246 246 246 / 0.99) 86.67%, rgb(246 246 246 / 0.998) 93.33%, rgb(246 246 246 / 1) 100%;
 
   /* descriptor dots, by flavour family */
   --c-taste-chocolate: #8a5a3c;

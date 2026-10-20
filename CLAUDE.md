@@ -41,12 +41,19 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
-  capitals for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
+  capitals (PT Mono Bold) for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light).
+- **Every fade is eased**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (the «ease» curve of
+  tw-easing-gradients, 16 stops) or a solid band; never a hand-written transparent → colour.
+- **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
+  positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
 - **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
+- **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
+  cross-document view transition to its coffee's page. `data-out` is the catalog filter's; the reel's waiting cards
+  are `data-wait`.
 - **Pages** are written by `build/pages.mjs` from `src/templates/`; never edit `src/index.html`, `src/catalog/`,
   `src/coffee/` (generated, not committed). Links inside the site go through `href(ctx, to)`.
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
@@ -70,7 +77,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
-- `window.qqPacks` (the stage and `TUNE`: lean, hover, the scroll lag, the press) and `window.qqStage.progress` in the console.
+- `window.qqPacks` (the stage and `TUNE`: turn, hover, the scroll lag, the carry of a sliding or rising card, the press) and `window.qqStage.progress` in the console.
 - A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
 

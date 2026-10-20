@@ -26,8 +26,7 @@ ladder.
 
 ### Type
 
-Two voices: **mono** (JetBrains Mono Bold, in capitals, tracked 0.05em) for names and headings — it stands in for PT
-Mono Bold, which Google Fonts has only in Regular (decision `font-headings`); **sans** (Apercu Pro) for everything you
+Two voices: **mono** (PT Mono Bold, in capitals, tracked 0.05em) for names and headings (decision `font-headings`); **sans** (Apercu Pro) for everything you
 read. The countdown is Technology Bold (made tabular by `build/fonts.py`), sized so it is exactly as wide as its caption
 «До ближайшей обжарки» (decision `countdown-as-caption`); a date in its place is set in the mono.
 

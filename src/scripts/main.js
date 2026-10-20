@@ -6,6 +6,7 @@ import { initToggles } from "./toggle.js";
 import { initRoast } from "./roast.js";
 import { initBuy } from "./buy.js";
 import { initSliders } from "./slider.js";
+import { initFacts } from "./facts.js";
 
 initScroll();
 initNav();
@@ -13,6 +14,7 @@ initToggles();
 initRoast();
 initBuy();
 initSliders();
+initFacts();
 
 if (document.querySelector("[data-pack]")) import("./packs.js").then((m) => m.initPacks());
 if (document.querySelector("[data-stage]")) import("./product.js").then((m) => m.initStage());

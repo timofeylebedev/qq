@@ -193,7 +193,7 @@ export function groups(data) {
       slots: [{ label: "dark («Наш подход»)", html: darkStory }, { label: "light («О компании»)", html: lightStory }]
     },
     { id: "business", title: "Business", compares: "—", slot: SCREEN, slots: [{ label: "home", html: cut(H, /class="section business"/) }] },
-    { id: "facts", title: "Facts", compares: "—", slot: SCREEN, slots: [{ label: "home (the plus opens one more sentence)", html: cut(H, /class="facts"/) }] },
+    { id: "facts", title: "Facts", compares: "—", slot: SCREEN, slots: [{ label: "home (a block grows into its modal)", html: cut(H, /class="facts"/) }] },
     { id: "footer", title: "Footer", compares: "—", slot: SCREEN, slots: [{ label: "every page", html: cut(H, /class="footer"/) }] },
     { id: "catalog", title: "Catalog", compares: "—", slot: SCREEN, page: "catalog/", slots: [{ label: "the roast line, tabs, filters and every coffee", html: cut(C, /class="section section--first catalog"/) }] },
     {
