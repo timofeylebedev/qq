@@ -19,7 +19,7 @@
 .sortby svg { width: 24px; height: 24px; flex: none; }
 .sortby select { appearance: none; -webkit-appearance: none; min-height: 32px; border: 0; background: none; padding: 0; font-size: max(16px, var(--type-body)); cursor: pointer; }
 .sortby select:focus-visible { outline: none; }
-.sortby:focus-within { outline: 2px solid currentColor; outline-offset: 2px; }
+.sortby:has(:focus-visible) { outline: 2px solid currentColor; outline-offset: 2px; }
 
 /* ── a line of the bag: the coffee's square on cloud (as a half-row card of the catalog) with the box that puts it
    into the order, the heart and the cross on top, the quantity and the price at its foot; the name and three
@@ -29,7 +29,7 @@
 .bitem__media > .media { z-index: 0; }
 .bitem__top { position: relative; z-index: 7; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: var(--card-pad); color: var(--g-fg, var(--c-ink)); }
 .bitem__media:has(.media--photo) .bitem__top, .bitem__media:has(.media--photo) .bitem__row { --g-bg: var(--c-black); --g-fg: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); color: var(--c-paper); }
-.bitem__media:has(.media--photo) .bitem__row { --fade: var(--fade-black); --ground: var(--c-black); }
+.bitem__media:has(.media--photo) .bitem__row { --fade: var(--fade-card-black); --ground: var(--c-black); }
 .bitem__pick { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; cursor: pointer; }
 .bitem__pick .box { width: 28px; height: 28px; }
 .bitem__tools { display: flex; gap: 16px; }
@@ -39,8 +39,8 @@
 @media (--mouse) { .bitem__remove:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .bitem__row {
   position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr;
-  --fade: var(--fade-cloud); --ground: var(--c-cloud);
-  padding-top: 56px; background: linear-gradient(to bottom, var(--fade)) top / 100% 56px no-repeat, linear-gradient(var(--ground), var(--ground)) left 0 top 56px / 100% 100% no-repeat;
+  --fade: var(--fade-card-cloud); --ground: var(--c-cloud);
+  padding-top: var(--lead-card); background: linear-gradient(to bottom, var(--fade));
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
 .bitem__row > * { min-height: var(--control-h); border-top: var(--hair) solid var(--line); }
@@ -62,7 +62,7 @@
   font-size: max(16px, var(--type-body)); text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
 }
 .opt select:focus-visible { outline: none; }
-.opt:focus-within { box-shadow: inset 0 0 0 2px var(--c-ink); }
+.opt:has(:focus-visible) { box-shadow: inset 0 0 0 2px var(--c-ink); }
 .opt::after { content: ""; position: absolute; right: 14px; top: 50%; width: 7px; height: 7px; margin-top: -6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); pointer-events: none; }
 
 /* a coffee no longer on sale: a small picture, its name, the way to similar coffees */
@@ -73,8 +73,7 @@
 .gone__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .gone__name { font-size: var(--type-card-title); }
 .gone__similar { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; min-height: 40px; font-weight: 700; }
-.gone__similar svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
-@media (--mouse) { .gone__similar:hover svg { transform: translateX(4px); transition-duration: var(--t-in); } }
+.gone__similar svg { width: 24px; height: 24px; }
 
 /* the summary panel: the way to free delivery */
 .freebar { display: grid; gap: 8px; margin-top: 8px; }

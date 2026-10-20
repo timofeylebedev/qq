@@ -6,9 +6,12 @@
    at the content column (1520px) widened by the 8px of air inside the logo's and the icons' boxes, so from there on
    the logo and the last icon stand exactly on the column's edges.
 
-   Four steps (media.css): every section in three groups (--links-full); four short sections (--links); below, the
+   Four steps (media.css): every section in one row (--links-full); four short sections (--links); below, the
    burger; on a phone (--phone) the bag, favourites and profile leave for the tab bar at the foot of the screen.
-   Hover: only the item under the pointer changes, a tint of white (of ink on light grounds) behind it. */
+   Hover: only the item under the pointer changes, a tint of white (of ink on light grounds) behind it. A link's
+   tint is as far from its text at the sides as from its capitals and baseline above and below (14px: the text is
+   16px in a 40px cell): it is drawn 6px wider than the link, whose own box keeps 8px at each side, so the texts stay
+   16px apart and the pointer passes from one link to the next in the middle of the gap. */
 .nav {
   --nav-air: 8px;          /* the air inside the logo's and the icons' boxes: the glyphs stand 8px in */
   position: fixed; inset: 0 0 auto; z-index: 50;
@@ -28,8 +31,8 @@
 .nav__links { grid-area: 1 / 2; }
 .nav__logo svg { width: 109px; height: 35px; }
 .nav__links ul { display: flex; align-items: center; }
-.nav__group + .nav__group { margin-left: 16px; }
-.nav__links a { padding-inline: 8px; font-size: var(--type-body); line-height: 1; white-space: nowrap; }
+.nav__links a { position: relative; z-index: 0; padding-inline: 8px; font-size: var(--type-body); line-height: 1; white-space: nowrap; }
+.nav__links a::before { content: ""; position: absolute; z-index: -1; inset: 0 -6px; pointer-events: none; transition: background-color var(--t-out) var(--ease-out); }
 .nav__links a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: var(--hair); }
 .nav__tools { grid-area: 1 / -2; justify-self: end; display: flex; align-items: center; gap: 4px; }
 .nav__tool { position: relative; width: 40px; }
@@ -38,9 +41,9 @@
   position: absolute; top: 4px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
   background: var(--c-lavender); color: var(--c-black); font-size: 12px; line-height: 16px; font-weight: 500; text-align: center;
 }
-:is(.nav__logo, .nav__links a, .nav__tool) { transition: background-color var(--t-out) var(--ease-out); }
+:is(.nav__logo, .nav__tool) { transition: background-color var(--t-out) var(--ease-out); }
 @media (--mouse) {
-  :is(.nav__logo, .nav__links a, .nav__tool):hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  :is(.nav__logo, .nav__tool):hover, .nav__links a:hover::before { background-color: var(--tint); transition-duration: var(--t-in); }
 }
 
 /* the steps */

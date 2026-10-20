@@ -44,6 +44,15 @@ export function initBuy() {
   for (const form of document.querySelectorAll("[data-buy]")) {
     update(form);
     form.addEventListener("change", () => update(form));
+    // a card's weights are one cell: a click anywhere in it (beside the two labels too) picks the other weight
+    const cell = form.querySelector(".buy__weights");
+    if (cell) cell.addEventListener("click", (e) => {
+      if (e.target.closest("label, input")) return;
+      const radios = [...cell.querySelectorAll('input[type="radio"]')], i = radios.findIndex((r) => r.checked);
+      const next = radios[(i + 1) % radios.length];
+      if (!next || next === radios[i]) return;
+      next.checked = true; next.dispatchEvent(new Event("change", { bubbles: true }));
+    });
     form.addEventListener("click", (e) => {
       const step = e.target.closest("[data-step]");
       if (!step || step.getAttribute("aria-disabled") === "true") return;

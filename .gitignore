@@ -23,3 +23,5 @@ src/account/
 src/data/products.json
 # the component canvas page and its preview documents (src/lab/canvas/page.mjs, dev server only)
 src/lab/canvas/*.html
+design/fade-tuner/out/
+design/report/out-*.html

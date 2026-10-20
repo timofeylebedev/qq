@@ -49,9 +49,14 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals (PT Mono Bold) for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
-  curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light).
-- **Every fade is eased**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (the «ease» curve of
-  tw-easing-gradients, 16 stops) or a solid band; never a hand-written transparent → colour.
+  curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light) and never
+  moves anything (no transform in a `:hover` rule: «Hovers never move»). A pointer's focus changes nothing; scripts
+  that move the focus use `focusFrom()` of `scripts/focus.js` (the ring only after a key).
+- **Every fade is eased and whole**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (one per place:
+  hero, caption, panel, card; a curve in 16 stops, tuned in `design/fade-tuner/`) laid over the whole block, with no
+  solid band under it; or a solid band for a line. Never a hand-written transparent → colour.
+- **Lines run out**: below the column's max, the hairlines between a full-width block's cells run to the screen's
+  edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead.
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -88,7 +93,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
-- `window.qqPacks` (the stage and `TUNE`: turn, hover, the scroll lag, the carry of a sliding or rising card, the press) and `window.qqStage.progress` in the console.
+- `window.qqPacks` (the stage and `TUNE`: turn, hover, the carry of a rising card, the press) and `window.qqStage.progress` in the console.
 - A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
 

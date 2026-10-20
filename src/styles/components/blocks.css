@@ -70,15 +70,15 @@
   font: 700 var(--type-card-title) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono);
   transition: background-color var(--t-out) var(--ease-out);
 }
-.golink svg { width: 24px; height: 24px; transition: transform var(--t-out) var(--ease-out); }
-@media (--mouse) { .golink:hover { background-color: var(--tint); transition-duration: var(--t-in); } .golink:hover svg { transform: translateX(4px); transition-duration: var(--t-in); } }
+.golink svg { width: 24px; height: 24px; }
+@media (--mouse) { .golink:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .rowlink {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--gap); width: 100%; min-height: calc(var(--control-h) + 2 * var(--tile-pad));
   padding: var(--tile-pad); background: var(--c-cloud); text-align: left; transition: background-color var(--t-out) var(--ease-out);
 }
-.rowlink svg { width: 32px; height: 32px; transition: transform var(--t-out) var(--ease-out); }
+.rowlink svg { width: 32px; height: 32px; }
 .rowlink__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
-@media (--mouse) { .rowlink:hover { background-color: var(--c-ink-6); transition-duration: var(--t-in); } .rowlink:hover .rowlink__go svg { transform: translateX(6px); transition-duration: var(--t-in); } }
+@media (--mouse) { .rowlink:hover { background-color: var(--c-ink-6); transition-duration: var(--t-in); } }
 
 /* ── parts of a page under its head (Отложенные, Активность…): a heading, its content; a hairline between ──── */
 .part { padding-top: var(--section-y-s); }
@@ -202,8 +202,7 @@
 .places { display: grid; gap: var(--gap); }
 .place { position: relative; display: grid; }
 .place__map { position: relative; display: block; aspect-ratio: 1; overflow: hidden; background: var(--c-cloud); }
-.place__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
-@media (--mouse) { .place__map:hover .place__image img { transform: scale(1.03); } }
+.place__image img { width: 100%; height: 100%; object-fit: cover; }
 .place__pin { position: absolute; left: 50%; top: 50%; translate: -50% -100%; color: var(--c-ink); }
 .place__pin svg { width: 40px; height: 40px; }
 .place__card { display: grid; gap: 8px; padding: var(--tile-pad); font-size: var(--type-body); line-height: var(--lh-text); }

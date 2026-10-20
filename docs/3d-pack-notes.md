@@ -1,6 +1,6 @@
 # 3D coffee pack for the web — working notes
 
-Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll lag and press are designed (round 2), the look values still wait for the designer.
+Status (20 Oct 2026): model and renderer on the site; hover, press and the carry of a rising card are designed (rounds 2–5; no lag or lean with the scroll since round 5), the look values still wait for the designer.
 
 ## Where it lives in this repo
 - Renderer: `src/scripts/pouch3d.js` (the site), `public/lab/pouch3d.js` (the test bench). Shared mesh and effect maps: `public/pack/`. Label art: `public/pack/labels/`.
@@ -65,3 +65,10 @@ Status (20 Oct 2026): model and renderer on the site; the lean, hover, scroll la
   place fades in with its pack.
 - The view transition to a coffee's page captures the stills (`html[data-vt]` hides the canvas); arriving that way the
   big pack starts facing front instead of turning in from a quarter turn.
+
+## Round 5 (Oct 20, 2026)
+
+- No lag any more (Tim): a pack stays exactly in its slot while the page scrolls or its row slides, and a sliding
+  row no longer turns its packs (`carryTurn` is gone). Only a card rising into place still carries its pack: it
+  trails the slot's move up the page and tilts (`carryTilt` 0.45, `TUNE.lag` 9/s).
+- A press anywhere on a card (not its buttons) moves its pack away and holds it there while the pointer is down.

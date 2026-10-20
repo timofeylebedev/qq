@@ -6,6 +6,10 @@
   --nav-h: 48px;          /* the navbar: one height at every size (a control, not fluid) */
   --hair: 1px;            /* every line of the site */
   --col-max: 1520px;      /* the content column stops here; above, the margins grow */
+  /* the lead-in of each fade (colors.json fades): how far above its block's content the fade starts (the hero's: --hero-fade) */
+  --lead-caption: 64px;   /* a new arrival's caption over its photo */
+  --lead-panel: 40px;     /* the text of a business card */
+  --lead-card: 56px;      /* the buy row of a product card, of a line in the bag */
   color-scheme: light;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -60,7 +64,9 @@ a { color: inherit; text-decoration: none; }
 .link { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.2em; }
 @media (--mouse) { .link:hover { text-decoration-color: transparent; } }
 
-/* focus: one ring for everything, ink on light grounds and white on dark */
+/* focus: nothing changes when a pointer focuses something (Tim, round 5); for the keyboard one ring for everything,
+   ink on light grounds and white on dark; a text field's ring only while the keyboard is in use (html[data-keyed]).
+   Scripts that move the focus pass focusVisible only after a key (scripts/focus.js). */
 :focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 :focus:not(:focus-visible) { outline: none; }
 
