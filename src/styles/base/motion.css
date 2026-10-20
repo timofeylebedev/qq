@@ -19,7 +19,7 @@
 }
 
 /* From one page of the site to another the pages cross-fade; a card opening its coffee (and the way back) carries its
-   name and its pack to the page's title and big pack (scripts/transition.js names them). Not with «reduce motion». */
+   name and its pack to the page's title and big pack (public/vt.js names them). Not with «reduce motion». */
 @media (--motion) { @view-transition { navigation: auto; } }
 ::view-transition-group(*) { animation-duration: var(--t-move); animation-timing-function: var(--ease-out); }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-out); }

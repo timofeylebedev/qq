@@ -76,7 +76,7 @@
 .fav { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: inherit; }
 .fav svg { width: 24px; height: 24px; }
 .fav { position: relative; }
-.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }
+.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
 .fav[aria-pressed="true"] .i-on { opacity: 1; transform: none; transition-duration: var(--t-in); }
 /* hovered, the heart fades back (as the price does): its colour, a step lighter */
 .fav svg { transition: color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }

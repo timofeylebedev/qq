@@ -186,7 +186,7 @@ export function groups(data) {
       slots: Object.entries(NAV_SCREENS).map(([name, sc]) => ({ label: `${name} ${sc.w} × ${sc.h}, white (the whole screen: the tab bar stands at its foot under 40em; the burger opens the menu under 48em)`, frame: { src: "frame-nav-paper.html", ...sc } }))
     },
     { id: "hero", title: "Hero", compares: "—", slot: SCREEN, page: "", slots: [{ label: "home", html: cut(H, /class="hero"/) }] },
-    { id: "featured", title: "New arrivals", compares: "—", slot: SCREEN, slots: [{ label: "home (slides with a photo or the 3D pack; the pager and the arrows move them)", html: cut(H, /aria-labelledby="featured-title"/) }] },
+    { id: "featured", title: "New arrivals", compares: "—", slot: SCREEN, slots: [{ label: "home (a text square and a photo square; the pager in the middle and the arrows move them)", html: cut(H, /aria-labelledby="featured-title"/) }] },
     { id: "recs", title: "Recommended", compares: "—", slot: SCREEN, slots: [{ label: "home (a row of cards that scrolls sideways)", html: cut(H, /aria-labelledby="recs-title"/) }] },
     {
       id: "story-theme", title: "Image block · theme", compares: "theme", slot: SCREEN,

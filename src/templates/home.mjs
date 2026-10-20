@@ -154,7 +154,7 @@ function facts(ctx) {
       </button>
     </li>`).join("\n    ")}
   </ul></div>
-  <dialog class="fmodal" id="facts-modal" data-facts-modal data-ground="paper" aria-label="Как мы работаем">
+  <dialog class="fmodal" id="facts-modal" data-facts-modal data-ground="paper" aria-labelledby="fact-0-title">
     <div class="fmodal__dim"></div>
     <div class="fmodal__box">
       <div class="fmodal__ground" data-morph="ground"></div>

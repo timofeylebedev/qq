@@ -10,7 +10,7 @@
       "decided": "Tim, 2026-10-20 (round 3)",
       "fix": "" },
     { "id": "footer-squares", "kind": "decision",
-      "what": "From L the footer is two equal halves, each at least a square: the animated flame centred on the left one by its mass (measured over its animation: 50.5% across, 62.9% down its box), the newsletter and the links on the right. Square from about 1360px wide; narrower, the links need more height than the square has and both halves grow with them (1280: 597 × 637)",
+      "what": "From L the footer is two equal halves, each at least a square: the animated flame centred on the left one by its mass (measured over its animation: 50.5% across, 62.9% down its box), the newsletter and the links on the right. Square from about 1360px wide; narrower, the links need more height than the square has and both halves grow with them (1280: 599 × 626)",
       "why": "Tim, round 3: «2 square-ratio containers», «the logo should be optically centered». The mass centre lifts the flame by 12% of its height, as the Figma footer's 40px lift of a 320px logo does",
       "decided": "Tim, 2026-10-20 (round 3)",
       "fix": "" },

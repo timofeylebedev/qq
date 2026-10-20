@@ -50,7 +50,7 @@ function fitLines(box) {
     const cs = getComputedStyle(box), lh = parseFloat(getComputedStyle(about).lineHeight);
     const gap = parseFloat(cs.rowGap) || 0, inner = parseFloat(getComputedStyle(name.parentElement).rowGap) || 0;
     const room = box.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - facts.offsetHeight - gap - name.offsetHeight - inner;
-    about.style.setProperty("--lines", String(Math.max(1, Math.min(8, Math.floor((room + 1) / lh)))));
+    about.style.setProperty("--lines", String(Math.max(1, Math.min(8, Math.floor(room / lh)))));
   };
   new ResizeObserver(fit).observe(box);
 }

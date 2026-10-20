@@ -13,7 +13,8 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/assets/icons/mark.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/styles/main.css">${ctx.page === "product" ? '\n<link rel="expect" href="#product-title" blocking="render">' : ""}
+<link rel="stylesheet" href="/styles/main.css">
+<link rel="expect" href="${ctx.page === "product" ? "#product-title" : "#contacts"}" blocking="render">
 <script vite-ignore src="${ctx.rel || ""}vt.js"></script>
 <script type="module" src="/scripts/main.js"></script>
 </head>

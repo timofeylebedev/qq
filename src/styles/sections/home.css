@@ -124,7 +124,7 @@
 .featured__name { font-size: var(--type-title); }
 .featured__name a::after { content: ""; position: absolute; inset: 0; z-index: 6; }
 .featured__name a:focus-visible { outline: none; }
-.featured__name a:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+.featured__name a:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -4px; box-shadow: inset 0 0 0 2px var(--c-paper); }   /* ink on the text, the white line on the photo */
 .featured__about { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 34em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 8); line-clamp: var(--lines, 8); overflow: hidden; }
 .featured__facts { display: grid; border: var(--hair) solid var(--line); }
 .featured__facts > * { min-width: 0; padding: 16px; }

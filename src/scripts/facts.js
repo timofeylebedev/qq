@@ -24,7 +24,8 @@ export function initFacts() {
   let at = -1, busy = false;
 
   const part = (root, name) => root.querySelector(`[data-morph="${name}"]`);
-  const show = (i) => { panels.forEach((p, j) => { p.hidden = j !== i; }); at = i; };
+  // one panel shown; the dialog is named by its title
+  const show = (i) => { panels.forEach((p, j) => { p.hidden = j !== i; }); at = i; dialog.setAttribute("aria-labelledby", `fact-${i}-title`); };
   // the moving parts of the block stay hidden while the modal holds them
   const hold = (i, on) => { for (const n of ["icon", "title", "plus"]) part(blocks[i], n).style.visibility = on ? "hidden" : ""; };
 
@@ -52,9 +53,10 @@ export function initFacts() {
     return Promise.all(anims.map((a) => a.finished)).then(() => { delete dialog.dataset.morphing; return anims; });
   }
 
+  let wantShut = false;            // a close asked for while the modal is still moving: done as soon as it stops
   async function open(i) {
     if (busy || dialog.open) return;
-    busy = true;
+    busy = true; wantShut = false;
     show(i);
     document.documentElement.dataset.modal = "";
     dialog.showModal();
@@ -62,20 +64,27 @@ export function initFacts() {
     const anims = await morph(i, false);
     anims.forEach((a) => a.cancel());
     busy = false;
+    if (wantShut) shut();
   }
 
   async function shut() {
-    if (busy || !dialog.open) return;
-    busy = true;
-    const i = at;
-    const anims = await morph(i, true);
-    dialog.close();
+    if (!dialog.open) return;
+    if (busy) { wantShut = true; return; }
+    busy = true; wantShut = false;
+    const anims = await morph(at, true);
+    dialog.close();                 // the close event tidies up (below)
     anims.forEach((a) => a.cancel());
-    hold(i, false);
-    delete document.documentElement.dataset.modal;
-    blocks[i].focus({ preventScroll: true });
     busy = false;
   }
+
+  // however the dialog closes (the cross, Esc, a click beside it, or the browser closing it itself), the page gets
+  // back its scroll and its block, and the focus returns to that block
+  dialog.addEventListener("close", () => {
+    for (let i = 0; i < blocks.length; i++) hold(i, false);
+    delete document.documentElement.dataset.modal; delete dialog.dataset.morphing;
+    blocks[at]?.focus({ preventScroll: true });
+    busy = false; wantShut = false;
+  });
 
   // to another block: the old panel slides out, the new one in, the ground eases to the new height
   async function step(j) {

@@ -11,15 +11,25 @@
 // ahead), and a coffee's page that is arrived at this way starts its big pack facing front instead of turning in.
 const coffee = (url) => { try { return new URL(url).pathname.match(/\/coffee\/([^/]+)\/?$/)?.[1] || null; } catch { return null; } };
 
-// the parts of this page that belong to a coffee: its card (a list) or its stage (its own page)
+// on the screen (and not a card still waiting to rise): only that may travel
+const seen = (el) => {
+  if (!el || el.closest("[data-wait]")) return false;
+  const r = el.getBoundingClientRect();
+  return r.width > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
+};
+// the link last clicked (a card's, a new arrival's): the one that travels when it opens its coffee
+let clicked = null;
+addEventListener("click", (e) => { clicked = e.target.closest?.("a[href]") || null; }, true);
+
+// the parts of this page that belong to a coffee: the clicked card or slide, else a card of that coffee on the
+// screen (a list), or the stage (its own page)
 function parts(slug) {
   const stage = document.querySelector("[data-stage]");
-  if (stage) return { name: stage.querySelector(".pstage__name"), pack: stage.querySelector(".pack--hero") };
-  const card = [...document.querySelectorAll(`[data-card][data-slug="${CSS.escape(slug)}"]`)].find((c) => {
-    const r = c.getBoundingClientRect(); return r.width > 0 && r.bottom > -innerHeight && r.top < innerHeight * 2;
-  });
-  if (card) return { name: card.querySelector(".card__title"), pack: card.querySelector(".pack") };
-  const slide = [...document.querySelectorAll(".featured__slide")].find((s) => coffee(s.querySelector(".featured__name a")?.href) === slug);
+  if (stage) { const name = stage.querySelector(".pstage__name"), pack = stage.querySelector(".pack--hero"); return { name: seen(name) ? name : null, pack: seen(pack) ? pack : null }; }
+  const own = clicked && coffee(clicked.href) === slug ? clicked.closest("[data-card], .featured__slide") : null;
+  const card = own?.matches("[data-card]") ? own : own ? null : [...document.querySelectorAll(`[data-card][data-slug="${CSS.escape(slug)}"]`)].find((c) => seen(c.querySelector(".card__title")));
+  if (card) { const pk = card.querySelector(".pack"); return { name: card.querySelector(".card__title"), pack: seen(pk) ? pk : null }; }
+  const slide = own || [...document.querySelectorAll(".featured__slide")].find((x) => coffee(x.querySelector(".featured__name a")?.href) === slug && seen(x.querySelector(".featured__name")));
   return slide ? { name: slide.querySelector(".featured__name"), pack: null } : {};
 }
 
@@ -47,6 +57,11 @@ function initTransitions() {
     const from = coffee(navigation?.activation?.from?.url), here = coffee(location.href);
     const slug = here || from;
     if (!slug || (from && here)) return;
+    // a step back: put the page at its place first (scripts/scroll.js keeps it; it runs only after this frame), so
+    // the card it returns to is found where it will be
+    if (navigation.activation?.navigationType === "traverse") {
+      try { const at = JSON.parse(sessionStorage.getItem("qq-scroll:" + location.pathname + location.search)); if (at) { history.scrollRestoration = "manual"; scrollTo({ top: at.y, left: at.x, behavior: "instant" }); } } catch { /* storage off */ }
+    }
     document.documentElement.dataset.vt = "in";
     name(slug, true);
     e.viewTransition.finished.finally(() => { name(slug, false); delete document.documentElement.dataset.vt; });
