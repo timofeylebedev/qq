@@ -132,7 +132,7 @@ function facts(ctx) {
   const n = list.length;
   const panels = list.map((f, i) => {
     const prev = list[(i + n - 1) % n], next = list[(i + 1) % n];
-    return `<article class="fmodal__panel" id="fact-${i}" data-fact-panel="${i}" aria-labelledby="fact-${i}-title" hidden>
+    return `<article class="fmodal__panel" id="fact-${i}" data-fact-panel="${i}" aria-labelledby="fact-${i}-title" data-off inert>
       <div class="fmodal__body">
         <span class="fmodal__icon" data-morph="icon">${icon(f.icon)}</span>
         <h2 class="fmodal__title" id="fact-${i}-title" data-morph="title">${esc(f.title)}</h2>

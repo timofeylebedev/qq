@@ -2,10 +2,11 @@
 // a modal (one <dialog>, the three panels in it, one shown at a time), and the modal steps to the other two with its
 // «‹ Доставка | Оплата ›» row. Closing (the cross, Esc, a click beside it) shrinks it back into the block it shows.
 //
-// The growing is a shared-element move, so nothing is stretched: the modal's white ground grows from the block's box
-// (an empty box may scale), while the icon and the title travel from the block to their places in the modal at the
-// same size, and the block's plus travels to the corner and turns into the cross. The text and the step row fade in
-// after. With «reduce motion» the modal simply opens and closes.
+// The growing is one card (Tim, round 5: seamless, smooth both ways): the modal's box starts on the block, cut to the
+// block's size, and grows into place, nothing stretched. Inside it the icon and the title travel from the block to
+// their places at the same size; the text rides with the title, coming in as it goes; the step row stays at the
+// card's foot, so it slides up from under the growing edge; the block's plus travels to the corner and turns into
+// the cross. Closing is the same move backwards. With «reduce motion» the modal simply opens and closes.
 import { focusFrom } from "./focus.js";
 
 const T = () => {
@@ -14,44 +15,48 @@ const T = () => {
   return { move: s(cs.getPropertyValue("--t-move")), out: s(cs.getPropertyValue("--t-out")), ease: cs.getPropertyValue("--ease-move").trim(), easeOut: cs.getPropertyValue("--ease-out").trim() };
 };
 const box = (el) => el.getBoundingClientRect();
-const sheet = () => matchMedia("(width < 40em)").matches;   // a phone: the modal is a sheet at the foot of the screen (media.css --phone)
 
 export function initFacts() {
   const dialog = document.querySelector("[data-facts-modal]");
   if (!dialog || !dialog.showModal) return;
   const blocks = [...document.querySelectorAll("[data-fact]")];
   const panels = [...dialog.querySelectorAll("[data-fact-panel]")];
-  const ground = dialog.querySelector('[data-morph="ground"]'), shell = dialog.querySelector(".fmodal__box");
+  const shell = dialog.querySelector(".fmodal__box");
   const close = dialog.querySelector("[data-fact-close]"), cross = close.querySelector('[data-morph="plus"]');
   let at = -1, busy = false;
 
   const part = (root, name) => root.querySelector(`[data-morph="${name}"]`);
-  // one panel shown; the dialog is named by its title
-  const show = (i) => { panels.forEach((p, j) => { p.hidden = j !== i; }); at = i; dialog.setAttribute("aria-labelledby", `fact-${i}-title`); };
+  // one panel shown (the others stay in the box's one cell, hidden and inert, so the box keeps its height); the
+  // dialog is named by its title
+  const show = (i) => { panels.forEach((p, j) => { p.toggleAttribute("data-off", j !== i); p.inert = j !== i; }); at = i; dialog.setAttribute("aria-labelledby", `fact-${i}-title`); };
   // the moving parts of the block stay hidden while the modal holds them
   const hold = (i, on) => { for (const n of ["icon", "title", "plus"]) part(blocks[i], n).style.visibility = on ? "hidden" : ""; };
 
-  // from the block's parts to the modal's (forward), or back (reverse)
+  // from the block to the modal (forward), or back (reverse): one card
   function morph(i, reverse) {
     const t = T(), b = blocks[i], p = panels[i];
     const B = box(b), M = box(shell);
-    // the arriving curve: the ground is nearly in place when the text comes in (and leaves first on the way back)
+    const dx = B.left - M.left, dy = B.top - M.top, cw = M.width - B.width, ch = M.height - B.height;
     const opts = { duration: t.move, easing: t.easeOut, fill: "both", direction: reverse ? "reverse" : "normal" };
     const anims = [];
     dialog.dataset.morphing = "";
-    const from = (el, to, extra = "") => {
-      const a = box(el), c = box(to);
-      return `translate(${a.left - c.left}px, ${a.top - c.top}px)${extra}`;
-    };
-    anims.push(ground.animate([{ transformOrigin: "0 0", transform: `translate(${B.left - M.left}px, ${B.top - M.top}px) scale(${B.width / M.width}, ${B.height / M.height})` }, { transformOrigin: "0 0", transform: "none" }], opts));
-    for (const n of ["icon", "title"]) anims.push(part(p, n).animate([{ transform: from(part(b, n), part(p, n)) }, { transform: "none" }], opts));
-    anims.push(cross.animate([{ transform: from(part(b, "plus"), cross) + " rotate(0deg)" }, { transform: "rotate(45deg)" }], opts));
-    // the rest of the modal comes in once the ground is mostly there (and goes first on the way back)
-    const rest = [p.querySelector(".fmodal__text"), p.querySelector(".fmodal__nav"), dialog.querySelector(".fmodal__dim")];
-    rest.forEach((el, k) => anims.push(el.animate(k === 2
-      ? [{ opacity: 0 }, { opacity: 1 }]
-      : [{ opacity: 0, transform: "translateY(12px)" }, { opacity: 1, transform: "none" }],
-    k === 2 ? opts : { ...opts, delay: reverse ? 0 : t.move * 0.3, endDelay: reverse ? t.move * 0.3 : 0, duration: t.move * 0.7 })));
+    // a part's way from the block to its place, inside the card (which itself moves by dx, dy); every box is measured
+    // before anything moves
+    const corner = (el, to) => { const a = box(el), c = box(to); return `translate(${a.left - c.left - dx}px, ${a.top - c.top - dy}px)`; };
+    const centre = (el, to) => { const a = box(el), c = box(to); return `translate(${a.left + a.width / 2 - c.left - c.width / 2 - dx}px, ${a.top + a.height / 2 - c.top - c.height / 2 - dy}px)`; };
+    const icon = part(p, "icon"), title = part(p, "title"), text = p.querySelector(".fmodal__text"), nav = p.querySelector(".fmodal__nav");
+    const fromIcon = corner(part(b, "icon"), icon), fromTitle = corner(part(b, "title"), title), fromCross = centre(part(b, "plus"), cross);
+    const navFrom = `translateY(${nav.offsetHeight - Math.max(0, ch)}px)`;
+    anims.push(shell.animate([
+      { transform: `translate(${dx}px, ${dy}px)`, clipPath: `inset(0px ${Math.max(0, cw)}px ${Math.max(0, ch)}px 0px)` },
+      { transform: "none", clipPath: "inset(0px 0px 0px 0px)" }], opts));
+    anims.push(icon.animate([{ transform: fromIcon }, { transform: "none" }], opts));
+    anims.push(title.animate([{ transform: fromTitle }, { transform: "none" }], opts));
+    // the text rides with the title, coming in as it goes; the step row slides up from under the card's growing foot
+    anims.push(text.animate([{ transform: fromTitle, opacity: 0 }, { transform: "none", opacity: 1 }], opts));
+    anims.push(nav.animate([{ transform: navFrom }, { transform: "none" }], opts));
+    anims.push(cross.animate([{ transform: fromCross + " rotate(0deg)" }, { transform: "rotate(45deg)" }], opts));
+    anims.push(dialog.querySelector(".fmodal__dim").animate([{ opacity: 0 }, { opacity: 1 }], opts));
     return Promise.all(anims.map((a) => a.finished)).then(() => { delete dialog.dataset.morphing; return anims; });
   }
 
@@ -90,24 +95,20 @@ export function initFacts() {
     busy = false; wantShut = false;
   });
 
-  // to another block: the old panel slides out, the new one in, the ground eases to the new height
+  // to another block: the old text slides out, the new one in; the box and its step row stay where they are
   async function step(j) {
     if (busy || j === at) return;
     busy = true;
     const t = T(), i = at, n = panels.length;
     const dir = (j - i + n) % n === 1 ? 1 : -1;
-    const h0 = box(shell).height, old = panels[i], neu = panels[j];
+    const old = panels[i].querySelector(".fmodal__body"), neu = panels[j].querySelector(".fmodal__body");
     hold(i, false); hold(j, true);
     const out = old.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translateX(${-24 * dir}px)` }], { duration: t.out * 0.5, easing: t.ease, fill: "both" });
     await out.finished;
     show(j); out.cancel();
-    const h1 = box(shell).height;
-    const anims = [
-      ground.animate([{ transformOrigin: sheet() ? "50% 100%" : "50% 50%", transform: `scaleY(${h0 / h1})` }, { transformOrigin: sheet() ? "50% 100%" : "50% 50%", transform: "none" }], { duration: t.out, easing: t.ease }),
-      neu.animate([{ opacity: 0, transform: `translateX(${24 * dir}px)` }, { opacity: 1, transform: "none" }], { duration: t.out, easing: t.easeOut })
-    ];
-    focusFrom(neu.querySelector(`[data-fact-go="${i}"]`));
-    await Promise.all(anims.map((a) => a.finished));
+    const into = neu.animate([{ opacity: 0, transform: `translateX(${24 * dir}px)` }, { opacity: 1, transform: "none" }], { duration: t.out, easing: t.easeOut });
+    focusFrom(panels[j].querySelector(`[data-fact-go="${i}"]`));
+    await into.finished;
     busy = false;
   }
 

@@ -56,7 +56,8 @@
    margins (--bleed-l, --bleed-r: scripts/slider.js measures them) and padded back, so its cards still stand on the
    column and snap to it. Room under the cards (--section-gap) lets a card rise into place without being cut, and 8px
    above them keeps a focused card's ring whole.
-   Cards out of view wait below, clear ([data-wait]); coming into view they rise (scripts/slider.js). */
+   Cards out of the column wait below, clear ([data-wait]); coming into it they rise, sliding out of it they sink away
+   (scripts/slider.js). */
 .reel {
   --per: 1.15;
   display: grid; grid-auto-flow: column; gap: var(--gap);
@@ -72,6 +73,8 @@
 @media (--motion) {
   .reel[data-rise] > * { transition: opacity var(--t-move) var(--ease-out), transform var(--t-rise) var(--ease-out); }
   .reel[data-rise] > [data-wait] { opacity: 0; transform: translateY(var(--section-gap)); transition-duration: 0s; }
+  /* a card sliding out of the column sinks away: the rise reversed */
+  .reel[data-rise] > [data-wait="out"] { transition: opacity var(--t-out) var(--ease-leave), transform var(--t-out) var(--ease-leave); }
 }
 @container col (width >= 43rem) { .reel { --per: 2; } }
 @container col (width >= 58rem) { .reel { --per: 3; } }
