@@ -54,3 +54,10 @@
   .footer__brand { padding-left: var(--tile-pad); }
   .footer__news, .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
 }
+/* the same as a page condition, for Safari zoomed out (media.css --framed) */
+@media (--framed) {
+  .footer__inner { border-inline: var(--hair) solid var(--line); }
+  .footer__news, .footer__group { --out-l: 0px; --out-r: 0px; }
+  .footer__brand { padding-left: var(--tile-pad); }
+  .footer__news, .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
+}

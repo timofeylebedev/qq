@@ -80,10 +80,10 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
   }
   for (const f of scripts) for (const m of read(f).matchAll(/matchMedia\(\s*(["'`])(.+?)\1\s*\)/g)) if (!/^\(prefers-reduced-motion: reduce\)$|^\(width >= 48em\)$|^\(width < 40em\)$/.test(m[2])) fails.push(`${relative(root, f)}: matchMedia(${m[2]})`);
   // the page conditions themselves: only these, each written down in media.css (a new one is a decision of the system)
-  const PAGE = { "--links-full": "(width >= 64em)", "--links": "(width >= 48em)", "--phone": "(width < 40em)", "--short": "(height < 32em)", "--mouse": "(hover: hover) and (pointer: fine)", "--calm": "(prefers-reduced-motion: reduce)", "--motion": "(prefers-reduced-motion: no-preference)" };
+  const PAGE = { "--links-full": "(width >= 70em)", "--links": "(width >= 48em)", "--phone": "(width < 40em)", "--short": "(height < 32em)", "--framed": "(width >= 1616px)", "--mouse": "(hover: hover) and (pointer: fine)", "--calm": "(prefers-reduced-motion: reduce)", "--motion": "(prefers-reduced-motion: no-preference)" };
   const media = read("src/styles/base/media.css").replace(/\/\*[\s\S]*?\*\//g, "");
   for (const m of media.matchAll(/@custom-media\s+(--[\w-]+)\s+([^;]+);/g)) if (PAGE[m[1]] !== m[2].trim()) fails.push(`media.css: ${m[1]} ${m[2].trim()} — not one of the page conditions of build/rules.mjs`);
-  rule("Layout steps only at S, M, L", `container queries at ${steps.join(", ")} on the column; media only through media.css (--links-full 64em, --links 48em, --phone 40em, --short 32em tall, input, motion)`, fails);
+  rule("Layout steps only at S, M, L", `container queries at ${steps.join(", ")} on the column; media only through media.css (--links-full 70em, --links 48em, --phone 40em, --short 32em tall, --framed 1616px, input, motion)`, fails);
 }
 // 4
 {
@@ -104,7 +104,7 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 // 6
 {
   const fails = blocks.filter((b) => /font-family\s*:(?!\s*(var\(--(sans|mono|digits)\)|"(Apercu|PT Mono|Technology)"))/.test(b.body) || b.body.split(";").some((d) => /^\s*font\s*:/.test(d) && !/var\(--(sans|mono|digits)\)\s*$|:\s*inherit\s*$/.test(d.trim()))).filter((b) => !b.file.endsWith("base.css") && !b.file.endsWith("fonts.css")).map(where);
-  rule("Faces only through tokens", "font-family is var(--sans), var(--mono) or var(--digits)", fails);
+  rule("Faces only through tokens", "font-family is var(--sans) or var(--mono)", fails);
 }
 // 7
 {
@@ -136,12 +136,12 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
     const [prop, ...v] = d.split(":"); const val = v.join(":");
     if (!/^\s*border(-(top|bottom|left|right|inline|block)(-(start|end))?)?(-color)?\s*$/.test(prop) || !/var\(--|currentColor/.test(val)) continue;
     const state = /\[aria-current|:focus|\[aria-pressed|:checked/.test(b.selector);
-    if (/var\(--line\)|currentColor|transparent/.test(val) || (state && /var\(--c-ink\)|currentColor/.test(val))) continue;
+    if (/var\(--line\)|currentColor|transparent/.test(val) || (state && /var\(--c-ink(-50)?\)|currentColor/.test(val))) continue;
     fails.push(where(b) + `: ${prop.trim()}: ${val.trim().slice(0, 40)}`);
   }
   const lines = blocks.filter((b) => /(^|;)\s*--line\s*:/.test(b.body)).map((b) => b.body.match(/--line\s*:\s*([^;]+)/)[1].trim());
   for (const l of lines) if (!["var(--c-ink-20)", "var(--c-white-30)"].includes(l)) fails.push(`--line set to ${l}: only ink-20 (light) or white-30 (dark)`);
-  rule("One line colour", `every border is var(--line), set by the ground to ink-20 or white-30 (${lines.length} places); states may use ink`, fails);
+  rule("One line colour", `every border is var(--line), set by the ground to ink-20 or white-30 (${lines.length} places); states may use ink (or ink 50%)`, fails);
 }
 // 11
 {

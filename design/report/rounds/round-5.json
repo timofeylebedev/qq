@@ -1,0 +1,831 @@
+{
+ "title": "Round 5: what changed (PR #8, merged)",
+ "blocks": [
+  {
+   "type": "stats",
+   "items": [
+    {
+     "n": 37,
+     "unit": "comments",
+     "text": "30 done, 1 done differently, 1 for you to check, 2 not reproduced, 3 your notes, left alone"
+    },
+    {
+     "n": 4,
+     "unit": "fades",
+     "text": "one per place, each over its whole block, tunable in the fade tuner"
+    },
+    {
+     "n": "63.1 → 88.3",
+     "unit": "px",
+     "text": "the hero title at 1440: it fills its cell"
+    },
+    {
+     "n": 12,
+     "unit": "rules",
+     "text": "checked on every build: «hovers never move» is new · audit clean"
+    }
+   ]
+  },
+  {
+   "type": "shots",
+   "label": "What it looks like",
+   "note": "Round 4 (main) in grey, round 5 in blue, at the size each caption names. Click a picture to open it large; arrows and Escape work.",
+   "items": [
+    {
+     "title": "The hero's fade (1440)",
+     "src": "shots/r5-fade-hero-1440.jpg",
+     "text": "Before: a 160px fade, then solid black under the cells. After: one eased fade under the whole block, the photo melting through to the foot. Its curve, reach and lead-in are yours to tune in the fade tuner."
+    },
+    {
+     "title": "A business card's fade (1440)",
+     "src": "shots/r5-fade-business-1440.jpg",
+     "text": "The text band: before a 40px fade over a black band, now one fade over the whole band."
+    },
+    {
+     "title": "A card's buy row (catalog, 1440)",
+     "src": "shots/r5-fade-card-1440.jpg",
+     "text": "The buy row's fade runs over its cells too; its lead-in lets clicks through to the card."
+    },
+    {
+     "title": "Pager hovered",
+     "src": "shots/r5-hover-pager-1440.jpg",
+     "text": "Before: only the number darkened. After: its round cell is tinted (ink 6%)."
+    },
+    {
+     "title": "Arrows hovered",
+     "src": "shots/r5-hover-arrows-1440.jpg",
+     "text": "Before: the cloud ground. After: the same tint as every control."
+    },
+    {
+     "title": "A card's weights hovered",
+     "src": "shots/r5-hover-card-1440.jpg",
+     "text": "Before: nothing (the price faded to 60% on its own hover). After: each cell tints its ground; the weights are one cell — a click anywhere picks the other weight."
+    },
+    {
+     "title": "The heart hovered",
+     "src": "shots/r5-hover-heart-1440.jpg",
+     "text": "Before: the heart faded to 60%. After: its 40px cell is tinted."
+    },
+    {
+     "title": "Packs while the page scrolls (1440)",
+     "src": "shots/r5-packs-scroll-1440.jpg",
+     "text": "A 300px scroll, 200ms in. Before: the packs trailed their slots. After: they stand exactly in them."
+    },
+    {
+     "title": "Navbar (1440)",
+     "src": "shots/r5-navbar-1440.jpg",
+     "text": "The sections in one row (before three groups 16px apart); your profile icon from Figma."
+    },
+    {
+     "title": "Navbar hovered",
+     "src": "shots/r5-navbar-hover-1440.jpg",
+     "text": "The tint is 14px from the text at the sides (before 8), as far as above the capitals and under the baseline; the texts stay 16px apart."
+    },
+    {
+     "title": "Hero at 1440",
+     "src": "shots/r5-hero-1440.jpg",
+     "text": "The title fills its cell: 88.3px (before 63.1), and its three lines set the cells' height (326px; rows 109 each). The link lines run to the screen's edge."
+    },
+    {
+     "title": "Hero at 1920",
+     "src": "shots/r5-hero-1920.jpg",
+     "text": "90.3px (before 64); framed by a hairline on each side, the lines stop at the frame."
+    },
+    {
+     "title": "Hero at 1024",
+     "src": "shots/r5-hero-1024.jpg",
+     "text": "61.1px (before 55.1). Here the countdown's digits are taller than a third of the title, so the rows (92px) still lead."
+    },
+    {
+     "title": "Hero at 800",
+     "src": "shots/r5-hero-800.jpg",
+     "text": "Below L the title keeps its type size; the lines above the countdown and the links and between the links now run to both edges."
+    },
+    {
+     "title": "Hero on a phone (390)",
+     "src": "shots/r5-hero-390.jpg",
+     "text": "Stacked cells, every line to the screen's edges."
+    },
+    {
+     "title": "A hero link hovered",
+     "src": "shots/r5-hero-link-hover-1440.jpg",
+     "text": "Before: the arrow slid 6px right. After: only the ground tints."
+    },
+    {
+     "title": "The roast note (1440)",
+     "src": "shots/r5-hero-note-1440.jpg",
+     "text": "Opened by the «i»: 16px at every size (before 12.1 on a phone, 13.9 at 1440), trimmed to its capitals and balanced, in place of the digits (no black box); the «i» stays lit."
+    },
+    {
+     "title": "The taste cell (1440)",
+     "src": "shots/r5-taste-1440.jpg",
+     "text": "Text to the cell's edge, left / top: 20 / 15px (before 12 / 15)."
+    },
+    {
+     "title": "The taste cell (1024)",
+     "src": "shots/r5-taste-1024.jpg",
+     "text": "Where the pills make the box taller, the chart stands in its middle."
+    },
+    {
+     "title": "Рекомендуем sliding (1440)",
+     "src": "shots/r5-reel-slide-1440.jpg",
+     "text": "The arrow pressed, 220ms in. Before: the cards slid out uncut, their packs turning. After: the leaving card has sunk away as soon as it crossed the column's edge, and the next one rises in once half of it is in (here just starting); the packs stay upright."
+    },
+    {
+     "title": "Рекомендуем after the slide",
+     "src": "shots/r5-reel-rest-1440.jpg",
+     "text": "Nothing shows beyond the column at rest (before: the next card stood in the right margin)."
+    },
+    {
+     "title": "Business (1440)",
+     "src": "shots/r5-business-1440.jpg",
+     "text": "From the lead to the cards 118px, as much as above the heading (118; before 47). The whole card is its link; the arrow stays still."
+    },
+    {
+     "title": "The info blocks (1440)",
+     "src": "shots/r5-facts-1440.jpg",
+     "text": "Icons 55px (before 40); the plus 12 / 12px from the corner (right / top; before 39 / 39), as Figma's."
+    },
+    {
+     "title": "The info blocks on a phone (390)",
+     "src": "shots/r5-facts-390.jpg",
+     "text": "Stacked, the lines between them run to the screen's edges."
+    },
+    {
+     "title": "The modal growing, 150ms in",
+     "src": "shots/r5-modal-150ms-1440.jpg",
+     "text": "One card: it starts exactly on the block and grows; the text rides with the title, the step row slides up from the card's foot. Before: the ground grew, the text and the row faded in after."
+    },
+    {
+     "title": "The modal open (1440)",
+     "src": "shots/r5-modal-1440.jpg",
+     "text": "The step row 64.6px tall (before 81.9; Figma 66). The box keeps the tallest panel's height, so stepping moves nothing."
+    },
+    {
+     "title": "The modal on a phone (390)",
+     "src": "shots/r5-modal-390.jpg",
+     "text": "The sheet at the foot of the screen, the same card move."
+    },
+    {
+     "title": "Footer at 1440",
+     "src": "shots/r5-footer-1440.jpg",
+     "text": "The newsletter's line and field in two equal halves (309 / 309px; before stacked)."
+    },
+    {
+     "title": "Footer at 900",
+     "src": "shots/r5-footer-900.jpg",
+     "text": "The lines under the cells run out to the screen's edges on the sides where the column ends."
+    },
+    {
+     "title": "A footer link hovered",
+     "src": "shots/r5-footer-hover-1440.jpg",
+     "text": "The underline in ink 40%, 0.4em below the letters (before full ink at 0.2em)."
+    }
+   ]
+  },
+  {
+   "type": "changes",
+   "groups": [
+    {
+     "section": "General",
+     "items": [
+      {
+       "ask": "The gradients should be eased, no solid colours like in the hero; an artifact to tweak them",
+       "done": "Four fades, one per place (colors.json fades: hero, caption, panel, card), each laid over the whole block it stands under; no solid band anywhere, and a rule now refuses a fade with a band under it. <a href='https://claude.ai/artifact/GvQeoJRk2AKU14XjRQvQPJ'>The fade tuner</a>: the built home page in a frame, a curve editor (with the presets of tw-easing-gradients), reach, stops and lead-in per fade, five screen sizes; «Save for Claude» keeps the values for the next commit.",
+       "tag": "done"
+      },
+      {
+       "ask": "The scroll position should not change on changing the window's size",
+       "done": "The first block that starts under the navbar stays where it stood (scripts/scroll.js). Only a change of width counts, and never during a scroll, so a phone's fling is not stopped when its toolbar hides. Measured: the business heading moves only by its section's shrinking padding (200 → 149px at 500 wide).",
+       "tag": "done"
+      },
+      {
+       "ask": "On hover these change the ground of their own container to semi-transparent cool grey or white: navbar links and icons, the 3 hero links, the page numbers, the arrows, the card's 2 buttons, the heart",
+       "done": "Every one of them tints its own cell with <code>--tint</code> (ink 6% on light, white 20% on dark and photo cards). Nothing moves on hover anywhere (icons, photo zooms): a new rule, «Hovers never move».",
+       "tag": "done"
+      },
+      {
+       "ask": "In the focused state nothing should be changed",
+       "done": "A pointer lights nothing: the modal now opens with the focus on its box, scripts move focus without a ring after a click (scripts/focus.js), text fields keep their border. For the keyboard the ring stays (Tab, Enter, Esc work as before).",
+       "tag": "differently"
+      },
+      {
+       "ask": "3D packs: remove the lag on scroll",
+       "done": "No lag on the page's scroll or a row's slide, no tilt when sliding. Only a card rising into place still carries its pack up.",
+       "tag": "done"
+      },
+      {
+       "ask": "3D packs: on click moving away a bit, on hold stays moved away",
+       "done": "A press anywhere on the card (not its buttons) moves the pack away (lift −0.45, scale 0.94) and holds it while the pointer is down; before it took a press on the pack itself.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Navbar",
+     "items": [
+      {
+       "ask": "The links should be in 1 group (now there are 3)",
+       "done": "One row, every text 16px from the next.",
+       "tag": "done"
+      },
+      {
+       "ask": "Change the profile icon to the actual one from Figma",
+       "done": "Exported from the Figma navbar (profile, 24px), drawn in the current colour.",
+       "tag": "done"
+      },
+      {
+       "ask": "The ground of the links on hover larger, padding around the text even; the gap stays, no movement",
+       "done": "The tint 14px beside the text (was 8): 16px text in a 40px cell has 13px over its capitals and 15 under its baseline. It is drawn 6px wider than the link, so the texts stay and the pointer passes from one link to the next in the middle of the gap.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Hero",
+     "items": [
+      {
+       "ask": "1. The title should shape the height of the whole bottom container; on larger screens its size should be larger than now",
+       "done": "From L the title fills its cell («обжарки» 4.55em from the cell's edge to its padding), capped at its size at the column's 1520: <span class='was'>55.1</span> 61.1px at 1024, <span class='was'>63.1</span> 88.3 at 1440, <span class='was'>64</span> 90.3 from 1920. From 1366 its lines set the cells' height (326px at 1440); narrower, the countdown's digits are taller and the rows lead (275 vs a 239px title at 1024). Decision hero-title-fills-cell.",
+       "tag": "check"
+      },
+      {
+       "ask": "2. The inner container should have left and right borders from the max width — on larger screens it disappears; the same for the 3 blocks and the footer",
+       "done": "The frame is there from the column's 1520px, at 1920 and 2560, in Chromium, for the hero, the info blocks and the footer. I could not make it disappear: at which width and in which browser did you see it go?",
+       "tag": "open"
+      },
+      {
+       "ask": "3. On hover a link's icon shouldn't move",
+       "done": "It stays; only the ground tints.",
+       "tag": "done"
+      },
+      {
+       "ask": "4. Lines should always run full width (now on smaller screens they don't); the same for the 3 blocks and the footer",
+       "done": "Below the column's max every hairline between cells runs out to the screen's edges on the sides where the column ends (a line with <code>--out-l</code> / <code>--out-r</code> of the gutter): the hero's link lines end 0px from the screen's edge at 1440 (before 47). From 1520 the block is framed and the lines stop at the frame.",
+       "tag": "done"
+      },
+      {
+       "ask": "5. On load the 3-column block moves to its place from opacity 0 and from below, with its outer container and top border",
+       "done": "The whole block rises: the fade, the hairline above it and the cells, one section gap over 0.9s.",
+       "tag": "done"
+      },
+      {
+       "ask": "6. The text after the «i» optically centred, up to 16px",
+       "done": "16px at every size (before 12.1 on a phone), trimmed to its capitals and baseline and balanced, so it is centred by what you see; it takes the place of the digits and caption.",
+       "tag": "done"
+      },
+      {
+       "ask": "7. The «i» icon should stay selected after a click",
+       "done": "It keeps the hover tint while the note is open.",
+       "tag": "done"
+      },
+      {
+       "ask": "8–10 (your notes)",
+       "done": "Left alone, as you asked.",
+       "tag": "answered"
+      }
+     ]
+    },
+    {
+     "section": "New",
+     "items": [
+      {
+       "ask": "1. The numbers block should be centred",
+       "done": "Measured in Chromium: the pager's middle is the head's and the screen's middle within 0px at 390, 700, 1024, 1280, 1440 and 1920 (the number inside each ring within 0.4px). Where did it look off (size, browser)?",
+       "tag": "open"
+      },
+      {
+       "ask": "2. The 4-qualities cell: more space left and right, so the padding feels even",
+       "done": "Its sides get the air its rows have above them (12px + (1.75em − the capitals) / 2): text to the edge 20 / 15px left / top at 1440 (before 12 / 15); centred where the pills make the box taller.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. The picture should not move on hover",
+       "done": "It stays (no zoom anywhere on the site now).",
+       "tag": "done"
+      },
+      {
+       "ask": "5 (your note)",
+       "done": "Left alone.",
+       "tag": "answered"
+      }
+     ]
+    },
+    {
+     "section": "Recommended",
+     "items": [
+      {
+       "ask": "1. Packs shouldn't tilt on sliding",
+       "done": "They don't (carryTurn removed).",
+       "tag": "done"
+      },
+      {
+       "ask": "2. Packs outside the container shouldn't be visible; they disappear the opposite way of how they appear",
+       "done": "Cards show only inside the column: one comes in when half of it is in and rises, one leaves as soon as it starts crossing the edge and sinks away (0.45s, the rise reversed); its pack goes with it, upright. At rest nothing stands beyond the column, however far a swipe went. A phone keeps its peek.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. Some area on the card above the buttons isn't clickable",
+       "done": "The buy row's fade (its 56px lead-in) took the clicks; it now lets them through to the card's link. Measured: no dead point on the recommended and catalog cards.",
+       "tag": "done"
+      },
+      {
+       "ask": "4. The whole left button should be clickable as one",
+       "done": "A click anywhere in the weights cell picks the other weight; it tints as one on hover.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Business",
+     "items": [
+      {
+       "ask": "1. The gap between the text and the cards equal to the top padding",
+       "done": "<span class='was'>47</span> 118px at 1440 = the 118px above the heading (<code>--section-y</code> at every size).",
+       "tag": "done"
+      },
+      {
+       "ask": "2. The whole cards should be links",
+       "done": "The photo is now a layer under the card's content, so the title's link reaches over all of it.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. The arrow shouldn't move",
+       "done": "It stays.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "3 blocks (обжарка, доставка, оплата)",
+     "items": [
+      {
+       "ask": "1. The icons on larger screens larger",
+       "done": "A new size role <code>fact/icon</code> 40 → 56: 55px at 1440 (before 40 everywhere), in the modal too.",
+       "tag": "done"
+      },
+      {
+       "ask": "2. The plus closer to the corner (Figma)",
+       "done": "12px from the top and right, as Figma's card-modal (before 39 / 39 right / top at 1440); the modal's cross stands there too.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. The transition to the open version is not seamless or smooth (both ways)",
+       "done": "One card: the modal's box starts exactly on the block, cut to its size, and grows into place on --ease-out (0.6s); closing is the same move backwards. Before: the white ground scaled up and the text and row faded in after it.",
+       "tag": "done"
+      },
+      {
+       "ask": "4. The buttons should slide from the bottom, as if they were in the card, not added after",
+       "done": "The step row stays at the card's foot: it slides up from under the growing edge.",
+       "tag": "done"
+      },
+      {
+       "ask": "5. The description always aligned with the title",
+       "done": "It rides with the title the whole way (the same move), fading in.",
+       "tag": "done"
+      },
+      {
+       "ask": "6. In the open version the buttons are not the proper size and should not move on click",
+       "done": "<span class='was'>81.9</span> 64.6px tall at 1440 (Figma 66: 24 + the text + 24). The box keeps the tallest panel's height and only the text changes, so the row never moves.",
+       "tag": "done"
+      },
+      {
+       "ask": "8 (your note)",
+       "done": "Left alone.",
+       "tag": "answered"
+      }
+     ]
+    },
+    {
+     "section": "Footer",
+     "items": [
+      {
+       "ask": "1. The underline on hover a bit more transparent and a few pixels lower",
+       "done": "Ink 40% (was full ink), 0.4em below the letters (was 0.2em: 3px lower at 16px).",
+       "tag": "done"
+      },
+      {
+       "ask": "2. «Расскажем о появлении скидок и новинок» and the field as 2 equal columns, when available",
+       "done": "From M: 309 / 309px at 1440 (before stacked); below M the line over the field.",
+       "tag": "done"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "What this changes that you may not expect",
+   "items": [
+    "Over the photo the cells are no longer solid black: the photo shows faintly behind the title, the countdown and the links, and on the business cards and the business page's offers the text sits where the fade is 33–38% (the lightest pixels behind an offer title give 2.4:1). The fade tuner can set a curve that darkens sooner, or a reach under 1.",
+    "The hero's title is bigger at L (62 → 90px), so at 1440 × 900 the photo above the cells is 20px shorter.",
+    "No hover moves anything any more: the photo zooms of the cards, the business cards, the offers and the places, and the sliding arrows of the hero, the business cards, the «Читать» buttons and the row links are gone everywhere, not only where you named them.",
+    "Text fields no longer change their border when clicked; the caret is the only sign (the keyboard still gets the ring).",
+    "Recommended cards in the margins are gone: at 1920 the right margin no longer shows the next card (a question from round 3)."
+   ]
+  },
+  {
+   "type": "table",
+   "title": "Round 5's measures at 25 screens",
+   "stack": true,
+   "sub": "Round 4 (main) struck, round 5 after it. Title: its size; cells: the height of the title and of the cells (from L the title leads when they match). Line: how far from the screen's edge the hero's link lines end (0: at the edge; at the frame from 1520). Nav: the hover ground's air beside a link's text. Taste: text to the cell's left / top edge. Gap: business lead → cards (top: above the heading). Plus: from the block's right / top edge. Step: the modal's step row.",
+   "columns": [
+    {
+     "label": "Screen"
+    },
+    {
+     "label": "Title",
+     "num": true
+    },
+    {
+     "label": "Title / cells",
+     "num": true
+    },
+    {
+     "label": "Line",
+     "num": true
+    },
+    {
+     "label": "Note",
+     "num": true
+    },
+    {
+     "label": "Nav",
+     "num": true
+    },
+    {
+     "label": "Taste"
+    },
+    {
+     "label": "Gap / top"
+    },
+    {
+     "label": "Icon",
+     "num": true
+    },
+    {
+     "label": "Plus"
+    },
+    {
+     "label": "Step",
+     "num": true
+    },
+    {
+     "label": "Newsletter"
+    }
+   ],
+   "rows": [
+    [
+     "320×568",
+     "40",
+     "160 / 472",
+     "<span class='was'>16</span> 0",
+     "<span class='was'>12</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>24</span> 56 / 56",
+     "40",
+     "<span class='was'>-8 / 16</span> 12 / 12",
+     "<span class='was'>48.8</span> 48",
+     "stacked"
+    ],
+    [
+     "360×640",
+     "40.9",
+     "163 / 480",
+     "<span class='was'>17</span> 0",
+     "<span class='was'>12.1</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>25</span> 58 / 58",
+     "<span class='was'>40</span> 41",
+     "<span class='was'>-8 / 17</span> 12 / 12",
+     "<span class='was'>50</span> 48.3",
+     "stacked"
+    ],
+    [
+     "375×667",
+     "41.2",
+     "165 / 483",
+     "<span class='was'>18</span> 0",
+     "<span class='was'>12.1</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>25</span> 59 / 59",
+     "<span class='was'>40</span> 41",
+     "<span class='was'>-8 / 17</span> 12 / 12",
+     "<span class='was'>50.5</span> 48.4",
+     "stacked"
+    ],
+    [
+     "390×844",
+     "41.5",
+     "166 / 486",
+     "<span class='was'>18</span> 0",
+     "<span class='was'>12.1</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>26</span> 60 / 60",
+     "<span class='was'>40</span> 41",
+     "<span class='was'>-8 / 18</span> 12 / 12",
+     "<span class='was'>50.9</span> 48.5",
+     "stacked"
+    ],
+    [
+     "414×896",
+     "42",
+     "168 / 491",
+     "<span class='was'>19</span> 0",
+     "<span class='was'>12.2</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>26</span> 61 / 61",
+     "<span class='was'>40</span> 41",
+     "<span class='was'>-8 / 18</span> 12 / 12",
+     "<span class='was'>51.7</span> 48.7",
+     "stacked"
+    ],
+    [
+     "430×932",
+     "42.4",
+     "170 / 494",
+     "<span class='was'>19</span> 0",
+     "<span class='was'>12.2</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>26</span> 62 / 62",
+     "<span class='was'>40</span> 42",
+     "<span class='was'>-8 / 18</span> 12 / 12",
+     "<span class='was'>52.2</span> 48.8",
+     "stacked"
+    ],
+    [
+     "568×320",
+     "40",
+     "160 / 472",
+     "<span class='was'>16</span> 0",
+     "<span class='was'>12</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>24</span> 56 / 56",
+     "40",
+     "<span class='was'>-8 / 16</span> 12 / 12",
+     "<span class='was'>48.8</span> 48",
+     "stacked"
+    ],
+    [
+     "667×375",
+     "40.6",
+     "163 / 478",
+     "<span class='was'>17</span> 0",
+     "<span class='was'>12.1</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>25</span> 58 / 58",
+     "40",
+     "<span class='was'>-8 / 17</span> 12 / 12",
+     "<span class='was'>49.7</span> 48.2",
+     "<span class='was'>343 / 278</span> stacked"
+    ],
+    [
+     "844×390",
+     "41.3",
+     "165 / 379",
+     "<span class='was'>18</span> 0",
+     "<span class='was'>12.1</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>25</span> 59 / 59",
+     "<span class='was'>40</span> 41",
+     "<span class='was'>17 / 17</span> 12 / 12",
+     "<span class='was'>50.6</span> 48.4",
+     "<span class='was'>431 / 365</span> 398 / 398"
+    ],
+    [
+     "932×430",
+     "43",
+     "172 / 394",
+     "<span class='was'>20</span> 0",
+     "<span class='was'>12.3</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 19 / 15",
+     "<span class='was'>27</span> 64 / 64",
+     "<span class='was'>40</span> 42",
+     "<span class='was'>19 / 19</span> 12 / 12",
+     "<span class='was'>53.1</span> 49",
+     "<span class='was'>476 / 403</span> 439 / 439"
+    ],
+    [
+     "744×1133",
+     "49.1",
+     "198 / 557",
+     "<span class='was'>28</span> 0",
+     "<span class='was'>12.8</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>33</span> 80 / 80",
+     "<span class='was'>40</span> 46",
+     "<span class='was'>-8 / 25</span> 12 / 12",
+     "<span class='was'>61.8</span> 51",
+     "<span class='was'>382 / 289</span> stacked"
+    ],
+    [
+     "768×1024",
+     "49.6",
+     "200 / 450",
+     "<span class='was'>29</span> 0",
+     "<span class='was'>12.8</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>34</span> 82 / 82",
+     "<span class='was'>40</span> 46",
+     "<span class='was'>26 / 26</span> 12 / 12",
+     "<span class='was'>62.5</span> 51.2",
+     "<span class='was'>394 / 300</span> 347 / 347"
+    ],
+    [
+     "820×1180",
+     "50.7",
+     "204 / 460",
+     "<span class='was'>30</span> 0",
+     "<span class='was'>12.9</span> 16",
+     "—",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>35</span> 85 / 85",
+     "<span class='was'>40</span> 47",
+     "<span class='was'>27 / 27</span> 12 / 12",
+     "<span class='was'>64.1</span> 51.6",
+     "<span class='was'>420 / 322</span> 371 / 371"
+    ],
+    [
+     "1024×768",
+     "<span class='was'>55.1</span> 61.1",
+     "239 / 275",
+     "<span class='was'>36</span> 0",
+     "<span class='was'>13.3</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 30",
+     "<span class='was'>39</span> 96 / 96",
+     "<span class='was'>40</span> 50",
+     "<span class='was'>31 / 31</span> 12 / 12",
+     "<span class='was'>70.4</span> 55.8",
+     "<span class='was'>stacked</span> 215 / 215"
+    ],
+    [
+     "1024×1366",
+     "<span class='was'>55.1</span> 61.1",
+     "239 / 275",
+     "<span class='was'>36</span> 0",
+     "<span class='was'>13.3</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 30",
+     "<span class='was'>39</span> 96 / 96",
+     "<span class='was'>40</span> 50",
+     "<span class='was'>31 / 31</span> 12 / 12",
+     "<span class='was'>70.4</span> 55.8",
+     "<span class='was'>stacked</span> 215 / 215"
+    ],
+    [
+     "1180×820",
+     "<span class='was'>58.4</span> 71.2",
+     "272 / 290",
+     "<span class='was'>41</span> 0",
+     "<span class='was'>13.5</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>42</span> 105 / 105",
+     "<span class='was'>40</span> 52",
+     "<span class='was'>34 / 34</span> 12 / 12",
+     "<span class='was'>75.2</span> 59.5",
+     "<span class='was'>stacked</span> 250 / 250"
+    ],
+    [
+     "1280×720",
+     "<span class='was'>55.4</span> 79.7",
+     "292 / 292 · title",
+     "<span class='was'>37</span> 0",
+     "<span class='was'>13.3</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>39</span> 97 / 97",
+     "<span class='was'>40</span> 50",
+     "<span class='was'>31 / 31</span> 12 / 12",
+     "<span class='was'>70.9</span> 56.2",
+     "<span class='was'>stacked</span> 279 / 279"
+    ],
+    [
+     "1280×800",
+     "<span class='was'>58.9</span> 78.3",
+     "292 / 292 · title",
+     "<span class='was'>41</span> 0",
+     "<span class='was'>13.6</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>43</span> 106 / 106",
+     "<span class='was'>40</span> 53",
+     "<span class='was'>35 / 35</span> 12 / 12",
+     "<span class='was'>75.8</span> 60",
+     "<span class='was'>stacked</span> 274 / 274"
+    ],
+    [
+     "1366×650",
+     "<span class='was'>52.4</span> 87.3",
+     "309 / 309 · title",
+     "<span class='was'>33</span> 0",
+     "<span class='was'>13</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>36</span> 89 / 89",
+     "<span class='was'>40</span> 48",
+     "<span class='was'>28 / 28</span> 12 / 12",
+     "<span class='was'>66.6</span> 52.9",
+     "<span class='was'>stacked</span> 304 / 304"
+    ],
+    [
+     "1366×768",
+     "<span class='was'>57.5</span> 85.2",
+     "310 / 310 · title",
+     "<span class='was'>39</span> 0",
+     "<span class='was'>13.5</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>41</span> 103 / 103",
+     "<span class='was'>40</span> 52",
+     "<span class='was'>33 / 33</span> 12 / 12",
+     "<span class='was'>73.8</span> 58.5",
+     "<span class='was'>stacked</span> 298 / 298"
+    ],
+    [
+     "1440×900",
+     "<span class='was'>63.1</span> 88.3",
+     "326 / 326 · title",
+     "<span class='was'>47</span> 0",
+     "<span class='was'>13.9</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>47</span> 118 / 118",
+     "<span class='was'>40</span> 55",
+     "<span class='was'>39 / 39</span> 12 / 12",
+     "<span class='was'>81.9</span> 64.6",
+     "<span class='was'>stacked</span> 309 / 309"
+    ],
+    [
+     "1536×864",
+     "<span class='was'>61.6</span> 91.3",
+     "332 / 332 · title",
+     "<span class='was'>45</span> 0",
+     "<span class='was'>13.8</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>46</span> 114 / 114",
+     "<span class='was'>40</span> 54",
+     "<span class='was'>38 / 38</span> 12 / 12",
+     "<span class='was'>79.7</span> 63",
+     "<span class='was'>402 / 268</span> 335 / 335"
+    ],
+    [
+     "1680×1050",
+     "<span class='was'>64</span> 90.3",
+     "333 / 333 · title",
+     "81",
+     "<span class='was'>14</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>48</span> 120 / 120",
+     "<span class='was'>40</span> 56",
+     "<span class='was'>40 / 40</span> 12 / 12",
+     "<span class='was'>83.2</span> 65.6",
+     "<span class='was'>407 / 264</span> 336 / 336"
+    ],
+    [
+     "1920×1080",
+     "<span class='was'>64</span> 90.3",
+     "333 / 333 · title",
+     "201",
+     "<span class='was'>14</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>48</span> 120 / 120",
+     "<span class='was'>40</span> 56",
+     "<span class='was'>40 / 40</span> 12 / 12",
+     "<span class='was'>83.2</span> 65.6",
+     "<span class='was'>407 / 264</span> 336 / 336"
+    ],
+    [
+     "2560×1440",
+     "<span class='was'>64</span> 90.3",
+     "333 / 333 · title",
+     "521",
+     "<span class='was'>14</span> 16",
+     "<span class='was'>8</span> 14",
+     "<span class='was'>12 / 15</span> 20 / 15",
+     "<span class='was'>48</span> 120 / 120",
+     "<span class='was'>40</span> 56",
+     "<span class='was'>40 / 40</span> 12 / 12",
+     "<span class='was'>83.2</span> 65.6",
+     "<span class='was'>407 / 264</span> 336 / 336"
+    ]
+   ]
+  }
+ ]
+}

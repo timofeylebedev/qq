@@ -38,8 +38,9 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Layout steps**: container queries on the column `col` at S 22rem, M 43rem, L 58rem (and `max` 1520px: the column at
   its most, for a frame). Blocks that run full width (hero, image blocks, facts, footer, buy bar) put their content in a `.col` so they change with everything else. A
   container query cannot style its own container: wrap (`<div class="col"><div class="block">`). Page steps only
-  through `media.css` (the navbar's `--links-full` 64em and `--links` 48em, the tab bar's `--phone` under 40em, `--short`
-  32em tall for the product's buy bar). Fixed bars stand on the tab bar: `bottom: var(--tabbar-h)` (0 without one).
+  through `media.css` (the navbar's `--links-full` 70em and `--links` 48em, the tab bar's `--phone` under 40em, `--short`
+  32em tall for the product's buy bar, `--framed` 1616px: every rule of the container step max is repeated under it,
+  because Safari zoomed out measures container queries in its own units). Fixed bars stand on the tab bar: `bottom: var(--tabbar-h)` (0 without one).
 - **Grounds**: every section has `data-ground` (paper, cloud, black, ink); colours on it come from there (`--g-bg`,
   `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`). A block on
   another ground inside a section (the dark panel, a cloud form, a photo) says `data-tone` instead: the same colours,
@@ -53,10 +54,12 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   moves anything (no transform in a `:hover` rule: «Hovers never move»). A pointer's focus changes nothing; scripts
   that move the focus use `focusFrom()` of `scripts/focus.js` (the ring only after a key).
 - **Every fade is eased and whole**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (one per place:
-  hero, caption, panel, card; a curve in 16 stops, tuned in `design/fade-tuner/`) laid over the whole block, with no
+  hero, top, caption, panel, card; one curve, 0.5, 0, 0.5, 1, in 16 stops, tuned in `design/fade-tuner/`) laid over the whole block, with no
   solid band under it; or a solid band for a line. Never a hand-written transparent → colour.
 - **Lines run out**: below the column's max, the hairlines between a full-width block's cells run to the screen's
-  edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead.
+  edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead. The
+  hero goes further: its cells themselves reach over the gutters (`--bleed`) and each is padded by the gutter on both
+  sides (Tim, round 6: a cell's padding is its own, never a higher box's).
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -72,6 +75,10 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Shared blocks** of the new pages are in `src/templates/blocks.mjs` (page head, tabs, tiles, form cells, the dark
   panel, dialogs, contacts): reuse them before writing new markup. The bag and the favourites are written by their
   scripts before the 3D packs start (`main.js`), so their packs are drawn; a change of layout dispatches `qq:layout`.
+- **The countdown's digits** are QQ Digits drawn as SVG (`build/digits.mjs` from `design/digits.json`, Tim's settings
+  from the artifact «QQ Digits»); `scripts/digits.js` lights the segments. Change the drawing in the JSON, not the SVG.
+- **The hero's entrance** is GSAP (`scripts/hero.js`, loaded only on the home page): `html[data-intro]`, set by the
+  inline script in `<head>`, hides its parts from the first frame. `window.qqHero` is the timeline.
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.

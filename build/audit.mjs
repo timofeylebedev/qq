@@ -10,7 +10,8 @@
 //   · text under 12px as drawn
 //   · a link or button smaller than 24×24px to tap (WCAG 2.2, 2.5.8)
 //   · the navbar: its sections running into the logo or the tools (each step of media.css must fit its row)
-//   · the hero's countdown: the day row, the digits (or the date) not as wide as the caption (decision countdown-as-caption)
+//   · the hero's countdown: the day row, the digits (or the date) not as wide as a one-line caption, or a caption on two
+//     lines wider than the digits (decision countdown-as-caption)
 //   · axe-core (accessibility) at a phone and a desktop size
 //   · all of the above but axe with the browser's text made bigger (24px), at a phone and a short laptop
 // Sizes: a folded phone (280), phones, a phone sideways, tablets, laptops short and tall, 1920 and 2560.
@@ -109,8 +110,14 @@ function measure() {
   const cap = vis(".hero__caption");
   if (cap) {
     const tw = (e) => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect().width; };
+    // the caption on one line: the digits (or the date) and the day row as wide as it; on two lines (a narrow cell),
+    // the caption within the digits' width
+    const lines = new Set([...(() => { const r = document.createRange(); r.selectNodeContents(cap); return r.getClientRects(); })()].map((x) => Math.round(x.top))).size;
     const w = tw(cap), dial = vis(".hero__count .digits") || vis(".hero__date"), now = vis(".hero__now");
-    for (const [n, x] of [["digits", tw(dial)], ["day row", now.getBoundingClientRect().width]]) if (Math.abs(x - w) > w * 0.04) out.bars.push(`hero: the ${n} ${Math.round(x)}px, the caption ${Math.round(w)}px`);
+    const dw = dial.getBoundingClientRect().width;
+    const side = getComputedStyle(cap.parentElement).gridTemplateColumns.split(" ").length > 1;   // the parts side by side (M → L)
+    if (lines === 1 && !side) for (const [n, x] of [["digits", dw], ["day row", now.getBoundingClientRect().width]]) { if (Math.abs(x - w) > w * 0.04) out.bars.push(`hero: the ${n} ${Math.round(x)}px, the caption ${Math.round(w)}px`); }
+    if (lines > 1 && w > dw + 1 && !side) out.bars.push(`hero: the caption ${Math.round(w)}px on ${lines} lines, wider than the digits ${Math.round(dw)}px`);
   }
   return out;
 }

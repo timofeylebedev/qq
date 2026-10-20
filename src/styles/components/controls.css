@@ -35,15 +35,16 @@
 .arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
 @media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
-/* a pager of numbers (new arrivals): the current one ringed */
+/* a pager of numbers (new arrivals): the current one ringed in ink at 50% (Tim, round 6); a hovered number only
+   darkens to ink, no ground behind it */
 .pager { display: flex; gap: 4px; }
 .pager__dot {
   display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
   font-size: var(--type-small); font-feature-settings: "lnum" 1, "tnum" 1; color: var(--c-ink-70);
-  border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out), background-color var(--t-out) var(--ease-out);
+  border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
 }
-.pager__dot[aria-current="true"] { border-color: var(--c-ink); color: var(--c-ink); }
-@media (--mouse) { .pager__dot:hover { background-color: var(--tint); color: var(--c-ink); transition-duration: var(--t-in); } }
+.pager__dot[aria-current="true"] { border-color: var(--c-ink-50); color: var(--c-ink); }
+@media (--mouse) { .pager__dot:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
 /* the email field of the footer: a hairline box with the arrow cell at its end */
 .field { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); min-height: var(--control-h); }
