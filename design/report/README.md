@@ -7,7 +7,7 @@ keeps the earlier rounds' «what changed» at its end. Earlier pages stay where 
 separate»), so each round publishes a new page.
 
 **The pages** (private until shared; also in the project doc `claude/website-system.md`):
-- Round 6: (published at the end of round 6; see the project doc)
+- Round 6: https://claude.ai/artifact/5yepw2xp4auoP4ZTnEUSY2
 - Round 5: https://claude.ai/artifact/JrYDfrH1kwuWrLGYw5At3j (round 4 built the pages and had no report)
 - Round 3: https://claude.ai/artifact/CESDhXQ6ErVqFQiNT7kuXM
 - Rounds 1–2: https://claude.ai/artifact/WRGuvxpjr9wBBLWjyH8S6a (round 2's page; round 1's is in its history)
