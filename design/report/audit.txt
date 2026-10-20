@@ -1,14 +1,5 @@
-✓ 280×653
-✓ 320×568
-✓ 390×844
-✓ 768×1024
-✓ 844×390
-✓ 1024×768
-✓ 1366×650
-✓ 1440×900
-✓ 1920×1080
-✓ 2560×1440
-✓ 390×844 text 24px
+all 12 rules hold
+> html-validate dist/index.html "dist/{catalog,coffee,business,faq,delivery,contacts,privacy,about,cart,favourites,checkout,account}/**/*.html"
+all 54 checks pass
 ✓ 1366×650 text 24px
-
-clean — 4 pages × 12 sizes
+clean — 21 pages × 12 sizes

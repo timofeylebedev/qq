@@ -50,6 +50,14 @@ function probe(roles) {
     out.heroRow = r(q(".hero__links li").getBoundingClientRect().height);
     out.heroCellsH = r(rect(".hero__grid").height);
     out.heroPhoto = r(rect(".hero__info").top - rect(".hero").top);
+    // round 5: the title's size, where the line between the first two links ends (0: at the screen's edge), the
+    // info block's plus from its corner, the business gap, the taste cell's side
+    out.heroTitlePx = r(parseFloat(getComputedStyle(q(".hero__title")).fontSize));
+    const li2 = document.querySelectorAll(".hero__links li")[1], lb = li2.getBoundingClientRect(), ps = getComputedStyle(li2, "::before");
+    out.heroLineEnd = r(innerWidth - (ps.content !== "none" && ps.borderTopStyle !== "none" ? lb.right - parseFloat(ps.right) : lb.right));
+    const fo = rect(".fact__open"), pl = rect(".fact__more svg"); out.factPlusIn = r(fo.right - pl.right);
+    out.businessGap = r(rect(".business__cards").top - rect(".business .head").bottom);
+    const tc = q(".featured__facts > .taste"); if (tc) { const g = document.createRange(); g.selectNodeContents(tc.querySelector("dt")); out.tasteSide = r(g.getBoundingClientRect().left - tc.getBoundingClientRect().left); }
   }
   if (q("[data-grid]")) { out.catalogTracks = cols("[data-grid]"); out.catalogFirstW = r(rect("[data-grid] > .card").width); out.filterRows = new Set([...document.querySelectorAll(".filter")].map((f) => Math.round(f.getBoundingClientRect().top))).size; }
   if (q(".pstage")) {
@@ -74,6 +82,7 @@ function probe(roles) {
   const lg = [...document.querySelectorAll(".footer__legal > *")].map((e) => { const g = document.createRange(); g.selectNodeContents(e); const rr = g.getClientRects(); return rr[rr.length - 1]?.bottom ?? 0; });
   out.legalDy = r(Math.abs(lg[0] - lg[1]));
   const nl = q(".footer__news-label"); out.newsLines = Math.round(nl.getBoundingClientRect().height / parseFloat(getComputedStyle(nl).lineHeight));
+  const nf = rect(".footer__news .field"), nlr = nl.getBoundingClientRect(); out.newsHalf = nlr.right <= nf.left + 1 ? r(nf.width) : 0;   // round 5: the field's width when beside the line
   if (q(".featured__slide")) {
     out.featTextW = r(rect(".featured__text").width); out.featMediaW = r(rect(".featured__media").width);
     out.featTextH = r(rect(".featured__text").height); out.featMediaH = r(rect(".featured__media").height);

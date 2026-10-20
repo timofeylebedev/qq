@@ -1,0 +1,319 @@
+{
+ "id": "round3",
+ "nav": "Round 3",
+ "title": "Round 3: what changed (PR #5 → #6, merged)",
+ "sub": "Your comments in your order and under your headings, what was done with each (measured before → now), and the two builds side by side.",
+ "blocks": [
+  {
+   "type": "stats",
+   "items": [
+    {
+     "n": 24,
+     "unit": "comments",
+     "text": "19 done, 2 done differently, 3 for you to check"
+    },
+    {
+     "n": 2,
+     "unit": "squares",
+     "text": "in the footer from about 1360 wide; the flame's mass 0px off the middle"
+    },
+    {
+     "n": 5,
+     "unit": "ways",
+     "text": "to turn the new arrivals like a magazine, in a test bench"
+    },
+    {
+     "n": 11,
+     "unit": "rules",
+     "text": "checked on every build: «every fade eased» is new · audit clean"
+    }
+   ]
+  },
+  {
+   "type": "shots",
+   "label": "What it looks like",
+   "note": "Round 2 in grey, round 3 in blue, at the size each caption names. Click a picture to open it large; arrows and Escape work.",
+   "items": [
+    {
+     "title": "Packs while the page scrolls (1440)",
+     "src": "shots/r3-packs-scroll-1440.jpg",
+     "text": "A 300px scroll, the picture 200ms in. Before: the packs leaned with their place on the screen and the scroll's speed. After: they stay upright (still trailing their slots a little)."
+    },
+    {
+     "title": "Новинки at 1280",
+     "src": "shots/r3-featured-1280.jpg",
+     "text": "The pager in the middle of the head (0px off its centre; before 375); two equal squares 599 + 599; a photo on the right without a hairline; the taste box in two even halves (256 / 256)."
+    },
+    {
+     "title": "Новинки at 1024",
+     "src": "shots/r3-featured-1024.jpg",
+     "text": "The tightest square: both 476 wide and square, the story cut to the 5 whole lines that fit (before 8)."
+    },
+    {
+     "title": "Новинки on a phone (390)",
+     "src": "shots/r3-featured-390.jpg",
+     "text": "Below M the text stands over the photo, the taste chart over the pills; the pager takes its own row under the title and the arrows, centred."
+    },
+    {
+     "title": "Рекомендуем sliding (1440)",
+     "src": "shots/r3-reel-slide-1440.jpg",
+     "text": "The arrow pressed, the picture 220ms in. Before the cards were cut at the column; now the row runs to the screen's edges and the packs turn, leading edge away, trailing their slots."
+    },
+    {
+     "title": "Рекомендуем rising in (1440)",
+     "src": "shots/r3-reel-rise-1440.jpg",
+     "text": "The row reaching the screen, 260ms in: the cards rise one after another (90ms apart) from 48px below and from clear; each pack fades with its card and tilts up as it is carried."
+    },
+    {
+     "title": "The price hovered",
+     "src": "shots/r3-card-hover-price-1440.jpg",
+     "text": "Before: the cell filled with ink. After: the bag and the price fade to 60%, the ground stays."
+    },
+    {
+     "title": "The heart hovered",
+     "src": "shots/r3-card-hover-heart-1440.jpg",
+     "text": "The heart fades to 60% under the pointer (it shows when the card is hovered, as before)."
+    },
+    {
+     "title": "The info blocks (1440)",
+     "src": "shots/r3-facts-1440.jpg",
+     "text": "No hairline above the three blocks; each is one button with the ringed plus (32px, as in Figma)."
+    },
+    {
+     "title": "An info block opened (1440)",
+     "src": "shots/r3-facts-open-1440.jpg",
+     "text": "Before: the plus opened one sentence in the block. After: the block grows into a 514px box over the dimmed page (Figma info-blocks-modal): icon, title, text, the cross, «‹ Доставка | Оплата ›»."
+    },
+    {
+     "title": "An info block opened (390)",
+     "src": "shots/r3-facts-open-390.jpg",
+     "text": "On a phone the modal is a sheet at the foot of the screen, as wide as it."
+    },
+    {
+     "title": "Footer at 1440",
+     "src": "shots/r3-footer-1440.jpg",
+     "text": "Two squares 673×673 (before 673×753); the animated flame centred by its mass (0px off the square's middle); the newsletter line on one line."
+    },
+    {
+     "title": "Footer at 1920",
+     "src": "shots/r3-footer-1920.jpg",
+     "text": "The column at its most: a hairline on each side of the two squares, as the hero's cells have."
+    },
+    {
+     "title": "The legal line (1440)",
+     "src": "shots/r3-footer-legal-1440.jpg",
+     "text": "Before: the policy 4px lower than the copyright, underlined. After: one baseline (0px), no underline, both ink 70%."
+    },
+    {
+     "title": "Footer at 1024",
+     "src": "shots/r3-footer-1024.jpg",
+     "text": "The narrowest L: two halves of 476, taller than square (476×603) because the links need the room."
+    },
+    {
+     "title": "Footer on a phone (390)",
+     "src": "shots/r3-footer-390.jpg",
+     "text": "Below L the links come first and the flame closes the page."
+    },
+    {
+     "title": "A card's fade (1440)",
+     "src": "shots/r3-fade-card-1440.jpg",
+     "text": "The fade behind the buy row: before two stops (a visible edge where it ends), now 16 stops on the «ease» curve of tw-easing-gradients."
+    },
+    {
+     "title": "A business card's fade (1440)",
+     "src": "shots/r3-fade-business-1440.jpg",
+     "text": "The same eased fade from the photo into the black of the card's text cells."
+    },
+    {
+     "title": "The hero's fade (1440)",
+     "src": "shots/r3-fade-hero-1440.jpg",
+     "text": "The hero's fade now follows «ease» (before an S-curve, 0.42 0 0.58 1): it leaves the photo sooner and settles into black longer."
+    },
+    {
+     "title": "PT Mono (1440)",
+     "src": "shots/r3-type-1440.jpg",
+     "text": "Headings and names in PT Mono Bold, as in Figma (before JetBrains Mono Bold)."
+    },
+    {
+     "title": "A card opening its coffee (1280)",
+     "src": "shots/r3-card-to-page-1280.jpg",
+     "text": "After only (before: a plain page load). Frames at 0, 150, 300 and 600ms: the card's name and pack travel to the page's title and big pack while the rest cross-fades."
+    }
+   ]
+  },
+  {
+   "type": "changes",
+   "groups": [
+    {
+     "section": "3D packs",
+     "items": [
+      {
+       "ask": "1. No tilt on scroll",
+       "done": "The shelf lean (a tilt by the pack's place on the screen, up to 0.17 rad) and the lean with the scroll's speed (up to 0.45 rad) are gone: scrolling the page never tilts a pack. They still trail their slots a little (round 2) and turn towards the pointer.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "New section (Новинки)",
+     "items": [
+      {
+       "ask": "1. The numbers block centred",
+       "done": "The head is three columns from M: the title, the pager, the arrows; the pager's centre is 0px off the head's at every screen measured (before 448px at 1440). Below M it takes its own row, centred.",
+       "tag": "done"
+      },
+      {
+       "ask": "2. The card in two columns (the left one became larger sometimes)",
+       "done": "Two tracks of <code>minmax(0, 1fr)</code>, both squares, and the text square can no longer grow: its story is cut to the whole lines that fit (8 at 1440, 5 at 1024). Measured: two squares at every L screen (476 at 1024, 673 at 1440, all five slides). In Chromium round 2 measured even too, also with 20px browser text, so I could not see the larger left one: was it in Safari, or on the test site (still round 1)? Whatever made it grow is gone now.",
+       "tag": "check"
+      },
+      {
+       "ask": "3. The right column a photo, without a border",
+       "done": "Every slide shows a photo: the coffee's own, else the next of four moodboard photos (a placeholder, decision featured-photos). The hairline is gone with the pack square.",
+       "tag": "done"
+      },
+      {
+       "ask": "4. The whole card a link",
+       "done": "The name's link is stretched over the whole slide (text, taste box and photo); the caption lets clicks through. Measured: a click on the story, the pills, the photo and the caption opens the coffee.",
+       "tag": "done"
+      },
+      {
+       "ask": "5. The table evenly two columns",
+       "done": "Two equal halves from M: 288 / 288 at 1440 (before 219 / 358), 256 / 256 at 1280. Two exceptions: below M the chart stands above the pills (a half of a phone can't hold the scales' names and the plot: it squeezed the plot); and on L's narrowest screens the chart keeps its size, so its half is a little wider (12px at 1000, 3 at 1024, 0 from 1030).",
+       "tag": "differently"
+      },
+      {
+       "ask": "6. A magazine-like swipe: explore options in an artifact",
+       "done": "Five options in a test bench: <a href='https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy'>Новинки: листаем журнал</a> (a stiff page turn, a bending glossy page, a slide-over, a pile, an editorial cut), each dragged by hand or played by the arrows, with a duration control and slow motion. Pick one and it goes on the site.",
+       "tag": "check"
+      }
+     ]
+    },
+    {
+     "section": "Recommended (Рекомендуем)",
+     "items": [
+      {
+       "ask": "1. Packs tilt horizontally on sliding, lagging a bit behind",
+       "done": "A pack's lag is now two parts: the page's scroll (it only trails) and its slot's own move on the page. When the row slides the pack trails and turns so its leading edge recedes, up to 0.55 rad at the full trail (<code>TUNE.carryTurn</code>), settling at 9 per second.",
+       "tag": "done"
+      },
+      {
+       "ask": "2. The wrapper should not crop the cards",
+       "done": "The row runs out to the screen's edges (1440 wide at 1440 against a column of 1346), padded back, so its cards still stand and snap on the column (0px off it); 48px of room under the cards for them to rise.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. The new card moves into place from below and from opacity 0; its pack tilts vertically and lags",
+       "done": "Cards out of view wait 48px below (<code>--section-gap</code>) and clear; coming into view, when the row reaches the screen (one after another, 90ms apart) or sliding in, they rise over 0.9s (<code>--t-rise</code>) and fade in over 0.6s. Their pack is carried: it trails and tilts up (<code>TUNE.carryTilt</code> 0.45) and fades with its card (a new per-pack alpha in the renderer).",
+       "tag": "done"
+      },
+      {
+       "ask": "4. The price button: icon and text more transparent, the ground as it was",
+       "done": "Hovered, the bag and the price go to ink 60% (white 60% on a photo card); the ground stays (before it filled with ink).",
+       "tag": "done"
+      },
+      {
+       "ask": "5. The favourite icon more transparent",
+       "done": "Hovered, the heart goes to ink 60% (white 60% on a photo card).",
+       "tag": "done"
+      },
+      {
+       "ask": "6. The whole card, the text under it too, a link",
+       "done": "The name's link is stretched over the whole card; nothing between them is positioned any more (the picture's layers share one grid cell). Measured on home, catalog and a coffee's page: the picture, the name and the text open the coffee; the heart, the weights and the price button keep their own clicks.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "3 blocks (обжарка, доставка, оплата)",
+     "items": [
+      {
+       "ask": "1. No top border",
+       "done": "The hairline above the blocks is gone (the business section ends above them).",
+       "tag": "done"
+      },
+      {
+       "ask": "2. On click they grow into a modal with description and buttons (Figma)",
+       "done": "Each block is one button. Pressed, a white ground grows from the block's box to the modal's (514px at 1440, 461 at 1024: <code>--modal-w</code> 360 → 520), the icon and the title travel to their places at the same size, the plus travels to the corner and turns into the cross; the text and «‹ Доставка | Оплата ›» fade in after (0.6s). The row steps to the other blocks; Esc, the cross or a click beside it shrinks it back into its block. On a phone a sheet at the foot. The roasting text is Figma's, with the next roast live («Ближайшая обжарка через 3 часа»).",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Footer",
+     "items": [
+      {
+       "ask": "1. On larger screens two square containers",
+       "done": "From L two equal halves, each at least a square: square from about 1360 wide (673×673 at 1440, 759×759 at 1920); narrower the links need more height and both halves grow with them (599×626 at 1280, 476×603 at 1024).",
+       "tag": "differently"
+      },
+      {
+       "ask": "2. At max width, borders on the left and right",
+       "done": "From the column's 1520px (screens from about 1616) a hairline on each side, the copyright and the links standing off them.",
+       "tag": "done"
+      },
+      {
+       "ask": "3. The logo optically centred",
+       "done": "The animated flame (your file, 27 KB gzipped, loaded lazily; its first frame with «reduce motion») is centred by its mass, measured over its whole animation: 50.5% across, 62.9% down its box. That lifts it by 12% of its height, as the Figma footer's 40px of a 320px logo. Its mass centre is 0px off the square's middle at every L screen.",
+       "tag": "done"
+      },
+      {
+       "ask": "4. The small texts properly aligned",
+       "done": "One size, one colour (ink 70%) and one baseline: 0px apart (before 4px: the link had its own padding and underline).",
+       "tag": "done"
+      },
+      {
+       "ask": "5. «Политика конфиденциальности» without an underline",
+       "done": "No underline; hovered it darkens to ink.",
+       "tag": "done"
+      },
+      {
+       "ask": "6. «Расскажем о появлении скидок и новинок» one line when there is room",
+       "done": "The line and the field share a row while both fit, and the line keeps whole: one line at 24 of 25 screens (before 0); two only where the screen is narrower than the line.",
+       "tag": "done"
+      },
+      {
+       "ask": "PT Mono and the logo animation (your files)",
+       "done": "PT Mono Bold for every heading and name, cut to the text face's characters (13 KB; the ParaType Free Font Licence allows web use); the flame in the footer.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Gradients",
+     "items": [
+      {
+       "ask": "All gradients eased (tw-easing-gradients): hero, product card, business card…",
+       "done": "Every gradient is one of the eased fades of colors.json: 16 stops on CSS's standard «ease» (0.25, 0.1, 0.25, 1), the default of tw-easing-gradients; a new cloud fade for light cards. Changed: the card's buy row (was two stops), the business cards (two stops), the featured caption (two stops), the hero (was an S-curve). A new rule fails any hand-written fade.",
+       "tag": "done"
+      }
+     ]
+    },
+    {
+     "section": "Card → product page",
+     "items": [
+      {
+       "ask": "A card on a click transforms into the product page seamlessly (the title and the pack travel)",
+       "done": "A cross-document view transition: the card's name becomes the page's title and its pack the big pack, travelling and growing over 0.6s while the pages cross-fade (0.45s); the way back does the same. The 3D canvas cannot be captured, so for that moment the packs show their stills, and the big pack arrives facing front. Chrome 126+ and Safari 18.2+; elsewhere the page simply opens.",
+       "tag": "check"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "type": "list",
+   "title": "What this changes that you may not expect",
+   "items": [
+    "Every page change now cross-fades (0.45s), not only a card opening its coffee. With «reduce motion» there is no transition.",
+    "While a card rises into place (0.9s) its pack draws above its name and buy row: a moving, fading card is a layer of its own. At rest the layers are as before.",
+    "The footer is square only from about 1360 wide; at 1024–1350 the links need more than the square (476×603 at 1024).",
+    "Card descriptions under the cards are part of the link now, so their text can't be selected (it couldn't be drag-selected before either).",
+    "The new arrivals cut their story to fewer lines on narrow L screens (4–6 at 1024 instead of 8), so the text square stays square.",
+    "Below M the taste chart and the pills stack again (round 2 had them side by side from S, which squeezed the chart on a phone once the halves were made even).",
+    "Pages for the info blocks («Доставка», «Оплата») are not designed: the modal is the only place their text lives.",
+    "The 3D packs no longer lean when the page scrolls, so the shelf feeling is gone; the trail and the pointer turn remain."
+   ]
+  }
+ ]
+}
