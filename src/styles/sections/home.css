@@ -25,11 +25,9 @@
 @media (--motion) { .hero__bg img { animation: hero-drift 40s var(--ease-move) infinite alternate; } }
 @keyframes hero-drift { to { transform: scale(1.08) translate(-1.5%, -1%); } }
 
-/* the eased fade (colors.json fades) into the black under the cells and the hairline above them */
-.hero__info {
-  position: relative; padding-top: var(--hero-fade);
-  background: linear-gradient(to bottom, var(--fade-black)) top / 100% var(--hero-fade) no-repeat, linear-gradient(var(--c-black), var(--c-black)) left 0 top var(--hero-fade) / 100% 100% no-repeat;
-}
+/* one eased fade (colors.json fades.hero) from the photo into black, laid under the whole block, cells and all (no
+   solid band: Tim, round 5); --hero-fade of it stands above the hairline over the cells */
+.hero__info { position: relative; padding-top: var(--hero-fade); background: linear-gradient(to bottom, var(--fade-hero)); }
 .hero__info::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); }
 
 .hero__grid { display: grid; grid-template-columns: minmax(0, 1fr); }
@@ -141,9 +139,9 @@
 .featured__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
 @media (--mouse) { .featured__slide:hover .featured__media img { transform: scale(1.03); } }
 .featured__caption {
-  position: relative; z-index: 6; pointer-events: none; padding: 64px calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
+  position: relative; z-index: 6; pointer-events: none; padding: var(--lead-caption) calc(var(--block-pad) + 16px) var(--block-pad) var(--block-pad);
   font-size: var(--type-lead); line-height: var(--lh-compact);
-  background: linear-gradient(to bottom, var(--fade-black));
+  background: linear-gradient(to bottom, var(--fade-caption));
 }
 @container col (width >= 58rem) {
   .featured__slide { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
@@ -184,7 +182,7 @@
 .bcard__image { position: absolute; inset: 0; }
 .bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--t-move) var(--ease-out); }
 @media (--mouse) { .bcard:hover .bcard__image img { transform: scale(1.03); } }
-.bcard__info { position: relative; display: grid; padding-top: 40px; background: linear-gradient(to bottom, var(--fade-black)) top / 100% 40px no-repeat, linear-gradient(var(--c-black), var(--c-black)) left 0 top 40px / 100% 100% no-repeat; }
+.bcard__info { position: relative; display: grid; padding-top: var(--lead-panel); background: linear-gradient(to bottom, var(--fade-panel)); }
 .bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
 .bcard__title { font-size: var(--type-card-title); }

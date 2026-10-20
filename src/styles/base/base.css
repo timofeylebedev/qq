@@ -6,6 +6,10 @@
   --nav-h: 48px;          /* the navbar: one height at every size (a control, not fluid) */
   --hair: 1px;            /* every line of the site */
   --col-max: 1520px;      /* the content column stops here; above, the margins grow */
+  /* the lead-in of each fade (colors.json fades): how far above its block's content the fade starts (the hero's: --hero-fade) */
+  --lead-caption: 64px;   /* a new arrival's caption over its photo */
+  --lead-panel: 40px;     /* the text of a business card */
+  --lead-card: 56px;      /* the buy row of a product card, of a line in the bag */
   color-scheme: light;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;

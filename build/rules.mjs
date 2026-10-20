@@ -154,7 +154,12 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
     if (/\d+deg/.test(inner) && /currentColor/.test(inner)) continue;                          // a drawn shape (the select's arrow)
     fails.push(where(b) + `: ${g.slice(0, 60)}`);
   }
-  rule("Every fade eased", "gradients are var(--fade-*) (colors.json fades, the curve of tw-easing-gradients' «ease») or solid bands", fails);
+  // a fade lies over its whole block (Tim, round 5): no solid band beside it in the same background
+  for (const b of blocks) for (const d of b.body.split(";")) {
+    const gs = d.match(/(linear|radial|conic)-gradient\(/g) || [];
+    if (/var\(--fade/.test(d) && gs.length > 1) fails.push(where(b) + `: a fade with a solid band under it (${d.trim().slice(0, 50)}…)`);
+  }
+  rule("Every fade eased", "gradients are var(--fade-*) (colors.json fades: one per place, eased, over the whole block, no solid band under it) or solid bands for lines", fails);
 }
 
 let bad = 0;

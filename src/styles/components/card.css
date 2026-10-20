@@ -11,8 +11,8 @@
    the card). Layers, in the page's stacking (the card makes no stacking context of its own, so the one 3D canvas of
    the page, at z-index 5, falls between them): ground and photo 0 · pack canvas 5 · the link over the card 6 · name,
    heart and buy row 7 */
-.card { --ground: var(--c-cloud); --fade: var(--fade-cloud); --fg: var(--c-ink); --fg-soft: var(--c-ink-60); --line: var(--c-ink-20); position: relative; display: flex; flex-direction: column; min-width: 0; }
-.card--dark { --ground: var(--c-black); --fade: var(--fade-black); --fg: var(--c-paper); --fg-soft: var(--c-white-60); --line: var(--c-white-30); }
+.card { --ground: var(--c-cloud); --fade: var(--fade-card-cloud); --fg: var(--c-ink); --fg-soft: var(--c-ink-60); --line: var(--c-ink-20); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.card--dark { --ground: var(--c-black); --fade: var(--fade-card-black); --fg: var(--c-paper); --fg-soft: var(--c-white-60); --line: var(--c-white-30); }
 
 .card__media {
   aspect-ratio: 4 / 5; overflow: hidden;
@@ -47,7 +47,7 @@
 /* the buy row: weights on the left, the add-to-bag button with the price on the right, divided by hairlines */
 .buy {
   position: relative; z-index: 7; align-self: end; display: grid; grid-template-columns: 1fr 1fr;
-  padding-top: 56px; background: linear-gradient(to bottom, var(--fade)) top / 100% 56px no-repeat, linear-gradient(var(--ground), var(--ground)) left 0 top 56px / 100% 100% no-repeat;
+  padding-top: var(--lead-card); background: linear-gradient(to bottom, var(--fade));
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
 .buy > * { border-top: var(--hair) solid var(--line); min-height: var(--control-h); }

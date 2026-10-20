@@ -47,7 +47,7 @@
 .offer__info {
   position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: var(--text-gap);
   padding: calc(var(--block-pad) * 2) var(--block-pad) var(--block-pad);
-  background: linear-gradient(to bottom, var(--fade-black)) top / 100% calc(var(--block-pad) * 2) no-repeat, linear-gradient(var(--c-black), var(--c-black)) left 0 top calc(var(--block-pad) * 2) / 100% 100% no-repeat;
+  background: linear-gradient(to bottom, var(--fade-panel));
 }
 .offer__title { font-size: var(--type-title); max-width: 14em; }
 .offer__text { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-white-80); max-width: 34em; }
