@@ -15,9 +15,9 @@ const hoverOn = (sel) => async (p) => { const e = await p.$(sel); const b = e &&
 const SHOTS = [
   // 3D packs: mid-scroll (a fast scroll of 600px, the picture 120ms in): round 2 leaned them, round 3 keeps them upright
   ["r3-packs-scroll-1440", "", 1440, 900, ".reel", null, async (p) => { await p.evaluate(() => { document.documentElement.style.scrollBehavior = "auto"; scrollBy(0, -300); }); await p.waitForTimeout(1200); await p.evaluate(() => { const t0 = performance.now(), y0 = scrollY; const f = (n) => { const k = Math.min(1, (n - t0) / 400); scrollTo(0, y0 + 300 * k); if (k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); }); await p.waitForTimeout(200); }, true],
-  ["r3-featured-1280", "", 1280, 800, ".featured .head", null, null],
-  ["r3-featured-1024", "", 1024, 768, ".featured .head", null, null],
-  ["r3-featured-390", "", 390, 844, ".featured .head", null, null],
+  ["r3-featured-1280", "", 1280, 800, ".featured", null, null],
+  ["r3-featured-1024", "", 1024, 768, ".featured", null, null],
+  ["r3-featured-390", "", 390, 844, ".featured", null, null],
   // recommended: mid-slide (the arrow pressed, the picture 200ms in)
   ["r3-reel-slide-1440", "", 1440, 900, "#recs-title", null, async (p) => { await p.click('[data-next="recs"]'); await p.waitForTimeout(220); }, true],
   ["r3-reel-rise-1440", "", 1440, 900, 0, null, async (p) => { const y = await p.evaluate(() => document.querySelector("#recs-title").getBoundingClientRect().top + scrollY - 80); await p.evaluate((y) => scrollTo({ top: y, behavior: "instant" }), y); await p.waitForTimeout(260); }, true],

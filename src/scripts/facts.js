@@ -58,6 +58,8 @@ export function initFacts() {
     if (busy || dialog.open) return;
     busy = true; wantShut = false;
     show(i);
+    // the scrollbar's width, if the browser draws one: the page and its bars keep that room while it is gone
+    document.documentElement.style.setProperty("--sbw", `${Math.max(0, innerWidth - document.documentElement.clientWidth)}px`);
     document.documentElement.dataset.modal = "";
     dialog.showModal();
     hold(i, true);

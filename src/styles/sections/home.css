@@ -127,10 +127,13 @@
 .featured__name a:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -4px; box-shadow: inset 0 0 0 2px var(--c-paper); }   /* ink on the text, the white line on the photo */
 .featured__about { font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 34em; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: var(--lines, 8); line-clamp: var(--lines, 8); overflow: hidden; }
 .featured__facts { display: grid; border: var(--hair) solid var(--line); }
-.featured__facts > * { min-width: 0; padding: 16px; }
+.featured__facts > * { min-width: 0; padding: 12px; }
+.featured__facts .taste__plot { max-width: none; }   /* its size is its content's (min-content), never squeezed */
+.featured__facts .taste { column-gap: 8px; }   /* the scales' names and the plot fit a half from L's narrowest */
 .featured__facts > * + * { border-top: var(--hair) solid var(--line); }
-@container col (width >= 22rem) {
-  .featured__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* two even halves from M; narrower a half could not hold the scales' names and the plot, so they stack */
+@container col (width >= 43rem) {
+  .featured__facts { grid-template-columns: minmax(min-content, 1fr) minmax(0, 1fr); }   /* even; on L's narrowest screens (1000–1030) the chart keeps its size and its half is a little wider */
   .featured__facts > * + * { border-top: 0; border-left: var(--hair) solid var(--line); }
 }
 .featured__media { position: relative; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); color: var(--c-paper); }
@@ -225,9 +228,9 @@
 /* the modal: the screen dimmed, a white box in its middle (from 40em; on a phone a sheet at the foot of the screen,
    as wide as it). The box: the icon, the title, the text; the cross in its corner; at its foot a row of two cells
    that step to the other blocks. Its white ground is a layer of its own, so it can grow out of the block.
-   100vw: while it is open the page keeps its scrollbar's room (scrollbar-gutter), and the modal covers that strip
-   too (decisions.json "facts-modal"). */
-.fmodal { position: fixed; inset: 0 auto auto 0; width: 100vw; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
+   While it is open the page stops scrolling; where the browser draws a scrollbar, the page and its fixed bars are
+   padded by its width (--sbw, scripts/facts.js), so nothing behind the modal moves. */
+.fmodal { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: none; overflow: hidden; display: grid; place-items: center; color: var(--c-ink); }
 .fmodal:not([open]) { display: none; }
 .fmodal::backdrop { background: transparent; }
 .fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
@@ -253,4 +256,5 @@
   .fmodal__box { width: 100%; padding-bottom: env(safe-area-inset-bottom, 0px); }
 }
 .fmodal[data-morphing] .fmodal__body { overflow: visible; }   /* the travelling icon and title are not cut by the box */
-html[data-modal] { overflow: hidden; scrollbar-gutter: stable; }
+html[data-modal] { overflow: hidden; padding-right: var(--sbw, 0px); }
+html[data-modal] .nav, html[data-modal] .tabbar { border-right: var(--sbw, 0px) solid transparent; }

@@ -287,8 +287,8 @@ ROUND2 = J(HERE, 'rounds/round-2.json')
 shots_r3 = [
     {'title': 'Packs while the page scrolls (1440)', 'src': 'shots/r3-packs-scroll-1440.jpg', 'text': 'A 300px scroll, the picture 200ms in. Before: the packs leaned with their place on the screen and the scroll\'s speed. After: they stay upright (still trailing their slots a little).'},
     {'title': 'Новинки at 1280', 'src': 'shots/r3-featured-1280.jpg', 'text': f"The pager in the middle of the head ({a3('1280×800','pagerDx')}px off its centre; before {a3('1280×800','pagerDx', True)}); two equal squares {a3('1280×800','featText')} + {a3('1280×800','featMedia')}; a photo on the right without a hairline; the taste box in two even halves ({a3('1280×800','facts')})."},
-    {'title': 'Новинки at 1024', 'src': 'shots/r3-featured-1024.jpg', 'text': f"The tightest square: before the text side grew ({a3('1024×768','featH', True)} tall); now both are {a3('1024×768','featText')} wide and square, the story cut to the {a3('1024×768','lines')} whole lines that fit."},
-    {'title': 'Новинки on a phone (390)', 'src': 'shots/r3-featured-390.jpg', 'text': 'Below M the text stands over the photo; the pager takes its own row under the title and the arrows, centred.'},
+    {'title': 'Новинки at 1024', 'src': 'shots/r3-featured-1024.jpg', 'text': f"The tightest square: both {a3('1024×768','featText')} wide and square, the story cut to the {a3('1024×768','lines')} whole lines that fit (before 8)."},
+    {'title': 'Новинки on a phone (390)', 'src': 'shots/r3-featured-390.jpg', 'text': 'Below M the text stands over the photo, the taste chart over the pills; the pager takes its own row under the title and the arrows, centred.'},
     {'title': 'Рекомендуем sliding (1440)', 'src': 'shots/r3-reel-slide-1440.jpg', 'text': 'The arrow pressed, the picture 220ms in. Before the cards were cut at the column; now the row runs to the screen\'s edges and the packs turn, leading edge away, trailing their slots.'},
     {'title': 'Рекомендуем rising in (1440)', 'src': 'shots/r3-reel-rise-1440.jpg', 'text': 'The row reaching the screen, 260ms in: the cards rise one after another (90ms apart) from 48px below and from clear; each pack fades with its card and tilts up as it is carried.'},
     {'title': 'The price hovered', 'src': 'shots/r3-card-hover-price-1440.jpg', 'text': 'Before: the cell filled with ink. After: the bag and the price fade to 60%, the ground stays.'},
@@ -313,10 +313,10 @@ changes_r3 = [
     ]},
     {'section': 'New section (Новинки)', 'items': [
         ['1. The numbers block centred', f"The head is three columns from M: the title, the pager, the arrows; the pager\'s centre is {a3('1440×900','pagerDx')}px off the head\'s at every screen measured (before {a3('1440×900','pagerDx', True)}px at 1440). Below M it takes its own row, centred.", 'done'],
-        ['2. The card in two columns (the left one became larger sometimes)', f"Two tracks of <code>minmax(0, 1fr)</code>, both squares; the story is cut to the whole lines that fit instead of growing the text square. Measured: {a3('1024×768','featText')} + {a3('1024×768','featMedia')} at 1024 (before {a3('1024×768','featText', True)} + {a3('1024×768','featMedia', True)}, {a3('1024×768','featH', True)} tall), {a3('1440×900','featText')} + {a3('1440×900','featMedia')} at 1440.", 'done'],
+        ['2. The card in two columns (the left one became larger sometimes)', f"Two tracks of <code>minmax(0, 1fr)</code>, both squares, and the text square can no longer grow: its story is cut to the whole lines that fit (8 at 1440, {a3('1024×768','lines')} at 1024). Measured: two squares at every L screen ({a3('1024×768','featText')} at 1024, {a3('1440×900','featText')} at 1440, all five slides). In Chromium round 2 measured even too, also with 20px browser text, so I could not see the larger left one: was it in Safari, or on the test site (still round 1)? Whatever made it grow is gone now.", 'check'],
         ['3. The right column a photo, without a border', 'Every slide shows a photo: the coffee\'s own, else the next of four moodboard photos (a placeholder, decision featured-photos). The hairline is gone with the pack square.', 'done'],
         ['4. The whole card a link', 'The name\'s link is stretched over the whole slide (text, taste box and photo); the caption lets clicks through. Measured: a click on the story, the pills, the photo and the caption opens the coffee.', 'done'],
-        ['5. The table evenly two columns', f"Two equal halves: {a3('1440×900','facts')} at 1440 (before {a3('1440×900','facts', True)}).", 'done'],
+        ['5. The table evenly two columns', f"Two equal halves from M: {a3('1440×900','facts')} at 1440 (before {a3('1440×900','facts', True)}), {a3('1280×800','facts')} at 1280. Two exceptions: below M the chart stands above the pills (a half of a phone can\'t hold the scales\' names and the plot: it squeezed the plot); and on L\'s narrowest screens the chart keeps its size, so its half is a little wider (12px at 1000, 3 at 1024, 0 from 1030).", 'differently'],
         ['6. A magazine-like swipe: explore options in an artifact', "Five options in a test bench: <a href='https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy'>Новинки: листаем журнал</a> (a stiff page turn, a bending glossy page, a slide-over, a pile, an editorial cut), each dragged by hand or played by the arrows, with a duration control and slow motion. Pick one and it goes on the site.", 'check'],
     ]},
     {'section': 'Recommended (Рекомендуем)', 'items': [
@@ -353,6 +353,7 @@ breaks_r3 = [
     f"The footer is square only from about 1360 wide; at 1024–1350 the links need more than the square ({a3('1024×768','fBrand')} at 1024).",
     'Card descriptions under the cards are part of the link now, so their text can\'t be selected (it couldn\'t be drag-selected before either).',
     'The new arrivals cut their story to fewer lines on narrow L screens (4–6 at 1024 instead of 8), so the text square stays square.',
+    'Below M the taste chart and the pills stack again (round 2 had them side by side from S, which squeezed the chart on a phone once the halves were made even).',
     'Pages for the info blocks («Доставка», «Оплата») are not designed: the modal is the only place their text lives.',
     'The 3D packs no longer lean when the page scrolls, so the shelf feeling is gone; the trail and the pointer turn remain.',
 ]
@@ -431,7 +432,7 @@ data = {
         {'title': 'Halves', 'html': 'From L two tracks of <code>minmax(0, 1fr)</code>, both <code>aspect-ratio: 1</code>; below L the text above the photo. The text square never grows: <code>scripts/slider.js</code> cuts the story to the whole lines that fit between the name and the taste box (<code>--lines</code>, at most 8).'},
         {'title': 'Photo', 'html': 'The coffee\'s own photo, else the next of <code>featured.photos</code> (four moodboard photos, placeholder); its line over the eased black fade. No hairline beside it.'},
         {'title': 'Head', 'html': 'From M three columns <code>1fr auto 1fr</code>: title, pager, arrows; the pager is in the head\'s middle wherever the title and arrows are. Below M the pager has its own row.'},
-        {'title': 'Taste box', 'html': 'The taste chart and the pills in two equal halves from S, one above the other below.'},
+        {'title': 'Taste box', 'html': 'The taste chart and the pills in two equal halves from M (<code>minmax(min-content, 1fr) minmax(0, 1fr)</code>: the chart never shrinks, so on 1000–1030 screens its half is up to 12px wider); below M the chart over the pills.'},
         {'title': 'Link', 'html': 'The name\'s link stretched over the slide (<code>::after</code>, z-index 6); the caption above it lets clicks through.'},
         {'title': 'Swipe', 'html': 'Still the ordinary scroll-snap row. A magazine-like turn is being chosen in <a href=\'https://claude.ai/artifact/39Cx5ty8t6AsCp7NAJNyqy\'>the test bench</a>.'},
       ]},
@@ -480,7 +481,7 @@ data = {
         {'title': 'Tabs', 'html': '«Все» and «Кофе» show the coffee; каскара, дрипы, сеты and мерч say they are coming (not in the shop yet).'},
       ]},
       cat_tbl]},
-    {'id': 'picture', 'nav': 'Every size', 'title': 'The whole responsive picture', 'sub': 'Every role and block size as the browser resolves it, every 10px of width (a screen 1100 tall) and every 25px of height (1440 wide). Dashed grey: round 2. Moved this round: the footer\'s halves (Footer tab: square from about 1360), the new arrivals\' squares and the story\'s lines (Новинки tab: before the text square grew at L), the pager\'s offset, the recommended row\'s width past the column; new: --modal-w (no line before). The type roles and spacing did not move; PT Mono has the same advance (0.6em) as JetBrains Mono, so names keep their widths.', 'blocks': [
+    {'id': 'picture', 'nav': 'Every size', 'title': 'The whole responsive picture', 'sub': 'Every role and block size as the browser resolves it, every 10px of width (a screen 1100 tall) and every 25px of height (1440 wide). Dashed grey: round 2. Moved this round: the footer\'s halves (Footer tab: square from about 1360), the story\'s lines and the taste box\'s halves (Новинки tab: the squares measured even in round 2 too), the pager\'s offset, the recommended row\'s width past the column; new: --modal-w (no line before). The type roles and spacing did not move; PT Mono has the same advance (0.6em) as JetBrains Mono, so names keep their widths.', 'blocks': [
       {'type': 'picture',
        'groups': {'type': {'label': 'Type', 'keys': [css_of(k) for k in troles]},
                   'space': {'label': 'Spacing', 'keys': [v['css'] for k, v in sroles.items() if k not in ('story/min-h', 'footer/logo', 'product/stage')]},
