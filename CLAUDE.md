@@ -95,6 +95,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **The hero's entrance** is GSAP (`scripts/hero.js`, loaded only on the home page): `html[data-intro]`, set by the
   inline script in `<head>`, hides its parts from the first frame. Its numbers are `design/intro.json` (tuned in the
   artifact «QQ Intro Tuner», `design/intro-tuner/`); `window.qqHero` is the timeline, `qqIntro.play(settings)` plays it.
+- **The heroes' video** (home, about): `heroVideo()` in `src/templates/util.mjs`, files from `npm run video` (`build/video.mjs`; the original in `source/`, outside the repo); `scripts/video.js` plays it only on screen, never with «reduce motion» (decision `hero-video`).
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.

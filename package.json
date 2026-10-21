@@ -17,7 +17,8 @@
     "check": "html-validate dist/index.html \"dist/{catalog,coffee,business,faq,delivery,contacts,privacy,about,cart,favourites,checkout,account}/**/*.html\"",
     "audit": "node build/audit.mjs",
     "rules": "node build/rules.mjs",
-    "canvas:check": "node src/lab/canvas/check.mjs"
+    "canvas:check": "node src/lab/canvas/check.mjs",
+    "video": "node build/video.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0"

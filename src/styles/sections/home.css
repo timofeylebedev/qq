@@ -1,7 +1,7 @@
 /* The blocks of the home page. */
 
 /* ── hero ───────────────────────────────────────────────────────────────────────────────────────────────────────
-   A black screen with the roast photo, the title, and a dock of two cells at the photo's foot: the countdown to the
+   A black screen with the looped video, the title, and a dock of two cells at its foot: the countdown to the
    next roast and three links. Each of the two has three parts (the day and the time, the digits, the caption;
    «Каталог», «Бизнесу», «Контакты») and they line up part by part:
         below M    the title at the top of the section; under the photo the dock in two columns, three shared rows
@@ -27,9 +27,7 @@
   padding-top: var(--nav-h); background: var(--c-black); color: var(--c-paper); overflow: hidden;
 }
 .hero__bg { position: absolute; inset: 0; }
-.hero__bg img { width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; opacity: 0.85; }
-@media (--motion) { .hero__bg img { animation: hero-drift 40s var(--ease-move) infinite alternate; } }
-@keyframes hero-drift { to { transform: scale(1.08) translate(-1.5%, -1%); } }
+.hero__bg video { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
 
 .hero__info { position: relative; display: flex; flex-direction: column; flex: 1; }
 .hero__info > .col { display: flex; flex: 1; }

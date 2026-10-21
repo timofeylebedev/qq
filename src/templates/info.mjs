@@ -3,7 +3,7 @@
 import { page, head } from "./layout.mjs";
 import { imageBlock } from "./home.mjs";
 import { pageHead, tiles, field, check, dialog, contacts, linked } from "./blocks.mjs";
-import { esc, icon, href, cls, picture, rub, read } from "./util.mjs";
+import { esc, icon, href, cls, picture, rub, read, heroVideo } from "./util.mjs";
 
 const TITLES = { "Заявка": "Заявка на сотрудничество", "Прайс-лист": "Заявка на прайс-лист", "Консалтинг": "Запись на консалтинг", "Школа бариста": "Запись в школу бариста" };
 // a button that opens the request form with its topic (the form's title follows it)
@@ -164,7 +164,7 @@ export function privacy(ctx) {
 export function about(ctx) {
   const a = read("data/about.json");
   const hero = `<section class="ahero" data-ground="black" aria-labelledby="about-title">
-  ${picture("hero-roast", "", { sizes: "100vw", cls: "ahero__bg", eager: true, decorative: true })}
+  ${heroVideo("ahero__bg")}
   <div class="col"><h1 class="ahero__title" id="about-title">${esc(a.title)}</h1></div>
 </section>
 <section class="letter-wrap" data-ground="paper" aria-label="Письмо основателя">
