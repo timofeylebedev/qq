@@ -100,9 +100,8 @@ export function imageBlock(ctx, b) {
   return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">
     <div class="story__text">
-      <p class="eyebrow">${esc(b.eyebrow)}</p>
       <h2 class="story__title" id="${b.id}-title">${esc(b.title)}</h2>
-      <a class="btn-arrow" href="${href(ctx, b.action[1])}"><span class="btn-arrow__icon">${icon("arrow-right")}</span><span class="btn-arrow__label">${esc(b.action[0])}</span></a>
+      <a class="btn-arrow" href="${href(ctx, b.action[1])}"><span class="btn-arrow__label">${esc(b.action[0])}</span>${icon("arrow-right")}</a>
     </div>
     ${picture(b.image[0], b.image[1], { sizes: "(min-width: 48em) 55vw, 100vw", cls: "story__image" })}
   </div></div>
@@ -131,7 +130,8 @@ function business(ctx) {
 }
 
 // The three info blocks (roasting, payment, delivery). A block is one button: it grows into a modal with more about
-// it, and the modal steps to the other two (scripts/facts.js). One <dialog> holds the three, one shown at a time.
+// it, and the modal steps to the other two (scripts/facts.js). One <dialog> holds the three, one shown at a time,
+// and one row of steps under them: stepping changes its words, never moves it (Tim, round 7).
 // «{hour}» in a text is the roast hour, «{roast}» the live line about the next roast (scripts/roast.js).
 function facts(ctx) {
   const { facts: list, roast } = ctx.site;
@@ -139,17 +139,12 @@ function facts(ctx) {
   const say = (t) => t === "{roast}" ? `<p data-roast="${cfg}"><span data-roast-in>Ближайшая обжарка — по будням в ${roast.hour}:00.</span></p>` : `<p>${esc(t.replace("{hour}", roast.hour))}</p>`;
   const n = list.length;
   const panels = list.map((f, i) => {
-    const prev = list[(i + n - 1) % n], next = list[(i + 1) % n];
     return `<article class="fmodal__panel" id="fact-${i}" data-fact-panel="${i}" aria-labelledby="fact-${i}-title" data-off inert>
       <div class="fmodal__body">
         <span class="fmodal__icon" data-morph="icon">${icon(f.icon)}</span>
         <h2 class="fmodal__title" id="fact-${i}-title" data-morph="title">${esc(f.title)}</h2>
         <div class="fmodal__text">${f.more.map(say).join("")}</div>
       </div>
-      <nav class="fmodal__nav" aria-label="Другие блоки">
-        <button class="fmodal__step" type="button" data-fact-go="${(i + n - 1) % n}">${icon("chevron-left")}<span>${esc(prev.short)}</span></button>
-        <button class="fmodal__step" type="button" data-fact-go="${(i + 1) % n}"><span>${esc(next.short)}</span>${icon("chevron-right")}</button>
-      </nav>
     </article>`;
   }).join("\n    ");
   return `<section class="facts" data-ground="paper" aria-label="Как мы работаем">
@@ -168,6 +163,10 @@ function facts(ctx) {
       <div class="fmodal__ground"></div>
       <button class="fmodal__close" type="button" aria-label="Закрыть" data-fact-close><span data-morph="plus">${icon("plus")}</span></button>
       ${panels}
+      <nav class="fmodal__nav" aria-label="Другие блоки" data-shorts="${esc(JSON.stringify(list.map((f) => f.short)))}">
+        <button class="fmodal__step" type="button" data-fact-go="${n - 1}">${icon("chevron-left")}<span data-step-label>${esc(list[n - 1].short)}</span></button>
+        <button class="fmodal__step" type="button" data-fact-go="${1 % n}"><span data-step-label>${esc(list[1 % n].short)}</span>${icon("chevron-right")}</button>
+      </nav>
     </div>
   </dialog>
 </section>`;

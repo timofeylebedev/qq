@@ -256,12 +256,10 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
    block behind the text (it has empty space on its left for it). Below M: the text, then the picture. */
 .story { position: relative; overflow: hidden; }
 .story--dark { background: var(--c-black); color: var(--c-paper); }
-.story--dark .btn-arrow { --btn-bg: var(--c-paper); --btn-fg: var(--c-ink); }
-.story--dark .eyebrow { color: var(--c-lavender); }
 .story--light { background: var(--c-paper); color: var(--c-ink); }
 .story__col { display: grid; }
 .story__text { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--action-gap); padding-block: var(--block-pad); }
-.story__title { font-size: var(--type-h3); max-width: 15em; margin-top: calc(var(--text-gap) - var(--action-gap)); }
+.story__title { font-size: var(--type-h3); max-width: 15em; }
 .story__image { margin-inline: calc(-1 * var(--gutter)); }
 .story__image img { width: 100%; height: auto; }
 @container col (width >= 43rem) {
@@ -285,7 +283,9 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 @container col (width >= 43rem) { .business__cards { grid-template-columns: 1fr 1fr; } }
 .bcard { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); }
 .bcard__image { position: absolute; inset: 0; z-index: -1; }
-.bcard__image img { width: 100%; height: 100%; object-fit: cover; }
+.bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: scale var(--t-move) var(--ease-out); }
+/* hovered, the photo comes a little closer, as a card's pack does (Tim, round 7; decision "hover-zoom") */
+@media (--mouse) { .bcard:hover .bcard__image img { scale: 1.04; transition-duration: var(--t-move); } }
 .bcard__info { display: grid; padding-top: var(--lead-panel); background: linear-gradient(to bottom, var(--fade-panel)); }
 .bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
@@ -314,8 +314,8 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 }
 .fact__icon svg, .fmodal__icon svg { width: var(--fact-icon); height: var(--fact-icon); color: var(--c-lavender-ink); }
 .fact__more { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
-.fact__more svg, .fmodal__close svg { width: 32px; height: 32px; }
-.fact__title { grid-column: 1 / -1; align-self: end; margin-top: var(--section-gap); max-width: 14em; }
+.fact__more svg, .fmodal__close svg { width: var(--fact-plus); height: var(--fact-plus); }
+.fact__title { grid-column: 1 / -1; align-self: start; margin-top: var(--section-gap); max-width: 14em; }   /* under the icon, the three titles on one line (Tim, round 7) */
 .fact__title, .fmodal__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); text-wrap: balance; }
 @media (--mouse) {
   .fact__open:hover { background-color: var(--tint); transition-duration: var(--t-in); }
@@ -341,7 +341,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 .fmodal:not([open]) { display: none; }
 .fmodal::backdrop { background: transparent; }
 .fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
-.fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; }
+.fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
 .fmodal__box:focus { outline: none; }   /* the modal opens with the focus on itself, so no control lights up */
 .fmodal__ground { position: absolute; inset: 0; background: var(--c-paper); }
 .fmodal__panel { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 0; }
@@ -351,7 +351,8 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 .fmodal__text { display: grid; gap: 12px; font-size: var(--type-body); line-height: var(--lh-text); }
 .fmodal__close { position: absolute; z-index: 2; top: 4px; right: 4px; display: grid; place-items: center; width: 48px; height: 48px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
 .fmodal__close > span { display: grid; transform: rotate(45deg); }
-.fmodal__nav { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
+.fmodal__nav { position: relative; grid-area: 2 / 1; display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }   /* one row for the three panels, under them */
+.fmodal__word { display: inline-block; }   /* a word of a line coming in (scripts/facts.js) */
 .fmodal__step { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--control-h); padding: calc(var(--tile-pad) * 0.75) 12px; font-size: var(--type-body); line-height: 1.1; transition: background-color var(--t-out) var(--ease-out); }   /* 65px at 1440 (Figma: 66) */
 .fmodal__step + .fmodal__step { border-left: var(--hair) solid var(--line); }
 .fmodal__step svg { width: 16px; height: 16px; flex: none; }

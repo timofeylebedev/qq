@@ -14,19 +14,18 @@
 .story--dark .btn:focus-visible, .card--dark .btn:focus-visible { outline-color: var(--c-paper); }
 @media (--mouse) { .btn:hover { background: var(--c-black); transition-duration: var(--t-in); } }
 
-/* the arrow button («→ Читать»): an arrow cell and a label cell, filled, a hairline of the ground between them
-   (Figma btn-arrow). Ink on light grounds, white on dark ones (--btn-bg / --btn-fg). */
+/* the arrow button («Наш подход →»): one cell in a hairline of the ground, its label in bold capitals trimmed to
+   them, the arrow after it (Figma 1114:35930, Tim, round 7: 20px before the label, 16 between and after, 16 above and
+   below). It takes the colours of its ground; hovered, the tint behind it. */
 .btn-arrow {
-  --btn-bg: var(--c-ink); --btn-fg: var(--c-paper);
-  display: inline-grid; grid-template-columns: auto auto; gap: var(--hair); align-self: start;
-  min-height: var(--control-h); font: 500 var(--type-body-l) / 1 var(--sans);
+  display: inline-flex; align-items: center; gap: 16px; align-self: start;
+  min-height: var(--control-h); padding: 0 16px 0 20px; border: var(--hair) solid var(--line); color: inherit;
+  font: 700 var(--type-body) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); white-space: nowrap;
+  transition: background-color var(--t-out) var(--ease-out);
 }
-.btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); background: var(--btn-bg); color: var(--btn-fg); transition: opacity var(--t-out) var(--ease-out); }
-.btn-arrow__icon { padding-inline: 12px; }
-.btn-arrow svg { width: 24px; height: 24px; }
-@media (--mouse) {
-  .btn-arrow:hover > span { opacity: 0.85; transition-duration: var(--t-in); }
-}
+.btn-arrow__label { text-box: trim-both cap alphabetic; }
+.btn-arrow svg { width: 24px; height: 24px; flex: none; }
+@media (--mouse) { .btn-arrow:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* prev / next: two cells of 48 × 40, one hairline between them (Tim, round 7). Below M, where a pager goes with them
    (new arrivals), the group runs the column's whole width: the arrows at its ends, the numbers between (layout.css) */

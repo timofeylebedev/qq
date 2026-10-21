@@ -166,8 +166,10 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 
 // 12
 {
-  const fails = blocks.filter((b) => /:hover/.test(b.selector) && /(^|;)\s*(transform|translate|scale|rotate)\s*:/.test(b.body)).map(where);
-  rule("Hovers never move", "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground", fails);
+  // the one exception, Tim's (round 7): the photo of a card comes a little closer, as its 3D pack does (decision hover-zoom)
+  const zoom = new Set(decisions.flatMap((d) => d.hover || []));
+  const fails = blocks.filter((b) => /:hover/.test(b.selector) && /(^|;)\s*(transform|translate|scale|rotate)\s*:/.test(b.body) && !zoom.has(b.selector)).map(where);
+  rule("Hovers never move", `no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground (but the ${zoom.size} photo zooms of decision hover-zoom)`, fails);
 }
 
 let bad = 0;

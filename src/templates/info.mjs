@@ -42,7 +42,7 @@ export function business(ctx) {
       <div class="offer__info">
         <h3 class="offer__title">${esc(o.title)}</h3>
         <p class="offer__text">${esc(o.text)}</p>
-        ${opener(o.topic, `<span class="btn-arrow__icon">${icon("arrow-right")}</span><span class="btn-arrow__label">Записаться</span>`, "btn-arrow")}
+        ${opener(o.topic, `<span class="btn-arrow__label">Записаться</span>${icon("arrow-right")}`, "btn-arrow")}
       </div>
     </li>`).join("\n    ")}</ul>
     ${opener(b.start.price.topic, `<span class="rowlink__icon">${icon("table")}</span><span class="rowlink__title">${esc(b.start.price.title)}</span><span class="rowlink__go">${icon("arrow-right")}</span>`, "rowlink")}
