@@ -287,8 +287,10 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 /* ── facts (three info blocks) ──────────────────────────────────────────────────────────────────────────────────
    Three cells divided by hairlines on the column: an icon, a title, a plus in the cell's corner (12px in, as the
    modal's cross: Figma card-modal). A cell is one button; pressed, it grows into the modal below (scripts/facts.js).
-   No hairline above: the block before it ends the business section. Stacked (below M), the hairlines between them
-   run out to the screen's edges beside the column. */
+   No hairline above: the block before it ends the business section; a hairline below, the whole screen wide, where
+   the lines between its cells meet the footer (the footer itself has none: Tim, round 7). Stacked (below M), the
+   hairlines between them run out to the screen's edges beside the column. */
+.facts { border-bottom: var(--hair) solid var(--line); }
 .facts__list { display: grid; }
 .fact { position: relative; }
 .fact + .fact::before { content: ""; position: absolute; z-index: 1; top: 0; left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter)); border-top: var(--hair) solid var(--line); pointer-events: none; }
