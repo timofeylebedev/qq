@@ -41,7 +41,7 @@ function hero(ctx) {
             <button class="hero__info-btn" type="button" aria-expanded="false" aria-controls="roast-note" aria-label="Как мы обжариваем" data-toggle>${icon("info")}</button></p>
           <p class="hero__count" data-hero-part><span class="sr"><span data-roast-say>Следующая обжарка через </span><span data-roast-count>00:00:00</span></span>${digitsSVG("00:00:00", { lit: false })}<span class="hero__date" data-roast-date hidden></span></p>
           <p class="hero__caption" aria-hidden="true" data-hero-part>До ближайшей обжарки</p>
-          <p class="hero__note" id="roast-note" hidden><span>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</span></p>
+          <p class="hero__note" id="roast-note" data-reveal><span>Обжариваем по будням в ${roast.hour}:00 по Москве. Заказ, оформленный до обжарки, уходит в неё.</span></p>
         </div>
         <ul class="hero__links">${hero.links.map(([t, to, ic]) => `<li data-hero-part><a class="hero__link" href="${href(ctx, to)}"><span>${esc(t)}</span>${icon(ic)}</a></li>`).join("")}</ul>
       </div>
@@ -50,16 +50,18 @@ function hero(ctx) {
 </section>`;
 }
 
-// New arrivals: one coffee at a time, a text square and a photo square. Every slide shows a photo: the coffee's own
-// (site.json photos), else one of the section's stand-ins in turn (featured.photos, a placeholder). The whole slide
-// is the link to the coffee. The pager of numbers stands in the middle of the head.
+// New arrivals: one coffee at a time, a text square and a photo square, turned like the pages of a magazine
+// (scripts/curl.js). Every slide shows a photo: the coffee's own (site.json photos), else one of the section's
+// stand-ins in turn (featured.photos, a placeholder). The whole slide is the link to the coffee. The slides lie on one
+// another; only the current one is shown (the others are data-off and inert). The pager of numbers stands in the
+// middle of the head (below M between the arrows).
 function featured(ctx, list) {
   const pager = `<div class="pager" role="group" aria-label="Новинки по одной">${list.map((p, i) => `<button class="pager__dot" type="button" data-go="${i}" aria-label="${i + 1}: ${esc(p.name)}"${i === 0 ? ' aria-current="true"' : ""}>${i + 1}</button>`).join("")}</div>`;
   const spare = ctx.site.featured.photos || [];
   let k = 0;
   const slides = list.map((p, i) => {
     const photo = ctx.site.photos.bySlug[p.slug] || spare[k++ % spare.length];
-    return `<article class="featured__slide" data-slide aria-roledescription="слайд" aria-label="${i + 1} из ${list.length}">
+    return `<article class="featured__slide" data-slide aria-roledescription="слайд" aria-label="${i + 1} из ${list.length}"${i ? " data-off inert" : ""}>
       <div class="featured__text">
         <div class="featured__intro">
           <h3 class="featured__name"><a href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h3>
@@ -76,7 +78,7 @@ function featured(ctx, list) {
   return `<section class="section section--first featured" data-ground="paper" aria-labelledby="featured-title">
   <div class="col">
     ${head({ title: ctx.site.featured.title, id: "featured-title", middle: pager, aside: arrows("Новинки", "featured") })}
-    <div class="featured__track" data-slider="featured" tabindex="-1">
+    <div class="featured__track" data-curl="featured" aria-live="polite">
     ${slides}
     </div>
   </div>

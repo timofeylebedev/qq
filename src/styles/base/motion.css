@@ -12,12 +12,13 @@
   --t-in: 0.2s;
   --t-out: 0.45s;
   --t-move: 0.6s;
+  --t-step: 0.12s;        /* parts leaving or arriving one after another: the next starts this much later (the roast note) */
   --t-rise: 0.9s;         /* a block rising into place (a card of a row coming into view) */
   --t-intro: 1.4s;        /* the hero's dock rising into place when the page opens; its parts follow one by one (scripts/hero.js) */
   --t-wait: 3s;           /* how long the hero waits hidden for its entrance's script before it shows anyway */
 }
 @media (--calm) {
-  :root { --t-in: 0s; --t-out: 0s; --t-move: 0s; --t-rise: 0s; --t-intro: 0s; --t-seg-on: 0s; --t-seg-off: 0s; }
+  :root { --t-in: 0s; --t-out: 0s; --t-move: 0s; --t-step: 0s; --t-rise: 0s; --t-intro: 0s; --t-seg-on: 0s; --t-seg-off: 0s; }
   html { scroll-behavior: auto !important; }
 }
 

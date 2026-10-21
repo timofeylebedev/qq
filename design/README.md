@@ -115,7 +115,7 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
   `data-ground`; `build/rules.mjs` checks). Only a state (the current pager dot, a focused select) draws in ink.
   Below the column's max the hairlines between a full-width block's cells (the hero, the info blocks, the footer)
   run out to the screen's edges on the sides where the column ends; from the max the block is framed instead.
-- **Grounds lead.** The navbar and the tab bar take the colours of the section under them once they stand wholly on it.
+- **Grounds lead.** The navbar and the tab bar take the colours of the section under them the moment their leading edge (the one the page scrolls towards) touches it (Tim, round 7).
   A block on another ground inside a section (the dark panel beside the bag, a cloud form, a photo card) says
   `data-tone`: it gets the same colours (`--g-bg`, `--g-fg`, `--line`, `--tint`) and paints its own ground, but the
   bars do not follow it.

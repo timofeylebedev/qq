@@ -1,5 +1,5 @@
-// Sideways rows that scroll with snapping (new arrivals, recommended). The arrows of the section head move a row by
-// one item; the pager of new arrivals jumps to an item and shows which one is in view. Swiping and the trackpad
+// Sideways rows that scroll with snapping (recommended; new arrivals turn like pages instead: scripts/curl.js). The
+// arrows of the section head move a row by one item. Swiping and the trackpad
 // work as they do anywhere: the row is an ordinary scrolling box.
 //
 // A reel (recommended) runs out to the screen's edges, so a card sliding past the column is not cut at it: the row
@@ -37,8 +37,8 @@ export function initSliders() {
     sync();
 
     if (track.classList.contains("reel")) { bleed(track); rise(track); }
-    for (const t of track.querySelectorAll(".featured__text")) fitLines(t);
   }
+  for (const t of document.querySelectorAll(".featured__text")) fitLines(t);
 }
 
 // From L a new arrival's text is a square: its story is cut to the whole lines that fit between the name and the
