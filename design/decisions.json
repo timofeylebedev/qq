@@ -152,7 +152,7 @@
       "decided": "Claude, 2026-10-19",
       "fix": "" },
     { "id": "buybar-phone", "kind": "decision",
-      "what": "On a narrow column the buy bar stays at the foot of the screen in two rows (options; quantity, price, button). Since round 7 it is black, with no line above it, and its options are the catalog's menu cells opening upwards",
+      "what": "On a narrow column the buy bar stays at the foot of the screen in two rows (options; quantity, price, button). Since round 8 it is cool grey (the ink ground; black in round 7), with no line above it, and its options are the catalog's menu cells opening upwards",
       "why": "Figma has the bar only at 1440; buying should stay one tap away",
       "decided": "Claude, 2026-10-19 (to check with the designer)",
       "fix": "" },
