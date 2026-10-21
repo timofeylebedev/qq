@@ -35,7 +35,7 @@ export async function initPacks() {
   try { stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", zIndex: 5 }); }
   catch (err) { console.info("3D packs off:", err.message); return; }
   Object.assign(stage.look, LOOK);
-  window.qqPacks = { stage, TUNE };
+  window.qqPacks = { stage, TUNE, freeze: () => {} };
 
   const items = slots.map((el) => {
     const hero = el.dataset.pack === "hero", px = hero ? 1024 : 512;
@@ -113,6 +113,21 @@ export async function initPacks() {
     p.carryUntil = performance.now() + left + 100; p.it.live = true; p.tilt = true;
   }
 
+  // the page is going to another (scripts/../vt.js, pageswap): the canvas can't be captured, so every pack on the
+  // screen leaves a picture of itself, as it is drawn this moment, in its slot (not the still: a pack turned towards
+  // the pointer that became the front-facing still on the way out was the flicker, Tim, round 7)
+  window.qqPacks.freeze = () => {
+    for (const p of items) {
+      if (!p.it.visible || p.el.querySelector(".pack__shot")) continue;
+      const c = stage.shot(p.it);
+      if (c) { c.className = "pack__shot"; c.setAttribute("aria-hidden", "true"); p.el.append(c); }
+    }
+  };
+  addEventListener("pageshow", () => { for (const c of document.querySelectorAll(".pack__shot")) c.remove(); });
+  // arriving by a card (html[data-vt="in"]): the packs face the viewer, as their stills do, until the pages have
+  // changed, and only then turn to where they look
+  const arriving = () => document.documentElement.dataset.vt === "in";
+
   stage.onTick = (dt, now) => {
     let moving = false;
     const k = 1 - Math.exp(-dt * TUNE.follow);
@@ -121,11 +136,12 @@ export async function initPacks() {
     for (const p of items) {
       const it = p.it;
       let rx = 0, ry = 0, lift = 0, scale = 1;
-      if (p.hero) {
+      if (p.hero && arriving()) { ry = 0; rx = 0; }
+      else if (p.hero) {
         const t = window.qqStage?.progress ?? 0;           // 0 → 1 over the fact tiles
         ry = reduced ? 0 : -0.35 + t * Math.PI * 2;
         rx = reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI);
-      } else if (!reduced) {
+      } else if (!reduced && !arriving()) {
         ry = -((it.x + it.w / 2) / vw - 0.5) * TUNE.turn;
         if (p.hover) { ry += p.hx * TUNE.hoverTurn; rx += p.hy * TUNE.hoverTilt; lift = TUNE.hoverLift; scale = 1.03; }
       }

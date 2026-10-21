@@ -61,9 +61,14 @@ function fitLines(box) {
 function rise(track) {
   if (calm() || !("IntersectionObserver" in window)) return;
   const cards = [...track.children];
-  let shown = false;
+  // back on the page (a reload, a step back from a coffee's page): the cards in view stand where they were, nothing
+  // rises again (Tim, round 7: «when you go back to the recommended section all cards move»)
+  const nav = performance.getEntriesByType?.("navigation")[0]?.type;
+  const back = nav === "reload" || nav === "back_forward" || document.documentElement.dataset.vt === "in";
+  const per = Math.round(parseFloat(getComputedStyle(track).getPropertyValue("--per")) || 1);
+  let shown = back;
   track.dataset.rise = "";
-  for (const c of cards) c.dataset.wait = "";
+  cards.forEach((c, i) => { if (!back || i >= per) c.dataset.wait = ""; });
   const up = (c, delay = 0) => {
     if (!("wait" in c.dataset)) return;
     c.style.transitionDelay = `${delay}ms`;
@@ -105,5 +110,5 @@ function rise(track) {
       .forEach((c, i) => up(c, i * 90));
     watch();
   }, { threshold: 0.2 });
-  page.observe(track);
+  if (back) watch(); else page.observe(track);
 }

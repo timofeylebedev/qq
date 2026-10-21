@@ -27,9 +27,19 @@
 @media (--motion) { @view-transition { navigation: auto; } }
 ::view-transition-group(*) { animation-duration: var(--t-move); animation-timing-function: var(--ease-out); }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--t-out); }
-/* the name: its old and new text cross-fade while it travels and grows; the pack keeps the shape of its still */
-::view-transition-old(coffee-name), ::view-transition-new(coffee-name) { height: 100%; width: auto; object-fit: none; object-position: left top; }
+/* the name: the old text goes in the first part of the way, the new one comes in the rest, never both at once (two
+   texts of two sizes over each other read as a shadow, Tim, round 7); on a coffee's page the line under the name
+   travels with it (the head is the group). The pack keeps the shape of its still */
+::view-transition-old(coffee-name), ::view-transition-new(coffee-name) { height: 100%; width: auto; object-fit: none; object-position: left top; mix-blend-mode: normal; }
+::view-transition-old(coffee-name) { animation: vt-name-out var(--t-move) var(--ease-out) both; }
+::view-transition-new(coffee-name) { animation: vt-name-in var(--t-move) var(--ease-out) both; }
+@keyframes vt-name-out { 35%, to { opacity: 0; } }
+@keyframes vt-name-in { from, 35% { opacity: 0; } }
 ::view-transition-old(coffee-pack), ::view-transition-new(coffee-pack) { height: 100%; width: auto; margin-inline: auto; }
 /* while the pages are captured the 3D canvas stays out and every pack shows its still */
-html[data-vt] canvas { visibility: hidden; }
+html[data-vt] canvas:not(.pack__shot) { visibility: hidden; }
 html[data-vt] .pack .pack__still { opacity: 1 !important; transition: none !important; }
+/* leaving, the picture each pack left of itself (scripts/packs.js freeze) stands in for it, over its pad */
+.pack__shot { display: none; }
+html[data-vt] .pack__shot { display: block; position: absolute; inset: -25%; width: 150%; height: 150%; max-width: none; pointer-events: none; }
+html[data-vt] .pack:has(.pack__shot) .pack__still { opacity: 0 !important; }
