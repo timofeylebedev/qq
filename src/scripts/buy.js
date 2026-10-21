@@ -22,13 +22,12 @@ export function toast(text) {
   clearTimeout(toastTimer); toastTimer = setTimeout(() => delete t.dataset.on, 2400);
 }
 
-// the price of a form: the chosen weight (a radio on cards, a select on the product page) × the quantity
+// the price of a form: the chosen weight (a card's weights, the product's menu of weights) × the quantity
 function price(form) {
-  const radio = form.querySelector('input[type="radio"]:checked');
-  const option = form.querySelector('select[name="weight"]')?.selectedOptions[0];
-  const each = Number((radio || option)?.dataset.price || 0);
+  const radio = form.querySelector('.buy__weights input:checked, input[name="weight"]:checked');
+  const each = Number(radio?.dataset.price || 0);
   const qty = Number(form.querySelector("[data-qty]")?.textContent || 1);
-  return { each, qty, total: each * qty, weight: radio?.value || option?.value };
+  return { each, qty, total: each * qty, weight: radio?.value };
 }
 function update(form) {
   const p = price(form);

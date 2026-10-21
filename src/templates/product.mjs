@@ -3,6 +3,7 @@
 import { page, head } from "./layout.mjs";
 import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, taste, lower } from "./util.mjs";
+import { menu } from "./blocks.mjs";
 
 export function render(ctx, p) {
   const body = [stage(ctx, p), buybar(p), story(p), similar(ctx, p)].join("\n");
@@ -48,21 +49,20 @@ function facts(p) {
   return tiles;
 }
 
+// the buy bar: the options as menu cells (the catalog's filters: blocks.mjs menu, opening upwards), the quantity, the
+// price, «В корзину»; on black (Tim, round 7)
 function buybar(p) {
-  const options = (name, caption, list, value = (x) => x.value, text = (x) => x.text) => `<label class="cell cell--select">
-        <span class="cell__caption">${caption}</span>
-        <select name="${name}">${list.map((x, i) => `<option value="${esc(value(x))}"${(x.sel ?? i === 0) ? " selected" : ""}${x.price != null ? ` data-price="${x.price}"` : ""}>${esc(text(x))}</option>`).join("")}</select>
-      </label>`;
-  const grind = p.grind.map((g) => ({ value: g, text: GRIND[g] || g }));
-  const roast = p.roasts.map((r) => ({ value: r.use, text: r.level || r.use }));
-  const weights = p.weights.map((w) => ({ value: w.label, text: w.label, price: w.price }));
+  const opt = (name, caption, list, sel) => menu(name, caption, "radio", list, { checked: sel ?? list[0]?.[0], up: true });
+  const grind = p.grind.map((g) => [g, GRIND[g] || g]);
+  const roast = p.roasts.map((r) => [r.use, r.level || r.use]);
+  const weights = p.weights.map((w) => [w.label, w.label, w.price != null ? ` data-price="${w.price}"` : ""]);
   const def = p.weights.find((w) => w.grams === 200) || p.weights[0];
-  return `<form class="buybar" data-buybar data-buy data-slug="${p.slug}" action="#" aria-label="Купить ${esc(p.name)}">
+  return `<form class="buybar" data-buybar data-buy data-tone="black" data-slug="${p.slug}" action="#" aria-label="Купить ${esc(p.name)}">
  <div class="col"><div class="buybar__inner">
   <div class="buybar__cells">
-      ${grind.length ? options("grind", "Помол", grind) : ""}
-      ${roast.length ? options("roast", "Обжарка", roast) : ""}
-      ${options("weight", "Вес", weights.map((w) => ({ ...w, sel: w.value === def.label })))}
+      ${grind.length ? opt("grind", "Помол", grind) : ""}
+      ${roast.length ? opt("roast", "Обжарка", roast) : ""}
+      ${opt("weight", "Вес", weights, def.label)}
       <div class="cell cell--qty" role="group" aria-label="Количество">
         <button type="button" data-step="-1" aria-label="Меньше">${icon("minus-round")}</button>
         <output name="qty" data-qty>1</output>

@@ -5,12 +5,14 @@
    so the pack shows through them as they cross it. Pinned height: the screen less the navbar and the buy bar.
    From L the tiles stand at different places across the column (Figma: a scatter); below, one under another.
 
-   The buy bar stays at the foot of the screen through the page: the options as cells, the price, «В корзину».
+   The buy bar stays at the foot of the screen through the page, on black: the options as menu cells, the price,
+   «В корзину».
    On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
    the stage, and the stage pins at the whole screen under the navbar. */
 :root:has(.product) { --buybar-h: 88px; }
 body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16px); }
 
+.pstage { touch-action: pan-y; }   /* a drag across turns the pack (scripts/packs.js); up and down scroll the page */
 .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); position: relative; padding-top: var(--nav-h); }
 .pstage__pin {
   position: sticky; top: var(--nav-h); height: var(--pin-h); min-height: 22rem;
@@ -55,37 +57,37 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   .pack--hero { grid-row: 1; }
 }
 
-/* the buy bar: below L two rows of cells (the options; the quantity, the price and the button), from L one row with
-   the button apart on the right, as in Figma */
-.buybar { position: sticky; bottom: var(--tabbar-h); z-index: 20; background: var(--c-cloud); border-top: var(--hair) solid var(--line); padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+/* the buy bar: black, no line above it (Tim, round 7). Below L two rows of cells (the options; the quantity, the price
+   and the button), from L one row with the button apart on the right, as in Figma. The options are menu cells, the
+   catalog's filters (components/menu.css), whose lists open upwards; every cell is a hairline box overlapping its
+   neighbours' by a pixel (as the filters). */
+.buybar { position: sticky; bottom: var(--tabbar-h); z-index: 20; padding-block: 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
 @media (--phone) { .buybar { padding-bottom: 8px; } }
 @media (--short) { .buybar { position: relative; } }
-.buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: var(--hair) solid var(--line); background: var(--c-paper); }
+.buybar__inner { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0 1px 1px 0; }
 .buybar__cells { display: contents; }
-.cell { position: relative; display: grid; align-content: center; gap: 2px; min-width: 0; min-height: 52px; padding: 6px 12px; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
-.cell__caption { font-size: var(--type-small); color: var(--c-ink-70); }
-.cell select {
-  appearance: none; -webkit-appearance: none; width: 100%; min-height: 28px; border: 0; background: none; padding: 0 16px 0 0; cursor: pointer;
-  font: 700 var(--type-control) / 1.2 var(--sans); font-size: max(16px, var(--type-control)); text-transform: uppercase; letter-spacing: var(--track-control);
-  text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
-  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: right 6px top 55%, right 1px top 55%; background-size: 5px 5px; background-repeat: no-repeat;
-}
-.cell select:focus-visible { outline: none; }
-.cell:has(:focus-visible) { box-shadow: inset 0 0 0 2px var(--c-ink); }
+.buybar .filter { --menu-min: 11rem; }
+.buybar .filter__summary { min-height: 52px; padding-block: 6px; padding-left: 12px; }
+.cell { position: relative; display: grid; align-content: center; gap: 2px; min-width: 0; min-height: 52px; padding: 6px 12px; border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; }
 .cell--qty { grid-auto-flow: column; justify-content: center; align-items: center; gap: 12px; }
-.cell--qty button { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--c-ink-70); }
+.cell--qty button { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: var(--g-soft); transition: color var(--t-out) var(--ease-out); }
 .cell--qty button[aria-disabled="true"] { opacity: 0.35; cursor: default; }
+@media (--mouse) { .cell--qty button:not([aria-disabled="true"]):hover { color: var(--g-fg); transition-duration: var(--t-in); } }
 .cell--qty svg { width: 24px; height: 24px; }
 .cell--qty output { min-width: 2ch; text-align: center; font: 500 var(--type-control) / 1 var(--sans); font-feature-settings: "tnum" 1; }
 .cell--price { place-content: center; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }
-.buybar__add { min-height: 52px; padding-inline: 12px; }
+/* «В корзину» on black: the ground's text colour filled, the ground in its letters */
+.buybar__add { min-height: 52px; padding-inline: 12px; margin: 0 -1px -1px 0; background: var(--g-fg); color: var(--g-bg); }
+.buybar__add:focus-visible { outline-color: var(--g-fg); }
+@media (--mouse) { .buybar__add:hover { background: var(--c-white-80); } }
 @container col (width >= 58rem) {
-  .buybar__inner { grid-template-columns: auto auto; justify-content: space-between; border: 0; background: none; }
-  .buybar__cells { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); }
-  .cell { min-height: 56px; border-bottom: 0; margin-bottom: 0; padding-inline: var(--control-x); }
-  .cell:last-child { border-right: 0; }
-  .buybar__add { min-height: 72px; padding-inline: 32px; }
+  .buybar__inner { grid-template-columns: auto auto; justify-content: space-between; padding: 0; }
+  .buybar__cells { display: flex; padding: 0 1px 0 0; }
+  .buybar .filter, .cell { flex: none; min-height: 72px; margin-bottom: 0; }
+  .buybar .filter { width: 12rem; }
+  .buybar .filter__summary { min-height: 70px; padding-left: var(--control-x); }
+  .cell { padding-inline: var(--control-x); }
+  .buybar__add { min-height: 72px; margin: 0; padding-inline: 32px; }
 }
 
 /* the story */
@@ -96,4 +98,5 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 @container col (width >= 43rem) { .pstory__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 58rem) { .pstory__cols { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); } }
 
-.similar .head { margin-bottom: var(--section-y-s); }
+/* similar coffees: as much room under the heading as above it (Tim, round 7) */
+.similar .head { margin-bottom: var(--section-y); }

@@ -7,7 +7,10 @@
 //              goes. Pressed anywhere on its card, a pack moves away from the viewer and stays there while held (a
 //              quick click still shows it)
 //   product    the big pack of a coffee's page turns once around as its fact tiles scroll past (scripts/product.js
-//              gives the progress); it settles in from a quarter turn when the page opens
+//              gives the progress), exactly with the scroll (no easing behind it: Tim, round 7); it settles in from a
+//              quarter turn when the page opens. It can be dragged round (and tilted) by hand; let go, it turns back
+//              to the angle of the scroll. While it is pinned the canvas stands on the screen (stage.fixed), so the
+//              pack never rides the page's scroll for a frame before it is drawn again
 //
 // Until the canvas has drawn (and without WebGL) each slot shows a still of the same pack. With «reduce motion» the
 // packs stand still, facing front.
@@ -21,8 +24,41 @@ export const TUNE = {           // window.qqPacks in the console: try values liv
   lag: 9,                       // how fast a pack catches up with its rising card (1/s)
   lagMax: 0.12, lagMaxPx: 40,   // … and how far it may trail: a share of its slot's height, at most this many px
   carryTilt: 0.45,              // carried up by its rising card: the tilt (up/down) at the full trail
-  pressLift: -0.45, pressScale: 0.94, pressHold: 0.2, pressFollow: 16   // pressed: further away, smaller, held ≥ 0.2s
+  pressLift: -0.45, pressScale: 0.94, pressHold: 0.2, pressFollow: 16,  // pressed: further away, smaller, held ≥ 0.2s
+  dragTurn: 0.012, dragTilt: 0.006, dragTiltMax: 0.6,   // the big pack dragged: rad per px across, per px down (capped)
+  dragFollow: 24, dragBack: 5                           // … how fast it follows the pointer, and turns back when let go (1/s)
 };
+
+// the big pack of a coffee's page, by hand: a drag over it turns it round (across) and tilts it (down); let go, it turns
+// back. The tiles scroll over the pin, so the stage hears the pointer and checks it is over the pack, not a tile. On a
+// touch screen only a drag across turns it (the stage lets a drag up or down scroll the page: touch-action pan-y).
+function drag(p) {
+  const stage = p.el.closest("[data-stage]");
+  if (!stage) return;
+  const over = (e) => { const r = p.el.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && !e.target.closest(".ptile, a, button, input, label, summary"); };
+  let x0 = 0, y0 = 0, id = null;
+  const end = (e) => {
+    if (e.pointerId !== id) return;
+    id = null; p.drag.on = false; p.drag.tx = 0; p.drag.ty = 0;
+    stage.style.cursor = "";
+    window.qqPacks?.stage.invalidate();
+  };
+  stage.addEventListener("pointerdown", (e) => {
+    if (e.button > 0 || id !== null || !over(e)) return;
+    id = e.pointerId; x0 = e.clientX - p.drag.x / TUNE.dragTurn; y0 = e.clientY - p.drag.y / TUNE.dragTilt;
+    p.drag.on = true; stage.setPointerCapture(id); stage.style.cursor = "grabbing";
+    if (e.pointerType === "mouse") e.preventDefault();   // no text selection while dragging
+  });
+  stage.addEventListener("pointermove", (e) => {
+    if (e.pointerId === id) {
+      p.drag.tx = (e.clientX - x0) * TUNE.dragTurn;
+      p.drag.ty = Math.max(-TUNE.dragTiltMax, Math.min(TUNE.dragTiltMax, (e.clientY - y0) * TUNE.dragTilt));
+      window.qqPacks?.stage.invalidate();
+    } else if (e.pointerType === "mouse") stage.style.cursor = over(e) ? "grab" : "";
+  });
+  stage.addEventListener("pointerup", end);
+  stage.addEventListener("pointercancel", end);
+}
 
 export async function initPacks() {
   const slots = [...document.querySelectorAll("[data-pack]")];
@@ -53,14 +89,13 @@ export async function initPacks() {
     if (!reduced) {
       // press: the pointer goes down anywhere on the card (not its buttons); it lets go at least pressHold later, so a click reads
       let since = 0, wait = 0, off = 0;
-      const inside = (e) => { const r = el.getBoundingClientRect(); return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom; };
       const down = () => { clearTimeout(off); p.press = true; since = performance.now(); stage.invalidate(); };
       const up = () => {
         clearTimeout(wait); if (!p.press) return;
         off = setTimeout(() => { p.press = false; stage.invalidate(); }, Math.max(0, TUNE.pressHold * 1000 - (performance.now() - since)));
       };
-      (el.closest("[data-card], .featured__slide") || el).addEventListener("pointerdown", (e) => {
-        if (e.button > 0 || (hero && !inside(e)) || e.target.closest("button, input, label, select, .buy")) return;
+      if (!hero) (el.closest("[data-card], .featured__slide") || el).addEventListener("pointerdown", (e) => {
+        if (e.button > 0 || e.target.closest("button, input, label, select, .buy")) return;
         if (e.pointerType === "touch") wait = setTimeout(down, 90); else down();   // a touch may be the start of a scroll
         addEventListener("pointerup", up, { once: true }); addEventListener("pointercancel", up, { once: true });
       });
@@ -76,7 +111,9 @@ export async function initPacks() {
       card.addEventListener("pointerleave", () => { p.hover = false; stage.invalidate(); });
     }
     // the big pack settles in from a quarter turn, unless the page was opened from a card (it arrives facing front)
-    if (hero && !reduced && document.documentElement.dataset.vt !== "in") it.ry = -1.4;
+    p.drag = { on: false, x: 0, y: 0, tx: 0, ty: 0 };   // the hand's turn and tilt (tx, ty: where it is going)
+    if (hero && !reduced && document.documentElement.dataset.vt !== "in") p.drag.x = -1.05;
+    if (hero) drag(p);
     p.fade = el.closest("[data-rise] > *");        // a card that rises into place: its pack fades with it
     return p;
   });
@@ -113,8 +150,16 @@ export async function initPacks() {
       let rx = 0, ry = 0, lift = 0, scale = 1;
       if (p.hero) {
         const t = window.qqStage?.progress ?? 0;           // 0 → 1 over the fact tiles
-        ry = reduced ? 0 : -0.35 + t * Math.PI * 2;
-        rx = reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI);
+        const d = p.drag, kd = d.on ? 1 - Math.exp(-dt * TUNE.dragFollow) : reduced ? 1 : 1 - Math.exp(-dt * TUNE.dragBack);
+        d.x += (d.tx - d.x) * kd; d.y += (d.ty - d.y) * kd;
+        if (Math.abs(d.tx - d.x) + Math.abs(d.ty - d.y) < 0.001) { d.x = d.tx; d.y = d.ty; } else moving = true;
+        // the scroll's angle as it is, the hand's on top of it; nothing eases behind the scroll
+        it.ry = (reduced ? 0 : -0.35 + t * Math.PI * 2) + d.x;
+        it.rx = (reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI)) + d.y;
+        it.lift = 0; it.scale = 1; it.ox = it.oy = 0;
+        // pinned (the tiles still to pass): the canvas stands on the screen with the pin
+        stage.fixed = it.visible && t < 1;
+        continue;
       } else if (!reduced) {
         ry = -((it.x + it.w / 2) / vw - 0.5) * TUNE.turn;
         if (p.hover) { ry += p.hx * TUNE.hoverTurn; rx += p.hy * TUNE.hoverTilt; lift = TUNE.hoverLift; scale = 1.03; }
@@ -141,7 +186,7 @@ export async function initPacks() {
       if (!it.visible) { it.rx = rx; it.ry = ry; it.lift = lift; it.scale = scale; continue; }
       const e = Math.abs(rx - it.rx) + Math.abs(ry - it.ry) + Math.abs(lift - it.lift) + Math.abs(scale - it.scale) * 4;
       if (e > 0.002) {
-        const kk = p.press || Math.abs(it.lift - lift) > 0.3 ? 1 - Math.exp(-dt * TUNE.pressFollow) : p.hero ? 1 - Math.exp(-dt * 5) : k;
+        const kk = p.press || Math.abs(it.lift - lift) > 0.3 ? 1 - Math.exp(-dt * TUNE.pressFollow) : k;
         it.rx += (rx - it.rx) * kk; it.ry += (ry - it.ry) * kk; it.lift += (lift - it.lift) * kk; it.scale += (scale - it.scale) * kk;
         moving = true;
       } else { it.rx = rx; it.ry = ry; it.lift = lift; it.scale = scale; }
