@@ -10,8 +10,9 @@
    burger; on a phone (--phone) the bag, favourites and profile leave for the tab bar at the foot of the screen.
    Hover: only the item under the pointer changes, a tint of white (of ink on light grounds) behind it. A link is a
    40px cell with 14px at each side of its text, about the air its 16px text has above its capitals and below its
-   baseline, so its tint is as far from the text on every side (Tim, round 6); the cells stand 8px apart, so two
-   tints never touch and nothing moves. On the home page the logo is not a link and has no hover. */
+   baseline, so its tint is as far from the text on every side (Tim, round 6); the cells stand 4px apart, so two
+   tints never touch and nothing moves. The logo has no hover ground, and the current page's link is not underlined
+   (Tim, round 8). */
 .nav {
   --nav-air: 8px;          /* the air inside the logo's and the icons' boxes: the glyphs stand 8px in */
   position: fixed; inset: 0 0 auto; z-index: 50;
@@ -32,9 +33,8 @@
 .nav__links { grid-area: 1 / 2; }
 .nav__logo svg { width: 109px; height: 35px; }
 .nav__logo[data-to-top] { cursor: pointer; }
-.nav__links ul { display: flex; align-items: center; gap: 8px; }
+.nav__links ul { display: flex; align-items: center; gap: 4px; }
 .nav__links a { padding-inline: 14px; font-size: var(--type-body); line-height: 1; white-space: nowrap; }
-.nav__links a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: var(--hair); }
 .nav__tools { grid-area: 1 / -2; justify-self: end; display: flex; align-items: center; gap: 4px; }
 .nav__tool { position: relative; width: 40px; }
 .nav__tool svg { width: 24px; height: 24px; }
@@ -42,9 +42,9 @@
   position: absolute; top: 4px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 999px;
   background: var(--c-lavender); color: var(--c-black); font-size: 12px; line-height: 16px; font-weight: 500; text-align: center;
 }
-:is(.nav__logo, .nav__links a, .nav__tool) { transition: background-color var(--t-out) var(--ease-out); }
+:is(.nav__links a, .nav__tool) { transition: background-color var(--t-out) var(--ease-out); }
 @media (--mouse) {
-  :is(.nav__logo[href], .nav__links a, .nav__tool):hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  :is(.nav__links a, .nav__tool):hover { background-color: var(--tint); transition-duration: var(--t-in); }
 }
 
 /* the steps */
@@ -81,7 +81,6 @@
   transition: background-color var(--t-out) var(--ease-out);
 }
 @media (--mouse) { .menu a:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
-.menu a[aria-current="page"] { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: var(--hair); }
 @media not (--phone) {
   .menu ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .menu li:nth-child(2) { border-top: 0; }
