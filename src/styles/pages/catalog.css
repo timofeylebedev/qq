@@ -1,49 +1,27 @@
 /* The catalog: the roast and shipping line, the tabs (h2 size), the filter cells, the grid. */
-.catalog__info { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-bottom: var(--section-gap); color: var(--c-ink-70); font-size: var(--type-body); }
-.catalog__info li { display: flex; align-items: center; gap: 8px; }
+/* the roast and the shipping: two blocks side by side, their tops level (Figma); below M each is a column with its
+   icon above its words, from M one row with the icons before the words */
+.catalog__info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 8px var(--gap); margin-bottom: var(--section-gap); color: var(--c-ink-70); font-size: var(--type-body); line-height: var(--lh-compact); }
+.catalog__info li { display: grid; justify-items: start; gap: 8px; }
 .catalog__info svg { width: 24px; height: 24px; flex: none; color: var(--c-ink); }
+@container col (width >= 43rem) {
+  .catalog__info { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 32px; }
+  .catalog__info li { display: flex; align-items: center; }
+}
 
-/* the tabs: the categories in heading size; the current one in ink, the others in ink-60 (large text, 3:1). On a
-   narrow column the row scrolls sideways. */
+/* the tabs: the categories in heading size; the current one in ink, the others in ink-30 (Tim, round 7: below the
+   contrast of text, decision tabs-30); each word trimmed to its capitals and baseline, so the row is as tall as its
+   letters. On a narrow column the row scrolls sideways. */
 .tabs { position: relative; margin-bottom: var(--text-gap); overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs ul { display: flex; gap: 0.6em; font: 700 var(--type-h2) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
-.tab { display: block; padding-block: 4px; color: var(--c-ink-60); white-space: nowrap; transition: color var(--t-out) var(--ease-out); }
+.tab { display: block; padding-block: 6px; text-box: trim-both cap alphabetic; color: var(--c-ink-30); white-space: nowrap; transition: color var(--t-out) var(--ease-out); }
 .tab[aria-current="page"] { color: var(--c-ink); }
 @media (--mouse) { .tab:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
-/* the filters: cells divided by hairlines, wrapping onto as many rows as the column needs; each opens its options
-   below it (leftwards when it would stick out on the right). */
+/* the filters: menu cells (components/menu.css), wrapping onto as many rows as the column needs */
 .filters { position: relative; z-index: 20; display: flex; flex-wrap: wrap; align-items: stretch; margin-bottom: var(--section-gap); }
 .filters { --cell-min: 10.5rem; }
-.filter { position: relative; flex: 1 0 var(--cell-min); border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; background: var(--c-paper); }
-.filter[open] { z-index: 2; }
-.filter__summary {
-  display: grid; gap: 2px; padding: 12px var(--tile-pad) 12px 16px; cursor: pointer; list-style: none; position: relative;
-  min-height: var(--control-h);
-}
-.filter__summary::-webkit-details-marker { display: none; }
-.filter__summary::after {
-  content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px;
-  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg);
-  transition: transform var(--t-out) var(--ease-out);
-}
-.filter[open] .filter__summary::after { transform: translateY(4px) rotate(-135deg); }
-.filter__caption { font-size: var(--type-small); color: var(--c-ink-70); }
-.filter__value { font-weight: 500; font-size: var(--type-body); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 16px; }
-.filter[data-active] .filter__value::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-lavender-ink); margin-right: 6px; vertical-align: middle; }
-.filter__options {
-  position: absolute; left: -1px; right: -1px; top: 100%; display: grid; gap: 2px; padding: 8px;
-  background: var(--c-paper); border: var(--hair) solid var(--line); min-width: 14rem;
-  max-height: 24rem; overflow: auto; box-shadow: 0 16px 32px var(--c-ink-10);
-}
-.option { display: flex; align-items: center; gap: 12px; min-height: 40px; padding: 4px 8px; cursor: pointer; }
-.option input[type="checkbox"], .option input[type="radio"] { width: 18px; height: 18px; margin: 0; accent-color: var(--c-ink); flex: none; }
-@media (--mouse) { .option:hover { background: var(--c-cloud); } }
-.filter__options--range { grid-template-columns: 1fr 1fr; gap: 8px; }
-.option--field { display: grid; gap: 4px; cursor: default; }
-.option--field span { font-size: var(--type-small); color: var(--c-ink-70); }
-.option--field input { width: 100%; min-height: 40px; padding: 0 8px; border: var(--hair) solid var(--line); font-size: max(16px, var(--type-body)); }
 .filters__result { flex-basis: 100%; display: flex; align-items: center; gap: 16px; padding-top: 16px; color: var(--c-ink-70); font-size: var(--type-body); }
 .filters__reset, .catalog__empty .link { text-decoration: underline; text-underline-offset: 0.2em; color: var(--c-ink); min-height: 40px; }
 .catalog__empty, .catalog__soon { padding-block: var(--section-y); font-size: var(--type-body-l); color: var(--c-ink-70); }

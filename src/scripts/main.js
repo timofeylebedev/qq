@@ -12,6 +12,7 @@ import { initCart } from "./cart.js";
 import { initFavs } from "./favs.js";
 import { initUi } from "./ui.js";
 import { initCheckout } from "./checkout.js";
+import { initMenus } from "./menus.js";
 
 initScroll();
 initResizeKeep();
@@ -26,6 +27,7 @@ initCart();
 initFavs();
 initUi();
 initCheckout();
+initMenus();
 
 if (document.documentElement.hasAttribute("data-intro")) import("./hero.js").then((m) => m.initHero());
 if (document.querySelector("[data-pack]")) import("./packs.js").then((m) => m.initPacks());

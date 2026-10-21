@@ -3,6 +3,9 @@
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
 import { esc, icon } from "./util.mjs";
+import { menu } from "./blocks.mjs";
+
+const choice = (name, caption, type, options, checked = null, summary = null) => menu(name, caption, type, options, { checked, summary });
 
 // the default order «Популярные»: no sales data yet, so tagged coffees first, then Special, then the newest
 // (design/decisions.json, "catalog-order")
@@ -33,7 +36,7 @@ export function render(ctx) {
   <div class="col">
     <h1 class="sr" id="catalog-title">${esc(site.catalog.title)}</h1>
     <ul class="catalog__info" data-roast="${data}">
-      <li>${icon("roast")}<span data-roast-hours>До ближайшей обжарки — скоро</span></li>
+      <li>${icon("roast")}<span data-roast-hours>До обжарки — скоро</span></li>
       <li>${icon("truck")}<span data-ship-date>Передадим в доставку на следующий рабочий день после обжарки</span></li>
     </ul>
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
@@ -41,8 +44,8 @@ export function render(ctx) {
       ${filters}
       <p class="filters__result" aria-live="polite"><span data-found>${list.length}</span> кофе<button class="filters__reset" type="reset" hidden data-reset>Сбросить</button><button class="sr" type="submit" tabindex="-1">Показать</button></p>
     </form>
-    <div class="grid grid--catalog" data-grid>
-      ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2 })).join("\n      ")}
+    <div class="grid grid--catalog" data-grid data-rise>
+      ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true })).join("\n      ")}
     </div>
     <p class="catalog__empty" data-empty hidden>Ничего не нашлось. <button type="button" class="link" data-reset>Сбросить фильтры</button></p>
     <p class="catalog__soon" data-soon hidden>Скоро здесь <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
@@ -60,20 +63,9 @@ function plural(n, one, few, many) {
   return `${n} ${m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? few : many}`;
 }
 
-// A filter cell: a caption above, the current choice below; opens a list of options (a <details> that works without
-// scripts; scripts/filters.js closes the others and writes the choice into the summary).
-function choice(name, caption, type, options, checked = null, summary = null) {
-  const sum = summary || options.map(([, t]) => t).join(", ");
-  return `<details class="filter" data-filter="${name}">
-        <summary class="filter__summary"><span class="filter__caption">${esc(caption)}</span><span class="filter__value" data-filter-value data-all="${esc(sum)}">${esc(checked ? options.find(([v]) => v === checked)[1] : sum)}</span></summary>
-        <fieldset class="filter__options"><legend class="sr">${esc(caption)}</legend>
-          ${options.map(([v, t]) => `<label class="option"><input type="${type}" name="${name}" value="${esc(v)}"${v === checked ? " checked" : ""}><span>${esc(t)}</span></label>`).join("\n          ")}
-        </fieldset>
-      </details>`;
-}
 function range(min, max) {
   return `<details class="filter" data-filter="price">
-        <summary class="filter__summary"><span class="filter__caption">Цена за 200 г</span><span class="filter__value" data-filter-value data-all="${min} — ${max}">${min} — ${max}</span></summary>
+        <summary class="filter__summary"><span class="filter__caption">Цена</span><span class="filter__value" data-filter-value data-all="${min} — ${max}">${min} — ${max}</span></summary>
         <fieldset class="filter__options filter__options--range"><legend class="sr">Цена за 200 г, ₽</legend>
           <label class="option option--field"><span>от</span><input type="number" name="min" inputmode="numeric" min="${min}" max="${max}" step="10" placeholder="${min}"></label>
           <label class="option option--field"><span>до</span><input type="number" name="max" inputmode="numeric" min="${min}" max="${max}" step="10" placeholder="${max}"></label>

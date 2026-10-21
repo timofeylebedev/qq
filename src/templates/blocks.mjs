@@ -2,7 +2,7 @@
 // src/styles/components/blocks.css and forms.css. Every block stands on the content column (.col) or inside it,
 // so it changes its layout at the shared steps S, M, L.
 import { esc, icon, href, cls, picture, rub } from "./util.mjs";
-import { pack } from "./components.mjs";
+import { pack, photoOf } from "./components.mjs";
 
 // ── the head of a page: its title (h1, the size of section headings), an optional count beside it, and an aside on
 //    the right (the account's numbers, actions). line: a hairline under it (the shop and the checkout).
@@ -28,9 +28,9 @@ export function paneltabs(items, { label, name }) {
 // ── a count in a dot (how many coffees an order holds, how often one was bought)
 export const badge = (n, label) => `<span class="badge"><span aria-hidden="true">${n}</span><span class="sr">${esc(label)}</span></span>`;
 
-// ── the picture of a coffee: its photo when it has one (data/site.json photos), else the 3D pack on the cloud ground
+// ── the picture of a coffee: its photo when it has one (photoOf: a Special coffee with a photo in data/site.json), else the 3D pack on the cloud ground
 export function coffeeMedia(ctx, p, { sizes = "(min-width: 64em) 25vw, 50vw" } = {}) {
-  const photo = ctx.site.photos.bySlug[p.slug];
+  const photo = photoOf(ctx, p);
   return photo
     ? `<div class="media media--photo" data-tone="black">${picture(photo[0], photo[1], { sizes, cls: "media__photo", decorative: true })}</div>`
     : `<div class="media" data-tone="cloud">${pack(p)}</div>`;
@@ -109,3 +109,17 @@ export function linked(ctx, s) {
 export const meta = (bits) => `<p class="meta">${bits.filter(Boolean).map((b) => `<span>${esc(b)}</span>`).join("")}</p>`;
 
 export { rub };
+
+// ── a menu cell (components/menu.css): a caption above, the current choice below; opens a list of options (a
+// <details> that works without scripts; scripts/menus.js closes the others and writes the choice into the cell). The
+// catalog's filters (checkboxes, the sort) and the product's options (radios, up: the list opens above the cell).
+// options: [value, text, extra attributes of its input]; summary: what the closed cell says of a choice of several.
+export function menu(name, caption, type, options, { checked = null, summary = null, up = false } = {}) {
+  const sum = summary || options.map(([, t]) => t).join(", ");
+  return `<details class="${cls("filter", up && "filter--up")}" data-filter="${name}">
+        <summary class="filter__summary"><span class="filter__caption">${esc(caption)}</span><span class="filter__value" data-filter-value data-all="${esc(sum)}">${esc(checked ? options.find(([v]) => v === checked)[1] : sum)}</span></summary>
+        <fieldset class="filter__options"><legend class="sr">${esc(caption)}</legend>
+          ${options.map(([v, t, extra = ""]) => `<label class="option"><input class="${type === "radio" ? "box box--round" : "box"}" type="${type}" name="${name}" value="${esc(v)}"${v === checked ? " checked" : ""}${extra}><span>${esc(t)}</span></label>`).join("\n          ")}
+        </fieldset>
+      </details>`;
+}

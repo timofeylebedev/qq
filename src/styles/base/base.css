@@ -15,18 +15,18 @@
 }
 
 /* Grounds: every section says what it stands on (data-ground in the templates), and everything on it takes its
-   colours from there: the ground itself, the text, the one line colour of the site and the hover tint. Lines are always
+   colours from there: the ground itself, the text and its secondary voice (--g-soft), the one line colour of the site and the hover tint. Lines are always
    cool grey at 20% on light grounds and white at 30% on dark ones (build/rules.mjs: borders only in var(--line)).
    The hover tint is white on dark grounds; on light ones, where white would not show, the same step of ink. */
-:root, [data-ground="paper"], [data-ground="cloud"] { --g-bg: var(--c-paper); --g-fg: var(--c-ink); --line: var(--c-ink-20); --tint: var(--c-ink-6); }
+:root, [data-ground="paper"], [data-ground="cloud"] { --g-bg: var(--c-paper); --g-fg: var(--c-ink); --g-soft: var(--c-ink-70); --line: var(--c-ink-20); --tint: var(--c-ink-6); }
 [data-ground="cloud"] { --g-bg: var(--c-cloud); }
-[data-ground="black"], [data-ground="ink"] { --g-bg: var(--c-black); --g-fg: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); }
+[data-ground="black"], [data-ground="ink"] { --g-bg: var(--c-black); --g-fg: var(--c-paper); --g-soft: var(--c-white-80); --line: var(--c-white-30); --tint: var(--c-white-20); }
 [data-ground="ink"] { --g-bg: var(--c-ink); }
 /* A block on another ground inside a section (the dark panel beside the bag, a cloud form, a photo) says so with
    data-tone: the same colours, painted by the block itself (.tone), but the bars do not follow it, only sections. */
-[data-tone="paper"], [data-tone="cloud"] { --g-bg: var(--c-paper); --g-fg: var(--c-ink); --line: var(--c-ink-20); --tint: var(--c-ink-6); }
+[data-tone="paper"], [data-tone="cloud"] { --g-bg: var(--c-paper); --g-fg: var(--c-ink); --g-soft: var(--c-ink-70); --line: var(--c-ink-20); --tint: var(--c-ink-6); }
 [data-tone="cloud"] { --g-bg: var(--c-cloud); }
-[data-tone="black"], [data-tone="ink"] { --g-bg: var(--c-black); --g-fg: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); }
+[data-tone="black"], [data-tone="ink"] { --g-bg: var(--c-black); --g-fg: var(--c-paper); --g-soft: var(--c-white-80); --line: var(--c-white-30); --tint: var(--c-white-20); }
 [data-tone="ink"] { --g-bg: var(--c-ink); }
 [data-tone] { background-color: var(--g-bg); color: var(--g-fg); }
 

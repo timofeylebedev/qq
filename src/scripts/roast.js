@@ -49,7 +49,7 @@ export function initRoast() {
       }
       if (hours) {
         const h = Math.ceil(left / 3600);
-        hours.textContent = h <= 1 ? "До ближайшей обжарки меньше часа" : `До ближайшей обжарки менее ${h} ${h % 10 === 1 && h % 100 !== 11 ? "часа" : "часов"}`;
+        hours.textContent = h <= 1 ? "До обжарки меньше часа" : `До обжарки менее ${h} ${h % 10 === 1 && h % 100 !== 11 ? "часа" : "часов"}`;
       }
       // the info block's modal: «Ближайшая обжарка через 4 часа» (or «через 35 минут», or the day when it is far)
       if (inn) {

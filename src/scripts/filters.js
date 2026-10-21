@@ -5,6 +5,8 @@
 // The choice is kept in the address (?country=Кения&sort=new): every change the visitor makes is a step of the
 // browser's history, so a filtered catalog can be shared and Back undoes the last change. Only coffee exists for now:
 // the other tabs say so.
+import { riseGrid } from "./slider.js";
+
 export function initFilters() {
   const form = document.querySelector("[data-filters]"), grid = document.querySelector("[data-grid]");
   const cards = [...grid.children];
@@ -92,32 +94,15 @@ export function initFilters() {
     dispatchEvent(new Event("qq:layout"));
   };
 
-  // one cell open at a time; a click elsewhere or Escape closes it
-  const cells = [...form.querySelectorAll("details")];
-  // an open panel stays inside the column: one that would stick out on the right opens leftwards
-  cells.forEach((d) => d.addEventListener("toggle", () => {
-    if (!d.open) return;
-    cells.forEach((o) => o !== d && (o.open = false));
-    const panel = d.querySelector(".filter__options"), edge = form.getBoundingClientRect().right;
-    panel.style.left = panel.style.right = "";
-    if (panel.getBoundingClientRect().right > edge + 1) { panel.style.left = "auto"; panel.style.right = "-1px"; }
-  }));
-  document.addEventListener("click", (e) => { if (!e.target.closest("[data-filters] details")) cells.forEach((d) => (d.open = false)); });
-  document.addEventListener("keydown", (e) => {
-    if (e.key !== "Escape") return;
-    const open = cells.find((d) => d.open);
-    if (open) { open.open = false; open.querySelector("summary").focus(); }
-  });
-
-  // a cell closes when the keyboard focus leaves it (an open panel must not cover what is focused next)
-  cells.forEach((d) => d.addEventListener("focusout", (e) => { if (d.open && !d.contains(e.relatedTarget) && e.relatedTarget) d.open = false; }));
-
-  form.addEventListener("change", () => apply(true));
+  // the cards rise into place one after another, and again when a change of the filters deals them anew
+  const rise = riseGrid(grid);
+  const changed = (push) => { apply(push); rise.deal(); };
+  form.addEventListener("change", () => changed(true));
   let typing = 0;   // typing a price is one step of history, not one per digit
   form.addEventListener("input", (e) => { if (e.target.type === "number") { apply(!typing); clearTimeout(typing); typing = setTimeout(() => (typing = 0), 800); } });
   form.addEventListener("submit", (e) => e.preventDefault());
-  form.addEventListener("reset", () => setTimeout(() => apply(true)));
-  resets.forEach((b) => b.type !== "reset" && b.addEventListener("click", () => { form.reset(); setTimeout(() => apply(true)); }));
+  form.addEventListener("reset", () => setTimeout(() => changed(true)));
+  resets.forEach((b) => b.type !== "reset" && b.addEventListener("click", () => { form.reset(); setTimeout(() => changed(true)); }));
   addEventListener("hashchange", tab);
   addEventListener("popstate", () => { read(); apply(); });
   read(); apply(); tab();

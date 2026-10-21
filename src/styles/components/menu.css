@@ -1,0 +1,50 @@
+/* The menu cell: a caption above, the current choice below, a chevron; open, its list of options continues the cell
+   below it (or above it, filter--up: the product's buy bar at the foot of the screen), one box in one hairline, with
+   no line between them (Tim, round 7). The catalog's filters and the product's options are this one component
+   (a <details> that works without scripts; scripts/menus.js closes the others and writes the choice into the cell).
+
+   Colours from the ground (--g-*): on paper in the catalog, on black in the buy bar. Hovered, the cell and each
+   option fill with the ground's tint; the options are rows edge to edge, no gaps between them or at their sides; a
+   checkbox is a sharp box, a radio a dot (forms.css .box). The list is as wide as its cell (a narrow cell's list
+   is at least --menu-min and opens leftwards where it would leave the column). */
+.filter { --menu-min: 10.5rem; position: relative; flex: 1 0 var(--cell-min, 10.5rem); min-width: 0; border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; background: var(--g-bg); color: var(--g-fg); }
+.filter[open] { z-index: 2; }
+.filter__summary {
+  display: grid; align-content: center; gap: 2px; padding: 12px calc(16px + 24px) 12px 16px; cursor: pointer; list-style: none; position: relative;
+  min-height: var(--control-h); height: 100%; transition: background-color var(--t-out) var(--ease-out);
+}
+.filter__summary::-webkit-details-marker { display: none; }
+.filter__summary:focus-visible { outline: none; box-shadow: inset 0 0 0 2px currentColor; }
+/* the chevron: the text's colour at 30% (Tim, round 7); open, it turns over */
+.filter__summary::after {
+  content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px; opacity: 0.3;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg);
+  transition: transform var(--t-out) var(--ease-out);
+}
+.filter[open] .filter__summary::after { transform: translateY(4px) rotate(-135deg); }
+.filter--up[open] .filter__summary::after { transform: rotate(45deg); }
+.filter--up:not([open]) .filter__summary::after { transform: translateY(4px) rotate(-135deg); }
+.filter__caption { font-size: var(--type-small); line-height: var(--lh-compact); color: var(--g-soft); }
+.filter__value { font-weight: 500; font-size: var(--type-body); line-height: var(--lh-compact); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.filter[data-active] .filter__value::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-lavender-ink); margin-right: 6px; vertical-align: middle; }
+
+/* the list: the cell's own box continued, its line at the sides and the far end only */
+.filter__options {
+  position: absolute; left: -1px; top: 100%; width: calc(100% + 2px); min-width: var(--menu-min); display: grid;
+  max-height: 24rem; overflow: auto; overscroll-behavior: contain;
+  background: var(--g-bg); border: var(--hair) solid var(--line); border-top: 0;
+}
+.filter--up .filter__options { top: auto; bottom: 100%; border-top: var(--hair) solid var(--line); border-bottom: 0; }
+.option { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 8px 16px; cursor: pointer; font-size: var(--type-body); line-height: var(--lh-compact); transition: background-color var(--t-out) var(--ease-out); }
+.option .box { width: 20px; height: 20px; }
+.option .box::after { scale: 0.8; }
+@media (--mouse) {
+  .filter__summary:hover, .option:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .option--field:hover { background-color: transparent; }
+}
+/* the price: two fields side by side, a hairline between them */
+.filter__options--range { grid-template-columns: 1fr 1fr; }
+.option--field { display: grid; align-content: start; gap: 4px; padding-block: 8px 12px; cursor: default; }
+.option--field + .option--field { border-left: var(--hair) solid var(--line); }
+.option--field span { font-size: var(--type-small); color: var(--g-soft); }
+.option--field input { width: 100%; min-height: 40px; padding: 0 8px; border: var(--hair) solid var(--line); background: none; font-size: max(16px, var(--type-body)); }
