@@ -1,4 +1,7 @@
 # While this is a test site, search engines are asked to stay away.
+# Robots read this file only at a domain's root: on timofeylebedev.github.io/qq/ it is not read, and what keeps
+# the pages out of search there is <meta name="robots" content="noindex, nofollow"> on every page
+# (src/templates/layout.mjs, public/lab; npm run rules checks it). Remove that too at launch.
 # At launch, replace both lines with:
 #   User-agent: *
 #   Allow: /

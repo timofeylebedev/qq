@@ -82,6 +82,9 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.
+- **Not searchable yet**: every page carries `<meta name="robots" content="noindex, nofollow">` (the layout and any HTML
+  in `public/`; rule 13). `public/robots.txt` is read only at a domain's root, so on github.io the meta tag is what works.
+  Both go at launch.
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
 

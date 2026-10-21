@@ -10,7 +10,7 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="/assets/icons/mark.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/styles/main.css">

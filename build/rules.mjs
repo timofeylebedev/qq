@@ -15,6 +15,7 @@
 //     ground); only a state (the current dot, a field focused from the keyboard) may draw its border in ink
 // 11. every fade eased: gradients are colors.json fades, one over a whole block, or solid bands for lines
 // 12. hovers never move anything (Tim, round 5): a :hover rule tints a ground or fades a colour, never transforms
+// 13. not searchable while it is a test site: every page (the layout, the HTML in public/) asks robots for noindex
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve, join, relative } from "node:path";
 import { check, roles } from "./tokens.mjs";
@@ -168,6 +169,13 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 {
   const fails = blocks.filter((b) => /:hover/.test(b.selector) && /(^|;)\s*(transform|translate|scale|rotate)\s*:/.test(b.body)).map(where);
   rule("Hovers never move", "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground", fails);
+}
+
+// 13
+{
+  const pages = ["src/templates/layout.mjs", ...walk(resolve(root, "public")).filter((f) => f.endsWith(".html")).map((f) => relative(root, f))];
+  const fails = pages.filter((p) => !/<meta name="?robots"? content="noindex, nofollow">/.test(read(p))).map((p) => p + " has no noindex");
+  rule("Not searchable yet", `every page asks robots for noindex, nofollow (${pages.length} sources: the layout and the HTML in public/)`, fails);
 }
 
 let bad = 0;
