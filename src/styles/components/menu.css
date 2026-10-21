@@ -3,7 +3,7 @@
    no line between them (Tim, round 7). The catalog's filters and the product's options are this one component
    (a <details> that works without scripts; scripts/menus.js closes the others and writes the choice into the cell).
 
-   Colours from the ground (--g-*): on paper in the catalog, on black in the buy bar. Hovered, the cell and each
+   Colours from the ground (--g-*): on paper in the catalog, on the ink ground (cool grey) in the buy bar. Hovered, the cell and each
    option fill with the ground's tint; the options are rows edge to edge, no gaps between them or at their sides; a
    checkbox is a sharp box, a radio a dot (forms.css .box). The list is as wide as its cell (a narrow cell's list
    is at least --menu-min and opens leftwards where it would leave the column). */

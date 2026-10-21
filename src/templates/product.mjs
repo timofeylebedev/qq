@@ -57,7 +57,7 @@ function buybar(p) {
   const roast = p.roasts.map((r) => [r.use, r.level || r.use]);
   const weights = p.weights.map((w) => [w.label, w.label, w.price != null ? ` data-price="${w.price}"` : ""]);
   const def = p.weights.find((w) => w.grams === 200) || p.weights[0];
-  return `<form class="buybar" data-buybar data-buy data-tone="black" data-slug="${p.slug}" action="#" aria-label="Купить ${esc(p.name)}">
+  return `<form class="buybar" data-buybar data-buy data-tone="ink" data-slug="${p.slug}" action="#" aria-label="Купить ${esc(p.name)}">
  <div class="col"><div class="buybar__inner">
   <div class="buybar__cells">
       ${grind.length ? opt("grind", "Помол", grind) : ""}

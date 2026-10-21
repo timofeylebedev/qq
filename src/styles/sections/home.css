@@ -211,7 +211,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 .featured__track[data-turning] .featured__slide { visibility: hidden; }
 .featured__track[data-turning] [data-part="show"] { visibility: visible; }
 .featured__track[data-turning] .featured__text { position: relative; }
-.curl-sheet { position: absolute; z-index: 7; pointer-events: none; }
+.curl-sheet { position: absolute; z-index: 7; max-width: none; pointer-events: none; }   /* wider than the track where the lifted sheet reaches past it (base.css caps a canvas at its box: the sheet was squeezed, Tim, round 8) */
 .featured__slide { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto; }   /* the slides share one cell: the tallest sets it, the text of the others takes the room */
 .featured__text {
   display: flex; flex-direction: column; justify-content: space-between; gap: var(--section-gap);

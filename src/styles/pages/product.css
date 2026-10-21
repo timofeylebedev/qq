@@ -5,7 +5,7 @@
    so the pack shows through them as they cross it. Pinned height: the screen less the navbar and the buy bar.
    From L the tiles stand at different places across the column (Figma: a scatter); below, one under another.
 
-   The buy bar stays at the foot of the screen through the page, on black: the options as menu cells, the price,
+   The buy bar stays at the foot of the screen through the page, on cool grey (the ink ground): the options as menu cells, the price,
    «В корзину».
    On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
    the stage, and the stage pins at the whole screen under the navbar. */
@@ -58,7 +58,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   .pack--hero { grid-row: 1; }
 }
 
-/* the buy bar: black, no line above it (Tim, round 7). Below L two rows of cells (the options; the quantity, the price
+/* the buy bar: cool grey (the ink ground: Tim, round 8; black in round 7), no line above it (Tim, round 7). Below L two rows of cells (the options; the quantity, the price
    and the button), from L one row with the button apart on the right, as in Figma. The options are menu cells, the
    catalog's filters (components/menu.css), whose lists open upwards; every cell is a hairline box overlapping its
    neighbours' by a pixel (as the filters). */
@@ -77,7 +77,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .cell--qty svg { width: 24px; height: 24px; }
 .cell--qty output { min-width: 2ch; text-align: center; font: 500 var(--type-control) / 1 var(--sans); font-feature-settings: "tnum" 1; }
 .cell--price { place-content: center; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }
-/* «В корзину» on black: the ground's text colour filled, the ground in its letters */
+/* «В корзину» on the bar: the ground's text colour filled, the ground in its letters */
 .buybar__add { min-height: 52px; padding-inline: 12px; margin: 0 -1px -1px 0; background: var(--g-fg); color: var(--g-bg); }
 .buybar__add:focus-visible { outline-color: var(--g-fg); }
 @media (--mouse) { .buybar__add:hover { background: var(--c-white-80); } }

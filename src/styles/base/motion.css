@@ -35,7 +35,20 @@
 ::view-transition-new(coffee-name) { animation: vt-name-in var(--t-move) var(--ease-out) both; }
 @keyframes vt-name-out { 35%, to { opacity: 0; } }
 @keyframes vt-name-in { from, 35% { opacity: 0; } }
-::view-transition-old(coffee-pack), ::view-transition-new(coffee-pack) { height: 100%; width: auto; margin-inline: auto; }
+::view-transition-old(coffee-pack), ::view-transition-new(coffee-pack) { height: 100%; width: auto; margin-inline: auto; mix-blend-mode: normal; }
+/* the pack: the new one shows whole from the start and the old one (the card's pack as it was drawn, a little turned)
+   leaves it in the first part of the way: two packs half seen over each other read as a shadow (Tim, round 8) */
+::view-transition-new(coffee-pack) { animation: none; opacity: 1; }
+::view-transition-old(coffee-pack) { animation: vt-pack-out var(--t-move) var(--ease-out) both; }
+@keyframes vt-pack-out { 25%, to { opacity: 0; } }
+/* the page around them goes as the name does, the old one first, never both at once: a list's heading half seen
+   under the arriving name was a shadow too (Tim, round 8). The navbar and the tab bar are the same on both pages:
+   they stay, so the page under them changes while they don't blink */
+html[data-vt] .nav { view-transition-name: qq-nav; }
+html[data-vt] .tabbar { view-transition-name: qq-tabbar; }
+html[data-vt]::view-transition-old(root) { animation: vt-name-out var(--t-move) var(--ease-out) both; }
+html[data-vt]::view-transition-new(root) { animation: vt-name-in var(--t-move) var(--ease-out) both; }
+html[data-vt]::view-transition-old(root), html[data-vt]::view-transition-new(root) { mix-blend-mode: normal; }
 /* while the pages are captured the 3D canvas stays out and every pack shows its still */
 html[data-vt] canvas:not(.pack__shot) { visibility: hidden; }
 html[data-vt] .pack .pack__still { opacity: 1 !important; transition: none !important; }

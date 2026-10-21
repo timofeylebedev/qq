@@ -13,6 +13,11 @@
 // to the page once, when everything has stopped: a part that left its layer as it landed was drawn again a little
 // differently, and the end of the entrance looked like a stutter (Tim, round 7).
 //
+// While split, each line stands exactly where the browser set it in the whole title, and the title keeps its height:
+// Safari trims a split line differently (the first one sat 13px closer to the second), so the title grew as it became
+// whole text again and the row jumped at the end of the entrance (Tim, round 8). The lines are measured before the
+// split and put back where they were, in any browser.
+//
 // The page hides the parts from its first frame (an inline script in <head> sets html[data-intro] before anything
 // is drawn), so nothing shows and then jumps; this script takes over from there. With «reduce motion» there is no
 // entrance and nothing is hidden. If this script never runs, a CSS fallback shows the hero after a moment.
@@ -35,18 +40,36 @@ export async function initHero() {
   // the title's lines are only known once its font is in
   await document.fonts.ready.catch(() => {});
 
+  // the top of each line of the title's text, from the title's top
+  const tops = (el) => {
+    const rg = document.createRange(), top = title.getBoundingClientRect().top, out = [];
+    rg.selectNodeContents(el);
+    for (const r of rg.getClientRects()) if (r.height && !out.some((y) => Math.abs(y - (r.top - top)) < 1)) out.push(r.top - top);
+    return out.sort((a, b) => a - b);
+  };
+  // the split lines where the whole title has them, its height as it was
+  const pin = (lines, was, h) => {
+    if (lines.length !== was.length) return;
+    // top down: a line measured after the ones above it have moved
+    lines.forEach((l, k) => { const d = was[k] - (tops(l)[0] ?? was[k]); if (Math.abs(d) > 0.1) l.style.marginTop = `${d}px`; });
+    if (Math.abs(title.getBoundingClientRect().height - h) > 0.1) title.style.height = `${h}px`;
+  };
+  const unsplit = () => { split?.revert(); split = null; title.style.height = ""; };
+
   let tl = null, split = null, n = 0;
   const off = () => ["pointerdown", "keydown", "wheel", "touchstart"].forEach((e) => removeEventListener(e, skip, true));
   const skip = () => { tl?.progress(1); off(); };
 
   function play(cfg = INTRO) {
-    tl?.kill(); split?.revert(); off();
+    tl?.kill(); unsplit(); off();
     // the block that rises: from L the whole row of cells (the title is one of them); below L only the dock at the
     // photo's foot, the title standing at the top of the section
     const css = getComputedStyle(root);
     const wide = info.querySelector(".col").getBoundingClientRect().width >= 58 * parseFloat(css.fontSize);
     const block = wide ? info : dock;
+    const was = tops(title), h = title.getBoundingClientRect().height;
     split = SplitText.create(title, { type: "lines", linesClass: "hero__line" });
+    pin(split.lines, was, h);
     const ease = (c) => CustomEase.create(`qq-intro-${++n}`, c.join(", "));
     const parts = [block, ...split.lines, ...roastParts, ...linkParts];
     gsap.set(parts, { willChange: "transform, opacity", force3D: true });
@@ -60,7 +83,7 @@ export async function initHero() {
     // a click or a key anywhere ends the entrance at once (nobody waits for it)
     ["pointerdown", "keydown", "wheel", "touchstart"].forEach((e) => addEventListener(e, skip, { capture: true, passive: true, once: true }));
     tl.eventCallback("onComplete", () => {
-      split.revert(); split = null;
+      unsplit();
       gsap.set(parts.filter((p) => p.isConnected), { clearProps: "transform,opacity,willChange" });
       delete hero.dataset.entering; off();
     });
