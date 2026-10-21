@@ -1,12 +1,12 @@
-✓ Colours only from tokens — no #hex, colour functions or named colours in 18 stylesheets
+✓ Colours only from tokens — no #hex, colour functions or named colours in 19 stylesheets
 ✓ Sizes only from the scale — font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 10 rules listed in decisions.json
 ✓ Layout steps only at S, M, L — container queries at 22rem, 43rem, 58rem, 1520px on the column; media only through media.css (--links-full 70em, --links 48em, --phone 40em, --short 32em tall, --framed 1616px, input, motion)
 ✓ No rounded corners — border-radius only 999px (pills) or 50% (dots)
 ✓ Motion only from motion.css — transitions use var(--t-in/out/move) and var(--ease-out/move/leave); the hero's slow drift is the one loop
 ✓ Faces only through tokens — font-family is var(--sans) or var(--mono)
-✓ Every token defined and used — 118 variables used, 36 scale roles
+✓ Every token defined and used — 120 variables used, 36 scale roles
 ✓ The scale holds its own rules — both ends of 36 roles on the ladder, 10 type pairs ≥ ×1.125, 14 colour pairs
-✓ Every decision complete — 47 decisions: 26 decisions, 5 exceptions, 16 placeholders
+✓ Every decision complete — 52 decisions: 30 decisions, 6 exceptions, 16 placeholders
 ✓ One line colour — every border is var(--line), set by the ground to ink-20 or white-30 (7 places); states may use ink (or ink 50%)
 ✓ Every fade eased — gradients are var(--fade-*) (colors.json fades: one per place, eased, over the whole block, no solid band under it) or solid bands for lines
 ✓ Hovers never move — no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground

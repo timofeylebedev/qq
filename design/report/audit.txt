@@ -10,4 +10,5 @@
 ✓ 2560×1440
 ✓ 390×844 text 24px
 ✓ 1366×650 text 24px
+
 clean — 21 pages × 12 sizes
