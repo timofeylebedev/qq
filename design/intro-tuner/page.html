@@ -1,0 +1,282 @@
+<title>QQ Intro Tuner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* A workbench: the real home page in a frame on the left, the four groups of the hero's entrance on the right. QQ's own grammar:
+   hairline cells, no rounded corners, mono bold capitals for names, Apercu for text, lavender for the active state. */
+@font-face { font-family: "Apercu"; src: url("site/assets/{{apercu-400}}") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Apercu"; src: url("site/assets/{{apercu-500}}") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "PT Mono"; src: url("site/assets/{{pt-mono-700}}") format("woff2"); font-weight: 700; font-display: swap; }
+:root {
+  --ground: #ffffff; --cell: #f6f6f6; --ink: #2d2f33; --soft: #2d2f33b3; --line: #2d2f3333; --tint: #2d2f330f;
+  --accent: #7f4fc9; --on-accent: #ffffff; --stage: #e9e9ea;
+  --sans: "Apercu", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "PT Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; color-scheme: dark; } }
+:root[data-theme="dark"] { --ground: #0d0d0e; --cell: #17181a; --ink: #f2f2f3; --soft: #ffffffb3; --line: #ffffff4d; --tint: #ffffff1a; --accent: #b190ec; --on-accent: #000000; --stage: #000000; color-scheme: dark; }
+html, body { height: 100%; }
+body { background: var(--ground); color: var(--ink); font: 400 14px / 1.45 var(--sans); }
+* { box-sizing: border-box; }
+button, input, select { font: inherit; color: inherit; }
+h1, h2, .mono { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0; text-wrap: balance; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 380px; height: 100%; }
+.stage { display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; background: var(--stage); }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px; background: var(--ground); border-bottom: 1px solid var(--line); }
+.bar h1 { font-size: 15px; margin-right: auto; }
+.seg { display: flex; border: 1px solid var(--line); }
+.seg button { background: none; border: 0; padding: 6px 10px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button:hover { background: var(--tint); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+.view { position: relative; overflow: hidden; }
+.view iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: #fff; }
+.view .note { position: absolute; inset: auto 12px 12px; padding: 10px 12px; background: var(--ground); border: 1px solid var(--line); }
+
+.panel { overflow-y: auto; border-left: 1px solid var(--line); padding-right: max(0px, env(safe-area-inset-right, 0px)); }
+.intro { padding: 16px 20px; border-bottom: 1px solid var(--line); color: var(--soft); }
+.intro p { margin: 0 0 8px; } .intro p:last-child { margin: 0; }
+.link { display: flex; align-items: center; gap: 8px; margin-top: 10px; color: var(--ink); }
+.grp { border-bottom: 1px solid var(--line); }
+.grp__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px 0; }
+.grp__head h2 { font-size: 14px; }
+.grp__where { padding: 2px 20px 0; color: var(--soft); font-size: 13px; }
+.grp__body { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px 16px; padding: 12px 20px 16px; }
+.curve { width: 132px; height: 132px; display: block; background: var(--cell); border: 1px solid var(--line); touch-action: none; cursor: crosshair; }
+.ctl { display: grid; gap: 10px; min-width: 0; align-content: start; }
+.presets { display: flex; flex-wrap: wrap; gap: 4px; }
+.presets button { background: none; border: 1px solid var(--line); padding: 2px 7px; font-size: 12px; cursor: pointer; }
+.presets button:hover { background: var(--tint); }
+.presets button[aria-pressed="true"] { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.row { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; align-items: center; font-size: 13px; }
+.row label { color: var(--soft); }
+.row output { font-variant-numeric: tabular-nums; }
+.row input { grid-column: 1 / -1; width: 100%; accent-color: var(--accent); margin: 0; }
+.nums { grid-column: 1 / -1; display: grid; grid-template-columns: auto repeat(4, minmax(0, 1fr)); gap: 4px; align-items: center; font: 12px / 1.3 ui-monospace, Menlo, Consolas, monospace; color: var(--soft); }
+.nums input { width: 100%; min-width: 0; padding: 4px 5px; border: 1px solid var(--line); background: var(--cell); font: inherit; color: var(--ink); font-variant-numeric: tabular-nums; }
+.time { padding: 16px 20px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.time h2 { font-size: 13px; }
+.lane { position: relative; height: 16px; background: var(--cell); }
+.lane span { position: absolute; top: 3px; bottom: 3px; background: var(--accent); opacity: 0.85; }
+.lane b { position: absolute; left: 6px; top: 0; font: 11px / 16px var(--sans); color: var(--ink); mix-blend-mode: normal; z-index: 1; }
+.total { font-size: 12px; color: var(--soft); font-variant-numeric: tabular-nums; }
+.out { padding: 16px 20px 24px; display: grid; gap: 10px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { border: 1px solid var(--ink); background: var(--ink); color: var(--ground); padding: 10px 14px; cursor: pointer; font: 700 13px / 1 var(--sans); text-transform: uppercase; letter-spacing: 0.06em; }
+.btn--ghost { background: none; color: var(--ink); border-color: var(--line); }
+.btn:hover { opacity: 0.85; }
+.status { min-height: 1.45em; color: var(--soft); }
+pre { margin: 0; padding: 10px 12px; background: var(--cell); border: 1px solid var(--line); font: 12px / 1.4 ui-monospace, Menlo, Consolas, monospace; overflow-x: auto; white-space: pre; }
+@media (max-width: 860px) {
+  html, body { height: auto; }
+  .app { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .stage { height: 70vh; }
+  .panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding-left: max(0px, env(safe-area-inset-left, 0px)); }
+}
+</style>
+
+<div class="app">
+  <section class="stage" aria-label="Главная страница сайта">
+    <div class="bar">
+      <h1>QQ Intro Tuner</h1>
+      <button class="btn" type="button" id="play">Play</button>
+      <div class="seg" role="group" aria-label="Скорость" id="speeds"></div>
+      <div class="seg" role="group" aria-label="Размер экрана" id="sizes"></div>
+    </div>
+    <div class="view" id="view">
+      <iframe id="site" title="Главная страница QQ Coffee" src="site/index.html"></iframe>
+    </div>
+  </section>
+
+  <aside class="panel" aria-label="Появление">
+    <div class="intro">
+      <p>The entrance of the hero when the home page opens: the block at the photo's foot rises, then the title line by line, the countdown row by row and the links one by one. Change a number or a curve and press Play (or the page plays it again by itself).</p>
+      <p>A curve: x is time, y the way travelled. Drag its two handles, type its four numbers, or pick a preset. «Lift» is how far a part rises from; «stagger» how much later the next part of the group starts.</p>
+      <label class="link"><input type="checkbox" id="linked"> One curve for every group</label>
+    </div>
+    <div class="time"><h2>Timeline</h2><div id="lanes"></div><p class="total" id="total"></p></div>
+    <div id="groups"></div>
+    <div class="out">
+      <div class="actions">
+        <button class="btn" type="button" id="save">Save for Claude</button>
+        <button class="btn btn--ghost" type="button" id="copy">Copy values</button>
+        <button class="btn btn--ghost" type="button" id="reset">Back to the site's</button>
+      </div>
+      <p class="status" id="status" role="status"></p>
+      <pre id="json" aria-label="Values"></pre>
+    </div>
+  </aside>
+</div>
+
+<script>
+// The site's values (design/intro.json), written in by build.mjs
+const SITE = {{site}};
+const PRESETS = { "site out": [0.16, 1, 0.3, 1], "ease-out": [0, 0, 0.58, 1], "expo-out": [0.19, 1, 0.22, 1], "quart-out": [0.25, 1, 0.5, 1], "in-out": [0.65, 0, 0.35, 1], "soft": [0.33, 0.8, 0.4, 1] };
+const GROUPS = [
+  { key: "block", name: "The block", where: "From L the whole row of cells; below L the dock at the photo's foot.", stagger: false },
+  { key: "title", name: "The title", where: "«Кофе свежей обжарки», line by line.", stagger: true },
+  { key: "roast", name: "The countdown", where: "The day and the time, the digits, the caption.", stagger: true },
+  { key: "links", name: "The links", where: "Каталог, Бизнесу, Контакты.", stagger: true }
+];
+const PARTS = { block: 1, title: 3, roast: 3, links: 3 };
+const SIZES = [[1440, 900], [1920, 1080], [1280, 800], [1024, 768], [768, 1024], [390, 844]];
+const clone = (o) => JSON.parse(JSON.stringify(o));
+const pick = (o) => Object.fromEntries(GROUPS.map((g) => [g.key, clone(o[g.key])]));
+let state = { linked: false, ...pick(SITE) };
+let size = SIZES[0], speed = 1, db = null;
+try { const s = JSON.parse(localStorage.getItem("qq-intro-tuner")); if (s && s.block) state = s; } catch (e) { /* storage off */ }
+
+// ── the page in the frame ─────────────────────────────────────────────────────────────────────────────────────
+const frame = document.getElementById("site"), view = document.getElementById("view");
+function fit() {
+  const [w, h] = size, W = view.clientWidth, H = view.clientHeight, s = Math.min(1, W / w, H / h);
+  Object.assign(frame.style, { width: w + "px", height: h + "px", transform: `scale(${s})`, left: Math.max(0, (W - w * s) / 2) + "px", top: Math.max(0, (H - h * s) / 2) + "px" });
+}
+new ResizeObserver(fit).observe(view);
+const win = () => { try { return frame.contentWindow; } catch (e) { return null; } };
+const scaled = (cfg) => Object.fromEntries(GROUPS.map((g) => { const c = cfg[g.key]; return [g.key, { ...c, at: c.at * speed, duration: c.duration * speed, stagger: (c.stagger || 0) * speed }]; }));
+function play() {
+  const w = win(); if (!w || !w.qqIntro) { status.textContent = "The page has not started its entrance yet: wait a moment."; return; }
+  w.scrollTo({ top: 0, behavior: "instant" });
+  w.qqIntro.play(scaled(state));
+}
+let auto = 0;
+const later = () => { clearTimeout(auto); auto = setTimeout(play, 450); };
+frame.addEventListener("load", () => {
+  const d = frame.contentDocument; if (!d) return;
+  d.addEventListener("click", (e) => { const a = e.target.closest("a[href]"); if (a) e.preventDefault(); }, true);
+  d.addEventListener("submit", (e) => e.preventDefault(), true);
+  // the page plays its own entrance on load (with the site's numbers); once it can, play these
+  const wait = setInterval(() => { if (win()?.qqIntro) { clearInterval(wait); play(); } }, 100);
+});
+document.getElementById("play").addEventListener("click", play);
+
+const speeds = document.getElementById("speeds");
+for (const [label, v] of [["×1", 1], ["×0.5", 2], ["×0.25", 4]]) {
+  const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.setAttribute("aria-pressed", String(v === speed));
+  b.title = v === 1 ? "As on the site" : `Slowed down ${v} times (to watch; the values stay)`;
+  b.addEventListener("click", () => { speed = v; for (const x of speeds.children) x.setAttribute("aria-pressed", String(x === b)); play(); });
+  speeds.append(b);
+}
+const sizes = document.getElementById("sizes");
+for (const s of SIZES) {
+  const b = document.createElement("button"); b.type = "button"; b.textContent = `${s[0]} × ${s[1]}`; b.setAttribute("aria-pressed", String(s === size));
+  b.addEventListener("click", () => { size = s; for (const x of sizes.children) x.setAttribute("aria-pressed", String(x === b)); fit(); win()?.dispatchEvent(new Event("resize")); setTimeout(play, 300); });
+  sizes.append(b);
+}
+
+// ── the timeline ──────────────────────────────────────────────────────────────────────────────────────────────
+const lanes = document.getElementById("lanes"), total = document.getElementById("total");
+function timeline() {
+  const ends = GROUPS.map((g) => { const c = state[g.key]; return c.at + (PARTS[g.key] - 1) * (c.stagger || 0) + c.duration; });
+  const T = Math.max(...ends);
+  lanes.innerHTML = GROUPS.map((g, i) => {
+    const c = state[g.key], parts = Array.from({ length: PARTS[g.key] }, (_, k) => { const a = c.at + k * (c.stagger || 0); return `<span style="left:${a / T * 100}%;width:${c.duration / T * 100}%;opacity:${0.35 + 0.5 / PARTS[g.key]}"></span>`; }).join("");
+    return `<div class="lane" title="${g.name}"><b>${g.name}</b>${parts}</div>`;
+  }).join("");
+  total.textContent = `The whole entrance: ${T.toFixed(2)} s`;
+}
+
+// ── one block of controls per group ───────────────────────────────────────────────────────────────────────────
+const host = document.getElementById("groups"), linked = document.getElementById("linked");
+linked.checked = !!state.linked;
+linked.addEventListener("change", () => { state.linked = linked.checked; if (linked.checked) setCurve("block", state.block.curve); else apply(); });
+const views = {};
+function apply() {
+  try { localStorage.setItem("qq-intro-tuner", JSON.stringify(state)); } catch (e) { /* storage off */ }
+  document.getElementById("json").textContent = JSON.stringify(pick(state), null, 2);
+  timeline(); later();
+}
+function setCurve(key, c) {
+  const keys = state.linked ? GROUPS.map((g) => g.key) : [key];
+  for (const k of keys) state[k].curve = c.map((v) => +(+v).toFixed(3));
+  for (const k of keys) views[k].draw();
+  apply();
+}
+for (const g of GROUPS) {
+  const el = document.createElement("section"); el.className = "grp";
+  const row = (id, label, min, max, step) => `<div class="row"><label for="${g.key}-${id}">${label}</label><output id="${g.key}-${id}o"></output><input id="${g.key}-${id}" type="range" min="${min}" max="${max}" step="${step}"></div>`;
+  el.innerHTML = `<div class="grp__head"><h2>${g.name}</h2></div><p class="grp__where">${g.where}</p>
+    <div class="grp__body">
+      <canvas class="curve" width="264" height="264" aria-label="The curve of ${g.name}: drag its two handles"></canvas>
+      <div class="ctl">
+        <div class="presets">${Object.keys(PRESETS).map((n) => `<button type="button" data-p="${n}">${n}</button>`).join("")}</div>
+        ${row("at", "Starts at", 0, 2, 0.05)}${row("duration", "Takes", 0.1, 3, 0.05)}
+      </div>
+      <div class="ctl" style="grid-column: 1 / -1">${g.stagger ? row("stagger", "Next part starts later by", 0, 1, 0.02) : ""}${row("lift", "Lift", 0, 120, 2)}</div>
+      <div class="nums"><span>cubic-bezier(</span>${[0, 1, 2, 3].map((i) => `<input type="number" step="0.01" min="${i % 2 ? -0.5 : 0}" max="${i % 2 ? 1.5 : 1}" aria-label="${["x1", "y1", "x2", "y2"][i]}" data-n="${i}">`).join("")}</div>
+    </div>`;
+  host.append(el);
+  const $ = (id) => el.querySelector("#" + g.key + "-" + id), c = () => state[g.key];
+  const fmt = { at: (v) => v.toFixed(2) + " s", duration: (v) => v.toFixed(2) + " s", stagger: (v) => v.toFixed(2) + " s", lift: (v) => v + " px" };
+  const shows = [];
+  for (const k of ["at", "duration", "stagger", "lift"]) {
+    const i = $(k); if (!i) continue;
+    const show = () => { i.value = c()[k] ?? 0; $(k + "o").textContent = fmt[k](+(c()[k] ?? 0)); };
+    i.addEventListener("input", () => { c()[k] = +i.value; show(); apply(); });
+    show(); shows.push(show);
+  }
+  const nums = [...el.querySelectorAll("[data-n]")];
+  nums.forEach((n) => n.addEventListener("change", () => { const cv = [...c().curve]; cv[+n.dataset.n] = Math.min(+n.max, Math.max(+n.min, +n.value || 0)); setCurve(g.key, cv); }));
+  el.querySelectorAll("[data-p]").forEach((b) => b.addEventListener("click", () => setCurve(g.key, PRESETS[b.dataset.p])));
+  const cv = el.querySelector("canvas"), ctx = cv.getContext("2d"), css = getComputedStyle(document.documentElement);
+  const P = 22, S = cv.width - 2 * P, lo = -0.25, hi = 1.25;
+  const toPx = (x, y) => [P + x * S, P + (hi - y) / (hi - lo) * S];
+  function draw() {
+    const k = c().curve, ink = css.getPropertyValue("--ink").trim(), line = css.getPropertyValue("--line").trim(), acc = css.getPropertyValue("--accent").trim();
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.strokeStyle = line; ctx.lineWidth = 2;
+    for (const y of [0, 1]) { ctx.beginPath(); ctx.moveTo(...toPx(0, y)); ctx.lineTo(...toPx(1, y)); ctx.stroke(); }
+    ctx.setLineDash([4, 6]); ctx.beginPath(); ctx.moveTo(...toPx(0, 0)); ctx.lineTo(...toPx(1, 1)); ctx.stroke(); ctx.setLineDash([]);
+    ctx.strokeStyle = acc; ctx.beginPath(); ctx.moveTo(...toPx(0, 0)); ctx.lineTo(...toPx(k[0], k[1])); ctx.moveTo(...toPx(1, 1)); ctx.lineTo(...toPx(k[2], k[3])); ctx.stroke();
+    ctx.strokeStyle = ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(...toPx(0, 0)); ctx.bezierCurveTo(...toPx(k[0], k[1]), ...toPx(k[2], k[3]), ...toPx(1, 1)); ctx.stroke();
+    ctx.fillStyle = acc;
+    for (const [x, y] of [[k[0], k[1]], [k[2], k[3]]]) { const [a, b] = toPx(x, y); ctx.beginPath(); ctx.arc(a, b, 9, 0, Math.PI * 2); ctx.fill(); }
+    nums.forEach((n, i) => { if (document.activeElement !== n) n.value = k[i]; });
+    const name = Object.entries(PRESETS).find(([, v]) => v.every((x, i) => Math.abs(x - k[i]) < 0.002));
+    el.querySelectorAll("[data-p]").forEach((b) => b.setAttribute("aria-pressed", String(!!name && b.dataset.p === name[0])));
+    shows.forEach((s) => s());
+  }
+  let drag = -1;
+  const at = (e) => { const r = cv.getBoundingClientRect(); const px = (e.clientX - r.left) * cv.width / r.width, py = (e.clientY - r.top) * cv.height / r.height; return [(px - P) / S, hi - (py - P) / S * (hi - lo)]; };
+  const move = (e) => { if (drag < 0) return; const [x, y] = at(e), k = [...c().curve]; k[drag] = Math.min(1, Math.max(0, x)); k[drag + 1] = Math.min(1.5, Math.max(-0.5, y)); setCurve(g.key, k); };
+  cv.addEventListener("pointerdown", (e) => { const [x, y] = at(e), k = c().curve; drag = Math.hypot(x - k[0], y - k[1]) < Math.hypot(x - k[2], y - k[3]) ? 0 : 2; cv.setPointerCapture(e.pointerId); move(e); });
+  cv.addEventListener("pointermove", move);
+  cv.addEventListener("pointerup", () => { drag = -1; });
+  views[g.key] = { draw };
+  draw();
+}
+fit(); document.getElementById("json").textContent = JSON.stringify(pick(state), null, 2); timeline();
+
+// ── saving: a document Claude reads back (db), else the values to copy ──────────────────────────────────────────
+const status = document.getElementById("status");
+document.getElementById("save").addEventListener("click", async () => {
+  if (!db) { status.textContent = "Saving is not available in this view. Copy the values and paste them to Claude."; return; }
+  try { await db.doc("tuning/intro").set({ ...pick(state), savedAt: new Date().toISOString() }); status.textContent = "Saved. Tell Claude it is saved; it will put these values into the site."; }
+  catch (e) { status.textContent = "Could not save (" + (e.code || e.message) + "). Copy the values and paste them to Claude instead."; }
+});
+document.getElementById("copy").addEventListener("click", async () => {
+  const text = JSON.stringify(pick(state), null, 2);
+  try { await navigator.clipboard.writeText(text); status.textContent = "Copied."; }
+  catch (e) { const r = document.createRange(); r.selectNodeContents(document.getElementById("json")); getSelection().removeAllRanges(); getSelection().addRange(r); status.textContent = "Selected: press ⌘C / Ctrl+C."; }
+});
+document.getElementById("reset").addEventListener("click", () => {
+  state = { linked: false, ...pick(SITE) }; linked.checked = false;
+  for (const k in views) views[k].draw();
+  apply(); status.textContent = "Back to the values the site has now.";
+});
+(async () => {
+  db = await window.claude?.use?.("db");
+  if (!db) return;
+  try {
+    const snap = await db.doc("tuning/intro").get();
+    const saved = snap && (snap.data ? snap.data() : snap);
+    if (saved && saved.block && !localStorage.getItem("qq-intro-tuner")) {
+      state = { linked: false, ...pick(saved) };
+      for (const k in views) views[k].draw(); apply();
+      status.textContent = "Opened with the values saved " + new Date(saved.savedAt).toLocaleString() + ".";
+    }
+  } catch (e) { /* nothing saved yet */ }
+})();
+</script>

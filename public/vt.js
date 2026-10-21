@@ -9,6 +9,9 @@
 // Names are given to one card only, the one being opened (or the one being returned to), just before the pages are
 // captured. The 3D canvas can't be captured, so for that moment every pack shows its still (the same pack, rendered
 // ahead), and a coffee's page that is arrived at this way starts its big pack facing front instead of turning in.
+// Leaving, each pack on the screen is replaced by a picture of itself as the canvas draws it that moment (packs.js
+// freeze), so nothing changes as the page is captured; arriving, the packs face front, as their stills do, until the
+// pages have changed. On a coffee's page the name travels with the line under it (the head: Tim, round 7).
 const coffee = (url) => { try { return new URL(url).pathname.match(/\/coffee\/([^/]+)\/?$/)?.[1] || null; } catch { return null; } };
 
 // on the screen (and not a card still waiting to rise): only that may travel
@@ -25,7 +28,7 @@ addEventListener("click", (e) => { clicked = e.target.closest?.("a[href]") || nu
 // screen (a list), or the stage (its own page)
 function parts(slug) {
   const stage = document.querySelector("[data-stage]");
-  if (stage) { const name = stage.querySelector(".pstage__name"), pack = stage.querySelector(".pack--hero"); return { name: seen(name) ? name : null, pack: seen(pack) ? pack : null }; }
+  if (stage) { const name = stage.querySelector(".pstage__title"), pack = stage.querySelector(".pack--hero"); return { name: seen(name) ? name : null, pack: seen(pack) ? pack : null }; }
   const own = clicked && coffee(clicked.href) === slug ? clicked.closest("[data-card], .featured__slide") : null;
   const card = own?.matches("[data-card]") ? own : own ? null : [...document.querySelectorAll(`[data-card][data-slug="${CSS.escape(slug)}"]`)].find((c) => seen(c.querySelector(".card__title")));
   if (card) { const pk = card.querySelector(".pack"); return { name: card.querySelector(".card__title"), pack: seen(pk) ? pk : null }; }
@@ -48,6 +51,7 @@ function initTransitions() {
     const to = coffee(e.activation?.entry?.url), here = coffee(location.href);
     const slug = to || here;
     if (!slug || (to && here)) return;                  // from one coffee to another: just the cross-fade
+    window.qqPacks?.freeze?.();                         // every pack leaves a picture of itself as it is drawn now
     document.documentElement.dataset.vt = "out";
     name(slug, true);
   });
@@ -64,7 +68,7 @@ function initTransitions() {
     }
     document.documentElement.dataset.vt = "in";
     name(slug, true);
-    e.viewTransition.finished.finally(() => { name(slug, false); delete document.documentElement.dataset.vt; });
+    e.viewTransition.finished.finally(() => { name(slug, false); delete document.documentElement.dataset.vt; window.qqPacks?.stage.invalidate(); });
   });
   // back from the page the card opened (bfcache): the names given when leaving are taken off again
   addEventListener("pageshow", () => { if (document.documentElement.dataset.vt === "out") { delete document.documentElement.dataset.vt; for (const el of document.querySelectorAll("[style*='view-transition-name']")) el.style.viewTransitionName = ""; } });

@@ -28,6 +28,7 @@ initUi();
 initCheckout();
 
 if (document.documentElement.hasAttribute("data-intro")) import("./hero.js").then((m) => m.initHero());
+if (document.querySelector("[data-curl]")) import("./curl.js").then((m) => m.initCurl());
 if (document.querySelector("[data-pack]")) import("./packs.js").then((m) => m.initPacks());
 if (document.querySelector("[data-stage]")) import("./product.js").then((m) => m.initStage());
 if (document.querySelector("[data-filters]")) import("./filters.js").then((m) => m.initFilters());

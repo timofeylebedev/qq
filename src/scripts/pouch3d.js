@@ -25,7 +25,8 @@
 // (a slot that is pinned with position: sticky moves on the page as you scroll); an item added with { clip: element }
 // is drawn only inside that element's box (a pack in a row that scrolls sideways must not spill past the row);
 // an item's ox, oy draw it that far off its slot (the packs trail the page a little as it scrolls: scripts/packs.js);
-// an item's alpha (0–1) fades its pack and its shadow (a card fading in as it rises into place).
+// an item's alpha (0–1) fades its pack and its shadow (a card fading in as it rises into place); stage.shot(item)
+// is a picture of one pack as it is drawn now (the page going to another keeps it in the pack's place: scripts/packs.js).
 const root = window;
 
 
@@ -181,7 +182,7 @@ const root = window;
       canvas: canvas, gl: gl, items: items, stats: stats,
       look: { depth: 1.0, relief: 2.0, light: 0.75, sheen: 0.35, rim: 0.10, shadow: 0.38 },
       onTick: null,
-      add: add, remove: remove, invalidate: invalidate, measure: measure, destroy: destroy
+      add: add, remove: remove, invalidate: invalidate, measure: measure, destroy: destroy, shot: shot
     };
 
     // ---- GPU resources (re-created after a context loss)
@@ -457,6 +458,18 @@ const root = window;
       }
       dirty = false;
       if (moving) invalidate();
+    }
+
+    // ---- a picture of one pack as it is drawn now: a frame drawn at once, its box (the slot and the pad around it,
+    // where the shadow falls) copied from the canvas in the same task, before the frame is handed to the screen
+    function shot(it) {
+      if (lost || !it.visible) return null;
+      frame(performance.now());
+      var pad = 1.5, w = it.w * pad, h = it.h * pad;
+      var x = (it.x + it.ox - (w - it.w) / 2) * dpr, y = (it.y + it.oy - canvasTop - (h - it.h) / 2) * dpr;
+      var c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w * dpr)); c.height = Math.max(1, Math.round(h * dpr));
+      try { c.getContext('2d').drawImage(canvas, x, y, w * dpr, h * dpr, 0, 0, c.width, c.height); } catch (e) { return null; }
+      return c;
     }
 
     // ---- events

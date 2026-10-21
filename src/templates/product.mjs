@@ -17,10 +17,10 @@ function stage(ctx, p) {
   const tiles = facts(p);
   return `<section class="pstage" data-stage data-ground="paper" aria-labelledby="product-title" style="--tiles: ${tiles.length}">
   <div class="pstage__pin">
-    <div class="pstage__head">
+    <div class="pstage__head"><div class="pstage__title">
       <h1 class="pstage__name" id="product-title">${esc(p.name)}</h1>
       <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
-    </div>
+    </div></div>
     ${pack(p, { size: "hero", eager: true })}
   </div>
   <div class="col pstage__col"><ul class="pstage__facts" aria-label="О кофе">

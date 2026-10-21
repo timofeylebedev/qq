@@ -8,7 +8,7 @@
 .tabs { position: relative; margin-bottom: var(--text-gap); overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); }
 .tabs::-webkit-scrollbar { display: none; }
 .tabs ul { display: flex; gap: 0.6em; font: 700 var(--type-h2) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
-.tab { display: block; padding-block: 4px; color: var(--c-ink-60); white-space: nowrap; transition: color var(--t-out) var(--ease-out); }
+.tab { display: block; padding-block: 4px; text-box: trim-both cap alphabetic; color: var(--c-ink-60); white-space: nowrap; transition: color var(--t-out) var(--ease-out); }
 .tab[aria-current="page"] { color: var(--c-ink); }
 @media (--mouse) { .tab:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 

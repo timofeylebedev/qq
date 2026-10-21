@@ -41,7 +41,7 @@
 /* below L the title stands at the top, over a fade from the navbar's black (colors.json fades.top, laid upside
    down from above the section to --hero-fade past the title's foot) */
 .hero__title {
-  position: relative; isolation: isolate; padding: var(--gutter); width: fit-content; max-width: calc(11em + 2 * var(--gutter));
+  position: relative; isolation: isolate; padding: calc(var(--gutter) + 0.05em) var(--gutter) var(--gutter); width: fit-content; max-width: calc(11em + 2 * var(--gutter));
   font-size: var(--type-hero); line-height: var(--lh-display); text-wrap: wrap;
 }
 .hero__title::before { content: ""; position: absolute; z-index: -1; inset: calc(-1 * var(--nav-h)) calc(100% - 100vw) calc(-1 * var(--hero-fade)) 0; background: linear-gradient(to top, var(--fade-top)); pointer-events: none; }   /* to the screen's right edge (the title starts at its left one; the hero clips the rest) */
@@ -49,7 +49,7 @@
 /* the dock: the countdown and the links, over the eased fade into black (colors.json fades.hero) with its lead-in
    (--hero-fade) above the hairline */
 .hero__dock {
-  position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); align-self: stretch;
+  position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); align-self: stretch;
   padding-top: var(--hero-fade); background: linear-gradient(to bottom, var(--fade-hero));
 }
 .hero__dock::before { content: ""; position: absolute; left: 0; right: 0; top: var(--hero-fade); border-top: var(--hair) solid var(--line); pointer-events: none; }
@@ -60,7 +60,7 @@
 
 /* the countdown: its parts one width, the caption's (13.9em of its own size), or the cell's where that is less */
 .hero__roast {
-  --dial: 13.9em;
+  --dial: calc(13.9 * var(--type-control)); --hero-step: 16px;   /* the note and the parts it replaces: how far they move as they swap */
   grid-column: 1; grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center; text-align: center; padding-inline: var(--gutter);
   font: 700 var(--type-control) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control);
 }
@@ -88,23 +88,25 @@
 .digits .sg.on { fill-opacity: 1; transition-duration: var(--t-seg-on); }
 .hero__count .digits[hidden] { display: none; }
 
-/* the «i» opens a note in the countdown's place: over the whole cell and centred on it by what you see (its text
-   trimmed and balanced), the day row hidden but the «i» kept where it is, above the note; as much air above and
-   below the text as the «i»'s row takes, so the text never runs into it and stays in the middle (Tim, round 6). It
-   takes the cell's place in the grid, so where the text needs more room than the cell has (the narrowest phones, a
-   big browser text) the cell grows instead of cutting it */
+/* the «i» opens a note in the place of the clock and its caption: the day row stays as it is (the «i» never moves),
+   the digits and then the caption step away upwards one after another, and the note comes in where they stood, as
+   wide as the digits, trimmed and balanced, in the middle of their two rows (Tim, round 7). Closing, the note goes
+   first and the two come back, the caption last. Where the text needs more room than the two rows have (the narrowest
+   phones, a big browser text) the rows grow instead of cutting it (scripts/toggle.js marks it data-open) */
 .hero__note {
-  grid-area: 1 / 1 / -1 / -1; z-index: 1; display: grid; place-items: center; align-self: stretch; justify-self: stretch;
-  padding: calc(var(--hero-cell-y) * 2 + 20px) 0;
+  grid-area: 2 / 1 / 4 / 2; z-index: 1; align-self: center; padding-block: var(--hero-cell-y); justify-self: center; width: var(--dial); max-width: 100%;
   font: 400 var(--type-body) / var(--lh-text) var(--sans); text-transform: none; letter-spacing: 0; color: var(--c-white-80);
+  visibility: hidden; opacity: 0; transform: translateY(var(--hero-step));
+  transition: opacity var(--t-out) var(--ease-leave), transform var(--t-out) var(--ease-leave), visibility 0s var(--t-out);
 }
 .hero__note > span { display: block; text-box: trim-both cap alphabetic; text-wrap: balance; }
+.hero__roast > :is(.hero__count, .hero__caption) { transition: opacity var(--t-out) var(--ease-out), transform var(--t-move) var(--ease-out); transition-delay: calc(var(--t-step) * 2); }
+.hero__roast > .hero__caption { transition-delay: calc(var(--t-step) * 3); }
+.hero__roast:has(.hero__note[data-open]) > :is(.hero__count, .hero__caption) { opacity: 0; transform: translateY(calc(-1 * var(--hero-step))); transition-timing-function: var(--ease-leave); transition-duration: var(--t-out); transition-delay: 0s; }
+.hero__roast:has(.hero__note[data-open]) > .hero__caption { transition-delay: var(--t-step); }
+.hero__note[data-open] { visibility: visible; opacity: 1; transform: none; transition: opacity var(--t-move) var(--ease-out), transform var(--t-move) var(--ease-out), visibility 0s; transition-delay: calc(var(--t-step) * 2); }
 .hero__info-btn { position: relative; z-index: 2; }
-.hero__note[hidden] { display: none; }
-.hero__roast:has(.hero__note:not([hidden])) > :is(.hero__count, .hero__caption, .hero__now) { visibility: hidden; }
-.hero__roast:has(.hero__note:not([hidden])) .hero__info-btn { visibility: visible; }
-/* where the cell grows for the note, its rows grow too: the «i» keeps to the top of its row, so the text stays clear of it */
-.hero__roast:has(.hero__note:not([hidden])) > .hero__now { align-self: start; }
+.hero[data-entering] .hero__roast > * { transition: none; }   /* while the entrance moves them (scripts/hero.js) */
 
 .hero__link {
   display: flex; align-items: center; justify-content: space-between; gap: 16px;
@@ -144,7 +146,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__links::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: var(--hair) solid var(--line); pointer-events: none; }
   .hero__links li + li { border-left: var(--hair) solid var(--line); }
   .hero__links li + li::before { content: none; }
-  .hero__note { grid-area: 1 / 2 / 2 / -1; padding: 8px var(--gutter); }   /* side by side: over the digits and the caption, beside the «i» */
+  .hero__note { grid-area: 1 / 2 / 2 / 3; width: min(var(--dial), 100% - 2 * var(--gutter)); padding-block: var(--hero-cell-y); }   /* side by side: in the digits' cell, as wide as they are */
 }
 /* from L: one row of three cells; the title fills its cell, and the cells share three rows */
 @container col (width >= 58rem) {
@@ -153,7 +155,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
      the frame too (the hero clips them) */
   .hero__grid {
     --cell: calc((100cqi + 2 * var(--bleed)) / 3);
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, auto); gap: 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(3, 1fr); gap: 0;
     flex: 1; align-self: flex-end; margin-top: calc(var(--hero-photo) + var(--hero-fade));
   }
   .hero__grid::before, .hero__grid::after { content: ""; position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); pointer-events: none; }
@@ -174,31 +176,43 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
   .hero__links::before { content: none; }
   .hero__links li + li { border-left: 0; }
   .hero__links li + li::before { content: ""; }
-  .hero__note { grid-area: 1 / 1 / -1 / -1; padding: calc(var(--hero-cell-y) * 2 + 20px) 0; }
+  .hero__note { grid-area: 2 / 1 / 4 / 2; width: var(--dial); }
 }
 /* the column at its most (the step max, 1520px): the margins grow beside it, so the cells stay on the column,
    framed by a hairline on each side. Also as a page condition (--framed: a screen of 1616px, where the column is
    at its most at any height): Safari zoomed out measures the column's container query in its own units, and the
-   frame vanished (Tim, round 6) */
+   frame vanished (Tim, round 6). The frame is drawn by the dock (half a cell further left is the title's edge), above
+   the row's fade: the grid's own border lay under its fade and was lost in it (Tim, round 7) */
 @container col (width >= 1520px) {
-  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); border-inline: var(--hair) solid var(--line); }
+  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); }
+  .hero__dock::before { content: ""; top: 0; bottom: 0; left: -50%; right: 0; border: 0; border-inline: var(--hair) solid var(--line); }
 }
 @media (--framed) {
-  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); border-inline: var(--hair) solid var(--line); }
+  .hero__grid { --bleed: 0px; --cell: calc(100cqi / 3); }
+  .hero__dock::before { content: ""; top: 0; bottom: 0; left: -50%; right: 0; border: 0; border-inline: var(--hair) solid var(--line); }
 }
 
 /* ── new arrivals ───────────────────────────────────────────────────────────────────────────────────────────────
-   One coffee at a time, sliding sideways: a text square (name, the story of the lot, the taste chart and its
+   One coffee at a time, turned like the pages of a magazine (scripts/curl.js, «Изгиб» from Tim's artifact, round 7):
+   from L the slide is a spread, the text square on the left page and the photo on the right, and the right page
+   bends over the spine onto the left; below L the slide is one page (the text over the photo), turned over its left
+   edge. A drag sideways turns it under the hand. The slides lie on one another in one cell, the current one shown: a text square (name, the story of the lot, the taste chart and its
    descriptors in a hairline box of two even halves) and a photo square (a photo with the coffee's short line, over
    an eased fade). From L the two squares stand side by side, always two equal halves; the story gives way (it is
    cut to the lines that fit) rather than the squares growing. The whole slide is the link to the coffee. */
 .featured__track {
-  display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
-  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
-  position: relative;
+  position: relative; display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  touch-action: pan-y; -webkit-user-select: none; user-select: none;   /* a sideways drag turns the page; up and down still scroll */
 }
-.featured__track::-webkit-scrollbar { display: none; }
-.featured__slide { position: relative; scroll-snap-align: start; display: grid; grid-template-columns: minmax(0, 1fr); }
+.featured__track > * { grid-area: 1 / 1; }
+.featured__track[data-dragging] { cursor: grabbing; }
+.featured__slide[data-off] { visibility: hidden; }
+/* while a page turns, scripts/curl.js shows the parts under the sheet (data-part="show") and hides the rest */
+.featured__track[data-turning] .featured__slide { visibility: hidden; }
+.featured__track[data-turning] [data-part="show"] { visibility: visible; }
+.featured__track[data-turning] .featured__text { position: relative; }
+.curl-sheet { position: absolute; z-index: 7; pointer-events: none; }
+.featured__slide { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto; }   /* the slides share one cell: the tallest sets it, the text of the others takes the room */
 .featured__text {
   display: flex; flex-direction: column; justify-content: space-between; gap: var(--section-gap);
   min-width: 0; padding: var(--block-pad); background: var(--c-cloud);
@@ -232,6 +246,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 }
 @container col (width >= 58rem) {
   .featured__slide { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; }
+  .featured__track { aspect-ratio: 2; }
   .featured__text { aspect-ratio: 1; overflow: hidden; }
 }
 
@@ -241,12 +256,10 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
    block behind the text (it has empty space on its left for it). Below M: the text, then the picture. */
 .story { position: relative; overflow: hidden; }
 .story--dark { background: var(--c-black); color: var(--c-paper); }
-.story--dark .btn-arrow { --btn-bg: var(--c-paper); --btn-fg: var(--c-ink); }
-.story--dark .eyebrow { color: var(--c-lavender); }
 .story--light { background: var(--c-paper); color: var(--c-ink); }
 .story__col { display: grid; }
 .story__text { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: var(--action-gap); padding-block: var(--block-pad); }
-.story__title { font-size: var(--type-h3); max-width: 15em; margin-top: calc(var(--text-gap) - var(--action-gap)); }
+.story__title { font-size: var(--type-h3); max-width: 15em; }
 .story__image { margin-inline: calc(-1 * var(--gutter)); }
 .story__image img { width: 100%; height: auto; }
 @container col (width >= 43rem) {
@@ -270,7 +283,9 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 @container col (width >= 43rem) { .business__cards { grid-template-columns: 1fr 1fr; } }
 .bcard { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; aspect-ratio: 1; overflow: hidden; background: var(--c-black); }
 .bcard__image { position: absolute; inset: 0; z-index: -1; }
-.bcard__image img { width: 100%; height: 100%; object-fit: cover; }
+.bcard__image img { width: 100%; height: 100%; object-fit: cover; transition: scale var(--t-move) var(--ease-out); }
+/* hovered, the photo comes a little closer, as a card's pack does (Tim, round 7; decision "hover-zoom") */
+@media (--mouse) { .bcard:hover .bcard__image img { scale: 1.04; transition-duration: var(--t-move); } }
 .bcard__info { display: grid; padding-top: var(--lead-panel); background: linear-gradient(to bottom, var(--fade-panel)); }
 .bcard__info > * { border-top: var(--hair) solid var(--line); padding: var(--tile-pad); }
 .bcard__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
@@ -299,8 +314,8 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 }
 .fact__icon svg, .fmodal__icon svg { width: var(--fact-icon); height: var(--fact-icon); color: var(--c-lavender-ink); }
 .fact__more { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
-.fact__more svg, .fmodal__close svg { width: 32px; height: 32px; }
-.fact__title { grid-column: 1 / -1; align-self: end; margin-top: var(--section-gap); max-width: 14em; }
+.fact__more svg, .fmodal__close svg { width: var(--fact-plus); height: var(--fact-plus); }
+.fact__title { grid-column: 1 / -1; align-self: start; margin-top: var(--section-gap); max-width: 14em; }   /* under the icon, the three titles on one line (Tim, round 7) */
 .fact__title, .fmodal__title { font: 700 var(--type-card-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); text-wrap: balance; }
 @media (--mouse) {
   .fact__open:hover { background-color: var(--tint); transition-duration: var(--t-in); }
@@ -326,7 +341,7 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 .fmodal:not([open]) { display: none; }
 .fmodal::backdrop { background: transparent; }
 .fmodal__dim { position: absolute; inset: 0; background: var(--c-ink-20); }
-.fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; }
+.fmodal__box { position: relative; width: min(var(--modal-w), 100% - 2 * var(--gutter)); max-height: 100%; display: grid; grid-template-rows: minmax(0, 1fr) auto; }
 .fmodal__box:focus { outline: none; }   /* the modal opens with the focus on itself, so no control lights up */
 .fmodal__ground { position: absolute; inset: 0; background: var(--c-paper); }
 .fmodal__panel { position: relative; grid-area: 1 / 1; display: flex; flex-direction: column; min-height: 0; }
@@ -336,7 +351,8 @@ html[data-intro] :is(.hero__info, .hero__title, [data-hero-part]) { animation: h
 .fmodal__text { display: grid; gap: 12px; font-size: var(--type-body); line-height: var(--lh-text); }
 .fmodal__close { position: absolute; z-index: 2; top: 4px; right: 4px; display: grid; place-items: center; width: 48px; height: 48px; color: var(--c-ink-40); transition: color var(--t-out) var(--ease-out); }
 .fmodal__close > span { display: grid; transform: rotate(45deg); }
-.fmodal__nav { display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
+.fmodal__nav { position: relative; grid-area: 2 / 1; display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }   /* one row for the three panels, under them */
+.fmodal__word { display: inline-block; }   /* a word of a line coming in (scripts/facts.js) */
 .fmodal__step { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--control-h); padding: calc(var(--tile-pad) * 0.75) 12px; font-size: var(--type-body); line-height: 1.1; transition: background-color var(--t-out) var(--ease-out); }   /* 65px at 1440 (Figma: 66) */
 .fmodal__step + .fmodal__step { border-left: var(--hair) solid var(--line); }
 .fmodal__step svg { width: 16px; height: 16px; flex: none; }

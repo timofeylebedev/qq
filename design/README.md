@@ -39,7 +39,6 @@ its cell where the caption takes two lines (decision `countdown-as-caption`); a 
 | `type/h3` | 28 → 40 | mono | headings of the image blocks (approach, about) |
 | `type/title` | 22 → 32 | mono | the name of the featured coffee |
 | `type/card-title` | 18 → 24 | mono | names on product cards, titles of tiles (business, info blocks, product facts), footer headings |
-| `type/label` | 14 → 20 | mono (label) | eyebrows above headings («Наш подход»): set apart by colour and case, not size |
 | `type/statement` | 24 → 48 | sans | the big sentence of a product's story |
 | `type/lead` | 18 → 24 | sans | the caption over the featured photo, the text under a section heading |
 | `type/body-l` | 16 → 20 | sans | longer text: the featured description, the story columns, business text |
@@ -50,7 +49,7 @@ its cell where the caption takes two lines (decision `countdown-as-caption`); a 
 **The levels keep their distance.** Each pair in `type.relations` is at least ×1.125 apart at both ends of the range,
 and so at every size in between (the ratio of two straight lines can only move from its value at one end to its value at
 the other): display/h2, h2/h3, h3/title, title/card-title, statement/lead, lead/body-l, body-l/body, body/small and
-card-title/body-l, and hero/display. Labels (eyebrows, control text, prices) are set apart by case and weight, not size.
+card-title/body-l, and hero/display. Labels (control text, prices) are set apart by case and weight, not size.
 
 ### Space
 
@@ -72,6 +71,7 @@ card-title/body-l, and hero/display. Labels (eyebrows, control text, prices) are
 | `hero/cell-y` | `--hero-cell-y` | 12 → 20 | padding above and below each row of the hero's cells (three rows shared by the countdown and the links) |
 | `hero/photo` | `--hero-photo` | 48 → 120 (size) | the least photo the hero shows under the navbar |
 | `fact/icon` | `--fact-icon` | 40 → 56 (size) | the icon of an info block and of its modal |
+| `fact/plus` | `--fact-plus` | 24 → 32 (size) | the plus of an info block and the cross of its modal (32 at most, Tim, round 7) |
 | `hero/fade` | `--hero-fade` | 64 → 160 (size) | the lead-in of the hero's fade above its cells (the fade runs under the whole block) |
 | `hero/max` | `--hero-max` | 960 → 1200 (size) | the most the hero may be tall; below it the hero is the screen less a 24px peek |
 | `story/min-h` | `--story-h` | 400 → 680 (size) | least height of the image blocks (approach, about) |
@@ -102,7 +102,7 @@ padded by the gutter on both sides, so their text still starts on the column (Ti
 
 One ink, cool grey `#2d2f33`, in alpha steps on light grounds; white in alpha steps on dark ones. Grounds: white page,
 cloud `#f6f6f6` for cards and tiles, cool grey for the business block, black for the hero and photos. Lavender
-`#b190ec` (on dark) / `#7f4fc9` (on light) is the brand's one colour: eyebrows and icons, never a surface.
+`#b190ec` (on dark) / `#7f4fc9` (on light) is the brand's one colour: icons and marks of data, never a surface (the eyebrows above the image blocks' headings went in round 7).
 Descriptor dots have a palette by flavour family (chocolate, nuts, citrus, berry, orchard, sweet, tea, tropical, vine,
 spice). Fourteen text/ground pairs are checked for contrast at every build; secondary text is ink-70 (the Figma greys
 ink-60 and ink-50 fail for small text: decision `secondary-text`).
@@ -115,7 +115,7 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
   `data-ground`; `build/rules.mjs` checks). Only a state (the current pager dot, a focused select) draws in ink.
   Below the column's max the hairlines between a full-width block's cells (the hero, the info blocks, the footer)
   run out to the screen's edges on the sides where the column ends; from the max the block is framed instead.
-- **Grounds lead.** The navbar and the tab bar take the colours of the section under them once they stand wholly on it.
+- **Grounds lead.** The navbar and the tab bar take the colours of the section under them the moment their leading edge (the one the page scrolls towards) touches it (Tim, round 7).
   A block on another ground inside a section (the dark panel beside the bag, a cloud form, a photo card) says
   `data-tone`: it gets the same colours (`--g-bg`, `--g-fg`, `--line`, `--tint`) and paints its own ground, but the
   bars do not follow it.

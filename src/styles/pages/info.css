@@ -49,7 +49,7 @@
 }
 .offer__title { font-size: var(--type-title); max-width: 14em; }
 .offer__text { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-white-80); max-width: 34em; }
-.offer .btn-arrow { --btn-bg: var(--c-paper); --btn-fg: var(--c-ink); margin-top: calc(var(--action-gap) - var(--text-gap)); font: 700 var(--type-control) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.offer .btn-arrow { margin-top: calc(var(--action-gap) - var(--text-gap)); }
 .offer .btn-arrow:focus-visible { outline-color: var(--c-paper); }
 @container col (width >= 43rem) { .offers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 

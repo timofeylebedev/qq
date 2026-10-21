@@ -14,29 +14,29 @@
 .story--dark .btn:focus-visible, .card--dark .btn:focus-visible { outline-color: var(--c-paper); }
 @media (--mouse) { .btn:hover { background: var(--c-black); transition-duration: var(--t-in); } }
 
-/* the arrow button («→ Читать»): an arrow cell and a label cell, filled, a hairline of the ground between them
-   (Figma btn-arrow). Ink on light grounds, white on dark ones (--btn-bg / --btn-fg). */
+/* the arrow button («Наш подход →»): one cell in a hairline of the ground, its label in bold capitals trimmed to
+   them, the arrow after it (Figma 1114:35930, Tim, round 7: 20px before the label, 16 between and after, 16 above and
+   below). It takes the colours of its ground; hovered, the tint behind it. */
 .btn-arrow {
-  --btn-bg: var(--c-ink); --btn-fg: var(--c-paper);
-  display: inline-grid; grid-template-columns: auto auto; gap: var(--hair); align-self: start;
-  min-height: var(--control-h); font: 500 var(--type-body-l) / 1 var(--sans);
+  display: inline-flex; align-items: center; gap: 16px; align-self: start;
+  min-height: var(--control-h); padding: 0 16px 0 20px; border: var(--hair) solid var(--line); color: inherit;
+  font: 700 var(--type-body) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); white-space: nowrap;
+  transition: background-color var(--t-out) var(--ease-out);
 }
-.btn-arrow > span { display: flex; align-items: center; padding-inline: var(--control-x); background: var(--btn-bg); color: var(--btn-fg); transition: opacity var(--t-out) var(--ease-out); }
-.btn-arrow__icon { padding-inline: 12px; }
-.btn-arrow svg { width: 24px; height: 24px; }
-@media (--mouse) {
-  .btn-arrow:hover > span { opacity: 0.85; transition-duration: var(--t-in); }
-}
+.btn-arrow__label { text-box: trim-both cap alphabetic; }
+.btn-arrow svg { width: 24px; height: 24px; flex: none; }
+@media (--mouse) { .btn-arrow:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
-/* prev / next: two square cells, one hairline between them */
+/* prev / next: two cells of 48 × 40, one hairline between them (Tim, round 7). Below M, where a pager goes with them
+   (new arrivals), the group runs the column's whole width: the arrows at its ends, the numbers between (layout.css) */
 .arrows { display: flex; border: var(--hair) solid var(--line); }
-.arrows__btn { display: grid; place-items: center; width: 56px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
+.arrows__btn { display: grid; place-items: center; width: 48px; height: 40px; transition: background-color var(--t-out) var(--ease-out); }
 .arrows__btn + .arrows__btn { border-left: var(--hair) solid var(--line); }
 .arrows__btn[aria-disabled="true"] { color: var(--c-ink-40); cursor: default; }
 @media (--mouse) { .arrows__btn:not([aria-disabled="true"]):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
-/* a pager of numbers (new arrivals): the current one ringed in ink at 50% (Tim, round 6); a hovered number only
-   darkens to ink, no ground behind it */
+/* a pager of numbers (new arrivals): the current one ringed in ink at 50% (Tim, round 6); a hovered number (not the
+   current one) gets the tint behind it and darkens to ink (Tim, round 7) */
 .pager { display: flex; gap: 4px; }
 .pager__dot {
   display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%;
@@ -44,7 +44,8 @@
   border: var(--hair) solid transparent; transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
 }
 .pager__dot[aria-current="true"] { border-color: var(--c-ink-50); color: var(--c-ink); }
-@media (--mouse) { .pager__dot:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+.pager__dot { transition: border-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out), background-color var(--t-out) var(--ease-out); }
+@media (--mouse) { .pager__dot:not([aria-current="true"]):hover { color: var(--c-ink); background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* the email field of the footer: a hairline box with the arrow cell at its end */
 .field { display: flex; border: var(--hair) solid var(--line); background: var(--c-paper); min-height: var(--control-h); }
@@ -76,8 +77,8 @@ html[data-keyed] .field:focus-within { border-color: var(--c-ink); }   /* the ke
 .fav { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: inherit; }
 .fav svg { width: 24px; height: 24px; }
 .fav { position: relative; }
-.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
-.fav[aria-pressed="true"] .i-on { opacity: 1; transform: none; transition-duration: var(--t-in); }
+.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transition: opacity var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
+.fav[aria-pressed="true"] .i-on { opacity: 1; transition-duration: var(--t-in); }   /* the filled heart fades in where the outline is: nothing moves (Tim, round 7) */
 /* hovered, the heart's own cell is tinted (as every control's: white on dark grounds, ink on light) */
 .fav { transition: background-color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out); }
 @media (--mouse) { .fav:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
