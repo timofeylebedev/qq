@@ -35,6 +35,9 @@
   background: var(--g-bg); border: var(--hair) solid var(--line); border-top: 0;
 }
 .filter--up .filter__options { top: auto; bottom: 100%; border-top: var(--hair) solid var(--line); border-bottom: 0; }
+/* no room above it (scripts/menus.js): it opens down after all */
+.filter--up[data-down] .filter__options { top: 100%; bottom: auto; border-top: 0; border-bottom: var(--hair) solid var(--line); }
+.filter--up[data-down][open] .filter__summary::after { transform: translateY(4px) rotate(-135deg); }
 .option { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 8px 16px; cursor: pointer; font-size: var(--type-body); line-height: var(--lh-compact); transition: background-color var(--t-out) var(--ease-out); }
 .option .box { width: 20px; height: 20px; }
 .option .box::after { scale: 0.8; }

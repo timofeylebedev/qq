@@ -132,6 +132,7 @@ export function riseGrid(grid) {
   const cards = [...grid.children];
   const stand = () => { for (const c of cards) delete c.dataset.wait; return { deal() {} }; };
   if (calm() || !document.documentElement.hasAttribute("data-enter") || !("IntersectionObserver" in window)) return stand();
+  grid.dataset.dealing = "";   // taken: the CSS failsafe (layout.css) stands down
   let queue = [], timer = 0, last = 0;
   const flush = () => {
     timer = 0;

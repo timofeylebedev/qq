@@ -212,7 +212,7 @@
       "decided": "Claude, 2026-10-20 (round 4)",
       "fix": "the details and one address for requests in data/privacy.json, checked by a lawyer" },
     { "id": "about-photos", "kind": "placeholder",
-      "what": "The team of «О компании» is the fourteen people of Tim's picture (round 7: names and roles in its order, the roles word for word); their portraits are still the seven Figma stock photos (Pexels), each shown twice. The Instagram strip has no link (Figma gives no account address)",
+      "what": "The team of «О компании» is the fourteen people of Tim's picture (round 7: names and roles in its order, the roles word for word); their portraits are still the seven Figma stock photos (Pexels), repeated to fourteen. The Instagram strip has no link (Figma gives no account address)",
       "why": "no team photos yet",
       "decided": "Claude, 2026-10-20 (round 4); the team's number and roles: Tim, 2026-10-21 (round 7)",
       "fix": "the team's photos into assets-src/img (team-*.png), one per person, npm run images; the account address into data/about.json instagram.href" },

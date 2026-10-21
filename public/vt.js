@@ -13,7 +13,8 @@ const coffee = (url) => { try { return new URL(url).pathname.match(/\/coffee\/([
 
 // on the screen (and not a card still waiting to rise): only that may travel
 const seen = (el) => {
-  if (!el || el.closest("[data-wait]")) return false;
+  // a card waits hidden only in a reel that rises, or in the catalog while its cards are dealt (html[data-enter])
+  if (!el || el.closest(".reel[data-rise] > [data-wait], html[data-enter] .grid[data-rise] > [data-wait]")) return false;
   const r = el.getBoundingClientRect();
   return r.width > 0 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth;
 };

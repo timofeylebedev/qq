@@ -40,13 +40,14 @@ function drag(p) {
   const end = (e) => {
     if (e.pointerId !== id) return;
     id = null; p.drag.on = false; p.drag.tx = 0; p.drag.ty = 0;
+    p.drag.x = Math.atan2(Math.sin(p.drag.x), Math.cos(p.drag.x));   // turned round and round: back the short way
     stage.style.cursor = "";
     window.qqPacks?.stage.invalidate();
   };
   stage.addEventListener("pointerdown", (e) => {
     if (e.button > 0 || id !== null || !over(e)) return;
     id = e.pointerId; x0 = e.clientX - p.drag.x / TUNE.dragTurn; y0 = e.clientY - p.drag.y / TUNE.dragTilt;
-    p.drag.on = true; stage.setPointerCapture(id); stage.style.cursor = "grabbing";
+    p.drag.on = true; p.drag.tx = p.drag.x; p.drag.ty = p.drag.y; stage.setPointerCapture(id);   // caught on its way back: held where it is stage.style.cursor = "grabbing";
     if (e.pointerType === "mouse") e.preventDefault();   // no text selection while dragging
   });
   stage.addEventListener("pointermove", (e) => {
@@ -166,6 +167,7 @@ export async function initPacks() {
       }
       if (p.press) { lift += TUNE.pressLift; scale *= TUNE.pressScale; }
       if (p.carryUntil && now > p.carryUntil) { p.carryUntil = 0; p.it.live = false; }
+      if (p.carryUntil) moving = true;   // carried: keep drawing, its card's fade and rise are under way even while nothing else changes
       if (p.fade) {
         const a = p.carryUntil || "wait" in p.fade.dataset ? +getComputedStyle(p.fade).opacity : 1;
         if (a !== it.alpha) { it.alpha = a; moving = true; }
