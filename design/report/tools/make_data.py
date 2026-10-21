@@ -519,7 +519,7 @@ shots_r7 = [
     {'title': 'The weight open (390)', 'src': 'shots/r7-buybar-open-390.jpg', 'text': 'A narrow cell\'s list is at least 11rem, and opens leftwards at the column\'s right edge.'},
     {'title': 'The pack dragged (1440 × 1100)', 'src': 'shots/r7-pack-drag-1440.jpg', 'text': 'The same drag, 130px across: before, nothing; now the pack turns with the hand (0.012 rad a pixel) and tilts with it (0.006 a pixel, at most 0.6); let go, it turns back to the scroll\'s angle.'},
     {'title': '«Кофе с похожим вкусом» (1440)', 'src': 'shots/r7-similar-1440.jpg', 'text': f"The room below the heading equals the room above it: {a7('1440×900','simAbove')} / {a7('1440×900','simBelow')}px (was {a7('1440×900','simAbove', True)} / {a7('1440×900','simBelow', True)})."},
-    {'title': 'The team (1440)', 'src': 'shots/r7-team-1440.jpg', 'text': 'Fourteen people with the names and roles of your picture, in its order; the portraits are still the seven stock photos, each twice (placed so no two neighbours share one).'},
+    {'title': 'The team (1440)', 'src': 'shots/r7-team-1440.jpg', 'text': 'Fourteen people with the names and roles of your picture, in its order; the portraits are still the seven stock photos, repeated (placed so no two neighbours share one).'},
     {'title': 'The team (390)', 'src': 'shots/r7-team-390.jpg', 'text': 'Two columns on a phone.'},
 ]
 changes_r7 = [
@@ -552,7 +552,7 @@ changes_r7 = [
      f"Below the heading <code>--section-y</code>, as above it: {a7('1440×900','simAbove')} / {a7('1440×900','simBelow')}px at 1440 (was {a7('1440×900','simBelow', True)} below), {a7('390×844','simAbove')} / {a7('390×844','simBelow')} at 390 (was {a7('390×844','simBelow', True)}).", 'done'),
   ]},
   {'section': 'О компании', 'items': [
-    ('For the people (their number and info) use the attached picture', 'Fourteen people, names and roles word for word in the picture\'s order (Юра\'s «сорс» too — say if it should read «сорсинг»; two Ильи, by their roles). The portraits are still the seven stock photos, each twice; the picture\'s illustrations could replace them — say if you want that.', 'check'),
+    ('For the people (their number and info) use the attached picture', 'Fourteen people, names and roles word for word in the picture\'s order (Юра\'s «сорс» too — say if it should read «сорсинг»; two Ильи, by their roles). The portraits are still the seven stock photos, repeated; the picture\'s illustrations could replace them — say if you want that.', 'check'),
   ]},
 ]
 breaks_r7 = [
