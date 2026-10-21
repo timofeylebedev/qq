@@ -283,7 +283,8 @@ try {
   }
   // buttons, switches, the toast (in its own place on the screen)
   await showGroup(page, "card-weights", 1);
-  await page.click('[data-cv-group="card-weights"] .card >> nth=0 >> .weight >> nth=1');
+  // the canvas's card slot is a column below M, so the weights are the dropdown there (they set the radios)
+  await page.selectOption('[data-cv-group="card-weights"] .card >> nth=0 >> .buy__select', { index: 1 });
   const price = await page.textContent('[data-cv-group="card-weights"] .card >> nth=0 >> [data-price-out]');
   check("A weight switch changes the price", /2\s?900/.test(price.replace(/\s/g, " ")), price);
   await page.click('[data-cv-group="card-weights"] .card >> nth=0 >> .buy__add'); await page.waitForTimeout(500);

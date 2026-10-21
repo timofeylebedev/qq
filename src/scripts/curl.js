@@ -105,11 +105,12 @@ function paintEl(ctx, e, o) {
   const k = ctx.getTransform().a, px = (v) => Math.round(v * k) / k, r = e.getBoundingClientRect();
   const x = px(r.left - o.left), y = px(r.top - o.top), w = px(r.right - o.left) - x, h = px(r.bottom - o.top) - y;
   const [bt, br, bb, bl] = ["Top", "Right", "Bottom", "Left"].map((s) => (cs[`border${s}Style`] === "none" ? 0 : parseFloat(cs[`border${s}Width`]) || 0));
-  const rad = Math.min(parseFloat(cs.borderTopLeftRadius) || 0, w / 2, h / 2);
-  const box = (a, b, c, d, rr) => { ctx.beginPath(); rr && ctx.roundRect ? ctx.roundRect(a, b, c, d, rr) : ctx.rect(a, b, c, d); };
+  if (w <= 0 || h <= 0) return;   // nothing to draw (and roundRect refuses a negative radius)
+  const rad = Math.max(0, Math.min(parseFloat(cs.borderTopLeftRadius) || 0, w / 2, h / 2));
+  const box = (a, b, c, d, rr) => { ctx.beginPath(); rr > 0 && c > 0 && d > 0 && ctx.roundRect ? ctx.roundRect(a, b, c, d, rr) : ctx.rect(a, b, c, d); };
   if (seenColour(cs.backgroundColor)) { ctx.fillStyle = cs.backgroundColor; box(x, y, w, h, rad); ctx.fill(); }
   if (cs.backgroundImage.startsWith("linear-gradient")) { ctx.fillStyle = gradient(ctx, cs.backgroundImage, x, y, w, h); box(x, y, w, h, rad); ctx.fill(); }
-  if (rad && bt) { ctx.strokeStyle = cs.borderTopColor; ctx.lineWidth = bt; box(x + bt / 2, y + bt / 2, w - bt, h - bt, rad - bt / 2); ctx.stroke(); }
+  if (rad && bt) { ctx.strokeStyle = cs.borderTopColor; ctx.lineWidth = bt; box(x + bt / 2, y + bt / 2, w - bt, h - bt, Math.max(0, rad - bt / 2)); ctx.stroke(); }
   else {
     const side = (wd, col, a, b, c, d) => { if (wd && seenColour(col)) { ctx.fillStyle = col; ctx.fillRect(a, b, c, d); } };
     side(bt, cs.borderTopColor, x, y, w, bt); side(bb, cs.borderBottomColor, x, y + h - bb, w, bb);
@@ -128,7 +129,7 @@ function paintEl(ctx, e, o) {
   const bf = getComputedStyle(e, "::before");
   if (bf.content !== "none" && bf.content !== "normal" && seenColour(bf.backgroundColor)) {   // a dot: first flex item, centred across the line
     const dw = parseFloat(bf.width), dh = parseFloat(bf.height), dy = y + bt + pt + (h - bt - bb - pt - pb - dh) / 2;
-    ctx.fillStyle = bf.backgroundColor; box(x + bl + pl, dy, dw, dh, Math.min(dw, dh) / 2); ctx.fill();
+    ctx.fillStyle = bf.backgroundColor; box(x + bl + pl, dy, dw, dh, Math.max(0, Math.min(dw, dh) / 2)); ctx.fill();
   }
   const clip = cs.overflow !== "visible";
   if (clip) { ctx.save(); ctx.beginPath(); ctx.rect(x + bl, y + bt, w - bl - br, h - bt - bb); ctx.clip(); }
@@ -346,7 +347,8 @@ function magazine(stage) {
   function face(i, at) {
     const key = faceKey(i, at), hit = TEX.get(key);
     if (hit) { TEX.delete(key); TEX.set(key, hit); return hit; }
-    const cv = paintPart(part(i, at), DPR());
+    let cv = null;
+    try { cv = paintPart(part(i, at), DPR()); } catch { /* a part that can't be painted: the turn falls back to a plain change */ }
     return cv ? keep(key, GL.tex(cv)) : null;
   }
   const images = (i) => Promise.all([...slides[i].querySelectorAll("img")].map((im) => { im.loading = "eager"; return im.decode().catch(() => {}); }));
