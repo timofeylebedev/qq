@@ -102,10 +102,10 @@
 .prose h2:first-child { margin-top: 0; }
 .prose ul { display: grid; gap: 0.6em; padding-left: 1.4em; list-style: disc; }
 
-/* ── about: the title over the roast photo, the letter rising over its foot, the team, the strip ─────────────── */
+/* ── about: the title over the heroes' video, the letter rising over its foot, the team, the strip ──────────── */
 .ahero { position: relative; display: grid; align-items: center; min-height: var(--story-h); padding-block: calc(var(--nav-h) + var(--section-y)) calc(var(--section-y) * 2); background: var(--c-black); color: var(--c-paper); overflow: hidden; }
 .ahero__bg { position: absolute; inset: 0; }
-.ahero__bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+.ahero__bg video { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
 .ahero__title { position: relative; font-size: var(--type-display); line-height: var(--lh-display); text-align: center; }
 .letter-wrap { position: relative; z-index: 1; }
 .letter {

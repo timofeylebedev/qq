@@ -1,7 +1,7 @@
 // The home page: hero with the roast countdown, new arrivals, recommended, two image blocks, business, facts.
 import { page, head, arrows } from "./layout.mjs";
 import { card, pills, tasteChart, cardText, photoOf } from "./components.mjs";
-import { esc, icon, href, picture, cls } from "./util.mjs";
+import { esc, icon, href, picture, cls, heroVideo } from "./util.mjs";
 import { digitsSVG } from "../../build/digits.mjs";
 
 export function render(ctx) {
@@ -21,7 +21,7 @@ export function render(ctx) {
   });
 }
 
-// The hero: a photo, the title, the roast countdown and three links. The countdown and the links stand in a dock
+// The hero: the looped video (heroVideo), the title, the roast countdown and three links. The countdown and the links stand in a dock
 // at the foot of the photo; their three parts each (the day and the time, the digits, the caption; «Каталог»,
 // «Бизнесу», «Контакты») line up: in three shared rows from L (the title beside them) and below M, in three shared
 // columns between M and L. From L the title is the first of three cells in a row; below L it stands at the top of
@@ -31,7 +31,7 @@ function hero(ctx) {
   const { hero, roast } = ctx.site;
   const data = esc(JSON.stringify({ days: roast.days, hour: roast.hour, tz: roast.timezoneOffset }));
   return `<section class="hero" data-hero data-ground="black" aria-labelledby="hero-title">
-  ${picture("hero-roast", "", { sizes: "100vw", cls: "hero__bg", eager: true, decorative: true })}
+  ${heroVideo("hero__bg")}
   <div class="hero__info">
     <div class="col"><div class="hero__grid">
       <h1 class="hero__title" id="hero-title" data-hero-title>${esc(hero.title)}</h1>

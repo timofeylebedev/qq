@@ -33,6 +33,14 @@ export function picture(name, alt, { sizes = "100vw", cls: c = "", eager = false
     ` alt="${decorative ? "" : esc(alt)}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async"></picture>`;
 }
 
+// the heroes' video (build/video.mjs): silent, looped, decorative; scripts/video.js plays it while it is on screen,
+// and with «reduce motion» or Save-Data it stays the poster (its first frame)
+export function heroVideo(c) {
+  return `<div class="${c}"><video muted loop playsinline preload="none" poster="/assets/video/hero-poster.webp" aria-hidden="true" data-hero-video>` +
+    `<source src="/assets/video/hero-1920.mp4" type="video/mp4" media="(min-width: 60em)">` +
+    `<source src="/assets/video/hero-1280.mp4" type="video/mp4"></video></div>`;
+}
+
 export const rub = (n) => (n == null ? "—" : n.toLocaleString("ru-RU").replace(/ /g, " ") + " ₽");
 export const lower = (s) => s.charAt(0).toLowerCase() + s.slice(1);
 
