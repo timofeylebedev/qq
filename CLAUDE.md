@@ -34,7 +34,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Sizes** come from `design/scale.json` only: a value at 320 and at 1440, a straight line between, the screen's
   height counting through `--vp`. No `vw`/`vh`/`cqi` in the styles except in rules a decision lists (`css` field).
   Font sizes are `var(--type-*)`. Both ends of a role sit on the ladder; type levels in `relations` stay ×1.125 apart.
-- **Colours** from `design/colors.json` only (`--c-*`). Secondary text is `--c-ink-70`; ink-60 only for large text.
+- **Colours** from `design/colors.json` only (`--c-*`). Secondary text is `--c-ink-70` (`--g-soft` of the ground); ink-60 only for large
+  text; ink-30 only for the catalog's inactive tabs (decision `tabs-30`).
 - **Layout steps**: container queries on the column `col` at S 22rem, M 43rem, L 58rem (and `max` 1520px: the column at
   its most, for a frame). Blocks that run full width (hero, image blocks, facts, footer, buy bar) put their content in a `.col` so they change with everything else. A
   container query cannot style its own container: wrap (`<div class="col"><div class="block">`). Page steps only
@@ -42,10 +43,12 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   32em tall for the product's buy bar, `--framed` 1616px: every rule of the container step max is repeated under it,
   because Safari zoomed out measures container queries in its own units). Fixed bars stand on the tab bar: `bottom: var(--tabbar-h)` (0 without one).
 - **Grounds**: every section has `data-ground` (paper, cloud, black, ink); colours on it come from there (`--g-bg`,
-  `--g-fg`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`). A block on
+  `--g-fg`, `--g-soft`, `--line`, `--tint`), and the navbar and tab bar follow the section under them (`scripts/nav.js`). A block on
   another ground inside a section (the dark panel, a cloud form, a photo) says `data-tone` instead: the same colours,
   painted by the block, but the bars do not follow it.
 - **One line colour**: every border is `var(--line)` (ink-20 on light grounds, white-30 on dark); states may use ink.
+  The footer has no line above it; a section whose own lines run down to it closes itself with a hairline (the home's
+  facts: decision `footer-no-line`).
 - **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
@@ -60,20 +63,23 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead. The
   hero goes further: its cells themselves reach over the gutters (`--bleed`) and each is padded by the gutter on both
   sides (Tim, round 6: a cell's padding is its own, never a higher box's).
+- **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
-- **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
+- **3D**: one canvas per page at z-index 5. While the product's pinned pack is on screen the canvas is fixed to the
+  screen (`stage.fixed`, else it would ride a scroll for a frame); the pack turns exactly with the scroll and can be
+  dragged (it turns back on release: decision `pack-drag`). What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
 - **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
-  cross-document view transition to its coffee's page. `data-out` is the catalog filter's; the reel's waiting cards
-  are `data-wait`.
+  cross-document view transition to its coffee's page. `data-out` is the catalog filter's; the reel's and the catalog's waiting cards
+  are `data-wait` (the catalog's rise one after another: `riseGrid` in `scripts/slider.js`, `html[data-enter]`).
 - **Pages** are written by `build/pages.mjs` from `src/templates/`; never edit `src/index.html`, `src/catalog/`,
   `src/coffee/` or the other page folders (generated, not committed). Links inside the site go through `href(ctx, to)`;
   an anchor of the same page that is not the home page is written as is (`#contacts`), not through `href`.
 - **Shared blocks** of the new pages are in `src/templates/blocks.mjs` (page head, tabs, tiles, form cells, the dark
-  panel, dialogs, contacts): reuse them before writing new markup. The bag and the favourites are written by their
+  panel, dialogs, contacts, the menu cell of the filters and the buy bar: `menu`, `scripts/menus.js`): reuse them before writing new markup. The bag and the favourites are written by their
   scripts before the 3D packs start (`main.js`), so their packs are drawn; a change of layout dispatches `qq:layout`.
 - **The countdown's digits** are QQ Digits drawn as SVG (`build/digits.mjs` from `design/digits.json`, Tim's settings
   from the artifact «QQ Digits»); `scripts/digits.js` lights the segments. Change the drawing in the JSON, not the SVG.
