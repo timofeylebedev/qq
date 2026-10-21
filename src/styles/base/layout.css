@@ -66,7 +66,7 @@
   --per: 1;
   display: grid; grid-auto-flow: column; gap: var(--gap);
   grid-auto-columns: calc((100% - (var(--per) - 1) * var(--gap)) / var(--per));
-  margin: -8px 0 calc(-1 * var(--section-gap)); padding: 8px 0 var(--section-gap);   /* 8px above: a card's focus ring */
+  margin: -8px -8px calc(-1 * var(--section-gap)); padding: 8px 8px var(--section-gap); scroll-padding-inline: 8px;   /* 8px around: a card's focus ring (less than the gap, so no neighbour shows) */
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
   position: relative;   /* every row that scrolls sideways is positioned, so nothing positioned inside it escapes its clip */
 }

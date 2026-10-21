@@ -64,7 +64,8 @@ function rise(track) {
   // back on the page (a reload, a step back from a coffee's page): the cards in view stand where they were, nothing
   // rises again (Tim, round 7: «when you go back to the recommended section all cards move»)
   const nav = performance.getEntriesByType?.("navigation")[0]?.type;
-  const back = nav === "reload" || nav === "back_forward" || document.documentElement.dataset.vt === "in";
+  const box = track.getBoundingClientRect();
+  const back = (nav === "reload" || nav === "back_forward" || document.documentElement.dataset.vt === "in") && box.bottom > 0 && box.top < innerHeight;
   const per = Math.round(parseFloat(getComputedStyle(track).getPropertyValue("--per")) || 1);
   let shown = back;
   track.dataset.rise = "";

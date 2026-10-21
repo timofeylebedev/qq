@@ -4,7 +4,7 @@
 //
 // The growing is one card (Tim, round 5: seamless, smooth both ways): the modal's box starts on the block, cut to the
 // block's size, and grows into place, nothing stretched. Inside it the icon and the title travel from the block to
-// their places at the same size; the text rides with the title, coming in as it goes; the step row stays at the
+// their places at the same size; the text comes in after it; the step row stays at the
 // card's foot, so it slides up from under the growing edge; the block's plus travels to the corner and turns into
 // the cross. Closing is the same move backwards, on the in-and-out curve (--ease-move), so it settles into the block
 // as softly as it left it (Tim, round 7: the reversed ease-out landed abruptly). The text comes in line by line, after
@@ -21,7 +21,7 @@ const box = (el) => el.getBoundingClientRect();
 
 // the text of a panel line by line: every word wrapped (its elements kept, so the live roast line still updates), the
 // words of one line rising in together, each line a step after the one above. unwrap() gives the text back whole
-const STEP = () => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--t-step")) * 1000 || 120;
+const STEP = () => { const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--t-step")) * 1000; return Number.isFinite(v) ? v : 120; };   // 0 with «reduce motion»
 function byLines(root, t, delay) {
   unwrap(root);
   const words = [];
@@ -40,6 +40,7 @@ function byLines(root, t, delay) {
   };
   walk(root);
   const tops = [...new Set(words.map((w) => Math.round(w.offsetTop)))].sort((a, b) => a - b);
+  if (!t.out) return [];   // «reduce motion»: the text is simply there
   return words.map((w) => w.animate([{ opacity: 0, transform: "translateY(12px)" }, { opacity: 1, transform: "none" }],
     { duration: t.out * 1.4, easing: t.easeOut, delay: delay + tops.indexOf(Math.round(w.offsetTop)) * STEP() * 0.6, fill: "backwards" }));
 }

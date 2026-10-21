@@ -78,7 +78,7 @@ function featured(ctx, list) {
   return `<section class="section section--first featured" data-ground="paper" aria-labelledby="featured-title">
   <div class="col">
     ${head({ title: ctx.site.featured.title, id: "featured-title", middle: pager, aside: arrows("Новинки", "featured") })}
-    <div class="featured__track" data-curl="featured" aria-live="polite">
+    <div class="featured__track" data-curl="featured">
     ${slides}
     </div>
   </div>

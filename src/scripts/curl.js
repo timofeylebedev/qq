@@ -20,7 +20,7 @@
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
-const DPR = () => Math.min(devicePixelRatio || 1, 3);
+const DPR = () => Math.min(devicePixelRatio || 1, 2);   // the faces are textures: 2 is sharp enough, and a phone's tall page stays a few MB
 const idle = (f) => (window.requestIdleCallback ? requestIdleCallback(f, { timeout: 400 }) : setTimeout(f, 40));
 function bezier(x1, y1, x2, y2) {
   const B = (t, a, b) => 3 * (1 - t) ** 2 * t * a + 3 * (1 - t) * t ** 2 * b + t ** 3;
@@ -340,7 +340,7 @@ function magazine(stage) {
   const keep = (key, t) => {
     const old = TEX.get(key); if (old) { TEX.delete(key); GL.drop(old); }
     TEX.set(key, t);
-    while (TEX.size > 12) { const [k, o] = TEX.entries().next().value; TEX.delete(k); GL.drop(o); }
+    while (TEX.size > 6) { const [k, o] = TEX.entries().next().value; TEX.delete(k); GL.drop(o); }
     return t;
   };
   // the part laid out where it is, painted while the page does not show it (its slide is off: visibility only)
@@ -469,7 +469,8 @@ function magazine(stage) {
   const gentle = (r) => (r < EASE_IN ? (r * r) / (2 * EASE_IN) : r - EASE_IN / 2) / (1 - EASE_IN / 2);
   let drag = null, dragged = false;
   stage.addEventListener("pointerdown", (e) => {
-    if (S.busy || S.run || e.button > 0 || reduced.matches) return;
+    dragged = false;
+    if (S.busy || S.run || e.button > 0) return;
     drag = { x: e.clientX, y: e.clientY, id: e.pointerId, started: false, t: performance.now(), vx: 0, lx: e.clientX };
   });
   stage.addEventListener("pointermove", (e) => {
@@ -480,8 +481,10 @@ function magazine(stage) {
       const dir = dx < 0 ? 1 : -1, to = S.i + dir;
       drag.started = true; dragged = true; drag.edge = to < 0 || to >= N; drag.dir = dir; drag.x0 = e.clientX;
       stage.setPointerCapture?.(e.pointerId); stage.dataset.dragging = "";
-      if (!drag.edge) { S.jt = jumpTimes(1); if (!begin(to, dir)) drag.edge = true; }
+      // no turn to draw (no WebGL, «reduce motion»): the swipe still changes the slide, at once, when it lets go
+      drag.plain = !drag.edge && (reduced.matches || !(S.jt = jumpTimes(1), begin(to, dir)));
     }
+    if (drag.plain) { drag.r = clamp((-(e.clientX - drag.x0) * drag.dir) / (stage.clientWidth * 0.8), 0, 1); return; }
     // at the first or the last coffee there is nothing to turn to: the slide only gives a little, and springs back
     if (drag.edge) { const s = slides[S.i]; s.style.transition = "none"; s.style.transform = `translateX(${Math.tanh(dx / 300) * 24}px)`; return; }
     const now = performance.now();
@@ -494,6 +497,7 @@ function magazine(stage) {
     if (!drag || e.pointerId !== drag.id) return;
     const d = drag; drag = null; delete stage.dataset.dragging;
     if (d.started && d.edge) { const s = slides[S.i]; s.style.transition = "transform var(--t-out) var(--ease-out)"; s.style.transform = ""; return; }
+    if (d.started && d.plain) { if ((d.r || 0) > 0.15) rest(S.i + d.dir); return; }
     if (!d.started || !S.run) return;
     const p = S.run.p, flick = -d.vx * d.dir > 0.45;
     const finish = (d.r || 0) > 0.33 || (flick && (d.r || 0) > 0.05);
@@ -501,6 +505,8 @@ function magazine(stage) {
     tween(p, finish ? 1 : 0, ms, OUT, () => { const t = finish ? S.run.to : S.run.from; S.run = null; rest(t); });
   };
   stage.addEventListener("pointerup", release); stage.addEventListener("pointercancel", release);
+  // the browser's own drag of the slide's link or photo would take the pointer away from the turn
+  stage.addEventListener("dragstart", (e) => e.preventDefault());
   // a drag is not a click: the slide's link stays where it is
   stage.addEventListener("click", (e) => { if (dragged) { e.preventDefault(); e.stopPropagation(); } dragged = false; }, true);
 
