@@ -103,6 +103,16 @@ export async function initPacks() {
     stage.invalidate();
   });
 
+  // a card that was already rising when the packs came in (a reload in the middle of the page: the rows rise at once,
+  // the 3D stage is ready a moment later) missed its qq:carry: its pack is carried for the rest of the rise, so it
+  // neither stands where the card was when measured nor shows at full strength before its card does (Tim, round 7)
+  for (const p of items) {
+    const run = p.fade?.getAnimations?.().filter((a) => a.playState === "running") || [];
+    if (!run.length) continue;
+    const left = Math.max(300, ...run.map((a) => { const t = a.effect?.getComputedTiming?.(); return t ? t.endTime - (a.currentTime || 0) : 0; }));
+    p.carryUntil = performance.now() + left + 100; p.it.live = true; p.tilt = true;
+  }
+
   stage.onTick = (dt, now) => {
     let moving = false;
     const k = 1 - Math.exp(-dt * TUNE.follow);

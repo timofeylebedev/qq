@@ -78,8 +78,8 @@ html[data-keyed] .field:focus-within { border-color: var(--c-ink); }   /* the ke
 .fav { display: grid; place-items: center; width: 40px; height: 40px; margin: -8px; color: inherit; }
 .fav svg { width: 24px; height: 24px; }
 .fav { position: relative; }
-.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transform: scale(0.6); transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
-.fav[aria-pressed="true"] .i-on { opacity: 1; transform: none; transition-duration: var(--t-in); }
+.fav .i-on { position: absolute; left: 8px; top: 8px; opacity: 0; transition: opacity var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
+.fav[aria-pressed="true"] .i-on { opacity: 1; transition-duration: var(--t-in); }   /* the filled heart fades in where the outline is: nothing moves (Tim, round 7) */
 /* hovered, the heart's own cell is tinted (as every control's: white on dark grounds, ink on light) */
 .fav { transition: background-color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out); }
 @media (--mouse) { .fav:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

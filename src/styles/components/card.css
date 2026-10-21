@@ -20,7 +20,7 @@
   display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr);
 }
 .card__media > * { grid-area: 1 / 1; }
-.card--half .card__media { aspect-ratio: 1; }
+@container col (width >= 43rem) { .card--half .card__media { aspect-ratio: 1; } }   /* a half-row card is square only where there are halves: below M every card is 4:5 (Tim, round 7) */
 
 .card__photo { z-index: 0; }
 .card__photo img { width: 100%; height: 100%; object-fit: cover; }
@@ -52,7 +52,19 @@
   font: 500 var(--type-price) / 1.1 var(--sans); text-transform: uppercase; letter-spacing: 0.05em;
 }
 .buy > * { border-top: var(--hair) solid var(--line); min-height: var(--control-h); pointer-events: auto; }
-.buy__weights { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; padding: 8px 12px; cursor: pointer; transition: background-color var(--t-out) var(--ease-out); }
+.buy__weights { position: relative; display: flex; align-items: center; justify-content: center; padding: 8px 12px; cursor: pointer; transition: background-color var(--t-out) var(--ease-out); }
+.buy__radios { display: flex; align-items: center; justify-content: center; gap: 4px 16px; flex-wrap: wrap; }
+/* below M the two weights are a dropdown over the whole cell (Figma «card-product» at 320 and 390): the weight and a
+   chevron, the radios behind it; from M the radios */
+.buy__select {
+  position: absolute; inset: 0; width: 100%; appearance: none; -webkit-appearance: none; border: 0; border-radius: 0; cursor: pointer;
+  padding: 0 calc(12px + 20px) 0 12px; text-align: center; text-align-last: center; color: inherit; background: none; font: inherit; text-transform: inherit; letter-spacing: inherit;
+}
+.buy__chevron { position: absolute; left: calc(50% + 1.2em); top: 50%; width: 20px; height: 20px; translate: 0 -50%; pointer-events: none; }
+.buy__select option { color: var(--c-ink); background: var(--c-paper); }
+.buy__select:focus-visible { outline: 2px solid currentColor; outline-offset: -4px; }
+.buy__radios { visibility: hidden; }
+@container col (width >= 43rem) { .buy__select, .buy__chevron { display: none; } .buy__radios { visibility: visible; } }
 .weight { position: relative; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
 .weight input { position: absolute; opacity: 0; inset: -8px; margin: 0; cursor: pointer; }
 .weight span { display: inline-flex; align-items: center; gap: 6px; opacity: 0.7; transition: opacity var(--t-out) var(--ease-out); }
@@ -64,7 +76,8 @@
   display: flex; align-items: center; justify-content: center; gap: 8px; border-left: var(--hair) solid var(--line);
   padding-inline: 12px; white-space: nowrap; transition: background-color var(--t-out) var(--ease-out);
 }
-.buy__add svg { width: 24px; height: 24px; flex: none; }
+.buy__add svg { width: 24px; height: 24px; flex: none; translate: 0 -2.5px; }   /* the bag's body (its lower 15 of 24px), not its handle, on the text's middle (Tim, round 7) */
+.buy__price { letter-spacing: 0; text-box: trim-both cap alphabetic; }   /* the price untracked, centred by its figures */
 @media (--mouse) { .buy__weights:hover, .buy__add:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
 @keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
@@ -74,6 +87,6 @@
 .pack { position: absolute; inset: 14% 8% 22%; display: grid; place-items: center; pointer-events: none; }
 /* in a card the pack is a layer of the picture's grid: the same box, as margins (a share of the width: 4:5 and 1:1) */
 .card .pack { position: relative; inset: auto; margin: 17.5% 8% 27.5%; }
-.card--half .pack { margin: 14% 8% 22%; }
+@container col (width >= 43rem) { .card--half .pack { margin: 14% 8% 22%; } }
 .pack__still { width: auto; height: 100%; max-height: 100%; object-fit: contain; transition: opacity 0.3s var(--ease-out); }
 .has-3d .pack[data-live] .pack__still { opacity: 0; }

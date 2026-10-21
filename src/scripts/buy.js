@@ -43,11 +43,18 @@ export function initBuy() {
   badge();
   for (const form of document.querySelectorAll("[data-buy]")) {
     update(form);
-    form.addEventListener("change", () => update(form));
+    // the dropdown of a card (below M) sets the radios, which stay the choice; a radio picked sets the dropdown
+    const pick = form.querySelector("[data-weight-select]");
+    pick?.addEventListener("change", (e) => {
+      e.stopPropagation();
+      const r = [...form.querySelectorAll('input[type="radio"]')].find((x) => x.value === pick.value);
+      if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); }
+    });
+    form.addEventListener("change", () => { const r = form.querySelector('input[type="radio"]:checked'); if (pick && r) pick.value = r.value; update(form); });
     // a card's weights are one cell: a click anywhere in it (beside the two labels too) picks the other weight
     const cell = form.querySelector(".buy__weights");
     if (cell) cell.addEventListener("click", (e) => {
-      if (e.target.closest("label, input")) return;
+      if (e.target.closest("label, input, select")) return;
       const radios = [...cell.querySelectorAll('input[type="radio"]')], i = radios.findIndex((r) => r.checked);
       const next = radios[(i + 1) % radios.length];
       if (!next || next === radios[i]) return;

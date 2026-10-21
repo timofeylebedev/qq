@@ -56,21 +56,17 @@
   .grid--catalog > .card--third { grid-column: span 2; }
 }
 
-/* the reel: a row of cards that scrolls sideways (snapping), with a peek of the next card on phones; the arrows of
-   the section head move it by one card. Three cards in view from L, two from M.
-   It runs out to the screen's edges, so a card sliding past the column is not cut at it: widened by the column's
-   margins (--bleed-l, --bleed-r: scripts/slider.js measures them) and padded back, so its cards still stand on the
-   column and snap to it. Room under the cards (--section-gap) lets a card rise into place without being cut, and 8px
-   above them keeps a focused card's ring whole.
-   Cards out of the column wait below, clear ([data-wait]); coming into it they rise, sliding out of it they sink away
+/* the reel: a row of cards that scrolls sideways (snapping); the arrows of the section head move it by one card. It
+   always shows whole cards, as many as the column holds (Tim, round 7): one below M, two from M, three from L, and
+   nothing beyond the column (the row is clipped at its edges). Room under the cards (--section-gap) lets a card rise
+   into place without being cut, and 8px above them keeps a focused card's ring whole.
+   Cards out of view wait below, clear ([data-wait]); coming into it they rise, sliding out of it they sink away
    (scripts/slider.js). */
 .reel {
-  --per: 1.15;
+  --per: 1;
   display: grid; grid-auto-flow: column; gap: var(--gap);
   grid-auto-columns: calc((100% - (var(--per) - 1) * var(--gap)) / var(--per));
-  margin: -8px calc(-1 * var(--bleed-r, 0px)) calc(-1 * var(--section-gap)) calc(-1 * var(--bleed-l, 0px));
-  padding: 8px var(--bleed-r, 0px) var(--section-gap) var(--bleed-l, 0px);   /* 8px above: a card's focus ring */
-  scroll-padding-inline: var(--bleed-l, 0px) var(--bleed-r, 0px);
+  margin: -8px 0 calc(-1 * var(--section-gap)); padding: 8px 0 var(--section-gap);   /* 8px above: a card's focus ring */
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
   position: relative;   /* every row that scrolls sideways is positioned, so nothing positioned inside it escapes its clip */
 }
