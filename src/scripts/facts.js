@@ -68,8 +68,20 @@ export function initFacts() {
     const n = panels.length;
     [(i + n - 1) % n, (i + 1) % n].forEach((k, s) => { steps[s].dataset.factGo = k; steps[s].querySelector("[data-step-label]").textContent = shorts[k]; });
   };
-  // the moving parts of the block stay hidden while the modal holds them
-  const hold = (i, on) => { for (const n of ["icon", "title", "plus"]) part(blocks[i], n).style.visibility = on ? "hidden" : ""; };
+  // the moving parts of the block stay hidden while the modal holds them: at once as the modal grows out of it or
+  // settles back into it, faded when the modal steps to another block (Tim, round 9)
+  let fades = [];
+  const parts = (i) => ["icon", "title", "plus"].map((n) => part(blocks[i], n));
+  const hold = (i, on) => { for (const el of parts(i)) el.style.visibility = on ? "hidden" : ""; };
+  const fade = (i, on, t) => {
+    if (!on) hold(i, false);
+    for (const el of parts(i)) {
+      const a = el.animate([{ opacity: on ? 1 : 0 }, { opacity: on ? 0 : 1 }], { duration: on ? t.out * 0.5 : t.out, easing: on ? t.ease : t.easeOut });
+      fades.push(a);
+      if (on) a.finished.then(() => { if (fades.includes(a)) el.style.visibility = "hidden"; }, () => {});
+    }
+  };
+  const unfade = () => { const f = fades; fades = []; f.forEach((a) => a.cancel()); };
 
   // from the block to the modal (forward), or back (reverse): one card
   function morph(i, reverse) {
@@ -85,6 +97,22 @@ export function initFacts() {
     const centre = (el, to) => { const a = box(el), c = box(to); return `translate(${a.left + a.width / 2 - c.left - c.width / 2 - dx}px, ${a.top + a.height / 2 - c.top - c.height / 2 - dy}px)`; };
     const icon = part(p, "icon"), title = part(p, "title"), text = p.querySelector(".fmodal__text");
     const fromIcon = corner(part(b, "icon"), icon), fromTitle = corner(part(b, "title"), title), fromCross = centre(part(b, "plus"), cross);
+    // where the block's title wraps onto other lines than the modal's (the block is narrower at some widths), a copy
+    // of it, wrapped as in the block, travels with the title and gives way to it: the words never jump (Tim, round 9)
+    const bt = box(part(b, "title")), mt = box(title);
+    if (Math.round(bt.height) !== Math.round(mt.height)) {
+      const pr = box(p), ghost = part(b, "title").cloneNode(true);
+      ghost.removeAttribute("data-morph"); ghost.setAttribute("aria-hidden", "true"); ghost.style.cssText = "visibility: visible";
+      Object.assign(ghost.style, { position: "absolute", margin: "0", left: `${mt.left - pr.left}px`, top: `${mt.top - pr.top}px`, width: `${bt.width}px`, maxWidth: "none", pointerEvents: "none" });
+      ghost.className = "fmodal__title fmodal__ghost";
+      p.append(ghost); ghosts.push(ghost);
+      anims.push(ghost.animate([{ transform: fromTitle, opacity: 1 }, { opacity: 0, offset: 0.5 }, { transform: "none", opacity: 0 }], opts));
+      anims.push(title.animate([{ opacity: 0 }, { opacity: 0, offset: 0.2 }, { opacity: 1, offset: 0.6 }, { opacity: 1 }], opts));
+    }
+    // a hovered block is tinted and its plus lit: the card starts as the block looks and loses them as it grows
+    const tint = getComputedStyle(b).backgroundColor;
+    if (tint && !/^(transparent|rgba\(0, 0, 0, 0\))$/.test(tint)) anims.push(shell.querySelector(".fmodal__ground").animate([{ boxShadow: `inset 0 0 0 100vmax ${tint}` }, { boxShadow: "inset 0 0 0 100vmax transparent" }], opts));
+    anims.push(cross.parentElement.animate([{ color: getComputedStyle(part(b, "plus")).color }, { color: getComputedStyle(cross.parentElement).color }], opts));
     const navFrom = `translateY(${nav.offsetHeight - Math.max(0, ch)}px)`;
     anims.push(shell.animate([
       { transform: `translate(${dx}px, ${dy}px)`, clipPath: `inset(0px ${Math.max(0, cw)}px ${Math.max(0, ch)}px 0px)` },
@@ -98,8 +126,14 @@ export function initFacts() {
     anims.push(nav.animate([{ transform: navFrom }, { transform: "none" }], opts));
     anims.push(cross.animate([{ transform: fromCross + " rotate(0deg)" }, { transform: "rotate(45deg)" }], opts));
     anims.push(dialog.querySelector(".fmodal__dim").animate([{ opacity: 0 }, { opacity: 1 }], opts));
-    return Promise.all(anims.map((a) => a.finished)).then(() => { delete dialog.dataset.morphing; return anims; });
+    return Promise.all(anims.map((a) => a.finished)).then(() => anims);
   }
+  let ghosts = [];
+  // after a move: the animations let go and the copies go, once nothing of them can show any more
+  const settle = (anims) => {
+    anims.forEach((a) => a.cancel()); ghosts.forEach((g) => g.remove()); ghosts = [];
+    delete dialog.dataset.morphing;
+  };
 
   let wantShut = false;            // a close asked for while the modal is still moving: done as soon as it stops
   async function open(i) {
@@ -112,7 +146,7 @@ export function initFacts() {
     dialog.showModal();
     hold(i, true);
     const anims = await morph(i, false);
-    anims.forEach((a) => a.cancel()); unwrap(panels[i].querySelector(".fmodal__text"));
+    settle(anims); unwrap(panels[i].querySelector(".fmodal__text"));
     busy = false;
     if (wantShut) shut();
   }
@@ -122,16 +156,23 @@ export function initFacts() {
     if (busy) { wantShut = true; return; }
     busy = true; wantShut = false;
     const anims = await morph(at, true);
-    dialog.close();                 // the close event tidies up (below)
-    anims.forEach((a) => a.cancel());
+    // the block takes its parts back in the same frame as the modal goes (the close event comes a frame later, and a
+    // frame without them was the flicker of Tim's round 9); then the card lets go, unseen
+    tidy();
+    dialog.close();
+    settle(anims);
     busy = false;
   }
 
   // however the dialog closes (the cross, Esc, a click beside it, or the browser closing it itself), the page gets
   // back its scroll and its block, and the focus returns to that block
-  dialog.addEventListener("close", () => {
+  const tidy = () => {
+    unfade();
     for (let i = 0; i < blocks.length; i++) hold(i, false);
-    delete document.documentElement.dataset.modal; delete dialog.dataset.morphing;
+    delete document.documentElement.dataset.modal;
+  };
+  dialog.addEventListener("close", () => {
+    tidy(); delete dialog.dataset.morphing;
     focusFrom(blocks[at]);
     busy = false; wantShut = false;
   });
@@ -144,7 +185,7 @@ export function initFacts() {
     const t = T(), i = at, n = panels.length;
     const dir = (j - i + n) % n === 1 ? 1 : -1;
     const old = panels[i].querySelector(".fmodal__body"), neu = panels[j].querySelector(".fmodal__body");
-    hold(i, false); hold(j, true);
+    unfade(); fade(i, false, t); fade(j, true, t);
     const out = old.animate([{ opacity: 1, transform: "none" }, { opacity: 0, transform: `translateX(${-24 * dir}px)` }], { duration: t.out * 0.5, easing: t.ease, fill: "both" });
     await out.finished;
     show(j); out.cancel();

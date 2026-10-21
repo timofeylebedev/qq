@@ -10,7 +10,7 @@ import { riseGrid } from "./slider.js";
 export function initFilters() {
   const form = document.querySelector("[data-filters]"), grid = document.querySelector("[data-grid]");
   const cards = [...grid.children];
-  const found = document.querySelector("[data-found]"), empty = document.querySelector("[data-empty]");
+  const resetRow = document.querySelector("[data-reset-row]"), empty = document.querySelector("[data-empty]");
   const soon = document.querySelector("[data-soon]"), soonWhat = document.querySelector("[data-soon-what]");
   const resets = document.querySelectorAll("[data-reset]");
   const SOON = { kaskara: "появится каскара", dripy: "появятся дрипы", sety: "появятся сеты", merch: "появится мерч" };
@@ -64,10 +64,9 @@ export function initFilters() {
       if (c.hasAttribute("data-out")) continue;
       c.classList.toggle("card--half", big > 0); c.classList.toggle("card--third", big <= 0); big--;
     }
-    found.textContent = n;
     empty.hidden = n > 0;
     const active = [...form.elements].some((el) => (el.type === "checkbox" && el.checked) || (el.type === "number" && el.value) || (el.type === "radio" && el.checked && el.value !== "popular"));
-    resets.forEach((b) => { if (b.type === "reset") b.hidden = !active; });
+    resetRow.hidden = !active;
     // what each cell says when closed: the choice, or everything
     for (const d of form.querySelectorAll("[data-filter]")) {
       const v = d.querySelector("[data-filter-value]");

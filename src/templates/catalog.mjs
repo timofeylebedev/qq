@@ -42,7 +42,7 @@ export function render(ctx) {
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
     <form class="filters" data-filters aria-label="Фильтры">
       ${filters}
-      <p class="filters__result" aria-live="polite"><span data-found>${list.length}</span> кофе<button class="filters__reset" type="reset" hidden data-reset>Сбросить</button><button class="sr" type="submit" tabindex="-1">Показать</button></p>
+      <p class="filters__result" data-reset-row hidden><button class="filters__reset" type="reset" data-reset>Сбросить</button></p><button class="sr" type="submit" tabindex="-1">Показать</button>
     </form>
     <div class="grid grid--catalog" data-grid data-rise>
       ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true })).join("\n      ")}
