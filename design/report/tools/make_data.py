@@ -499,7 +499,7 @@ old_plot = [[round(x, 4), round(a, 4)] for x, a in _fade_stops({'curve': [0.25, 
 R7 = J(HERE, 'areas-round7.json')
 A7 = {r['size']: (o, r) for o, r in zip(R7['old'], R7['new'])}
 def a7(size, key, old=False): return A7[size][0 if old else 1][key]
-PR7 = 'https://github.com/timofeylebedev/qq/pull/10'
+PR7 = 'https://github.com/timofeylebedev/qq/pull/11'
 ROUND6 = J(HERE, 'rounds/round-6.json')
 def pct(c): m = re.search(r'rgba\([^)]*,([\d.]+)\)', c); return f"{round(float(m.group(1)) * 100)}%" if m else ('100%' if c.startswith('rgb(') else c)
 shots_r7 = [
@@ -577,7 +577,7 @@ r7_tbl = {'type': 'table', 'title': 'Round 7\'s measures at 25 screens', 'stack'
 data = {
   'meta': {'key': 'qq-system-report-r7', 'title_tag': 'QQ Site System, Round 7',
     'name': 'QQ Coffee <span>· the site system</span>',
-    'eyebrow': f"Round 7 · branch claude/dreamy-dirac-bwl5jb · <a href='{PR7}'>pull request #10</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a>",
+    'eyebrow': f"Round 7 · branch claude/dreamy-dirac-bwl5jb · <a href='{PR7}'>pull request #11</a> · <a href='{SITE}'>test site</a> · <a href='{FIGMA}'>Figma</a>",
     'title': 'One fluid size system for the whole site; round 7: one menu cell for the filters and the buy bar, a catalog that deals its cards, a pack that follows the scroll and the hand',
     'lede': f"The whole system of the QQ Coffee site: {len(sroles) + len(troles)} size roles drawn as lines from a 320 to a 1440 screen, three shared layout steps and the column at its most, one colour table with one line colour, one motion vocabulary, the 3D packs. Round 7 answers your comments on the catalog, the product page and «О компании»: the info blocks level at the top, tabs at 30% trimmed to their capitals, the filters and the buy bar\'s options as one menu cell whose list continues it, cards rising one after another, photos only for Special coffees, no line above the footer; the pack exactly with the scroll and draggable, the buy bar black, even room around «Кофе с похожим вкусом»; the team of fourteen. Measured at every 10px of width and 25px of height and at 25 real screens; «before» is round 6\'s build (main).",
     'footer': f"Measured in headless Chromium on the built sites, {sweep['measured'][:10]}. Before = round 6 (main, commit fb442f2); now = branch claude/dreamy-dirac-bwl5jb. Earlier rounds compared with their own previous builds (round 1 with the Figma frames)."},

@@ -7,6 +7,7 @@ keeps the earlier rounds' «what changed» at its end. Earlier pages stay where 
 separate»), so each round publishes a new page.
 
 **The pages** (private until shared; also in the project doc `claude/website-system.md`):
+- Round 7: https://claude.ai/artifact/MTVz65GbbaaF1KcUpmqybW
 - Round 6: https://claude.ai/artifact/5yepw2xp4auoP4ZTnEUSY2
 - Round 5: https://claude.ai/artifact/JrYDfrH1kwuWrLGYw5At3j (round 4 built the pages and had no report)
 - Round 3: https://claude.ai/artifact/CESDhXQ6ErVqFQiNT7kuXM
@@ -35,7 +36,7 @@ python3 -I design/report/build_report.py design/report/data.json /tmp/report.htm
 ```
 
 The previous build: `git worktree add /tmp/old <last commit of the previous round>`, link node_modules, `npm run build`
-there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json` (round-1, round-2, round-3, round-5); `rounds/review-round-N.json` keeps each round's review.
+there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json` (round-1, round-2, round-3, round-5, round-6); `rounds/review-round-N.json` keeps each round's review.
 
 `review.json` holds the independent review's findings with what was done about each (written by hand each round).
 The built HTML is not committed (it repeats the pictures as base64).
