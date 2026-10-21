@@ -2,7 +2,7 @@
 // purchases, the beans (a dialog over the profile, and its own address), the settings. The visitor is a placeholder
 // (data/account.json, design/decisions.json "account-placeholder"); everything shown is worked out from their orders.
 import { page, head } from "./layout.mjs";
-import { card } from "./components.mjs";
+import { card, photoOf } from "./components.mjs";
 import { pageHead, subtabs, paneltabs, badge, coffeeMedia, panel, rows, dialog, field, check, meta } from "./blocks.mjs";
 import { esc, icon, href, cls, rub, read } from "./util.mjs";
 import { account, forYou, dateShort, dateTime, monthOf } from "./account-data.mjs";
@@ -47,7 +47,7 @@ function orderRow(ctx, o, { level = 3 } = {}) {
 
 // ── a coffee bought: its picture with the price and how many were bought, a rating, the name and the last choice ───
 function purchaseCard(ctx, x) {
-  const photo = !!ctx.site.photos.bySlug[x.slug];
+  const photo = !!photoOf(ctx, x.p);
   return `<article class="pcard" data-card data-slug="${x.slug}">
       <div class="pcard__media">${coffeeMedia(ctx, x.p, { sizes: "(min-width: 64em) 25vw, 50vw" })}
         <div class="pcard__top"${photo ? ' data-on-photo' : ""}>${x.count > 1 ? badge(x.count, `Куплено ${x.count} раза`) : "<span></span>"}<span class="pcard__price">${rub(x.price)}</span></div>

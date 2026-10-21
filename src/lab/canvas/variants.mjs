@@ -65,8 +65,8 @@ const MANY = ["Сухофрукты", "Чай", "Шоколад", "Лесные 
 
 function samples({ site, products }) {
   const by = Object.fromEntries(products.map((p) => [p.slug, p]));
-  const base = by["q-berry"];                                     // a blend with four descriptors and a photo
-  if (!base || !site.photos.bySlug[base.slug]) throw new Error("canvas: the sample coffee q-berry (with a photo) is missing");
+  const base = by["vetnam-kua-mon"];                              // a Special coffee with four descriptors and a photo
+  if (!base || base.line !== "Special" || !site.photos.bySlug[base.slug]) throw new Error("canvas: the sample coffee vetnam-kua-mon (Special, with a photo) is missing");
   const noPhoto = { ...site, photos: { ...site.photos, bySlug: {} } };
   const w200 = base.weights.find((w) => w.grams === 200);
   return {
@@ -238,7 +238,7 @@ export function groups(data) {
       id: "pcard", title: "Coffee bought · tone", compares: "tone", slot: 330,
       slots: [
         { label: "the 3D pack, bought twice or more", html: cut(PR, /class="pcard" data-card data-slug="q-finch"/) },
-        { label: "a photo", html: cut(PR, /class="pcard" data-card data-slug="efiopiya-bekele"/) }
+        { label: "a photo", html: cut(PR, /class="pcard" data-card data-slug="peru-monte-verde"/) }
       ]
     },
     { id: "activity", title: "Activity", compares: "—", slot: SCREEN, slots: [{ label: "the profile (the beans' plus opens their dialog)", html: cut(pages.profile, /class="tiles tiles--cloud activity"/) }] },
@@ -291,7 +291,7 @@ export const OMITTED = [
   ["Hover and focus looks", "come from the real pointer and keyboard"],
   ["Section head level (h2/h3), card heading level", "the same look; only the tag differs"],
   ["The buy row on its own", "it takes its ground from the card around it: shown in every card group"],
-  ["Email field, weight dots, buy-bar cells, filter cells and options, tabs", "shown in their blocks (footer, cards, buy bar, catalog), not alone"],
+  ["Email field, weight dots, buy-bar cells, menu cells and their options (the filters, the buy bar), tabs", "shown in their blocks (footer, cards, buy bar, catalog), not alone"],
   ["Page blocks at other widths", "the canvas draws in your window: sizes follow its width and height (design/README.md, `--vp`). Only the navbar and the product stage are shown on screens of their own; more screens would each need their own 3D canvas"],
   ["Navbar dark on a phone", "theme and screen are compared separately"],
   ["Catalog's empty and «soon» states", "reached by filtering or by its tabs"],

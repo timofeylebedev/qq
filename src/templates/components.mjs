@@ -57,15 +57,19 @@ export function cardText(p) {
   return bits.filter(Boolean).join(" ");
 }
 
+// ── a coffee's photo: only a Special coffee shows one (Tim, round 7), when data/site.json photos gives it one; the
+// rest show their 3D pack
+export const photoOf = (ctx, p) => (p?.line === "Special" && ctx.site.photos.bySlug[p.slug]) || null;
+
 // ── the product card ─────────────────────────────────────────────────────────────────────────────────────────────
-// Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (when site.json gives the coffee
-// a photo). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
-export function card(ctx, p, { size = "third", heading = 3 } = {}) {
-  const photo = ctx.site.photos.bySlug[p.slug];
+// Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (a Special coffee that site.json
+// gives a photo: photoOf). A card that rises into place when it comes into view (the catalog) starts waiting (wait). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
+export function card(ctx, p, { size = "third", heading = 3, wait = false } = {}) {
+  const photo = photoOf(ctx, p);
   const tone = photo ? "dark" : "light";
   const id = `${ctx.page}-${p.slug}`;
   const sizes = size === "half" ? "(min-width: 64em) 50vw, (min-width: 48em) 50vw, 100vw" : "(min-width: 64em) 33vw, (min-width: 48em) 50vw, 100vw";
-  return `<article class="${cls("card", `card--${size}`, `card--${tone}`)}" data-card data-slug="${p.slug}"${filterData(p)}>
+  return `<article class="${cls("card", `card--${size}`, `card--${tone}`)}" data-card data-slug="${p.slug}"${wait ? " data-wait" : ""}${filterData(p)}>
     <div class="card__media">
       ${photo ? picture(photo[0], photo[1], { sizes, cls: "card__photo", decorative: true }) : pack(p)}
       <div class="card__top">
