@@ -118,10 +118,13 @@ function paintEl(ctx, e, o) {
   }
   if (e.tagName === "IMG") {
     if (!e.naturalWidth) return;
-    const s = Math.max(w / e.naturalWidth, h / e.naturalHeight), sw = w / s, sh = h / s;
+    // object-fit: cover, placed by its destination only: with a srcset, naturalWidth is in CSS pixels (density-corrected)
+    // while a source rectangle is in the file's pixels, so a crop by source cut a corner of the photo and blew it up
+    const s = Math.max(w / e.naturalWidth, h / e.naturalHeight), dw = e.naturalWidth * s, dh = e.naturalHeight * s;
+    ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
     ctx.globalAlpha = parseFloat(cs.opacity) || 1;
-    ctx.drawImage(e, (e.naturalWidth - sw) / 2, (e.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
-    ctx.globalAlpha = 1;
+    ctx.drawImage(e, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+    ctx.restore();
     return;
   }
   if (e.tagName === "svg") return e.closest(".taste") ? paintSvg(ctx, e, x, y, w, h) : undefined;
