@@ -1,0 +1,7 @@
+{
+  "$what": "The hero's entrance when the home page opens (scripts/hero.js). Times in seconds from the start; lift in px (how far a part rises from); stagger: the next part of a group starts this much later; curve: a cubic-bezier, one per group. Tuned in design/intro-tuner/ (Tim, round 7).",
+  "block": { "at": 0.15, "duration": 1.4, "lift": 48, "curve": [0.16, 1, 0.3, 1] },
+  "title": { "at": 0.45, "duration": 0.9, "stagger": 0.3, "lift": 24, "curve": [0.16, 1, 0.3, 1] },
+  "roast": { "at": 0.6, "duration": 0.9, "stagger": 0.3, "lift": 16, "curve": [0.16, 1, 0.3, 1] },
+  "links": { "at": 0.7, "duration": 0.9, "stagger": 0.3, "lift": 16, "curve": [0.16, 1, 0.3, 1] }
+}

@@ -22,20 +22,26 @@
   gap: var(--text-gap) var(--gap);
   margin-bottom: var(--section-gap);
 }
-.head__title { font-size: var(--type-h2); max-width: 22em; }
+.head__title { font-size: var(--type-h2); max-width: 22em; text-box: trim-both cap alphabetic; }   /* every title of the h2 role is trimmed to its capitals and baseline, so the space around it is what you see (Tim, round 7) */
 .head__aside { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: var(--gap); margin-left: auto; }
 .head__lead { flex-basis: 100%; max-width: 36em; font-size: var(--type-body-l); line-height: var(--lh-text); }
 .head--center { flex-direction: column; text-align: center; }
 .head--center .head__lead { margin-inline: auto; }
 .head--center .head__aside { margin-left: 0; }
-/* a head with something in its middle (the pager of new arrivals): below M under the title and the aside, centred;
-   from M in the middle of the row, between them */
-.head--middle { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "title aside" "middle middle"; align-items: center; }
+/* a head with something in its middle (the pager of new arrivals): below M under the title, between the arrows, the
+   three as one group the column's width (Tim, round 7); from M in the middle of the row, between the title and the aside */
+.head--middle { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "title" "aside"; align-items: center; }
 .head--middle .head__title { grid-area: title; }
-.head--middle .head__aside { grid-area: aside; }
-.head--middle .head__middle { grid-area: middle; justify-self: center; }
+.head--middle .head__aside { grid-area: aside; margin-left: 0; }
+.head--middle .head__middle { grid-area: aside; justify-self: center; z-index: 1; }
+.head--middle .arrows { flex: 1; justify-content: space-between; }
+.head--middle .arrows__btn:first-child { border-right: var(--hair) solid var(--line); }
 @container col (width >= 43rem) {
   .head--middle { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); grid-template-areas: "title middle aside"; }
+  .head--middle .head__middle { grid-area: middle; }
+  .head--middle .head__aside { margin-left: auto; }
+  .head--middle .arrows { flex: none; }
+  .head--middle .arrows__btn:first-child { border-right: 0; }
 }
 
 /* product grids: one column; two from M; on the catalog six tracks from L, so the first cards take half a row and
@@ -50,21 +56,17 @@
   .grid--catalog > .card--third { grid-column: span 2; }
 }
 
-/* the reel: a row of cards that scrolls sideways (snapping), with a peek of the next card on phones; the arrows of
-   the section head move it by one card. Three cards in view from L, two from M.
-   It runs out to the screen's edges, so a card sliding past the column is not cut at it: widened by the column's
-   margins (--bleed-l, --bleed-r: scripts/slider.js measures them) and padded back, so its cards still stand on the
-   column and snap to it. Room under the cards (--section-gap) lets a card rise into place without being cut, and 8px
-   above them keeps a focused card's ring whole.
-   Cards out of the column wait below, clear ([data-wait]); coming into it they rise, sliding out of it they sink away
+/* the reel: a row of cards that scrolls sideways (snapping); the arrows of the section head move it by one card. It
+   always shows whole cards, as many as the column holds (Tim, round 7): one below M, two from M, three from L, and
+   nothing beyond the column (the row is clipped at its edges). Room under the cards (--section-gap) lets a card rise
+   into place without being cut, and 8px above them keeps a focused card's ring whole.
+   Cards out of view wait below, clear ([data-wait]); coming into it they rise, sliding out of it they sink away
    (scripts/slider.js). */
 .reel {
-  --per: 1.15;
+  --per: 1;
   display: grid; grid-auto-flow: column; gap: var(--gap);
   grid-auto-columns: calc((100% - (var(--per) - 1) * var(--gap)) / var(--per));
-  margin: -8px calc(-1 * var(--bleed-r, 0px)) calc(-1 * var(--section-gap)) calc(-1 * var(--bleed-l, 0px));
-  padding: 8px var(--bleed-r, 0px) var(--section-gap) var(--bleed-l, 0px);   /* 8px above: a card's focus ring */
-  scroll-padding-inline: var(--bleed-l, 0px) var(--bleed-r, 0px);
+  margin: -8px -8px calc(-1 * var(--section-gap)); padding: 8px 8px var(--section-gap); scroll-padding-inline: 8px;   /* 8px around: a card's focus ring (less than the gap, so no neighbour shows) */
   overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
   position: relative;   /* every row that scrolls sideways is positioned, so nothing positioned inside it escapes its clip */
 }

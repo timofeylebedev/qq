@@ -1,5 +1,5 @@
 /* The navbar: fixed, 48px at every size, in the colours of the section under it (scripts/nav.js sets its data-ground
-   once the bar is wholly over a section, and the colours cross over on --t-move). Logo on the left, the sections in
+   the moment its leading edge touches a section, and the colours cross over on --t-move). Logo on the left, the sections in
    the middle, the tools on the right; the three parts in equal outer columns, so the links stay centred on the page.
 
    Width: the bar's own margin is the small one (16px, the gutter of a 320 screen) at every size; its content stops

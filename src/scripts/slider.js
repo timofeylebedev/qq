@@ -1,11 +1,10 @@
-// Sideways rows that scroll with snapping (new arrivals, recommended). The arrows of the section head move a row by
-// one item; the pager of new arrivals jumps to an item and shows which one is in view. Swiping and the trackpad
+// Sideways rows that scroll with snapping (recommended; new arrivals turn like pages instead: scripts/curl.js). The
+// arrows of the section head move a row by one item. Swiping and the trackpad
 // work as they do anywhere: the row is an ordinary scrolling box.
 //
-// A reel (recommended) runs out to the screen's edges, so a card sliding past the column is not cut at it: the row
-// is widened by the column's margins (--bleed, measured here) and padded back, and it snaps to the column. Its cards
-// rise into place from below as they come into view (the section reaching the screen, or a card sliding in);
-// their packs are carried up with them (scripts/packs.js, the event qq:carry).
+// A reel (recommended) shows whole cards only, clipped at the column (Tim, round 7). Its cards rise into place from
+// below as they come into view (the section reaching the screen, or a card sliding in); their packs are carried up
+// with them (scripts/packs.js, the event qq:carry).
 const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function initSliders() {
@@ -36,9 +35,9 @@ export function initSliders() {
     new ResizeObserver(sync).observe(track);
     sync();
 
-    if (track.classList.contains("reel")) { bleed(track); rise(track); }
-    for (const t of track.querySelectorAll(".featured__text")) fitLines(t);
+    if (track.classList.contains("reel")) rise(track);
   }
+  for (const t of document.querySelectorAll(".featured__text")) fitLines(t);
 }
 
 // From L a new arrival's text is a square: its story is cut to the whole lines that fit between the name and the
@@ -55,28 +54,22 @@ function fitLines(box) {
   new ResizeObserver(fit).observe(box);
 }
 
-// the column's margin on each side, from the column itself (the page's width without its scrollbar)
-function bleed(track) {
-  const col = track.parentElement;
-  const set = () => {
-    const r = col.getBoundingClientRect();
-    track.style.setProperty("--bleed-l", `${Math.max(0, r.left)}px`);
-    track.style.setProperty("--bleed-r", `${Math.max(0, document.documentElement.clientWidth - r.right)}px`);
-  };
-  set();
-  new ResizeObserver(set).observe(document.documentElement);
-}
-
 // Cards show only inside the column (Tim, round 5): out of it they wait below, transparent. Coming into it (the row
 // reaching the screen, or a card sliding in) a card rises once half of it is in; as soon as it starts to slide out of
 // it, it sinks away the same way, reversed. So at rest no card shows beyond the column, however far a swipe went.
-// Where the row shows fewer than two whole cards (a phone: the next card peeks in) any part in the column is enough.
+// Where the row shows one card (a phone) any part of the next in the column is enough.
 function rise(track) {
   if (calm() || !("IntersectionObserver" in window)) return;
   const cards = [...track.children];
-  let shown = false;
+  // back on the page (a reload, a step back from a coffee's page): the cards in view stand where they were, nothing
+  // rises again (Tim, round 7: «when you go back to the recommended section all cards move»)
+  const nav = performance.getEntriesByType?.("navigation")[0]?.type;
+  const box = track.getBoundingClientRect();
+  const back = (nav === "reload" || nav === "back_forward" || document.documentElement.dataset.vt === "in") && box.bottom > 0 && box.top < innerHeight;
+  const per = Math.round(parseFloat(getComputedStyle(track).getPropertyValue("--per")) || 1);
+  let shown = back;
   track.dataset.rise = "";
-  for (const c of cards) c.dataset.wait = "";
+  cards.forEach((c, i) => { if (!back || i >= per) c.dataset.wait = ""; });
   const up = (c, delay = 0) => {
     if (!("wait" in c.dataset)) return;
     c.style.transitionDelay = `${delay}ms`;
@@ -89,12 +82,11 @@ function rise(track) {
     c.dataset.wait = "out";              // leaving: the rise reversed (layout.css), not the instant wait of a card never shown
     dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 700, tilt: false } }));   // its pack goes with it, upright
   };
-  // sideways: the column's box is the row's less the margins it was widened by (--bleed)
+  // sideways: in the row's own box (the column)
   let side = null;
   const seen = new WeakMap();
   const watch = () => {
     side?.disconnect();
-    const l = parseFloat(track.style.getPropertyValue("--bleed-l")) || 0, r = parseFloat(track.style.getPropertyValue("--bleed-r")) || 0;
     side = new IntersectionObserver((list) => {
       if (!shown) return;
       const few = parseFloat(getComputedStyle(track).getPropertyValue("--per")) < 2;
@@ -106,7 +98,7 @@ function rise(track) {
         else if (now < was) down(c);           // on its way out
         else if (now >= 0.5) up(c);            // half way in
       }
-    }, { root: track, rootMargin: `0px ${-r}px 0px ${-l}px`, threshold: [0, 0.5, 0.98, 1] });
+    }, { root: track, threshold: [0, 0.5, 0.98, 1] });
     if (shown) for (const c of cards) side.observe(c);
   };
   new ResizeObserver(watch).observe(document.documentElement);
@@ -115,12 +107,11 @@ function rise(track) {
     if (!list.some((e) => e.isIntersecting)) return;
     page.disconnect(); shown = true;
     const box = track.getBoundingClientRect();
-    const l = parseFloat(track.style.getPropertyValue("--bleed-l")) || 0, rr = parseFloat(track.style.getPropertyValue("--bleed-r")) || 0;
-    cards.filter((c) => { const r = c.getBoundingClientRect(), inn = Math.min(r.right, box.right - rr) - Math.max(r.left, box.left + l); return inn >= r.width / 2 || (inn > 0 && parseFloat(getComputedStyle(track).getPropertyValue("--per")) < 2); })
+    cards.filter((c) => { const r = c.getBoundingClientRect(), inn = Math.min(r.right, box.right) - Math.max(r.left, box.left); return inn >= r.width / 2 || (inn > 0 && parseFloat(getComputedStyle(track).getPropertyValue("--per")) < 2); })
       .forEach((c, i) => up(c, i * 90));
     watch();
   }, { threshold: 0.2 });
-  page.observe(track);
+  if (back) watch(); else page.observe(track);
 }
 
 // A grid's cards rise into place one after another (the catalog, Tim round 7): those on the screen when the page opens,

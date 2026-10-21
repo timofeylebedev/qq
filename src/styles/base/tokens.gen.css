@@ -11,7 +11,6 @@
   --type-h3: clamp(1.75rem, calc(1.75rem + (var(--vp) - 20rem) * 12 / 1120), 2.5rem);               /* 28 → 40: headings of the image blocks (approach, about) */
   --type-title: clamp(1.375rem, calc(1.375rem + (var(--vp) - 20rem) * 10 / 1120), 2rem);            /* 22 → 32: the name of the featured coffee */
   --type-card-title: clamp(1.125rem, calc(1.125rem + (var(--vp) - 20rem) * 6 / 1120), 1.5rem);       /* 18 → 24: names on product cards, titles of tiles (business, info blocks, product facts), footer headings */
-  --type-label: clamp(0.875rem, calc(0.875rem + (var(--vp) - 20rem) * 6 / 1120), 1.25rem);            /* 14 → 20: eyebrows above headings («Наш подход»): set apart by colour and case, not size */
   --type-statement: clamp(1.5rem, calc(1.5rem + (var(--vp) - 20rem) * 24 / 1120), 3rem);        /* 24 → 48: the big sentence of a product's story */
   --type-lead: clamp(1.125rem, calc(1.125rem + (var(--vp) - 20rem) * 6 / 1120), 1.5rem);             /* 18 → 24: the caption over the featured photo, the text under a section heading */
   --type-body-l: clamp(1rem, calc(1rem + (var(--vp) - 20rem) * 4 / 1120), 1.25rem);           /* 16 → 20: longer text: the featured description, the story columns, business text */
@@ -37,6 +36,7 @@
   /* size */
   --hero-photo: clamp(48px, calc(48px + (var(--vp) - 20rem) * 72 / 1120), 120px);            /* 48 → 120: the least photo the hero shows between the navbar and the fade into its cells */
   --fact-icon: clamp(40px, calc(40px + (var(--vp) - 20rem) * 16 / 1120), 56px);             /* 40 → 56: the icon of an info block and of its modal (roasting, payment, delivery): larger on larger screens (Tim, round 5) */
+  --fact-plus: clamp(24px, calc(24px + (var(--vp) - 20rem) * 8 / 1120), 32px);             /* 24 → 32: the plus of an info block and the cross of its modal: 32 at most (Tim, round 7) */
   --hero-fade: clamp(64px, calc(64px + (var(--vp) - 20rem) * 96 / 1120), 160px);             /* 64 → 160: the eased fade from the hero's photo into the black of its cells */
   --hero-max: clamp(960px, calc(960px + (var(--vp) - 20rem) * 240 / 1120), 1200px);              /* 960 → 1200: the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here) */
   --story-h: clamp(400px, calc(400px + (var(--vp) - 20rem) * 280 / 1120), 680px);               /* 400 → 680: least height of the image blocks (approach, about) */

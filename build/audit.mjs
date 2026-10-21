@@ -74,6 +74,7 @@ function measure() {
     // (text that ends in an ellipsis is cut on purpose: its range runs past its box, and is left out)
     const ellipsed = (x) => { for (; x && x !== e.parentElement; x = x.parentElement) { const s = getComputedStyle(x); if (s.textOverflow === "ellipsis" && s.overflowX !== "visible") return true; } return false; };
     for (let n; (n = tw.nextNode()); ) { if (!n.textContent.trim() || n.parentElement.closest(".sr") || ellipsed(n.parentElement)) continue; const r = document.createRange(); r.selectNodeContents(n); rects.push(r.getBoundingClientRect()); }
+    if (e.tagName === "SELECT") rects.splice(0, rects.length, e.getBoundingClientRect());   // its options' text is not laid out: the box it shows
     if (!rects.length) continue;
     const t = { left: Math.min(...rects.map((q) => q.left)), right: Math.max(...rects.map((q) => q.right)), top: Math.min(...rects.map((q) => q.top)), bottom: Math.max(...rects.map((q) => q.bottom)) };
     if (t.right > vw + 1 || t.left < -1) out.clipped.push(`${path(e)} past the screen by ${Math.round(Math.max(t.right - vw, -t.left))}px`);

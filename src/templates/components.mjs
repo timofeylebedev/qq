@@ -36,15 +36,17 @@ export function pack(p, { size = "card", eager = false } = {}) {
 }
 
 // ── weights and the add-to-bag button (the card's bottom row) ────────────────────────────────────────────────────
-// Cards offer the two retail weights (200 г and 1 кг); the product page offers every weight.
+// Cards offer the two retail weights (200 г and 1 кг): two radios, or below M a dropdown in their place (Figma, Tim,
+// round 7; the radios stay the choice, the dropdown sets them: scripts/buy.js). The product page offers every weight.
 export function buyRow(p, { tone = "light", idp }) {
   const weights = p.weights.filter((w) => w.grams >= 200).slice(0, 2);
   const first = weights[0];
   return `<form class="${cls("buy", tone === "dark" && "buy--dark")}" data-buy data-slug="${p.slug}" action="#">
-      <div class="buy__weights" role="radiogroup" aria-label="Вес">
-        ${weights.map((w, i) => `<label class="weight"><input type="radio" name="w-${idp}" value="${esc(w.label)}" data-price="${w.price ?? ""}"${i === 0 ? " checked" : ""}><span>${esc(w.label)}</span></label>`).join("\n        ")}
+      <div class="buy__weights">
+        <span class="buy__radios" role="radiogroup" aria-label="Вес">${weights.map((w, i) => `<label class="weight"><input type="radio" name="w-${idp}" value="${esc(w.label)}" data-price="${w.price ?? ""}"${i === 0 ? " checked" : ""}><span>${esc(w.label)}</span></label>`).join("")}</span>
+        <select class="buy__select" aria-label="Вес" data-weight-select>${weights.map((w) => `<option value="${esc(w.label)}">${esc(w.label)}</option>`).join("")}</select>${icon("chevron-down", 'class="buy__chevron"')}
       </div>
-      <button class="buy__add" type="submit" aria-label="В корзину: ${esc(p.name)}, ${esc(first.label)}, ${rub(first.price)}">${icon("bag-fill")}<span data-price-out>${rub(first.price)}</span></button>
+      <button class="buy__add" type="submit" aria-label="В корзину: ${esc(p.name)}, ${esc(first.label)}, ${rub(first.price)}">${icon("bag-fill")}<span class="buy__price" data-price-out>${rub(first.price)}</span></button>
     </form>`;
 }
 

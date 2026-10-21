@@ -8,13 +8,15 @@
    its 1520px, the two squares are framed by a hairline on each side, as the hero's cells are. */
 .footer { background: var(--c-cloud); }
 .footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
-.footer__brand { order: 2; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--tile-pad) + env(safe-area-inset-bottom, 0px)); }
-.footer__mark { display: block; width: var(--footer-logo); }
+.footer__brand { --legal-pad: var(--gutter); order: 2; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--legal-pad) + env(safe-area-inset-bottom, 0px)); }
+.footer__mark { display: block; width: var(--footer-logo); align-self: center; }   /* in the middle of its block at every size (Tim, round 7) */
 .footer__mark img { width: 100%; height: auto; }
 
-/* the copyright and the policy: one size, one colour, one baseline */
-.footer__legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 24px; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
-.footer__legal > * { padding-block: 4px; }
+/* the copyright and the policy: one size, one colour, one baseline; trimmed to their capitals, as far from the foot
+   of the footer as from its side (the column's edge, or the frame's line once it is framed: --legal-pad, Tim, round 7) */
+.footer__legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
+.footer__legal > * { text-box: trim-both cap alphabetic; }
+.footer__legal a { padding-block: 8px; margin-block: -8px; }   /* trimmed, it keeps a tap target of 24px (WCAG 2.5.8) */
 @media (--mouse) { .footer__legal a:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 .footer__legal a { transition: color var(--t-out) var(--ease-out); }
 
@@ -30,8 +32,8 @@
 .footer__title { font-size: var(--type-card-title); margin-bottom: 16px; }
 .footer__group ul { display: grid; gap: 2px; }
 .footer__group a { display: inline-block; padding-block: 4px; font-size: var(--type-body); }
-/* hovered, a link is underlined in a lighter ink, a little below its letters */
-@media (--mouse) { .footer__group a:hover { text-decoration: underline var(--hair) var(--c-ink-40); text-underline-offset: 0.4em; } }
+/* hovered, a link is underlined in the ground's line colour (ink 20%), a little below its letters */
+@media (--mouse) { .footer__group a:hover { text-decoration: underline var(--hair) var(--line); text-underline-offset: 0.4em; } }   /* the line colour of the ground, as every hairline (Tim, round 7) */
 
 @container col (width >= 22rem) {
   .footer__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -39,27 +41,32 @@
   .footer__group:nth-of-type(odd) { border-right: var(--hair) solid var(--line); padding-right: var(--tile-pad); --out-r: 0px; }
   .footer__group:nth-of-type(even) { padding-left: var(--tile-pad); --out-l: 0px; }
 }
-@container col (width >= 43rem) { .footer__news { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* from M the newsletter's line and its field are the two halves: the field from the middle (the links' divider) to the
+   end, the line kept clear of it by the cells' padding (Tim, round 7) */
+@container col (width >= 43rem) { .footer__news { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0; } .footer__news-label { padding-right: var(--tile-pad); } }
 @container col (width >= 58rem) {
   .footer__inner { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__brand { order: 0; aspect-ratio: 1; place-self: stretch; justify-content: flex-end; border-right: var(--hair) solid var(--line); padding-right: var(--tile-pad); }
   /* the flame's mass centre (measured over its whole animation: 50.5% across, 62.9% down its box) on the square's middle */
   .footer__mark { position: absolute; left: 50%; top: 50%; transform: translate(-50.5%, -62.9%); }
   .footer__links { order: 0; grid-template-rows: auto auto 1fr; }
-  .footer__news { padding-left: var(--tile-pad); --out-l: 0px; }
+  .footer__news { --out-l: 0px; }
+  .footer__news-label { padding-left: var(--tile-pad); }   /* the padding on the line, not the row, so the field starts on the links' divider */
   .footer__group:nth-of-type(odd) { padding-left: var(--tile-pad); --out-l: 0px; }
   .footer__group:nth-last-of-type(-n + 2)::after { content: none; }
 }
 @container col (width >= 1520px) {
   .footer__inner { border-inline: var(--hair) solid var(--line); }
   .footer__news, .footer__group { --out-l: 0px; --out-r: 0px; }
-  .footer__brand { padding-left: var(--tile-pad); }
-  .footer__news, .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
+  .footer__brand { padding-left: var(--tile-pad); --legal-pad: var(--tile-pad); }
+  .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
+  .footer__news .field { margin-right: var(--tile-pad); }
 }
 /* the same as a page condition, for Safari zoomed out (media.css --framed) */
 @media (--framed) {
   .footer__inner { border-inline: var(--hair) solid var(--line); }
   .footer__news, .footer__group { --out-l: 0px; --out-r: 0px; }
-  .footer__brand { padding-left: var(--tile-pad); }
-  .footer__news, .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
+  .footer__brand { padding-left: var(--tile-pad); --legal-pad: var(--tile-pad); }
+  .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
+  .footer__news .field { margin-right: var(--tile-pad); }
 }

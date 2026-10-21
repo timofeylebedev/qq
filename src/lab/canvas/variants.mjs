@@ -139,8 +139,8 @@ export function groups(data) {
     {
       id: "btn-arrow-ground", title: "Arrow button · ground", compares: "ground", slot: 280,
       slots: [
-        { label: "light ground (image block «О компании»)", html: `<div class="story story--light cv-ground">${cut(lightStory, /class="btn-arrow"/)}</div>` },
-        { label: "dark ground (image block «Наш подход»)", html: `<div class="story story--dark cv-ground">${cut(darkStory, /class="btn-arrow"/)}</div>` }
+        { label: "light ground (image block «О компании»)", html: `<div class="story story--light cv-ground" data-ground="paper">${cut(lightStory, /class="btn-arrow"/)}</div>` },
+        { label: "dark ground (image block «Наш подход»)", html: `<div class="story story--dark cv-ground" data-ground="black">${cut(darkStory, /class="btn-arrow"/)}</div>` }
       ]
     },
     {

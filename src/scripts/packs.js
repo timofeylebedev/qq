@@ -72,7 +72,7 @@ export async function initPacks() {
   try { stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", zIndex: 5 }); }
   catch (err) { console.info("3D packs off:", err.message); return; }
   Object.assign(stage.look, LOOK);
-  window.qqPacks = { stage, TUNE };
+  window.qqPacks = { stage, TUNE, freeze: () => {} };
 
   const items = slots.map((el) => {
     const hero = el.dataset.pack === "hero", px = hero ? 1024 : 512;
@@ -141,6 +141,31 @@ export async function initPacks() {
     stage.invalidate();
   });
 
+  // a card that was already rising when the packs came in (a reload in the middle of the page: the rows rise at once,
+  // the 3D stage is ready a moment later) missed its qq:carry: its pack is carried for the rest of the rise, so it
+  // neither stands where the card was when measured nor shows at full strength before its card does (Tim, round 7)
+  for (const p of items) {
+    const run = p.fade?.getAnimations?.().filter((a) => a.playState === "running") || [];
+    if (!run.length) continue;
+    const left = Math.max(300, ...run.map((a) => { const t = a.effect?.getComputedTiming?.(); return t ? t.endTime - (a.currentTime || 0) : 0; }));
+    p.carryUntil = performance.now() + left + 100; p.it.live = true; p.tilt = true;
+  }
+
+  // the page is going to another (scripts/../vt.js, pageswap): the canvas can't be captured, so every pack on the
+  // screen leaves a picture of itself, as it is drawn this moment, in its slot (not the still: a pack turned towards
+  // the pointer that became the front-facing still on the way out was the flicker, Tim, round 7)
+  window.qqPacks.freeze = () => {
+    for (const p of items) {
+      if (!p.it.visible || p.el.querySelector(".pack__shot")) continue;
+      const c = stage.shot(p.it);
+      if (c) { c.className = "pack__shot"; c.setAttribute("aria-hidden", "true"); p.el.append(c); }
+    }
+  };
+  addEventListener("pageshow", () => { for (const c of document.querySelectorAll(".pack__shot")) c.remove(); });
+  // arriving by a card (html[data-vt="in"]): the packs face the viewer, as their stills do, until the pages have
+  // changed, and only then turn to where they look
+  const arriving = () => document.documentElement.dataset.vt === "in";
+
   stage.onTick = (dt, now) => {
     let moving = false;
     const k = 1 - Math.exp(-dt * TUNE.follow);
@@ -149,19 +174,23 @@ export async function initPacks() {
     for (const p of items) {
       const it = p.it;
       let rx = 0, ry = 0, lift = 0, scale = 1;
-      if (p.hero) {
+      if (p.hero && arriving()) { ry = 0; rx = 0; p.arrived = true; }
+      else if (p.hero) {
         const t = window.qqStage?.progress ?? 0;           // 0 → 1 over the fact tiles
+        const baseY = reduced ? 0 : -0.35 + t * Math.PI * 2, baseX = reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI);
+        // the pages have changed after arriving by a card: it turns from facing front to the scroll's angle, eased
+        if (p.arrived) { p.drag.x = it.ry - baseY; p.drag.y = it.rx - baseX; p.arrived = false; }
         const d = p.drag, kd = d.on ? 1 - Math.exp(-dt * TUNE.dragFollow) : reduced ? 1 : 1 - Math.exp(-dt * TUNE.dragBack);
         d.x += (d.tx - d.x) * kd; d.y += (d.ty - d.y) * kd;
         if (Math.abs(d.tx - d.x) + Math.abs(d.ty - d.y) < 0.001) { d.x = d.tx; d.y = d.ty; } else moving = true;
         // the scroll's angle as it is, the hand's on top of it; nothing eases behind the scroll
-        it.ry = (reduced ? 0 : -0.35 + t * Math.PI * 2) + d.x;
-        it.rx = (reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI)) + d.y;
+        it.ry = baseY + d.x;
+        it.rx = baseX + d.y;
         it.lift = 0; it.scale = 1; it.ox = it.oy = 0;
         // pinned (the tiles still to pass): the canvas stands on the screen with the pin
         stage.fixed = it.visible && t < 1;
         continue;
-      } else if (!reduced) {
+      } else if (!reduced && !arriving()) {
         ry = -((it.x + it.w / 2) / vw - 0.5) * TUNE.turn;
         if (p.hover) { ry += p.hx * TUNE.hoverTurn; rx += p.hy * TUNE.hoverTilt; lift = TUNE.hoverLift; scale = 1.03; }
       }

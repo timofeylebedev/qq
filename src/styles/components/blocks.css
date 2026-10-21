@@ -7,7 +7,7 @@
 .phead { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--text-gap) var(--gap); margin-bottom: var(--section-gap); }
 .phead--line { padding-bottom: var(--tile-pad); border-bottom: var(--hair) solid var(--line); margin-bottom: 0; }
 .phead__main { display: grid; gap: var(--text-gap); flex: 1 1 20rem; min-width: 0; }
-.phead__title { font-size: var(--type-h2); overflow-wrap: anywhere; }
+.phead__title { font-size: var(--type-h2); overflow-wrap: anywhere; text-box: trim-both cap alphabetic; }
 .phead__count { margin-left: 0.25em; font: 400 var(--type-body) / 1 var(--sans); letter-spacing: 0; vertical-align: super; }
 .phead__count:empty { display: none; }
 .phead__sub { font-size: var(--type-body); color: var(--c-ink-70); }
