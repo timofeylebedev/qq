@@ -20,7 +20,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   width: min(100% - 2 * var(--gutter), var(--col-max)); margin-inline: auto;
 }
 .pstage__head { justify-self: stretch; padding-top: var(--section-y-s); display: grid; gap: 8px; position: relative; z-index: 6; }
-.pstage__title { display: grid; gap: 8px; justify-items: start; }   /* the name and the line under it: one group as a card opens its page (public/vt.js) */
+.pstage__title { display: grid; gap: 24px; justify-items: start; }   /* the name and the line under it: one group as a card opens its page (public/vt.js) */
 .pstage__name { font-size: var(--type-h2); max-width: 14em; text-box: trim-both cap alphabetic; }
 .pstage__meta { font-size: var(--type-body); color: var(--c-ink-70); }
 .pack--hero { position: relative; inset: auto; max-width: 100%; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
@@ -93,7 +93,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 
 /* the story */
 .pstory { padding-block: var(--section-y); background: var(--c-cloud); }
-.pstory__statement { max-width: 22em; margin: 0 auto var(--section-gap); text-align: center; font: 700 var(--type-statement) / var(--lh-heading) var(--sans); text-wrap: balance; }
+.pstory__statement { max-width: 22em; margin: 0 auto var(--section-y); text-box: trim-both cap alphabetic; text-align: center; font: 700 var(--type-statement) / var(--lh-heading) var(--sans); text-wrap: balance; }
 .pstory__image img { width: 100%; height: auto; }
 .pstory__cols { display: grid; gap: var(--text-gap) var(--block-pad); padding-top: var(--block-pad); font-size: var(--type-body-l); line-height: var(--lh-text); }
 @container col (width >= 43rem) { .pstory__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

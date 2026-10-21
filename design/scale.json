@@ -57,7 +57,7 @@
       "hero/cell-y":     { "px": [12, 20], "css": "--hero-cell-y", "use": "padding above and below each row of the hero's cells (three rows: the roast's parts beside the three links)" },
       "hero/photo":      { "px": [48, 120], "size": true, "css": "--hero-photo", "use": "the least photo the hero shows between the navbar and the fade into its cells" },
       "fact/icon":       { "px": [40, 56], "size": true, "css": "--fact-icon", "use": "the icon of an info block and of its modal (roasting, payment, delivery): larger on larger screens (Tim, round 5)" },
-      "fact/plus":       { "px": [24, 32], "size": true, "css": "--fact-plus", "use": "the plus of an info block and the cross of its modal: 32 at most (Tim, round 7)" },
+      "fact/plus":       { "px": [24, 24], "size": true, "css": "--fact-plus", "use": "the plus of an info block and the cross of its modal: 24 at every width (Tim, round 9)" },
       "hero/fade":       { "px": [64, 160], "size": true, "css": "--hero-fade", "use": "the eased fade from the hero's photo into the black of its cells" },
       "hero/max":        { "px": [960, 1200], "size": true, "css": "--hero-max", "use": "the most the hero may be tall: below it, the screen less a 24px peek (a tall portrait or 2560 screen stops here)" },
       "story/min-h":     { "px": [400, 680], "size": true, "css": "--story-h", "use": "least height of the image blocks (approach, about)" },
