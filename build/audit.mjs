@@ -34,7 +34,7 @@ const PAGES = ["", "catalog/", "coffee/keniya-kisii/", "coffee/q-optimistic/",
 // what a visitor has put into this browser before the shop pages are measured: a bag with a photo coffee, a pack coffee,
 // a big quantity and a line put aside; favourites with photos and packs
 const STATE = {
-  "qq-bag": [{ slug: "braziliya-santa-mariya", weight: "200 г", qty: 1 }, { slug: "q-berry", weight: "1 кг", qty: 12 },
+  "qq-bag": [{ slug: "braziliya-santa-mariya", weight: "200 г", qty: 1 }, { slug: "vetnam-kua-mon", weight: "1 кг", qty: 12 },
     { slug: "kolumbiya-chayna-alta", weight: "200 г", grind: "Фильтр", roast: "Фильтр", qty: 1 }, { slug: "efiopiya-bekele", weight: "200 г", qty: 1, later: true }],
   "qq-fav": ["q-optimistic", "keniya-kisii", "kolumbiya-chayna-alta", "efiopiya-bekele"]
 };

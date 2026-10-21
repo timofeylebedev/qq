@@ -113,3 +113,40 @@ function rise(track) {
   }, { threshold: 0.2 });
   if (back) watch(); else page.observe(track);
 }
+
+// A grid's cards rise into place one after another (the catalog, Tim round 7): those on the screen when the page opens,
+// 90ms apart in reading order, then each as it comes onto the screen (cards arriving together still in turn). deal()
+// sends the cards shown back down to rise again (the filters changed what the grid shows). The page's inline script
+// sets html[data-enter] when this may run; otherwise (reduced motion, coming back to the page, no observer) the cards
+// stop waiting at once. Their packs fade and are carried up with them (scripts/packs.js, qq:carry).
+export function riseGrid(grid) {
+  const cards = [...grid.children];
+  const stand = () => { for (const c of cards) delete c.dataset.wait; return { deal() {} }; };
+  if (calm() || !document.documentElement.hasAttribute("data-enter") || !("IntersectionObserver" in window)) return stand();
+  grid.dataset.dealing = "";   // taken: the CSS failsafe (layout.css) stands down
+  let queue = [], timer = 0, last = 0;
+  const flush = () => {
+    timer = 0;
+    const now = performance.now(), start = Math.max(0, last - now);   // a batch after a batch still waits its turn
+    queue.sort((a, b) => { const p = a.getBoundingClientRect(), q = b.getBoundingClientRect(); return p.top - q.top || p.left - q.left; })
+      .forEach((c, i) => {
+        const delay = start + i * 90;
+        c.style.transitionDelay = `${delay}ms`;
+        delete c.dataset.wait;
+        dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 1100 + delay } }));
+        last = now + delay + 90;
+      });
+    queue = [];
+  };
+  const io = new IntersectionObserver((list) => {
+    for (const e of list) if (e.isIntersecting && "wait" in e.target.dataset) { queue.push(e.target); io.unobserve(e.target); }
+    if (queue.length && !timer) timer = requestAnimationFrame(flush);
+  }, { rootMargin: "0px 0px -8% 0px" });
+  for (const c of cards) if ("wait" in c.dataset) io.observe(c);
+  return {
+    deal() {
+      for (const c of cards) { if (c.hasAttribute("data-out")) continue; c.style.transitionDelay = "0ms"; c.dataset.wait = ""; io.unobserve(c); io.observe(c); }
+      last = 0;
+    }
+  };
+}

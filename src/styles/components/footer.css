@@ -1,10 +1,12 @@
-/* The footer: the cloud ground, the hairline above it full width, its content on the column. From L two squares: on
+/* The footer: the cloud ground, its content on the column. No line above it: its ground parts it from the section
+   above (Tim, round 7); a section whose own lines run down to the footer (the home page's facts) closes itself with
+   its hairline. From L two squares: on
    the left the animated flame, centred by its mass (not by its box: the flame's tip is thin and its bowl heavy, so
    the box's middle would set it low), the copyright and the policy at its foot; on the right the newsletter and the
    four groups of links, each a cell divided by hairlines. A square grows taller only when the links need more room
    (at the narrowest L). Below L the links come first and the flame closes the page. Once the column has stopped at
    its 1520px, the two squares are framed by a hairline on each side, as the hero's cells are. */
-.footer { background: var(--c-cloud); border-top: var(--hair) solid var(--line); }
+.footer { background: var(--c-cloud); }
 .footer__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
 .footer__brand { --legal-pad: var(--gutter); order: 2; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--legal-pad) + env(safe-area-inset-bottom, 0px)); }
 .footer__mark { display: block; width: var(--footer-logo); align-self: center; }   /* in the middle of its block at every size (Tim, round 7) */

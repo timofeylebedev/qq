@@ -1,5 +1,5 @@
 {
-  "$about": "The about page (Figma «О компании», frame [1440 — 1920]): the title over the roast photo, the founder's letter, the team, the approach block, the Instagram strip, the contacts. The Figma team grid repeats seven stock portraits twice; the site shows each person once (placeholder photos: decision about-photos). The Instagram account has no address in Figma yet, so its tiles do not link anywhere.",
+  "$about": "The about page (Figma «О компании», frame [1440 — 1920]): the title over the roast photo, the founder's letter, the team, the approach block, the Instagram strip, the contacts. The team is the fourteen people of Tim's picture (round 7: their names and roles, in its order); the portraits are still the seven stock photos of Figma, repeated (a man's for a man, a woman's for a woman; no two neighbours share one at four columns): placeholder, decision about-photos. The Instagram account has no address in Figma yet, so its tiles do not link anywhere.",
   "title": "Раскрывая потенциал",
   "letter": [
     "Мы раскрываем лучшее — в кофе и в людях, которые его пьют: через качество, многогранность, эстетику и бережное отношение к каждому решению.",
@@ -10,13 +10,20 @@
   "team": {
     "title": "Наша команда",
     "people": [
-      { "name": "Юра", "role": "Развитие компании, сорсинг, спикер", "image": "team-yura" },
+      { "name": "Юра", "role": "Общее развитие компании, сорс, публичные мероприятия (спикер)", "image": "team-yura" },
       { "name": "Влад", "role": "Руководитель производства", "image": "team-vlad" },
-      { "name": "Лина", "role": "Event-менеджмент и взаимодействие с клиентами", "image": "team-lina" },
-      { "name": "Илья", "role": "Обжарка и контроль качества", "image": "team-ilya" },
-      { "name": "Катя", "role": "SMM-менеджер", "image": "team-katya" },
       { "name": "Лена", "role": "Операционный директор", "image": "team-lena" },
-      { "name": "Антонина", "role": "Взаимодействие с клиентами", "image": "team-antonina" }
+      { "name": "Артём", "role": "Взаимодействие с клиентами", "image": "team-ilya" },
+      { "name": "Лина", "role": "Event-менеджмент и взаимодействие с клиентами", "image": "team-lina" },
+      { "name": "Илья", "role": "Взаимодействие с клиентами", "image": "team-yura" },
+      { "name": "Ксюша", "role": "Обжарка и контроль качества", "image": "team-katya" },
+      { "name": "Андрей", "role": "Оптимизация процессов, IT", "image": "team-vlad" },
+      { "name": "Павел", "role": "Логист-экспедитор", "image": "team-ilya" },
+      { "name": "Алексей", "role": "Управление производством", "image": "team-vlad" },
+      { "name": "Антонина", "role": "Взаимодействие с клиентами", "image": "team-antonina" },
+      { "name": "Алина", "role": "Взаимодействие с клиентами", "image": "team-lena" },
+      { "name": "Катя", "role": "SMM-менеджер", "image": "team-katya" },
+      { "name": "Илья", "role": "Обжарка и контроль качества", "image": "team-yura" }
     ]
   },
   "instagram": {

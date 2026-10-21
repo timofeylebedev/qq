@@ -25,8 +25,10 @@
 // (a slot that is pinned with position: sticky moves on the page as you scroll); an item added with { clip: element }
 // is drawn only inside that element's box (a pack in a row that scrolls sideways must not spill past the row);
 // an item's ox, oy draw it that far off its slot (the packs trail the page a little as it scrolls: scripts/packs.js);
-// an item's alpha (0–1) fades its pack and its shadow (a card fading in as it rises into place); stage.shot(item)
-// is a picture of one pack as it is drawn now (the page going to another keeps it in the pack's place: scripts/packs.js).
+// an item's alpha (0–1) fades its pack and its shadow (a card fading in as it rises into place); stage.fixed puts the
+// canvas on the screen rather than on the page (while the product's pinned pack is on it, so the pack does not ride
+// the page's scroll for a frame before it is drawn again: Tim, round 7 «the pack is lagging behind scroll»);
+// stage.shot(item) is a picture of one pack as it is drawn now (the page going to another keeps it in the pack's place: scripts/packs.js).
 const root = window;
 
 
@@ -182,6 +184,7 @@ const root = window;
       canvas: canvas, gl: gl, items: items, stats: stats,
       look: { depth: 1.0, relief: 2.0, light: 0.75, sheen: 0.35, rim: 0.10, shadow: 0.38 },
       onTick: null,
+      fixed: false,          // true: the canvas is fixed to the screen (while a pinned pack is on it: scripts/packs.js)
       add: add, remove: remove, invalidate: invalidate, measure: measure, destroy: destroy, shot: shot
     };
 
@@ -311,7 +314,13 @@ const root = window;
         canvas.style.width = vw + 'px'; canvas.style.height = h + 'px';
         stats.dpr = Math.round(d * 100) / 100; stats.pixels = canvas.width * canvas.height;
       }
-      if (top !== canvasTop || !canvas.style.transform) { canvasTop = top; canvas.style.transform = 'translate3d(0,' + top + 'px,0)'; }
+      // stage.fixed: the canvas stands on the screen instead of on the page (a pinned pack: it must not ride the
+      // page's scroll for the frame before it is drawn again), placed where the page's band would be
+      var mode = stage.fixed ? 'fixed' : 'absolute', y = stage.fixed ? top - scrollY : top;
+      canvasTop = top;
+      if (canvas.style.position !== mode) canvas.style.position = mode;
+      var tf = 'translate3d(0,' + y + 'px,0)';
+      if (canvas.style.transform !== tf) canvas.style.transform = tf;
     }
 
     // ---- matrices (column-major, no allocation per frame)

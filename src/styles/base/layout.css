@@ -78,5 +78,16 @@
   /* a card sliding out of the column sinks away: the rise reversed */
   .reel[data-rise] > [data-wait="out"] { transition: opacity var(--t-out) var(--ease-out), transform var(--t-out) var(--ease-out); }
 }
+/* the catalog's grid: its cards rise into place one after another as they come onto the screen, and again after the
+   filters change what it shows (scripts/slider.js riseGrid). The inline script of the page's <head> sets data-enter
+   (not with «reduce motion», not coming back to the page), so the cards wait from the first frame; without scripts
+   they simply stand. */
+@media (--motion) {
+  html[data-enter] .grid[data-rise] > * { transition: opacity var(--t-move) var(--ease-out), transform var(--t-rise) var(--ease-out); }
+  html[data-enter] .grid[data-rise] > [data-wait] { opacity: 0; transform: translateY(var(--section-gap)); transition-duration: 0s; }
+  /* should the script never take them (riseGrid marks the grid data-dealing), they show after --t-wait */
+  html[data-enter] .grid[data-rise]:not([data-dealing]) > [data-wait] { animation: rise-wait var(--t-in) var(--ease-out) var(--t-wait) forwards; }
+}
+@keyframes rise-wait { to { opacity: 1; transform: none; } }
 @container col (width >= 43rem) { .reel { --per: 2; } }
 @container col (width >= 58rem) { .reel { --per: 3; } }

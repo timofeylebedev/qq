@@ -9,6 +9,7 @@
     "ink-60":     "#2d2f3399",
     "ink-50":     "#2d2f3380",
     "ink-40":     "#2d2f3366",
+    "ink-30":     "#2d2f334d",
     "ink-20":     "#2d2f3333",
     "ink-10":     "#2d2f331a",
     "ink-6":      "#2d2f330f",
@@ -34,7 +35,7 @@
     "card": { "color": ["cloud", "black"], "curve": [0.5, 0, 0.5, 1], "stops": 16, "reach": 1, "use": "the buy row of a product card and of a line in the bag, over the pack or the photo (lead-in 56px)" }
   },
   "contrast": {
-    "$about": "text colour / ground / least ratio: 4.5 for text, 3 for large text (24px and up) and the parts of controls. ink-60 is only for large text (the inactive catalog tabs) and parts of controls (the hollow weight dot); ink-50 and lighter only for lines and decoration. Secondary text is ink-70.",
+    "$about": "text colour / ground / least ratio: 4.5 for text, 3 for large text (24px and up) and the parts of controls. ink-60 is only for large text (the inactive catalog tabs) and parts of controls (the hollow weight dot); ink-50 and lighter only for lines and decoration, but for ink-30: the inactive catalog tabs, on Tim's word (round 7, decision tabs-30). Secondary text is ink-70.",
     "pairs": [
       ["ink", "paper", 4.5], ["ink", "cloud", 4.5], ["ink-70", "paper", 4.5], ["ink-70", "cloud", 4.5],
       ["ink-60", "paper", 3], ["ink-60", "cloud", 3],

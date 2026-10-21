@@ -7,6 +7,7 @@ keeps the earlier rounds' «what changed» at its end. Earlier pages stay where 
 separate»), so each round publishes a new page.
 
 **The pages** (private until shared; also in the project doc `claude/website-system.md`):
+- Round 7: https://claude.ai/artifact/MTVz65GbbaaF1KcUpmqybW
 - Round 6: https://claude.ai/artifact/5yepw2xp4auoP4ZTnEUSY2
 - Round 5: https://claude.ai/artifact/JrYDfrH1kwuWrLGYw5At3j (round 4 built the pages and had no report)
 - Round 3: https://claude.ai/artifact/CESDhXQ6ErVqFQiNT7kuXM
@@ -29,13 +30,15 @@ node design/report/tools/areas-round5.mjs <old url> <new url>   # round 5's meas
 node design/report/tools/pairs-round5.mjs <old url> <new url>   # round 5: round 4's build (main) next to this one → shots/r5-*.jpg
 node design/report/tools/areas-round6.mjs <old url> <new url>   # round 6's measures (hero layout, title, link padding, digits, note, frame, nav cells) → areas-round6.json
 node design/report/tools/pairs-round6.mjs <old url> <new url>   # round 6: round 5's build (main) next to this one → shots/r6-*.jpg
+node design/report/tools/areas-round7.mjs <old url> <new url>   # round 7's measures (info, tabs, menu cells, footer line, buy bar, similar, canvas) → areas-round7.json
+node design/report/tools/pairs-round7.mjs <old url> <new url>   # round 7: round 6's build (main) next to this one → shots/r7-*.jpg
 npm run -s rules > design/report/rules.txt; npm run -s audit > design/report/audit.txt
 python3 -I design/report/tools/make_data.py        # the words + the measurements → data.json
 python3 -I design/report/build_report.py design/report/data.json /tmp/report.html   # one self-contained page
 ```
 
 The previous build: `git worktree add /tmp/old <last commit of the previous round>`, link node_modules, `npm run build`
-there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json` (round-1, round-2, round-3, round-5); `rounds/review-round-N.json` keeps each round's review.
+there, and serve both dists on two ports. Earlier rounds' «what changed» sections are frozen in `rounds/round-N.json` (round-1, round-2, round-3, round-5, round-6); `rounds/review-round-N.json` keeps each round's review.
 
 `review.json` holds the independent review's findings with what was done about each (written by hand each round).
 The built HTML is not committed (it repeats the pictures as base64).

@@ -16,7 +16,8 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <link rel="stylesheet" href="/styles/main.css">
 <link rel="expect" href="${ctx.page === "product" ? "#product-title" : "#contacts"}" blocking="render">
 <script vite-ignore src="${ctx.rel || ""}vt.js"></script>${ctx.page === "home" ? `
-<script>matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.setAttribute("data-intro","")</script>` : ""}
+<script>matchMedia("(prefers-reduced-motion: reduce)").matches||document.documentElement.setAttribute("data-intro","")</script>` : ctx.page === "catalog" ? `
+<script>matchMedia("(prefers-reduced-motion: reduce)").matches||performance.getEntriesByType("navigation")[0]?.type==="back_forward"||document.documentElement.setAttribute("data-enter","")</script>` : ""}
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>

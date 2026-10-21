@@ -34,12 +34,11 @@
   },
 
   "photos": {
-    "$about": "PLACEHOLDER photos from the Figma moodboard: they show other roasters' packs (SIP, Cafe Public, Paloma, Stereoscope, MARU) and must be replaced before launch. A coffee listed here shows its photo instead of the 3D pack on its card.",
+    "$about": "PLACEHOLDER photos from the Figma moodboard: they show other roasters' packs (SIP, Cafe Public, Paloma, Stereoscope, MARU) and must be replaced before launch. A Special coffee listed here shows its photo instead of the 3D pack on its card; Classic coffees always show the pack (Tim, round 7), and the second card of the catalog is a Special one with a photo.",
     "placeholder": true,
     "bySlug": {
+      "vetnam-kua-mon": ["life-box", "Коробка кофе в руках"],
       "keniya-kisii": ["life-jacket", "Пакет кофе в кармане куртки"],
-      "q-berry": ["life-box", "Коробка кофе в руках"],
-      "efiopiya-bekele": ["life-sniff", "Человек вдыхает аромат кофе из пакета"],
       "peru-monte-verde": ["life-sweater", "Три пакета кофе в руках"]
     }
   },

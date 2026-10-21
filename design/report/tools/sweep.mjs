@@ -76,10 +76,18 @@ function probe(roles) {
     const tc = q(".featured__facts > .taste"); if (tc) { const g = document.createRange(); g.selectNodeContents(tc.querySelector("dt")); out.tasteSide = r(g.getBoundingClientRect().left - tc.getBoundingClientRect().left); }
   }
   if (q("[data-grid]")) { out.catalogTracks = cols("[data-grid]"); out.catalogFirstW = r(rect("[data-grid] > .card").width); out.filterRows = new Set([...document.querySelectorAll(".filter")].map((f) => Math.round(f.getBoundingClientRect().top))).size; }
+  // round 7: the two info blocks (the tops of their words level), the tabs' height (trimmed to the capitals)
+  if (q(".catalog__info")) {
+    const tops = [...document.querySelectorAll(".catalog__info li > span")].map((e) => { const g = document.createRange(); g.selectNodeContents(e); return g.getClientRects()[0]?.top ?? 0; });
+    out.infoTopDy = r(Math.abs(tops[0] - tops[1])); out.tabH = r(rect(".tab").height);
+  }
   if (q(".pstage")) {
     out.pinH = r(rect(".pstage__pin").height); out.packW = r(rect(".pack--hero").width); out.packH = r(rect(".pack--hero").height);
     out.buybarH = r(rect(".buybar").height); out.buybarRows = new Set([...document.querySelectorAll(".buybar .cell, .buybar__add")].map((c) => Math.round(c.getBoundingClientRect().top))).size;
     out.tileW = r(rect(".ptile").width); out.stageRun = r(rect(".pstage").height);
+    // round 7: the air above «Кофе с похожим вкусом» (from the story's foot) and below it (to the cards)
+    const st = q(".similar .head__title"), g = document.createRange(); g.selectNodeContents(st); const tr = g.getBoundingClientRect();
+    out.similarAbove = r(tr.top - rect(".pstory").bottom); out.similarBelow = r(rect(".similar .grid").top - tr.bottom);
   }
   // the navbar's step: 0 tab bar, 1 burger, 2 short sections, 3 every section (round 1 had burger or links)
   const shown = (s) => { const e = q(s); return !!e && getComputedStyle(e).display !== "none" && e.getBoundingClientRect().width > 0; };

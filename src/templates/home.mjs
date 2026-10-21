@@ -1,6 +1,6 @@
 // The home page: hero with the roast countdown, new arrivals, recommended, two image blocks, business, facts.
 import { page, head, arrows } from "./layout.mjs";
-import { card, pills, tasteChart, cardText } from "./components.mjs";
+import { card, pills, tasteChart, cardText, photoOf } from "./components.mjs";
 import { esc, icon, href, picture, cls } from "./util.mjs";
 import { digitsSVG } from "../../build/digits.mjs";
 
@@ -60,7 +60,7 @@ function featured(ctx, list) {
   const spare = ctx.site.featured.photos || [];
   let k = 0;
   const slides = list.map((p, i) => {
-    const photo = ctx.site.photos.bySlug[p.slug] || spare[k++ % spare.length];
+    const photo = photoOf(ctx, p) || spare[k++ % spare.length];
     return `<article class="featured__slide" data-slide aria-roledescription="слайд" aria-label="${i + 1} из ${list.length}"${i ? " data-off inert" : ""}>
       <div class="featured__text">
         <div class="featured__intro">
