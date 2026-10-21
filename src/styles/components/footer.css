@@ -14,6 +14,7 @@
    of the footer as from its side (the column's edge, or the frame's line once it is framed: --legal-pad, Tim, round 7) */
 .footer__legal { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
 .footer__legal > * { text-box: trim-both cap alphabetic; }
+.footer__legal a { padding-block: 8px; margin-block: -8px; }   /* trimmed, it keeps a tap target of 24px (WCAG 2.5.8) */
 @media (--mouse) { .footer__legal a:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 .footer__legal a { transition: color var(--t-out) var(--ease-out); }
 

@@ -51,7 +51,9 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals (PT Mono Bold) for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light) and never
-  moves anything (no transform in a `:hover` rule: «Hovers never move»). A pointer's focus changes nothing; scripts
+  moves anything (no transform in a `:hover` rule: «Hovers never move»; the one exception, the photo of a card coming a
+  little closer, is decision `hover-zoom`, its selectors in its `hover` field). Titles of the h2 role are trimmed
+  (`text-box: trim-both cap alphabetic`). A pointer's focus changes nothing; scripts
   that move the focus use `focusFrom()` of `scripts/focus.js` (the ring only after a key).
 - **Every fade is eased and whole**: a gradient is a `var(--fade-*)` of `design/colors.json` fades (one per place:
   hero, top, caption, panel, card; one curve, 0.5, 0, 0.5, 1, in 16 stops, tuned in `design/fade-tuner/`) laid over the whole block, with no
@@ -67,8 +69,14 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **3D**: one canvas per page at z-index 5. What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
 - **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
-  cross-document view transition to its coffee's page. `data-out` is the catalog filter's; the reel's waiting cards
-  are `data-wait`.
+  cross-document view transition to its coffee's page (on that page the name and the line under it, `.pstage__title`).
+  Leaving, `qqPacks.freeze()` leaves a picture of every pack as the canvas draws it (`stage.shot`); arriving, packs
+  face front until the pages have changed. A still must stand exactly where the canvas draws its pack (rerun
+  `build/pack-still.mjs` when the model or the look changes). `data-out` is the catalog filter's; the reel's waiting
+  cards are `data-wait` (on a reload or a step back the cards in view do not rise again).
+- **New arrivals turn like pages** (`scripts/curl.js`, «Изгиб» of Tim's artifact): the slides lie in one cell
+  (`data-off` + inert but the current one), the sheet is WebGL with faces painted from the slides as laid out; a
+  spread from L, one page below. `qqCurl.hold(to, p)` on the track stops a turn for review.
 - **Pages** are written by `build/pages.mjs` from `src/templates/`; never edit `src/index.html`, `src/catalog/`,
   `src/coffee/` or the other page folders (generated, not committed). Links inside the site go through `href(ctx, to)`;
   an anchor of the same page that is not the home page is written as is (`#contacts`), not through `href`.
@@ -78,7 +86,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **The countdown's digits** are QQ Digits drawn as SVG (`build/digits.mjs` from `design/digits.json`, Tim's settings
   from the artifact «QQ Digits»); `scripts/digits.js` lights the segments. Change the drawing in the JSON, not the SVG.
 - **The hero's entrance** is GSAP (`scripts/hero.js`, loaded only on the home page): `html[data-intro]`, set by the
-  inline script in `<head>`, hides its parts from the first frame. `window.qqHero` is the timeline.
+  inline script in `<head>`, hides its parts from the first frame. Its numbers are `design/intro.json` (tuned in the
+  artifact «QQ Intro Tuner», `design/intro-tuner/`); `window.qqHero` is the timeline, `qqIntro.play(settings)` plays it.
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.
