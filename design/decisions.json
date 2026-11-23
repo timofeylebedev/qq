@@ -331,6 +331,12 @@
       "why": "it is a part of the icon, the size of the pill it sits in; build/rules.mjs has allowed it since the navbar's tools (rule 2: «the 12px of the bag counter»)",
       "decided": "Claude, 2026-11-23 (written down from build/rules.mjs for site-kit's rules)",
       "fix": "a --type-* role for counts, if another count appears",
-      "rules": [{ "rule": "type-from-scale", "files": "src/styles/components/nav\\.css", "selectors": "^\\.nav__count$" }] }
+      "rules": [{ "rule": "type-from-scale", "files": "src/styles/components/nav\\.css", "selectors": "^\\.nav__count$" }] },
+    { "id": "beans-axe", "kind": "exception",
+      "what": "account/beans/ opens with the beans dialog standing over the profile (a modal): axe marks the contrast of every text there as «needs review» and checks none, which site-kit's audit fails a page for",
+      "why": "the page is the dialog's own address (src/templates/account.mjs): the dialog standing open is what it shows. Its text's contrast is not measured by the audit until the fix below",
+      "decided": "Claude, 2026-11-23 (site-kit audit, PR #17)",
+      "fix": "check the dialog's contrast from pixels, or with axe scoped to the dialog",
+      "audit": { "noContrast": "^account/beans/$" } }
   ]
 }
