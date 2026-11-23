@@ -150,6 +150,7 @@ const by = Object.fromEntries(M.coffees.map((c) => [c.slug, c]));
 const P = (c) => ({ ...c.position, flavour: c.flavour, process: c.process });
 const n = (x) => String(+(+x).toFixed(1)).replace(".", ",");
 const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+const PROC = { natural: "натуральная", washed: "мытая", honey: "хани", "semi-anaerobic": "полуанаэробная", anaerobic: "анаэробная", culturing: "культуринг", "wet-hull": "вэт-халл", wethull: "вэт-халл", decaf: "декаф" };
 const short = (name) => name.replace(/\s*\(.*\)/, "");
 const topFam = (c) => Object.entries(c.flavour).sort((a, b) => b[1] - a[1])[0][0];
 const state = { sel: "efiopiya-bekele", view: "axes", anchor: "none", w: { ...M.weights } };
@@ -215,12 +216,16 @@ function place(W, H) {
       if (Math.abs(dx) < 120 && Math.abs(dy) < 20) { const f = (20 - Math.abs(dy)) / 2, sgn = dy === 0 ? (i % 2 ? 1 : -1) : Math.sign(dy); pts[i].y -= sgn * f; pts[j].y += sgn * f; }
     }
   }
-  pts.forEach((p) => { p.x = Math.max(pad.l, Math.min(W - pad.r + 60, p.x)); p.y = Math.max(pad.t, Math.min(H - pad.b, p.y)); p.w = textW(short(p.c.name)); p.x = Math.min(p.x, W - 26 - p.w); });
-  // a label never runs over another: a cup whose label would cross an earlier one steps down a line
+  // cups stay where the model puts them; only their labels move: a label that would cross an earlier one steps down a
+  // line, and one that would run off the right edge goes to the left of its cup
+  pts.forEach((p) => { p.x = Math.max(pad.l, Math.min(W - 16, p.x)); p.y = Math.max(pad.t, Math.min(H - pad.b, p.y)); p.w = textW(short(p.c.name)); p.left = p.x + 14 + p.w > W - 8; p.lx = p.left ? p.x - 12 : p.x + 12; p.ly = p.y + 4; });
+  const box = (p) => (p.left ? [p.lx - p.w, p.lx] : [p.lx, p.lx + p.w]);
   pts.sort((a, b) => a.x - b.x);
   for (let i = 0; i < pts.length; i++) for (let guard = 0; guard < 12; guard++) {
-    const a = pts[i], hit = pts.slice(0, i).some((b) => Math.abs(a.y - b.y) < 15 && a.x < b.x + 14 + b.w && a.x + 14 + a.w > b.x);
-    if (!hit) break; a.y += 16;
+    const a = pts[i], [a0, a1] = box(a);
+    const hit = pts.slice(0, i).some((b) => { const [b0, b1] = box(b); return Math.abs(a.ly - b.ly) < 14 && a0 < b1 + 2 && a1 > b0 - 2; })
+      || pts.some((q) => q !== a && q.x > a0 - 8 && q.x < a1 + 8 && Math.abs(q.y - (a.ly - 4)) < 10);
+    if (!hit) break; a.ly += 14;
   }
   return { pts: Object.fromEntries(pts.map((p) => [p.c.slug, p])), sx, sy, pad, W, H };
 }
@@ -252,15 +257,19 @@ function draw() {
     g += `<line x1="${p0.x}" y1="${p0.y}" x2="${ex}" y2="${ey}" stroke="var(--ink)" stroke-width="1.25" stroke-dasharray="4 3" marker-end="url(#arr)"/>`;
     (tags[x.o.slug] ||= []).push(dir.ru.toUpperCase());
   }
-  for (const [slug, t] of Object.entries(tags)) { const p = pts[slug]; g += `<text class="t-dir" x="${p.x + 18 + p.w}" y="${p.y + 4}">${t.join(" · ")}</text>`; }
+  for (const [slug, t] of Object.entries(tags)) { const p = pts[slug]; g += p.left ? `<text class="t-dir" x="${p.lx}" y="${p.ly - 13}" text-anchor="end">${t.join(" · ")}</text>` : `<text class="t-dir" x="${p.lx + p.w + 6}" y="${p.ly}">${t.join(" · ")}</text>`; }
   const rel = new Set([...sol.near.map((x) => x.o.slug), ...Object.values(sol.dirs).filter(Boolean).map((x) => x.o.slug)]);
+  // labels first (with a hairline to the cup when a label had to step down), cups on top, so no label hides a cup
+  let labels = "", cups = "";
   for (const k of M.coffees) {
     const p = pts[k.slug], isSel = k.slug === c.slug;
-    g += `<g class="cup" data-slug="${k.slug}" tabindex="0" role="button" aria-label="${esc(k.name)}"><circle class="hit" cx="${p.x}" cy="${p.y}" r="16"/>`;
-    if (isSel) g += `<circle cx="${p.x}" cy="${p.y}" r="13" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
-    g += `<circle class="c" cx="${p.x}" cy="${p.y}" r="${isSel ? 8 : 6.5}" fill="${DOT[FAM[topFam(k)].dot]}" stroke="var(--ground)" stroke-width="1.5"/>`;
-    g += `<text class="${isSel ? "t-sel" : rel.has(k.slug) ? "t-rel" : ""}" x="${p.x + 12}" y="${p.y + 4}">${esc(short(k.name))}</text></g>`;
+    if (Math.abs(p.ly - p.y - 4) > 1) labels += `<line x1="${p.x}" y1="${p.y}" x2="${p.left ? p.lx + 2 : p.lx - 2}" y2="${p.ly - 4}" stroke="var(--line)"/>`;
+    labels += `<text class="${isSel ? "t-sel" : rel.has(k.slug) ? "t-rel" : ""}" x="${p.lx}" y="${p.ly}"${p.left ? ' text-anchor="end"' : ""}>${esc(short(k.name))}</text>`;
+    cups += `<g class="cup" data-slug="${k.slug}" tabindex="0" role="button" aria-label="${esc(k.name)}"><circle class="hit" cx="${p.x}" cy="${p.y}" r="16"/>`;
+    if (isSel) cups += `<circle cx="${p.x}" cy="${p.y}" r="13" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+    cups += `<circle class="c" cx="${p.x}" cy="${p.y}" r="${isSel ? 8 : 6.5}" fill="${DOT[FAM[topFam(k)].dot]}" stroke="var(--ground)" stroke-width="1.5"/></g>`;
   }
+  g += labels + cups;
   svg.innerHTML = `<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>` + g;
 }
 const ro = new ResizeObserver(draw); ro.observe(fig);
@@ -280,7 +289,7 @@ function panel() {
     <div class="scales">${[["acidity", "кислотность"], ["density", "плотность"], ["ferment", "фермент"], ["sweetness", "сладость"]].map(([k, l]) => `<div><b>${n(c.coded[k])}</b><span>${l}</span></div>`).join("")}</div>
     <ul class="pills">${c.descriptors.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
     <p class="meta">${fams.map(([f, w]) => `<span class="dot" style="--c:${DOT[FAM[f].dot]}"></span>${FAM[f].ru} ${Math.round(w * 100)}%`).join(" · ")}</p>
-    <p class="meta">${[c.line, c.type, c.countries.join(", "), c.processing.join(" / ") || (c.process ? Object.entries(c.process).map(([k, w]) => `${k} ${Math.round(w * 100)}%`).join(", ") : ""), c.roasts.join(" и ")].filter(Boolean).map(esc).join(" · ")}. Позиция: ярче ${c.position.bright}, плотнее ${c.position.body}, необычнее ${c.position.unusual}.</p>`;
+    <p class="meta">${[c.line, c.type, c.countries.join(", "), c.processing.map((x) => PROC[x] || x).join(" / ") || (c.process ? Object.entries(c.process).map(([k, w]) => `${PROC[k] || k} ${Math.round(w * 100)}%`).join(", ") : ""), c.roasts.join(" и ")].filter(Boolean).map(esc).join(" · ")}. Позиция: ярче ${c.position.bright}, плотнее ${c.position.body}, необычнее ${c.position.unusual}.</p>`;
   document.getElementById("changed").innerHTML = own ? "" : `<p class="changed">Веса изменены: выбор пересчитан, причины — короткие. Причины модели написаны для её весов.</p>`;
   document.getElementById("dirs").innerHTML = M.directions.map((dir) => {
     const x = sol.dirs[dir.id], m = c.directions[dir.id];
@@ -323,7 +332,8 @@ function weights() {
 }
 document.getElementById("reset").addEventListener("click", () => { state.w = { ...M.weights }; weights(); panel(); draw(); });
 document.getElementById("notes").innerHTML = CHECK.notes.map((t) => `<p>${esc(t)}</p>`).join("");
-document.getElementById("legend").innerHTML = M.families.map((f) => `<span><span class="dot" style="--c:${DOT[f.dot]}"></span>${esc(f.ru)}</span>`).join("") + `<span>· цвет точки — главная семья вкуса</span>`;
+const byDot = {}; for (const f of M.families) (byDot[f.dot] ||= []).push(f.ru);
+document.getElementById("legend").innerHTML = Object.entries(byDot).map(([d, names]) => `<span><span class="dot" style="--c:${DOT[d]}"></span>${esc(names.join(", "))}</span>`).join("") + `<span>· цвет точки — главная семья вкуса</span>`;
 weights(); panel();
 }
 </script>

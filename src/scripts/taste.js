@@ -5,7 +5,8 @@
 // A position has four numbers on QQ's 1–5 scales and a flavour profile:
 //   bright   acidity (QQ's «Кислотность») ± at most 0.2 from what the descriptors say about it
 //   body     density (QQ's «Плотность»), as coded
-//   unusual  ferment (QQ's «Фермент», 0–3) + up to 0.3 for an experimental process or species, ± 0.2 from the families
+//   unusual  ferment (QQ's «Фермент», 0–3) + 0.3 for an experimental process, + 0.2 for wet-hull or a species that
+//            is not arabica, − 0.1 for robusta in a blend, ± 0.1 from the families
 //   sweet    sweetness (QQ's «Сладость»): in the distance with a small weight, never shown as an axis (it is 3–5 everywhere)
 //   flavour  { family: share }, shares add up to 1
 //   process  { washed, natural, wethull: share }: how the cherry was taken off the bean (a blend: its lots' shares).

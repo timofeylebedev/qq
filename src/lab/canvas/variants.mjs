@@ -58,10 +58,11 @@ export function rendered(data) {
 // ── sample data ──────────────────────────────────────────────────────────────────────────────────────────────────
 // Real coffees from the data, with one field changed where a group compares that field. The descriptors of the
 // family group are sample words, one per flavour family of design/colors.json (and one that belongs to none).
-const FAMILY_WORDS = [["chocolate", "Молочный шоколад"], ["nuts", "Фундук"], ["citrus", "Апельсин"], ["berry", "Лесные ягоды"],
-  ["orchard", "Зелёное яблоко"], ["sweet", "Карамель"], ["tea", "Чёрный чай"], ["tropical", "Маракуйя"], ["vine", "Виноград"],
-  ["spice", "Специи"], ["other — no family", "Сливочный"]];
-const MANY = ["Сухофрукты", "Чай", "Шоколад", "Лесные ягоды", "Апельсин", "Карамель"];
+// one descriptor per dot colour, each an exact value of data/flavours.json (dots no longer match words inside a descriptor)
+const FAMILY_WORDS = [["chocolate", "Молочный шоколад"], ["nuts", "Фундук"], ["citrus", "Апельсин"], ["berry", "Малина"],
+  ["orchard", "Зеленое яблоко"], ["sweet", "Карамель"], ["tea", "Черный чай"], ["tropical", "Маракуйя"], ["vine", "Сухофрукты"],
+  ["spice", "Сладкие специи"], ["other — no family", "Сливочный"]];
+const MANY = ["Сухофрукты", "Чай", "Шоколад", "Ягоды", "Апельсин", "Карамель"];
 
 function samples({ site, products }) {
   const by = Object.fromEntries(products.map((p) => [p.slug, p]));

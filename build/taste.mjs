@@ -60,10 +60,25 @@ export const procCodes = (s) => PROC.filter(([, re]) => re.test(strip(s))).map((
 const EXPERIMENTAL = new Set(["semi-anaerobic", "anaerobic", "culturing"]);
 const PROC_RU = { natural: "натуральная", washed: "мытая", honey: "хани", "semi-anaerobic": "полуанаэробная", anaerobic: "анаэробная", culturing: "культуринг", "wet-hull": "вэт-халл", decaf: "декаф", ice: "ice" };
 
-// the green coffee of a coffee, as a key: the same lots in the same shares are the same coffee under another label
-const greenKey = (s) => strip(s).split(";").map((x) => x.trim()).filter(Boolean)
-  .map((x) => { const [lot, share] = x.split("—").map((y) => y.trim()); return `${lot.toLowerCase().replace(/\s+/g, " ")}:${parseInt(share, 10) || 100}`; })
-  .sort().join("+");
+// the green coffee of a coffee, as a key: the same lots in the same shares are the same coffee under another label.
+// Lot names are compared loosely (case, ё/е, hyphens, dots, spaces), since Notion is typed by hand.
+export const normName = (s) => strip(s).toLowerCase().replace(/ё/g, "е").replace(/[-–—.,()«»"'/]+/g, " ").replace(/\s+/g, " ").trim();
+const lotsOf = (s) => strip(s).split(";").map((x) => x.trim()).filter(Boolean)
+  .map((x) => { const i = x.lastIndexOf("—"); const lot = i < 0 ? x : x.slice(0, i), share = i < 0 ? "" : x.slice(i + 1); return { lot: normName(lot), share: parseInt(share, 10) || 100, decaf: /декаф|decaf/i.test(share) }; });
+const greenKey = (s) => lotsOf(s).map((x) => `${x.lot}:${x.share}`).sort().join("+");
+// two green keys that differ only by a typo or two in a lot's name (same shares) are the same green coffee
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++) d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+export function sameGreen(x, y) {
+  const A = lotsOf(x).sort((p, q) => p.lot.localeCompare(q.lot)), B = lotsOf(y).sort((p, q) => p.lot.localeCompare(q.lot));
+  return A.length > 0 && A.length === B.length && A.every((a, i) => a.share === B[i].share && lev(a.lot, B[i].lot) <= 2);
+}
+// a relabel's name is usually its coffee's name plus the partner's («Колумбия Антиокия St. Riders»)
+const namePrefix = (a, b) => { const x = normName(a), y = normName(b); return x !== y && (x.startsWith(y + " ") || y.startsWith(x + " ")); };
 
 function audit(rows, products) {
   const site = rows.filter((r) => r["На сайте"] === "Да");
@@ -75,6 +90,11 @@ function audit(rows, products) {
     fix("duplicate", n, "На сайте", rs.map((r) => r["ID"]).join(", "),
       `Одна и та же позиция «На сайте» дважды (${rs.map((r) => `${r["ID"]}: Применение «${r["Применение"]}»`).join("; ")}). Сайт берёт ${kept.id}. Снять «На сайте» с лишней строки или удалить её.`);
   }
+  // the same name twice among the other rows (not on the site), and names with a double space
+  const allNames = new Map();
+  for (const r of rows.filter((x) => x["На сайте"] !== "Да")) { const k = normName(r["Название"]); allNames.set(k, [...(allNames.get(k) || []), r]); }
+  for (const rs of allNames.values()) if (rs.length > 1) fix("duplicate", strip(rs[0]["Название"]), "Название", rs.map((r) => r["ID"]).join(", "), `Две строки с одним названием (не на сайте). Если это одно и то же — удалить лишнюю.`);
+  for (const r of rows) if (/\S {2,}\S/.test(r["Название"])) fix("spelling", r["Название"].replace(/ {2,}/g, " "), "Название", r["Название"].replace(/ /g, "·"), "Двойной пробел в названии.");
   // values with an older wording in [brackets], and values split apart by them
   for (const r of site) for (const f of ["Название", "Дескрипторы", "Краткое описание", "Обжарка", "Обработка", "Теги"]) {
     const v = r[f] || "";
@@ -94,7 +114,9 @@ function audit(rows, products) {
   const prices = JSON.parse(read("data/prices.json")).groups;
   const citric = site.filter((r) => r["Ценовая группа"] === "Citric");
   if (citric.length) fix("field", `${citric.length} кофе`, "Ценовая группа", "Citric",
-    `«Citric» звучит как вкус, а не как цена, а в группе и самые мягкие кофе (${[...new Set(citric.map((r) => strip(r["Название"])))].join(", ")}). Если это ценовой уровень между Classic и Special — дать ему имя, которое читается как цена. Сайт пока держит для неё отдельную цену (data/prices.json).`);
+    `«Citric» читается как вкус («цитрусовый»), а не как цена, хотя в группе кофе с кислотностью от 2 до 4 (${[...new Set(citric.map((r) => strip(r["Название"])))].join(", ")}). Если это ценовой уровень между Classic и Special — дать ему имя, которое читается как цена. Сайт держит для неё отдельную цену (data/prices.json).`);
+  for (const r of site) if (r["Линейка"] && r["Ценовая группа"] && r["Линейка"] !== r["Ценовая группа"] && r["Линейка"] === "Special")
+    fix("field", strip(r["Название"]), "Линейка / Ценовая группа", `${r["Линейка"]} / ${r["Ценовая группа"]}`, `Единственный кофе линейки Special не в ценовой группе Special. Проверить, так ли задумано.`);
   for (const r of site) if (r["Ценовая группа"] && !prices[r["Ценовая группа"]]) fix("field", strip(r["Название"]), "Ценовая группа", r["Ценовая группа"], "Нет такой ценовой группы в прайсе.");
   // «—» as a value
   for (const r of site) if ((r["Применение"] || "").trim() === "—") fix("empty", strip(r["Название"]), "Применение", "—", "Пустое значение записано как «—»: оставить поле пустым или заполнить.");
@@ -102,7 +124,7 @@ function audit(rows, products) {
   for (const r of site.filter((x) => x["Тип"] === "Смесь")) {
     const lots = strip(r["Состав зеленого кофе"]), sticker = strip(r["Состав на стикере"]) + " " + strip(r["Состав смеси"]);
     for (const [lot, country] of [["Уганда Робуста", "Вьетнам"]]) if (lots.includes(lot) && sticker.includes(country) && !sticker.includes("Уганда"))
-      fix("conflict", strip(r["Название"]), "Состав зеленого кофе / Состав на стикере", `${lot} / ${country}`, `В составе зелёного кофе «${lot}», на стикере и в описании — ${country}. Проверить, чья робуста сейчас в смеси, и исправить одно из полей.`);
+      fix("conflict", strip(r["Название"]), "Состав зеленого кофе / Состав на стикере", `${lot} / ${country}`, `В составе зелёного кофе «${lot}», на стикере и в описании — ${country}. Сайт показывает страну по стикеру (${country}). Проверить, чья робуста сейчас в смеси, и исправить одно из полей.`);
   }
   // pulped natural written as natural
   for (const r of site) if (/pulped natural/i.test(r["О сорте"]) && !/хани|pulped/i.test(r["Обработка"]))
@@ -114,21 +136,40 @@ function audit(rows, products) {
     ["acidity", (v) => v <= 3, /(ярк(ой|ую|ая)|богат(ой|ую)|высок(ая|ую)|насыщенн(ую|ой)) кислотност/i, "текст говорит о яркой / высокой кислотности"],
     ["acidity", (v) => v >= 3, /без (резк|лишн|ярк)\S* кислотн|без яркой кислотности|излишней кислотности/i, "текст говорит, что кислотности нет"]
   ];
+  // a sentence about the region or the variety in general («Красный Бурбон, известный своей яркой кислотностью») is not
+  // about this lot: such matches are skipped
+  const GENERAL = /регион|разновидност|сорт(ов|а|ом)?\b|сорт,|известн|придают кофе из/i;
   for (const p of products) for (const [k, bad, re, what] of SAYS) {
-    const text = p.about.join(" "), m = text.match(re);
-    if (m && /без\s*$/i.test(text.slice(Math.max(0, m.index - 5), m.index))) continue;   // «без яркой кислотности» says the opposite
-    if (m && bad(p.taste[k])) fix("text", p.name, k === "density" ? "Плотность" : "Кислотность", String(p.taste[k]),
-      `${what} («…${m[0]}…»), а по шкале ${String(p.taste[k]).replace(".", ",")}. Иногда текст говорит о сорте или регионе вообще, а не об этом лоте; проверить шкалу или текст. Модель верит шкале.`);
+    if (!bad(p.taste[k])) continue;
+    const text = p.about.join(" ");
+    const g = new RegExp(re.source, "gi");
+    for (const m of text.matchAll(g)) {
+      if (/без\s*$/i.test(text.slice(Math.max(0, m.index - 5), m.index))) continue;   // «без яркой кислотности» says the opposite
+      const from = Math.max(text.lastIndexOf(".", m.index), 0), to = text.indexOf(".", m.index);
+      if (GENERAL.test(text.slice(from, to < 0 ? undefined : to))) continue;
+      fix("text", p.name, k === "density" ? "Плотность" : "Кислотность", String(p.taste[k]),
+        `${what} («…${m[0]}…»), а по шкале ${String(p.taste[k]).replace(".", ",")}. Проверить шкалу или текст: модель верит шкале.`);
+      break;
+    }
+  }
+  // the text describes a sealed (anaerobic) fermentation, the field a plain process; a culturing lot without its base
+  for (const p of products) {
+    const r = rows.find((x) => x["ID"] === p.id), codes = procCodes(r["Обработка"]), text = p.about.join(" ");
+    const m = text.match(/герметичн\S* (емкост|резервуар|среде)|анаэробн\S* (ферментац|сред)/i);
+    if (m && !codes.some((c) => EXPERIMENTAL.has(c))) fix("conflict", p.name, "Обработка", strip(r["Обработка"]),
+      `В «О сорте» — закрытая ферментация («…${m[0]}…»), в поле — просто «${strip(r["Обработка"])}». Если лот анаэробный, указать это: модель считает такие лоты необычнее (+0,3).`);
+    if (codes.includes("culturing") && !codes.some((c) => ["washed", "natural", "honey"].includes(c))) fix("conflict", p.name, "Обработка", strip(r["Обработка"]),
+      `«Культуринг» без основы. В тексте — депульпация и сушка в пергаменте, то есть мытая основа. Указать основу («Мытая / Культуринг»): модель пока считает её наполовину мытой, наполовину натуральной.`);
   }
   // near-duplicate descriptors (one word in two spellings)
   const all = new Set(rows.flatMap((r) => strip(r["Дескрипторы"]).split(",").map((x) => x.trim()).filter(Boolean)));
   for (const [a, b] of [["Цитрус", "Цитрусы"], ["Цедра", "Цедра цитрусов"], ["Сушеные ягоды", "Вяленые ягоды"]]) if (all.has(a) && all.has(b))
     fix("vocabulary", "дескрипторы", "Дескрипторы", `${a} / ${b}`, `Два значения для одного вкуса: «${a}» и «${b}». Свести к одному, чтобы список вкусов не рос.`);
   // relabels: the same green coffee under another name; Notion has no field saying so
-  const siteKeys = new Map(products.map((p) => [greenKey(rows.find((r) => r["ID"] === p.id)["Состав зеленого кофе"]), p]));
+  const greenOf = new Map(products.map((p) => [p, rows.find((r) => r["ID"] === p.id)["Состав зеленого кофе"]]));
   const relabels = [];
   for (const r of rows.filter((x) => x["На сайте"] !== "Да")) {
-    const p = siteKeys.get(greenKey(r["Состав зеленого кофе"]));
+    const p = products.find((q) => sameGreen(greenOf.get(q), r["Состав зеленого кофе"]));
     if (!p) continue;
     const same = ["Кислотность", "Плотность", "Сладость", "Фермент"].every((k) => (r[k] || "") === String(p.taste[{ Кислотность: "acidity", Плотность: "density", Сладость: "sweetness", Фермент: "ferment" }[k]] ?? ""))
       && strip(r["Дескрипторы"]) === p.descriptors.join(", ");
@@ -167,6 +208,12 @@ function processOf(codes) {
   if (codes.includes("culturing")) return { washed: 0.5, natural: 0.5 };
   return null;
 }
+// decaf: the processing says so, the name says so, or at least half the green coffee is a decaf lot (a «лоукаф» blend
+// with 80% decaf is not for someone who wants caffeine either)
+function isDecaf(p, codes) {
+  const share = p.composition.reduce((s, c) => s + (c.decaf ? c.share || 0 : 0), 0);
+  return codes.includes("decaf") || /декаф|decaf|лоукаф|lowcaf/i.test(p.name) || share >= 50;
+}
 const lean = (prof, key) => Object.entries(prof).reduce((s, [f, w]) => s + w * FAM.get(f)[key], 0);   // −1 … 1
 
 function position(p, row, lotProcess) {
@@ -187,7 +234,7 @@ function position(p, row, lotProcess) {
     body: p.taste.density,
     unusual: +(p.taste.ferment + lifts.unusual).toFixed(3),
     sweet: p.taste.sweetness,
-    flavour, lifts, codes, process: processing(p, codes, lotProcess), robusta, excelsa, decaf: codes.includes("decaf")
+    flavour, lifts, codes, process: processing(p, codes, lotProcess), robusta, excelsa, decaf: isDecaf(p, codes)
   };
 }
 
@@ -211,19 +258,15 @@ const join = (xs) => xs.length < 2 ? xs.join("") : xs.slice(0, -1).join(", ") + 
 const top = (prof, min = 0.2) => Object.entries(prof).filter(([, w]) => w >= min).sort((a, b) => b[1] - a[1]).map(([f]) => f);
 function flavourWords(a, b) {
   const A = top(a.flavour), B = top(b.flavour);
-  const shared = A.filter((f) => B.includes(f));
-  // a family of b that is not in a, but sits right next to one of a's (chocolate ~ caramel), counts as "near", not "new"
-  const gained = B.filter((f) => !A.includes(f) && !A.some((g) => S[f][g] >= 0.6)).slice(0, 2);
-  const lost = A.filter((f) => !B.includes(f) && !B.some((g) => S[f][g] >= 0.6)).slice(0, 2);
-  return { shared, gained, lost };
+  return { shared: A.filter((f) => B.includes(f)), sim: +flavourSim(a.flavour, b.flavour, S).toFixed(3) };
 }
-function flavourText({ shared, gained, lost }, sim) {
-  const ru = (fs) => join(fs.map((f) => FAM.get(f).ru)), gen = (fs) => join(fs.map((f) => FAM.get(f).gen));
-  if (gained.length && lost.length) return `Во вкусе ${ru(gained)} вместо ${gen(lost)}${shared.length ? `, общее — ${ru(shared)}` : ""}.`;
-  if (gained.length) return `${shared.length ? `Тоже ${ru(shared)}, плюс` : "Во вкусе"} ${ru(gained)}.`;
-  if (lost.length) return `${shared.length ? `Тоже ${ru(shared)}, но` : "Во вкусе"} без ${gen(lost)}.`;
-  if (shared.length) return `Вкус того же рода: ${ru(shared)}.`;
-  return sim >= 0.6 ? "Вкус близкого рода." : "";
+// the other coffee's flavour in its own words (its descriptors), and the families both share
+function flavourText(a, b) {
+  const { shared, sim } = flavourWords(a, b);
+  const words = b.descriptors.map((d) => d.toLowerCase()).join(", ");
+  const ru = (fs) => join(fs.map((f) => FAM.get(f).ru));
+  if (shared.length) return `Общее во вкусе — ${ru(shared)}; у него ${words}.`;
+  return sim >= 0.6 ? `Вкус близкого рода: ${words}.` : `Во вкусе другое: ${words}.`;
 }
 // "плотность 2 против 3", in coded points (what the card shows)
 const vs = (k, a, b) => `${AXIS[k].label} ${n(b.coded[AXIS[k].scale])} против ${n(a.coded[AXIS[k].scale])}`;
@@ -238,14 +281,15 @@ function otherChanges(a, b, skip) {
   return out.sort((x, y) => Math.abs(y.d) * WEIGHTS[y.k] - Math.abs(x.d) * WEIGHTS[x.k]);
 }
 
-// a lot both coffees contain (a blend and its single origin): "В составе половина той же Бразилии Санта Мария."
+// a lot both coffees contain (a blend and its single origin): «В обоих — Бразилия Санта Мария: здесь 60%, там 50%.»
 function sharedLot(a, b) {
-  const lots = (c) => new Map(c.composition.map((x) => [x.lot.toLowerCase(), x]));
+  const lots = (c) => new Map(c.composition.map((x) => [normName(x.lot), x]));
   const A = lots(a), B = lots(b);
-  const both = [...B.keys()].filter((l) => A.has(l)).map((l) => B.get(l));
+  const both = [...B.keys()].filter((l) => A.has(l));
   if (!both.length) return "";
-  const x = both.sort((p, q) => (q.share || 0) - (p.share || 0))[0];
-  return x.share >= 100 ? `Это тот же лот ${x.lot} в чистом виде.` : `В составе ${x.share}% того же лота (${x.lot}).`;
+  const l = both.sort((p, q) => (B.get(q).share || 0) - (B.get(p).share || 0))[0];
+  const x = A.get(l).share || 100, y = B.get(l).share || 100, part = (v) => (v >= 100 ? "в чистом виде" : `${v}%`);
+  return `В обоих — ${B.get(l).lot}: здесь ${part(x)}, там ${part(y)}.`;
 }
 
 // ── the model ────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -265,9 +309,13 @@ export function model() {
   const coffees = products.map((p) => {
     const row = rowOf(p);
     return { id: p.id, slug: p.slug, name: p.name, short: p.short, line: p.line, type: p.type,
-      group: greenKey(row["Состав зеленого кофе"]), countries: p.countries, roasts: [...new Set(p.roasts.map((r) => r.use))], use: p.use,
+      green: row["Состав зеленого кофе"], group: greenKey(row["Состав зеленого кофе"]), countries: p.countries, roasts: [...new Set(p.roasts.map((r) => r.use))], use: p.use,
       descriptors: p.descriptors, composition: p.composition, coded: { ...p.taste }, ...position(p, row, lotProcess) };
   });
+  // one group per green coffee: the same lots (allowing a typo), or a name that is another's plus a partner's
+  for (const a of coffees) for (const b of coffees) if (a.group !== b.group && (sameGreen(a.green, b.green) || namePrefix(a.name, b.name))) {
+    const old = b.group; for (const c of coffees) if (c.group === old) c.group = a.group;
+  }
   const by = new Map(coffees.map((c) => [c.slug, c]));
   const D = (a, b, opt) => distance(a, b, S, opt);
   // a relabel is never an alternative to its own coffee; a decaf is never offered for a coffee with caffeine (it is a
@@ -290,7 +338,7 @@ export function model() {
         return { o, step, rest, score: rest + RULES.overshoot * Math.max(0, step - 1) - (milk ? RULES.milkBonus : 0), milk };
       }).filter(Boolean).sort((x, y) => x.score - y.score);
       if (!cands.length) { c.directions[dir.id] = { edge: true, text: dir.edge }; continue; }
-      const best = cands[0];
+      const best = { ...cands[0], smaller: cands.some((x) => x.step <= 1.05) };
       c.directions[dir.id] = { slug: best.o.slug, step: +best.step.toFixed(2), rest: +best.rest.toFixed(3), far: best.rest > RULES.far,
         candidates: cands.length, ...directionWhy(c, best.o, dir, best) };
     }
@@ -298,29 +346,32 @@ export function model() {
 
   function neighbourWhy(a, b) {
     const same = ["bright", "body"].filter((k) => a.coded[AXIS[k].scale] === b.coded[AXIS[k].scale]);
-    const fw = flavourWords(a, b), sim = flavourSim(a.flavour, b.flavour, S);
+    const fw = flavourWords(a, b);
     const diffs = otherChanges(a, b, null);
     const bits = [];
     if (same.length === 2) bits.push(`Та же кислотность (${n(a.coded.acidity)}) и плотность (${n(a.coded.density)}).`);
     else if (same.length === 1) bits.push(`Та же ${AXIS[same[0]].label} (${n(a.coded[AXIS[same[0]].scale])}).`);
-    const ft = flavourText(fw, sim); if (ft) bits.push(ft);
+    bits.push(flavourText(a, b));
     if (diffs.length) bits.push(`Отличие: ${diffs.slice(0, 2).map((x) => x.text).join(", ")}.`);
     if (a.decaf !== b.decaf) bits.push(b.decaf ? "Без кофеина." : "С кофеином.");
     const lot = sharedLot(a, b); if (lot) bits.push(lot);
-    return { why: { same, flavour: fw, flavourSim: +sim.toFixed(3), diffs: diffs.map(({ k, d }) => ({ axis: k, d })) }, text: bits.join(" ") };
+    return { why: { same, flavour: fw, diffs: diffs.map(({ k, d }) => ({ axis: k, d })) }, text: bits.join(" ") };
   }
   function directionWhy(a, b, dir, best) {
     const k = dir.axis, d = b.coded[AXIS[k].scale] - a.coded[AXIS[k].scale];
     const bits = [];
     if (Math.abs(d) >= 0.5) bits.push(`${dir.ru}: ${vs(k, a, b)}.`);
-    else if (k === "unusual") {   // the same ferment score, the difference is the process
-      const p = b.codes.filter((x) => EXPERIMENTAL.has(x) || x === "wet-hull").map((x) => PROC_RU[x]);
-      bits.push(`${dir.ru}: ${p.length ? `обработка ${join(p)}` : b.excelsa ? "другой вид кофе (эксцельса)" : "во вкусе меньше привычного"}${a.coded.ferment === b.coded.ferment ? `, фермент тот же (${n(a.coded.ferment)})` : ""}.`);
+    else if (k === "unusual") {   // the same ferment score: the difference is the process or the species
+      const more = dir.sign > 0 ? b : a;   // the more unusual of the two
+      const p = more.codes.filter((x) => EXPERIMENTAL.has(x) || x === "wet-hull").map((x) => PROC_RU[x]);
+      const what = p.length ? `обработка ${join(p)}` : more.excelsa ? "другой вид кофе (эксцельса)" : "во вкусе меньше привычного";
+      bits.push(`${dir.ru}: ${dir.sign > 0 ? what : `у этого ${what}, у того — нет`}, фермент ${a.coded.ferment === b.coded.ferment ? `тот же (${n(a.coded.ferment)})` : vs(k, a, b)}.`);
     } else bits.push(`${dir.ru}.`);
+    if (Math.abs(d) > 1 && best.smaller) bits.push(`Шаг большой: те, что ближе по шкале, сильнее отличаются в остальном.`);
     const others = otherChanges(a, b, k);
     if (others.length) bits.push(`Но ${others.slice(0, 2).map((x) => x.text).join(", ")}.`);
     else bits.push("В остальном близко.");
-    const ft = flavourText(flavourWords(a, b), flavourSim(a.flavour, b.flavour, S)); if (ft) bits.push(ft);
+    bits.push(flavourText(a, b));
     if (dir.id === "denser" && best.milk) bits.push("QQ советует его для молочных напитков.");
     const lot = sharedLot(a, b); if (lot) bits.push(lot);
     if (best.rest > RULES.far) bits.push("Ближе в этом направлении ничего нет, но в остальном это заметно другой кофе.");
@@ -360,7 +411,7 @@ export function model() {
     axes: [
       { id: "bright", ru: "мягче — ярче", from: "Кислотность ± до 0,2 по дескрипторам", range: [1, 5] },
       { id: "body", ru: "легче — плотнее", from: "Плотность", range: [1, 5] },
-      { id: "unusual", ru: "классичнее — необычнее", from: "Фермент + до 0,3 за экспериментальную обработку или вид", range: [0, 4] }
+      { id: "unusual", ru: "классичнее — необычнее", from: "Фермент + 0,3 за экспериментальную обработку, + 0,2 за вэт-халл или другой вид кофе, − 0,1 за робусту, ± 0,1 по семьям", range: [-0.5, 4.5] }
     ],
     hidden: ["sweet (Сладость, weight " + WEIGHTS.sweet + ")", "flavour (families of data/flavours.json, weight " + WEIGHTS.flavour + ")", "process (washed / natural / wet-hull shares from «Обработка», a blend from its lots, weight " + WEIGHTS.process + ")"],
     weights: WEIGHTS, rules: RULES, directions: DIRECTIONS.map(({ id, axis, sign, ru }) => ({ id, axis, sign, ru })),
@@ -380,6 +431,14 @@ export function model() {
 function checks(coffees, D) {
   const by = new Map(coffees.map((c) => [c.slug, c]));
   const fail = (m) => { throw new Error("taste model: " + m); };
+  // independent of how the model sets its flags: anything that mentions decaf in its name, processing or green coffee
+  // with at least half decaf lots must be flagged; anything that looks like the same coffee must share a group
+  for (const a of coffees) {
+    const raw = JSON.stringify([a.name, a.codes, a.green]);
+    const share = lotsOf(a.green).reduce((s, x) => s + (x.decaf ? x.share : 0), 0);
+    if ((/декаф|decaf/i.test(a.name + a.codes.join(" ")) || share >= 50) && !a.decaf) fail(`${a.name} looks decaf (${raw}) but is not flagged`);
+    for (const b of coffees) if (a !== b && a.group !== b.group && (namePrefix(a.name, b.name) || sameGreen(a.green, b.green))) fail(`${a.name} and ${b.name} look like the same coffee but are in different groups`);
+  }
   for (const a of coffees) {
     for (const k of ["bright", "body", "unusual", "sweet"]) if (!Number.isFinite(a[k])) fail(`${a.name} has no ${k}`);
     if (Math.abs(a.lifts.bright) > RULES.lift + 1e-9) fail(`${a.name}: descriptors move acidity by more than ${RULES.lift}`);
@@ -464,16 +523,20 @@ function report(m) {
 }
 function notionFixes(m) {
   const order = ["duplicate", "broken", "bracket", "conflict", "text", "relabel", "structure", "spelling", "field", "empty", "vocabulary"];
-  const title = { duplicate: "Дубли на сайте", broken: "Разорванные значения", bracket: "Старые формулировки в [скобках]", conflict: "Поля противоречат друг другу", text: "Текст «О сорте» расходится со шкалой", relabel: "Переименования с другим профилем", structure: "Связь переименований с кофе", spelling: "Написание", field: "Поля не по назначению", empty: "Пустые значения", vocabulary: "Словарь дескрипторов" };
-  const L = ["# Что поправить в Notion", "", "Таблица «Сорта_QQ_Coffee_сайт_объединенный». Список пишет `build/taste.mjs` при каждой сборке из `data/products.csv`: исправленное в Notion и выгруженное заново пропадёт отсюда само. Сайт уже обходит каждую из этих проблем в сборке, так что ничего не сломано — но пока они в таблице, их обходит только код.", ""];
+  const title = { duplicate: "Дубли", broken: "Разорванные значения", bracket: "Старые формулировки в [скобках]", conflict: "Поля противоречат друг другу", text: "Текст «О сорте» расходится со шкалой", relabel: "Переименования с другим профилем", structure: "Связь переименований с кофе", spelling: "Написание", field: "Поля не по назначению", empty: "Пустые значения", vocabulary: "Словарь дескрипторов" };
+  const L = ["# Что поправить в Notion", "", "Таблица «Сорта_QQ_Coffee_сайт_объединенный». Список пишет `build/taste.mjs` при каждой сборке из `data/products.csv`: исправленное в Notion и выгруженное заново пропадёт отсюда само. Сборка обходит эти проблемы, чтобы модель и сайт работали, но не все: где сайт показывает неверное, это сказано в пункте.", ""];
   for (const k of order) {
     const xs = m.fixes.filter((f) => f.kind === k); if (!xs.length) continue;
     L.push(`## ${title[k]}`, "");
     for (const f of xs) L.push(`- **${f.coffee}** · ${f.field}${f.value ? ` · \`${f.value}\`` : ""}  \n  ${f.fix}`);
     L.push("");
   }
-  const all = new Set(m.coffees.flatMap((c) => c.descriptors));
-  if (![...all].some((d) => d.length < 2)) L.push("## Опции мультиселекта", "", "- В выгрузке нет одиночного значения «К», которое видели в Notion раньше. Если оно ещё есть в списке опций поля «Дескрипторы», удалить (как и опции «Шоколад [Лесные ягоды» и «Шоколад]»).", "");
+  // questions the blind check raised (docs/taste-check/findings.json); each stays while the coffee's data is unchanged
+  const qs = (JSON.parse(read("docs/taste-check/findings.json")).questions || []).filter((q) => {
+    const c = m.coffees.find((x) => x.slug === q.slug);
+    return c && c.coded.acidity === q.while.acidity && c.coded.density === q.while.density && c.descriptors.join(", ") === q.while.descriptors;
+  });
+  if (qs.length) { L.push("## Вопросы обжарщику после слепой проверки", ""); for (const q of qs) L.push(`- **${m.coffees.find((x) => x.slug === q.slug).name}**  \n  ${q.ask}`); L.push(""); }
   if (m.unmapped.length) L.push("## Новые дескрипторы", "", `Нет в словаре вкусов (data/flavours.json): ${m.unmapped.join(", ")}. Это правка в репозитории, не в Notion.`, "");
   L.push("## Не в Notion, а на сайте", "", "- «Вторая кофемолка» в «Применение» — слово QQ для кофеен, домашним покупателям оно ничего не говорит. Сейчас страница кофе показывает его в плитке «Как готовить» (src/templates/product.mjs); убрать в сессии 2 или 3. В Notion менять не нужно.", "- Строка «Обжарка Буст Брендс» (состав «проверка цены — 100%») — служебная; на сайт не попадает, модель её не видит.", "");
   return L.join("\n");

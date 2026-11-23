@@ -99,8 +99,8 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **The taste model** (`build/taste.mjs` → `src/data/taste.json`; `docs/taste-model.md`): every surface that says
-  which coffees are alike or offers a step (brighter, softer, denser, lighter, more unusual, more classic) reads it;
-  none scores similarity on its own. Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
+  which coffees are alike or offers a step (brighter, softer, denser, lighter, more unusual, more classic) reads it,
+  and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
 - **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.

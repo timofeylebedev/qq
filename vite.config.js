@@ -32,7 +32,7 @@ function pages() {
       server.watcher.on("change", (file) => {
         if (file.startsWith(canvas) && !/[/\\](page|variants)\.mjs$/.test(file)) return;   // only these write it; its .js and .css reload by themselves
         if (watched.some((d) => file.startsWith(d))) {
-          if (file.startsWith(resolve(root, "data"))) execFileSync(process.execPath, ["build/data.mjs"], { cwd: root });
+          if (file.startsWith(resolve(root, "data"))) { execFileSync(process.execPath, ["build/data.mjs"], { cwd: root }); execFileSync(process.execPath, ["build/taste.mjs"], { cwd: root }); }
           writePages();
           writeCanvas(server);
           server.ws.send({ type: "full-reload" });

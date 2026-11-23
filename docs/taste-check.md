@@ -18,21 +18,22 @@ brightest (Найваша) and a co-fermented one (Ла Сирена).
 | Judge A vs judge B | 4.4 of 5 | 3 of 7 | 6 of 7 |
 | Model vs a judge | 2.4 of 5 | 1.5 of 7 | 2 of 7 |
 
-- 74% of the judges' closest picks are in the model's top 10 of 24 (median rank 6). Their first picks match the
+- 76% of the judges' 70 closest picks are in the model's top 10 of the 23 coffees it may offer (median rank 6). Their first picks match the
   model's first for 4 of 7 coffees (Q-Punch, Бекеле, Найваша, Ла Сирена).
 - **The judges agreeing with each other doesn't make them right.** They are two readings of the same text, by the
   same kind of reader, and the texts mostly describe the farm and the process, not the cup.
 - **10 of the judges' 28 brighter/softer picks contradict QQ's own acidity scale.** For example, they call Пальма
   Реаль "brighter" than Мерури, but QQ codes it 2 against 3. A step in the model has to be a step on QQ's scale.
-- Weight sensitivity: across flavour weights 1–3, process 0–1 and acidity 0.6–1, agreement stays between 2.1 and 2.9
+- Weight sensitivity: across flavour weights 1–3, process 0–1 and acidity 0.6–1, agreement stays between 2.1 and 3.0
   of 5. No setting comes close to the judges' 4.4, because the judges don't see the scales. The model was not fitted
   to them.
 
 ## What the check changed
 
-1. **Decaf as an alternative.** Колумбия Декаф was a neighbour or a "brighter" step for four caffeinated coffees. The
-   judges never picked it (its text says nothing about the cup), and the real fault was elsewhere: decaf is a need,
-   not a taste. It is now never offered for a coffee with caffeine, and the build fails if it is.
+1. **Decaf as an alternative.** Without a rule, Колумбия Декаф is a neighbour of 13 caffeinated coffees and a step
+   in 8 more slots; among the 7 judged it sat in four lists. The judges never picked it (its text says nothing about the cup), and the real fault was elsewhere: decaf is a need,
+   not a taste. It is now never offered for a coffee with caffeine, and the build fails if it is. The independent review then showed
+   the flag rested on «Обработка» alone; it now also reads the name and the green coffee (a «лоукаф» blend counts).
 2. **Processing.** Both judges said they leaned on washed vs natural, and four of Бекеле's five closest by the judges are
    naturals (the fifth, Q-Berry, is mostly natural). QQ's four scales don't encode processing, so it is now a hidden term worth 0.6 of an acidity point.
    Agreement went from 2.1 to 2.3 (2.4 with the decaf fix). It is not weighted more, because the texts are mostly about processing, so a
@@ -47,7 +48,7 @@ brightest (Найваша) and a co-fermented one (Ла Сирена).
 | Q-Punch | Judges: Санта Мария, Пальма Реаль next; model: coffees at acidity 2–3 | Санта Мария is 60% of Q-Punch, but QQ codes it 3/3 against 1/5. The judges didn't see that. All of these are "far" anyway |
 | Санта Мария | Judges: Пальма Реаль first (model #11), Q-Punch/Q-Optimistic (#18–19) | Пальма Реаль is a point softer and lighter on QQ's scales. The robusta blends are two points off on both |
 | Санта Мария | Brighter: Антиокия / Q-Finch; softer: Q-Punch | Антиокия and Q-Finch are at the same acidity, 3, so neither is a step. Q-Punch is two steps down, and the nearest single step is Луна (2) |
-| Мерури | Judges: Q-Punch, Q-Optimistic, Ранчо Гранде; "brighter: Пальма Реаль"; "nothing softer" | The text says deep, spicy, soft body and nothing about acidity. QQ's scales and descriptors say acidity 3, grapefruit, tropical. **A question for the roaster** (in `notion-fixes.md` and the blind sheet) |
+| Мерури | Judges: Q-Punch, Q-Optimistic, Ранчо Гранде; "brighter: Пальма Реаль"; "nothing softer" | The text says deep, spicy, soft body and nothing about acidity. QQ's scales and descriptors say acidity 3, grapefruit, tropical. **A question for the roaster** (in `notion-fixes.md`, «Вопросы обжарщику», and the blind sheet) |
 | Бекеле | Softer: Q-Profit | Q-Profit is coded acidity 3, higher than Бекеле's 2 |
 | Ньяки | Brighter: Гицумби (same country, variety, process); model: Найваша | Найваша is "the same, but brighter": same body 2, same flavours, washed. Гицумби is coded body 3. The model ignores origin and variety on purpose (one-attribute "similar" is the competitors' trap) |
 | Найваша | Кения Кисии close (model #20) | Kenya to Kenya is origin. QQ codes Кисии acidity 3, ferment 3 (anaerobic), against 4.5 and 0. Its text says «насыщенная кислотность», «плотное тело»: **a question for the roaster** |
