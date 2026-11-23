@@ -6,7 +6,17 @@ delivery and payment, contacts, the privacy policy and about the company. A stat
 templates and the price table, so the catalog and the 25 coffee pages share one set of components.
 
 **Test link:** https://timofeylebedev.github.io/qq/ — built and published by GitHub Actions on every push to `main`
-(once: Settings → Pages → Source: "GitHub Actions").
+(`.github/workflows/deploy.yml`, from the `gh-pages` branch). **Every pull request gets a preview** at
+`https://timofeylebedev.github.io/qq/pr-preview/pr-<number>/` (the link is posted on the PR, updated on every push,
+removed when it closes).
+
+**The review page of the design system** (every colour, size, step, rule, finding, decision and question, and the review
+rounds): https://timofeylebedev.github.io/qq/report/ (built on every deploy; `npm run report` builds it locally into
+`.site-kit/report/`). Its measured part is `…/qq/report/state.json` (history on the `report-data` branch).
+
+The checks, the review page, the audit and the lessons learned come from **site-kit**
+(https://github.com/timofeylebedev/site-kit), Tim's shared kit for his sites; what is particular to QQ is in its
+adapter, [`site-kit.config.mjs`](site-kit.config.mjs).
 
 The rules Claude follows when working on the site are in [`CLAUDE.md`](CLAUDE.md). The size system, colours and
 decisions are explained in [`design/README.md`](design/README.md).
@@ -18,9 +28,13 @@ npm run canvas       # the component canvas at http://localhost:5173/lab/canvas/
 npm run canvas:check # the canvas in a real browser: every variant there, the camera, clicks and keys at any zoom
 npm run build        # the finished site in dist/
 npm run preview      # dist/ at http://localhost:4173
-npm run rules        # the rules of the system (colours, sizes, steps, motion, decisions)
+npm run rules        # the rules of the system (build/rules.mjs: colours, sizes, steps, motion, decisions; fails), then
+                     # every code rule as the review page shows it (site-kit rules: QQ's and the kit's lessons)
 npm run check        # validates the HTML of the built pages
-npm run audit        # the built pages in a real browser at 12 screen sizes (needs `npx playwright install chromium`)
+npm run audit        # site-kit audit: 21 built pages in a real browser at 12 screen sizes (needs `npx playwright install chromium`)
+npm run checks       # site-kit checks: the design system measured in a browser → .site-kit/out/state.json (~35 min)
+npm run checks:state # the state again from the last record
+npm run report       # site-kit report: the review page into .site-kit/report/ (open its index.html)
 npm run images       # assets-src/img → src/assets/img (AVIF/WebP; commit the outputs)
 npm run fonts        # assets-src/fonts → src/assets/fonts (pip install fonttools brotli)
 node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws, and without WebGL)
@@ -39,7 +53,9 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | `src/styles/` | `base/` (tokens, fonts, layout), `components/` (+ `blocks.css`, `forms.css`), `sections/` (home), `pages/` (catalog, product, shop, account, info) |
 | `src/scripts/` | one file per part: `main.js` starts them; `pouch3d.js` the 3D renderer, `packs.js` the packs' motion, `product.js` the product stage, `filters.js` the catalog, `curl.js` new arrivals turning like pages, `hero.js` the hero's entrance, `cart.js` and `favs.js` the bag and the favourites, `checkout.js` its steps, `ui.js` dialogs, tabs, copy, ratings |
 | `design/` | `scale.json` (every size), `colors.json` (every colour), `intro.json` (the hero's entrance; tuned in `intro-tuner/`), `fade-tuner/` and `intro-tuner/` (Tim's tuning artifacts), `decisions.json` (every exception and stand-in), `countries.json` (outlines of the coffee countries for the account) |
-| `build/` | `data.mjs` (CSV → products.json), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `audit.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
+| `build/` | `data.mjs` (CSV → products.json), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
+| `site-kit.config.mjs` | QQ's adapter for site-kit: the pages, sizes, probes and scenarios of the checks, the audit's settings, the review page's blocks |
+| `design/questions.json` | questions for Tim a check cannot answer (the review page shows them with answer buttons) |
 | `public/pack/` | the 3D pack: mesh, effect maps, label art (fetched by the page) |
 | `public/lab/3d-pack.html` | the 3D pack test bench (look sliders, a 24–200 pack stress test) |
 | `src/lab/canvas/` | the component canvas: `variants.mjs` (what it shows: groups, sample data, what is left out), `page.mjs` (writes the page), `canvas.js` (layout and camera), `check.mjs` |
@@ -56,7 +72,7 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` and
 - **Its label on the 3D pack:** `public/pack/labels/<name>-front-512.webp` (and `-back-`, and `-1024`), then `art` in `build/data.mjs`.
 - **A text of the home page, the navigation, the footer, the roast schedule, delivery prices:** `data/site.json`.
 - **A text of an information page:** `data/business.json`, `faq.json`, `about.json`, `privacy.json`; addresses, phones, legal details: `data/company.json`.
-- **A new page:** a template function, then its address in `PAGES` of `build/pages.mjs` (and in `.gitignore`, the dev server's `ignored` in `vite.config.js`, `check` in `package.json`, `PAGES` of `build/audit.mjs`).
+- **A new page:** a template function, then its address in `PAGES` of `build/pages.mjs` (and in `.gitignore`, the dev server's `ignored` in `vite.config.js`, `check` in `package.json`, `PAGES` of `site-kit.config.mjs`).
 - **A size:** `design/scale.json` (two numbers: at a 320 and at a 1440 screen). **A colour:** `design/colors.json`.
 - **A picture:** the original into `assets-src/img` under the same name, `npm run images`, commit the outputs.
 - **Something decided on purpose** (an exception to a rule, a stand-in): `design/decisions.json`.
@@ -84,7 +100,7 @@ Chrome and Edge 111+, Safari and iOS 16.4+, Firefox 121+: the layout relies on c
 ## Status
 
 Home, catalog, coffee pages and the pages of round 4 (bag, favourites, checkout, account, business, FAQ, delivery,
-contacts, privacy, about) are built and checked (rules, HTML, the audit at 12 sizes). There is no shop behind them yet:
+contacts, privacy, about) are built and checked (rules, HTML, the audit at 12 sizes, the design system's checks). There is no shop behind them yet:
 the bag and favourites live in the visitor's browser, the checkout and the forms send nothing, the account shows a
 placeholder visitor. Not built yet: search, offices, the other categories (cascara, drips, sets, merch), the journal,
 the 404 page, sign-up and letters, the mobile menu's design, the animated footer logo. Placeholders (prices, photos, the 3D label, the

@@ -1,0 +1,49 @@
+{
+  "$about": [
+    "Questions for Tim: what a check cannot answer (a look on a real device, a choice). The review page's first page («What needs you») lists the open ones with answer buttons; a button copies the answer («QQ answer · <id>: <answer>») to paste into a chat with Claude, who records it with `npx site-kit checks answer <id> \"<answer>\" [\"note\"]`.",
+    "about: the files the question is about. An answer is stored with those files' fingerprints (git blob hashes): when one of them changes, the question opens again («changed since your answer»), so an OK given to an older build never covers a newer one.",
+    "needs: iphone | mac-safari | eye (look at it anywhere) | choice. link: where to look (the test site unless a PR preview is named).",
+    "status: open | answered. A question can also be closed by a decision (answer.decision) or dropped (status: dropped, with why)."
+  ],
+  "questions": [
+    {
+      "id": "hero-footer-links",
+      "ask": "The navbar links only to pages that exist (an item without a page is a label: decision nav-links-pages). The hero's and the footer's links are not under that rule yet. Should they follow it too (no link where there is no page), or stay as they are?",
+      "needs": ["choice"],
+      "link": "https://timofeylebedev.github.io/qq/",
+      "since": "2026-10-20",
+      "from": "round 2 (CLAUDE.md «Navbar links»)",
+      "options": ["Same rule as the navbar", "Keep them as they are"],
+      "about": ["data/site.json", "src/templates/home.mjs", "src/templates/layout.mjs"],
+      "status": "open"
+    },
+    {
+      "id": "tabbar-safari-bar",
+      "ask": "On your iPhone, in Safari: scroll any page down and up with the tab bar at the bottom. Does Safari's own bottom bar stay plain glass, or does it take the tab bar's colour (or turn white)? Safari tints its bar from anything fixed at the bottom edge (a lesson of Flow Medium, site-kit AGENTS.md).",
+      "needs": ["iphone"],
+      "link": "https://timofeylebedev.github.io/qq/catalog/",
+      "since": "2026-11-23",
+      "from": "PR #17 (site-kit)",
+      "options": ["Plain glass, looks right", "It takes a colour (say which page)"],
+      "about": ["src/styles/components/nav.css", "src/templates/layout.mjs"],
+      "status": "open"
+    },
+    {
+      "id": "not-found-page",
+      "ask": "The site has no page of its own for a wrong address: GitHub Pages shows its plain «404 File not found». Make a QQ page for it (the navbar, a line and a link to the catalog), or leave it until the real host?",
+      "needs": ["choice"],
+      "link": "https://timofeylebedev.github.io/qq/no-such-page",
+      "since": "2026-11-23",
+      "from": "PR #17 (site-kit: the checks found no 404.html)",
+      "options": ["Make a QQ page", "Leave it until the real host"],
+      "about": ["build/pages.mjs", "vite.config.js"],
+      "status": "open"
+    },
+    { "id": "checkout-sideways",
+      "ask": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+      "needs": ["choice"], "link": "https://timofeylebedev.github.io/qq/checkout/", "since": "2026-11-23",
+      "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+      "options": ["Fix it in the next PR", "Leave it (folded phones are rare)"],
+      "about": ["src/styles/pages/shop.css", "src/templates/shop.mjs"], "status": "open" }
+  ]
+}

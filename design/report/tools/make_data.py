@@ -188,7 +188,8 @@ R2_IDS = {'footer-squares', 'reel-bleed', 'featured-photos', 'page-transition', 
 R5_IDS = {'hero-title-fills-cell', 'countdown-as-caption', 'mobile-menu', 'nav-steps', 'qq-digits', 'hero-entrance', 'hero-layers-full-width'}   # new or changed in round 6
 decision_items = [{'id': d['id'], 'kind': d['kind'], 'what': d['what'], 'why': d['why'], 'decided': d['decided'], 'isNew': d['id'] in R5_IDS} for d in dec]
 nd = {k: sum(1 for d in dec if d['kind'] == k) for k in ('decision', 'exception', 'placeholder')}
-audit_clean = 'clean' in audit.splitlines()[-1] if audit.strip() and audit != '(not run)' else False
+# the last line of a clean run: «… clean» (QQ's own audit, before site-kit) or «All checks passed.» (site-kit audit)
+audit_clean = any(w in audit.strip().splitlines()[-1] for w in ('clean', 'All checks passed')) if audit.strip() and audit != '(not run)' else False
 audit_last = audit.strip().splitlines()[-1] if audit.strip() else ''
 
 rules_items = []
