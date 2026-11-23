@@ -1,7 +1,16 @@
-# Checks every pull request in a real browser: `npm run audit` (build/audit.mjs) loads the home page, the catalog and
-# two coffee pages at eleven screen sizes (phones upright and sideways, tablets, laptops, 1440, 1920, 2560, and a phone
-# and a laptop with the browser's text at 24px) and fails on sideways scroll, cut-off text, text under 12px, tap
-# targets under 24px, script errors and axe-core rules. Exceptions decided on purpose are in design/decisions.json.
+# Checks every pull request in real browsers: `site-kit audit` (site-kit's .github/workflows/audit.yml; QQ's settings
+# in site-kit.config.mjs, key `audit`; was build/audit.mjs, with the same findings) loads the home page, the catalog, two
+# coffee pages and the pages of round 4 (the shop with a bag and favourites put into the browser first, the account,
+# the information pages) at twelve screen sizes (a folded phone, phones upright and sideways, tablets, laptops short and
+# tall, 1440, 1920, 2560, and a phone and a laptop with the browser's text at 24px) and fails on sideways scroll,
+# cut-off text, text under 12px, tap targets under 24px, the navbar's sections running into the logo or the tools, the
+# hero's countdown out of line with its caption, script errors and axe-core rules. Exceptions decided on purpose are in
+# design/decisions.json (an exception with an `audit` field), each with its reason.
+#
+# Three engines: Chromium fails its check when a problem is found. Firefox and WebKit (Safari, every browser on iPhone)
+# run too, but only warn (their check stays green, the problems are in its summary): they were added without a first
+# run to compare with. Once they have come back clean a few times, add them to `fail-on` below to make them fail too.
+# The kit's version is pinned here and in package.json ("site-kit"): raise both together, on purpose.
 name: Responsive audit
 
 on:
@@ -11,30 +20,16 @@ on:
 permissions:
   contents: read
 
+# one run per pull request (its ref is refs/pull/<n>/merge): a newer push cancels the older audit
 concurrency:
   group: audit-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   audit:
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run build
-      - name: Audit
-        run: |
-          set -o pipefail
-          npm run audit 2>&1 | tee audit.log
-      - name: Summary
-        if: always()
-        run: |
-          { echo "### Responsive audit"; echo; echo '```'; tail -n 60 audit.log 2>/dev/null; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          # each problem also as an annotation on the pull request (readable through the checks API too)
-          grep -E '^[0-9]+×[0-9]+[^:]*: ' audit.log 2>/dev/null | head -n 40 | while IFS= read -r line; do echo "::error title=Audit::$line"; done || true
+    uses: timofeylebedev/site-kit/.github/workflows/audit.yml@ba4914c987720488100b564600c0404321c062ad
+    with:
+      build: npm run build
+      engines: '["chromium", "firefox", "webkit"]'
+      fail-on: '["chromium"]'
+      timeout: 45           # 21 pages at twelve sizes (the kit's default is 20 minutes)

@@ -1,5 +1,6 @@
 {
  "meta": {
+  "rounds": [{"n": 7, "date": "Oct 21", "title": "Round 7: the menu cell, the dealt catalog, the pack with the scroll (PR #11)", "about": "Tim's comments on the catalog, the product page and «О компании»: one menu cell for the filters and the buy bar, cards rising one after another, the pack exactly with the scroll and draggable.", "sections": ["changes", "round7areas", "fades", "navbar", "hero", "featured", "reel", "facts", "footer", "stage", "catalog", "checks", "next"]}, {"n": 6, "date": "Oct 21", "title": "Round 6 (PR #9)", "about": "What round 6 changed.", "sections": ["round6"]}, {"n": 5, "date": "Oct 20", "title": "Round 5 (PR #8)", "about": "What round 5 changed.", "sections": ["round5"]}, {"n": 3, "date": "Oct 20", "title": "Round 3 (PR #5 → #6)", "about": "What round 3 changed.", "sections": ["round3"]}, {"n": 2, "date": "Oct 20", "title": "Round 2 (PR #3)", "about": "What round 2 changed.", "sections": ["round2"]}, {"n": 1, "date": "Oct 19", "title": "Round 1: what was built (PR #1)", "about": "The first build.", "sections": ["earlier"]}],
   "key": "qq-system-report-r7",
   "title_tag": "QQ Site System, Round 7",
   "name": "QQ Coffee <span>· the site system</span>",
