@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-23T18:41:59.364Z",
- "commit": "5eb332a7c734d59d59f7256eef8a0c8db3320a4f",
+ "generated": "2026-11-23T19:31:51.103Z",
+ "commit": "89f58a00a15a9ba06c0ca63fddcd7d932322fbd8",
  "ref": "claude/site-kit",
  "pr": "17",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T18:26:57.707Z",
+   "when": "2026-11-23T19:16:51.429Z",
    "quick": false,
    "seconds": 490,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-23T18:35:07.509Z",
+   "when": "2026-11-23T19:24:59.788Z",
    "quick": true,
-   "seconds": 412,
+   "seconds": 411,
    "errors": []
   }
  },
@@ -36,14 +36,14 @@
   "rules": 75,
   "errors": 0,
   "pass": 51,
-  "warn": 9,
-  "fail": 9,
+  "warn": 10,
+  "fail": 8,
   "info": 6,
-  "findings": 120,
+  "findings": 143,
   "new": 0,
   "fixed": 0,
   "accepted": 91,
-  "questions": 3
+  "questions": 4
  },
  "needs": [
   {
@@ -88,8 +88,8 @@
    "why": "2 places",
    "fresh": 0,
    "sample": [
-    "picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (844x390 1024x768 1440x900 1920x1080 2560x1440)",
-    "picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)"
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (844x390 1024x768 1440x900 1920x1080 2560x1440)",
+    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)"
    ],
    "rank": 302
   },
@@ -122,20 +122,6 @@
     "src/scripts/scroll.js:81: addEventListener(\"load\") on the window without a readyState check"
    ],
    "rank": 302
-  },
-  {
-   "type": "rule",
-   "id": "shape.radii",
-   "severity": "fail",
-   "area": "Shape",
-   "title": "Corners are radius roles (or pills)",
-   "kind": "share",
-   "why": "100% of rounded boxes (wanted 90%)",
-   "fresh": 0,
-   "sample": [
-    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
-   ],
-   "rank": 301
   },
   {
    "type": "rule",
@@ -241,6 +227,41 @@
    "rank": 201
   },
   {
+   "type": "question",
+   "id": "checkout-sideways",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/checkout/",
+   "options": [
+    "Fix it in the next PR",
+    "Leave it (folded phones are rare)"
+   ],
+   "since": "2026-11-23",
+   "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+   "why": "open since 2026-11-23 (PR #17 (the kit's audit in Firefox and WebKit at 280 × 653))",
+   "rank": 201
+  },
+  {
+   "type": "rule",
+   "id": "align.edges",
+   "severity": "warn",
+   "area": "Alignment",
+   "title": "Edges line up",
+   "kind": "tolerance",
+   "why": "23 places",
+   "fresh": 0,
+   "sample": [
+    "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
+    "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
+    "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
+   ],
+   "rank": 123
+  },
+  {
    "type": "rule",
    "id": "icons.sizes",
    "severity": "warn",
@@ -251,26 +272,10 @@
    "fresh": 0,
    "sample": [
     "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn: 24×24",
-    "button.hero__info-btn, svg.buy__chevron: 20×20",
-    "svg.taste__plot: 72×98"
+    "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron: 20×20",
+    "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
    ],
    "rank": 116
-  },
-  {
-   "type": "rule",
-   "id": "align.edges",
-   "severity": "warn",
-   "area": "Alignment",
-   "title": "Edges line up",
-   "kind": "tolerance",
-   "why": "14 places",
-   "fresh": 0,
-   "sample": [
-    "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
-    "div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
-    "h3.card__title: left edge +1.89px off the line at 438.84 (9 blocks on it) (844x390)"
-   ],
-   "rank": 114
   },
   {
    "type": "rule",
@@ -282,9 +287,9 @@
    "why": "14 places",
    "fresh": 0,
    "sample": [
-    "picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 1440x900)",
-    "picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)"
    ],
    "rank": 114
   },
@@ -306,6 +311,22 @@
   },
   {
    "type": "rule",
+   "id": "align.icons",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Icons sit on their text's line",
+   "kind": "tolerance",
+   "why": "12 places",
+   "fresh": 0,
+   "sample": [
+    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)",
+    "button.buy__add: higher than its text's line by 2.59px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+   ],
+   "rank": 112
+  },
+  {
+   "type": "rule",
    "id": "layers.z",
    "severity": "warn",
    "area": "Layers",
@@ -322,6 +343,22 @@
   },
   {
    "type": "rule",
+   "id": "shape.radii",
+   "severity": "warn",
+   "area": "Shape",
+   "title": "Corners are radius roles (or pills)",
+   "kind": "share",
+   "why": "100% of rounded boxes (wanted 90%)",
+   "fresh": 0,
+   "sample": [
+    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "catalog/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
+   ],
+   "rank": 104
+  },
+  {
+   "type": "rule",
    "id": "shape.borders",
    "severity": "warn",
    "area": "Shape",
@@ -331,24 +368,24 @@
    "fresh": 0,
    "sample": [
     "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts: 1px",
-    "input.box: 1.5px",
-    "input.box: 1.33px"
+    "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box: 1.5px",
+    "catalog/ input.box: 1.33px"
    ],
    "rank": 103
   },
   {
    "type": "rule",
-   "id": "align.icons",
+   "id": "icons.colour",
    "severity": "warn",
    "area": "Icons",
-   "title": "Icons sit on their text's line",
+   "title": "Icons take the colour of their text",
    "kind": "tolerance",
    "why": "3 places",
    "fresh": 0,
    "sample": [
-    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)",
-    "button.buy__add: higher than its text's line by 2.59px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+    "svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "coffee/keniya-kisii/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "coffee/q-optimistic/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
    ],
    "rank": 103
   },
@@ -362,21 +399,7 @@
    "why": "1 place · 3 too long",
    "fresh": 0,
    "sample": [
-    "div.pstory__cols p: 93 characters a line over 3 lines (1024x768 1366x650 1440x900)"
-   ],
-   "rank": 101
-  },
-  {
-   "type": "rule",
-   "id": "icons.colour",
-   "severity": "warn",
-   "area": "Icons",
-   "title": "Icons take the colour of their text",
-   "kind": "tolerance",
-   "why": "1 place",
-   "fresh": 0,
-   "sample": [
-    "svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+    "coffee/q-optimistic/ div.pstory__cols p: 93 characters a line over 3 lines (1024x768 1366x650 1440x900)"
    ],
    "rank": 101
   }
@@ -397,8 +420,8 @@
    "status": "pass",
    "items": [
     {
-     "key": "h1.sr|29.6",
-     "where": "h1.sr",
+     "key": "catalog/ h1.sr|29.6",
+     "where": "catalog/ h1.sr",
      "what": "29.6px PT Mono 700",
      "value": 29.6,
      "n": 1,
@@ -406,8 +429,8 @@
      "note": "nearest role type/h3 = 32.8px"
     },
     {
-     "key": "h1.sr|30.51",
-     "where": "h1.sr",
+     "key": "catalog/ h1.sr|30.51",
+     "where": "catalog/ h1.sr",
      "what": "30.51px PT Mono 700",
      "value": 30.51,
      "n": 1,
@@ -415,8 +438,8 @@
      "note": "nearest role type/title = 28.29px"
     },
     {
-     "key": "h1.sr|30.07",
-     "where": "h1.sr",
+     "key": "catalog/ h1.sr|30.07",
+     "where": "catalog/ h1.sr",
      "what": "30.07px PT Mono 700",
      "value": 30.07,
      "n": 1,
@@ -459,8 +482,8 @@
    "status": "warn",
    "items": [
     {
-     "key": "div.pstory__cols p",
-     "where": "div.pstory__cols p",
+     "key": "coffee/q-optimistic/ div.pstory__cols p",
+     "where": "coffee/q-optimistic/ div.pstory__cols p",
      "what": "93 characters a line over 3 lines",
      "value": 93,
      "at": "1024x768 1366x650 1440x900"
@@ -509,13 +532,13 @@
     },
     {
      "key": "gradient",
-     "where": "div.hero__dock, p.featured__caption, form.buy, div.bcard__info",
+     "where": "div.hero__dock, p.featured__caption, form.buy, div.bcard__info, catalog/ form.buy, coffee/keniya-kisii/ form.buy",
      "what": "gradient",
      "value": 25
     },
     {
      "key": "alpha",
-     "where": "li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile, coffee/q-optimistic/ li.ptile",
      "what": "alpha",
      "value": 5
     }
@@ -534,28 +557,58 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 142,
-   "total": 142,
+   "on": 256,
+   "total": 256,
    "pass": 90,
    "warn": 75,
-   "status": "fail",
+   "status": "warn",
    "items": [
     {
      "key": "select.buy__select|5",
      "where": "select.buy__select",
      "what": "radius 5px on a 144×54 box",
      "value": 5,
+     "n": 12,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "catalog/ select.buy__select|5",
+     "where": "catalog/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
      "n": 50,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "coffee/keniya-kisii/ select.buy__select|5",
+     "where": "coffee/keniya-kisii/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 8,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "coffee/q-optimistic/ select.buy__select|5",
+     "where": "coffee/q-optimistic/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 8,
      "at": "320x568 390x844",
      "note": "roles here: ",
      "engine": "webkit"
     }
    ],
    "webkit": {
-    "status": "fail",
-    "value": 74,
-    "on": 142,
-    "total": 192
+    "status": "warn",
+    "value": 76.6,
+    "on": 256,
+    "total": 334
    },
    "accepted": 0
   },
@@ -578,14 +631,14 @@
     },
     {
      "key": "1.5",
-     "where": "input.box",
+     "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
      "what": "1.5px",
      "value": 29,
      "engine": "webkit"
     },
     {
      "key": "1.33",
-     "where": "input.box",
+     "where": "catalog/ input.box",
      "what": "1.33px",
      "value": 29,
      "engine": "webkit"
@@ -640,9 +693,33 @@
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     },
     {
-     "key": "backdrop-filterli.ptile",
-     "where": "li.ptile",
+     "key": "canvascatalog/ canvas",
+     "where": "catalog/ canvas",
+     "what": "canvas: 320×704",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "backdrop-filtercoffee/keniya-kisii/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile",
      "what": "backdrop-filter: blur(40px)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "canvascoffee/keniya-kisii/ canvas",
+     "where": "coffee/keniya-kisii/ canvas",
+     "what": "canvas: 320×704",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "backdrop-filtercoffee/q-optimistic/ li.ptile",
+     "where": "coffee/q-optimistic/ li.ptile",
+     "what": "backdrop-filter: blur(40px)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "canvascoffee/q-optimistic/ canvas",
+     "where": "coffee/q-optimistic/ canvas",
+     "what": "canvas: 320×704",
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
@@ -683,31 +760,31 @@
     },
     {
      "key": "6",
-     "where": "p.featured__caption, div.pstage__head, div.col",
+     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
      "what": "z-index 6",
      "value": 6
     },
     {
      "key": "7",
-     "where": "button.fav, form.buy",
+     "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
      "what": "z-index 7",
      "value": 7
     },
     {
      "key": "20",
-     "where": "form.filters, form.buybar",
+     "where": "catalog/ form.filters, coffee/keniya-kisii/ form.buybar, coffee/q-optimistic/ form.buybar",
      "what": "z-index 20",
      "value": 20
     },
     {
      "key": "50",
-     "where": "header.nav, nav.tabbar",
+     "where": "header.nav, nav.tabbar, catalog/ header.nav, catalog/ nav.tabbar, coffee/keniya-kisii/ header.nav, coffee/keniya-kisii/ nav.tabbar",
      "what": "z-index 50",
      "value": 50
     },
     {
      "key": "100",
-     "where": "a.skip",
+     "where": "a.skip, catalog/ a.skip, coffee/keniya-kisii/ a.skip, coffee/q-optimistic/ a.skip",
      "what": "z-index 100",
      "value": 100
     }
@@ -744,14 +821,80 @@
      "at": "320x568 390x844"
     },
     {
-     "key": "div.pstage__pin",
-     "where": "div.pstage__pin",
+     "key": "catalog/ a.skip",
+     "where": "catalog/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ header.nav",
+     "where": "catalog/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ nav.tabbar",
+     "where": "catalog/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/keniya-kisii/ a.skip",
+     "where": "coffee/keniya-kisii/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ header.nav",
+     "where": "coffee/keniya-kisii/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ nav.tabbar",
+     "where": "coffee/keniya-kisii/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.pstage__pin",
+     "where": "coffee/keniya-kisii/ div.pstage__pin",
      "what": "sticky",
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     },
     {
-     "key": "form.buybar",
-     "where": "form.buybar",
+     "key": "coffee/keniya-kisii/ form.buybar",
+     "where": "coffee/keniya-kisii/ form.buybar",
+     "what": "sticky, z 20",
+     "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ a.skip",
+     "where": "coffee/q-optimistic/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ header.nav",
+     "where": "coffee/q-optimistic/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ nav.tabbar",
+     "where": "coffee/q-optimistic/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.pstage__pin",
+     "where": "coffee/q-optimistic/ div.pstage__pin",
+     "what": "sticky",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ form.buybar",
+     "where": "coffee/q-optimistic/ form.buybar",
      "what": "sticky, z 20",
      "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
@@ -768,7 +911,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 14,
+   "value": 23,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -780,15 +923,43 @@
      "at": "320x568"
     },
     {
-     "key": "div.footer__legal p|right|256",
-     "where": "div.footer__legal p",
+     "key": "catalog/ div.footer__legal p|right|256",
+     "where": "catalog/ div.footer__legal p",
      "what": "right edge -3px off the line at 256 (25 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.footer__legal p|right|256",
+     "where": "coffee/keniya-kisii/ div.footer__legal p",
+     "what": "right edge -3px off the line at 256 (4 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.footer__legal p|right|256",
+     "where": "coffee/q-optimistic/ div.footer__legal p",
+     "what": "right edge -3px off the line at 256 (4 blocks on it)",
      "value": 3,
      "at": "320x568"
     },
     {
      "key": "h3.card__title|left|439",
      "where": "h3.card__title",
+     "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+     "value": 1.89,
+     "at": "844x390"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h3.card__title|left|439",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+     "value": 1.89,
+     "at": "844x390"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|439",
+     "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
      "value": 1.89,
      "at": "844x390"
@@ -801,43 +972,78 @@
      "at": "768x1024"
     },
     {
-     "key": "div.footer__group a|right|538",
-     "where": "div.footer__group a",
+     "key": "coffee/keniya-kisii/ h3.card__title|left|406",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+     "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.footer__group a|right|538",
+     "where": "coffee/keniya-kisii/ div.footer__group a",
      "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
      "value": 0.79,
      "at": "768x1024"
     },
     {
-     "key": "h2.card__title|left|538",
-     "where": "h2.card__title",
+     "key": "coffee/q-optimistic/ h3.card__title|left|406",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+     "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.footer__group a|right|538",
+     "where": "coffee/q-optimistic/ div.footer__group a",
+     "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+     "value": 0.79,
+     "at": "768x1024"
+    },
+    {
+     "key": "catalog/ h2.card__title|left|538",
+     "where": "catalog/ h2.card__title",
      "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
      "value": 0.74,
      "at": "1024x768"
     },
     {
-     "key": "div.footer__group a|right|611",
-     "where": "div.footer__group a",
+     "key": "catalog/ div.footer__group a|right|611",
+     "where": "catalog/ div.footer__group a",
      "what": "right edge +2.95px off the line at 611.08 (8 blocks on it)",
      "value": 2.95,
      "at": "1024x768"
     },
     {
-     "key": "h3.card__title|left|538",
-     "where": "h3.card__title",
+     "key": "coffee/keniya-kisii/ h3.card__title|left|538",
+     "where": "coffee/keniya-kisii/ h3.card__title",
      "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
      "value": 0.74,
      "at": "1024x768"
     },
     {
-     "key": "h2.card__title|left|707",
-     "where": "h2.card__title",
+     "key": "coffee/q-optimistic/ h3.card__title|left|538",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+     "value": 0.74,
+     "at": "1024x768"
+    },
+    {
+     "key": "catalog/ h2.card__title|left|707",
+     "where": "catalog/ h2.card__title",
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
      "value": 0.95,
      "at": "1366x650"
     },
     {
-     "key": "h3.card__title|left|707",
-     "where": "h3.card__title",
+     "key": "coffee/keniya-kisii/ h3.card__title|left|707",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+     "value": 0.95,
+     "at": "1366x650"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|707",
+     "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
      "value": 0.95,
      "at": "1366x650"
@@ -873,7 +1079,7 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 18
+    "value": 27
    },
    "accepted": 0
   },
@@ -883,7 +1089,7 @@
    "kind": "tolerance",
    "title": "Icons sit on their text's line",
    "how": "An icon next to a label (a button, a link): the centre of the icon against the centre of the label's first line, at most 1px apart.",
-   "value": 3,
+   "value": 12,
    "unit": "off",
    "status": "warn",
    "items": [
@@ -907,11 +1113,74 @@
      "what": "higher than its text's line by 2.59px",
      "value": 2.59,
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ a.nav__tool",
+     "where": "catalog/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ svg.buy__chevron",
+     "where": "catalog/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "catalog/ button.buy__add",
+     "where": "catalog/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ a.nav__tool",
+     "where": "coffee/keniya-kisii/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ svg.buy__chevron",
+     "where": "coffee/keniya-kisii/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/keniya-kisii/ button.buy__add",
+     "where": "coffee/keniya-kisii/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ a.nav__tool",
+     "where": "coffee/q-optimistic/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ svg.buy__chevron",
+     "where": "coffee/q-optimistic/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ button.buy__add",
+     "where": "coffee/q-optimistic/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "webkit": {
     "status": "warn",
-    "value": 3
+    "value": 12
    },
    "accepted": 0
   },
@@ -937,8 +1206,8 @@
     {
      "key": "article.card",
      "where": "article.card",
-     "what": "0.66 – 0.93 · changes with the screen",
-     "value": 11
+     "what": "0.66 – 0.71 · changes with the screen",
+     "value": 6
     },
     {
      "key": "picture.story__image",
@@ -995,46 +1264,160 @@
      "value": 8
     },
     {
-     "key": "picture.card__photo",
-     "where": "picture.card__photo",
+     "key": "catalog/ article.card",
+     "where": "catalog/ article.card",
+     "what": "0.66 – 0.93 · changes with the screen",
+     "value": 11
+    },
+    {
+     "key": "catalog/ picture.card__photo",
+     "where": "catalog/ picture.card__photo",
      "what": "0.8 – 1 · changes with the screen",
      "value": 2
     },
     {
-     "key": "picture.card__photo img",
-     "where": "picture.card__photo img",
+     "key": "catalog/ picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "0.8 – 1 · css auto 1200 / 1200 · changes with the screen",
      "value": 2
     },
     {
-     "key": "li.ptile",
-     "where": "li.ptile",
+     "key": "catalog/ picture.footer__mark",
+     "where": "catalog/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "catalog/ picture.footer__mark img",
+     "where": "catalog/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "catalog/ canvas",
+     "where": "catalog/ canvas",
+     "what": "0.37 – 1.74 · css auto 640 / 1408 · changes with the screen",
+     "value": 8
+    },
+    {
+     "key": "coffee/keniya-kisii/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile",
      "what": "1.09 – 1.33 · changes with the screen",
      "value": 2
     },
     {
-     "key": "picture.pstory__image",
-     "where": "picture.pstory__image",
+     "key": "coffee/keniya-kisii/ picture.pstory__image",
+     "where": "coffee/keniya-kisii/ picture.pstory__image",
      "what": "1.68",
      "value": 1
     },
     {
-     "key": "picture.pstory__image img",
-     "where": "picture.pstory__image img",
+     "key": "coffee/keniya-kisii/ picture.pstory__image img",
+     "where": "coffee/keniya-kisii/ picture.pstory__image img",
      "what": "1.68 · css auto 1344 / 800",
      "value": 1
     },
     {
-     "key": "div.cell",
-     "where": "div.cell",
+     "key": "coffee/keniya-kisii/ article.card",
+     "where": "coffee/keniya-kisii/ article.card",
+     "what": "0.67 – 0.93 · changes with the screen",
+     "value": 7
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.card__photo",
+     "where": "coffee/keniya-kisii/ picture.card__photo",
+     "what": "0.8 – 1 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.card__photo img",
+     "where": "coffee/keniya-kisii/ picture.card__photo img",
+     "what": "0.8 – 1 · css auto 1200 / 1200 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.footer__mark",
+     "where": "coffee/keniya-kisii/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.footer__mark img",
+     "where": "coffee/keniya-kisii/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ canvas",
+     "where": "coffee/keniya-kisii/ canvas",
+     "what": "0.37 – 1.74 · css auto 640 / 1408 · changes with the screen",
+     "value": 8
+    },
+    {
+     "key": "coffee/q-optimistic/ li.ptile",
+     "where": "coffee/q-optimistic/ li.ptile",
+     "what": "1.09 – 1.33 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.pstory__image",
+     "where": "coffee/q-optimistic/ picture.pstory__image",
+     "what": "1.68",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.pstory__image img",
+     "where": "coffee/q-optimistic/ picture.pstory__image img",
+     "what": "1.68 · css auto 1344 / 800",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ article.card",
+     "where": "coffee/q-optimistic/ article.card",
+     "what": "0.67 – 0.93 · changes with the screen",
+     "value": 7
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.footer__mark",
+     "where": "coffee/q-optimistic/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.footer__mark img",
+     "where": "coffee/q-optimistic/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ canvas",
+     "where": "coffee/q-optimistic/ canvas",
+     "what": "0.37 – 1.74 · css auto 640 / 1408 · changes with the screen",
+     "value": 8
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.cell",
+     "where": "coffee/keniya-kisii/ div.cell",
      "what": "1.89 – 2.03 · changes with the screen",
      "value": 4
     },
     {
-     "key": "output.cell",
-     "where": "output.cell",
-     "what": "1.21 – 1.52 · changes with the screen",
-     "value": 7
+     "key": "coffee/keniya-kisii/ output.cell",
+     "where": "coffee/keniya-kisii/ output.cell",
+     "what": "1.28 – 1.52 · changes with the screen",
+     "value": 4
+    },
+    {
+     "key": "coffee/q-optimistic/ div.cell",
+     "where": "coffee/q-optimistic/ div.cell",
+     "what": "1.89 – 2.03 · changes with the screen",
+     "value": 4
+    },
+    {
+     "key": "coffee/q-optimistic/ output.cell",
+     "where": "coffee/q-optimistic/ output.cell",
+     "what": "1.21 – 1.4 · changes with the screen",
+     "value": 4
     }
    ],
    "status": "info",
@@ -1049,7 +1432,7 @@
    "kind": "tolerance",
    "title": "Icons take the colour of their text",
    "how": "Inline icons outside the drawings: every fill and stroke equals the icon's own color (currentColor), so an icon follows its button's state.",
-   "value": 1,
+   "value": 3,
    "unit": "in their own colour",
    "status": "warn",
    "items": [
@@ -1058,11 +1441,23 @@
      "where": "svg.taste__plot",
      "what": "drawn in its own colour, not the text's (currentColor)",
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ svg.taste__plot",
+     "where": "coffee/keniya-kisii/ svg.taste__plot",
+     "what": "drawn in its own colour, not the text's (currentColor)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ svg.taste__plot",
+     "where": "coffee/q-optimistic/ svg.taste__plot",
+     "what": "drawn in its own colour, not the text's (currentColor)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "webkit": {
     "status": "warn",
-    "value": 1
+    "value": 3
    },
    "accepted": 0
   },
@@ -1084,12 +1479,12 @@
     },
     {
      "key": "20×20",
-     "where": "button.hero__info-btn, svg.buy__chevron",
+     "where": "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron",
      "what": "20×20"
     },
     {
      "key": "72×98",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "72×98"
     },
     {
@@ -1104,7 +1499,7 @@
     },
     {
      "key": "72×99",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "72×99"
     },
     {
@@ -1114,7 +1509,7 @@
     },
     {
      "key": "76×104",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "76×104"
     },
     {
@@ -1124,7 +1519,7 @@
     },
     {
      "key": "78×107",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "78×107"
     },
     {
@@ -1134,7 +1529,7 @@
     },
     {
      "key": "77×105",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "77×105"
     },
     {
@@ -1144,7 +1539,7 @@
     },
     {
      "key": "82×112",
-     "where": "svg.taste__plot",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
      "what": "82×112"
     },
     {
@@ -1176,24 +1571,24 @@
    "items": [
     {
      "key": "life-box-1200.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
      "value": 0.9,
      "at": "390x844 1440x900"
     },
     {
      "key": "life-jacket-1200.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3)",
      "value": 0.9,
      "at": "390x844 844x390 768x1024 1440x900"
     },
     {
      "key": "life-sweater-1200.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
      "value": 0.9,
-     "at": "390x844 844x390"
+     "at": "390x844 844x390 1440x900"
     },
     {
      "key": "approach-bean-1208.avif",
@@ -1211,7 +1606,7 @@
     },
     {
      "key": "farm-drying-1344.avif",
-     "where": "picture.pstory__image img",
+     "where": "coffee/keniya-kisii/ picture.pstory__image img",
      "what": "farm-drying-1344-DW2pHWMf.avif: 1344px wide for 2426 device px (×3)",
      "value": 0.55,
      "at": "844x390 1024x768 1440x900 1920x1080 2560x1440"
@@ -1232,28 +1627,28 @@
     },
     {
      "key": "life-jacket-800.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-jacket-800-kd2lZvyr.avif: 800px wide for 694 device px (×2)",
      "value": 0.92,
      "at": "768x1024"
     },
     {
      "key": "life-sweater-800.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-sweater-800-Bpm0EGd0.avif: 800px wide for 694 device px (×2)",
      "value": 0.92,
      "at": "768x1024"
     },
     {
      "key": "life-jacket-480.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-jacket-480-D-C-fR97.avif: 480px wide for 421 device px (×1)",
      "value": 0.91,
      "at": "1366x650"
     },
     {
      "key": "life-sweater-480.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-sweater-480-C11YdwXH.avif: 480px wide for 421 device px (×1)",
      "value": 0.91,
      "at": "1366x650"
@@ -1339,13 +1734,13 @@
    "items": [
     {
      "key": "life-box-1200.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
      "at": "844x390 1024x768 1440x900 1920x1080 2560x1440"
     },
     {
      "key": "life-box-800.avif",
-     "where": "picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
      "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
      "at": "768x1024 1366x650"
     }
@@ -2622,16 +3017,16 @@
      "value": 59
     },
     {
-     "key": "images",
-     "where": "images",
-     "what": "9 files, 407 KB sent",
-     "value": 407
-    },
-    {
      "key": "css",
      "where": "css",
      "what": "1 files, 15 KB sent",
      "value": 15
+    },
+    {
+     "key": "images",
+     "where": "images",
+     "what": "9 files, 407 KB sent",
+     "value": 407
     },
     {
      "key": "fonts",
@@ -3108,37 +3503,37 @@
  ],
  "findings": [
   {
-   "key": "type.roles::h1.sr|29.6",
+   "key": "type.roles::catalog/ h1.sr|29.6",
    "rule": "type.roles",
    "status": "pass",
-   "where": "h1.sr",
+   "where": "catalog/ h1.sr",
    "what": "29.6px PT Mono 700",
    "at": "768x1024",
    "new": false
   },
   {
-   "key": "type.roles::h1.sr|30.51",
+   "key": "type.roles::catalog/ h1.sr|30.51",
    "rule": "type.roles",
    "status": "pass",
-   "where": "h1.sr",
+   "where": "catalog/ h1.sr",
    "what": "30.51px PT Mono 700",
    "at": "1024x768",
    "new": false
   },
   {
-   "key": "type.roles::h1.sr|30.07",
+   "key": "type.roles::catalog/ h1.sr|30.07",
    "rule": "type.roles",
    "status": "pass",
-   "where": "h1.sr",
+   "where": "catalog/ h1.sr",
    "what": "30.07px PT Mono 700",
    "at": "1366x650",
    "new": false
   },
   {
-   "key": "type.measure::div.pstory__cols p",
+   "key": "type.measure::coffee/q-optimistic/ div.pstory__cols p",
    "rule": "type.measure",
    "status": "warn",
-   "where": "div.pstory__cols p",
+   "where": "coffee/q-optimistic/ div.pstory__cols p",
    "what": "93 characters a line over 3 lines",
    "at": "1024x768 1366x650 1440x900",
    "new": false
@@ -3146,8 +3541,35 @@
   {
    "key": "shape.radii::select.buy__select|5",
    "rule": "shape.radii",
-   "status": "fail",
+   "status": "warn",
    "where": "select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::catalog/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "catalog/ select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::coffee/keniya-kisii/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::coffee/q-optimistic/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ select.buy__select",
    "what": "radius 5px on a 144×54 box",
    "at": "320x568 390x844",
    "new": false
@@ -3165,7 +3587,7 @@
    "key": "shape.borders::1.5",
    "rule": "shape.borders",
    "status": "warn",
-   "where": "input.box",
+   "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
    "what": "1.5px",
    "at": "",
    "new": false
@@ -3174,7 +3596,7 @@
    "key": "shape.borders::1.33",
    "rule": "shape.borders",
    "status": "warn",
-   "where": "input.box",
+   "where": "catalog/ input.box",
    "what": "1.33px",
    "at": "",
    "new": false
@@ -3210,7 +3632,7 @@
    "key": "layers.z::6",
    "rule": "layers.z",
    "status": "warn",
-   "where": "p.featured__caption, div.pstage__head, div.col",
+   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
    "what": "z-index 6",
    "at": "",
    "new": false
@@ -3219,7 +3641,7 @@
    "key": "layers.z::7",
    "rule": "layers.z",
    "status": "warn",
-   "where": "button.fav, form.buy",
+   "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
    "what": "z-index 7",
    "at": "",
    "new": false
@@ -3228,7 +3650,7 @@
    "key": "layers.z::20",
    "rule": "layers.z",
    "status": "warn",
-   "where": "form.filters, form.buybar",
+   "where": "catalog/ form.filters, coffee/keniya-kisii/ form.buybar, coffee/q-optimistic/ form.buybar",
    "what": "z-index 20",
    "at": "",
    "new": false
@@ -3237,7 +3659,7 @@
    "key": "layers.z::50",
    "rule": "layers.z",
    "status": "warn",
-   "where": "header.nav, nav.tabbar",
+   "where": "header.nav, nav.tabbar, catalog/ header.nav, catalog/ nav.tabbar, coffee/keniya-kisii/ header.nav, coffee/keniya-kisii/ nav.tabbar",
    "what": "z-index 50",
    "at": "",
    "new": false
@@ -3246,7 +3668,7 @@
    "key": "layers.z::100",
    "rule": "layers.z",
    "status": "warn",
-   "where": "a.skip",
+   "where": "a.skip, catalog/ a.skip, coffee/keniya-kisii/ a.skip, coffee/q-optimistic/ a.skip",
    "what": "z-index 100",
    "at": "",
    "new": false
@@ -3261,11 +3683,29 @@
    "new": false
   },
   {
-   "key": "align.edges::div.footer__legal p|right|256",
+   "key": "align.edges::catalog/ div.footer__legal p|right|256",
    "rule": "align.edges",
    "status": "warn",
-   "where": "div.footer__legal p",
+   "where": "catalog/ div.footer__legal p",
    "what": "right edge -3px off the line at 256 (25 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__legal p|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ div.footer__legal p",
+   "what": "right edge -3px off the line at 256 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ div.footer__legal p|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.footer__legal p",
+   "what": "right edge -3px off the line at 256 (4 blocks on it)",
    "at": "320x568",
    "new": false
   },
@@ -3274,6 +3714,24 @@
    "rule": "align.edges",
    "status": "warn",
    "where": "h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+   "at": "844x390",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+   "at": "844x390",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
    "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
    "at": "844x390",
    "new": false
@@ -3288,55 +3746,100 @@
    "new": false
   },
   {
-   "key": "align.edges::div.footer__group a|right|538",
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
-   "where": "div.footer__group a",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ div.footer__group a",
    "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
    "at": "768x1024",
    "new": false
   },
   {
-   "key": "align.edges::h2.card__title|left|538",
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
-   "where": "h2.card__title",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.footer__group a",
+   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ h2.card__title|left|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ h2.card__title",
    "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
    "at": "1024x768",
    "new": false
   },
   {
-   "key": "align.edges::div.footer__group a|right|611",
+   "key": "align.edges::catalog/ div.footer__group a|right|611",
    "rule": "align.edges",
    "status": "warn",
-   "where": "div.footer__group a",
+   "where": "catalog/ div.footer__group a",
    "what": "right edge +2.95px off the line at 611.08 (8 blocks on it)",
    "at": "1024x768",
    "new": false
   },
   {
-   "key": "align.edges::h3.card__title|left|538",
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|538",
    "rule": "align.edges",
    "status": "warn",
-   "where": "h3.card__title",
+   "where": "coffee/keniya-kisii/ h3.card__title",
    "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
    "at": "1024x768",
    "new": false
   },
   {
-   "key": "align.edges::h2.card__title|left|707",
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|538",
    "rule": "align.edges",
    "status": "warn",
-   "where": "h2.card__title",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ h2.card__title|left|707",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ h2.card__title",
    "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
    "at": "1366x650",
    "new": false
   },
   {
-   "key": "align.edges::h3.card__title|left|707",
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|707",
    "rule": "align.edges",
    "status": "warn",
-   "where": "h3.card__title",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|707",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
    "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
    "at": "1366x650",
    "new": false
@@ -3405,10 +3908,109 @@
    "new": false
   },
   {
+   "key": "align.icons::catalog/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
    "key": "icons.colour::svg.taste__plot",
    "rule": "icons.colour",
    "status": "warn",
    "where": "svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.colour::coffee/keniya-kisii/ svg.taste__plot",
+   "rule": "icons.colour",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.colour::coffee/q-optimistic/ svg.taste__plot",
+   "rule": "icons.colour",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ svg.taste__plot",
    "what": "drawn in its own colour, not the text's (currentColor)",
    "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
    "new": false
@@ -3426,7 +4028,7 @@
    "key": "icons.sizes::20×20",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "button.hero__info-btn, svg.buy__chevron",
+   "where": "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron",
    "what": "20×20",
    "at": "",
    "new": false
@@ -3435,7 +4037,7 @@
    "key": "icons.sizes::72×98",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "72×98",
    "at": "",
    "new": false
@@ -3462,7 +4064,7 @@
    "key": "icons.sizes::72×99",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "72×99",
    "at": "",
    "new": false
@@ -3480,7 +4082,7 @@
    "key": "icons.sizes::76×104",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "76×104",
    "at": "",
    "new": false
@@ -3498,7 +4100,7 @@
    "key": "icons.sizes::78×107",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "78×107",
    "at": "",
    "new": false
@@ -3516,7 +4118,7 @@
    "key": "icons.sizes::77×105",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "77×105",
    "at": "",
    "new": false
@@ -3534,7 +4136,7 @@
    "key": "icons.sizes::82×112",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
    "what": "82×112",
    "at": "",
    "new": false
@@ -3561,7 +4163,7 @@
    "key": "images.sharp::life-box-1200.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
    "at": "390x844 1440x900",
    "new": false
@@ -3570,7 +4172,7 @@
    "key": "images.sharp::life-jacket-1200.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3)",
    "at": "390x844 844x390 768x1024 1440x900",
    "new": false
@@ -3579,9 +4181,9 @@
    "key": "images.sharp::life-sweater-1200.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
-   "at": "390x844 844x390",
+   "at": "390x844 844x390 1440x900",
    "new": false
   },
   {
@@ -3606,7 +4208,7 @@
    "key": "images.sharp::farm-drying-1344.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.pstory__image img",
+   "where": "coffee/keniya-kisii/ picture.pstory__image img",
    "what": "farm-drying-1344-DW2pHWMf.avif: 1344px wide for 2426 device px (×3)",
    "at": "844x390 1024x768 1440x900 1920x1080 2560x1440",
    "new": false
@@ -3633,7 +4235,7 @@
    "key": "images.sharp::life-jacket-800.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-jacket-800-kd2lZvyr.avif: 800px wide for 694 device px (×2)",
    "at": "768x1024",
    "new": false
@@ -3642,7 +4244,7 @@
    "key": "images.sharp::life-sweater-800.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-sweater-800-Bpm0EGd0.avif: 800px wide for 694 device px (×2)",
    "at": "768x1024",
    "new": false
@@ -3651,7 +4253,7 @@
    "key": "images.sharp::life-jacket-480.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-jacket-480-D-C-fR97.avif: 480px wide for 421 device px (×1)",
    "at": "1366x650",
    "new": false
@@ -3660,7 +4262,7 @@
    "key": "images.sharp::life-sweater-480.avif",
    "rule": "images.sharp",
    "status": "warn",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-sweater-480-C11YdwXH.avif: 480px wide for 421 device px (×1)",
    "at": "1366x650",
    "new": false
@@ -3687,7 +4289,7 @@
    "key": "images.first::life-box-1200.avif",
    "rule": "images.first",
    "status": "fail",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
    "at": "844x390 1024x768 1440x900 1920x1080 2560x1440",
    "new": false
@@ -3696,7 +4298,7 @@
    "key": "images.first::life-box-800.avif",
    "rule": "images.first",
    "status": "fail",
-   "where": "picture.card__photo img",
+   "where": "catalog/ picture.card__photo img",
    "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
    "at": "768x1024 1366x650",
    "new": false
@@ -4062,20 +4664,20 @@
    "new": false
   },
   {
-   "key": "weight.total::images",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "images",
-   "what": "9 files, 407 KB sent",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "weight.total::css",
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
    "what": "1 files, 15 KB sent",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::images",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "images",
+   "what": "9 files, 407 KB sent",
    "at": "",
    "new": false
   },
@@ -4707,6 +5309,26 @@
    "about": [
     "build/pages.mjs",
     "vite.config.js"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "checkout-sideways",
+   "ask": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/checkout/",
+   "since": "2026-11-23",
+   "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+   "options": [
+    "Fix it in the next PR",
+    "Leave it (folded phones are rare)"
+   ],
+   "about": [
+    "src/styles/pages/shop.css",
+    "src/templates/shop.mjs"
    ],
    "status": "open",
    "state": "open"
