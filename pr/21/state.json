@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-23T22:58:38.079Z",
- "commit": "e5606a4eabdcbf8e15066d4b7d4cd29eaa4024eb",
+ "generated": "2026-11-23T23:41:16.415Z",
+ "commit": "8e1a2545b002f80b3b678eef9d9de87b09d707a9",
  "ref": "claude/kit-v0.1.2",
  "pr": "21",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T22:44:58.546Z",
+   "when": "2026-11-23T23:27:48.041Z",
    "quick": false,
-   "seconds": 460,
+   "seconds": 459,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-23T22:52:39.389Z",
+   "when": "2026-11-23T23:35:26.133Z",
    "quick": true,
-   "seconds": 358,
+   "seconds": 350,
    "errors": []
   }
  },
@@ -3100,16 +3100,16 @@
      "value": 61
     },
     {
-     "key": "images",
-     "where": "images",
-     "what": "10 files, 402 KB sent (was 402 KB)",
-     "value": 402
-    },
-    {
      "key": "css",
      "where": "css",
      "what": "1 files, 15 KB sent (was 15 KB)",
      "value": 15
+    },
+    {
+     "key": "images",
+     "where": "images",
+     "what": "10 files, 402 KB sent (was 402 KB)",
+     "value": 402
     },
     {
      "key": "fonts",
@@ -4836,20 +4836,20 @@
    "new": false
   },
   {
-   "key": "weight.total::images",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "images",
-   "what": "10 files, 402 KB sent (was 402 KB)",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "weight.total::css",
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
    "what": "1 files, 15 KB sent (was 15 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::images",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "images",
+   "what": "10 files, 402 KB sent (was 402 KB)",
    "at": "",
    "new": false
   },
