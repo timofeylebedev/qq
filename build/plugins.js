@@ -4,7 +4,6 @@ import { createHash } from "node:crypto";
 import { resolve, dirname } from "node:path";
 import { minify as minifyJs } from "terser";
 import { minify as minifyHtml } from "html-minifier-terser";
-import { typographHtml } from "./typograph.js";
 
 // <svg data-icon="name" class="…"></svg> in the HTML → <svg class="…"><use href="#i-name"/></svg>, and one sprite at the
 // top of <body> holding each icon the page uses once (src/assets/icons/name.svg). A catalog of 25 cards then carries
@@ -55,11 +54,6 @@ export function inlineScripts(root) {
       }
     }
   };
-}
-
-// Russian non-breaking spaces (see typograph.js)
-export function typograph() {
-  return { name: "qq-typograph", transformIndexHtml: { order: "pre", handler: (html) => typographHtml(html) } };
 }
 
 // The finished pages, minified: no comments, no indentation (whitespace that shows on the page is kept)

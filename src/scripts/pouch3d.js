@@ -29,6 +29,11 @@
 // canvas on the screen rather than on the page (while the product's pinned pack is on it, so the pack does not ride
 // the page's scroll for a frame before it is drawn again: Tim, round 7 «the pack is lagging behind scroll»);
 // stage.shot(item) is a picture of one pack as it is drawn now (the page going to another keeps it in the pack's place: scripts/packs.js).
+// WebGL only on a real GPU (site-kit/runtime/gpu.js): without one Chrome copies the canvas back to the processor every
+// frame, so createStage rejects and the slots keep their stills; { force: true } draws in software anyway (?qqgl=1,
+// build/pack-still.mjs).
+import { gpuContext } from "site-kit/runtime/gpu.js";
+import { y as pageY, box, onScroll as onPageScroll, offScroll as offPageScroll } from "./scroller.js";
 const root = window;
 
 
@@ -170,9 +175,10 @@ const root = window;
     // Multisampling is worth most on low-density screens and costs most on big dense ones — pick once, up front.
     var estPixels = innerWidth * innerHeight * (1 + 2 * overscan) * Math.pow(Math.min(devicePixelRatio || 1, maxDpr), 2);
     var attrs = { alpha: true, premultipliedAlpha: true, antialias: estPixels <= 4.5e6, depth: true, stencil: false, powerPreference: 'default', preserveDrawingBuffer: !!opts.preserveDrawingBuffer };
-    var gl = canvas.getContext('webgl2', attrs), isGL2 = !!gl;
-    if (!gl) gl = canvas.getContext('webgl', attrs);
-    if (!gl) { canvas.remove(); return Promise.reject(new Error('WebGL is not available')); }
+    var force = { force: !!opts.force };
+    var gl = gpuContext(canvas, 'webgl2', attrs, force), isGL2 = !!gl;
+    if (!gl) gl = gpuContext(canvas, 'webgl', attrs, force);
+    if (!gl) { canvas.remove(); return Promise.reject(new Error('no WebGL on a real GPU')); }
 
     var items = [], meshData = null, res = null, texCache = new Map(), texBytes = 0;
     var dirty = true, rafId = 0, lastT = 0, frameNo = 0, lost = false;
@@ -280,8 +286,9 @@ const root = window;
 
     function measureOne(it) {
       var r = it.el.getBoundingClientRect();
-      it.x = r.left + scrollX; it.y = r.top + scrollY; it.w = r.width; it.h = r.height;
-      if (it.clipEl) { var c = it.clipEl.getBoundingClientRect(); it.clip = { x: c.left + scrollX, y: c.top + scrollY, w: c.width, h: c.height }; }
+      var sy = pageY();                                             // the page never scrolls sideways (the audit fails it)
+      it.x = r.left; it.y = r.top + sy; it.w = r.width; it.h = r.height;
+      if (it.clipEl) { var c = it.clipEl.getBoundingClientRect(); it.clip = { x: c.left, y: c.top + sy, w: c.width, h: c.height }; }
     }
     // limit drawing to the item's clip box (page coordinates → canvas pixels), or to the whole canvas
     function scissorFor(it) {
@@ -298,13 +305,22 @@ const root = window;
 
     function invalidate() { dirty = true; if (!rafId && !lost) rafId = requestAnimationFrame(frame); }
 
+    // the bottom of the page's content on the screen: the body's in the window; in the box (scripts/scroller.js), the
+    // lowest of the box's blocks but the canvas itself
+    function pageBottom() {
+      if (!box) return document.body.getBoundingClientRect().bottom;
+      var b = 0;
+      for (var c = box.firstElementChild; c; c = c.nextElementSibling) if (c !== canvas) b = Math.max(b, c.getBoundingClientRect().bottom);
+      return b;
+    }
     // ---- canvas placement: viewport-sized plus an overscan band, moved to the scroll position every frame
     function place() {
       var vw = document.documentElement.clientWidth, vh = Math.min(innerHeight, 2400);
       // page height from the content itself: the canvas must never be what keeps the page tall
-      var docH = Math.max(Math.ceil(document.body.getBoundingClientRect().bottom + scrollY), vh);
+      var sy = pageY();
+      var docH = Math.max(Math.ceil(pageBottom() + sy), vh);
       var h = Math.min(Math.round(vh * (1 + 2 * overscan)), docH);
-      var top = Math.max(0, Math.min(Math.round(scrollY - vh * overscan), docH - h));
+      var top = Math.max(0, Math.min(Math.round(sy - vh * overscan), docH - h));
       var d = Math.min(devicePixelRatio || 1, dprCap);
       var budget = 9e6;                                             // hard cap on backing-store pixels
       if (vw * h * d * d > budget) d = Math.sqrt(budget / (vw * h));
@@ -316,7 +332,7 @@ const root = window;
       }
       // stage.fixed: the canvas stands on the screen instead of on the page (a pinned pack: it must not ride the
       // page's scroll for the frame before it is drawn again), placed where the page's band would be
-      var mode = stage.fixed ? 'fixed' : 'absolute', y = stage.fixed ? top - scrollY : top;
+      var mode = stage.fixed ? 'fixed' : 'absolute', y = stage.fixed ? top - sy : top;
       canvasTop = top;
       if (canvas.style.position !== mode) canvas.style.position = mode;
       var tf = 'translate3d(0,' + y + 'px,0)';
@@ -486,15 +502,16 @@ const root = window;
     function onResize() { measure(); }
     function onLost(e) { e.preventDefault(); lost = true; if (rafId) cancelAnimationFrame(rafId); rafId = 0; }
     function onRestored() { lost = false; initGL(); invalidate(); }
-    addEventListener('scroll', onScroll, { passive: true });
+    onPageScroll(onScroll);
     addEventListener('resize', onResize, { passive: true });
     canvas.addEventListener('webglcontextlost', onLost, false);
     canvas.addEventListener('webglcontextrestored', onRestored, false);
     var ro = root.ResizeObserver ? new ResizeObserver(function () { measure(); }) : null;
-    if (ro) ro.observe(document.documentElement);
+    // the page's size (scripts/scroller.js watchSize, but never the canvas itself, which is one of the box's blocks)
+    if (ro) { if (box) { for (var c = box.firstElementChild; c; c = c.nextElementSibling) if (c !== canvas) ro.observe(c); } else ro.observe(document.documentElement); }
 
     function destroy() {
-      removeEventListener('scroll', onScroll); removeEventListener('resize', onResize);
+      offPageScroll(onScroll); removeEventListener('resize', onResize);
       if (ro) ro.disconnect(); if (rafId) cancelAnimationFrame(rafId);
       var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext();
       canvas.remove();
