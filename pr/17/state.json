@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-23T18:02:12.096Z",
- "commit": "e3a576fb0bfee6a6f88b25c6f2f3e2edb099a6c3",
+ "generated": "2026-11-23T18:41:59.364Z",
+ "commit": "5eb332a7c734d59d59f7256eef8a0c8db3320a4f",
  "ref": "claude/site-kit",
  "pr": "17",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T17:47:13.436Z",
+   "when": "2026-11-23T18:26:57.707Z",
    "quick": false,
-   "seconds": 492,
+   "seconds": 490,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-23T17:55:23.526Z",
+   "when": "2026-11-23T18:35:07.509Z",
    "quick": true,
-   "seconds": 408,
+   "seconds": 412,
    "errors": []
   }
  },
@@ -35,33 +35,17 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 50,
+  "pass": 51,
   "warn": 9,
-  "fail": 10,
+  "fail": 9,
   "info": 6,
-  "findings": 211,
+  "findings": 120,
   "new": 0,
   "fixed": 0,
-  "accepted": 0,
+  "accepted": 91,
   "questions": 3
  },
  "needs": [
-  {
-   "type": "rule",
-   "id": "health.links",
-   "severity": "fail",
-   "area": "Page health",
-   "title": "Links on the site lead somewhere",
-   "kind": "hard",
-   "why": "85 places",
-   "fresh": 0,
-   "sample": [
-    "/: catalog/#kaskara: no #kaskara",
-    "/: catalog/#dripy: no #dripy",
-    "/: catalog/#sety: no #sety"
-   ],
-   "rank": 320
-  },
   {
    "type": "rule",
    "id": "code.learn.webgl-caveat",
@@ -77,22 +61,6 @@
     "src/scripts/pouch3d.js:173: webgl2 without failIfMajorPerformanceCaveat or a renderer check"
    ],
    "rank": 304
-  },
-  {
-   "type": "rule",
-   "id": "health.head",
-   "severity": "fail",
-   "area": "Page health",
-   "title": "Titles, descriptions, outline",
-   "kind": "tolerance",
-   "why": "23 places · 24 notes",
-   "fresh": 0,
-   "sample": [
-    "/: no og:image",
-    "/: no web manifest",
-    "/catalog/: a link to #all, which names nothing on the page"
-   ],
-   "rank": 303
   },
   {
    "type": "rule",
@@ -182,6 +150,22 @@
     "src/scripts/main.js:1: never waits for the stylesheets"
    ],
    "rank": 301
+  },
+  {
+   "type": "rule",
+   "id": "health.head",
+   "severity": "fail",
+   "area": "Page health",
+   "title": "Titles, descriptions, outline",
+   "kind": "tolerance",
+   "why": "17 places · 24 notes",
+   "fresh": 0,
+   "sample": [
+    "/: no og:image",
+    "/: no web manifest",
+    "/cart/: description of 23 characters (50–170)"
+   ],
+   "rank": 297
   },
   {
    "type": "rule",
@@ -1878,37 +1862,43 @@
      "key": "/catalog/#all",
      "where": "/catalog/",
      "what": "a link to #all, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#kofe",
      "where": "/catalog/",
      "what": "a link to #kofe, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#kaskara",
      "where": "/catalog/",
      "what": "a link to #kaskara, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#dripy",
      "where": "/catalog/",
      "what": "a link to #dripy, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#sety",
      "where": "/catalog/",
      "what": "a link to #sety, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#merch",
      "where": "/catalog/",
      "what": "a link to #merch, which names nothing on the page",
-     "at": ""
+     "at": "",
+     "accepted": "hash-states"
     },
     {
      "key": "/cart/desc",
@@ -2008,7 +1998,7 @@
     "status": "fail",
     "value": 24
    },
-   "accepted": 0
+   "accepted": 6
   },
   {
    "id": "health.overflow",
@@ -2055,438 +2045,523 @@
    "kind": "hard",
    "title": "Links on the site lead somewhere",
    "how": "Every link that stays on the site (496), from every page, opened; one with #id must find it.",
-   "status": "fail",
+   "status": "pass",
    "items": [
     {
      "key": "/catalog/#kaskara",
      "where": "/",
-     "what": "catalog/#kaskara: no #kaskara"
+     "what": "catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#dripy",
      "where": "/",
-     "what": "catalog/#dripy: no #dripy"
+     "what": "catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#sety",
      "where": "/",
-     "what": "catalog/#sety: no #sety"
+     "what": "catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "/catalog/#merch",
      "where": "/",
-     "what": "catalog/#merch: no #merch"
+     "what": "catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "catalog/../catalog/#kaskara",
      "where": "catalog/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "catalog/../catalog/#dripy",
      "where": "catalog/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "catalog/../catalog/#sety",
      "where": "catalog/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "catalog/../catalog/#merch",
      "where": "catalog/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/keniya-kisii/../../catalog/#kaskara",
      "where": "coffee/keniya-kisii/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/keniya-kisii/../../catalog/#dripy",
      "where": "coffee/keniya-kisii/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/keniya-kisii/../../catalog/#sety",
      "where": "coffee/keniya-kisii/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/keniya-kisii/../../catalog/#merch",
      "where": "coffee/keniya-kisii/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/q-optimistic/../../catalog/#kaskara",
      "where": "coffee/q-optimistic/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/q-optimistic/../../catalog/#dripy",
      "where": "coffee/q-optimistic/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/q-optimistic/../../catalog/#sety",
      "where": "coffee/q-optimistic/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "coffee/q-optimistic/../../catalog/#merch",
      "where": "coffee/q-optimistic/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "cart/../checkout/#gift",
      "where": "cart/",
-     "what": "../checkout/#gift: no #gift"
+     "what": "../checkout/#gift: no #gift",
+     "accepted": "hash-states"
     },
     {
      "key": "cart/../catalog/#kaskara",
      "where": "cart/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "cart/../catalog/#dripy",
      "where": "cart/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "cart/../catalog/#sety",
      "where": "cart/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "cart/../catalog/#merch",
      "where": "cart/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "favourites/../catalog/#kaskara",
      "where": "favourites/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "favourites/../catalog/#dripy",
      "where": "favourites/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "favourites/../catalog/#sety",
      "where": "favourites/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "favourites/../catalog/#merch",
      "where": "favourites/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/../catalog/#kaskara",
      "where": "checkout/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/../catalog/#dripy",
      "where": "checkout/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/../catalog/#sety",
      "where": "checkout/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/../catalog/#merch",
      "where": "checkout/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/details/../../catalog/#kaskara",
      "where": "checkout/details/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/details/../../catalog/#dripy",
      "where": "checkout/details/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/details/../../catalog/#sety",
      "where": "checkout/details/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/details/../../catalog/#merch",
      "where": "checkout/details/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/delivery/../../catalog/#kaskara",
      "where": "checkout/delivery/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/delivery/../../catalog/#dripy",
      "where": "checkout/delivery/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/delivery/../../catalog/#sety",
      "where": "checkout/delivery/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "checkout/delivery/../../catalog/#merch",
      "where": "checkout/delivery/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/../catalog/#kaskara",
      "where": "account/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/../catalog/#dripy",
      "where": "account/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/../catalog/#sety",
      "where": "account/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/../catalog/#merch",
      "where": "account/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/beans/../../catalog/#kaskara",
      "where": "account/beans/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/beans/../../catalog/#dripy",
      "where": "account/beans/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/beans/../../catalog/#sety",
      "where": "account/beans/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/beans/../../catalog/#merch",
      "where": "account/beans/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/../../catalog/#kaskara",
      "where": "account/orders/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/../../catalog/#dripy",
      "where": "account/orders/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/../../catalog/#sety",
      "where": "account/orders/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/../../catalog/#merch",
      "where": "account/orders/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/433273/../../../catalog/#kaskara",
      "where": "account/orders/433273/",
-     "what": "../../../catalog/#kaskara: no #kaskara"
+     "what": "../../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/433273/../../../catalog/#dripy",
      "where": "account/orders/433273/",
-     "what": "../../../catalog/#dripy: no #dripy"
+     "what": "../../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/433273/../../../catalog/#sety",
      "where": "account/orders/433273/",
-     "what": "../../../catalog/#sety: no #sety"
+     "what": "../../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/orders/433273/../../../catalog/#merch",
      "where": "account/orders/433273/",
-     "what": "../../../catalog/#merch: no #merch"
+     "what": "../../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/purchases/../../catalog/#kaskara",
      "where": "account/purchases/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/purchases/../../catalog/#dripy",
      "where": "account/purchases/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/purchases/../../catalog/#sety",
      "where": "account/purchases/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/purchases/../../catalog/#merch",
      "where": "account/purchases/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "account/settings/../../catalog/#kaskara",
      "where": "account/settings/",
-     "what": "../../catalog/#kaskara: no #kaskara"
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "account/settings/../../catalog/#dripy",
      "where": "account/settings/",
-     "what": "../../catalog/#dripy: no #dripy"
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "account/settings/../../catalog/#sety",
      "where": "account/settings/",
-     "what": "../../catalog/#sety: no #sety"
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "account/settings/../../catalog/#merch",
      "where": "account/settings/",
-     "what": "../../catalog/#merch: no #merch"
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "business/../catalog/#kaskara",
      "where": "business/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "business/../catalog/#dripy",
      "where": "business/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "business/../catalog/#sety",
      "where": "business/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "business/../catalog/#merch",
      "where": "business/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "faq/../catalog/#sety",
      "where": "faq/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "faq/../catalog/#kaskara",
      "where": "faq/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "faq/../catalog/#dripy",
      "where": "faq/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "faq/../catalog/#merch",
      "where": "faq/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "delivery/../catalog/#kaskara",
      "where": "delivery/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "delivery/../catalog/#dripy",
      "where": "delivery/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "delivery/../catalog/#sety",
      "where": "delivery/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "delivery/../catalog/#merch",
      "where": "delivery/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "contacts/../catalog/#kaskara",
      "where": "contacts/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "contacts/../catalog/#dripy",
      "where": "contacts/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "contacts/../catalog/#sety",
      "where": "contacts/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "contacts/../catalog/#merch",
      "where": "contacts/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "privacy/../catalog/#kaskara",
      "where": "privacy/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "privacy/../catalog/#dripy",
      "where": "privacy/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "privacy/../catalog/#sety",
      "where": "privacy/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "privacy/../catalog/#merch",
      "where": "privacy/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     },
     {
      "key": "about/../catalog/#kaskara",
      "where": "about/",
-     "what": "../catalog/#kaskara: no #kaskara"
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
     },
     {
      "key": "about/../catalog/#dripy",
      "where": "about/",
-     "what": "../catalog/#dripy: no #dripy"
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
     },
     {
      "key": "about/../catalog/#sety",
      "where": "about/",
-     "what": "../catalog/#sety: no #sety"
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
     },
     {
      "key": "about/../catalog/#merch",
      "where": "about/",
-     "what": "../catalog/#merch: no #merch"
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
     }
    ],
    "webkit": {
     "status": "fail"
    },
-   "accepted": 0
+   "accepted": 85
   },
   {
    "id": "health.files",
@@ -2711,7 +2786,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "63 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "65 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -2983,7 +3058,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "63 decisions: 40 decisions, 8 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
+   "how": "65 decisions: 41 decisions, 9 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3798,60 +3873,6 @@
    "new": false
   },
   {
-   "key": "health.head::/catalog/#all",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #all, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.head::/catalog/#kofe",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #kofe, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.head::/catalog/#kaskara",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #kaskara, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.head::/catalog/#dripy",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #dripy, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.head::/catalog/#sety",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #sety, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.head::/catalog/#merch",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/catalog/",
-   "what": "a link to #merch, which names nothing on the page",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "health.head::/cart/desc",
    "rule": "health.head",
    "status": "fail",
@@ -3983,771 +4004,6 @@
    "status": "fail",
    "where": "/no-such-page",
    "what": "title of 0 characters (10–65)",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::/catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "/",
-   "what": "catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::/catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "/",
-   "what": "catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::/catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "/",
-   "what": "catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::/catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "/",
-   "what": "catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::catalog/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "catalog/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::catalog/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "catalog/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::catalog/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "catalog/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::catalog/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "catalog/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/keniya-kisii/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/keniya-kisii/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/keniya-kisii/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/keniya-kisii/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/keniya-kisii/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/keniya-kisii/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/keniya-kisii/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/keniya-kisii/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/q-optimistic/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/q-optimistic/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/q-optimistic/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/q-optimistic/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/q-optimistic/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/q-optimistic/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::coffee/q-optimistic/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "coffee/q-optimistic/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::cart/../checkout/#gift",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "cart/",
-   "what": "../checkout/#gift: no #gift",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::cart/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "cart/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::cart/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "cart/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::cart/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "cart/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::cart/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "cart/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::favourites/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "favourites/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::favourites/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "favourites/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::favourites/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "favourites/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::favourites/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "favourites/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/details/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/details/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/details/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/details/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/details/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/details/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/details/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/details/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/delivery/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/delivery/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/delivery/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/delivery/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/delivery/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/delivery/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::checkout/delivery/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "checkout/delivery/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/beans/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/beans/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/beans/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/beans/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/beans/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/beans/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/beans/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/beans/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/433273/../../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/433273/",
-   "what": "../../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/433273/../../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/433273/",
-   "what": "../../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/433273/../../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/433273/",
-   "what": "../../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/orders/433273/../../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/orders/433273/",
-   "what": "../../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/purchases/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/purchases/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/purchases/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/purchases/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/purchases/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/purchases/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/purchases/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/purchases/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/settings/../../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/settings/",
-   "what": "../../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/settings/../../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/settings/",
-   "what": "../../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/settings/../../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/settings/",
-   "what": "../../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::account/settings/../../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "account/settings/",
-   "what": "../../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::business/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "business/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::business/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "business/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::business/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "business/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::business/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "business/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::faq/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "faq/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::faq/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "faq/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::faq/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "faq/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::faq/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "faq/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::delivery/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "delivery/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::delivery/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "delivery/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::delivery/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "delivery/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::delivery/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "delivery/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::contacts/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "contacts/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::contacts/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "contacts/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::contacts/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "contacts/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::contacts/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "contacts/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::privacy/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "privacy/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::privacy/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "privacy/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::privacy/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "privacy/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::privacy/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "privacy/",
-   "what": "../catalog/#merch: no #merch",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::about/../catalog/#kaskara",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "about/",
-   "what": "../catalog/#kaskara: no #kaskara",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::about/../catalog/#dripy",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "about/",
-   "what": "../catalog/#dripy: no #dripy",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::about/../catalog/#sety",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "about/",
-   "what": "../catalog/#sety: no #sety",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "health.links::about/../catalog/#merch",
-   "rule": "health.links",
-   "status": "fail",
-   "where": "about/",
-   "what": "../catalog/#merch: no #merch",
    "at": "",
    "new": false
   },
@@ -5374,6 +4630,23 @@
    "state": "unbound",
    "what": "The bag's count on the navbar's icon is 12px (a 16px pill over the corner of a 24px icon), not a role of the scale",
    "decided": "Claude, 2026-11-23 (written down from build/rules.mjs for site-kit's rules)"
+  },
+  {
+   "id": "beans-axe",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "account/beans/ opens with the beans dialog standing over the profile (a modal): axe marks the contrast of every text there as «needs review» and checks none, which site-kit's audit fails a page for",
+   "decided": "Claude, 2026-11-23 (site-kit audit, PR #17)"
+  },
+  {
+   "id": "hash-states",
+   "kind": "decision",
+   "state": "holding",
+   "covered": 91,
+   "notes": [],
+   "what": "The catalog's tabs (#all, #kofe, #kaskara, #dripy, #sety, #merch) and the checkout's «В подарок» (#gift) are states chosen by the address's hash, read by the scripts (filters.js, checkout.js): no element has that id",
+   "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
+   "until": null
   }
  ],
  "questions": [
