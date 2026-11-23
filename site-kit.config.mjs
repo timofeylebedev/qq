@@ -129,18 +129,21 @@ export default {
       const tok = (v) => { const d = document.createElement("div"); d.style.cssText = "position:absolute;visibility:hidden;width:" + v; document.body.appendChild(d); const x = d.getBoundingClientRect().width; d.remove(); return r2(x); };
       const cols = (sel) => { const k = all(sel); if (!k.length) return null; const xs = []; for (const e of k) { const x = Math.round(e.getBoundingClientRect().left); if (!xs.some((v) => Math.abs(v - x) < 4)) xs.push(x); } return xs.length; };
       const gridCols = (sel) => { const e = vis(sel); if (!e) return null; const s = getComputedStyle(e); return s.display.includes("grid") ? s.gridTemplateColumns.split(" ").filter(Boolean).length : null; };
+      // the columns of one block: how many of its children stand side by side (one row, boxes that do not overlap: a
+      // picture that bleeds to the screen's edge or lies under the text is no column of its own)
+      const kids = (sel) => { const e = vis(sel); if (!e) return null; const bs = [...e.children].filter(shown).map((k) => k.getBoundingClientRect()); if (!bs.length) return null; let most = 1; for (const a of bs) { const row = bs.filter((b) => Math.abs(b.top - a.top) < 4).sort((x, y) => x.left - y.left); let n = 0, end = -Infinity; for (const b of row) if (b.left >= end - 1) { n++; end = b.right; } most = Math.max(most, n); } return most; };
       const inView = (sel) => all(sel).filter((e) => { const r = e.getBoundingClientRect(); return r.left >= -2 && r.right <= innerWidth + 2; }).length;
       return {
         heroTitle: f(".hero__title"), h2: f(".head h2, section h2"), cardTitle: f(".card__title"), body: f("main p"), navLink: f(".nav__links a"),
         gutter: tok("var(--gutter)"), navH: h(".nav"), heroH: h(".hero"), column: w(".featured .col") || w("main .col"), cardW: w(".reel .card"),
         "@nav": vis(".nav__links--full") ? "links (full)" : vis(".nav__links--short") ? "links (short)" : vis(".nav__burger") ? "burger" : "none",
         "@tabbar": vis(".tabbar") && vis(".tabbar").getBoundingClientRect().height > 0 ? "tab bar" : "none",
-        "@hero": (() => { const c = gridCols(".hero__grid"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
+        "@hero": (() => { const e = vis(".hero__grid"); if (!e) return null; const c = gridCols(".hero__grid"); return c ? c + (c > 1 ? " cols" : " col") : "stack"; })(),   // a flex column below L
         "@reel": (() => { const n = inView(".reel .card"); return n ? n + " in view" : null; })(),
-        "@story": (() => { const c = gridCols(".story .col") || cols(".story .col > *"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
+        "@story": (() => { const c = kids(".story__col"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
         "@business": (() => { const c = cols(".business .bcard"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
         "@facts": (() => { const c = cols(".facts .fact"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
-        "@footer": (() => { const c = gridCols(".footer .col") || cols(".footer .col > *"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
+        "@footer": (() => { const c = gridCols(".footer__inner") || kids(".footer__inner"); return c ? c + (c > 1 ? " cols" : " col") : null; })(),
         overflow: document.documentElement.scrollWidth > innerWidth + 1 ? document.documentElement.scrollWidth - innerWidth : 0,
       };
     },

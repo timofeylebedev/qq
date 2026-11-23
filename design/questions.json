@@ -38,6 +38,12 @@
       "options": ["Make a QQ page", "Leave it until the real host"],
       "about": ["build/pages.mjs", "vite.config.js"],
       "status": "open"
-    }
+    },
+    { "id": "checkout-sideways",
+      "ask": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+      "needs": ["choice"], "link": "https://timofeylebedev.github.io/qq/checkout/", "since": "2026-11-23",
+      "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+      "options": ["Fix it in the next PR", "Leave it (folded phones are rare)"],
+      "about": ["src/styles/pages/shop.css", "src/templates/shop.mjs"], "status": "open" }
   ]
 }
