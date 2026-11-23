@@ -306,11 +306,12 @@ const root = window;
     function invalidate() { dirty = true; if (!rafId && !lost) rafId = requestAnimationFrame(frame); }
 
     // the bottom of the page's content on the screen: the body's in the window; in the box (scripts/scroller.js), the
-    // lowest of the box's blocks but the canvas itself
+    // lowest of the box's blocks but the canvas itself and what is fixed to the screen (no offsetParent: the toast, the
+    // skip link; counted, the toast stood lower with every scroll, the canvas with it, and the box grew without end)
     function pageBottom() {
       if (!box) return document.body.getBoundingClientRect().bottom;
       var b = 0;
-      for (var c = box.firstElementChild; c; c = c.nextElementSibling) if (c !== canvas) b = Math.max(b, c.getBoundingClientRect().bottom);
+      for (var c = box.firstElementChild; c; c = c.nextElementSibling) if (c !== canvas && c.offsetParent) b = Math.max(b, c.getBoundingClientRect().bottom);
       return b;
     }
     // ---- canvas placement: viewport-sized plus an overscan band, moved to the scroll position every frame
