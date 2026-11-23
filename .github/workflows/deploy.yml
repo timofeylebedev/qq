@@ -49,7 +49,7 @@ jobs:
     permissions:
       contents: write       # push to the gh-pages branch
       pull-requests: write  # the preview link comment
-    uses: timofeylebedev/site-kit/.github/workflows/site.yml@ba4914c987720488100b564600c0404321c062ad
+    uses: timofeylebedev/site-kit/.github/workflows/site.yml@98e270bb122cce7bf486a86fa8d16563b6de5d1d
     with:
       build: npm run build
       check: npm run rules && npm run check   # QQ's own rules (build/rules.mjs) still fail a pull request
@@ -60,7 +60,7 @@ jobs:
     permissions:
       contents: write       # the report-data branch, the review page on gh-pages
       pull-requests: write  # the preview
-    uses: timofeylebedev/site-kit/.github/workflows/checks.yml@ba4914c987720488100b564600c0404321c062ad
+    uses: timofeylebedev/site-kit/.github/workflows/checks.yml@98e270bb122cce7bf486a86fa8d16563b6de5d1d
     with:
       build: npm run build
       engines: chromium webkit:quick
