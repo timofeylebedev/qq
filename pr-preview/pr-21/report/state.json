@@ -1,31 +1,28 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-23T22:58:38.079Z",
- "commit": "e5606a4eabdcbf8e15066d4b7d4cd29eaa4024eb",
- "ref": "claude/kit-v0.1.2",
- "pr": "21",
+ "generated": "2026-11-23T22:25:18.152Z",
+ "commit": "9a4eefd0413dc0d37cde1b9496df44b34d1a5ccd",
+ "ref": "main",
+ "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T22:44:58.546Z",
+   "when": "2026-11-23T22:11:34.057Z",
    "quick": false,
-   "seconds": 460,
+   "seconds": 462,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-23T22:52:39.389Z",
+   "when": "2026-11-23T22:19:16.470Z",
    "quick": true,
-   "seconds": 358,
+   "seconds": 361,
    "errors": []
   }
  },
- "base": {
-  "commit": "9a4eefd0413dc0d37cde1b9496df44b34d1a5ccd",
-  "generated": "2026-11-23T22:25:18.152Z"
- },
+ "base": null,
  "kinds": {
   "hard": "any item is a failure",
   "share": "a share of the uses must follow the rule",
@@ -431,11 +428,7 @@
     "on": 2128,
     "total": 2131
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 99.9
-   }
+   "accepted": 0
   },
   {
    "id": "type.widows",
@@ -451,11 +444,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "type.measure",
@@ -479,11 +468,7 @@
     "status": "warn",
     "value": 2
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 3
-   }
+   "accepted": 0
   },
   {
    "id": "colour.palette",
@@ -505,11 +490,7 @@
     "on": 4053,
     "total": 4053
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 100
-   }
+   "accepted": 0
   },
   {
    "id": "fills.kinds",
@@ -541,10 +522,7 @@
    "webkit": {
     "status": "info"
    },
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "shape.radii",
@@ -607,11 +585,7 @@
     "on": 256,
     "total": 334
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 100
-   }
+   "accepted": 0
   },
   {
    "id": "shape.borders",
@@ -649,11 +623,7 @@
     "status": "warn",
     "value": 3
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 1
-   }
+   "accepted": 0
   },
   {
    "id": "effects.shadows",
@@ -670,11 +640,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "effects.cost",
@@ -706,10 +672,7 @@
    "webkit": {
     "status": "info"
    },
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "layers.z",
@@ -775,11 +738,7 @@
     "status": "warn",
     "value": 8
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 8
-   }
+   "accepted": 0
   },
   {
    "id": "layers.fixed",
@@ -889,10 +848,7 @@
    "webkit": {
     "status": "info"
    },
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "align.edges",
@@ -1070,11 +1026,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 23
-   }
+   "accepted": 0
   },
   {
    "id": "align.icons",
@@ -1175,11 +1127,7 @@
     "status": "warn",
     "value": 12
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 12
-   }
+   "accepted": 0
   },
   {
    "id": "ratios.inventory",
@@ -1397,10 +1345,7 @@
    "webkit": {
     "status": "info"
    },
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "icons.colour",
@@ -1435,11 +1380,7 @@
     "status": "warn",
     "value": 3
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 3
-   }
+   "accepted": 0
   },
   {
    "id": "icons.sizes",
@@ -1537,11 +1478,7 @@
     "status": "warn",
     "value": 16
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 16
-   }
+   "accepted": 0
   },
   {
    "id": "images.sharp",
@@ -1656,11 +1593,7 @@
     "status": "warn",
     "value": 14
    },
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 14
-   }
+   "accepted": 0
   },
   {
    "id": "images.weight",
@@ -1676,11 +1609,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "images.format",
@@ -1696,11 +1625,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "images.alt",
@@ -1716,11 +1641,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "images.first",
@@ -1755,11 +1676,7 @@
     "status": "fail",
     "value": 2
    },
-   "accepted": 0,
-   "was": {
-    "status": "fail",
-    "value": 3
-   }
+   "accepted": 0
   },
   {
    "id": "states.timing",
@@ -1784,11 +1701,7 @@
     "status": "pass",
     "value": 100
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 100
-   }
+   "accepted": 0
   },
   {
    "id": "components.copies",
@@ -1804,11 +1717,7 @@
     "status": "pass",
     "value": 0
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "components.inventory",
@@ -1966,10 +1875,7 @@
    "webkit": {
     "status": "info"
    },
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.bag-add",
@@ -1984,10 +1890,7 @@
     "when": "«В корзину» of the first card is pressed",
     "then": "the bag (localStorage qq-bag) holds that coffee and the navbar's count shows 1"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.heart-favourites",
@@ -2002,10 +1905,7 @@
     "when": "the heart of the first card is pressed, then the favourites page opened",
     "then": "the heart is pressed (aria-pressed true) and the favourites page shows that coffee"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.catalog-filter",
@@ -2020,10 +1920,7 @@
     "when": "a country is ticked in the filter «Страна»",
     "then": "only that country's coffees stay, and the address keeps the choice (?country=…)"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.menu-cell",
@@ -2038,10 +1935,7 @@
     "when": "one menu cell is opened, then another, then a click lands elsewhere",
     "then": "one cell is open at a time, and a click elsewhere closes it"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.nav-ground",
@@ -2056,10 +1950,7 @@
     "when": "the page is scrolled from the hero into the next section",
     "then": "the navbar takes the ground under it: black over the hero, paper below"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.reload-place",
@@ -2074,10 +1965,7 @@
     "when": "the page is reloaded",
     "then": "it comes back at the same place (scripts/scroll.js)"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "logic.burger-menu",
@@ -2092,10 +1980,7 @@
     "when": "the burger is pressed, then Escape",
     "then": "the menu opens (aria-expanded true) and closes again"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "fallback.nojs",
@@ -2120,10 +2005,7 @@
      "at": "1440x900"
     }
    ],
-   "accepted": 0,
-   "was": {
-    "status": "fail"
-   }
+   "accepted": 0
   },
   {
    "id": "fallback.nowebgl",
@@ -2133,10 +2015,7 @@
    "how": "WebGL turned off (old devices, blocked GPUs): no script errors, the same text shown.",
    "status": "pass",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "fallback.forced",
@@ -2146,10 +2025,7 @@
    "how": "Windows High Contrast and the like (forced-colors: active): no script errors, the same text shown.",
    "status": "pass",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "fallback.calm",
@@ -2159,10 +2035,7 @@
    "how": "With reduce motion: after the load and a scroll top to bottom, no CSS or Web Animations still running (GSAP's own motion is not seen by this check).",
    "status": "pass",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "fallback.fonts",
@@ -2273,11 +2146,7 @@
      "at": "1440x900"
     }
    ],
-   "accepted": 0,
-   "was": {
-    "status": "warn",
-    "value": 14
-   }
+   "accepted": 0
   },
   {
    "id": "privacy.hosts",
@@ -2287,10 +2156,7 @@
    "how": "A first visit: the page, a scroll, pointer moves and 3.5 s of waiting. The other hosts the page called (the site asks for no consent).",
    "items": [],
    "status": "info",
-   "accepted": 0,
-   "was": {
-    "status": "info"
-   }
+   "accepted": 0
   },
   {
    "id": "health.head",
@@ -2454,11 +2320,7 @@
     "status": "fail",
     "value": 24
    },
-   "accepted": 6,
-   "was": {
-    "status": "fail",
-    "value": 24
-   }
+   "accepted": 6
   },
   {
    "id": "health.overflow",
@@ -2471,10 +2333,7 @@
    "webkit": {
     "status": "pass"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "health.errors",
@@ -2487,10 +2346,7 @@
    "webkit": {
     "status": "pass"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "health.status",
@@ -2503,10 +2359,7 @@
    "webkit": {
     "status": "pass"
    },
-   "accepted": 0,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 0
   },
   {
    "id": "health.links",
@@ -3030,10 +2883,7 @@
    "webkit": {
     "status": "fail"
    },
-   "accepted": 85,
-   "was": {
-    "status": "pass"
-   }
+   "accepted": 85
   },
   {
    "id": "health.files",
@@ -3068,10 +2918,7 @@
    "webkit": {
     "status": "fail"
    },
-   "accepted": 0,
-   "was": {
-    "status": "fail"
-   }
+   "accepted": 0
   },
   {
    "id": "weight.total",
@@ -3081,40 +2928,37 @@
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
    "value": 558,
    "unit": "KB",
-   "was": {
-    "status": "pass",
-    "value": 558
-   },
+   "was": null,
    "status": "pass",
    "items": [
     {
      "key": "html",
      "where": "html",
-     "what": "1 files, 17 KB sent (was 17 KB)",
+     "what": "1 files, 17 KB sent",
      "value": 17
     },
     {
      "key": "js",
      "where": "js",
-     "what": "10 files, 61 KB sent (was 61 KB)",
+     "what": "10 files, 61 KB sent",
      "value": 61
-    },
-    {
-     "key": "images",
-     "where": "images",
-     "what": "10 files, 402 KB sent (was 402 KB)",
-     "value": 402
     },
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 15 KB sent (was 15 KB)",
+     "what": "1 files, 15 KB sent",
      "value": 15
+    },
+    {
+     "key": "images",
+     "where": "images",
+     "what": "10 files, 402 KB sent",
+     "value": 402
     },
     {
      "key": "fonts",
      "where": "fonts",
-     "what": "4 files, 63 KB sent (was 63 KB)",
+     "what": "4 files, 63 KB sent",
      "value": 63
     }
    ],
@@ -3131,11 +2975,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.relations",
@@ -3148,11 +2988,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.no-swallowed-css",
@@ -3165,11 +3001,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.colour-tokens",
@@ -3182,11 +3014,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.type-from-scale",
@@ -3199,11 +3027,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.fluid-from-scale",
@@ -3216,11 +3040,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.tokens-wired",
@@ -3249,11 +3069,7 @@
      "what": "defined, never used: --trace-light"
     }
    ],
-   "accepted": 0,
-   "was": {
-    "status": "fail",
-    "value": 3
-   }
+   "accepted": 0
   },
   {
    "id": "code.layout-steps",
@@ -3266,11 +3082,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.media-steps",
@@ -3283,11 +3095,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.decisions",
@@ -3300,11 +3108,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.window-scroll",
@@ -3317,11 +3121,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.io-root",
@@ -3334,11 +3134,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.webgl-caveat",
@@ -3351,11 +3147,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.bare-load",
@@ -3368,11 +3160,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.styles-first",
@@ -3385,11 +3173,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.consent-first",
@@ -3402,11 +3186,7 @@
    "unit": "places",
    "note": "turned off by the adapter (rules.learnings.consent: false)",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.lazy-media",
@@ -3419,11 +3199,7 @@
    "unit": "places",
    "note": "49 stylesheets loaded on their own",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.bar-guard",
@@ -3436,11 +3212,7 @@
    "unit": "places",
    "note": "no .bar-guard in the styles",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.learn.box-every-page",
@@ -3453,11 +3225,7 @@
    "unit": "places",
    "note": "49 pages with the box",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.colours-only-from-tokens",
@@ -3470,11 +3238,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.sizes-only-from-the-scale",
@@ -3487,11 +3251,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.layout-steps-only-at-s-m-l",
@@ -3504,11 +3264,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.no-rounded-corners",
@@ -3521,11 +3277,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.motion-only-from-motion-css",
@@ -3538,11 +3290,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.faces-only-through-tokens",
@@ -3555,11 +3303,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.every-token-defined-and-used",
@@ -3572,11 +3316,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.the-scale-holds-its-own-rules",
@@ -3589,11 +3329,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.every-decision-complete",
@@ -3606,11 +3342,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.one-line-colour",
@@ -3623,11 +3355,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.every-fade-eased",
@@ -3640,11 +3368,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   },
   {
    "id": "code.qq.hovers-never-move",
@@ -3657,11 +3381,7 @@
    "unit": "places",
    "note": "",
    "items": [],
-   "accepted": 0,
-   "was": {
-    "status": "pass",
-    "value": 0
-   }
+   "accepted": 0
   }
  ],
  "findings": [
@@ -4822,7 +4542,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "html",
-   "what": "1 files, 17 KB sent (was 17 KB)",
+   "what": "1 files, 17 KB sent",
    "at": "",
    "new": false
   },
@@ -4831,16 +4551,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "js",
-   "what": "10 files, 61 KB sent (was 61 KB)",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "weight.total::images",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "images",
-   "what": "10 files, 402 KB sent (was 402 KB)",
+   "what": "10 files, 61 KB sent",
    "at": "",
    "new": false
   },
@@ -4849,7 +4560,16 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
-   "what": "1 files, 15 KB sent (was 15 KB)",
+   "what": "1 files, 15 KB sent",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::images",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "images",
+   "what": "10 files, 402 KB sent",
    "at": "",
    "new": false
   },
@@ -4858,7 +4578,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "fonts",
-   "what": "4 files, 63 KB sent (was 63 KB)",
+   "what": "4 files, 63 KB sent",
    "at": "",
    "new": false
   },
@@ -5461,7 +5181,7 @@
    "state": "open"
   }
  ],
- "from": "this build",
- "whose": "measured on this commit (e5606a4)",
- "own": true
+ "from": "the last deploy of main",
+ "whose": "measured on main at 9a4eefd, before this change (claude/kit-v0.1.2 at 8e1a254)",
+ "own": false
 }
