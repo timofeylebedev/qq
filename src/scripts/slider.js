@@ -5,6 +5,8 @@
 // A reel (recommended) shows whole cards only, clipped at the column (Tim, round 7). Its cards rise into place from
 // below as they come into view (the section reaching the screen, or a card sliding in); their packs are carried up
 // with them (scripts/packs.js, the event qq:carry).
+import { ioRoot } from "./scroller.js";
+
 const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export function initSliders() {
@@ -141,7 +143,7 @@ export function riseGrid(grid) {
   const io = new IntersectionObserver((list) => {
     for (const e of list) if (e.isIntersecting && "wait" in e.target.dataset) { queue.push(e.target); io.unobserve(e.target); }
     if (queue.length && !timer) timer = requestAnimationFrame(flush);
-  }, { rootMargin: "0px 0px -8% 0px" });
+  }, { root: ioRoot, rootMargin: "0px 0px -8% 0px" });
   for (const c of cards) if ("wait" in c.dataset) io.observe(c);
   return {
     deal() {

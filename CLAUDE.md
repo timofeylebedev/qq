@@ -130,9 +130,36 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 - **The heroes' video** (home, about): `heroVideo()` in `src/templates/util.mjs`, files from `npm run video` (`build/video.mjs`; the original in `source/`, outside the repo); `scripts/video.js` plays it only on screen, never with «reduce motion» (decision `hero-video`).
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
-- **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.
+- **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
+  in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
+  links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists
+  what a proofreader would fix (`node_modules/site-kit/typeset/README.md`). The hero's title is split into lines only
+  (GSAP SplitText keeps the holds); a heading split letter by letter must be named in `typeset.spacesOnly`. Keep links
+  and other tags out of split headings: a hold at a tag's edge is lost in every split. The display headings where a
+  held piece is wider than the column at 280–320px (or with 24px text) say so: the story titles `data-typeset="off"`
+  with the holds that fit typed as no-break spaces in data/site.json (not «Как⍽мы⍽раскрываем»), the business page's
+  «Почему кофейни выбирают нас» `off` (`head({ typeset })`: its one hold, «выбирают⍽нас», was 3px wider than the
+  screen at 390 with 24px text), the product's name `data-typeset="spaces"` (no joiner in «Q-Optimistic»).
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
+- **Styles before scripts**: `main.js` waits for every stylesheet (`stylesReady()` of `site-kit/runtime/styles.js`) before
+  it starts anything (Safari may run a module first: WebKit bug 261655); never read a computed colour or size once and
+  write it inline for good. A window `load` listener is `whenLoaded(fn)` (`site-kit/runtime/loaded.js`): a module that
+  starts late comes after `load`.
+- **Scrolling**: never read `window.scrollY`, listen to the window's `scroll` or scroll the window in new code: use
+  `src/scripts/scroller.js` (site-kit's: `y()`, `to()`, `by()`, `height()`, `max()`, `onScroll()`, `watchSize()`, `ioRoot`,
+  `box`, `target.scrollTo` for a smooth one). `public/vt.js`, a plain script, asks the box itself. In Safari 26+ on a Mac
+  the page scrolls inside its own box (`html.boxed`, `<div class="page" data-page>` around everything in `<body>`:
+  `src/templates/layout.mjs`), so Safari's top bar stays solid; `site-kit/runtime/box.js` decides it, inlined first in
+  every `<head>` (`inlineScripts` in build/plugins.js), and `?qqbox=1` / `?qqbox=0` turn the box on or off in any
+  browser. In the box the navbar is sticky, not fixed (`src/styles/base/safari.css`), the 3D canvas is inside the box,
+  and an IntersectionObserver with a `rootMargin` takes `root: ioRoot`. `.bar-guard` (site-kit/runtime/safari.css: an
+  empty fixed block that takes taps) keeps Safari's bottom bar on iPhone plain glass; never give it a background or a
+  backdrop filter. Whether it does so over QQ's own tab bar is Tim's iPhone's to say (design/questions.json).
+- **WebGL only on a real GPU**: `pouch3d.js` and `curl.js` take their context through `gpuContext()` of
+  `site-kit/runtime/gpu.js`. Without a real GPU (Chrome copies a WebGL canvas back to the processor every frame) the
+  packs keep their stills and the new arrivals change without a turn; `?qqgl=1` forces WebGL (tests; build/pack-still.mjs
+  forces it too).
 
 ## The component canvas (`src/lab/canvas`, `npm run canvas`)
 
@@ -147,6 +174,14 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 
 ## Testing tips
 
+- Headless Chromium has no GPU: the packs are stills and the curl is off unless the address has `?qqgl=1`. Test the
+  box with `?qqbox=1` (the navbar following the grounds, the product's pinned pack, the reload's place, the buy bar on
+  the tab bar). The parameter is read by each page from its own address and links do not carry it: a page reached by a
+  link (a card, the navbar) opens without the box. So a view transition from a boxed page to a boxed page is seen only
+  in Safari 26+ on a Mac (the box on by itself); elsewhere open each page with `?qqbox=1` and test them one by one.
+  The catalog's filters keep the address's other parameters, so `?qqbox` / `?qqgl` stay there while filtering.
+- `npm run rules` runs QQ's `build/rules.mjs` (the twelve rules of the system; it fails) and then `site-kit rules`
+  (the same twelve as `qq.*` and the kit's lessons, `learn.*`); `npx site-kit rules` alone runs only the second part.
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
 - `window.qqPacks` (the stage and `TUNE`: turn, hover, the carry of a rising card, the press) and `window.qqStage.progress` in the console.

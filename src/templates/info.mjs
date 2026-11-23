@@ -27,9 +27,10 @@ export function business(ctx) {
   </div></div>
 </section>`;
 
+  // the title's one hold, «выбирают⍽нас», is wider than the screen at 390 with 24px text: typeset off
   const reasons = `<section class="section" data-ground="paper" aria-labelledby="reasons-title">
   <div class="col">
-    ${head({ title: b.reasons.title, id: "reasons-title" })}
+    ${head({ title: b.reasons.title, id: "reasons-title", typeset: "off" })}
     ${tiles(b.reasons.items, { cols: "4", cls: "tiles--icons" })}
   </div>
 </section>`;

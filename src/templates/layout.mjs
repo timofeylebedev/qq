@@ -1,13 +1,18 @@
 // The frame of every page: <head>, the navbar, the footer, and the one stylesheet and script of the site.
+// Everything of the page is in one box, <div class="page" data-page>: in Safari on a Mac the page scrolls in it, so
+// Safari's top bar stays solid (site-kit/runtime/box.js, inlined first in <head> by build/plugins.js inlineScripts;
+// ?qqbox=1 / ?qqbox=0 turn it on or off in any browser; scripts/scroller.js). Elsewhere it is an ordinary block. The
+// bar guard keeps Safari's bottom bar on iPhone plain glass (site-kit/runtime/safari.css).
 import { esc, icon, href, cls } from "./util.mjs";
 
 export function page(ctx, { title, description, body, ground = "paper", main = "" }) {
   const { site } = ctx;
   return `<!doctype html>
-<html lang="ru" data-root="${ctx.rel || "./"}" data-over="${ground}">
+<html lang="ru" data-root="${ctx.rel || "./"}" data-over="${ground}" data-box-param="qqbox">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script data-inline src="site-kit/runtime/box.js"></script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta name="robots" content="noindex">
@@ -21,13 +26,16 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>
+<div class="page" data-page>
 <a class="skip" href="#main">К содержанию</a>
+<div class="bar-guard" aria-hidden="true"></div>
 ${navbar(ctx, ground)}
 <main id="main"${main ? ` class="${main}"` : ""}>
 ${body}
 </main>
 ${footer(ctx)}
 <div class="toast" role="status" aria-live="polite" data-toast></div>
+</div>
 </body>
 </html>
 `;
@@ -110,10 +118,11 @@ function footer(ctx) {
 
 // A section heading with its controls on the right (arrows, a counter); the same on every page.
 // `middle` stands in the middle of the head (the pager of new arrivals): from M between the title and the aside,
-// below M on its own row under them.
-export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "" }) {
+// below M on its own row under them. `typeset` is the title's data-typeset (site-kit's typesetter), for a title whose
+// held piece would be wider than the column.
+export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "", typeset = "" }) {
   return `<div class="${cls("head", center && "head--center", middle && "head--middle")}">
-    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
+    <h${level} class="head__title"${id ? ` id="${id}"` : ""}${typeset ? ` data-typeset="${typeset}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
   </div>`;
 }
 

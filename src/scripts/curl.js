@@ -12,12 +12,15 @@
 // the sheet takes over from the page it starts as while its corner moves its first half pixel, and hands over to the
 // page it lands as in its last, so nothing jumps. A drag sideways turns the page under the hand (past a third, or a
 // flick, and it finishes; else it falls back). A number further than the next turns every sheet on the way, each a
-// little after the one before. Without WebGL the slides simply change; with «reduce motion» they change at once.
+// little after the one before. Without WebGL on a real GPU (site-kit/runtime/gpu.js; ?qqgl=1 forces it) the slides simply change; with «reduce motion» they change at once.
 //
 // The arrows of the head and the pager drive it; the current number is aria-current, the arrows aria-disabled at the
 // ends. Slides not shown are data-off and inert.
 
+import { gpuContext } from "site-kit/runtime/gpu.js";
+
 const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+const FORCE_GL = /[?&]qqgl=1/.test(location.search);   // WebGL in software too (tests in a browser without a GPU)
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 const DPR = () => Math.min(devicePixelRatio || 1, 2);   // the faces are textures: 2 is sharp enough, and a phone's tall page stays a few MB
@@ -172,7 +175,7 @@ export function paintPart(el, dpr) {
 function makeGL(host) {
   const cv = document.createElement("canvas"); cv.className = "curl-sheet"; cv.setAttribute("aria-hidden", "true");
   const opt = { antialias: false, depth: false, stencil: false, alpha: true, premultipliedAlpha: true, powerPreference: "high-performance" };
-  const gl = cv.getContext("webgl2", opt) || cv.getContext("webgl", opt);
+  const gl = gpuContext(cv, "webgl2", opt, { force: FORCE_GL }) || gpuContext(cv, "webgl", opt, { force: FORCE_GL });
   if (!gl) return null;
   const v2 = typeof WebGL2RenderingContext !== "undefined" && gl instanceof WebGL2RenderingContext;
   const aniso = gl.getExtension("EXT_texture_filter_anisotropic");
