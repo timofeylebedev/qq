@@ -2,6 +2,7 @@
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { resolve, dirname } from "node:path";
+import { createRequire } from "node:module";
 import { minify as minifyJs } from "terser";
 import { minify as minifyHtml } from "html-minifier-terser";
 
@@ -35,7 +36,8 @@ export function icons(dir) {
 }
 
 // <script data-inline src="./scripts/boot.js"></script> → the script itself, inside the page (minified when building):
-// it has to run before the page is drawn, without waiting for a file.
+// it has to run before the page is drawn, without waiting for a file. A src that is a package's path
+// (site-kit/runtime/box.js) is found in node_modules.
 export function inlineScripts(root) {
   let building = false;
   return {
@@ -46,7 +48,8 @@ export function inlineScripts(root) {
       async handler(html, ctx) {
         const tags = [...html.matchAll(/<script data-inline src="([^"]+)"><\/script>/g)];
         for (const [tag, src] of tags) {
-          let code = readFileSync(resolve(dirname(ctx.filename), src), "utf8");
+          const file = /^[./]/.test(src) ? resolve(dirname(ctx.filename), src) : createRequire(resolve(root, "package.json")).resolve(src);
+          let code = readFileSync(file, "utf8");
           if (building) code = (await minifyJs(code, { ecma: 2020, compress: { passes: 2 }, mangle: true })).code;
           html = html.replace(tag, "<script>" + code + "</script>");
         }

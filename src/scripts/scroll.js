@@ -4,7 +4,7 @@
 // tab (sessionStorage) and put back, instantly, after a reload or a step back, and again while the page settles,
 // until the visitor scrolls on their own.
 import { whenLoaded } from "site-kit/runtime/loaded.js";
-import { y, to, onScroll, watchSize } from "./scroller.js";
+import { y, to, onScroll, watchSize, box } from "./scroller.js";
 
 const KEY = "qq-scroll:" + location.pathname + location.search;
 
@@ -40,7 +40,8 @@ export function initScroll() {
 export function initResizeKeep() {
   const line = () => (parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 48) + 1;
   let anchor = null, resizing = 0, scrolling = 0, width = innerWidth;
-  const block = (el) => { while (el && el !== document.body && (getComputedStyle(el).display.startsWith("inline") || !el.offsetHeight)) el = el.parentElement; return el; };
+  const top = box || document.body;              // the page's outermost block: the box (Safari on a Mac) or the body
+  const block = (el) => { while (el && el !== top && el !== document.body && (getComputedStyle(el).display.startsWith("inline") || !el.offsetHeight)) el = el.parentElement; return el; };
   const pick = () => {
     if (resizing || "modal" in document.documentElement.dataset) return;
     const y0 = line();
@@ -48,15 +49,15 @@ export function initResizeKeep() {
     for (let y = y0; y < innerHeight * 0.6; y += 24) {
       for (const x of [innerWidth / 2, innerWidth / 4, innerWidth * 0.75]) {
         let el = block(document.elementFromPoint(x, y));
-        if (!el || el === document.body || el.closest(".nav, .tabbar, dialog")) continue;
+        if (!el || el === top || el === document.body || el.closest(".nav, .tabbar, dialog")) continue;
         // the outermost block that still starts on the screen under the bar (a card rather than its title)
-        while (el.parentElement && el.parentElement !== document.body && el.parentElement.getBoundingClientRect().top >= y0 - 1) el = el.parentElement;
+        while (el.parentElement && el.parentElement !== top && el.parentElement !== document.body && el.parentElement.getBoundingClientRect().top >= y0 - 1) el = el.parentElement;
         const r = el.getBoundingClientRect();
         if (r.top >= y0 - 1) { anchor = { el, dy: r.top - y0 }; return; }
       }
     }
     const el = block(document.elementFromPoint(innerWidth / 2, y0));
-    if (el && el !== document.body) { const r = el.getBoundingClientRect(); anchor = { el, f: (y0 - r.top) / r.height }; }
+    if (el && el !== top && el !== document.body) { const r = el.getBoundingClientRect(); anchor = { el, f: (y0 - r.top) / r.height }; }
   };
   const put = () => {
     if (!anchor || scrolling) return;

@@ -5,7 +5,7 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import { typeset } from "site-kit/typeset/vite";
-import { icons, minifyPages, csp, precompress } from "./build/plugins.js";
+import { icons, inlineScripts, minifyPages, csp, precompress } from "./build/plugins.js";
 
 const root = import.meta.dirname;
 const src = resolve(root, "src");
@@ -48,7 +48,7 @@ export default defineConfig({
   root: src,
   base: "./",                                   // relative addresses: the site works at a domain's root or in a folder (GitHub Pages)
   publicDir: resolve(root, "public"),
-  plugins: [pages(), icons(resolve(src, "assets/icons")), typeset(), minifyPages(), csp(), precompress(dist)],
+  plugins: [pages(), inlineScripts(root), icons(resolve(src, "assets/icons")), typeset(), minifyPages(), csp(), precompress(dist)],
   css: {
     transformer: "lightningcss",
     lightningcss: { drafts: { customMedia: true }, targets: { chrome: 111 << 16, safari: (16 << 16) | (4 << 8), ios_saf: (16 << 16) | (4 << 8), firefox: 121 << 16, edge: 111 << 16 } }

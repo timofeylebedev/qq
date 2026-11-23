@@ -1,13 +1,18 @@
 // The frame of every page: <head>, the navbar, the footer, and the one stylesheet and script of the site.
+// Everything of the page is in one box, <div class="page" data-page>: in Safari on a Mac the page scrolls in it, so
+// Safari's top bar stays solid (site-kit/runtime/box.js, inlined first in <head> by build/plugins.js inlineScripts;
+// ?qqbox=1 / ?qqbox=0 turn it on or off in any browser; scripts/scroller.js). Elsewhere it is an ordinary block. The
+// bar guard keeps Safari's bottom bar on iPhone plain glass (site-kit/runtime/safari.css).
 import { esc, icon, href, cls } from "./util.mjs";
 
 export function page(ctx, { title, description, body, ground = "paper", main = "" }) {
   const { site } = ctx;
   return `<!doctype html>
-<html lang="ru" data-root="${ctx.rel || "./"}" data-over="${ground}">
+<html lang="ru" data-root="${ctx.rel || "./"}" data-over="${ground}" data-box-param="qqbox">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script data-inline src="site-kit/runtime/box.js"></script>
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta name="robots" content="noindex">
@@ -21,13 +26,16 @@ export function page(ctx, { title, description, body, ground = "paper", main = "
 <script type="module" src="/scripts/main.js"></script>
 </head>
 <body>
+<div class="page" data-page>
 <a class="skip" href="#main">К содержанию</a>
+<div class="bar-guard" aria-hidden="true"></div>
 ${navbar(ctx, ground)}
 <main id="main"${main ? ` class="${main}"` : ""}>
 ${body}
 </main>
 ${footer(ctx)}
 <div class="toast" role="status" aria-live="polite" data-toast></div>
+</div>
 </body>
 </html>
 `;

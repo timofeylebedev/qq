@@ -11,7 +11,7 @@ export function initNav() {
   if (!nav) return;
   const tabbar = document.querySelector("[data-tabbar]");
   const root = document.documentElement;
-  const grounds = [...document.querySelectorAll("main [data-ground], body > footer[data-ground]")];
+  const grounds = [...document.querySelectorAll("main [data-ground], [data-page] > footer[data-ground], body > footer[data-ground]")];
 
   // the ground at the line y of the screen: the smallest section that holds it (a section inside another wins)
   const at = (y) => { let best = null, h = Infinity; for (const el of grounds) { const r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > y && r.height < h) { best = el.dataset.ground; h = r.height; } } return best; };
