@@ -4,12 +4,14 @@
 // touches another section (Tim, round 7): scrolling down, the section under its lower edge; scrolling up, the one
 // under its upper edge. Its colours cross over smoothly (nav.css). Scrolled above the top of the page (the bounce of a
 // touchpad or a phone) the bars keep the first section's ground, and the page behind the bounce is that colour too.
+import { y, height, onScroll, target } from "./scroller.js";
+
 export function initNav() {
   const nav = document.querySelector("[data-nav]");
   if (!nav) return;
   const tabbar = document.querySelector("[data-tabbar]");
   const root = document.documentElement;
-  const grounds = [...document.querySelectorAll("main [data-ground], body > footer[data-ground]")];
+  const grounds = [...document.querySelectorAll("main [data-ground], [data-page] > footer[data-ground], body > footer[data-ground]")];
 
   // the ground at the line y of the screen: the smallest section that holds it (a section inside another wins)
   const at = (y) => { let best = null, h = Infinity; for (const el of grounds) { const r = el.getBoundingClientRect(); if (r.top <= y && r.bottom > y && r.height < h) { best = el.dataset.ground; h = r.height; } } return best; };
@@ -21,10 +23,11 @@ export function initNav() {
     queued = false;
     if (!grounds.length) return;   // a page without sections (the component canvas's navbar frames) keeps its ground
     // a jump (the first look, a reload in the middle of the page, an anchor, End): no colour to keep, and no crossing
-    const fresh = lastY === null || Math.abs(scrollY - lastY) > innerHeight / 2;
-    if (lastY !== null && scrollY !== lastY) down = scrollY > lastY;
-    lastY = scrollY;
-    const top = scrollY <= 0, end = scrollY + innerHeight >= root.scrollHeight - 1;
+    const sy = y(), full = height();
+    const fresh = lastY === null || Math.abs(sy - lastY) > innerHeight / 2;
+    if (lastY !== null && sy !== lastY) down = sy > lastY;
+    lastY = sy;
+    const top = sy <= 0, end = sy + innerHeight >= full - 1;
     const set = (bar, g) => {
       if (!g || bar.dataset.ground === g) return;
       if (fresh) { bar.dataset.instant = ""; requestAnimationFrame(() => requestAnimationFrame(() => delete bar.dataset.instant)); }
@@ -33,16 +36,17 @@ export function initNav() {
     set(nav, top ? first : fresh ? at(nav.offsetHeight / 2) : under(0, nav.offsetHeight, down));
     if (tabbar && tabbar.offsetHeight) set(tabbar, end ? last : fresh ? at(innerHeight - tabbar.offsetHeight / 2) : under(innerHeight - tabbar.offsetHeight, innerHeight, down));
     // the colour behind a bounce: the first ground in the top half of the page, the last in the bottom half
-    const over = scrollY + innerHeight / 2 < root.scrollHeight / 2 ? first : last;
+    const over = sy + innerHeight / 2 < full / 2 ? first : last;
     if (root.dataset.over !== over) root.dataset.over = over;
   };
   const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
-  addEventListener("scroll", queue, { passive: true });
+  onScroll(queue);
   addEventListener("resize", queue, { passive: true });
   update();
 
-  // the logo on the home page is not a link (it would reload the page): a click takes the page back to its top
-  nav.querySelector("[data-to-top]")?.addEventListener("click", () => scrollTo({ top: 0 }));
+  // the logo on the home page is not a link (it would reload the page): a click takes the page back to its top, as
+  // smoothly as the CSS says (scroll-behavior on html or on the box: none with «reduce motion»)
+  nav.querySelector("[data-to-top]")?.addEventListener("click", () => target.scrollTo({ top: 0 }));
 
   const button = nav.querySelector("[data-menu-button]"), menu = nav.querySelector("[data-menu]");
   if (!button || !menu) return;

@@ -5,6 +5,7 @@
 @import "./base/fonts.css";
 @import "./base/motion.css";
 @import "./base/base.css";
+@import "./base/safari.css";
 @import "./base/layout.css";
 @import "./components/controls.css";
 @import "./components/card.css";

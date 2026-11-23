@@ -13,6 +13,11 @@ import { initFavs } from "./favs.js";
 import { initUi } from "./ui.js";
 import { initCheckout } from "./checkout.js";
 import { initMenus } from "./menus.js";
+import { stylesReady } from "site-kit/runtime/styles.js";
+
+// Safari may run this module before the stylesheets have applied (WebKit bug 261655): nothing is started or measured
+// before they have (site-kit/runtime/styles.js)
+await stylesReady();
 
 initScroll();
 initResizeKeep();

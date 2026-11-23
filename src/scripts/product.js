@@ -1,6 +1,8 @@
 // The stage of a coffee's page: how far the fact tiles have scrolled past the pinned pack, 0 at the start, 1 when the
 // pin lets go. scripts/packs.js turns the pack by it. Also keeps --buybar-h equal to the buy bar's real height, so
 // the pinned area fits between the navbar and the bar at every size.
+import { onScroll } from "./scroller.js";
+
 let stage = null;
 export const attachStage = (s) => { stage = s; s.measure(); };
 
@@ -20,7 +22,7 @@ export function initStage() {
     window.qqStage.progress = Math.min(1, Math.max(0, done / Math.max(1, run)));
     stage?.invalidate();
   };
-  addEventListener("scroll", update, { passive: true });
+  onScroll(update);
   addEventListener("resize", update, { passive: true });
   update();
 }

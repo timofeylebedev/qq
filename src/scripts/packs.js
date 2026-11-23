@@ -12,9 +12,13 @@
 //              to the angle of the scroll. While it is pinned the canvas stands on the screen (stage.fixed), so the
 //              pack never rides the page's scroll for a frame before it is drawn again
 //
-// Until the canvas has drawn (and without WebGL) each slot shows a still of the same pack. With «reduce motion» the
+// Until the canvas has drawn (and without WebGL on a real GPU: site-kit/runtime/gpu.js) each slot shows a still of the
+// same pack; ?qqgl=1 in the address draws the packs in software WebGL anyway (tests in a browser without a GPU). With «reduce motion» the
 // packs stand still, facing front.
 import { Pouch3D } from "./pouch3d.js";
+import { box } from "./scroller.js";
+
+export const FORCE_GL = /[?&]qqgl=1/.test(location.search);
 
 const LOOK = { depth: 1.0, relief: 2.0, light: 0.75, sheen: 0.35, shadow: 0.38 };   // the approved look (docs/3d-pack-notes.md)
 export const TUNE = {           // window.qqPacks in the console: try values live
@@ -69,7 +73,7 @@ export async function initPacks() {
   const A = new URL("pack/", root).href;
 
   let stage;
-  try { stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", zIndex: 5 }); }
+  try { stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", zIndex: 5, force: FORCE_GL, parent: box || undefined }); }   // in the box the canvas scrolls with the page
   catch (err) { console.info("3D packs off:", err.message); return; }
   Object.assign(stage.look, LOOK);
   window.qqPacks = { stage, TUNE, freeze: () => {} };

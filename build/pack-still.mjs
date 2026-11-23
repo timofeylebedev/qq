@@ -11,11 +11,11 @@ import sharp from "sharp";
 const root = resolve(import.meta.dirname, "..");
 const TYPES = { ".js": "text/javascript", ".json": "application/json", ".webp": "image/webp", ".jpg": "image/jpeg", ".html": "text/html" };
 const page = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0;background:transparent}#slot{width:100vw;height:100vh}</style>
-<div id="slot"></div><script type="module">
+<div id="slot"></div><script type="importmap">{"imports":{"site-kit/runtime/":"/node_modules/site-kit/runtime/"}}</script><script type="module">
 import { Pouch3D } from "/src/scripts/pouch3d.js";
 const A = "/public/pack/";
 const px = innerWidth >= 1000 ? 1024 : 512;
-const stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", preserveDrawingBuffer: true, overscan: 0, adaptive: false, maxDpr: 1 });
+const stage = await Pouch3D.createStage({ assets: A, mesh: A + "pouch-glb.json", force: true, preserveDrawingBuffer: true, overscan: 0, adaptive: false, maxDpr: 1 });
 Object.assign(stage.look, { depth: 1.0, relief: 2.0, light: 0.75, sheen: 0.35, shadow: 0.38 });
 const it = stage.add(document.getElementById("slot"), { front: A + "labels/sumatra-front-" + px + ".webp", back: A + "labels/sumatra-back-" + px + ".webp", fit: 0.9 });
 const im = new Image(); im.src = it.front; await im.decode();

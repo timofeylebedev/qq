@@ -1,0 +1,23 @@
+/* Safari's bars: the box the page scrolls in on a Mac and the guard of iPhone's bottom bar are site-kit's
+   (site-kit/runtime/safari.css says why; box.js is inlined first in every page's <head>, scripts/scroller.js reads it).
+   What QQ adds for its own page, only where the box is on (html.boxed: Safari 26+ on a Mac, or ?qqbox=1): */
+@import "site-kit/runtime/safari.css";
+
+/* the box is the page's paper (body's ground); room for the navbar when the browser scrolls to something (html's
+   scroll-padding-top, base.css); the guard above everything fixed but the skip link (100) */
+:root { --box-bg: var(--c-paper); --box-pad-top: calc(var(--nav-h) + 16px); --bar-guard-z: 90; }
+
+html.boxed:has(> body > [data-page]) {
+  /* the navbar sticks to the top of the box instead of being fixed: over something fixed the wheel, the trackpad
+     and the keys go to the window, which does not scroll; its height is given back below it, as fixed did */
+  & .nav { position: sticky; top: 0; margin-bottom: calc(-1 * var(--nav-h)); }
+  /* the room under the page for the tab bar (body's padding, nav.css): a block after the footer, not the box's padding,
+     which would also lift what sticks to the box's foot (the product's buy bar stood a tab bar's height too high) */
+  & [data-page]::after { content: ""; display: block; height: var(--tabbar-h); }
+  /* the scroll lock of a dialog (html's, home.css): the box keeps the room of its own scrollbar (--sbw, facts.js);
+     the bars need none (the navbar is inside the box, the tab bar spans the box's scrollbar) */
+  &[data-modal] [data-page] { overflow: hidden; padding-right: var(--sbw, 0px); }
+  &[data-modal] :is(.nav, .tabbar) { border-right-width: 0; }
+}
+@media (--motion) { html.boxed [data-page] { scroll-behavior: smooth; } }
+@media (--calm) { html.boxed [data-page] { scroll-behavior: auto !important; } }
