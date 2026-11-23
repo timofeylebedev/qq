@@ -337,6 +337,12 @@
       "why": "the page is the dialog's own address (src/templates/account.mjs): the dialog standing open is what it shows. Its text's contrast is not measured by the audit until the fix below",
       "decided": "Claude, 2026-11-23 (site-kit audit, PR #17)",
       "fix": "check the dialog's contrast from pixels, or with axe scoped to the dialog",
-      "audit": { "noContrast": "^account/beans/$" } }
+      "audit": { "noContrast": "^account/beans/$" } },
+    { "id": "hash-states", "kind": "decision",
+      "what": "The catalog's tabs (#all, #kofe, #kaskara, #dripy, #sety, #merch) and the checkout's «В подарок» (#gift) are states chosen by the address's hash, read by the scripts (filters.js, checkout.js): no element has that id",
+      "why": "a tab or a gift order can be linked to and shared (the navbar's «Каскара» … lead to the catalog on that tab), and Back undoes a change; the page does not scroll to a tab",
+      "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
+      "fix": "",
+      "checks": [{ "rule": "health.links", "match": "#(all|kofe|kaskara|dripy|sety|merch|gift)$" }, { "rule": "health.head", "match": "a link to #(all|kofe|kaskara|dripy|sety|merch|gift)," }] }
   ]
 }
