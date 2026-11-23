@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-23T19:31:51.103Z",
- "commit": "89f58a00a15a9ba06c0ca63fddcd7d932322fbd8",
+ "generated": "2026-11-23T21:46:47.718Z",
+ "commit": "59d2df5b94e06751fe1bf97f1fe4847a27a5a55d",
  "ref": "claude/site-kit",
  "pr": "17",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T19:16:51.429Z",
+   "when": "2026-11-23T21:31:08.397Z",
    "quick": false,
-   "seconds": 490,
+   "seconds": 510,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-23T19:24:59.788Z",
+   "when": "2026-11-23T21:39:38.720Z",
    "quick": true,
-   "seconds": 411,
+   "seconds": 429,
    "errors": []
   }
  },
