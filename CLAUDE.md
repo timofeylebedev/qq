@@ -138,7 +138,6 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   and other tags out of split headings: a hold at a tag's edge is lost in every split.
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
-
 - **Styles before scripts**: `main.js` waits for every stylesheet (`stylesReady()` of `site-kit/runtime/styles.js`) before
   it starts anything (Safari may run a module first: WebKit bug 261655); never read a computed colour or size once and
   write it inline for good. A window `load` listener is `whenLoaded(fn)` (`site-kit/runtime/loaded.js`): a module that
