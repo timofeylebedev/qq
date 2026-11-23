@@ -15,7 +15,7 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **site-kit** (https://github.com/timofeylebedev/site-kit): Tim's shared kit for his sites. The checks, the review
   page, the audit, the lessons learned as code rules and the CI workflows are the kit's; what is particular to QQ is in
   its adapter, `site-kit.config.mjs` (pages, sizes, palette groups, probes, scenarios, QQ's rules, audit, report blocks).
-  The kit is pinned to a release tag (now `v0.1.1`) in two places: `package.json` (`"site-kit": "github:timofeylebedev/site-kit#v0.1.1"`)
+  The kit is pinned to a release tag (now `v0.1.2`) in two places: `package.json` (`"site-kit": "github:timofeylebedev/site-kit#v0.1.2"`)
   and the `uses: …@…` lines of `.github/workflows/`. Raise both together, on purpose, in a PR of its own. A change to
   the kit's code goes in a site-kit PR, never into `node_modules/`. The kit's own lessons: `node_modules/site-kit/AGENTS.md`.
 - **The review page of the design system** (every colour, size, step, rule, finding, decision, question, and the review
