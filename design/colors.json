@@ -44,18 +44,18 @@
     ]
   },
   "descriptors": {
-    "$about": "The dot before a descriptor: one colour per flavour family; the first family whose word appears in the descriptor wins. The dot is decoration (the word is the information), so it needs 3:1 only against its pill.",
+    "$about": "The dot before a descriptor: one colour per dot family. Which family a descriptor belongs to is data/flavours.json (the taste model's taxonomy; each of its families names its dot here), not words matched in the descriptor. The dot is decoration (the word is the information), so it needs 3:1 only against its pill.",
     "families": [
-      ["chocolate", "#8a5a3c", ["шоколад", "какао", "пралине", "урбеч", "табак"]],
-      ["nuts",      "#b49176", ["орех", "фундук", "грильяж", "печень", "тост", "косточк"]],
-      ["citrus",    "#fe8123", ["апельсин", "цитрус", "грейпфрут", "мандарин", "цедр"]],
-      ["berry",     "#c2366b", ["ягод", "малин", "смородин", "ежевик", "земляни", "клубни", "барбарис"]],
-      ["orchard",   "#7fa33a", ["яблок", "груш", "дыня"]],
-      ["sweet",     "#d1864d", ["карамел", "мед", "крем-брюле", "сахар", "леденц", "варень", "пастил"]],
-      ["tea",       "#9963dd", ["чай", "бергамот", "цвет", "шиповник"]],
-      ["tropical",  "#e0b21f", ["тропик", "маракуй", "банан", "желтые фрукты", "курага"]],
-      ["vine",      "#7d4a6b", ["виноград", "сухофрукт", "ликер", "сидр", "вялен"]],
-      ["spice",     "#7a7a3a", ["хмель", "тмин", "специ", "лакриц"]]
+      ["chocolate", "#8a5a3c"],
+      ["nuts",      "#b49176"],
+      ["citrus",    "#fe8123"],
+      ["berry",     "#c2366b"],
+      ["orchard",   "#7fa33a"],
+      ["sweet",     "#d1864d"],
+      ["tea",       "#9963dd"],
+      ["tropical",  "#e0b21f"],
+      ["vine",      "#7d4a6b"],
+      ["spice",     "#7a7a3a"]
     ],
     "default": "#2d2f3366"
   }

@@ -44,10 +44,13 @@ export function heroVideo(c) {
 export const rub = (n) => (n == null ? "—" : n.toLocaleString("ru-RU").replace(/ /g, " ") + " ₽");
 export const lower = (s) => s.charAt(0).toLowerCase() + s.slice(1);
 
-// the dot colour of a descriptor: its flavour family (design/colors.json)
-const FAMILIES = read("design/colors.json").descriptors.families;
+// the dot colour of a descriptor: its flavour family (data/flavours.json, the taste model's taxonomy; a descriptor split
+// between two families takes the first, larger one) → that family's dot colour (design/colors.json)
+const FLAVOURS = read("data/flavours.json");
+const DOT = Object.fromEntries(FLAVOURS.families.map((f) => [f.id, f.dot]));
 export function taste(descriptor) {
-  const d = descriptor.toLowerCase();
-  const f = FAMILIES.find(([, , words]) => words.some((w) => d.includes(w)));
-  return f ? f[0] : "other";
+  const m = FLAVOURS.descriptors[descriptor];
+  if (!m) return "other";
+  const fam = typeof m === "string" ? m : Object.entries(m).reduce((a, b) => (b[1] > a[1] ? b : a))[0];
+  return DOT[fam] || "other";
 }
