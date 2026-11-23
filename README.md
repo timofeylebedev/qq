@@ -32,7 +32,7 @@ npm run rules        # the rules of the system (build/rules.mjs: colours, sizes,
                      # every code rule as the review page shows it (site-kit rules: QQ's and the kit's lessons)
 npm run check        # validates the HTML of the built pages
 npm run audit        # site-kit audit: 21 built pages in a real browser at 12 screen sizes (needs `npx playwright install chromium`)
-npm run checks       # site-kit checks: the design system measured in a browser → .site-kit/out/state.json (~15 min)
+npm run checks       # site-kit checks: the design system measured in a browser → .site-kit/out/state.json (~35 min)
 npm run checks:state # the state again from the last record
 npm run report       # site-kit report: the review page into .site-kit/report/ (open its index.html)
 npm run images       # assets-src/img → src/assets/img (AVIF/WebP; commit the outputs)

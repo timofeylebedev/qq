@@ -49,6 +49,12 @@
       "options": ["Solid bar, everything works", "Something is off (say what and where)"],
       "about": ["src/styles/base/safari.css", "src/templates/layout.mjs", "src/scripts/scroller.js", "src/scripts/nav.js", "src/scripts/pouch3d.js", "src/scripts/scroll.js", "public/vt.js"],
       "status": "open"
-    }
+    },
+    { "id": "checkout-sideways",
+      "ask": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+      "needs": ["choice"], "link": "https://timofeylebedev.github.io/qq/checkout/", "since": "2026-11-23",
+      "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+      "options": ["Fix it in the next PR", "Leave it (folded phones are rare)"],
+      "about": ["src/styles/pages/shop.css", "src/templates/shop.mjs"], "status": "open" }
   ]
 }

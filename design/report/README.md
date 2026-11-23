@@ -32,7 +32,7 @@ node design/report/tools/areas-round6.mjs <old url> <new url>   # round 6's meas
 node design/report/tools/pairs-round6.mjs <old url> <new url>   # round 6: round 5's build (main) next to this one → shots/r6-*.jpg
 node design/report/tools/areas-round7.mjs <old url> <new url>   # round 7's measures (info, tabs, menu cells, footer line, buy bar, similar, canvas) → areas-round7.json
 node design/report/tools/pairs-round7.mjs <old url> <new url>   # round 7: round 6's build (main) next to this one → shots/r7-*.jpg
-npm run -s rules > design/report/rules.txt; npm run -s audit > design/report/audit.txt
+npm run -s rules > design/report/rules.txt; npm run -s audit > design/report/audit.txt   # a clean audit ends «All checks passed.»
 python3 -I design/report/tools/make_data.py        # the words + the measurements → data.json
 python3 -I design/report/build_report.py design/report/data.json /tmp/report.html   # one self-contained page
 ```

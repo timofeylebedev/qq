@@ -190,7 +190,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 - The audit (`site-kit audit`, settings under `audit` in the adapter) puts a bag and favourites into the browser before
   every page (`audit.storage`) and runs QQ's own checks of the navbar's row and the countdown (`audit.probe`).
 - The kit's commands find Chromium by `PLAYWRIGHT_CHROMIUM` (in the cloud: `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`
-  as of Nov 23, 2026; `ls /opt/pw-browsers`). The checks take ~15 min (four pages at nine sizes).
+  as of Nov 23, 2026; `ls /opt/pw-browsers`). The checks take ~35 min (four pages at nine sizes; CI's run, Nov 23: 36 of its 60 min), the audit in CI up to ~36 min (WebKit; its job may take 60).
 
 ## Where Claude runs
 

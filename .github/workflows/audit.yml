@@ -1,9 +1,10 @@
 # Checks every pull request in real browsers: `site-kit audit` (site-kit's .github/workflows/audit.yml; QQ's settings
-# in site-kit.config.mjs, key `audit`; was build/audit.mjs, with the same findings) loads the home page, the catalog, two
-# coffee pages and the pages of round 4 (the shop with a bag and favourites put into the browser first, the account,
-# the information pages) at twelve screen sizes (a folded phone, phones upright and sideways, tablets, laptops short and
-# tall, 1440, 1920, 2560, and a phone and a laptop with the browser's text at 24px) and fails on sideways scroll,
-# cut-off text, text under 12px, tap targets under 24px, the navbar's sections running into the logo or the tools, the
+# in site-kit.config.mjs, key `audit`; was build/audit.mjs, with nearly the same findings: PR #17 lists the differences)
+# loads the home page, the catalog, two coffee pages and the pages of round 4 (the shop with a bag and favourites put
+# into the browser first, the account, the information pages) at twelve screen sizes (a folded phone, phones upright
+# and sideways, tablets, laptops short and tall, 1440, 1920, 2560, and a phone and a laptop with the browser's text
+# at 24px) and fails on sideways scroll, cut-off text, text under 12px, tap targets under 24px, the navbar's sections
+# running into the logo or the tools, the
 # hero's countdown out of line with its caption, script errors and axe-core rules. Exceptions decided on purpose are in
 # design/decisions.json (an exception with an `audit` field), each with its reason.
 #
@@ -27,9 +28,9 @@ concurrency:
 
 jobs:
   audit:
-    uses: timofeylebedev/site-kit/.github/workflows/audit.yml@98e270bb122cce7bf486a86fa8d16563b6de5d1d
+    uses: timofeylebedev/site-kit/.github/workflows/audit.yml@3c87a4e3e435493f7211260a8c4a3d676f5ab92d
     with:
       build: npm run build
       engines: '["chromium", "firefox", "webkit"]'
       fail-on: '["chromium"]'
-      timeout: 45           # 21 pages at twelve sizes (the kit's default is 20 minutes)
+      timeout: 60           # 21 pages at twelve sizes: WebKit took 36 minutes (the kit's default is 20)
