@@ -135,7 +135,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists
   what a proofreader would fix (`node_modules/site-kit/typeset/README.md`). The hero's title is split into lines only
   (GSAP SplitText keeps the holds); a heading split letter by letter must be named in `typeset.spacesOnly`. Keep links
-  and other tags out of split headings: a hold at a tag's edge is lost in every split.
+  and other tags out of split headings: a hold at a tag's edge is lost in every split. The display headings where a
+  held piece is wider than the column at 280–320px (or with 24px text) say so: the story titles `data-typeset="off"`,
+  the product's name `data-typeset="spaces"` (no joiner in «Q-Optimistic»).
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
 - **Styles before scripts**: `main.js` waits for every stylesheet (`stylesReady()` of `site-kit/runtime/styles.js`) before

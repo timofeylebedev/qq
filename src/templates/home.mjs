@@ -100,7 +100,7 @@ export function imageBlock(ctx, b) {
   return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">
     <div class="story__text">
-      <h2 class="story__title" id="${b.id}-title">${esc(b.title)}</h2>
+      <h2 class="story__title" id="${b.id}-title" data-typeset="off">${esc(b.title)}</h2>
       <a class="btn-arrow" href="${href(ctx, b.action[1])}"><span class="btn-arrow__label">${esc(b.action[0])}</span>${icon("arrow-right")}</a>
     </div>
     ${picture(b.image[0], b.image[1], { sizes: "(min-width: 48em) 55vw, 100vw", cls: "story__image" })}
