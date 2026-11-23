@@ -44,6 +44,9 @@ function name(slug, on) {
   return p;
 }
 
+// what scrolls (a plain script: it cannot import scripts/scroller.js): the page's box in Safari on a Mac, else the window
+const scroller = () => (document.documentElement.classList.contains("boxed") && document.querySelector("[data-page]")) || window;
+
 function initTransitions() {
   if (!("onpagereveal" in window)) return;
   // leaving: name the card (or the stage) of the coffee being opened or left, and show the stills
@@ -65,7 +68,7 @@ function initTransitions() {
     // a step back: put the page at its place first (scripts/scroll.js keeps it; it runs only after this frame), so
     // the card it returns to is found where it will be
     if (navigation.activation?.navigationType === "traverse") {
-      try { const at = JSON.parse(sessionStorage.getItem("qq-scroll:" + location.pathname + location.search)); if (at) { history.scrollRestoration = "manual"; scrollTo({ top: at.y, left: at.x, behavior: "instant" }); } } catch { /* storage off */ }
+      try { const at = JSON.parse(sessionStorage.getItem("qq-scroll:" + location.pathname + location.search)); if (at) { history.scrollRestoration = "manual"; scroller().scrollTo({ top: at.y, behavior: "instant" }); } } catch { /* storage off */ }
     }
     document.documentElement.dataset.vt = "in";
     name(slug, true);
