@@ -1,5 +1,6 @@
-# QQ (Nov 23, 2026): the first step onto site-kit. The checks job (the design system measured in a browser) comes in
-# the next commits of this pull request, with QQ's adapter (site-kit.config.mjs).
+# QQ (Nov 23, 2026): onto site-kit. The site job builds, runs QQ's own rules (build/rules.mjs: they still fail a pull
+# request) and the html check, and publishes; the checks job measures the design system and builds the review page
+# (QQ's settings: site-kit.config.mjs).
 # Copy to the site's .github/workflows/deploy.yml. Builds the site and publishes it on GitHub Pages from one branch,
 # with a preview for every pull request, then the design system's checks and the review page (site-kit, SPEC.md).
 #   main                  → https://<owner>.github.io/<repo>/          (the review page at /report/)
@@ -15,7 +16,7 @@
 #     report-data and comment on pull requests; the permissions below ask for exactly that).
 #   - Issues → Labels: add `checks` and `shots` (any colour). To name them otherwise, change them in all three places
 #     below: the concurrency group, the job `site`'s `if`, and the inputs checks-label / shots-label of the job `checks`.
-#   - The site's package.json has "site-kit": "github:timofeylebedev/site-kit#v0.1.0" in devDependencies, and its
+#   - The site's package.json has "site-kit": "github:timofeylebedev/site-kit#<tag or commit>" in devDependencies, and its
 #     adapter site-kit.config.mjs (checks.designPaths decides which pull requests are measured).
 #   - Raise the kit's tag here and in package.json together.
 name: Build and deploy
@@ -48,8 +49,22 @@ jobs:
     permissions:
       contents: write       # push to the gh-pages branch
       pull-requests: write  # the preview link comment
-    uses: timofeylebedev/site-kit/.github/workflows/site.yml@v0.1.0
+    uses: timofeylebedev/site-kit/.github/workflows/site.yml@ba4914c987720488100b564600c0404321c062ad
     with:
       build: npm run build
       check: npm run rules && npm run check   # QQ's own rules (build/rules.mjs) still fail a pull request
     #   rules-strict: true    # a failing code rule (site-kit rules) stops the deploy; off by default
+
+  checks:
+    needs: site
+    permissions:
+      contents: write       # the report-data branch, the review page on gh-pages
+      pull-requests: write  # the preview
+    uses: timofeylebedev/site-kit/.github/workflows/checks.yml@ba4914c987720488100b564600c0404321c062ad
+    with:
+      build: npm run build
+      engines: chromium webkit:quick
+      shots: ${{ inputs.shots || '' }}
+      checks-label: checks  # the same names as in the concurrency group and the `if` above
+      shots-label: shots
+      timeout: 60           # QQ measures four pages at nine sizes (the kit's default is 40 minutes)

@@ -1,6 +1,6 @@
 {
   "$about": [
-    "Every place the site departs from a rule on purpose, or holds a stand-in, with who decided, when and why, and the fix if it is reconsidered. build/rules.mjs reads it: a CSS rule that uses screen units (vw, vh, svh, cqi) passes only if a decision here lists its selector under css. build/audit.mjs reads it: an exception with an audit entry is not a failure, but is measured and printed under «Kept as designed» on every run.",
+    "Every place the site departs from a rule on purpose, or holds a stand-in, with who decided, when and why, and the fix if it is reconsidered. build/rules.mjs reads it: a CSS rule that uses screen units (vw, vh, svh, cqi) passes only if a decision here lists its selector under css. site-kit audit reads it: an exception with an audit entry is not a failure, but is measured and printed under «Kept as designed» on every run. site-kit rules reads `rules` ([{ rule, files, selectors }]): the kit's code rules leave those places out.",
     "kind: decision = a deliberate choice; exception = it breaks a rule of the system and is kept; placeholder = a stand-in until the real thing arrives (each one is in the report's «Next» list)."
   ],
   "decisions": [
@@ -122,7 +122,8 @@
       "why": "the pack turns as the tiles pass: the distance between them is scroll time, which is measured in screens",
       "decided": "Claude, 2026-10-19",
       "fix": "",
-      "css": [".pstage", ".pstage__facts"] },
+      "css": [".pstage", ".pstage__facts"],
+      "rules": [{ "rule": "fluid-from-scale", "files": "src/styles/pages/product\\.css", "selectors": "\\.pstage(__facts)?\\b" }] },
     { "id": "qq-digits", "kind": "decision",
       "what": "The countdown's digits are QQ Digits, drawn as SVG segments by the build (build/digits.mjs from Tim's settings in design/digits.json, the artifact «QQ Digits»): seven segments per digit and the colon's dots, the unlit ones shown as a trace (white 12% on black), each segment fading on in 120ms and off in 200ms. Not a font: Technology Bold is gone",
       "why": "Tim, round 6: «the program, so that we can animate the segments later». The SVG is in the page from the start (all unlit until the clock runs), so it needs no font file and works without the script",
@@ -138,14 +139,16 @@
       "why": "the grid is inside the content column (a container query can only style what is inside the column), but the fade and the line belong to the whole screen's width, as they did on the block around the column",
       "decided": "Claude, 2026-10-20 (round 6)",
       "fix": "",
-      "css": [".hero__grid::before, .hero__grid::after", ".hero__title::before"] },
+      "css": [".hero__grid::before, .hero__grid::after", ".hero__title::before"],
+      "rules": [{ "rule": "fluid-from-scale", "files": "src/styles/sections/home\\.css", "selectors": "\\.hero__(grid|title)::(before|after)" }] },
     { "id": "countdown-as-caption", "kind": "exception",
       "what": "Everything in the roast cell is as wide as its caption «До ближайшей обжарки» (13.9em of --type-control), or as wide as the cell allows where it is narrower and the caption takes two lines (below M, and between M and L where the countdown's parts stand side by side): the digits (QQ Digits, SVG, «00:00:00» 3em) fill that width, the date (more than a day to wait) fills it with its letters, 0.65em each in mono (a container unit of the digits' box)",
       "why": "Tim, round 2: «the elements should be the max width of the caption»; round 6: the countdown in two columns below M and side by side between M and L, where the one-line caption no longer fits. QQ Digits have no letters, so the date «Пт, 9 Окт» is set in the mono of the headings",
       "decided": "Tim, 2026-10-20 (rounds 2 and 6)",
       "fix": "",
       "css": [".hero__date", ".hero__roast > .hero__caption"],
-      "audit": "the caption, the digits and the day row are measured to the same width" },
+      "audit": "the caption, the digits and the day row are measured to the same width",
+      "rules": [{ "rule": "fluid-from-scale", "files": "src/styles/sections/home\\.css", "selectors": "\\.hero__(date|roast > \\.hero__caption)" }] },
     { "id": "photos-in-catalog", "kind": "decision",
       "what": "Only a Special coffee may show a photo on its card instead of the 3D pack (components.mjs photoOf over data/site.json photos); three do (Вьетнам Куа Мон, the second card of the catalog, Кения Киси, Перу Монте Верде), as the Figma catalog mixes photos with packs. A Classic coffee always shows its pack",
       "why": "the rhythm of the Figma catalog; Tim, round 7: «photos should be used only for special coffee», «use photos in the second card (it should be special)»",
@@ -322,6 +325,12 @@
       "what": "The info modal has one step row for its three panels: stepping changes the words of its two buttons, the buttons never move; the text comes in line by line; closing runs on --ease-move",
       "why": "Tim, round 7: the buttons moved on click, the description should appear line by line, the closing was abrupt",
       "decided": "Tim, 2026-10-21 (round 7)",
-      "fix": "" }
+      "fix": "" },
+    { "id": "count-12px", "kind": "exception",
+      "what": "The bag's count on the navbar's icon is 12px (a 16px pill over the corner of a 24px icon), not a role of the scale",
+      "why": "it is a part of the icon, the size of the pill it sits in; build/rules.mjs has allowed it since the navbar's tools (rule 2: «the 12px of the bag counter»)",
+      "decided": "Claude, 2026-11-23 (written down from build/rules.mjs for site-kit's rules)",
+      "fix": "a --type-* role for counts, if another count appears",
+      "rules": [{ "rule": "type-from-scale", "files": "src/styles/components/nav\\.css", "selectors": "^\\.nav__count$" }] }
   ]
 }
