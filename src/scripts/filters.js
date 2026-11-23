@@ -26,8 +26,11 @@ export function initFilters() {
       else el.value = q.get(el.name) || "";
     }
   };
+  // the form's own parameters are written anew; the address's others (?qqbox, ?qqgl …) stay as they were
+  const own = new Set([...form.elements].map((el) => el.name).filter(Boolean));
   const write = (push) => {
-    const q = new URLSearchParams();
+    const q = new URLSearchParams(location.search);
+    for (const k of own) q.delete(k);
     for (const [k, v] of new FormData(form)) if (v !== "" && !(k === "sort" && v === "popular")) q.append(k, v);
     const s = q.toString(), url = location.pathname + (s ? "?" + s : "") + location.hash;
     if (url !== location.pathname + location.search + location.hash) history[push ? "pushState" : "replaceState"](null, "", url);

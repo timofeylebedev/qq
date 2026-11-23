@@ -136,8 +136,10 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   what a proofreader would fix (`node_modules/site-kit/typeset/README.md`). The hero's title is split into lines only
   (GSAP SplitText keeps the holds); a heading split letter by letter must be named in `typeset.spacesOnly`. Keep links
   and other tags out of split headings: a hold at a tag's edge is lost in every split. The display headings where a
-  held piece is wider than the column at 280–320px (or with 24px text) say so: the story titles `data-typeset="off"`,
-  the product's name `data-typeset="spaces"` (no joiner in «Q-Optimistic»).
+  held piece is wider than the column at 280–320px (or with 24px text) say so: the story titles `data-typeset="off"`
+  with the holds that fit typed as no-break spaces in data/site.json (not «Как⍽мы⍽раскрываем»), the business page's
+  «Почему кофейни выбирают нас» `off` (`head({ typeset })`: its one hold, «выбирают⍽нас», was 3px wider than the
+  screen at 390 with 24px text), the product's name `data-typeset="spaces"` (no joiner in «Q-Optimistic»).
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
 - **Styles before scripts**: `main.js` waits for every stylesheet (`stylesReady()` of `site-kit/runtime/styles.js`) before
@@ -173,8 +175,13 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 ## Testing tips
 
 - Headless Chromium has no GPU: the packs are stills and the curl is off unless the address has `?qqgl=1`. Test the
-  box with `?qqbox=1` (the navbar following the grounds, the product's pinned pack, the reload's place, view transitions).
-- `npx site-kit rules` runs the kit's lessons (`learn.*`) with the design rules; `npm run rules` is QQ's own.
+  box with `?qqbox=1` (the navbar following the grounds, the product's pinned pack, the reload's place, the buy bar on
+  the tab bar). The parameter is read by each page from its own address and links do not carry it: a page reached by a
+  link (a card, the navbar) opens without the box. So a view transition from a boxed page to a boxed page is seen only
+  in Safari 26+ on a Mac (the box on by itself); elsewhere open each page with `?qqbox=1` and test them one by one.
+  The catalog's filters keep the address's other parameters, so `?qqbox` / `?qqgl` stay there while filtering.
+- `npm run rules` runs QQ's `build/rules.mjs` (the twelve rules of the system; it fails) and then `site-kit rules`
+  (the same twelve as `qq.*` and the kit's lessons, `learn.*`); `npx site-kit rules` alone runs only the second part.
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
 - `window.qqPacks` (the stage and `TUNE`: turn, hover, the carry of a rising card, the press) and `window.qqStage.progress` in the console.

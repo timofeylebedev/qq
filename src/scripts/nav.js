@@ -44,8 +44,9 @@ export function initNav() {
   addEventListener("resize", queue, { passive: true });
   update();
 
-  // the logo on the home page is not a link (it would reload the page): a click takes the page back to its top
-  nav.querySelector("[data-to-top]")?.addEventListener("click", () => target.scrollTo({ top: 0, behavior: "smooth" }));
+  // the logo on the home page is not a link (it would reload the page): a click takes the page back to its top, as
+  // smoothly as the CSS says (scroll-behavior on html or on the box: none with «reduce motion»)
+  nav.querySelector("[data-to-top]")?.addEventListener("click", () => target.scrollTo({ top: 0 }));
 
   const button = nav.querySelector("[data-menu-button]"), menu = nav.querySelector("[data-menu]");
   if (!button || !menu) return;

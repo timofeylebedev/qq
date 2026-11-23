@@ -6,14 +6,15 @@
 import { whenLoaded } from "site-kit/runtime/loaded.js";
 import { y, to, onScroll, watchSize, box } from "./scroller.js";
 
-const KEY = "qq-scroll:" + location.pathname + location.search;
+// the address as it is now: the catalog's filters change it in place (pushState), and a step back comes to that address
+const key = () => "qq-scroll:" + location.pathname + location.search;
 
 export function initScroll() {
   if (!("scrollRestoration" in history)) return;
   history.scrollRestoration = "manual";
   let saved = null;
-  try { saved = JSON.parse(sessionStorage.getItem(KEY)); } catch { /* storage off: the browser's own way */ }
-  const save = () => { try { sessionStorage.setItem(KEY, JSON.stringify({ y: y() })); } catch { /* nothing */ } };
+  try { saved = JSON.parse(sessionStorage.getItem(key())); } catch { /* storage off: the browser's own way */ }
+  const save = () => { try { sessionStorage.setItem(key(), JSON.stringify({ y: y() })); } catch { /* nothing */ } };
   let t = 0;
   onScroll(() => { clearTimeout(t); t = setTimeout(save, 150); });
   addEventListener("pagehide", save);

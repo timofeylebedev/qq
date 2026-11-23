@@ -96,6 +96,8 @@ function recs(ctx, list) {
 </section>`;
 }
 
+// The title is not typeset: «Как⍽мы⍽раскрываем» was wider than the column at 280–320 and with 24px text; the holds
+// that fit are typed in data/site.json (no-break spaces, which data-typeset="off" keeps).
 export function imageBlock(ctx, b) {
   return `<section class="${cls("story", `story--${b.theme}`)}" data-ground="${b.theme === "dark" ? "black" : "paper"}" id="${b.id}" aria-labelledby="${b.id}-title">
   <div class="col"><div class="story__col">

@@ -118,10 +118,11 @@ function footer(ctx) {
 
 // A section heading with its controls on the right (arrows, a counter); the same on every page.
 // `middle` stands in the middle of the head (the pager of new arrivals): from M between the title and the aside,
-// below M on its own row under them.
-export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "" }) {
+// below M on its own row under them. `typeset` is the title's data-typeset (site-kit's typesetter), for a title whose
+// held piece would be wider than the column.
+export function head({ title, id, level = 2, aside = "", center = false, lead = "", middle = "", typeset = "" }) {
   return `<div class="${cls("head", center && "head--center", middle && "head--middle")}">
-    <h${level} class="head__title"${id ? ` id="${id}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
+    <h${level} class="head__title"${id ? ` id="${id}"` : ""}${typeset ? ` data-typeset="${typeset}"` : ""}>${esc(title)}</h${level}>${lead ? `\n    <p class="head__lead">${esc(lead)}</p>` : ""}${middle ? `\n    <div class="head__middle">${middle}</div>` : ""}${aside ? `\n    <div class="head__aside">${aside}</div>` : ""}
   </div>`;
 }
 

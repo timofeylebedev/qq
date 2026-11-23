@@ -19,9 +19,9 @@
     },
     {
       "id": "tabbar-safari-bar",
-      "ask": "On your iPhone, in Safari: scroll any page down and up with the tab bar at the bottom. Does Safari's own bottom bar stay plain glass, or does it take the tab bar's colour (or turn white)? Safari tints its bar from anything fixed at the bottom edge (a lesson of Flow Medium, site-kit AGENTS.md). PR #18 adds Flow Medium's guard (an empty fixed block over that point, site-kit/runtime/safari.css): look at PR #18's preview, the catalog and a coffee's page (its buy bar sits on the tab bar), also near the footer.",
+      "ask": "On your iPhone, in Safari: scroll any page down and up with the tab bar at the bottom. Does Safari's own bottom bar stay plain glass, or does it take the tab bar's colour (or turn white)? Safari tints its bar from anything fixed at the bottom edge (a lesson of Flow Medium, site-kit AGENTS.md). PR #18 adds Flow Medium's guard (an empty fixed block over that point, site-kit/runtime/safari.css): look at the test site once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/catalog/), the catalog and a coffee's page (its buy bar sits on the tab bar), also near the footer.",
       "needs": ["iphone"],
-      "link": "https://timofeylebedev.github.io/qq/pr-preview/pr-18/catalog/",
+      "link": "https://timofeylebedev.github.io/qq/catalog/",
       "since": "2026-11-23",
       "from": "PR #17 (site-kit), PR #18 (the guard)",
       "options": ["Plain glass, looks right", "It takes a colour (say which page)"],
@@ -41,9 +41,9 @@
     },
     {
       "id": "box-mac-safari",
-      "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare.",
+      "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
       "needs": ["mac-safari"],
-      "link": "https://timofeylebedev.github.io/qq/pr-preview/pr-18/",
+      "link": "https://timofeylebedev.github.io/qq/?qqbox=1",
       "since": "2026-11-23",
       "from": "PR #18",
       "options": ["Solid bar, everything works", "Something is off (say what and where)"],

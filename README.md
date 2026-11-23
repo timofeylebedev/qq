@@ -98,7 +98,7 @@ Chrome and Edge 111+, Safari and iOS 16.4+, Firefox 121+: the layout relies on c
 (the build targets in `vite.config.js`). Without WebGL on a real GPU (a GPU the browser has turned off, a virtual
 machine, a headless browser) the packs are stills and the new arrivals change without a turn; `?qqgl=1` draws them in
 software WebGL anyway. In Safari 26+ on a Mac the page scrolls in its own box, so Safari's top bar stays solid
-(`?qqbox=1` / `?qqbox=0` turn the box on or off in any browser).
+(`?qqbox=1` / `?qqbox=0` turn the box on or off in any browser, on the page whose address has it: links do not carry it).
 
 ## Status
 
