@@ -2,7 +2,10 @@
 // roast and the catalog's line about it. The time is always Moscow's, wherever the visitor is.
 const DAYS = ["ВС", "ПН", "ВТ", "СР", "ЧТ", "ПТ", "СБ"];
 const DAYS_LONG = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
-const DAYS_SAY = ["в воскресенье", "в понедельник", "во вторник", "в среду", "в четверг", "в пятницу", "в субботу"];
+// the texts this script writes are not seen by the typesetter (site-kit/typeset, at build time): their holds are
+// written here, as it would (a short word with the next one, a number with its month or unit)
+const NB = "\u00a0";
+const DAYS_SAY = ["в воскресенье", "в понедельник", "во вторник", "в среду", "в четверг", "в пятницу", "в субботу"].map((d) => d.replace(" ", NB));
 const MONTHS_SHORT = ["Янв", "Фев", "Мар", "Апр", "Мая", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"];
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 import { setDigits } from "./digits.js";
@@ -45,20 +48,20 @@ export function initRoast() {
       if (date) {
         date.hidden = !far;
         if (far) { date.textContent = `${DAYS_LONG[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS_SHORT[at.getUTCMonth()]}`; date.style.setProperty("--n", date.textContent.length); }
-        if (say) say.textContent = far ? `Следующая обжарка ${DAYS_SAY[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS[at.getUTCMonth()]}` : "Следующая обжарка через ";
+        if (say) say.textContent = far ? `Следующая обжарка ${DAYS_SAY[at.getUTCDay()]}, ${at.getUTCDate()}${NB}${MONTHS[at.getUTCMonth()]}` : "Следующая обжарка через ";
       }
       if (hours) {
         const h = Math.ceil(left / 3600);
-        hours.textContent = h <= 1 ? "До обжарки меньше часа" : `До обжарки менее ${h} ${h % 10 === 1 && h % 100 !== 11 ? "часа" : "часов"}`;
+        hours.textContent = h <= 1 ? "До обжарки меньше часа" : `До обжарки менее ${h}${NB}${h % 10 === 1 && h % 100 !== 11 ? "часа" : "часов"}`;
       }
       // the info block's modal: «Ближайшая обжарка через 4 часа» (or «через 35 минут», or the day when it is far)
       if (inn) {
         const h = Math.floor(left / 3600), m = Math.max(1, Math.ceil(left / 60));
-        inn.textContent = left > 24 * 3600 ? `Ближайшая обжарка ${DAYS_SAY[at.getUTCDay()]}, ${at.getUTCDate()} ${MONTHS[at.getUTCMonth()]}.`
-          : h >= 1 ? `Ближайшая обжарка через ${h} ${plural(h, ["час", "часа", "часов"])}.` : `Ближайшая обжарка через ${m} ${plural(m, ["минуту", "минуты", "минут"])}.`;
+        inn.textContent = left > 24 * 3600 ? `Ближайшая обжарка ${DAYS_SAY[at.getUTCDay()]}, ${at.getUTCDate()}${NB}${MONTHS[at.getUTCMonth()]}.`
+          : h >= 1 ? `Ближайшая обжарка через ${h}${NB}${plural(h, ["час", "часа", "часов"])}.` : `Ближайшая обжарка через ${m}${NB}${plural(m, ["минуту", "минуты", "минут"])}.`;
       }
       // the parcel leaves on the next roast day after the roast (data/site.json facts: «на следующий рабочий день после обжарки»)
-      if (ship) { const out = nextRoast({ ...cfg, from: at }).at; ship.textContent = `Передадим в доставку в ${DAYS_LONG[out.getUTCDay()]}, ${out.getUTCDate()} ${MONTHS[out.getUTCMonth()]}`; }
+      if (ship) { const out = nextRoast({ ...cfg, from: at }).at; ship.textContent = `Передадим в${NB}доставку в${NB}${DAYS_LONG[out.getUTCDay()]}, ${out.getUTCDate()}${NB}${MONTHS[out.getUTCMonth()]}`; }
     };
     tick();
     // the countdown ticks every second; the catalog line once a minute

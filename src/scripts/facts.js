@@ -11,6 +11,7 @@
 // the title. The step row is one for the three panels: stepping changes its words, the buttons stay where they are.
 // With «reduce motion» the modal simply opens and closes.
 import { focusFrom } from "./focus.js";
+import { box as pageBox } from "./scroller.js";
 
 const T = () => {
   const cs = getComputedStyle(document.documentElement);
@@ -140,8 +141,10 @@ export function initFacts() {
     if (busy || dialog.open) return;
     busy = true; wantShut = false;
     show(i);
-    // the scrollbar's width, if the browser draws one: the page and its bars keep that room while it is gone
-    document.documentElement.style.setProperty("--sbw", `${Math.max(0, innerWidth - document.documentElement.clientWidth)}px`);
+    // the scrollbar's width, if the browser draws one: the page and its bars keep that room while it is gone (in the
+    // box, the box's own scrollbar: the window has none there)
+    const sb = pageBox ? pageBox.offsetWidth - pageBox.clientWidth : innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty("--sbw", `${Math.max(0, sb)}px`);
     document.documentElement.dataset.modal = "";
     dialog.showModal();
     hold(i, true);

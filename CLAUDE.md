@@ -8,6 +8,28 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - The site of QQ Coffee (a roaster of specialty coffee): home, catalog, a page per coffee; the bag, favourites, checkout,
   account (a placeholder visitor) and the information pages (round 4). Static, Vite, Russian; no shop behind it yet.
 - `main` is the test site: every push builds and publishes to https://timofeylebedev.github.io/qq/ (`deploy.yml`).
+- **Every pull request gets a preview:** the same workflow publishes it to
+  `https://timofeylebedev.github.io/qq/pr-preview/pr-<number>/`, posts the link as a comment on the PR, updates it on
+  every push and removes it when the PR is closed. Pages serves the `gh-pages` branch: the site at its root, the
+  previews in `pr-preview/`. Give Tim the preview link in the PR description.
+- **site-kit** (https://github.com/timofeylebedev/site-kit): Tim's shared kit for his sites. The checks, the review
+  page, the audit, the lessons learned as code rules and the CI workflows are the kit's; what is particular to QQ is in
+  its adapter, `site-kit.config.mjs` (pages, sizes, palette groups, probes, scenarios, QQ's rules, audit, report blocks).
+  The kit is pinned to a release tag (now `v0.1.1`) in two places: `package.json` (`"site-kit": "github:timofeylebedev/site-kit#v0.1.1"`)
+  and the `uses: …@…` lines of `.github/workflows/`. Raise both together, on purpose, in a PR of its own. A change to
+  the kit's code goes in a site-kit PR, never into `node_modules/`. The kit's own lessons: `node_modules/site-kit/AGENTS.md`.
+- **The review page of the design system** (every colour, size, step, rule, finding, decision, question, and the review
+  rounds of `design/report/data.json`): site-kit's page, built by `npm run report` into `.site-kit/report/` (open its
+  `index.html`), published at https://timofeylebedev.github.io/qq/report/ (CI builds it on every deploy). The older
+  per-round pages (skill `full-system-report`, links in `design/report/README.md`) stay where they are.
+- **The checks of the design system** (site-kit checks; QQ's settings in `site-kit.config.mjs`): every rule measured in
+  a browser on every deploy (job `checks` of deploy.yml, after the site is out; on a PR only when a design file changed,
+  or with the label `checks`): findings, decisions that cover them, questions for Tim and «what needs you», in one
+  `state.json` (live: `…/qq/report/state.json`; history on the `report-data` branch, never edited by hand). Read it at
+  the start of design work. `npm run checks` runs it locally after a build (records in `.site-kit/out/`). The home page,
+  the catalog and two coffee pages are measured at every size (`measure: true` in the adapter); every page's head,
+  links and sideways scroll are checked. Tim answers a question with a button on the report that copies
+  «QQ answer · <id>: <answer>»; record it with `npx site-kit checks answer <id> "<answer>" ["note"]` in the PR it leads to.
 - Owner and reviewer: Tim (timofeylebedev). Talk to Tim in the language he writes in.
 - Design: Figma https://www.figma.com/design/xwaKVTaFLFNc2yhMfsB5us/QQ-website — pages «Главная» (the most complete,
   frame [1280 — 1439]), «Каталог», «Продукт» (frame [1440 — 1919]); round 4 used the [1440 — 1920] frames of «Корзина»,
@@ -21,15 +43,25 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 - **Never commit to `main`.** A branch, a pull request, Tim reviews and merges. One topic per PR; say what changed,
   what was measured and what Tim should look at.
 - Commit as `timofeylebedev <49580438+timofeylebedev@users.noreply.github.com>`.
-- Before a PR: `npm run rules && npm run build && npm run check && npm run audit`. CI runs them too.
+- Before a PR: `npm run rules && npm run build && npm run check && npm run audit`. CI runs them too (`npm run rules`
+  and `check` in the site job of deploy.yml, the audit in audit.yml: Chromium fails on problems, Firefox and WebKit
+  only warn).
 - Measure, don't guess: numbers in PRs come from a browser (Playwright), not from reading the CSS.
 - For a larger round Tim gets an independent review: a separate agent that has not seen the work re-checks it;
   its findings are fixed in a commit "Fixes from the independent review".
 - A design-system round ends with the full system report (skill `full-system-report`): a new page each round (the
   earlier ones stay where they are), always the whole system. Links in `design/report/README.md`.
-- Anything decided on purpose (an exception, a stand-in) goes into `design/decisions.json`.
+- Anything decided on purpose (an exception, a stand-in) goes into `design/decisions.json`. When it covers what a check
+  finds, bind it: `"checks": [{ "rule": "<id>", "match": "<regex>", "band": [least, greatest] }]` (site-kit's
+  checks/README.md): the check then accepts it and brings it back when its value moves.
+- A question for Tim that a check cannot answer (a look on his iPhone, a choice) goes into `design/questions.json` (with
+  the files it is about): the review page shows it with answer buttons.
 
 ## Rules in the code (build/rules.mjs checks them)
+
+`npm run rules` runs build/rules.mjs (it fails on a broken rule, also in CI), then `site-kit rules`: the same twelve
+rules as the review page shows them (`qq.*`, read from `build/rules.mjs --json` by the adapter's `rules.code`) and the
+kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job's `rules-strict` is on).
 
 - **Sizes** come from `design/scale.json` only: a value at 320 and at 1440, a straight line between, the screen's
   height counting through `--vp`. No `vw`/`vh`/`cqi` in the styles except in rules a decision lists (`css` field).
@@ -103,9 +135,36 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
   and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
-- **Texts**: write Russian normally; `build/typograph.js` adds non-breaking spaces at build time.
+- **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
+  in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
+  links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists
+  what a proofreader would fix (`node_modules/site-kit/typeset/README.md`). The hero's title is split into lines only
+  (GSAP SplitText keeps the holds); a heading split letter by letter must be named in `typeset.spacesOnly`. Keep links
+  and other tags out of split headings: a hold at a tag's edge is lost in every split. The display headings where a
+  held piece is wider than the column at 280–320px (or with 24px text) say so: the story titles `data-typeset="off"`
+  with the holds that fit typed as no-break spaces in data/site.json (not «Как⍽мы⍽раскрываем»), the business page's
+  «Почему кофейни выбирают нас» `off` (`head({ typeset })`: its one hold, «выбирают⍽нас», was 3px wider than the
+  screen at 390 with 24px text), the product's name `data-typeset="spaces"` (no joiner in «Q-Optimistic»).
 - **CSP**: the build writes a strict policy (`build/plugins.js` POLICY). Fonts and pictures are files, never data URIs
   (`assetsInlineLimit: 0`).
+- **Styles before scripts**: `main.js` waits for every stylesheet (`stylesReady()` of `site-kit/runtime/styles.js`) before
+  it starts anything (Safari may run a module first: WebKit bug 261655); never read a computed colour or size once and
+  write it inline for good. A window `load` listener is `whenLoaded(fn)` (`site-kit/runtime/loaded.js`): a module that
+  starts late comes after `load`.
+- **Scrolling**: never read `window.scrollY`, listen to the window's `scroll` or scroll the window in new code: use
+  `src/scripts/scroller.js` (site-kit's: `y()`, `to()`, `by()`, `height()`, `max()`, `onScroll()`, `watchSize()`, `ioRoot`,
+  `box`, `target.scrollTo` for a smooth one). `public/vt.js`, a plain script, asks the box itself. In Safari 26+ on a Mac
+  the page scrolls inside its own box (`html.boxed`, `<div class="page" data-page>` around everything in `<body>`:
+  `src/templates/layout.mjs`), so Safari's top bar stays solid; `site-kit/runtime/box.js` decides it, inlined first in
+  every `<head>` (`inlineScripts` in build/plugins.js), and `?qqbox=1` / `?qqbox=0` turn the box on or off in any
+  browser. In the box the navbar is sticky, not fixed (`src/styles/base/safari.css`), the 3D canvas is inside the box,
+  and an IntersectionObserver with a `rootMargin` takes `root: ioRoot`. `.bar-guard` (site-kit/runtime/safari.css: an
+  empty fixed block that takes taps) keeps Safari's bottom bar on iPhone plain glass; never give it a background or a
+  backdrop filter. Whether it does so over QQ's own tab bar is Tim's iPhone's to say (design/questions.json).
+- **WebGL only on a real GPU**: `pouch3d.js` and `curl.js` take their context through `gpuContext()` of
+  `site-kit/runtime/gpu.js`. Without a real GPU (Chrome copies a WebGL canvas back to the processor every frame) the
+  packs keep their stills and the new arrivals change without a turn; `?qqgl=1` forces WebGL (tests; build/pack-still.mjs
+  forces it too).
 
 ## The component canvas (`src/lab/canvas`, `npm run canvas`)
 
@@ -120,11 +179,23 @@ project's notes for the claude.ai project "QQ" are in its doc `claude/website-sy
 
 ## Testing tips
 
+- Headless Chromium has no GPU: the packs are stills and the curl is off unless the address has `?qqgl=1`. Test the
+  box with `?qqbox=1` (the navbar following the grounds, the product's pinned pack, the reload's place, the buy bar on
+  the tab bar). The parameter is read by each page from its own address and links do not carry it: a page reached by a
+  link (a card, the navbar) opens without the box. So a view transition from a boxed page to a boxed page is seen only
+  in Safari 26+ on a Mac (the box on by itself); elsewhere open each page with `?qqbox=1` and test them one by one.
+  The catalog's filters keep the address's other parameters, so `?qqbox` / `?qqgl` stay there while filtering.
+- `npm run rules` runs QQ's `build/rules.mjs` (the twelve rules of the system; it fails) and then `site-kit rules`
+  (the same twelve as `qq.*` and the kit's lessons, `learn.*`); `npx site-kit rules` alone runs only the second part.
 - Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
   at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
 - `window.qqPacks` (the stage and `TUNE`: turn, hover, the carry of a rising card, the press) and `window.qqStage.progress` in the console.
 - A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
+- The audit (`site-kit audit`, settings under `audit` in the adapter) puts a bag and favourites into the browser before
+  every page (`audit.storage`) and runs QQ's own checks of the navbar's row and the countdown (`audit.probe`).
+- The kit's commands find Chromium by `PLAYWRIGHT_CHROMIUM` (in the cloud: `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`
+  as of Nov 23, 2026; `ls /opt/pw-browsers`). The checks take ~35 min (four pages at nine sizes; CI's run, Nov 23: 36 of its 60 min), the audit in CI up to ~36 min (WebKit; its job may take 60).
 
 ## Where Claude runs
 
