@@ -1,48 +1,55 @@
-# Builds the site on every push to main and publishes it on GitHub Pages (the test link).
-# Once: Settings → Pages → Build and deployment → Source: "GitHub Actions".
-# Pull requests are built and checked too (the rules of the system, HTML validation), but not published.
+# QQ (Nov 23, 2026): the first step onto site-kit. The checks job (the design system measured in a browser) comes in
+# the next commits of this pull request, with QQ's adapter (site-kit.config.mjs).
+# Copy to the site's .github/workflows/deploy.yml. Builds the site and publishes it on GitHub Pages from one branch,
+# with a preview for every pull request, then the design system's checks and the review page (site-kit, SPEC.md).
+#   main                  → https://<owner>.github.io/<repo>/          (the review page at /report/)
+#   pull request <n>      → https://<owner>.github.io/<repo>/pr-preview/pr-<n>/   (the link as a comment on the PR)
+#   the label `checks`    → the pull request is measured even when no design file changed (adding it starts a run)
+#   the label `shots`     → pictures of the pull request's changed blocks, in its preview's review page
+#   Actions → Build and deploy → Run workflow → shots: all   → every block's pictures again (on main: kept)
+#
+# Once, in the repository's settings:
+#   - Settings → Pages → Build and deployment → Source: "Deploy from a branch", branch gh-pages, folder / (root).
+#     (The first run creates gh-pages; pick it then.)
+#   - Settings → Actions → General → Workflow permissions: "Read and write permissions" (the jobs push to gh-pages and
+#     report-data and comment on pull requests; the permissions below ask for exactly that).
+#   - Issues → Labels: add `checks` and `shots` (any colour). To name them otherwise, change them in all three places
+#     below: the concurrency group, the job `site`'s `if`, and the inputs checks-label / shots-label of the job `checks`.
+#   - The site's package.json has "site-kit": "github:timofeylebedev/site-kit#v0.1.0" in devDependencies, and its
+#     adapter site-kit.config.mjs (checks.designPaths decides which pull requests are measured).
+#   - Raise the kit's tag here and in package.json together.
 name: Build and deploy
 
 on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, reopened, synchronize, closed, labeled]
   workflow_dispatch:
+    inputs:
+      shots:
+        description: pictures of the blocks
+        type: choice
+        options: [changed, all, none]
+        default: changed
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
+# One lane per pull request (by its number) and one per branch, so a pull request never cancels a deploy of main and a
+# newer push cancels the older run of the same pull request. Not github.ref alone: when a pull request is merged, its
+# "closed" run (the preview's removal) has the ref refs/heads/main, and it cancelled main's deploy that way (Flow
+# Medium PR #59). A label other than `checks`/`shots` gets a lane of its own (its run does nothing), so adding it
+# never cancels a preview that is being published.
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages-${{ github.event.action == 'labeled' && !contains(fromJSON('["checks", "shots"]'), github.event.label.name) && format('label-{0}', github.run_id) || github.event.pull_request.number && format('pr-{0}', github.event.pull_request.number) || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run rules
-      - run: npm run build
-      - run: npm run check
-      - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'pull_request'
-        with:
-          path: dist
-
-  deploy:
-    if: github.event_name != 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+  site:
+    if: github.event.action != 'labeled' || contains(fromJSON('["checks", "shots"]'), github.event.label.name)
+    permissions:
+      contents: write       # push to the gh-pages branch
+      pull-requests: write  # the preview link comment
+    uses: timofeylebedev/site-kit/.github/workflows/site.yml@v0.1.0
+    with:
+      build: npm run build
+      check: npm run rules && npm run check   # QQ's own rules (build/rules.mjs) still fail a pull request
+    #   rules-strict: true    # a failing code rule (site-kit rules) stops the deploy; off by default
