@@ -2,7 +2,7 @@
 
 Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page, from the taste model. Do not edit. How the moves are chosen: `docs/taste-model.md`, «The block on a coffee's page».
 
-Sold out now (data/site.json shop.unavailable), never offered: Q-Berry.
+Nothing is sold out now (data/site.json shop.unavailable).
 
 Moves left off the page (nothing that way and no replacement near): similar 0, softer 0, brighter 1, unusual 0, classic 0; two moves share a card on 3; far picks 5.
 
@@ -65,11 +65,11 @@ Moves left off the page (nothing that way and no replacement near): similar 0, s
 
 Кислотность 3, плотность 4, фермент 0. Молочный шоколад, Орехи, Сушеные ягоды, Цветы, Чай. Молочные напитки, Основной эспрессо. «Бразилия / Эфиопия в ваш бункер, всё по классике»
 
-- **Похожий** → Q-Profit: Та же кислотность и плотность · в обоих Бразилия Санта Мария · тоже шоколад, орехи; у него ещё косточковые фрукты, цитрусы
+- **Похожий** → Q-Berry: Та же кислотность и плотность · в обоих Бразилия Санта Мария · тоже шоколад, ягоды; у него ещё сухофрукты
 - **Мягче** → Эфиопия Бекеле: Кислотность 2 вместо 3 · плотность 3 вместо 4 · тоже цветы; у него ещё мед, сушеный апельсин
 - **Ярче** → Руанда Гицумби: Кислотность 4 вместо 3 · плотность 3 вместо 4 · бергамот, карамель, малина
 - **Необычнее** → Вьетнам Куа Мон: Фермент 0,5 вместо 0 · плотность 3 вместо 4 · апельсин, земляника, курага
-- *Sold out* → leads with Q-Profit: Та же кислотность и плотность · в обоих Бразилия Санта Мария · тоже шоколад, орехи; у него ещё косточковые фрукты, цитрусы
+- *Sold out* → leads with Q-Berry: Та же кислотность и плотность · в обоих Бразилия Санта Мария · тоже шоколад, ягоды; у него ещё сухофрукты
 - *Without caffeine* → Колумбия Декаф: Без кофеина: карамель, сушеный банан, цитрусы, чай.
 
 ### Колумбия Декаф

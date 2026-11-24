@@ -113,13 +113,13 @@ export { rub };
 // ── a menu cell (components/menu.css): a caption above, the current choice below; opens a list of options (a
 // <details> that works without scripts; scripts/menus.js closes the others and writes the choice into the cell). The
 // catalog's filters (checkboxes, the sort) and the product's options (radios, up: the list opens above the cell).
-// options: [value, text, extra attributes of its input]; summary: what the closed cell says of a choice of several.
+// options: [value, text, extra attributes of its input, aside (a count, scripts/filters.js keeps it current)]; summary: what the closed cell says of a choice of several.
 export function menu(name, caption, type, options, { checked = null, summary = null, up = false } = {}) {
   const sum = summary || options.map(([, t]) => t).join(", ");
   return `<details class="${cls("filter", up && "filter--up")}" data-filter="${name}">
         <summary class="filter__summary"><span class="filter__caption">${esc(caption)}</span><span class="filter__value" data-filter-value data-all="${esc(sum)}">${esc(checked ? options.find(([v]) => v === checked)[1] : sum)}</span></summary>
         <fieldset class="filter__options"><legend class="sr">${esc(caption)}</legend>
-          ${options.map(([v, t, extra = ""]) => `<label class="option"><input class="${type === "radio" ? "box box--round" : "box"}" type="${type}" name="${name}" value="${esc(v)}"${v === checked ? " checked" : ""}${extra}><span>${esc(t)}</span></label>`).join("\n          ")}
+          ${options.map(([v, t, extra = "", aside = null]) => `<label class="option"><input class="${type === "radio" ? "box box--round" : "box"}" type="${type}" name="${name}" value="${esc(v)}"${v === checked ? " checked" : ""}${extra}><span>${esc(t)}</span>${aside != null ? `<span class="option__n" data-n>${esc(aside)}</span>` : ""}</label>`).join("\n          ")}
         </fieldset>
       </details>`;
 }

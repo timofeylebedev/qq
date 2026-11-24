@@ -38,10 +38,12 @@ export function pack(p, { size = "card", eager = false } = {}) {
 // ── weights and the add-to-bag button (the card's bottom row) ────────────────────────────────────────────────────
 // Cards offer the two retail weights (200 г and 1 кг): two radios, or below M a dropdown in their place (Figma, Tim,
 // round 7; the radios stay the choice, the dropdown sets them: scripts/buy.js). The product page offers every weight.
-export function buyRow(p, { tone = "light", idp, out = false }) {
+export function buyRow(p, { tone = "light", idp, out = false, choose = false }) {
   const weights = p.weights.filter((w) => w.grams >= 200).slice(0, 2);
   const first = weights[0];
-  return `<form class="${cls("buy", tone === "dark" && "buy--dark")}" data-buy data-slug="${p.slug}" action="#">
+  // in the catalogue a brewing method sets the roast and grind this card puts into the bag (scripts/filters.js)
+  const set = choose ? `<input type="hidden" name="grind" value="" data-set="grind"><input type="hidden" name="roast" value="" data-set="roast">` : "";
+  return `<form class="${cls("buy", tone === "dark" && "buy--dark")}" data-buy data-slug="${p.slug}" action="#">${set}
       <div class="buy__weights">
         <span class="buy__radios" role="radiogroup" aria-label="Вес">${weights.map((w, i) => `<label class="weight"><input type="radio" name="w-${idp}" value="${esc(w.label)}" data-price="${w.price ?? ""}"${i === 0 ? " checked" : ""}><span>${esc(w.label)}</span></label>`).join("")}</span>
         <select class="buy__select" aria-label="Вес" data-weight-select>${weights.map((w) => `<option value="${esc(w.label)}">${esc(w.label)}</option>`).join("")}</select>${icon("chevron-down", 'class="buy__chevron"')}
@@ -68,7 +70,9 @@ export const photoOf = (ctx, p) => (p?.line === "Special" && ctx.site.photos.byS
 // gives a photo: photoOf). A card that rises into place when it comes into view (the catalog) starts waiting (wait). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
 // A card may carry its own text in place of the description (on a coffee's page: why it is offered, one line of the
 // taste model; already escaped).
-export function card(ctx, p, { size = "third", heading = 3, wait = false, text = null } = {}) {
+// In the catalogue (choose) a card also carries a line above its text that the choice writes (why it is here, what it
+// misses: scripts/filters.js) and the inputs for the roast and grind a brewing method sets.
+export function card(ctx, p, { size = "third", heading = 3, wait = false, text = null, choose = false } = {}) {
   const photo = photoOf(ctx, p);
   const tone = photo ? "dark" : "light";
   const id = `${ctx.page}-${p.slug}`;
@@ -80,20 +84,15 @@ export function card(ctx, p, { size = "third", heading = 3, wait = false, text =
         <h${heading} class="card__title"><a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
         <button class="fav" type="button" aria-pressed="false" aria-label="В избранное: ${esc(p.name)}" data-fav="${p.slug}">${icon("heart", 'class="i-off"')}${icon("heart-fill", 'class="i-on"')}</button>
       </div>
-      ${buyRow(p, { tone, idp: id, out: ctx.site.shop.unavailable.includes(p.slug) })}
-    </div>
+      ${buyRow(p, { tone, idp: id, out: ctx.site.shop.unavailable.includes(p.slug), choose })}
+    </div>${choose ? `
+    <p class="card__tag" data-tag hidden></p>` : ""}
     <p class="card__text">${text ?? esc(cardText(p))}</p>
   </article>`;
 }
 
-// what the catalog filters read from a card
+// what the catalog's sorting and the favourites' read from a card (the choice itself reads src/data/choose.json)
 function filterData(p) {
   const price = p.weights.find((w) => w.grams === 200)?.price ?? p.weights[0]?.price ?? 0;
-  const prep = [];
-  if (p.roasts.some((r) => /Эспрессо|Омни/.test(r.use)) || p.use.some((u) => /эспрессо/i.test(u))) prep.push("espresso");
-  if (p.roasts.some((r) => /Фильтр|Омни/.test(r.use)) || p.use.some((u) => /фильтр/i.test(u))) prep.push("filter");
-  if (p.use.some((u) => /Молочн/.test(u))) prep.push("milk");
-  if (p.grind.includes("Турка")) prep.push("turka");
-  return ` data-type="${esc(p.type || "")}" data-line="${esc(p.line || "")}" data-countries="${esc(p.countries.join("|"))}"` +
-    ` data-processes="${esc(p.processes.join("|"))}" data-prep="${prep.join("|")}" data-price="${price}" data-created="${p.created || ""}"`;
+  return ` data-price="${price}" data-created="${p.created || ""}"`;
 }

@@ -1,0 +1,108 @@
+/* «Карта вкуса». Below M: the map across the column, the coffee of a tapped dot under it, then two rows of chips that
+   scroll sideways (methods, scenarios), the status (how many, what is on, the way back), the grid. From M the map
+   stands at the left (half the column; from L 28rem), its controls beside it, so the first cards come up sooner.
+   --slot (set by the script from the map's width) is a dot's place, 2r of the layout; a dot's button is at least 24px,
+   its painted dot 60% of the place. */
+.f-map { display: grid; gap: 32px; min-width: 0; }
+.f-map__top { display: grid; gap: 16px; min-width: 0; }
+.f-map__side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+@container col (width >= 43rem) {
+  .f-map__top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: calc(var(--gap) * 2); align-items: start; }
+  .f-map__rows { order: 1; } .f-map__status { order: 2; } .f-map__info { order: 3; } .f-map__extra { order: 4; }
+}
+@container col (width >= 58rem) {
+  .f-map__top { grid-template-columns: minmax(0, 28rem) minmax(0, 1fr); }
+}
+
+/* ── the map ── */
+.f-map__plot { display: grid; gap: 8px; min-width: 0; }
+.f-map__box { position: relative; width: 100%; --hit: max(24px, var(--slot, 24px)); --dot: max(12px, calc(var(--slot, 20px) * 0.6)); }
+.f-map__box::after { content: ""; position: absolute; inset: 0; border: var(--hair) solid var(--line); pointer-events: none; }
+.f-map__cells { position: absolute; inset: 0; }
+.f .f-map__cell { position: absolute; border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); transition: background-color var(--t-out) var(--ease-out); }
+.f-map__cell.is-last-col { border-right: 0; }
+.f-map__cell.is-last-row { border-bottom: 0; }
+.f-map__cell[aria-pressed="true"] { background-color: var(--c-cloud); outline: var(--hair) solid var(--c-ink); outline-offset: -1px; }
+.f .f-map__cell:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -3px; }
+.f-map__ax { position: absolute; left: 8px; z-index: 1; font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); pointer-events: none; }
+.f-map__ax--up { top: 8px; }
+.f-map__ax--soft, .f-map__ax--down, .f-map__ax--bright { top: auto; bottom: 8px; }
+.f-map__ax--down { translate: -50% 0; }
+.f-map__ax--bright { left: auto; right: 8px; }
+
+.f-map__dots { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.f .f-map__dot {
+  position: absolute; left: calc(var(--u) * 100%); top: calc(var(--v) * 100%); z-index: 2;
+  width: var(--hit); height: var(--hit); margin: calc(var(--hit) / -2) 0 0 calc(var(--hit) / -2);
+  display: grid; place-items: center; border-radius: 50%; pointer-events: auto;
+  transition: background-color var(--t-out) var(--ease-out);
+}
+.f-map__dot::before { content: ""; width: var(--dot); height: var(--dot); border-radius: 50%; background: var(--c-ink); transition: opacity var(--t-out) var(--ease-out); }
+.f-map__dot.is-odd::before { background: var(--c-lavender-ink); }
+.f-map__dot.is-decaf::before { background: var(--c-paper); box-shadow: inset 0 0 0 calc(var(--dot) * 0.28) var(--c-ink); }
+.f-map__dot.is-dim::before { opacity: 0.28; }
+.f-map__dot[aria-pressed="true"]::after { content: ""; position: absolute; inset: calc((var(--hit) - max(var(--slot, 24px), calc(var(--dot) + 8px))) / 2); border: 2px solid var(--c-ink); border-radius: 50%; }
+.f-map__label { position: absolute; z-index: 3; padding: 1px 3px; font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; white-space: nowrap; pointer-events: none;
+  /* a halo of the ground round each letter: a dimmed dot under a name still shows between the letters */
+  text-shadow: 1.5px 0 var(--c-paper), -1.5px 0 var(--c-paper), 0 1.5px var(--c-paper), 0 -1.5px var(--c-paper), 1px 1px var(--c-paper), -1px -1px var(--c-paper), 1px -1px var(--c-paper), -1px 1px var(--c-paper); }
+
+.f-map__ax--key { left: auto; right: 4px; top: 4px; padding: 4px; background: var(--c-paper); display: inline-flex; align-items: center; gap: 4px; font: 400 var(--type-small) / 1 var(--sans); text-transform: none; letter-spacing: 0; white-space: nowrap; }
+.f-map__key { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--c-lavender-ink); }
+.f-map__key.is-decaf { margin-left: 8px; background: var(--c-paper); box-shadow: inset 0 0 0 3px var(--c-ink); }
+
+/* ── the coffee of a tapped dot ── */
+.f-map__info { display: grid; gap: 6px; padding: 12px 0 0 var(--card-pad); border-top: var(--hair) solid var(--line); border-left: var(--hair) solid var(--line); }
+.f-map__info[hidden] { display: none; }
+.f-map__ihead { display: flex; align-items: start; justify-content: space-between; gap: 8px; }
+.f .f-map__iname { margin: 0; padding-top: 10px; font-size: var(--type-card-title); line-height: 1.1; overflow-wrap: anywhere; }
+.f .f-map__x { flex: none; display: grid; place-items: center; width: 44px; height: 44px; margin-top: -4px; font-size: var(--type-title); line-height: 1; border-radius: 50%; transition: background-color var(--t-out) var(--ease-out); }
+.f-map__iline, .f-map__imiss { margin: 0; }
+.f-map__imark { color: var(--c-ink-70); }
+.f-map__imiss { color: var(--c-lavender-ink); font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f .f-map__go { justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: var(--hair) solid var(--line); border-radius: 999px; font-weight: 500; transition: background-color var(--t-out) var(--ease-out); }
+
+/* ── chips: two rows that scroll sideways below M (to the column's edges), wrapping from M ── */
+.f-map__rows { display: grid; gap: 8px; min-width: 0; }
+.f-map__row { position: relative; display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--card-pad) * -1); padding-inline: var(--card-pad); scroll-padding-inline: var(--card-pad); }
+.f-map__row::-webkit-scrollbar { display: none; }
+@container col (width >= 43rem) { .f-map__row { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; } }
+.f-map__wrap { display: flex; flex-wrap: wrap; gap: 8px; }
+.f .f-map__chip, .f .f-map__pill {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px;
+  border: var(--hair) solid var(--line); border-radius: 999px; white-space: nowrap; font-size: var(--type-body);
+  transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+}
+.f-map__n { color: var(--c-ink-70); font-feature-settings: "tnum" 1, "lnum" 1; }
+.f .f-map__chip[aria-pressed="true"] { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.f-map__chip[aria-pressed="true"] .f-map__n { color: var(--c-white-60); }
+.f .f-map__more[aria-expanded="true"] { border-color: var(--c-ink); }
+.f-map__off span { font-size: var(--type-body-l); line-height: 1; }
+
+/* ── status: how many, what is on, the way back ── */
+.f-map__status { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; }
+.f-map__count { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; margin: 0; }
+.f-map__hint { flex: 1 1 12rem; color: var(--c-ink-70); }
+.f-map__hint[hidden] { display: none; }
+.f-map__pills { display: contents; }
+.f-map__reset[hidden] { display: none; }
+
+.f-map__extra { display: grid; gap: 16px; padding-top: 16px; border-top: var(--hair) solid var(--line); }
+.f-map__extra[hidden] { display: none; }
+.f-map__group { display: grid; gap: 8px; }
+.f .f-map__gh { margin: 0; font-size: var(--type-small); color: var(--c-ink-70); }
+
+/* ── the grid ── */
+.f-map__grid { display: grid; gap: 48px; min-width: 0; }
+.f-map__sec { display: grid; gap: 20px; }
+.f .f-map__h { margin: 0; font-size: var(--type-title); line-height: 1.1; }
+.f-map__h span { color: var(--c-ink-60); }
+.f-map__empty { margin: 0; font: 700 var(--type-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-map__grid .bcard { scroll-margin-top: 9rem; }
+.f-map__grid .bcard:focus { outline: none; }
+.f-map__grid .bcard.is-target .bcard__media { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .f .f-map__cell:hover, .f .f-map__dot:hover, .f .f-map__x:hover, .f .f-map__go:hover, .f .f-map__pill:hover,
+  .f .f-map__chip:not([aria-pressed="true"]):hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .f .f-map__cell[aria-pressed="true"]:hover { background-color: var(--c-cloud); }
+}

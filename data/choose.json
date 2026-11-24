@@ -1,0 +1,110 @@
+{
+  "$about": [
+    "How a visitor chooses among QQ's coffees: the brewing methods and what each takes from what QQ sells, the scenario chips, and the taste groups. Session 3 of choosing coffee (the catalogue); the quiz (session 4) reads the same file through build/choose.mjs → src/data/choose.json and src/scripts/choose.js.",
+    "Every method names a roast and a grind that QQ sells (products.json `roasts[].use`, `grind`); build/choose.mjs fails if one does not exist. `roast` is what the method needs: \"Эспрессо\", \"Фильтр\" or \"any\"; `prefer` is the roast set for a coffee sold in both when the method takes any. `grind` is the grind set for it.",
+    "`asks` is a question for QQ that the mapping cannot answer from the data (docs/choose.md lists them). `survey` is the words B2C respondents used for the method (docs/choose-check/survey.md counts them).",
+    "A chip's `miss` words what a coffee misses of each condition ({acidity}: its coded value), for the near misses («Почти»). A chip's `when` is a set of conditions, all of which must hold: `use` (a value of «Применение»), `line`, `decaf`, and ranges { min, max } on QQ's coded scales (`acidity`, `density`, `ferment`) or the taste model's positions (`unusual`, `bright`, `body`). Never «Оценка Q»."
+  ],
+  "methods": [
+    {
+      "id": "auto", "ru": "Автоматическая кофемашина", "short": "Автомат",
+      "roast": "Эспрессо", "grind": "В зернах",
+      "why": "Автомат мелет сам: берите зерно в обжарке под эспрессо.",
+      "survey": ["автоматическая кофемашина", "автомат машина", "кнопка на кофемашине"]
+    },
+    {
+      "id": "espresso", "ru": "Рожковая кофемашина", "short": "Рожок",
+      "roast": "Эспрессо", "grind": "Эспрессо",
+      "why": "Обжарка под эспрессо, помол для эспрессо или зерно.",
+      "survey": ["рожковая кофемашина", "рожковая кофеварка", "рожок", "эспрессо-машина", "9barista"]
+    },
+    {
+      "id": "moka", "ru": "Гейзерная кофеварка", "short": "Гейзер",
+      "roast": "Эспрессо", "grind": "В зернах",
+      "why": "Обжарка под эспрессо. Отдельного помола для гейзера у QQ нет: берите зерно.",
+      "asks": "Помол для гейзера: продавать ли его (13 из 106 респондентов варят в гейзере) или советовать помол для эспрессо?",
+      "survey": ["гейзерная кофеварка", "гейзер", "гейзерка", "мока", "кофейник на плите"]
+    },
+    {
+      "id": "turka", "ru": "Турка", "short": "Турка",
+      "roast": "any", "prefer": "Эспрессо", "grind": "Турка",
+      "why": "Подходит любой кофе QQ, есть помол для турки.",
+      "asks": "Какую обжарку советовать для турки у кофе, который продаётся в обеих? Сейчас: под эспрессо.",
+      "survey": ["турка", "джезва", "электрическая турка"]
+    },
+    {
+      "id": "pourover", "ru": "Воронка или дрип-пакет", "short": "Воронка",
+      "roast": "Фильтр", "grind": "Фильтр",
+      "why": "Обжарка под фильтр, помол для фильтра: для V60, кемекса, клевера и дрип-пакета, который наполняете сами.",
+      "survey": ["воронка", "v60", "пуровер", "кемекс", "клевер", "иммерсионная воронка", "сифон", "origami", "дрип-пакеты, которые наполняют сами"]
+    },
+    {
+      "id": "drip", "ru": "Капельная кофеварка", "short": "Капельная",
+      "roast": "Фильтр", "grind": "Фильтр",
+      "why": "Обжарка под фильтр, помол для фильтра.",
+      "survey": ["капельная кофеварка", "фильтр-кофеварка", "мокамастер", "melitta"]
+    },
+    {
+      "id": "aeropress", "ru": "Аэропресс", "short": "Аэропресс",
+      "roast": "Фильтр", "grind": "Фильтр",
+      "why": "Обжарка под фильтр, помол для фильтра.",
+      "survey": ["аэропресс"]
+    },
+    {
+      "id": "press", "ru": "Френч-пресс", "short": "Френч-пресс",
+      "roast": "any", "prefer": "Фильтр", "grind": "В зернах",
+      "why": "Подходит любой кофе QQ. Крупного помола у QQ нет: берите зерно.",
+      "asks": "Крупный помол для френч-пресса: продавать ли его (7 из 106 респондентов)? Какую обжарку советовать у кофе, который продаётся в обеих? Сейчас: под фильтр.",
+      "survey": ["френч-пресс", "в кружке", "в термосе настаиванием", "вьетнамская воронка (пхин)"]
+    }
+  ],
+  "noMethod": [
+    { "survey": ["капсулы", "nespresso", "капсульная кофемашина"], "why": "Капсул у QQ нет." },
+    { "survey": ["готовые концентраты"], "why": "Концентратов у QQ нет." },
+    { "survey": ["готовые дрип-пакеты"], "why": "Дрипы у QQ «скоро» (вкладка каталога); до них это воронка: молотый для фильтра." }
+  ],
+  "chips": [
+    {
+      "id": "milk", "ru": "Под молоко",
+      "when": { "use": "Молочные напитки" },
+      "miss": { "use": "QQ не советует его под молоко" },
+      "why": "QQ советует его для капучино и латте"
+    },
+    {
+      "id": "soft", "ru": "Без яркой кислотности",
+      "when": { "acidity": { "max": 2 } },
+      "miss": { "acidity": "кислотность {acidity}" },
+      "why": "кислотность 1–2 из 5, самая мягкая у QQ"
+    },
+    {
+      "id": "everyday", "ru": "На каждый день",
+      "when": { "line": "Classic", "ferment": { "max": 0 }, "acidity": { "max": 3 }, "decaf": false },
+      "miss": { "line": "Special", "ferment": "фермент {ferment}", "acidity": "кислотность {acidity}", "decaf": "без кофеина" },
+      "why": "Classic: без фермента и без яркой кислотности"
+    },
+    {
+      "id": "unusual", "ru": "Необычное",
+      "when": { "unusual": { "min": 2 } },
+      "miss": { "unusual": "фермент {ferment}" },
+      "why": "ферментация или экспериментальная обработка"
+    }
+  ],
+  "acidity": [
+    { "id": "soft", "ru": "Мягкая", "hint": "1–2", "max": 2 },
+    { "id": "mid", "ru": "Средняя", "hint": "3", "min": 2.5, "max": 3.4 },
+    { "id": "bright", "ru": "Яркая", "hint": "4–5", "min": 3.5 }
+  ],
+  "flavours": {
+    "$about": "Taste groups for the catalogue's «Вкус» filter: a coffee is in a group when the group's families make up at least `share` of its flavour profile (the taste model's `flavour`, from data/flavours.json).",
+    "share": 0.3,
+    "groups": [
+      { "id": "choc", "ru": "Шоколад и орехи", "families": ["cocoa", "nutty"] },
+      { "id": "caramel", "ru": "Карамель и мёд", "families": ["caramel"] },
+      { "id": "berry", "ru": "Ягоды", "families": ["berry"] },
+      { "id": "citrus", "ru": "Цитрусы", "families": ["citrus"] },
+      { "id": "fruit", "ru": "Фрукты", "families": ["orchard", "tropical", "dried"] },
+      { "id": "tea", "ru": "Чай и цветы", "families": ["floral"] },
+      { "id": "wild", "ru": "Ликёр и специи", "families": ["fermented", "spice"] }
+    ]
+  }
+}
