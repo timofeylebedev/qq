@@ -151,43 +151,23 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .pstage__link { padding-block: 5px; }
 
 .people .head { margin-bottom: var(--section-y-s); }
-.people__count { font: 700 var(--type-card-title) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
 .people__empty { max-width: 36em; padding-top: var(--text-gap); font-size: var(--type-body-l); line-height: var(--lh-text); }
 
-/* the chips by way of brewing: pills that fill with ink when chosen */
-.chips { display: flex; flex-wrap: wrap; gap: 6px; padding-block: var(--text-gap); }
-.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border: var(--hair) solid var(--line); border-radius: 999px; font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
-.chip span { color: var(--c-ink-70); }
-.chip[aria-pressed="true"] { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
-.chip[aria-pressed="true"] span { color: var(--c-white-80); }
-.chip:focus-visible { outline-color: var(--c-ink); }   /* the ring of the global focus is the text's colour: white on a chosen chip */
-@media (--mouse) { .chip[aria-pressed="false"]:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
-/* the count, «Рассказать о своей» and the chips stand in a column of their own on the left from L (sticky while the
-   stories pass); below L they come first, above the stories */
-.people__grid { display: grid; gap: var(--text-gap); }
-.people__side { display: grid; justify-items: start; align-content: start; gap: var(--text-gap); }
-.people__side .chips { padding: 0; }
-@container col (width >= 58rem) {
-  .people__grid { grid-template-columns: 20rem minmax(0, 1fr); column-gap: var(--gap); align-items: start; }
-  .people__side { position: sticky; top: calc(var(--nav-h) + var(--text-gap)); }
-}
+/* the two actions on one line, centred; then the stories, two a row from M */
+.people__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-bottom: var(--section-y-s); }
+.buyers { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--gap); border-top: var(--hair) solid var(--line); }
+@container col (width >= 43rem) { .buyers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* a story: the avatar in its own column, the rest beside it */
-.buyer { display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 16px; padding-block: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
-.buyer:first-child { padding-top: 0; }
+.buyer { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; column-gap: 16px; padding-block: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
 .buyer__avatar { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-body-l) / 1 var(--mono); }
-.buyer__main { display: grid; gap: 10px; min-width: 0; }
+.buyer__main { display: grid; align-content: start; gap: 10px; min-width: 0; }
 .buyer__name { font-size: var(--type-card-title); line-height: 1.2; }
 /* how close: a short line filled by closeness (the meter's track is ink-20, its fill ink) and why in words */
 .buyer__close { display: flex; align-items: baseline; gap: 10px; margin-top: -4px; font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 .buyer__meter { --fill: 1; flex: none; align-self: start; width: 48px; height: 3px; margin-top: 0.7em; background: var(--c-ink-20); }
 .buyer__meter i { display: block; width: calc(var(--fill) * 100%); height: 100%; background: var(--c-ink); }
-/* the answers: label and word, two pairs a row */
-.props { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px var(--gap); font-size: var(--type-body-l); line-height: var(--lh-text); }
-.props div { display: flex; flex-wrap: wrap; column-gap: 0.3em; }
-.props dt { color: var(--c-ink-70); }
-.props dt::after { content: " —"; }
 .buyer__text { max-width: 40em; font-size: var(--type-body-l); line-height: var(--lh-text); }
 .buyer__reply { max-width: 40em; padding-left: 16px; border-left: var(--hair) solid var(--line); font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 .buyer__date { font-size: var(--type-body); color: var(--c-ink-70); }

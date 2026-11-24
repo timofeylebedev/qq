@@ -37,7 +37,7 @@ function form(f) {
   f.addEventListener("submit", (e) => {
     e.preventDefault();
     if (!f.reportValidity()) return;
-    toast("Отзывы пока не отправляются: у сайта ещё нет магазина");
+    toast("Пока не отправляется: у сайта ещё нет магазина");
     f.closest("dialog")?.querySelector("[data-dialog-close]")?.click();
     f.reset();
     for (const i of taste) i.required = true;

@@ -26,7 +26,6 @@ const told = (n) => `${n} ${plural(n, "человек рассказал", "че
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
 const groupOf = (r) => M[r.method].group;
-const GROUP = { espresso: "Эспрессо и кофемашина", pot: "Турка и гейзер", filter: "Фильтр", milk: "С молоком" };
 const initials = (name) => name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
 // «your» taste: where the coffees the visitor bought sit on the taste model, weighted by how often (the account's
@@ -43,54 +42,44 @@ function visitor(products) {
 // how close two tastes are on the visible axes (the taste model's weights), in three steps and in words
 const W = { bright: 1, body: 0.75, unusual: 0.85 };
 const gap = (a, b) => Math.sqrt(Object.keys(W).reduce((s, k) => s + (W[k] * (a[k] - b[k])) ** 2, 0));
-// in words per axis: what a taste leans to (only where it leans)
-const lean = (t) => [t.bright >= 3.4 ? "яркое" : t.bright <= 2.2 ? "мягкое" : null, t.body >= 4 ? "плотное" : t.body <= 2.5 ? "лёгкое" : null, t.unusual >= 1.5 ? "необычное" : null].filter(Boolean);
-// how close a reviewer's taste is to yours: a line (filled by closeness) and why, in words — never a percent
-const and = (w) => w.length > 1 ? `${w.slice(0, -1).join(", ")} и ${w.at(-1)}` : w.join("");
+// how close a teller's taste is to yours: a line filled by closeness and one of three standard labels — never a percent
+const CLOSE = [[0.8, "Очень похожие вкусы"], [1.6, "Похожие вкусы"], [Infinity, "Разные вкусы"]];
 function closeness(them, you) {
   const g = gap(them, you), fill = Math.max(0.08, Math.min(1, 1 - g / 2.5));
-  const theirs = lean(them), yours = lean(you), same = theirs.filter((w) => yours.includes(w)), other = theirs.filter((w) => !yours.includes(w));
-  const text = g < 0.8 ? `Вкус как у вас${same.length ? `: тоже любит ${and(same)}` : ""}`
-    : g < 1.6 ? `Вкус отчасти как ваш${other.length ? `: больше любит ${and(other)}` : same.length ? `: тоже любит ${and(same)}` : ""}`
-    : `Вкус другой${other.length ? `: любит ${and(other)}` : ""}`;
-  return `<p class="buyer__close"><span class="buyer__meter" aria-hidden="true"><i style="--fill: ${fill.toFixed(2)}"></i></span>${esc(text)}</p>`;
+  const [, text] = CLOSE.find(([max]) => g < max);
+  return `<p class="buyer__close"><span class="buyer__meter" aria-hidden="true"><i style="--fill: ${fill.toFixed(2)}"></i></span>${text}</p>`;
 }
 
 // the line under the coffee's name: how many reviews, linking down to them
 export function peopleLink(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const text = pg.count ? `Впечатления: ${told(pg.count)}` : "Впечатлений пока нет — расскажите первым";
+  // the stories with words (taps alone are counted for the taste model, not shown)
+  const n = pg.reviews.filter((r) => r.text).length;
+  const text = n ? `Впечатления: ${told(n)}` : "Впечатлений пока нет — расскажите первым";
   return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a></p>`;
 }
 
 export function people(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const write = `<button class="btn-arrow people__write" type="button" data-dialog="review-${p.slug}"><span class="btn-arrow__label">Рассказать о своей</span>${icon("arrow-right")}</button>`;
-  const groups = pg.groups.filter((g) => g.n);
+  const share = `<button class="btn people__write" type="button" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
+  const ask = `<button class="btn-arrow" type="button" data-dialog="ask-${p.slug}"><span class="btn-arrow__label">Задать вопрос</span>${icon("arrow-right")}</button>`;
   const you = visitor(ctx.products);
   return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people>
   <div class="col">
     ${head({ title: TITLE, id: "people-title", center: true })}
-    <div class="people__grid">
-      <div class="people__side">
-        <p class="people__count">${pg.count ? told(pg.count) : "Пока никто не рассказал"}</p>
-        ${write}
-        ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
-          <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
-        </div>` : ""}
-      </div>
-      ${pg.count ? `<ul class="buyers">
-        ${pg.reviews.map((r) => review(r, you)).join("\n        ")}
-      </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
-    </div>
+    <div class="people__actions">${share}${ask}</div>
+    ${pg.reviews.some((r) => r.text) ? `<ul class="buyers">
+      ${pg.reviews.filter((r) => r.text).map((r) => review(r, you)).join("\n      ")}
+    </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и как он вам: следующему будет проще выбрать.</p>`}
   </div>
   ${writeDialog(ctx, p)}
+  ${askDialog(p)}
 </section>`;
 }
 
-// a story: the avatar in its own column, as tall as the name and the closeness line; beside it the name, how close the teller's taste is to yours, the four
+// a story: the avatar in its own column, as tall as the name and the closeness line; beside it the name, how close the teller's taste is to yours, (the answers are counted, not printed)
 // answers in two columns, the words, the date and after how many cups
 function review(r, you) {
   const p = PERSON.get(r.who);
@@ -100,7 +89,6 @@ function review(r, you) {
           <div class="buyer__main">
             <h3 class="buyer__name">${esc(p.name)}</h3>
             ${you ? closeness(p.pos, you) : ""}
-            <dl class="props">${AXES.map((a) => `<div><dt>${A[a].title}</dt><dd>${A[a][r.answers[a]]}</dd></div>`).join("")}</dl>
             ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : ""}${r.reply ? `
             <p class="buyer__reply">${esc(r.reply)}</p>` : ""}
             <p class="buyer__date">${day(r.date)} · после ${r.cups} ${plural(r.cups, "чашки", "чашек", "чашек")}</p>
@@ -153,4 +141,15 @@ function writeDialog(ctx, p) {
       <button class="btn form__submit" type="submit">Отправить</button>
     </form>`;
   return dialog({ id, title: `Ваша чашка · ${p.name}`, body });
+}
+
+// «Задать вопрос»: a question about this coffee to QQ (answered by QQ; there is no backend yet: scripts/people.js says so)
+function askDialog(p) {
+  const id = `ask-${p.slug}`;
+  const body = `<form class="form form--dialog rform" data-tone="cloud" data-review-form action="#">
+      <div class="fcell"><label class="fcell__label" for="${id}-q">Ваш вопрос</label><textarea class="fcell__input rform__text" id="${id}-q" name="question" rows="4" required placeholder="Например: как заварить его в гейзере?"></textarea></div>
+      <div class="fcell"><label class="fcell__label" for="${id}-name">Имя</label><input class="fcell__input" id="${id}-name" name="name" autocomplete="given-name"></div>
+      <button class="btn form__submit" type="submit">Отправить</button>
+    </form>`;
+  return dialog({ id, title: `Вопрос · ${p.name}`, body });
 }
