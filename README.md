@@ -46,15 +46,16 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | --- | --- |
 | `data/products.csv` | the price table as exported (only rows with «На сайте» = «Да» reach the site) |
 | `data/flavours.json` | the flavour families of the descriptors (taste model and descriptor dots); a new descriptor goes here |
+| `data/choose.json` | how a visitor chooses: brewing methods → the roast and grind QQ sells, the scenario chips, acidity levels, taste groups (`docs/choose.md`) |
 | `data/prices.json` | **placeholder** prices by price group and weight, until real prices exist |
 | `data/site.json` | everything that is not a coffee: navigation, the home page's texts, which coffees each block shows, the roast schedule, the footer, delivery prices (`shop`) |
 | `data/business.json`, `about.json`, `faq.json`, `privacy.json`, `company.json` | the texts of the information pages; the company's places and legal details (the contacts block of three pages) |
 | `data/account.json` | **placeholder** visitor of the account pages and their orders (every number on the account is worked out from them) |
-| `src/templates/` | the pages as functions: `layout.mjs` (head, navbar, footer), `components.mjs` (card, pills, taste chart, 3D slot, buy row), `blocks.mjs` (page head, tabs, tiles, form cells, the dark panel, dialogs, contacts), `home.mjs`, `catalog.mjs`, `product.mjs`, `shop.mjs` (bag, favourites, checkout), `account.mjs` (+ `account-data.mjs`), `info.mjs` (business, FAQ, delivery, contacts, privacy, about) |
+| `src/templates/` | the pages as functions: `layout.mjs` (head, navbar, footer), `components.mjs` (card, pills, taste chart, 3D slot, buy row), `blocks.mjs` (page head, tabs, tiles, form cells, the dark panel, dialogs, contacts), `home.mjs`, `catalog.mjs`, `map.mjs` (the taste map), `product.mjs`, `shop.mjs` (bag, favourites, checkout), `account.mjs` (+ `account-data.mjs`), `info.mjs` (business, FAQ, delivery, contacts, privacy, about) |
 | `src/styles/` | `base/` (tokens, fonts, layout), `components/` (+ `blocks.css`, `forms.css`), `sections/` (home), `pages/` (catalog, product, shop, account, info) |
 | `src/scripts/` | one file per part: `main.js` starts them; `pouch3d.js` the 3D renderer, `packs.js` the packs' motion, `product.js` the product stage, `filters.js` the catalog, `curl.js` new arrivals turning like pages, `hero.js` the hero's entrance, `cart.js` and `favs.js` the bag and the favourites, `checkout.js` its steps, `ui.js` dialogs, tabs, copy, ratings |
-| `design/` | `scale.json` (every size), `colors.json` (every colour), `intro.json` (the hero's entrance; tuned in `intro-tuner/`), `fade-tuner/` and `intro-tuner/` (Tim's tuning artifacts), `taste-bench/` (the taste model's map, an artifact), `decisions.json` (every exception and stand-in), `countries.json` (outlines of the coffee countries for the account) |
-| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/next-output.md`, `docs/notion-fixes.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
+| `design/` | `scale.json` (every size), `colors.json` (every colour), `intro.json` (the hero's entrance; tuned in `intro-tuner/`), `fade-tuner/` and `intro-tuner/` (Tim's tuning artifacts), `taste-bench/` (the taste model's map, an artifact), `next-bench/` and `catalogue-bench/` (forms compared on the real data, artifacts), `decisions.json` (every exception and stand-in), `countries.json` (outlines of the coffee countries for the account) |
+| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/next-output.md`, `docs/notion-fixes.md`), `choose.mjs` (what each coffee fits → choose.json, `docs/choose-output.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
 | `site-kit.config.mjs` | QQ's adapter for site-kit: the pages, sizes, probes and scenarios of the checks, the audit's settings, the review page's blocks |
 | `design/questions.json` | questions for Tim a check cannot answer (the review page shows them with answer buttons) |
 | `public/pack/` | the 3D pack: mesh, effect maps, label art (fetched by the page) |
@@ -62,11 +63,12 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | `src/lab/canvas/` | the component canvas: `variants.mjs` (what it shows: groups, sample data, what is left out), `page.mjs` (writes the page), `canvas.js` (layout and camera), `check.mjs` |
 | `docs/3d-pack-notes.md` | how the 3D pack is built |
 | `docs/taste-model.md` | the taste model: how it works, where it lives, what is open (+ `taste-check.md`, `taste-lexicon.md`, the generated `taste-output.md` and `notion-fixes.md`) |
+| `docs/choose.md` | choosing in the catalogue (methods, chips, the ranking, the taste map) and what the quiz reuses (+ `choose-research.md`, `choose-check/`, the generated `choose-output.md`) |
 | `assets-src/` | originals of the pictures and fonts (not published) |
 
 Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` and the other page folders (`business/`,
 `faq/`, `delivery/`, `contacts/`, `privacy/`, `about/`, `cart/`, `favourites/`, `checkout/`, `account/`: by `build/pages.mjs`),
-`src/data/products.json` (by `build/data.mjs`), `src/data/taste.json` (by `build/taste.mjs`) and `src/lab/canvas/*.html` (by `src/lab/canvas/page.mjs`). Edit the templates and the data instead.
+`src/data/products.json` (by `build/data.mjs`), `src/data/taste.json` (by `build/taste.mjs`), `src/data/choose.json` (by `build/choose.mjs`) and `src/lab/canvas/*.html` (by `src/lab/canvas/page.mjs`). Edit the templates and the data instead.
 
 ## Changing things
 

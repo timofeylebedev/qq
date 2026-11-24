@@ -143,6 +143,15 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `shop.unavailable`: the page stays, a pill under the name says it will be back, the buy bar (`buybar--out`) offers
   the nearest coffee in stock, the block begins with it («Ближе всего»), and cards show a disabled «Скоро вернётся». Tim chose the form on the bench `design/next-bench/` (decision
   `similar-coffees`).
+- **Choosing in the catalogue** (`docs/choose.md`; decision `catalog-choose`): «Чем варите» first (eight methods by
+  plain names), the scenario chips, «Карта вкуса» and «Ещё фильтры» opening in place. A method names a roast and a grind
+  QQ sells (`data/choose.json`; build/choose.mjs fails otherwise) and sets them on the card's «в корзину» and its link
+  (`?roast=…&grind=…`, read by scripts/buy.js on the coffee's page). Nothing is ever hidden or empty: `rank()` of
+  `src/scripts/choose.js` gives the matches, «Почти» (what each misses, in the coffee's terms) and the rest; never
+  score in filters.js or a template. Every result of every option is listed in the generated `docs/choose-output.md`:
+  read it after changing a rule. The taste map is `tasteMap()` (src/templates/map.mjs) + `initTasteMap()`
+  (scripts/tastemap.js): one shape, places from the build (no two dots overlap; every dot inside its region). The quiz
+  reads the same `src/data/choose.json`, `choose.js` and the map.
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists
