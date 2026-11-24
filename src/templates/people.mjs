@@ -19,14 +19,14 @@ const POS = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c.po
 const A = D.answers, M = D.methods;
 
 const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? few : many; };
-const count = (n) => `${n} ${plural(n, "отзыв", "отзыва", "отзывов")}`;
+// the section is about how the coffee turned out in people's cups (Tim, 24 Nov: not «Отзывы»)
+export const TITLE = "Как он в чашке";
+const told = (n) => `${n} ${plural(n, "человек рассказал", "человека рассказали", "человек рассказали")}`;
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
 const groupOf = (r) => M[r.method].group;
 const GROUP = { espresso: "Эспрессо и кофемашина", pot: "Турка и гейзер", filter: "Фильтр", milk: "С молоком" };
 const initials = (name) => name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
-
-export const placeholder = (text) => `<span class="ph">${esc(text)}</span>`;
 
 // «your» taste: where the coffees the visitor bought sit on the taste model, weighted by how often (the account's
 // placeholder visitor until there are real accounts); null with no purchases
@@ -42,32 +42,38 @@ function visitor(products) {
 // how close two tastes are on the visible axes (the taste model's weights), in three steps and in words
 const W = { bright: 1, body: 0.75, unusual: 0.85 };
 const gap = (a, b) => Math.sqrt(Object.keys(W).reduce((s, k) => s + (W[k] * (a[k] - b[k])) ** 2, 0));
-const CLOSE = [[0.8, 3, "Вкус близок к вашему"], [1.6, 2, "Вкус отчасти как ваш"], [Infinity, 1, "Вкус не похож на ваш"]];
-function closeness(a, b) {
-  const [, dots, text] = CLOSE.find(([g]) => gap(a, b) < g);
-  return `<p class="buyer__close" data-close="${dots}"><span class="buyer__dots" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= dots ? " data-on" : ""}></i>`).join("")}</span>${text}</p>`;
+// in words per axis: what a taste leans to (only where it leans)
+const lean = (t) => [t.bright >= 3.4 ? "яркое" : t.bright <= 2.2 ? "мягкое" : null, t.body >= 4 ? "плотное" : t.body <= 2.5 ? "лёгкое" : null, t.unusual >= 1.5 ? "необычное" : null].filter(Boolean);
+// how close a reviewer's taste is to yours: a line (filled by closeness) and why, in words — never a percent
+const and = (w) => w.length > 1 ? `${w.slice(0, -1).join(", ")} и ${w.at(-1)}` : w.join("");
+function closeness(them, you) {
+  const g = gap(them, you), fill = Math.max(0.08, Math.min(1, 1 - g / 2.5));
+  const theirs = lean(them), yours = lean(you), same = theirs.filter((w) => yours.includes(w)), other = theirs.filter((w) => !yours.includes(w));
+  const text = g < 0.8 ? `Вкус как у вас${same.length ? `: тоже любит ${and(same)}` : ""}`
+    : g < 1.6 ? `Вкус отчасти как ваш${other.length ? `: больше любит ${and(other)}` : same.length ? `: тоже любит ${and(same)}` : ""}`
+    : `Вкус другой${other.length ? `: любит ${and(other)}` : ""}`;
+  return `<p class="buyer__close"><span class="buyer__meter" aria-hidden="true"><i style="--fill: ${fill.toFixed(2)}"></i></span>${esc(text)}</p>`;
 }
 
 // the line under the coffee's name: how many reviews, linking down to them
 export function peopleLink(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const text = pg.count ? count(pg.count) : "Отзывов пока нет — расскажите первым";
-  return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a>${pg.placeholder && pg.count ? placeholder("пример") : ""}</p>`;
+  const text = pg.count ? `Как он в чашке: ${told(pg.count)}` : "Как он в чашке — расскажите первым";
+  return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a></p>`;
 }
 
 export function people(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const write = `<button class="btn-arrow people__write" type="button" data-dialog="review-${p.slug}"><span class="btn-arrow__label">Написать отзыв</span>${icon("arrow-right")}</button>`;
+  const write = `<button class="btn-arrow people__write" type="button" data-dialog="review-${p.slug}"><span class="btn-arrow__label">Рассказать о своей</span>${icon("arrow-right")}</button>`;
   const groups = pg.groups.filter((g) => g.n);
   const you = visitor(ctx.products);
   return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people>
   <div class="col">
-    ${head({ title: "Отзывы", id: "people-title", center: true })}
-    ${pg.placeholder && pg.count ? `<p class="people__ph">${placeholder("Пример: отзывы выдуманы, «ваш вкус» — из тестового профиля")}</p>` : ""}
+    ${head({ title: TITLE, id: "people-title", center: true })}
     <div class="people__bar">
-      <p class="people__count">${pg.count ? count(pg.count) : "Отзывов пока нет"}</p>
+      <p class="people__count">${pg.count ? told(pg.count) : "Пока никто не рассказал"}</p>
       ${write}
     </div>
     ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
@@ -96,7 +102,7 @@ function review(r, you) {
           <p class="buyer__line">${esc(answers)}</p>
           ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : ""}${r.reply ? `
           <p class="buyer__reply">${esc(r.reply)}</p>` : ""}
-          <p class="buyer__date">${day(r.date)}</p>
+          <p class="buyer__date">${day(r.date)} · после ${r.cups} ${plural(r.cups, "чашки", "чашек", "чашек")}</p>
         </div>
       </li>`;
 }
@@ -143,5 +149,5 @@ function writeDialog(ctx, p) {
       </details>
       <button class="btn form__submit" type="submit">Отправить</button>
     </form>`;
-  return dialog({ id, title: `Отзыв · ${p.name}`, body });
+  return dialog({ id, title: `Ваша чашка · ${p.name}`, body });
 }
