@@ -342,6 +342,16 @@
       "why": "a tab or a gift order can be linked to and shared (the navbar's «Каскара» … lead to the catalog on that tab), and Back undoes a change; the page does not scroll to a tab",
       "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
       "fix": "",
-      "checks": [{ "rule": "health.links", "match": "#(all|kofe|kaskara|dripy|sety|merch|gift)$" }, { "rule": "health.head", "match": "a link to #(all|kofe|kaskara|dripy|sety|merch|gift)," }] }
+      "checks": [{ "rule": "health.links", "match": "#(all|kofe|kaskara|dripy|sety|merch|gift)$" }, { "rule": "health.head", "match": "a link to #(all|kofe|kaskara|dripy|sety|merch|gift)," }] },
+    { "id": "people-block", "kind": "decision",
+      "what": "«Кто это пьёт» on a coffee's page, after the story and before «Что взять еще» (marketing's row 19: reviews, writing one, ambassadors apart): no stars, no score, no average, no percent. Named people first under «Советуют», as signed cards on the cloud (the reason large, then the name, status, how they drink it, their recipe, what they usually like, the coffee they don't take, a line on how they relate to QQ; «Команда QQ» or «Амбассадор»); then «Как пьют покупатели»: the answers against expectation per axis (кислотность: ярковато / в самый раз / хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее) counted in words, the notes heard counted, chips by way of brewing (remembered in this browser) that recount, and a hairline list, one buyer a row (the answers; their cup: method, milk, what they usually drink; a sentence) opening into the whole review; «не про вкус» (grind, not as described) apart with QQ's reply. 0 reviews: an invitation; 1: open, no counts. The line under the coffee's name says how many reviews and whose picks and links down. The review form is a dialog of the site's cells: the method and both axes required",
+      "why": "session 5 of choosing coffee: a direction answer helps only with the reviewer's own reference (how they brew, what they usually drink; Wang, Ramachandran & Sheng 2021), and a recommender is trusted when their taste can be read (Gershoff et al. 2003). Four forms compared on the bench design/people-bench/ (shelf, by brewing method, cups, a taste map)",
+      "decided": "Claude, 2026-11-24 (session 5: the bench's «Полка» with the brew chips of «Как вы пьёте»); Tim to confirm",
+      "fix": "" },
+    { "id": "people-placeholder", "kind": "placeholder",
+      "what": "Every buyer, review and ambassador of «Кто это пьёт» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so the counts behave as real ones would. The block says so in a lavender pill («Пример: магазина ещё нет, люди и отзывы выдуманы»), the line under the name in a pill «пример», each invented ambassador «Амбассадор · пример», and each ambassador's relation to QQ is a placeholder line. Sending a review says it is not sent yet. The one real pick is «Выбор Ксюши» (data/products.csv)",
+      "why": "there is no shop behind the site, and who the ambassadors are is not known yet",
+      "decided": "Claude, 2026-11-24 (session 5 of choosing coffee)",
+      "fix": "the shop's backend (docs/people-backend.md: who may write, moderation, verified purchases, how ambassadors are added); then build/people.mjs reads it and data/people.json goes" }
   ]
 }

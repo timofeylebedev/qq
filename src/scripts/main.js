@@ -39,4 +39,5 @@ if (document.querySelector("[data-hero-video]")) import("./video.js").then((m) =
 if (document.querySelector("[data-curl]")) import("./curl.js").then((m) => m.initCurl());
 if (document.querySelector("[data-pack]")) import("./packs.js").then((m) => m.initPacks());
 if (document.querySelector("[data-stage]")) import("./product.js").then((m) => m.initStage());
+if (document.querySelector("[data-people]")) import("./people.js").then((m) => m.initPeople());
 if (document.querySelector("[data-filters]")) import("./filters.js").then((m) => m.initFilters());

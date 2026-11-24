@@ -1,0 +1,225 @@
+/* Form «shelf» («Полка»): signed shelf-talker cards of named people first, then the customers as a compact list. */
+.f-shelf, .f-shelf-form { --f-shelf-y: calc(var(--gap) * 2 + 8px);
+  --f-shelf-chocolate: #8a5a3c; --f-shelf-nuts: #b49176; --f-shelf-citrus: #fe8123; --f-shelf-berry: #c2366b; --f-shelf-orchard: #7fa33a;
+  --f-shelf-sweet: #d1864d; --f-shelf-tea: #9963dd; --f-shelf-tropical: #e0b21f; --f-shelf-vine: #7d4a6b; --f-shelf-spice: #7a7a3a; --f-shelf-other: var(--c-ink-40); }
+.f-shelf p, .f-shelf dl, .f-shelf dd, .f-shelf-form p, .f-shelf-form dl, .f-shelf-form dd { margin: 0; }
+.f-shelf a, .f-shelf-form a { text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.f-shelf [hidden], .f-shelf-form [hidden] { display: none !important; }
+.f-shelf-muted { color: var(--c-ink-70); }
+.f-shelf-h2 { margin: 0 0 var(--f-shelf-y); font: 700 var(--type-h2) / 1.05 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; text-box: trim-both cap alphabetic; }
+.f-shelf-h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 16px; font: 700 var(--type-body) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-k { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); }
+
+/* the link under the coffee's name */
+.f-shelf-top { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; max-width: 100%; font-size: var(--type-body); color: var(--c-ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; text-decoration-color: var(--c-ink-30); }
+.f-shelf-top:hover { text-decoration-color: currentColor; }
+.f-shelf-arrow { text-decoration: none; }
+
+/* pills with a dot (descriptors) */
+.f-shelf-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 12px; border-radius: 999px; border: var(--hair) solid var(--line); font-size: var(--type-small); background: var(--c-paper); white-space: nowrap; }
+.f-shelf-pill b { font-weight: 500; color: var(--c-ink-70); }
+.f-shelf-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--f-shelf-other); }
+.f-shelf-dot[data-t="chocolate"] { background: var(--f-shelf-chocolate); } .f-shelf-dot[data-t="nuts"] { background: var(--f-shelf-nuts); }
+.f-shelf-dot[data-t="citrus"] { background: var(--f-shelf-citrus); } .f-shelf-dot[data-t="berry"] { background: var(--f-shelf-berry); }
+.f-shelf-dot[data-t="orchard"] { background: var(--f-shelf-orchard); } .f-shelf-dot[data-t="sweet"] { background: var(--f-shelf-sweet); }
+.f-shelf-dot[data-t="tea"] { background: var(--f-shelf-tea); } .f-shelf-dot[data-t="tropical"] { background: var(--f-shelf-tropical); }
+.f-shelf-dot[data-t="vine"] { background: var(--f-shelf-vine); } .f-shelf-dot[data-t="spice"] { background: var(--f-shelf-spice); }
+
+/* ── the picks: shelf talkers ───────────────────────────────────────────────────────────── */
+.f-shelf-picks { margin-bottom: calc(var(--f-shelf-y) * 1.5); }
+.f-shelf-lead { margin-bottom: 16px; font-size: var(--type-body-l); max-width: 52ch; }
+.f-shelf-cards { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); }
+.f-shelf-card { container: f-shelf-card / inline-size; display: grid; gap: 20px; align-content: start; min-width: 0; padding: calc(var(--card-pad) * 1.25) var(--card-pad); background: var(--c-cloud); }
+.f-shelf-label { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-lavender-ink); }
+.f-shelf-why { font-size: var(--type-title); line-height: 1.25; max-width: 30ch; overflow-wrap: break-word; }
+.f-shelf-sig { display: grid; gap: 10px; align-content: start; min-width: 0; padding-top: 16px; border-top: var(--hair) solid var(--line); }
+.f-shelf-name { font: 700 var(--type-card-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-status { color: var(--c-ink-70); margin-top: -6px !important; }
+.f-shelf-dl { display: grid; gap: 6px; }
+.f-shelf-dl > div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 12px; }
+.f-shelf-dl dt { font: 700 var(--type-small) / 1.6 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); }
+.f-shelf-dl dd { min-width: 0; overflow-wrap: break-word; }
+.f-shelf-you { padding: 8px 12px; background: var(--c-paper); }
+.f-shelf-you b { font-weight: 500; }
+.f-shelf-disc { font-size: var(--type-small); color: var(--c-ink-70); border: var(--hair) dashed var(--line); padding: 6px 10px; }
+/* doubled class: above the bench's `.f button` reset */
+.f-shelf-more.f-shelf-more { justify-self: start; display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em;
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--c-ink-30); }
+.f-shelf-more:hover { text-decoration-color: currentColor; }
+.f-shelf-chev { width: 7px; height: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--t-out) var(--ease-out); }
+.f-shelf-more[aria-expanded="true"] .f-shelf-chev { transform: translateY(2px) rotate(225deg); }
+.f-shelf-shelf { list-style: none; margin: 0; padding: 0; border-top: var(--hair) solid var(--line); }
+.f-shelf-shelf li { display: grid; gap: 2px; padding: 10px 0; border-bottom: var(--hair) solid var(--line); }
+.f-shelf-shelf-name { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-shelf-why { color: var(--c-ink-70); }
+.f-shelf-nos { list-style: none; margin: var(--gap) 0 0; padding: 0; }
+.f-shelf-nos li { padding: 12px 0; border-top: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); color: var(--c-ink-70); }
+.f-shelf-nos-k { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-lavender-ink); margin-right: 6px; }
+.f-shelf-nos-name { color: var(--c-ink); font-weight: 500; }
+.f-shelf-hint { max-width: 60ch; color: var(--c-ink-70); }
+.f-shelf-hint a { color: var(--c-ink); }
+.f-shelf-picks.is-none { margin-bottom: var(--f-shelf-y); }
+
+/* a card wide enough: the reason on the left, the signature on the right */
+@container f-shelf-card (width >= 40rem) {
+  .f-shelf-card { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: calc(var(--gap) * 2); }
+  .f-shelf-label { grid-column: 1 / -1; }
+  .f-shelf-why { grid-column: 1; }
+  .f-shelf-sig { grid-column: 2; grid-row: 2 / span 2; padding-top: 0; padding-left: calc(var(--gap) * 2); border-top: 0; border-left: var(--hair) solid var(--line); margin-left: calc(var(--gap) * -2); }
+}
+@container f-shelf-card (width >= 24rem) {
+  .f-shelf-dl > div { grid-template-columns: 9.5rem minmax(0, 1fr); }
+}
+
+/* ── the customers ──────────────────────────────────────────────────────────────────────── */
+.f-shelf-crowd { padding-top: var(--f-shelf-y); border-top: var(--hair) solid var(--c-ink); }
+.f-shelf-h2 + .f-shelf-crowd { padding-top: 0; border-top: 0; }
+.f-shelf-summary { margin-bottom: 16px; }
+.f-shelf-sumup { display: grid; gap: 10px; }
+.f-shelf-count { font-size: var(--type-body-l); }
+.f-shelf-axes { display: grid; gap: 4px; }
+.f-shelf-axes > div { display: grid; grid-template-columns: minmax(0, 1fr); }
+.f-shelf-axes dt { font: 700 var(--type-small) / 1.6 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); }
+.f-shelf-axes dd { font-size: var(--type-body-l); }
+.f-shelf-axes b, .f-shelf-yours b { font-weight: 500; }
+.f-shelf-heard { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 4px !important; }
+.f-shelf-heard .f-shelf-k { margin-right: 6px; }
+.f-shelf-yours { margin-bottom: 16px !important; padding: 10px 12px; background: var(--c-cloud); max-width: 64ch; }
+.f-shelf-note { margin-bottom: 12px !important; color: var(--c-ink-70); }
+.f-shelf-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.f-shelf-chip.f-shelf-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: var(--hair) solid var(--line); font-size: var(--type-small);
+  transition: background-color var(--t-out) var(--ease-out); }
+.f-shelf-chip b { font-weight: 500; color: var(--c-ink-70); }
+.f-shelf-chip:hover { background: var(--tint); transition-duration: var(--t-in); }
+.f-shelf-chip[aria-checked="true"] { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.f-shelf-chip[aria-checked="true"] b { color: var(--c-white-60); }
+
+/* one line per review; the whole review opens under it. Hairlines run to the stage's edges */
+.f-shelf-list { list-style: none; margin: 0 calc(var(--card-pad) * -1); padding: 0; border-bottom: var(--hair) solid var(--line); }
+.f-shelf-rev { border-top: var(--hair) solid var(--line); }
+.f-shelf-sum { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px var(--card-pad); cursor: pointer; list-style: none; transition: background-color var(--t-out) var(--ease-out); }
+.f-shelf-sum::-webkit-details-marker { display: none; }
+.f-shelf-sum:hover { background: var(--tint); transition-duration: var(--t-in); }
+.f-shelf-who { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 8px; min-width: 0; }
+.f-shelf-who b { font: 700 var(--type-small) / 1.4 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-who span { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-shelf-main { display: grid; gap: 2px; min-width: 0; }
+.f-shelf-line { font-size: var(--type-body); overflow-wrap: break-word; }
+.f-shelf-cup { font-size: var(--type-small); color: var(--c-ink-70); overflow-wrap: break-word; }
+.f-shelf-as { font-weight: 500; color: var(--c-lavender-ink); }
+.f-shelf-meta { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-shelf-sum::after { content: ""; display: none; }
+details[open] > .f-shelf-sum { background: var(--tint); }
+.f-shelf-full { display: grid; gap: 8px; padding: 4px var(--card-pad) 18px; background: var(--tint); }
+.f-shelf-text { max-width: 60ch; }
+.f-shelf-full-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: var(--type-small); }
+.f-shelf-full-row .f-shelf-k { min-width: 5.5rem; }
+.f-shelf-rev.is-like .f-shelf-who b::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 6px 2px 0; border-radius: 50%; background: var(--c-lavender-ink); }
+
+/* nothing yet: an invitation, no empty widget */
+.f-shelf-invite { display: grid; gap: 16px; justify-items: start; padding: calc(var(--card-pad) * 1.25) var(--card-pad); background: var(--c-cloud); }
+.f-shelf-invite-say { font-size: var(--type-title); line-height: 1.25; max-width: 30ch; }
+
+/* buttons */
+.f-shelf-btn.f-shelf-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border: var(--hair) solid var(--c-ink); font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; background: var(--c-paper);
+  transition: background-color var(--t-out) var(--ease-out); }
+.f-shelf-btn:hover { background: color-mix(in srgb, var(--c-paper), var(--c-ink) 6%); transition-duration: var(--t-in); }
+.f-shelf-btn-ink.f-shelf-btn-ink { background: var(--c-ink); color: var(--c-paper); min-width: 12rem; }
+.f-shelf-btn-ink:hover { background: var(--c-black); }
+.f-shelf-foot { margin-top: var(--f-shelf-y) !important; }
+
+/* ── issues: apart from the counts, with QQ's reply ─────────────────────────────────────── */
+.f-shelf-issues { margin-top: var(--f-shelf-y); }
+.f-shelf-issue { display: grid; gap: 6px; padding: 16px var(--card-pad); border-top: var(--hair) solid var(--line); }
+.f-shelf-issue-what { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-issue-text { max-width: 60ch; }
+.f-shelf-reply { margin-top: 6px; padding: 10px 0 2px 14px; border-left: 2px solid var(--c-lavender-ink); max-width: 60ch; display: grid; gap: 2px; }
+.f-shelf-reply-k { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-lavender-ink); }
+
+/* M: cards side by side; a review is one row: who | line + cup | date */
+@container col (width >= 43rem) {
+  .f-shelf-cards.is-many { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .f-shelf-sum { grid-template-columns: 11rem minmax(0, 1fr) auto; column-gap: calc(var(--gap) * 2); align-items: baseline; }
+  .f-shelf-who { flex-direction: column; gap: 0; }
+  .f-shelf-meta { text-align: right; white-space: nowrap; }
+  .f-shelf-full { padding-left: calc(var(--card-pad) + 11rem + var(--gap) * 2); }
+  .f-shelf-axes > div { grid-template-columns: 9.5rem minmax(0, 1fr); align-items: baseline; }
+  .f-shelf-crowd .f-shelf-summary { max-width: 52rem; }
+}
+@container col (width >= 58rem) {
+  .f-shelf-sum { grid-template-columns: 13rem minmax(0, 1fr) auto; }
+  .f-shelf-full { padding-left: calc(var(--card-pad) + 13rem + var(--gap) * 2); }
+}
+
+/* ── the review form: one short screen on cloud, cells divided by hairlines ─────────────── */
+.f-shelf-form { display: grid; gap: 16px; }
+.f-shelf-fhead { display: grid; gap: 4px; }
+.f-shelf-fhead .f-shelf-h3 { margin: 0; }
+.f-shelf-cells { display: grid; grid-template-columns: minmax(0, 1fr); margin: 0 calc(var(--card-pad) * -1); border-bottom: var(--hair) solid var(--line); }
+.f-shelf-cell { display: grid; gap: 8px; align-content: start; min-width: 0; margin: 0; padding: 12px var(--card-pad); border: 0; border-top: var(--hair) solid var(--line); }
+fieldset.f-shelf-cell { min-inline-size: 0; }
+.f-shelf-cell > legend { float: left; width: 100%; padding: 0; margin-bottom: 8px; }
+.f-shelf-cell > legend + * { clear: left; }
+.f-shelf-lab { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-lab i { font-style: normal; color: var(--c-lavender-ink); }
+.f-shelf-lab .f-shelf-muted { font-family: var(--sans); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.f-shelf-cell.is-miss .f-shelf-lab { color: var(--c-lavender-ink); }
+.f-shelf-cell.is-miss .f-shelf-opt span { border-color: var(--c-lavender-ink); }
+.f-shelf-cell-row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.f-shelf-opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.f-shelf-opt { position: relative; display: inline-flex; }
+.f-shelf-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.f-shelf-opt span { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 14px; border-radius: 999px; border: var(--hair) solid var(--line); background: var(--c-paper); font-size: var(--type-small); cursor: pointer;
+  transition: background-color var(--t-out) var(--ease-out); }
+.f-shelf-opt:hover span { background: color-mix(in srgb, var(--c-paper), var(--c-ink) 6%); transition-duration: var(--t-in); }
+.f-shelf-opt input:checked + span { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.f-shelf-opt input:focus-visible + span { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+/* three-way: three equal pills, no answer looks better than another */
+.f-shelf-three { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.f-shelf-three .f-shelf-opt span { width: 100%; justify-content: center; text-align: center; padding: 4px 8px; line-height: 1.15; }
+.f-shelf-in { width: 100%; box-sizing: border-box; min-height: 44px; padding: 0 12px; border: var(--hair) solid var(--line); border-radius: 0; background: var(--c-paper); font: inherit; color: inherit; }
+.f-shelf-in::placeholder { color: var(--c-ink-50); }
+.f-shelf-in:focus { outline: 0; border-color: var(--c-ink); }
+.f-shelf-sel { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-shelf-sel select { min-height: 36px; max-width: 100%; border: var(--hair) solid var(--line); border-radius: 0; background: var(--c-paper); font: inherit; color: var(--c-ink); padding: 0 8px; }
+.f-shelf-saved { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.f-shelf-saved b { font-weight: 500; }
+.f-shelf-saved .f-shelf-muted { font-size: var(--type-small); }
+.f-shelf-link.f-shelf-link { font-size: var(--type-small); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-ink-30); min-height: 32px; text-align: left; }
+.f-shelf-link:hover { text-decoration-color: currentColor; }
+/* the milk toggle: a pill track and its dot */
+.f-shelf-toggle { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; min-height: 36px; }
+.f-shelf-toggle input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.f-shelf-track { position: relative; width: 44px; height: 26px; border-radius: 999px; border: var(--hair) solid var(--c-ink-40); background: var(--c-paper); transition: background-color var(--t-out) var(--ease-out); }
+.f-shelf-track::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--c-ink-40); transition: left var(--t-out) var(--ease-out), background-color var(--t-out) var(--ease-out); }
+.f-shelf-toggle input:checked + .f-shelf-track { background: var(--c-ink); border-color: var(--c-ink); }
+.f-shelf-toggle input:checked + .f-shelf-track::after { left: 21px; background: var(--c-paper); }
+.f-shelf-toggle input:focus-visible + .f-shelf-track { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.f-shelf-toggle-t::after { content: attr(data-off); font-size: var(--type-small); }
+.f-shelf-toggle input:checked ~ .f-shelf-toggle-t::after { content: attr(data-on); }
+.f-shelf-send { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.f-shelf-err { font-size: var(--type-small); color: var(--c-lavender-ink); }
+.f-shelf-out { display: grid; gap: 10px; padding: var(--card-pad); background: var(--c-paper); border: var(--hair) solid var(--line); }
+.f-shelf-out-h { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-shelf-out .f-shelf-dl > div { grid-template-columns: minmax(0, 1fr); }
+.f-shelf-aside { display: grid; gap: 10px; justify-items: start; padding-top: 12px; border-top: var(--hair) dashed var(--line); }
+.f-shelf-issue-form { display: grid; gap: 10px; justify-items: start; width: 100%; max-width: 36rem; }
+.f-shelf-issue-form .f-shelf-in { width: 100%; }
+.f-shelf-issue-out { font-size: var(--type-small); }
+
+@container col (width >= 22rem) {
+  .f-shelf-out .f-shelf-dl > div { grid-template-columns: 11rem minmax(0, 1fr); }
+}
+/* M: label beside its control; pairs of short cells side by side */
+@container col (width >= 43rem) {
+  .f-shelf-cells { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .f-shelf-cell.is-wide { grid-column: 1 / -1; }
+  .f-shelf-cell.is-r { border-left: var(--hair) solid var(--line); }
+  .f-shelf-cell.is-wide:not(.f-shelf-cell-row) { grid-template-columns: 11rem minmax(0, 1fr); column-gap: calc(var(--gap) * 2); }
+  .f-shelf-cell.is-wide > legend { float: left; width: 11rem; margin: 0; }
+  .f-shelf-cell.is-wide > legend + * { clear: none; grid-column: 2; }
+  .f-shelf-usual > .f-shelf-lab { grid-row: 1 / span 2; }
+  .f-shelf-usual > :not(.f-shelf-lab) { grid-column: 2; }
+  .f-shelf-cell-row { grid-template-columns: 11rem minmax(0, 1fr); column-gap: calc(var(--gap) * 2); }
+}

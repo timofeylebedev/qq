@@ -138,3 +138,117 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   .buybar__state { padding-inline: var(--control-x); }
   .buybar__lead { grid-template-areas: "k k arrow" "name price arrow"; padding-inline: var(--control-x); margin: 0; }
 }
+
+/* «Кто это пьёт» (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка»): who recommends the
+   coffee, then how buyers drink it. Named people come first and apart, as signed cards on the cloud: the reason in
+   large text, then the name in bold capitals, the status, and rows (how they drink, their recipe, what they usually
+   like, the coffee they don't take); one a row below M, side by side from M. Buyers: the counts in words, a filter by
+   way of brewing (scripts/people.js), then a hairline list, one buyer a row that opens into the whole review. */
+.pstage__people { justify-self: start; position: relative; z-index: 6; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: var(--type-body); }
+.pstage__link { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.25em; text-decoration-color: var(--c-ink-30); transition: text-decoration-color var(--t-out) var(--ease-out); }
+@media (--mouse) { .pstage__link:hover { text-decoration-color: currentColor; transition-duration: var(--t-in); } }
+/* the mark of invented content: a lavender pill (the whole block is an example until the shop has a backend) */
+.ph { display: inline-flex; align-items: center; min-height: 24px; padding: 2px 10px; border-radius: 999px; background: var(--c-lavender); color: var(--c-ink); font: 500 var(--type-small) / 1.2 var(--sans); }
+
+.people__part { display: grid; gap: var(--text-gap); }
+.people__part + .people__part { margin-top: var(--section-y-s); }
+.people__sub { font-size: var(--type-card-title); }
+.people__empty { display: grid; gap: var(--text-gap); justify-items: start; padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); }
+.people__empty p { max-width: 36em; font-size: var(--type-body-l); line-height: var(--lh-text); }
+.people__foot { display: flex; padding-top: var(--text-gap); }
+
+.picks { display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@container col (width >= 43rem) { .picks { grid-template-columns: repeat(min(var(--n), 2), minmax(0, 1fr)); } }
+.pick { display: flex; flex-direction: column; gap: var(--text-gap); padding: var(--tile-pad); background: var(--g-bg); color: var(--g-fg); }
+.pick__kind { color: var(--c-lavender-ink); font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.pick__why { margin: 0; font-size: var(--type-lead); line-height: var(--lh-text); }
+.pick__who { display: grid; gap: 4px; padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); }
+.pick__name { font: 700 var(--type-body-l) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.pick__status, .pick__about { font-size: var(--type-body); color: var(--g-soft); }
+.pick__about { margin-top: 4px; line-height: var(--lh-text); }
+.pick__rows { display: grid; gap: 6px; font-size: var(--type-body); line-height: var(--lh-text); }
+.pick__rows div { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
+.pick__rows dt { font: 500 var(--type-small) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); color: var(--g-soft); }
+@container col (width >= 22rem) { .pick__rows div { grid-template-columns: 9em minmax(0, 1fr); gap: 12px; } .pick__rows dt { padding-top: 0.2em; } }
+.pick__tie { padding: 8px 12px; border: var(--hair) dashed var(--line); font-size: var(--type-small); color: var(--g-soft); }
+.pick__more { margin-top: auto; font-size: var(--type-body); }
+.pick__more summary { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; cursor: pointer; font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); list-style: none; }
+.pick__more summary::-webkit-details-marker { display: none; }
+.pick__more summary svg { width: 20px; height: 20px; transition: rotate var(--t-out) var(--ease-out); }
+.pick__more[open] summary svg { rotate: 180deg; }
+.pick__more ul { display: grid; gap: 6px; padding-top: 4px; }
+
+/* links inside the block's text: tall enough to tap (24px: the audit's targets), with no change to the line */
+.people .link, .pstage__link { padding-block: 5px; }
+
+/* the counts in words */
+.tally { display: grid; gap: 12px; padding-block: var(--text-gap); border-top: var(--hair) solid var(--line); }
+.tally__n { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.tally__rows { display: grid; gap: 12px; font-size: var(--type-body-l); line-height: var(--lh-text); }
+.tally__rows div { display: grid; gap: 6px; }
+.tally__rows dt { font: 500 var(--type-small) / 1.2 var(--sans); text-transform: uppercase; letter-spacing: var(--track-control); color: var(--c-ink-70); }
+.tally__rows .pill b { font-weight: 400; color: var(--c-ink-70); }
+@container col (width >= 43rem) { .tally__rows div { grid-template-columns: 10em minmax(0, 1fr); align-items: baseline; gap: 16px; } }
+
+/* the filter by way of brewing: pills that fill with ink when chosen */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 14px; border: var(--hair) solid var(--line); border-radius: 999px; font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out); }
+.chip span { color: var(--c-ink-70); }
+.chip[aria-pressed="true"] { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.chip[aria-pressed="true"] span { color: var(--c-white-80); }
+.chip:focus-visible { outline-color: var(--c-ink); }   /* the ring of the global focus is the text's colour: white on a chosen chip */
+@media (--mouse) { .chip[aria-pressed="false"]:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+
+/* the buyers: a hairline list, a buyer a row (name; the line; their cup; the date), opening into the whole review */
+.buyers { border-top: var(--hair) solid var(--line); }
+.buyer { border-bottom: var(--hair) solid var(--line); }
+.buyer__row { display: grid; gap: 4px; padding-block: 16px; cursor: pointer; list-style: none; transition: background-color var(--t-out) var(--ease-out); }
+.buyer__row::-webkit-details-marker { display: none; }
+@media (--mouse) { .buyer__row:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.buyer__who { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; font-size: var(--type-small); color: var(--c-ink-70); }
+.buyer__who b { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-ink); }
+.buyer__line { font-size: var(--type-body-l); line-height: var(--lh-text); }
+.buyer__cup, .buyer__date { font-size: var(--type-small); color: var(--c-ink-70); }
+.buyer__quote { font-size: var(--type-body); line-height: var(--lh-text); }
+@container col (width >= 58rem) {
+  .buyer__row { grid-template-columns: 13rem minmax(0, 1fr) 13rem; grid-template-areas: "who line date" "who cup date" "who quote date"; column-gap: var(--gap); }
+  .buyer__who { grid-area: who; flex-direction: column; align-self: start; row-gap: 4px; } .buyer__line { grid-area: line; } .buyer__cup { grid-area: cup; } .buyer__quote { grid-area: quote; } .buyer__date { grid-area: date; text-align: right; }
+}
+.buyer__body { display: grid; gap: 12px; padding-bottom: var(--text-gap); }
+.buyer__rows { display: grid; gap: 6px; font-size: var(--type-body); }
+.buyer__rows div { display: grid; grid-template-columns: minmax(0, 1fr); }
+@container col (width >= 22rem) { .buyer__rows div { grid-template-columns: 10em minmax(0, 1fr); gap: 12px; } }
+.buyer__rows dt { color: var(--c-ink-70); }
+.buyer__text { max-width: 40em; font-size: var(--type-body); line-height: var(--lh-text); }
+.buyer__text--none { color: var(--c-ink-70); }
+@container col (width >= 58rem) { .buyer__body { grid-template-columns: 13rem minmax(0, 1fr); column-gap: var(--gap); } .buyer__body > * { grid-column: 2; } }
+
+/* not about taste, with QQ's reply */
+.issues { display: grid; gap: 12px; padding-top: var(--text-gap); }
+.issues__title { font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.issue { display: grid; gap: 6px; font-size: var(--type-body); line-height: var(--lh-text); }
+.issue__who { color: var(--c-ink-70); white-space: nowrap; }
+.issue__reply { padding-left: 16px; border-left: var(--hair) solid var(--line); color: var(--c-ink-70); }
+
+/* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
+.rform { --menu-min: 0; }
+.rform__lead { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.rform__req { margin-left: 6px; text-transform: none; letter-spacing: 0; color: var(--c-ink-70); }
+.rform__hint { clear: both; font-size: var(--type-small); color: var(--c-ink-70); }
+.ropts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
+.ropt { position: relative; }
+.ropt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ropt span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: var(--hair) solid var(--line); border-radius: 999px; font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out); }
+.ropt input:checked + span { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.ropt input:focus-visible + span { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+@media (--mouse) { .ropt input:not(:checked):hover + span { background-color: var(--tint); transition-duration: var(--t-in); } }
+.seg--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); clear: both; }
+.seg--3 span { font-size: var(--type-body); }
+.rform__milk { margin-top: 6px; }
+.rform__text { min-height: 4.5em; resize: vertical; font-size: max(16px, var(--type-body)); }
+.rform__pair { display: grid; gap: var(--card-pad); }
+.rform__pair > div { display: grid; gap: 6px; }
+@container col (width >= 22rem) { .rform__pair { grid-template-columns: 1fr 1fr; } }
+.rform__other { font-size: var(--type-body); }
+.rform__other summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 0.25em; }
+.rform__other p { margin-block: 8px; color: var(--c-ink-70); }

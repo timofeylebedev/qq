@@ -1,9 +1,11 @@
 // A coffee's page: its name and the 3D pack pinned to the screen, turning as five fact tiles scroll past; the buy bar;
-// the story (a sentence, a photo, the text of the table in columns); «Что взять еще» (the taste model's moves).
+// the story (a sentence, a photo, the text of the table in columns); who drinks it (reviews and named picks,
+// people.mjs; the line under the name links to them); «Что взять еще» (the taste model's moves).
 import { page, head } from "./layout.mjs";
 import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
+import { people, peopleLink } from "./people.mjs";
 
 const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]));
 
@@ -12,7 +14,7 @@ export function render(ctx, p) {
   // back, the buy bar offers the nearest coffee in stock instead (from the first screen on), and «Что взять еще» begins
   // with that coffee
   const out = ctx.site.shop.unavailable.includes(p.slug);
-  const body = [stage(ctx, p, out), out ? outbar(ctx, p) : buybar(p), story(p), next(ctx, p, out)].join("\n");
+  const body = [stage(ctx, p, out), out ? outbar(ctx, p) : buybar(p), story(p), people(ctx, p), next(ctx, p, out)].join("\n");
   return page(ctx, {
     title: `${p.name} — QQ Coffee`,
     description: `${p.name}: ${p.short}. ${p.descriptors.join(", ")}.`,
@@ -27,7 +29,8 @@ function stage(ctx, p, out = false) {
     <div class="pstage__head"><div class="pstage__title">
       <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
       <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
-    </div>${out ? `
+    </div>
+    ${peopleLink(ctx, p)}${out ? `
     <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
     ${pack(p, { size: "hero", eager: true })}
   </div>

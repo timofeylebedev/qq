@@ -1,0 +1,536 @@
+{
+  "$about": "PLACEHOLDER people for a coffee's page (session 5 of choosing coffee): customers who write reviews, the ambassadors and their picks. Every name, status, review and pick here is invented, so the page can be designed before QQ has a shop and real people; the page marks the whole block as an example. build/people.mjs turns this into src/data/people.json: each review's taste answers come from the taste model (where the reviewer's usual coffee sits against this one, and how they brew), so the counts behave as real ones would. The one real named pick is «Выбор Ксюши» in data/products.csv (Теги + Комментарий к тегу); it is read from there, not from here. When the shop's backend exists, it replaces this file (see docs/people-backend.md).",
+  "placeholder": true,
+  "methods": {
+    "espresso": {
+      "label": "Эспрессо",
+      "group": "espresso",
+      "roast": "Эспрессо"
+    },
+    "machine": {
+      "label": "Кофемашина",
+      "group": "espresso",
+      "roast": "Эспрессо"
+    },
+    "moka": {
+      "label": "Гейзер",
+      "group": "pot",
+      "roast": "Эспрессо"
+    },
+    "turka": {
+      "label": "Турка",
+      "group": "pot",
+      "roast": "any"
+    },
+    "v60": {
+      "label": "Воронка",
+      "group": "filter",
+      "roast": "Фильтр"
+    },
+    "chemex": {
+      "label": "Кемекс",
+      "group": "filter",
+      "roast": "Фильтр"
+    },
+    "aeropress": {
+      "label": "Аэропресс",
+      "group": "filter",
+      "roast": "Фильтр"
+    },
+    "drip": {
+      "label": "Капельная кофеварка",
+      "group": "filter",
+      "roast": "Фильтр"
+    },
+    "french": {
+      "label": "Френч-пресс",
+      "group": "filter",
+      "roast": "Фильтр"
+    }
+  },
+  "groups": {
+    "espresso": "Эспрессо и кофемашина",
+    "pot": "Турка и гейзер",
+    "filter": "Фильтр",
+    "milk": "С молоком"
+  },
+  "styles": {
+    "dark": {
+      "label": "тёмную обжарку из магазина",
+      "pos": {
+        "bright": 1.2,
+        "body": 4.6,
+        "unusual": 0
+      }
+    },
+    "classic": {
+      "label": "классику: шоколад и орехи",
+      "pos": {
+        "bright": 2,
+        "body": 3.8,
+        "unusual": 0
+      }
+    },
+    "bright": {
+      "label": "яркое и фруктовое",
+      "pos": {
+        "bright": 4.2,
+        "body": 2.5,
+        "unusual": 0.5
+      }
+    },
+    "unusual": {
+      "label": "необычные обработки",
+      "pos": {
+        "bright": 3.8,
+        "body": 3,
+        "unusual": 2.8
+      }
+    }
+  },
+  "reviewers": [
+    {
+      "id": "r1",
+      "name": "Алексей К.",
+      "city": "Москва",
+      "method": "espresso",
+      "milk": true,
+      "usual": "q-optimistic"
+    },
+    {
+      "id": "r2",
+      "name": "Марина С.",
+      "city": "Санкт-Петербург",
+      "method": "v60",
+      "milk": false,
+      "usual": "keniya-nayvasha-pb"
+    },
+    {
+      "id": "r3",
+      "name": "Игорь П.",
+      "city": "Казань",
+      "method": "moka",
+      "milk": false,
+      "usual": "braziliya-santa-mariya"
+    },
+    {
+      "id": "r4",
+      "name": "Ольга Т.",
+      "city": "Екатеринбург",
+      "method": "aeropress",
+      "milk": false,
+      "usual": "efiopiya-gudzhi"
+    },
+    {
+      "id": "r5",
+      "name": "Дмитрий Л.",
+      "city": "Москва",
+      "method": "turka",
+      "milk": true,
+      "usual": "dark"
+    },
+    {
+      "id": "r6",
+      "name": "Анна В.",
+      "city": "Новосибирск",
+      "method": "drip",
+      "milk": true,
+      "usual": "uganda-luna"
+    },
+    {
+      "id": "r7",
+      "name": "Сергей М.",
+      "city": "Москва",
+      "method": "espresso",
+      "milk": false,
+      "usual": "kolumbiya-la-sirena"
+    },
+    {
+      "id": "r8",
+      "name": "Екатерина Р.",
+      "city": "Нижний Новгород",
+      "method": "french",
+      "milk": true,
+      "usual": "q-berry"
+    },
+    {
+      "id": "r9",
+      "name": "Павел Д.",
+      "city": "Краснодар",
+      "method": "v60",
+      "milk": false,
+      "usual": "keniya-kisii"
+    },
+    {
+      "id": "r10",
+      "name": "Юлия Н.",
+      "city": "Москва",
+      "method": "machine",
+      "milk": true,
+      "usual": "q-punch"
+    },
+    {
+      "id": "r11",
+      "name": "Никита Ж.",
+      "city": "Санкт-Петербург",
+      "method": "espresso",
+      "milk": false,
+      "usual": "ruanda-gitsumbi"
+    },
+    {
+      "id": "r12",
+      "name": "Вера Х.",
+      "city": "Самара",
+      "method": "chemex",
+      "milk": false,
+      "usual": "peru-palma-real"
+    },
+    {
+      "id": "r13",
+      "name": "Тимур А.",
+      "city": "Уфа",
+      "method": "moka",
+      "milk": true,
+      "usual": "classic"
+    },
+    {
+      "id": "r14",
+      "name": "Ксения Б.",
+      "city": "Москва",
+      "method": "machine",
+      "milk": true,
+      "usual": "dark"
+    },
+    {
+      "id": "r15",
+      "name": "Роман Е.",
+      "city": "Пермь",
+      "method": "aeropress",
+      "milk": false,
+      "usual": "unusual"
+    },
+    {
+      "id": "r16",
+      "name": "Полина Г.",
+      "city": "Санкт-Петербург",
+      "method": "espresso",
+      "milk": true,
+      "usual": "efiopiya-bekele"
+    },
+    {
+      "id": "r17",
+      "name": "Михаил Ц.",
+      "city": "Тула",
+      "method": "turka",
+      "milk": false,
+      "usual": "classic"
+    },
+    {
+      "id": "r18",
+      "name": "Лена Ш.",
+      "city": "Москва",
+      "method": "v60",
+      "milk": false,
+      "usual": "bright"
+    }
+  ],
+  "counts": {
+    "q-optimistic": 8,
+    "braziliya-santa-mariya": 9,
+    "efiopiya-bekele": 7,
+    "q-punch": 6,
+    "keniya-nayvasha-pb": 5,
+    "uganda-luna": 4,
+    "ruanda-gitsumbi": 4,
+    "kolumbiya-antiokiya": 3,
+    "q-profit": 3,
+    "kolumbiya-el-plaser-ipa": 2,
+    "kolumbiya-la-sirena": 2,
+    "peru-palma-real": 2,
+    "kolumbiya-dekaf": 1,
+    "q-berry": 1,
+    "keniya-kisii": 1
+  },
+  "issues": [
+    {
+      "slug": "q-optimistic",
+      "reviewer": "r3",
+      "issue": "grind",
+      "text": "Взял помол «для эспрессо» под гейзер — забивается сито. В следующий раз возьму зерно.",
+      "reply": "Игорь, гейзеру нужен помол крупнее эспрессо, а такого у нас пока нет: возьмите зерно и мелите сами или напишите нам — заменим пачку. — QQ"
+    },
+    {
+      "slug": "efiopiya-bekele",
+      "reviewer": "r5",
+      "issue": "described",
+      "text": "Цветов не услышал совсем, мёд — да. Может, турка всё глушит.",
+      "reply": "Дмитрий, в турке цветочные ноты уходят первыми. Попробуйте воду чуть холоднее кипятка и не доводить до пены. — QQ"
+    }
+  ],
+  "replies": {
+    "keniya-nayvasha-pb-r3": "Игорь, в гейзере кенийская кислотность звучит громче всего. Снимите с огня чуть раньше, как только пойдёт струя, или попробуйте эту Кению в воронке. — QQ"
+  },
+  "ambassadors": [
+    {
+      "id": "liza",
+      "name": "Лиза Г.",
+      "status": "Бариста",
+      "where": "кофейня-партнёр (название — пример)",
+      "how": "Эспрессо и флэт уайт",
+      "method": "espresso",
+      "milk": true,
+      "about": "Шесть лет за стойкой. Любит, когда в молоке остаётся вкус кофе, а не только сладость.",
+      "pos": {
+        "bright": 2.6,
+        "body": 3.8,
+        "unusual": 0.2
+      },
+      "picks": [
+        {
+          "slug": "q-finch",
+          "why": "Мой ежедневный флэт уайт: ореховый, с ягодой в конце, молоко его не прячет.",
+          "recipe": "18 г → 36 г за 28 с, 150 мл молока"
+        },
+        {
+          "slug": "braziliya-santa-mariya",
+          "why": "Даю гостям, которые просят «просто хороший кофе». Никого не разочаровал.",
+          "recipe": "18 г → 38 г за 30 с"
+        },
+        {
+          "slug": "efiopiya-bekele",
+          "why": "Эфиопия для тех, кто боится кислинки: мёд и апельсин, мягко.",
+          "recipe": "18 г → 40 г за 27 с, без молока"
+        },
+        {
+          "slug": "q-optimistic",
+          "why": "Если капучино должен быть как из детства — плотный, какао.",
+          "recipe": "19 г → 38 г за 30 с, 180 мл молока"
+        }
+      ],
+      "not": {
+        "slug": "kolumbiya-vush-vush",
+        "why": "Слишком лёгкий для молока: в флэт уайте пропадает."
+      },
+      "tie": null
+    },
+    {
+      "id": "artem",
+      "name": "Артём Б.",
+      "status": "Чемпион по аэропрессу",
+      "where": "титул — пример",
+      "how": "Аэропресс, без молока",
+      "method": "aeropress",
+      "milk": false,
+      "about": "Ищет кофе, в котором каждая нота отдельно. Варит холоднее, чем принято.",
+      "pos": {
+        "bright": 4.2,
+        "body": 2.6,
+        "unusual": 1.4
+      },
+      "picks": [
+        {
+          "slug": "kolumbiya-vush-vush",
+          "why": "Дыня и грушевый сидр — звучит как шутка, в чашке правда.",
+          "recipe": "15 г, 230 мл, 85°, 2 мин"
+        },
+        {
+          "slug": "keniya-nayvasha-pb",
+          "why": "Кения, на которой я учу людей слышать смородину.",
+          "recipe": "14 г, 220 мл, 90°, 1:45"
+        },
+        {
+          "slug": "kolumbiya-la-sirena",
+          "why": "Земляничное варенье без приторности. Лучше всего остывшим.",
+          "recipe": "15 г, 230 мл, 84°, 2 мин"
+        },
+        {
+          "slug": "ruanda-gitsumbi",
+          "why": "Бергамот и малина: чистая, звонкая чашка.",
+          "recipe": "15 г, 240 мл, 88°, 2 мин"
+        }
+      ],
+      "not": {
+        "slug": "q-punch",
+        "why": "Для меня тяжело: специи забивают всё остальное."
+      },
+      "tie": null
+    },
+    {
+      "id": "masha",
+      "name": "Мария Ф.",
+      "status": "Автор о кофе",
+      "where": "канал о домашнем кофе (пример)",
+      "how": "Воронка дома",
+      "method": "v60",
+      "milk": false,
+      "about": "Пишет для тех, кто только купил воронку. Ценит кофе, который прощает ошибки.",
+      "pos": {
+        "bright": 3.3,
+        "body": 2.8,
+        "unusual": 0.6
+      },
+      "picks": [
+        {
+          "slug": "kolumbiya-antiokiya",
+          "why": "Первая воронка — с этим кофе: карамель и яблоко выходят даже с неидеальным помолом.",
+          "recipe": "15 г, 250 мл, 93°, 3 мин"
+        },
+        {
+          "slug": "peru-monte-verde",
+          "why": "Крем-брюле в фильтре. Когда хочется десерта без сахара.",
+          "recipe": "16 г, 250 мл, 92°, 3:15"
+        },
+        {
+          "slug": "efiopiya-gudzhi",
+          "why": "Эфиопия «как в учебнике»: грейпфрут, чай, ягоды.",
+          "recipe": "15 г, 250 мл, 94°, 2:50"
+        },
+        {
+          "slug": "uganda-luna",
+          "why": "Утренний кофе в капельной для всей семьи.",
+          "recipe": "60 г на литр, капельная"
+        }
+      ],
+      "not": {
+        "slug": "indoneziya-vonosalam",
+        "why": "Слишком дикий для новичка с воронкой — сначала попробуйте Антиокию."
+      },
+      "tie": null
+    },
+    {
+      "id": "gleb",
+      "name": "Глеб О.",
+      "status": "Шеф-кондитер",
+      "where": "ресторан (название — пример)",
+      "how": "Турка и гейзер, с молоком",
+      "method": "moka",
+      "milk": true,
+      "about": "Подбирает кофе к десертам. Любит плотное, с печеньем и специями.",
+      "pos": {
+        "bright": 1.5,
+        "body": 4.6,
+        "unusual": 0.1
+      },
+      "picks": [
+        {
+          "slug": "q-punch",
+          "why": "Песочное печенье и специи — кофе, который сам как десерт.",
+          "recipe": "Гейзер, средний огонь, с молоком"
+        },
+        {
+          "slug": "q-optimistic",
+          "why": "К шоколадному торту лучше не придумать.",
+          "recipe": "Турка, 10 г на 100 мл"
+        },
+        {
+          "slug": "uganda-luna",
+          "why": "Молочный шоколад и сухофрукты — под штрудель.",
+          "recipe": "Гейзер, без молока"
+        }
+      ],
+      "not": {
+        "slug": "keniya-nayvasha-pb",
+        "why": "Кисло для моих десертов, хотя вижу, за что его любят."
+      },
+      "tie": null
+    }
+  ],
+  "texts": {
+    "method": {
+      "espresso": [
+        "Варю эспрессо дома.",
+        "Пью эспрессо, иногда американо.",
+        "Рожковая кофеварка, классический эспрессо."
+      ],
+      "machine": [
+        "Автоматическая кофемашина.",
+        "Делаю в кофемашине."
+      ],
+      "moka": [
+        "Варю в гейзере.",
+        "Гейзер на плите."
+      ],
+      "turka": [
+        "Варю в турке.",
+        "Турка, как привык."
+      ],
+      "v60": [
+        "Воронка, 15 г на 250 мл.",
+        "Завариваю в воронке."
+      ],
+      "chemex": [
+        "Кемекс на двоих.",
+        "Завариваю в кемексе."
+      ],
+      "aeropress": [
+        "Аэропресс.",
+        "Аэропресс, обычный рецепт."
+      ],
+      "drip": [
+        "Капельная кофеварка.",
+        "Варю в капельной на всю семью."
+      ],
+      "french": [
+        "Френч-пресс.",
+        "Завариваю во френч-прессе."
+      ]
+    },
+    "milk": [
+      "С молоком.",
+      "Чаще с молоком.",
+      "С молоком — так и задумано."
+    ],
+    "heard": [
+      "{d} — сразу узнал(а).",
+      "{d} — да, есть.",
+      "Есть {d}."
+    ],
+    "missed": [
+      "{d} — не услышал(а).",
+      "{d} — не уловил(а)."
+    ],
+    "bright": {
+      "less": [
+        "Для меня кисловато.",
+        "Кислинки больше, чем ждал(а).",
+        "Ярковато, особенно горячим."
+      ],
+      "ok": [
+        "Кислинка в самый раз.",
+        "Кислотность как раз по мне.",
+        "Баланс хороший, ничего не торчит."
+      ],
+      "more": [
+        "Хотелось бы поярче.",
+        "Плосковато, не хватает кислинки.",
+        "Мне не хватило яркости."
+      ]
+    },
+    "body": {
+      "less": [
+        "Тяжеловат для меня.",
+        "Плотный, даже слишком."
+      ],
+      "ok": [
+        "Плотность хорошая.",
+        "Тело приятное."
+      ],
+      "more": [
+        "Жидковат.",
+        "Хотелось плотнее."
+      ]
+    },
+    "end": {
+      "good": [
+        "Возьму ещё.",
+        "Буду брать.",
+        "Уже заказал(а) вторую пачку."
+      ],
+      "mixed": [
+        "Попробую в другом способе.",
+        "Неплохо, но не моё.",
+        "Возьму что-нибудь помягче."
+      ]
+    }
+  }
+}
