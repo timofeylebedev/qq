@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-24T00:40:39.698Z",
- "commit": "99b2346b081557639e77074682203a113a196ba7",
+ "generated": "2026-11-24T02:01:36.629Z",
+ "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -119,13 +119,13 @@
    "page": "",
    "selector": "main > section:nth-of-type(3)",
    "files": {
-    "src/styles/components/card.css": "b8fffaa5ce9f5d3d5523e249abede6cd3a732af9",
+    "src/styles/components/card.css": "58aa27c8226c5c319f5624f7517eaffa39ca9f34",
     "src/scripts/slider.js": "6969b2ac483abf3e8118cbfd0e1647c4e336c021",
     "src/scripts/packs.js": "3365015f5d05dce20f644ddd944a7cce41b26fb9",
-    "src/templates/components.mjs": "8e1f8ef23232c3082f80465a3836f38078a11211"
+    "src/templates/components.mjs": "98ecc766361a7c8b21c1543e3c146dc3f91d7158"
    },
-   "taken": "2026-11-23T22:25:38.842Z",
-   "commit": "9a4eefd0413dc0d37cde1b9496df44b34d1a5ccd",
+   "taken": "2026-11-24T02:01:44.089Z",
+   "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
    "sizes": [
     {
      "w": 390,
@@ -135,7 +135,7 @@
       "w": 390,
       "h": 643
      },
-     "bytes": 69334
+     "bytes": 69930
     },
     {
      "w": 1440,
