@@ -131,7 +131,8 @@ moves, in Tim's order (24 Nov), each one coffee and one line from the data:
 The model's steps, with the rules a shopper reads them by (from the outside check against the roasters' texts):
 
 - **A move with nothing that way gives its place to another** (Tim): легче, плотнее, the other end of the unusual axis,
-  then «Тоже похожий» (the second nearest); the first with a near pick not shown yet. The edge sentence stays in the
+  then «Тоже похожий» (the second nearest); the first with a near pick not shown yet that does not repeat a step a card
+  already takes. When none is near (Эль Пласэр ИПА's «ярче»), the page shows three cards. The edge sentence stays in the
   data (`instead.line`) and in `docs/next-output.md`, not on the page.
 - **«Мягче» is less acidity without becoming much denser or wilder** (body at most +1 point, the unusual coordinate — ferment with the process lifts — at most +0.5,
   `RULES.softerBody`, `softerWild`). A heavy robusta blend is not «мягче» for someone drinking a light Ethiopian; when

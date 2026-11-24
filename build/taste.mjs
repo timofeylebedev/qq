@@ -431,6 +431,9 @@ export function model() {
         instead = { id: id0, line: edgeLine(c, id0, all.filter((x) => x.wild)) };
         for (const f of fallback) {
           if (taken.has(f)) continue;
+          // a replacement never repeats a step a card already shown takes (Найваша: «похожий» is already denser)
+          const fd = DIRECTIONS.find((d) => d.id === f);
+          if (fd && moves.some((m) => m.slug && fd.sign * (by.get(m.slug)[fd.axis] - c[fd.axis]) >= RULES.step)) continue;
           const fc = f === "similar2" ? near.slice(1) : moveCands(c, f);
           const ok = fc.filter((x) => !x.wild && !x.far && !used.has(x.o.slug));
           if (ok.length) { id = f; cands = ok; break; }
