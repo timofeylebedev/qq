@@ -6,8 +6,9 @@ first, after the fixes of the outside check (24 Nov 2026, commit 5f0f078). Seven
 `?method=moka&chip=soft`; `?method=pourover&chip=milk`; no match (`?acid=soft&taste=berry&country=Бразилия`, which opens
 «Ещё фильтры»); the map open with a region (`?region=mid-mid`); the map open and a dot tapped (`?chip=unusual`, Кения
 Кисии); «Ещё фильтры» open (`?country=Кения`). The numbers are px from the bottom of the category tabs to the top of the
-first thing in the grid (a head or a card): how far the controls push the coffee down. Before this session, with
-nothing chosen: 233 at 390, 233 at 1280 (the seven filter cells).
+first thing in the grid (a head or a card): how far the controls push the coffee down. On `main` (the seven filter
+cells), with nothing chosen: 467 at 280 and 320, 272 at 390, 171 at 768, 134 at 1440. Now: 451, 451, 267, 170, 194 —
+the same or less on phones and tablets; 60px more from L, where the chips take their own row under the cells.
 
 | Size | Nothing chosen | Гейзер + мягкая | Воронка + молоко | No match | Map open | Map + a dot | Ещё фильтры open | Chip rows | Map, dot | Sideways | axe (main) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
