@@ -21,9 +21,12 @@ const OUT = resolve(root, "src/data/people.json");
 
 // the review's answers, one per axis; the words are the page's («слишком ярко / в самый раз / хочу ярче» of session 6)
 export const ANSWERS = {
+  sweet: { less: "приторно", ok: "в самый раз", more: "хотелось слаще", title: "Сладость" },
   bright: { less: "ярковато", ok: "в самый раз", more: "хотелось ярче", title: "Кислотность" },
-  body: { less: "тяжеловато", ok: "в самый раз", more: "хотелось плотнее", title: "Плотность" }
+  body: { less: "тяжеловато", ok: "в самый раз", more: "хотелось плотнее", title: "Плотность" },
+  unusual: { less: "многовато", ok: "в самый раз", more: "хотелось необычнее", title: "Ферментация" }
 };
+export const AXES = ["sweet", "bright", "body", "unusual"];
 
 // a small seeded hash, so the placeholders come out the same on every build
 function hash(s) { let h = 2166136261; for (const c of s) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967296; }
@@ -70,7 +73,11 @@ export function build() {
     // (the reviewer drinks their usual coffee the same way, so the brew moves only how much difference they forgive)
     const db = c.position.bright - r.pos.bright + (r.milk ? -0.3 : 0) + (m.group === "espresso" && !r.milk ? 0.3 : 0) + noise("b");
     const dd = c.position.body - r.pos.body + (r.milk ? 0.2 : 0) + noise("d");
+    const ds = (c.position.sweet ?? 3.5) - (r.pos.sweet ?? 3.5) + (r.milk ? 0.3 : 0) + noise("s");
+    const du = c.position.unusual - r.pos.unusual + noise("u");
     const answers = {
+      sweet: ds > 1.1 ? "less" : ds < -1 ? "more" : "ok",
+      unusual: du > 1.2 ? "less" : du < -1.4 ? "more" : "ok",
       bright: db > 0.8 ? "less" : db < -1.2 ? "more" : "ok",
       body: dd > 1 ? "less" : dd < -1 ? "more" : "ok"
     };
@@ -159,7 +166,7 @@ export function build() {
     return {
       slug: c.slug, placeholder: true,
       count: reviews.length, verified: reviews.filter((x) => x.verified).length,
-      bright: tally(reviews, "bright"), body: tally(reviews, "body"), groups,
+      ...Object.fromEntries(AXES.map((a) => [a, tally(reviews, a)])), groups,
       heard: p.descriptors.map((d) => ({ d, n: reviews.filter((x) => x.heard.includes(d)).length })),
       reviews, issues,
       picks: picksOf.get(c.slug) || [],

@@ -60,7 +60,8 @@
       "pos": {
         "bright": 1.2,
         "body": 4.6,
-        "unusual": 0
+        "unusual": 0,
+        "sweet": 3
       }
     },
     "classic": {
@@ -68,7 +69,8 @@
       "pos": {
         "bright": 2,
         "body": 3.8,
-        "unusual": 0
+        "unusual": 0,
+        "sweet": 3.8
       }
     },
     "bright": {
@@ -76,7 +78,8 @@
       "pos": {
         "bright": 4.2,
         "body": 2.5,
-        "unusual": 0.5
+        "unusual": 0.5,
+        "sweet": 3.6
       }
     },
     "unusual": {
@@ -84,7 +87,8 @@
       "pos": {
         "bright": 3.8,
         "body": 3,
-        "unusual": 2.8
+        "unusual": 2.8,
+        "sweet": 4
       }
     }
   },

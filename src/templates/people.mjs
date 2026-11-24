@@ -17,10 +17,11 @@ const PAGE = new Map(D.coffees.map((c) => [c.slug, c]));
 const PERSON = new Map([...D.people, ...D.named].map((p) => [p.id, p]));
 const POS = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c.position]));
 const A = D.answers, M = D.methods;
+const AXES = ["sweet", "bright", "body", "unusual"];
 
 const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? few : many; };
 // the section is about how the coffee turned out in people's cups (Tim, 24 Nov: not «Отзывы»)
-export const TITLE = "Как он в чашке";
+export const TITLE = "Впечатления";
 const told = (n) => `${n} ${plural(n, "человек рассказал", "человека рассказали", "человек рассказали")}`;
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
@@ -59,7 +60,7 @@ function closeness(them, you) {
 export function peopleLink(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const text = pg.count ? `Как он в чашке: ${told(pg.count)}` : "Как он в чашке — расскажите первым";
+  const text = pg.count ? `Впечатления: ${told(pg.count)}` : "Впечатлений пока нет — расскажите первым";
   return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a></p>`;
 }
 
@@ -79,42 +80,54 @@ export function people(ctx, p) {
     ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
       <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
     </div>` : ""}
-    ${pg.count ? `<ul class="buyers">
-      ${pg.reviews.map((r) => review(r, you)).join("\n      ")}
-    </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
+    ${pg.count ? `<div class="people__grid">
+      ${summary(pg)}
+      <ul class="buyers">
+        ${pg.reviews.map((r) => review(r, you)).join("\n        ")}
+      </ul>
+    </div>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
   </div>
   ${writeDialog(ctx, p)}
 </section>`;
 }
 
-// a review: the avatar and the name as its heading, how close the reviewer's taste is to yours, the answers, the words
+// the column beside the stories: what they add up to, per scale in words (never an average), and the notes heard
+function summary(pg) {
+  const line = (axis) => ["ok", "less", "more"].filter((k) => pg[axis][k]).map((k) => `${pg[axis][k]} — ${A[axis][k]}`).join(", ");
+  return `<aside class="people__sum" aria-label="Что вместе">
+        <p class="people__sum-title">Вместе</p>
+        <dl class="props">${AXES.map((a) => `<div><dt>${A[a].title}</dt><dd>${line(a)}</dd></div>`).join("")}</dl>
+        ${pg.heard.some((h) => h.n) ? `<p class="people__sum-title">Узнали ноты</p>
+        <ul class="people__heard">${pg.heard.map((h) => `<li><span>${esc(h.d)}</span> <b>${h.n} из ${pg.count}</b></li>`).join("")}</ul>` : ""}
+      </aside>`;
+}
+
+// a story: the avatar in its own column; beside it the name, how close the teller's taste is to yours, the four
+// answers in two columns, the words, the date and after how many cups
 function review(r, you) {
   const p = PERSON.get(r.who);
-  const answers = `Кислотность — ${A.bright[r.answers.bright]}, плотность — ${A.body[r.answers.body]}`;
   const data = ` data-g="${groupOf(r)}"${r.milk ? " data-milk" : ""}`;
   return `<li class="buyer"${data}>
-        <div class="buyer__head">
           <span class="buyer__avatar" aria-hidden="true">${esc(initials(p.name))}</span>
-          <h3 class="buyer__name">${esc(p.name)}</h3>
-        </div>
-        ${you ? closeness(p.pos, you) : ""}
-        <div class="buyer__body">
-          <p class="buyer__line">${esc(answers)}</p>
-          ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : ""}${r.reply ? `
-          <p class="buyer__reply">${esc(r.reply)}</p>` : ""}
-          <p class="buyer__date">${day(r.date)} · после ${r.cups} ${plural(r.cups, "чашки", "чашек", "чашек")}</p>
-        </div>
-      </li>`;
+          <div class="buyer__main">
+            <h3 class="buyer__name">${esc(p.name)}</h3>
+            ${you ? closeness(p.pos, you) : ""}
+            <dl class="props">${AXES.map((a) => `<div><dt>${A[a].title}</dt><dd>${A[a][r.answers[a]]}</dd></div>`).join("")}</dl>
+            ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : ""}${r.reply ? `
+            <p class="buyer__reply">${esc(r.reply)}</p>` : ""}
+            <p class="buyer__date">${day(r.date)} · после ${r.cups} ${plural(r.cups, "чашки", "чашек", "чашек")}</p>
+          </div>
+        </li>`;
 }
 
 // ── the review form (a dialog) ───────────────────────────────────────────────────────────────────────────────────
 function writeDialog(ctx, p) {
   const id = `review-${p.slug}`;
   const opt = (name, value, text, type = "radio", extra = "") => `<label class="ropt"><input type="${type}" name="${name}" value="${esc(value)}"${extra}><span>${esc(text)}</span></label>`;
-  const three = (axis) => `<fieldset class="fcell rform__axis">
-        <legend class="fcell__label">${A[axis].title} <span class="rform__req">обязательно</span></legend>
+  const three = (axis, need = true) => `<fieldset class="fcell rform__axis">
+        <legend class="fcell__label">${A[axis].title}${need ? ` <span class="rform__req">обязательно</span>` : ""}</legend>
         <p class="rform__hint">Против того, что вы обычно пьёте. Ни один ответ не лучше другого.</p>
-        <div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}" required><span>${A[axis][k]}</span></label>`).join("")}</div>
+        <div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}"${need ? " required" : ""}><span>${A[axis][k]}</span></label>`).join("")}</div>
       </fieldset>`;
   // what you usually drink is never this coffee: the answers are against something else
   const usual = [...ctx.products.filter((q) => q.slug !== p.slug).map((q) => [q.slug, q.name]), ...Object.entries(D.styles).map(([k, v]) => [k, v.charAt(0).toUpperCase() + v.slice(1)])];
@@ -125,8 +138,10 @@ function writeDialog(ctx, p) {
         <div class="ropts">${Object.entries(M).map(([k, m]) => opt("method", k, m.label, "radio", " required")).join("")}</div>
         <label class="choice choice--check rform__milk"><input class="box" type="checkbox" name="milk" value="yes"><span>С молоком</span></label>
       </fieldset>
+      ${three("sweet", false)}
       ${three("bright")}
       ${three("body")}
+      ${three("unusual", false)}
       ${p.descriptors.length ? `<fieldset class="fcell">
         <legend class="fcell__label">Какие ноты узнали</legend>
         <div class="ropts">${p.descriptors.map((d) => opt("heard", d, d, "checkbox")).join("")}</div>
