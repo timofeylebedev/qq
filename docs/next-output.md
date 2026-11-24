@@ -4,7 +4,7 @@ Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page
 
 Sold out now (data/site.json shop.unavailable), never offered: Q-Berry.
 
-Edges said in words: similar 0, softer 0, brighter 1, unusual 0, classic 0; two moves share a card on 3; far picks 5.
+Moves left off the page (nothing that way and no replacement near): similar 0, softer 0, brighter 1, unusual 0, classic 0; two moves share a card on 3; far picks 5.
 
 ### Q-Optimistic
 

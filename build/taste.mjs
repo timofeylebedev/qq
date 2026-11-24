@@ -747,7 +747,7 @@ function nextReport(m) {
     "Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page, from the taste model. Do not edit. How the moves are chosen: `docs/taste-model.md`, «The block on a coffee's page».", "",
     OUT.size ? `Sold out now (data/site.json shop.unavailable), never offered: ${[...OUT].map((x) => m.coffees.find((c) => c.slug === x)?.name || x).join(", ")}.` : "Nothing is sold out now (data/site.json shop.unavailable).", ""];
   const count = (f) => m.coffees.filter((c) => c.next.moves.some(f)).length;
-  L.push(`Edges said in words: ${["similar", "softer", "brighter", "unusual", "classic"].map((id) => `${id} ${m.coffees.filter((c) => c.next.moves.some((x) => x.id === id && x.edge)).length}`).join(", ")}; two moves share a card on ${count((x) => x.sharedWith)}; far picks ${m.coffees.reduce((s, c) => s + c.next.moves.filter((x) => x.far).length, 0)}.`, "");
+  L.push(`Moves left off the page (nothing that way and no replacement near): ${["similar", "softer", "brighter", "unusual", "classic"].map((id) => `${id} ${m.coffees.filter((c) => c.next.moves.some((x) => x.id === id && x.edge)).length}`).join(", ")}; two moves share a card on ${count((x) => x.sharedWith)}; far picks ${m.coffees.reduce((s, c) => s + c.next.moves.filter((x) => x.far).length, 0)}.`, "");
   for (const c of m.coffees) {
     L.push(`### ${c.name}`, "", `Кислотность ${n(c.coded.acidity)}, плотность ${n(c.coded.density)}, фермент ${n(c.coded.ferment)}. ${c.descriptors.join(", ")}. ${c.use.filter((u) => u !== "Вторая кофемолка").join(", ") || "—"}. «${c.short}»`, "");
     for (const x of c.next.moves) {

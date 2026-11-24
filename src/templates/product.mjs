@@ -123,7 +123,7 @@ function next(ctx, p, out = false) {
   return `<section class="section next${out ? " next--out" : ""}" id="next" data-ground="paper" aria-labelledby="next-title">
   <div class="col">
     ${head({ title: "Что взять еще", id: "next-title" })}
-    <div class="next__grid${items.length > 3 ? " next__grid--4" : ""}" style="--n: ${items.length}">
+    <div class="next__grid" style="--n: ${items.length}">
       ${items.join("\n      ")}
     </div>
   </div>
