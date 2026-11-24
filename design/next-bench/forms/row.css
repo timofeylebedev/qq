@@ -1,0 +1,134 @@
+/* «Ряд ходов» — one hairline grid of labelled move cards (row.js). Below S: one column; S/M: two columns (notes and a
+   lone coffee span the row); L: one row, notes narrower, the four parts of every card aligned by subgrid. */
+.f-row { display: grid; gap: var(--gap); min-width: 0; }
+.f-row .f-row-h { margin: 0; font-size: var(--type-h2); line-height: 1.1; text-box: trim-both cap alphabetic; }
+.f-row .f-row-sub { margin: 0 0 var(--gap); color: var(--c-ink-70); max-width: 60ch; }
+
+/* the grid: hairlines are its ground showing through 1px gaps; every cell is opaque paper */
+.f-row .f-row-grid {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hair); row-gap: var(--hair);
+  background: var(--line); border: var(--hair) solid var(--line); min-width: 0;
+}
+.f-row .f-row-cell {
+  display: grid; grid-template-rows: auto; align-content: start; gap: 8px; min-width: 0;
+  padding: var(--card-pad); background: var(--c-paper); text-decoration: none; color: var(--c-ink);
+  transition: box-shadow var(--t-out) var(--ease-out);
+}
+.f-row .f-row-board { display: grid; min-width: 0; }
+.f-row a.f-row-cell:hover, .f-row a.f-row-lead:hover, .f-row a.f-row-decaf:hover {
+  box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in);
+}
+
+/* the label: what the move is (mono capitals); shared labels sit together */
+.f-row .f-row-label {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; min-height: 20px;
+  font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.04em;
+}
+.f-row .f-row-sep { color: var(--c-ink-40); }
+
+/* a far step: the data's own caveat, above the coffee, with a hollow dot */
+.f-row .f-row-caveat { display: flex; align-items: baseline; gap: 6px; font-size: var(--type-small); color: var(--c-ink); }
+.f-row .f-row-caveat:empty { display: none; }
+.f-row .f-row-ring { flex: none; width: 7px; height: 7px; border-radius: 50%; border: 1.5px solid var(--c-ink); transform: translateY(-1px); }
+
+.f-row .f-row-coffee { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.f-row .f-row-pack { display: none; width: 56px; height: 56px; flex: none; object-fit: contain; }
+.f-row .f-row-id { display: grid; gap: 2px; min-width: 0; }
+.f-row .f-row-name {
+  font: 700 var(--type-body-l) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em;
+  overflow-wrap: anywhere; hyphens: auto;
+}
+.f-row .f-row-price { font-size: var(--type-small); color: var(--c-ink-70); font-variant-numeric: tabular-nums; }
+.f-row .f-row-line { font-size: var(--type-body); line-height: var(--lh-text); overflow-wrap: break-word; }
+
+/* edges and «self»: no coffee, quieter */
+.f-row .f-row-note { color: var(--c-ink-70); }
+.f-row .f-row-note .f-row-label { color: var(--c-ink-70); }
+.f-row .f-row-note .f-row-line { font-size: var(--type-small); }
+.f-row .f-row-is-edge .f-row-label::before { content: "⊣"; margin-right: 2px; letter-spacing: 0; }
+.f-row .f-row-is-self .f-row-label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--c-ink-70); align-self: center; margin-right: 2px; }
+
+/* sold out: the lead coffee, a larger cell above the grid */
+.f-row .f-row-lead {
+  display: grid; grid-template-columns: 88px minmax(0, 1fr); grid-template-areas: "frame frame" "pack body";
+  grid-template-rows: auto 1fr; gap: 12px 16px; align-items: start; padding: var(--card-pad); border: var(--hair) solid var(--line); border-bottom: 0;
+  background: var(--c-paper); color: var(--c-ink); text-decoration: none; transition: box-shadow var(--t-out) var(--ease-out);
+}
+.f-row .f-row-lead + .f-row-grid { border-top-color: var(--line); }
+.f-row .f-row-frame {
+  grid-area: frame; justify-self: start; display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px;
+  border-radius: 999px; background: var(--c-ink); color: var(--c-paper);
+  font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.04em;
+}
+.f-row .f-row-leadpack { display: block; grid-area: pack; width: 88px; height: 88px; }
+.f-row .f-row-leadbody { grid-area: body; display: grid; gap: 6px; min-width: 0; }
+.f-row .f-row-leadname { font-size: var(--type-card-title); }
+.f-row .f-row-short { color: var(--c-ink-70); }
+
+/* the only decaf: one quiet line under the grid */
+.f-row .f-row-decaf {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; min-height: 44px; padding: 8px 0;
+  text-decoration: none; color: var(--c-ink-70); font-size: var(--type-small); transition: box-shadow var(--t-out) var(--ease-out);
+}
+.f-row .f-row-decaf .f-row-name { font-size: var(--type-small); color: var(--c-ink); }
+
+/* S: two columns; notes and a lone coffee become strips across the row */
+@container col (width >= 22rem) {
+  .f-row .f-row-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .f-row .f-row-span { grid-column: 1 / -1; }
+  .f-row .f-row-note.f-row-span { grid-template-columns: 7.5rem minmax(0, 1fr); align-items: baseline; gap: 4px 12px; padding-block: 12px; }
+  .f-row .f-row-lead { grid-template-columns: 104px minmax(0, 1fr); }
+  .f-row .f-row-leadpack { width: 104px; height: 104px; }
+}
+
+/* M: the same pairing, with small packs */
+@container col (width >= 43rem) {
+  .f-row .f-row-pack { display: block; }
+  .f-row .f-row-note.f-row-span { grid-template-columns: 10rem minmax(0, 1fr); }
+  .f-row .f-row-lead { grid-template-columns: 160px minmax(0, 1fr); grid-template-areas: "pack frame" "pack body"; align-content: start; }
+  .f-row .f-row-leadpack { width: 160px; height: 160px; }
+  .f-row .f-row-leadbody { max-width: 60ch; }
+}
+
+/* L: one row; cards share four rows (label · caveat · coffee · line) so names line up across the row */
+@container col (width >= 58rem) {
+  .f-row .f-row-grid { grid-template-columns: var(--f-row-cols); grid-auto-flow: column; grid-template-rows: repeat(4, auto); }
+  .f-row .f-row-span { grid-column: auto; }
+  .f-row .f-row-cell { grid-row: 1 / span 4; grid-template-rows: subgrid; gap: 10px; }
+  .f-row .f-row-caveat:empty { display: block; }
+  .f-row .f-row-note, .f-row .f-row-note.f-row-span { grid-template-columns: minmax(0, 1fr); align-items: start; padding-block: var(--card-pad); }
+  .f-row .f-row-note .f-row-line { grid-row: 2 / span 3; }
+  .f-row .f-row-lead { grid-template-columns: 200px minmax(0, 1fr); }
+  .f-row .f-row-leadpack { width: 200px; height: 200px; }
+}
+
+/* the buy bar while the coffee is sold out: black; the state on the left, the lead coffee offered on the right */
+.f-row.f-row-bar {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; background: var(--c-black); color: var(--c-paper);
+}
+.f-row-bar .f-row-barstate { display: grid; align-content: center; gap: 2px; min-height: var(--control-h); padding: 8px var(--card-pad); min-width: 0; }
+.f-row-bar .f-row-barname { font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; overflow-wrap: anywhere; }
+.f-row-bar .f-row-barmsg { font-size: var(--type-small); color: var(--c-white-60); }
+.f-row-bar .f-row-barcoffee { display: none; }
+.f-row-bar .f-row-baroffer {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "lbl price arrow" "name price arrow";
+  align-items: center; align-content: center; gap: 2px 12px; min-height: var(--control-h); min-width: 0;
+  padding: 8px var(--card-pad); border-top: var(--hair) solid var(--c-white-30); color: var(--c-paper); text-decoration: none;
+  transition: box-shadow var(--t-out) var(--ease-out);
+}
+.f-row-bar .f-row-baroffer:hover { box-shadow: inset 0 0 0 100vmax var(--c-white-20); transition-duration: var(--t-in); }
+.f-row-bar .f-row-barlbl { grid-area: lbl; font-size: var(--type-small); color: var(--c-white-60); }
+.f-row-bar .f-row-baroffer .f-row-barname { grid-area: name; }
+.f-row-bar .f-row-barprice { grid-area: price; font-size: var(--type-price); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.f-row-bar .f-row-arrow { grid-area: arrow; font-size: var(--type-price); }
+/* S: one row — the state takes what it needs, the offer the rest */
+@container col (width >= 22rem) {
+  .f-row.f-row-bar { grid-template-columns: auto minmax(0, 1fr); }
+  .f-row-bar .f-row-baroffer { border-top: 0; border-left: var(--hair) solid var(--c-white-30); }
+}
+@container col (width >= 43rem) {
+  .f-row-bar .f-row-barcoffee { display: inline; }
+  .f-row-bar .f-row-barcoffee::after { content: " · "; }
+  .f-row.f-row-bar { grid-template-columns: minmax(0, 1fr) minmax(0, max-content); }
+  .f-row-bar .f-row-baroffer { grid-template-columns: auto auto auto auto; grid-template-areas: "lbl name price arrow"; gap: 4px 16px; }
+}

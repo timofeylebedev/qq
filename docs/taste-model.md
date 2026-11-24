@@ -14,6 +14,7 @@ with each other. Session 1 of the "choosing coffee" plan (claude.ai project QQ, 
 | `data/flavours.json` | the flavour families: every descriptor → family, each family's place on the SCA/WCR wheel, its reference food, its dot colour |
 | `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 6 directions per coffee with reasons, anchors, relabels, the fixes list |
 | `docs/taste-output.md` | the same output, readable, committed so a review shows how neighbours move when the data changes |
+| `docs/next-output.md` | what each coffee's page offers next (the block), one line per move, committed for review |
 | `docs/notion-fixes.md` | what QQ should fix in the Notion table, written by the same build |
 | `docs/taste-check.md`, `docs/taste-check/` | the blind check and what came of it |
 | `docs/taste-lexicon.md` | the research behind the families (WCR lexicon, flavour wheel, sources) |
@@ -111,6 +112,39 @@ distance without that axis). Each point beyond a full step costs 0.4, so the pic
   the nearer ones differ more elsewhere. A neighbour's reason names what is the same, then the biggest difference. The
   structured `why` sits beside each text, so a surface can phrase it its own way.
 
+## «Под молоко»
+
+Milk weakens a coffee's aroma and flavour and covers acidity (session 0), so «под молоко» is a move of its own, not
+«мягче» or «плотнее». The candidates are only the coffees QQ itself tags «Молочные напитки» (10 of 25). The best is the
+closest on everything except acidity and body (milk covers both), with 0.5 against each point of acidity above this
+coffee's (`RULES.milkBrighter`). A coffee QQ already tags for milk gets no other coffee here: the move says so
+(`directions.milk.self`).
+
+## The block on a coffee's page
+
+What a coffee's page offers next (`next` in taste.json; every coffee's block, readable: `docs/next-output.md`). Up to
+five moves, each one coffee and one line from the data:
+
+1. **Мягче**, 2. **Ярче** — acidity, the axis people differ on most.
+3. **Под молоко** — above.
+4. **Необычнее**, or **Классичнее** for a coffee already at ferment 2 or more (`RULES.unusualFrom`): the move that exists
+   and is the useful one from here (17 coffees have no «классичнее»; the unusual ones have no «необычнее» to speak of).
+5. **Похожий** — the nearest coffee that no move took; said in words when it would be far.
+
+«Плотнее» and «легче» are not moves of their own on the page: body shows in the lines, and the step towards body is
+mostly «под молоко».
+
+- **Each coffee once.** When two moves pick the same coffee, the earlier keeps it; the later takes its own next
+  candidate if that scores at most 0.3 worse (`RULES.swap`), else both labels share the card («Мягче · под молоко»).
+- **An edge is said, not hidden**: «Мягче у QQ нет: кислотность 1 — самая низкая в ассортименте.» That is a fact about
+  this coffee a visitor can use. A far step is shown with «в остальном заметно другой».
+- **The line** (`move.line`) is the move's own number first («кислотность 2 вместо 3»), the biggest other difference
+  as a «но …», then the other coffee's taste in its own descriptors (or the families both share). The longer reason
+  (`move.text`) is the model's, downside included.
+- **Sold out** (`data/site.json` `shop.unavailable`): the page stays, says the lot will be back, and leads with
+  `next.soldOut.lead`, the nearest coffee of all; a move that picked the same coffee joins its card.
+- **Decaf** (`next.decaf`): the only decaf, offered quietly apart from the moves, never as a move.
+
 ## Anchors and visitors
 
 - **Anchors** are what people already know, placed as regions (centre + spread) on the same axes. Origins come from
@@ -143,11 +177,6 @@ question went to QQ. Next is the roaster's blind sheet.
 - **The weights and family similarities are judgements**, written down to be revised by tasting data. The bench has
   sliders. Between flavour weights of 1 and 3, process 0–1 and acidity 0.6–1, agreement with the judges moves only
   between 2.1 and 3.0 of 5.
-- **«Под молоко» as its own direction** (session 2): today «плотнее» prefers milk-tagged coffees, but milk also masks
-  acidity.
-- **«Кофе с похожим вкусом» shows far neighbours** without saying so: 3 of 4 on Q-Optimistic, Q-Punch and Эль Пласэр
-  ИПА. Session 2 decides the form (fewer cards, «ближе у нас нет»).
 - **The account's "for you" list** (`src/templates/account-data.mjs`) still scores the four scales on its own. Move it
   to a region with `fit()` in session 5 or 6.
 - **"A supermarket bag"** as an anchor is an assumption. Ask QQ what their newcomers drank before.
-- **«Вторая кофемолка»** still shows on the coffee page («Как готовить»). Remove it in session 2 or 3.

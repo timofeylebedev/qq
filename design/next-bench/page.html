@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Что взять дальше — стенд форм</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15px / 1.5 var(--sans); overflow-x: clip; }
+.top { position: sticky; top: 0; z-index: 20; background: var(--c-paper); border-bottom: 1px solid var(--line); }
+.top__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 16px; max-width: 1600px; margin: 0 auto; }
+.top h1 { font: 700 15px / 1.2 var(--mono); text-transform: uppercase; margin: 0 auto 0 0; }
+.top select, .top button { font: inherit; height: 36px; border: 1px solid var(--line); background: var(--c-paper); padding: 0 10px; color: inherit; border-radius: 0; cursor: pointer; }
+.top button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.top label { display: inline-flex; align-items: center; gap: 6px; }
+.seg { display: inline-flex; }
+.seg button + button { border-left: 0; }
+.cases { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px; max-width: 1600px; margin: 0 auto; font-size: 13px; color: var(--c-ink-70); }
+.cases button { font: inherit; border: 1px solid var(--line); background: none; border-radius: 999px; padding: 2px 10px; cursor: pointer; color: var(--c-ink); }
+.intro { max-width: 1600px; margin: 0 auto; padding: 24px 16px 8px; display: grid; gap: 12px; }
+.intro h2 { font: 700 22px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.intro p { margin: 0; max-width: 72ch; }
+.pick { background: var(--c-paper); border: 1px solid var(--line); padding: 16px; max-width: 72ch; }
+.pick b { font-family: var(--mono); text-transform: uppercase; }
+.form { max-width: 1600px; margin: 0 auto; padding: 32px 16px; border-top: 1px solid var(--line); }
+.form__head { display: grid; gap: 4px; margin-bottom: 16px; max-width: 80ch; }
+.form__head h2 { font: 700 18px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.form__head .idea { margin: 0; }
+.form__head .notes { margin: 0; color: var(--c-ink-70); font-size: 14px; }
+.form__head .verdict { margin: 4px 0 0; font-size: 14px; }
+.form__head .verdict b { font-family: var(--mono); text-transform: uppercase; }
+.form.is-pick { background: var(--c-paper); }
+.stages { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.stagewrap { display: grid; gap: 6px; max-width: 100%; }
+.stagewrap > .cap { font-size: 12px; color: var(--c-ink-70); font-family: var(--mono); text-transform: uppercase; }
+.stage { container: col / inline-size; background: var(--c-paper); outline: 1px solid var(--line); max-width: 100%; overflow: hidden; }
+.stage__ctx { padding: 12px var(--card-pad); border-bottom: 1px dashed var(--line); font-size: 12px; color: var(--c-ink-70); display: flex; justify-content: space-between; gap: 12px; }
+.stage__ctx b { font-family: var(--mono); text-transform: uppercase; color: var(--c-ink); }
+.stage__body { padding: var(--section-y) var(--card-pad); }
+.stage__bar { border-top: 1px dashed var(--line); }
+.stage__bar > .cap { display: block; padding: 8px var(--card-pad) 0; font-size: 12px; color: var(--c-ink-70); }
+.empty { color: var(--c-ink-70); font-style: italic; }
+</style>
+{{forms}}
+<script>window.QQBench = { forms: [], register(f) { this.forms.push(f); } };</script>
+<script src="data.js"></script>
+<script src="notes.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top__row">
+    <h1>Что взять дальше · стенд форм</h1>
+    <label>Кофе <select id="coffee"></select></label>
+    <label><input type="checkbox" id="out"> нет в наличии</label>
+    <span class="seg" role="group" aria-label="Ширина">
+      <button type="button" data-w="360">360</button><button type="button" data-w="768">768</button><button type="button" data-w="1280">1280</button><button type="button" data-w="all">все три</button>
+    </span>
+  </div>
+  <div class="cases">Показательные: <button data-c="efiopiya-bekele">середина</button> <button data-c="q-optimistic">край мягче + сам под молоко</button> <button data-c="keniya-nayvasha-pb">самый яркий</button> <button data-c="kolumbiya-el-plaser-ipa">похожих нет</button> <button data-c="peru-palma-real">далёкий «мягче»</button> <button data-c="kolumbiya-dekaf">декаф</button> <button data-c="keniya-kisii">необычный: классичнее</button></div>
+</header>
+<section class="intro">
+  <h2>Что показать дальше со страницы кофе</h2>
+  <p>Механизм один для всех форм: модель вкуса (session 1) выбирает для кофе до пяти ходов — <b>мягче</b>, <b>ярче</b>, <b>под молоко</b>, <b>необычнее</b> (у необычного кофе — <b>классичнее</b>) и <b>похожий</b>. Каждый ход — один кофе и одна строка из данных, почему он. Кофе показывается один раз; если хода нет, это сказано словами. Когда кофе нет в наличии, страница остаётся и начинается с ближайшего. Формы ниже отличаются тем, как это показать.</p>
+  <div class="pick" id="pick"></div>
+</section>
+<main id="forms"></main>
+<script>
+(() => {
+  const { coffees } = window.QQ_DATA;
+  const by = Object.fromEntries(coffees.map((c) => [c.slug, c]));
+  const ORDER = ["row", "switch", "compass", "sentences", "compare"];
+  const forms = () => ((window.QQBench && window.QQBench.forms) || []).slice().sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  const sel = document.getElementById("coffee"), out = document.getElementById("out");
+  for (const c of coffees) sel.add(new Option(c.name, c.slug));
+  const q = new URLSearchParams(location.hash.slice(1));
+  sel.value = q.get("c") || "efiopiya-bekele"; out.checked = q.get("out") === "1";
+  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : "360");
+  const host = document.getElementById("forms");
+  function draw() {
+    const NOTES = window.QQ_NOTES || {};
+    document.getElementById("pick").innerHTML = NOTES.pick || "<b>Выбор</b>: ещё не сделан.";
+    location.hash = `c=${sel.value}&out=${out.checked ? 1 : 0}&w=${width}`;
+    document.querySelectorAll("[data-w]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.w === width));
+    const coffee = by[sel.value];
+    host.innerHTML = "";
+    forms().forEach((f, i) => {
+      const n = NOTES[f.id] || {};
+      const sec = document.createElement("section");
+      sec.className = "form" + (NOTES.chosen === f.id ? " is-pick" : "");
+      sec.innerHTML = `<div class="form__head"><h2>${i + 1}. ${f.name}</h2><p class="idea">${f.idea}</p>${f.notes ? `<p class="notes">${f.notes}</p>` : ""}${n.verdict ? `<p class="verdict">${n.verdict}</p>` : ""}</div><div class="stages"></div>`;
+      host.append(sec);
+      const ws = width === "all" ? ["360", "768", "1280"] : [width];
+      for (const w of ws) {
+        const wrap = document.createElement("div"); wrap.className = "stagewrap";
+        wrap.innerHTML = `<span class="cap">${w}px</span><div class="stage" style="width:${w}px"><div class="stage__ctx"><span>…страница <b>${coffee.name}</b>${out.checked ? " · нет в наличии" : ""}</span><span>конец рассказа о кофе</span></div><div class="stage__body f"></div></div>`;
+        sec.querySelector(".stages").append(wrap);
+        const ctx = { coffee, by, soldOut: out.checked, width: +w };
+        try { f.render(wrap.querySelector(".stage__body"), ctx); } catch (e) { wrap.querySelector(".stage__body").innerHTML = `<p class="empty">Ошибка формы: ${e.message}</p>`; console.error(e); }
+        if (out.checked && f.bar) {
+          const bar = document.createElement("div"); bar.className = "stage__bar";
+          bar.innerHTML = `<span class="cap">Панель покупки внизу экрана, пока кофе нет</span><div class="f"></div>`;
+          wrap.querySelector(".stage").append(bar);
+          try { f.bar(bar.querySelector(".f"), ctx); } catch (e) { bar.querySelector(".f").textContent = "Ошибка: " + e.message; }
+        }
+      }
+    });
+  }
+  sel.onchange = draw; out.onchange = draw;
+  document.querySelectorAll("[data-w]").forEach((b) => (b.onclick = () => { width = b.dataset.w; draw(); }));
+  document.querySelectorAll("[data-c]").forEach((b) => (b.onclick = () => { sel.value = b.dataset.c; draw(); }));
+  addEventListener("DOMContentLoaded", draw);
+  if (document.readyState !== "loading") draw();
+})();
+</script>
+</body>
+</html>

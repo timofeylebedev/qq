@@ -1,0 +1,117 @@
+/* «Сравнение»: a comparison table. This coffee's column is sticky on the left (it also names the rows); the other
+   columns scroll sideways inside the block (position: relative, so nothing escapes the clip and the page never scrolls
+   sideways). Columns are fixed widths per step: a table that fits is 100% wide, one that does not scrolls. */
+.f-compare {
+  --w-this: 8rem; --w-c: 9.5rem; --w-e: 7.5rem;
+  display: grid; gap: var(--gap); min-width: 0;
+}
+@container col (width >= 43rem) { .f-compare { --w-this: 9.5rem; --w-c: 10.5rem; --w-e: 8.5rem; } }
+@container col (width >= 58rem) { .f-compare { --w-this: 11rem; --w-c: 11rem; --w-e: 9rem; } }
+
+/* head: title, one line of lead-in with the key, and the arrows when the columns overflow */
+.f-compare-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px var(--gap); align-items: end; }
+.f-compare-title { grid-column: 1 / -1; margin: 0; font-size: var(--type-title); line-height: 1.1; }
+.f-compare-lede { margin: 0; max-width: 60ch; }
+.f-compare-lede b { font-weight: 500; }
+.f-compare-key { display: block; margin-top: 4px; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-compare-key b { font-weight: 500; color: var(--c-ink); }
+.f-compare-key-i { width: 0.9em; height: 0.9em; vertical-align: -0.1em; overflow: visible; }
+.f-compare-nav { display: flex; }
+.f-compare-nav[hidden] { display: none; }
+.f-compare .f-compare-btn { width: 44px; height: 44px; display: grid; place-items: center; border: var(--hair) solid var(--line); font-family: var(--mono); font-weight: 700;
+  transition: background-color var(--t-out); }
+.f-compare .f-compare-btn + .f-compare-btn { border-left: 0; }
+.f-compare .f-compare-btn:disabled { color: var(--c-ink-30); cursor: default; }
+@media (hover: hover) { .f-compare .f-compare-btn:not(:disabled):hover { background: var(--tint); transition-duration: var(--t-in); } }
+
+/* the scroller */
+.f-compare-scroll { position: relative; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity;
+  scroll-padding-inline-start: var(--w-this); scrollbar-width: thin; border-top: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); }
+.f-compare-t { table-layout: fixed; border-collapse: separate; border-spacing: 0;
+  width: max(100%, calc(var(--w-this) + var(--n-c) * var(--w-c) + var(--n-e) * var(--w-e))); font-size: var(--type-small); line-height: 1.35; }
+.f-compare-k-this { width: var(--w-this); }
+.f-compare-k-e { width: var(--w-e); }
+.f-compare-t th, .f-compare-t td { padding: 12px; vertical-align: top; text-align: left; font-weight: 400;
+  border-right: var(--hair) solid var(--line); border-bottom: var(--hair) solid var(--line); }
+.f-compare-t tr > :last-child { border-right: 0; }
+.f-compare-t tbody tr:last-child > * { border-bottom: 0; }
+.f-compare-c { scroll-snap-align: start; }
+
+/* this coffee: sticky; its line to the right turns ink once the others slide under it */
+.f-compare-this { position: sticky; left: 0; z-index: 2; background: var(--c-paper); }
+.f-compare.is-scrolled .f-compare-this { border-right-color: var(--c-ink); }
+
+/* the edge and self columns: narrow, on cloud, the statement at the top */
+.f-compare-e { background: var(--c-cloud); }
+
+/* the head row */
+.f-compare-h > *, .f-compare-go > * { display: block; }
+.f-compare-lab { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em; font-size: var(--type-small); }
+.f-compare-this .f-compare-lab { color: var(--c-ink-70); }
+.f-compare-far { margin-top: 2px; color: var(--c-ink-70); }
+.f-compare-name { margin-top: 8px; font-family: var(--mono); font-weight: 700; text-transform: uppercase; font-size: var(--type-body); line-height: 1.2; overflow-wrap: anywhere; }
+.f-compare-price { margin-top: 6px; font-size: var(--type-body); }
+.f-compare-note, .f-compare-out { margin-top: 6px; color: var(--c-ink-70); }
+.f-compare-out { color: var(--c-ink); font-weight: 500; }
+.f-compare-stmt { margin-top: 8px; color: var(--c-ink); }
+.f-compare .f-compare-go { display: block; min-height: 44px; margin: -12px; padding: 12px; text-decoration: none; }
+/* sold out: the lead's head is on ink, the first thing to the right of this one */
+.f-compare-lead { background: var(--c-ink); color: var(--c-paper); }
+.f-compare-lead .f-compare-far, .f-compare-lead .is-same { color: var(--c-white-60); }
+
+/* every row: a caption in this coffee's cell names it, the other cells keep the same room so the contents line up */
+.f-compare-cap { display: block; margin-bottom: 8px; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.02em;
+  font-size: 0.6875rem; line-height: 1.3; color: var(--c-ink-70); white-space: nowrap; }
+@container col (width >= 43rem) { .f-compare-cap { font-size: var(--type-small); } }
+
+/* scales: the site's five dots; this coffee a ring, the other a dot, a stroke between; the word of the change */
+.f-compare-v { display: block; }
+.f-compare-sc { display: block; width: calc(1.25rem * 82 / 20); height: 1.25rem; overflow: visible; }
+.f-compare-g { fill: var(--c-ink-40); }
+.f-compare-d { fill: var(--c-ink); }
+.f-compare-d.is-same { fill: var(--c-ink-30); }
+.f-compare-r { fill: var(--c-paper); stroke: var(--c-ink); stroke-width: 1.25; }
+.f-compare-l { stroke: var(--c-ink); stroke-width: 2; }
+.f-compare-w { display: inline-block; margin-top: 4px; font-weight: 500; }
+.f-compare-w.is-same { font-weight: 400; color: var(--c-ink-70); }
+/* the move's own reason: a filled pill */
+.f-compare-own { display: inline-flex; align-items: center; min-height: 22px; padding: 1px 8px; border-radius: 999px; background: var(--c-ink); color: var(--c-paper); font-weight: 500; margin-left: -2px; }
+.f-compare-tags .f-compare-own { margin-block: 1px; }
+
+/* words: what differs is ink, what is the same as this coffee grey */
+.f-compare .is-same { color: var(--c-ink-70); }
+.f-compare .is-new { font-weight: 500; }
+.f-compare-tags { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; }
+.f-compare-line { display: block; color: var(--c-ink); }
+.f-compare-this .f-compare-line { color: var(--c-ink-70); }
+.f-compare-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* a column is one link: a hover tints that column only (never this coffee's, never an edge) */
+.f-compare-t td[data-href] { cursor: pointer; }
+.f-compare-t [data-col] { transition: background-color var(--t-out); }
+@media (hover: hover) {
+  .f-compare-t:has([data-col="1"][data-href]:hover, [data-col="1"] .f-compare-go:hover) [data-col="1"]:not(.f-compare-e, .f-compare-lead),
+  .f-compare-t:has([data-col="2"][data-href]:hover, [data-col="2"] .f-compare-go:hover) [data-col="2"]:not(.f-compare-e, .f-compare-lead),
+  .f-compare-t:has([data-col="3"][data-href]:hover, [data-col="3"] .f-compare-go:hover) [data-col="3"]:not(.f-compare-e, .f-compare-lead),
+  .f-compare-t:has([data-col="4"][data-href]:hover, [data-col="4"] .f-compare-go:hover) [data-col="4"]:not(.f-compare-e, .f-compare-lead),
+  .f-compare-t:has([data-col="5"][data-href]:hover, [data-col="5"] .f-compare-go:hover) [data-col="5"]:not(.f-compare-e, .f-compare-lead),
+  .f-compare-t:has([data-col="6"][data-href]:hover, [data-col="6"] .f-compare-go:hover) [data-col="6"]:not(.f-compare-e, .f-compare-lead) { background: var(--tint); transition-duration: var(--t-in); }
+  .f-compare-go:hover .f-compare-name { text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+}
+
+/* the decaf, quietly, under the table */
+.f-compare .f-compare-decaf { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; min-height: 44px; color: var(--c-ink-70); text-decoration: none; font-size: var(--type-small); }
+.f-compare-decaf .f-compare-lab { color: var(--c-ink); }
+@media (hover: hover) { .f-compare .f-compare-decaf:hover { color: var(--c-ink); } }
+
+/* the bottom bar while the coffee is out: black, the status and one way on — the lead */
+.f-compare-bar { display: grid; gap: 8px 16px; padding: 12px var(--card-pad); background: var(--c-black); color: var(--c-paper); align-items: center; }
+.f-compare-bar-st { margin: 0; display: grid; gap: 2px; font-size: var(--type-small); color: var(--c-white-60); }
+.f-compare-bar-name { font-family: var(--mono); font-weight: 700; text-transform: uppercase; color: var(--c-paper); font-size: var(--type-body); }
+.f-compare .f-compare-bar-go { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "k p" "n p"; column-gap: 12px; align-items: center;
+  min-height: var(--control-h); padding: 6px 16px; background: var(--c-paper); color: var(--c-ink); text-decoration: none; transition: background-color var(--t-out); }
+.f-compare-bar-k { grid-area: k; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-compare-bar-n { grid-area: n; font-family: var(--mono); font-weight: 700; text-transform: uppercase; line-height: 1.2; overflow-wrap: anywhere; }
+.f-compare-bar-p { grid-area: p; font-family: var(--mono); font-weight: 700; white-space: nowrap; }
+@media (hover: hover) { .f-compare .f-compare-bar-go:hover { background: var(--c-cloud); transition-duration: var(--t-in); } }
+@container col (width >= 43rem) { .f-compare-bar { grid-template-columns: minmax(0, 1fr) minmax(18rem, auto); } }
