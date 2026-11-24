@@ -342,6 +342,16 @@
       "why": "a tab or a gift order can be linked to and shared (the navbar's «Каскара» … lead to the catalog on that tab), and Back undoes a change; the page does not scroll to a tab",
       "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
       "fix": "",
-      "checks": [{ "rule": "health.links", "match": "#(all|kofe|kaskara|dripy|sety|merch|gift)$" }, { "rule": "health.head", "match": "a link to #(all|kofe|kaskara|dripy|sety|merch|gift)," }] }
+      "checks": [{ "rule": "health.links", "match": "#(all|kofe|kaskara|dripy|sety|merch|gift)$" }, { "rule": "health.head", "match": "a link to #(all|kofe|kaskara|dripy|sety|merch|gift)," }] },
+    { "id": "people-block", "kind": "decision",
+      "what": "«Впечатления» (was «Отзывы»; Tim: about the experience, taste included) on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title; under it, centred on one line, «Поделиться впечатлениями» (the form: a dialog of the site's cells, the method and acidity and body required) and «Задать вопрос» (a question to QQ); then the stories, two a row from M, each: the avatar (initials in an ink dot, 64px) in its own column; beside it the name, how close the teller's taste is to yours (a short line filled by closeness and one of three labels: «Очень похожие вкусы», «Похожие вкусы», «Разные вкусы»; from the taste model, never a percent), their words, the date and after how many cups. The answers against expectation (сладость, кислотность, плотность, ферментация) are collected but not printed; a review without words is not shown. The line under the coffee's name says how many stories and links down",
+      "why": "session 5 of choosing coffee: four forms compared on the bench design/people-bench/; Claude built «Полка» (named picks and buyers' cups); Tim iterated on it",
+      "decided": "Tim, 2026-11-24 (iterating on «Полка»: a separate section after the lot's text; no ambassadors; the title «Отзывы» centred; the count and «Написать отзыв» on one line; then the ways of brewing; reviews headed by the avatar and the name, with how close their taste is to yours, without «обычно пьёт», «купил у QQ», the method line or the city)",
+      "fix": "" },
+    { "id": "people-placeholder", "kind": "placeholder",
+      "what": "Every reviewer and review of «Отзывы» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so they behave as real ones would; «your» taste, for how close a reviewer's is, is the account's placeholder visitor (data/account.json) placed by the coffees they bought. Tim, 24 Nov: no «пример» marks on the page; this decision, the PR and docs/people-backend.md say it instead. Sending a review says it is not sent yet. data/people.json also keeps invented ambassadors, not shown on the page (Tim, 24 Nov)",
+      "why": "there is no shop behind the site, and who the ambassadors are is not known yet",
+      "decided": "Claude, 2026-11-24 (session 5 of choosing coffee)",
+      "fix": "the shop's backend (docs/people-backend.md: who may write, moderation, verified purchases, how ambassadors are added); then build/people.mjs reads it and data/people.json goes" }
   ]
 }

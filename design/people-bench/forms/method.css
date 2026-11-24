@@ -1,0 +1,233 @@
+/* «Как вы пьёте» (method.js): the question first, then only the people who brew that way. Paper block; the named
+   people on an ink strip; reviews in a hairline grid (1 column, 2 from M, 3 from L); the write form on cloud. */
+.f-method { display: grid; gap: var(--gap); min-width: 0; }
+.f-method p, .f-method h2, .f-method h3, .f-method h4, .f-method dl, .f-method dd, .f-method ol { margin: 0; }
+.f-method .f-method-k { display: block; font: 700 11px / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-ink-70); margin-bottom: 2px; }
+.f-method .f-method-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* the link under the coffee's name */
+.f-method-top { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 4px; max-width: 100%; min-height: 32px; align-content: center; font-size: var(--type-small); color: var(--c-ink); text-decoration: underline; text-decoration-color: var(--c-ink-30); text-underline-offset: 3px; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method-top:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method-top .f-method-topmine { display: none; }
+.f-method-top .f-method-arrow { text-decoration: none; margin-left: 2px; }
+@container col (width >= 43rem) { .f-method-top .f-method-topmine { display: inline; } }
+
+/* head */
+.f-method .f-method-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.f-method .f-method-h { font: 700 var(--type-h2) / 1.1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; text-box: trim-both cap alphabetic; }
+.f-method .f-method-sub { color: var(--c-ink-70); max-width: 62ch; }
+.f-method .f-method-body { display: grid; gap: var(--gap); min-width: 0; }
+
+/* hairline grids: every cell draws its whole frame and overlaps its neighbours by a hairline (a short row leaves no line) */
+.f-method .f-method-segs, .f-method .f-method-reviews, .f-method .f-method-invbtns, .f-method-write .f-method-opts { padding: 0 var(--hair) var(--hair) 0; }
+.f-method .f-method-seg, .f-method .f-method-review, .f-method .f-method-invbtn, .f-method-write .f-method-opt { border: var(--hair) solid var(--line); margin: 0 calc(-1 * var(--hair)) calc(-1 * var(--hair)) 0; }
+
+/* the one question: a segmented control of hairline cells */
+.f-method .f-method-ask { display: grid; gap: 10px; margin-top: 8px; }
+.f-method .f-method-askq { font: 700 var(--type-card-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-method .f-method-segs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.f-method .f-method-seg { display: grid; align-content: center; gap: 2px; min-height: 64px; padding: 10px 12px; background: var(--c-paper); text-align: left; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-seg:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method .f-method-seg[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); }
+.f-method .f-method-seg[aria-pressed="true"]:hover { box-shadow: none; }
+.f-method .f-method-seglabel { font-weight: 500; line-height: 1.2; }
+.f-method .f-method-segn { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-seg[aria-pressed="true"] .f-method-segn { color: var(--c-white-60); }
+.f-method .f-method-seg-all { grid-column: 1 / -1; min-height: 48px; grid-auto-flow: column; justify-content: start; align-items: baseline; gap: 10px; }
+.f-method .f-method-from { font-size: var(--type-small); color: var(--c-ink-70); }
+
+/* the sentence */
+.f-method .f-method-lead { font-size: var(--type-lead); line-height: 1.3; max-width: 44ch; margin-top: 8px; }
+.f-method .f-method-gapnote { color: var(--c-ink-70); }
+.f-method .f-method-inline { text-decoration: underline; text-underline-offset: 3px; }
+
+/* «Все»: the count by way, each a button to that way */
+.f-method .f-method-ways { display: grid; border-top: var(--hair) solid var(--line); }
+.f-method .f-method-wayshead { padding: 10px 0; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-way { display: grid; gap: 2px; padding: 10px 0; border-top: var(--hair) solid var(--line); text-align: left; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-way:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method .f-method-way:last-child { border-bottom: var(--hair) solid var(--line); }
+.f-method .f-method-wayname { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
+.f-method .f-method-wayname::after { content: " →"; }
+.f-method .f-method-wayline { display: grid; color: var(--c-ink); }
+.f-method .f-method-waynote { font-size: var(--type-small); color: var(--c-ink-70); }
+
+/* notes heard: pills with a dot and a count */
+.f-method .f-method-notes { display: grid; gap: 8px; }
+.f-method .f-method-noteshead { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
+.f-method .f-method-noteslist { display: flex; flex-wrap: wrap; gap: 6px; }
+.f-method .f-method-pill { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 2px 12px; border-radius: 999px; border: var(--hair) solid var(--line); font-size: var(--type-small); line-height: 1.2; background: var(--c-paper); }
+.f-method .f-method-pill-s { min-height: 24px; padding: 1px 9px; font-size: 12px; }
+.f-method .f-method-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c-ink-40); }
+.f-method .f-method-cnt { color: var(--c-ink-70); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.f-method .f-method-cnt::before { content: "— "; }
+.f-method .f-method-is-zero { color: var(--c-ink-70); border-style: dashed; }
+
+/* reviews: a hairline grid; each led by the cup */
+.f-method .f-method-reviews { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.f-method .f-method-review { display: grid; align-content: start; gap: 8px; padding: var(--card-pad); background: var(--c-paper); min-width: 0; }
+.f-method .f-method-cup { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
+.f-method .f-method-usual { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-usual b { font-weight: 500; color: var(--c-ink); }
+.f-method .f-method-answers { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-block: var(--hair) solid var(--line); }
+.f-method .f-method-ans { display: grid; gap: 1px; padding: 8px 0; min-width: 0; }
+.f-method .f-method-ans + .f-method-ans { border-left: var(--hair) solid var(--line); padding-left: 12px; }
+.f-method .f-method-anskey { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-ansval { font-weight: 500; }
+.f-method .f-method-ans.f-method-is-off .f-method-ansval::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--c-lavender-ink); transform: translateY(-2px); }
+.f-method .f-method-heard { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.f-method .f-method-heardkey { font-size: var(--type-small); color: var(--c-ink-70); margin-right: 4px; }
+.f-method .f-method-text { overflow-wrap: break-word; }
+.f-method .f-method-text.f-method-is-taps { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-meta { display: flex; flex-wrap: wrap; gap: 0 6px; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method .f-method-meta span + span::before { content: "·"; margin-right: 6px; }
+.f-method .f-method-is-one { max-width: 62ch; }
+.f-method .f-method-is-big .f-method-text { font-size: var(--type-body-l); }
+
+/* the others, folded */
+.f-method .f-method-rest { display: grid; gap: var(--gap); }
+.f-method .f-method-restsum { display: flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 var(--card-pad); border: var(--hair) solid var(--line); cursor: pointer; list-style: none; font-weight: 500; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-restsum::-webkit-details-marker { display: none; }
+.f-method .f-method-restsum::before { content: "+"; font: 700 16px / 1 var(--mono); width: 14px; }
+.f-method .f-method-rest[open] > .f-method-restsum::before { content: "−"; }
+.f-method .f-method-restsum:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+
+/* the named people: their own strip on ink */
+.f-method .f-method-strip { display: grid; gap: 14px; padding: var(--card-pad); background: var(--c-ink); color: var(--c-paper); --line: var(--c-white-30); --tint: var(--c-white-20); }
+.f-method .f-method-striph { font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-lavender); }
+.f-method .f-method-people { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hair); background: var(--line); border-block: var(--hair) solid var(--line); }
+.f-method .f-method-person { display: grid; align-content: start; gap: 6px; padding: 14px 0; background: var(--c-ink); min-width: 0; }
+.f-method .f-method-person .f-method-k { color: var(--c-white-60); }
+.f-method .f-method-role { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font: 700 11px / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--c-lavender); }
+.f-method .f-method-is-team .f-method-role { color: var(--c-paper); }
+.f-method .f-method-strip .qq-ph { color: var(--c-lavender); border-color: var(--c-lavender); text-transform: none; letter-spacing: 0; }
+.f-method .f-method-strip .qq-ph::before { background: var(--c-lavender); }
+.f-method .f-method-pname { font: 700 var(--type-card-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-method .f-method-status { font-size: var(--type-small); color: var(--c-white-60); }
+.f-method .f-method-how, .f-method .f-method-recipe, .f-method .f-method-close, .f-method .f-method-not { font-size: var(--type-small); }
+.f-method .f-method-why { font-size: var(--type-body-l); line-height: 1.35; margin-block: 4px; }
+.f-method .f-method-not { color: var(--c-white-60); }
+.f-method .f-method-not b { font-weight: 500; color: var(--c-paper); }
+.f-method .f-method-disclose { font-size: 12px; color: var(--c-white-60); border-top: var(--hair) dashed var(--line); padding-top: 8px; margin-top: 4px; }
+.f-method .f-method-others-named { font-size: var(--type-small); color: var(--c-white-60); }
+.f-method .f-method-jump { color: var(--c-paper); text-decoration: underline; text-decoration-color: var(--c-white-30); text-underline-offset: 3px; text-align: left; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-jump:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method .f-method-strip :focus-visible { outline-color: var(--c-paper); }
+
+/* issues: apart, with QQ's reply */
+.f-method .f-method-issues { display: grid; gap: 10px; margin-top: 8px; }
+.f-method .f-method-h3 { font: 700 var(--type-body-l) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-method .f-method-issue { display: grid; gap: 8px; padding: var(--card-pad); border: var(--hair) solid var(--line); max-width: 72ch; }
+.f-method .f-method-issuetag { justify-self: start; display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; border: var(--hair) solid var(--c-ink); font-size: var(--type-small); font-weight: 500; }
+.f-method .f-method-reply { padding: 12px; background: var(--c-cloud); border-left: 2px solid var(--c-ink); }
+
+/* the invitation (0 reviews) */
+.f-method .f-method-invite { display: grid; gap: 12px; padding: var(--card-pad); background: var(--c-cloud); }
+.f-method .f-method-invq { font-size: var(--type-lead); line-height: 1.3; }
+.f-method .f-method-invbtns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.f-method .f-method-invbtn { min-height: 56px; padding: 8px 12px; background: var(--c-paper); text-align: left; font-weight: 500; line-height: 1.2; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-invbtn:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+
+/* actions */
+.f-method .f-method-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 8px; }
+.f-method .f-method-primary { display: inline-flex; align-items: center; justify-content: center; min-height: var(--control-h); padding: 0 28px; background: var(--c-black); color: var(--c-paper); font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-primary:hover { box-shadow: inset 0 0 0 100vmax var(--c-white-20); transition-duration: var(--t-in); }
+.f-method .f-method-primary:disabled { background: var(--c-ink-20); color: var(--c-ink-70); cursor: default; box-shadow: none; }
+.f-method .f-method-issuelink, .f-method .f-method-textbtn { min-height: 32px; font-size: var(--type-small); color: var(--c-ink-70); text-decoration: underline; text-decoration-color: var(--c-ink-30); text-underline-offset: 3px; text-align: left; }
+.f-method .f-method-ghost { min-height: 44px; padding: 0 16px; border: var(--hair) solid var(--line); font-size: var(--type-small); font-weight: 500; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method .f-method-ghost:hover, .f-method .f-method-issuelink:hover, .f-method .f-method-textbtn:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+
+/* ---------- the write form ---------- */
+.f-method-write { gap: 12px; }
+.f-method-write .f-method-whead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 16px; }
+.f-method-write .f-method-wh { font: 700 var(--type-body-l) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; }
+.f-method-write .f-method-after { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method-write .f-method-card { display: grid; gap: 18px; padding: var(--card-pad); background: var(--c-paper); border: var(--hair) solid var(--line); max-width: 720px; min-width: 0; }
+.f-method-write .f-method-progress { display: grid; gap: 8px; }
+.f-method-write .f-method-progline { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method-write .f-method-progline .f-method-textbtn { color: var(--c-ink); flex: none; }
+.f-method-write .f-method-bar { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; padding: 0; list-style: none; }
+.f-method-write .f-method-seg-p { height: 3px; background: var(--c-ink-10); }
+.f-method-write .f-method-seg-p.f-method-is-past { background: var(--c-ink); }
+.f-method-write .f-method-seg-p.f-method-is-now { background: var(--c-lavender-ink); }
+.f-method-write .f-method-screen { display: grid; gap: 12px; min-width: 0; }
+.f-method-write .f-method-q { font: 700 var(--type-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; outline: none; }
+.f-method-write .f-method-qhint { color: var(--c-ink-70); font-size: var(--type-small); max-width: 56ch; }
+
+.f-method-write .f-method-mgroup { display: grid; gap: 6px; }
+.f-method-write .f-method-mglabel { font: 700 11px / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.05em; color: var(--c-ink-70); }
+.f-method-write .f-method-mglabel-top { margin-top: 4px; }
+.f-method-write .f-method-opts { display: grid; grid-template-columns: minmax(0, 1fr); }
+.f-method-write .f-method-opts-m, .f-method-write .f-method-opts-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.f-method-write .f-method-opt { display: grid; align-content: center; gap: 2px; min-height: 52px; padding: 8px 12px; background: var(--c-paper); text-align: left; font-weight: 500; line-height: 1.2; transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method-write .f-method-opts-compact .f-method-opt { min-height: 44px; font-weight: 400; }
+.f-method-write .f-method-opts-3 .f-method-opt { min-height: 60px; font-size: var(--type-body-l); }
+.f-method-write .f-method-opt:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method-write .f-method-opt[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); box-shadow: none; }
+.f-method-write .f-method-opthint { font-size: 12px; font-weight: 400; color: var(--c-ink-70); }
+.f-method-write .f-method-opt[aria-pressed="true"] .f-method-opthint { color: var(--c-white-60); }
+
+.f-method-write .f-method-toggles { display: flex; flex-wrap: wrap; gap: 8px; }
+.f-method-write .f-method-tog { min-height: 44px; padding: 0 16px; font-size: var(--type-body); transition: box-shadow var(--t-out) var(--ease-out); }
+.f-method-write .f-method-tog:hover { box-shadow: inset 0 0 0 100vmax var(--tint); transition-duration: var(--t-in); }
+.f-method-write .f-method-tog[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.f-method-write .f-method-tog[aria-pressed="true"] .f-method-dot { background: var(--c-paper); }
+.f-method-write .f-method-tog-none { border-style: dashed; color: var(--c-ink-70); }
+
+.f-method-write .f-method-field { display: grid; gap: 6px; min-width: 0; }
+.f-method-write .f-method-field > span { font-size: var(--type-small); font-weight: 500; }
+.f-method-write .f-method-field i { font-style: normal; font-weight: 400; color: var(--c-ink-70); }
+.f-method-write .f-method-field textarea, .f-method-write .f-method-field input, .f-method-write .f-method-field select {
+  width: 100%; box-sizing: border-box; min-height: 48px; padding: 12px; border: var(--hair) solid var(--line); border-radius: 0; background: var(--c-paper); color: var(--c-ink); font: inherit; resize: vertical;
+}
+.f-method-write .f-method-field textarea:focus, .f-method-write .f-method-field input:focus, .f-method-write .f-method-field select:focus { border-color: var(--c-ink); outline: none; }
+.f-method-write .f-method-pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.f-method-write .f-method-saved { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding: 12px; background: var(--c-cloud); }
+.f-method-write .f-method-saved .f-method-k { grid-column: 1 / -1; }
+.f-method-write .f-method-savedval b { font-weight: 500; }
+
+.f-method-write .f-method-navrow { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 16px; }
+.f-method-write .f-method-navnote { margin-right: auto; font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method-write .f-method-navrow .f-method-ghost:first-child { margin-right: auto; }
+.f-method-write .f-method-done { display: grid; gap: 14px; }
+.f-method-write .f-method-sum { display: grid; border-top: var(--hair) solid var(--line); }
+.f-method-write .f-method-sumrow { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 8px 0; border-bottom: var(--hair) solid var(--line); }
+.f-method-write .f-method-sumrow dt { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-method-write .f-method-sumrow dd { overflow-wrap: break-word; }
+
+/* S */
+@container col (width >= 22rem) {
+  .f-method-write .f-method-sumrow { grid-template-columns: 9rem minmax(0, 1fr); gap: 12px; }
+}
+/* M: reviews and named people side by side; the question in one row */
+@container col (width >= 43rem) {
+  .f-method .f-method-segs { grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 0.8fr); }
+  .f-method .f-method-seg-all { grid-column: auto; grid-auto-flow: row; min-height: 64px; align-items: start; gap: 2px; }
+  .f-method .f-method-reviews { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .f-method .f-method-people.n2, .f-method .f-method-people.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); border-block: 0; background: none; gap: 0; }
+  .f-method .f-method-people.n2 .f-method-person + .f-method-person, .f-method .f-method-people.n3 .f-method-person + .f-method-person { border-left: var(--hair) solid var(--line); padding-left: var(--card-pad); }
+  .f-method .f-method-people.n2 .f-method-person:first-child, .f-method .f-method-people.n3 .f-method-person:first-child { padding-right: var(--card-pad); }
+  .f-method .f-method-people.n1 { border-block: 0; background: none; }
+  .f-method .f-method-people.n1 .f-method-person { padding: 0; max-width: 62ch; }
+  .f-method .f-method-ways { grid-template-columns: minmax(0, 1fr); }
+  .f-method .f-method-way { grid-template-columns: 14rem minmax(0, 1fr); gap: 16px; align-items: baseline; }
+  .f-method .f-method-invbtns { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .f-method .f-method-issues { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .f-method .f-method-issues > .f-method-h3, .f-method .f-method-issues > .f-method-sub { grid-column: 1 / -1; }
+  .f-method-write .f-method-opts-m { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .f-method-write .f-method-opts-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .f-method-write .f-method-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* L */
+@container col (width >= 58rem) {
+  .f-method .f-method-reviews { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .f-method .f-method-is-one { grid-template-columns: minmax(0, 1fr); }
+  .f-method .f-method-people.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .f-method .f-method-people.n3 .f-method-person:not(:last-child) { padding-right: var(--card-pad); }
+  .f-method .f-method-people.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1000px; }
+  .f-method-write .f-method-opts-m { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .f-method-write .f-method-mgroup .f-method-opts-m { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+}
+
+/* one review: one column at every step */
+.f-method .f-method-reviews.f-method-is-one { grid-template-columns: minmax(0, 1fr); }
