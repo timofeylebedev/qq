@@ -97,7 +97,7 @@
 
 /* the taste scale under the text (components.mjs tasteScale): three rows, a dot on a line between the axis's words,
    the line QQ's own range. One grid for the rows, so every line starts and ends at the same place; the words small,
-   in the secondary colour. The line is ink-60 (3.9 : 1 on paper, 3.7 : 1 on cloud) and the dot ink: a graphic that
+   in the secondary colour. The line is ink-60 (3.8 : 1 on paper, 3.7 : 1 on cloud) and the dot ink: a graphic that
    carries meaning needs 3 : 1 (WCAG 1.4.11), the hairlines' ink-20 would not (decision card-scale). The text takes
    what height the card has to spare (cards of a row are as tall as the tallest), so the scales of a row stand level. */
 .scale { margin-top: 12px; max-width: 24rem; }
