@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T00:40:39.106Z",
- "commit": "99b2346b081557639e77074682203a113a196ba7",
+ "generated": "2026-11-24T02:01:36.109Z",
+ "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T00:27:07.696Z",
+   "when": "2026-11-24T01:48:11.947Z",
    "quick": false,
-   "seconds": 460,
+   "seconds": 454,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T00:34:45.889Z",
+   "when": "2026-11-24T01:55:46.028Z",
    "quick": true,
-   "seconds": 353,
+   "seconds": 349,
    "errors": []
   }
  },
  "base": {
-  "commit": "7e59396319e6bfbef6acabc9974bfb0650d58d34",
-  "generated": "2026-11-24T00:12:05.634Z"
+  "commit": "99b2346b081557639e77074682203a113a196ba7",
+  "generated": "2026-11-24T00:40:39.106Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,12 +38,12 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 54,
-  "warn": 10,
+  "pass": 53,
+  "warn": 11,
   "fail": 5,
   "info": 6,
-  "findings": 137,
-  "new": 1,
+  "findings": 141,
+  "new": 4,
   "fixed": 0,
   "accepted": 91,
   "questions": 5
@@ -57,13 +57,13 @@
    "title": "Every var() defined, every token used",
    "kind": "hard",
    "why": "4 places",
-   "fresh": 1,
+   "fresh": 0,
    "sample": [
     "Code: defined, never used: --c-ink-10",
     "Code: defined, never used: --c-graphite",
     "Code: defined, never used: --trace-light"
    ],
-   "rank": 354
+   "rank": 304
   },
   {
    "type": "rule",
@@ -91,8 +91,8 @@
    "why": "2 places",
    "fresh": 0,
    "sample": [
-    "390x844: 44% of the text shown, 6 of 9 headings, h1 shown (390x844)",
-    "1440x900: 44% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
+    "390x844: 44.1% of the text shown, 6 of 9 headings, h1 shown (390x844)",
+    "1440x900: 44.1% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
    ],
    "rank": 302
   },
@@ -230,14 +230,44 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "23 places",
-   "fresh": 0,
+   "why": "25 places",
+   "fresh": 2,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
    ],
-   "rank": 123
+   "rank": 175
+  },
+  {
+   "type": "rule",
+   "id": "images.sharp",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are sharp",
+   "kind": "tolerance",
+   "why": "15 places",
+   "fresh": 1,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
+   ],
+   "rank": 165
+  },
+  {
+   "type": "rule",
+   "id": "images.weight",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are not much bigger than drawn",
+   "kind": "tolerance",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    "coffee/q-optimistic/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px (2560x1440)"
+   ],
+   "rank": 151
   },
   {
    "type": "rule",
@@ -254,22 +284,6 @@
     "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
    ],
    "rank": 116
-  },
-  {
-   "type": "rule",
-   "id": "images.sharp",
-   "severity": "warn",
-   "area": "Images",
-   "title": "Pictures are sharp",
-   "kind": "tolerance",
-   "why": "14 places",
-   "fresh": 0,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 1440x900)",
-    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
-   ],
-   "rank": 114
   },
   {
    "type": "rule",
@@ -391,8 +405,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2128,
-   "total": 2131,
+   "on": 2164,
+   "total": 2167,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -428,8 +442,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2128,
-    "total": 2131
+    "on": 2164,
+    "total": 2167
    },
    "accepted": 0,
    "was": {
@@ -493,8 +507,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3988,
-   "total": 3988,
+   "on": 4035,
+   "total": 4035,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -502,8 +516,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3993,
-    "total": 3993
+    "on": 4040,
+    "total": 4040
    },
    "accepted": 0,
    "was": {
@@ -900,7 +914,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 23,
+   "value": 25,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -1036,6 +1050,20 @@
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
      "value": 0.95,
      "at": "1366x650"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h2.ptile__title|left|1074",
+     "where": "coffee/keniya-kisii/ h2.ptile__title",
+     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+     "value": 1.67,
+     "at": "1440x900"
+    },
+    {
+     "key": "coffee/q-optimistic/ h2.ptile__title|left|1074",
+     "where": "coffee/q-optimistic/ h2.ptile__title",
+     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+     "value": 1.67,
+     "at": "1440x900"
     },
     {
      "key": "li.fact|left|200",
@@ -1305,8 +1333,8 @@
     {
      "key": "coffee/keniya-kisii/ article.card",
      "where": "coffee/keniya-kisii/ article.card",
-     "what": "0.67 – 0.93 · changes with the screen",
-     "value": 7
+     "what": "0.53 – 0.72 · changes with the screen",
+     "value": 10
     },
     {
      "key": "coffee/keniya-kisii/ picture.footer__mark",
@@ -1341,8 +1369,20 @@
     {
      "key": "coffee/q-optimistic/ article.card",
      "where": "coffee/q-optimistic/ article.card",
-     "what": "0.67 – 0.93 · changes with the screen",
-     "value": 7
+     "what": "0.53 – 0.72 · changes with the screen",
+     "value": 10
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.card__photo",
+     "where": "coffee/q-optimistic/ picture.card__photo",
+     "what": "0.8 · 4:5",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.card__photo img",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "0.8 · css auto 1200 / 1200 · 4:5",
+     "value": 1
     },
     {
      "key": "coffee/q-optimistic/ picture.footer__mark",
@@ -1537,7 +1577,7 @@
    "kind": "tolerance",
    "title": "Pictures are sharp",
    "how": "Every picture outside the drawings: the file's width against the device pixels it covers (its drawn width × the screen's pixel ratio: 3 on phones, 2 on tablets and the 1440 laptop). Below 0.95 it is upscaled.",
-   "value": 14,
+   "value": 15,
    "unit": "upscaled",
    "status": "warn",
    "items": [
@@ -1546,7 +1586,7 @@
      "where": "catalog/ picture.card__photo img",
      "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
      "value": 0.9,
-     "at": "390x844 1440x900"
+     "at": "390x844 844x390 1440x900"
     },
     {
      "key": "life-jacket-1200.avif",
@@ -1612,6 +1652,13 @@
      "at": "768x1024"
     },
     {
+     "key": "life-box-800.avif",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "life-box-800-DpMwwL7W.avif: 800px wide for 694 device px (×2)",
+     "value": 0.92,
+     "at": "768x1024"
+    },
+    {
      "key": "life-jacket-480.avif",
      "where": "catalog/ picture.card__photo img",
      "what": "life-jacket-480-D-C-fR97.avif: 480px wide for 421 device px (×1)",
@@ -1642,7 +1689,7 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 14
+    "value": 15
    },
    "accepted": 0,
    "was": {
@@ -1656,13 +1703,21 @@
    "kind": "tolerance",
    "title": "Pictures are not much bigger than drawn",
    "how": "The same ratio above 2.5: the file is far bigger than the screen can show (bytes for nothing).",
-   "value": 0,
+   "value": 1,
    "unit": "too big",
-   "status": "pass",
-   "items": [],
+   "status": "warn",
+   "items": [
+    {
+     "key": "life-box-1200.avif",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px",
+     "value": 2.65,
+     "at": "2560x1440"
+    }
+   ],
    "webkit": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 1
    },
    "accepted": 0,
    "was": {
@@ -1948,6 +2003,12 @@
      "where": ".pstory",
      "what": "1 on the page",
      "value": 1
+    },
+    {
+     "key": "next",
+     "where": ".next",
+     "what": "1 on the page",
+     "value": 1
     }
    ],
    "status": "info",
@@ -2096,15 +2157,15 @@
     {
      "key": "390x844",
      "where": "390x844",
-     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44,
+     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44.1,
      "at": "390x844"
     },
     {
      "key": "1440x900",
      "where": "1440x900",
-     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44,
+     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44.1,
      "at": "1440x900"
     }
    ],
@@ -3096,8 +3157,8 @@
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 15 KB sent (was 15 KB)",
-     "value": 15
+     "what": "1 files, 16 KB sent (was 15 KB)",
+     "value": 16
     },
     {
      "key": "fonts",
@@ -3245,7 +3306,7 @@
    "accepted": 0,
    "was": {
     "status": "fail",
-    "value": 3
+    "value": 4
    }
   },
   {
@@ -3253,7 +3314,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "53 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "57 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4001,6 +4062,24 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/keniya-kisii/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+   "at": "1440x900",
+   "new": true
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+   "at": "1440x900",
+   "new": true
+  },
+  {
    "key": "align.edges::li.fact|left|200",
    "rule": "align.edges",
    "status": "warn",
@@ -4321,7 +4400,7 @@
    "status": "warn",
    "where": "catalog/ picture.card__photo img",
    "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
-   "at": "390x844 1440x900",
+   "at": "390x844 844x390 1440x900",
    "new": false
   },
   {
@@ -4406,6 +4485,15 @@
    "new": false
   },
   {
+   "key": "images.sharp::life-box-800.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ picture.card__photo img",
+   "what": "life-box-800-DpMwwL7W.avif: 800px wide for 694 device px (×2)",
+   "at": "768x1024",
+   "new": true
+  },
+  {
    "key": "images.sharp::life-jacket-480.avif",
    "rule": "images.sharp",
    "status": "warn",
@@ -4440,6 +4528,15 @@
    "what": "business-office-1200-Dtv7kpi1.avif: 1200px wide for 1323 device px (×2)",
    "at": "1440x900",
    "new": false
+  },
+  {
+   "key": "images.weight::life-box-1200.avif",
+   "rule": "images.weight",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px",
+   "at": "2560x1440",
+   "new": true
   },
   {
    "key": "images.first::life-box-1200.avif",
@@ -4482,7 +4579,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "390x844",
-   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
    "at": "390x844",
    "new": false
   },
@@ -4491,7 +4588,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "1440x900",
-   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
    "at": "1440x900",
    "new": false
   },
@@ -4842,7 +4939,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
-   "what": "1 files, 15 KB sent (was 15 KB)",
+   "what": "1 files, 16 KB sent (was 15 KB)",
    "at": "",
    "new": false
   },
@@ -4889,7 +4986,7 @@
    "where": "Code",
    "what": "defined, never used: --c-taste-other",
    "at": "",
-   "new": true
+   "new": false
   }
  ],
  "fixed": [],
@@ -5010,8 +5107,8 @@
    "id": "similar-coffees",
    "kind": "decision",
    "state": "unbound",
-   "what": "«Кофе с похожим вкусом»: the four coffees nearest in density, acidity, sweetness and ferment, nearer for each shared flavour family of descriptors and for the same line",
-   "decided": "Claude, 2026-10-19"
+   "what": "«Что взять еще» on a coffee's page (was «Кофе с похожим вкусом», four big cards with no reason): the product cards in a grid, one per move of the taste model — похожий first, then мягче, ярче, необычнее or классичнее — each under its move in colour (lavender, mono capitals), its text one line (one colour) from the data on why; no «под молоко» and no decaf line on the page; a move with nothing that way gives its place to another (легче, плотнее, the other end of the unusual axis, тоже похожий), never an «у QQ нет» sentence; four in a row from L, where the pack keeps clear of a name on three lines; a sold-out coffee (data/site.json shop.unavailable) keeps its page, its buy bar offers the nearest coffee in stock and the grid begins with it; nothing sold out is ever offered",
+   "decided": "Tim, 2026-11-24 (form 1, simpler: cards and what they are about; «Похожий» first; no «под молоко»; title «Что взять еще»; then: the move above the card in coloured text, no pills; the text one colour; no decaf line and no «у QQ нет»; a grid and not a slider)"
   },
   {
    "id": "secondary-text",
@@ -5463,7 +5560,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 99b2346, an earlier commit than this one (399c4de)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (399c4de)",
+ "own": true
 }
