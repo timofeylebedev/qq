@@ -97,6 +97,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead. The
   hero goes further: its cells themselves reach over the gutters (`--bleed`) and each is padded by the gutter on both
   sides (Tim, round 6: a cell's padding is its own, never a higher box's).
+- **The card's taste scale** (`tasteScale()` in components.mjs; decision `card-scale`): every card ends with three
+  rows, a dot on a line between the taste model's words, the line QQ's own range; positions from taste.json, never
+  computed in a template; no sweetness, no «Горечь», no «Оценка Q». The card's text no longer says «… из 5».
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
@@ -135,9 +138,6 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
-- **The card's taste scale** (`tasteScale()` in components.mjs; decision `card-scale`): every card ends with three
-  rows, a dot on a line between the taste model's words, the line QQ's own range; positions from taste.json, never
-  computed in a template; no sweetness, no «Горечь», no «Оценка Q». The card's text no longer says «… из 5».
 - **«Что взять еще»** (a coffee's page, `next()` in `src/templates/product.mjs`): the taste model's moves for that
   coffee (`next` in taste.json, `nextBlock` in build/taste.mjs; every coffee's list in `docs/next-output.md`): похожий,
   мягче, ярче, необычнее or классичнее, as product cards in a grid, each under its move in lavender and with
