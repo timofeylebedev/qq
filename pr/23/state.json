@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T03:25:24.404Z",
- "commit": "72ad1ab95334d81fe75217a47e8fac8d3dda28b3",
+ "generated": "2026-11-24T03:51:57.552Z",
+ "commit": "8c9cc21a8e2373f16ff259c6e24bc86208598fcd",
  "ref": "claude/people",
  "pr": "23",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T03:10:40.482Z",
+   "when": "2026-11-24T03:37:44.182Z",
    "quick": false,
-   "seconds": 491,
+   "seconds": 484,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T03:18:51.998Z",
+   "when": "2026-11-24T03:45:46.190Z",
    "quick": true,
-   "seconds": 392,
+   "seconds": 371,
    "errors": []
   }
  },
@@ -240,8 +240,8 @@
     "«Карта вкусов»"
    ],
    "since": "2026-11-24",
-   "from": "session 5 of choosing coffee (PR {{PR}})",
-   "why": "open since 2026-11-24 (session 5 of choosing coffee (PR {{PR}}))",
+   "from": "session 5 of choosing coffee (PR #23)",
+   "why": "open since 2026-11-24 (session 5 of choosing coffee (PR #23))",
    "rank": 200
   },
   {
@@ -3302,7 +3302,7 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 483,
+   "value": 559,
    "unit": "KB",
    "was": {
     "status": "pass",
@@ -3331,8 +3331,8 @@
     {
      "key": "images",
      "where": "images",
-     "what": "8 files, 326 KB sent (was 402 KB)",
-     "value": 326
+     "what": "10 files, 402 KB sent (was 402 KB)",
+     "value": 402
     },
     {
      "key": "fonts",
@@ -5194,7 +5194,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "images",
-   "what": "8 files, 326 KB sent (was 402 KB)",
+   "what": "10 files, 402 KB sent (was 402 KB)",
    "at": "",
    "new": false
   },
@@ -5836,7 +5836,7 @@
    ],
    "link": "https://claude.ai/artifact/BZaoFhcidtu2FARXUcYdkn",
    "since": "2026-11-24",
-   "from": "session 5 of choosing coffee (PR {{PR}})",
+   "from": "session 5 of choosing coffee (PR #23)",
    "options": [
     "Keep «Полка»",
     "«Как вы пьёте»",
