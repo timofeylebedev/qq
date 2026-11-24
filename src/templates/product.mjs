@@ -1,6 +1,6 @@
 // A coffee's page: its name and the 3D pack pinned to the screen, turning as five fact tiles scroll past; the buy bar;
 // the story (a sentence, a photo, the text of the table in columns); «Что взять еще» (the taste model's moves).
-import { page, head, arrows } from "./layout.mjs";
+import { page, head } from "./layout.mjs";
 import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
@@ -8,10 +8,11 @@ import { menu } from "./blocks.mjs";
 const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]));
 
 export function render(ctx, p) {
-  // a coffee QQ has run out of (data/site.json shop.unavailable) keeps its page: it says the lot will be back, the buy
-  // bar offers the nearest coffee instead, and «Что взять еще» comes straight after the stage, led by that coffee
+  // a coffee QQ has run out of (data/site.json shop.unavailable) keeps its page: a pill under the name says it will be
+  // back, the buy bar offers the nearest coffee in stock instead (from the first screen on), and «Что взять еще» begins
+  // with that coffee
   const out = ctx.site.shop.unavailable.includes(p.slug);
-  const body = (out ? [stage(ctx, p, out), outbar(ctx, p), next(ctx, p, out), story(p)] : [stage(ctx, p), buybar(p), story(p), next(ctx, p)]).join("\n");
+  const body = [stage(ctx, p, out), out ? outbar(ctx, p) : buybar(p), story(p), next(ctx, p, out)].join("\n");
   return page(ctx, {
     title: `${p.name} — QQ Coffee`,
     description: `${p.name}: ${p.short}. ${p.descriptors.join(", ")}.`,
@@ -25,9 +26,9 @@ function stage(ctx, p, out = false) {
   <div class="pstage__pin">
     <div class="pstage__head"><div class="pstage__title">
       <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
-      <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>${out ? `
-      <p class="pstage__out">Лота пока нет, скоро вернётся</p>` : ""}
-    </div></div>
+      <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
+    </div>${out ? `
+    <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
     ${pack(p, { size: "hero", eager: true })}
   </div>
   <div class="col pstage__col"><ul class="pstage__facts" aria-label="О кофе">
@@ -97,47 +98,34 @@ function story(p) {
 }
 
 // «Что взять еще»: what to take after this coffee (session 2 of choosing coffee; Tim chose the bench's form 1, simpler:
-// cards and what they are about). One card per move of the taste model (build/taste.mjs nextBlock → src/data/taste.json
-// `next`): похожий, мягче, ярче, необычнее or классичнее, the move as the card's label and one line from the data as
-// its text, in the reel of the home page's «Рекомендуем». A move with nothing that way is one quiet sentence under the
-// cards; a coffee two moves picked is one card with both labels. Sold out, the nearest coffee comes first, «Ближе
-// всего». The model never offers a relabel of the same coffee or a decaf for a coffee with caffeine; the only decaf is
-// a quiet line under the cards.
-const FAR = /^(в остальном заметно другой|из кофе для молока он ближе всех по вкусу)$/;
-
-// the card's text: the move's own number first (ink), a far pick's warning next, the rest secondary
-function why(text) {
-  const parts = String(text || "").split(" · ").filter(Boolean);
-  const far = parts.length > 1 && FAR.test(parts.at(-1)) ? parts.pop() : "";
-  const [key, ...rest] = far ? [parts[0], far, ...parts.slice(1)] : parts;
-  return `<span class="card__key">${esc(key || "")}</span>${rest.map((x) => ` · ${esc(x)}`).join("")}`;
-}
-
+// cards and what they are about, in a grid). One card per move of the taste model (build/taste.mjs nextBlock →
+// src/data/taste.json `next`): похожий, мягче, ярче, необычнее or классичнее, the move in colour above the card and one
+// line from the data as its text. A move with nothing that way gives its place to another (легче, плотнее, тоже
+// похожий: the model decides); a coffee two moves picked is one card with both words. Sold out, the nearest coffee comes first, «Ближе всего». The model
+// never offers a sold-out coffee, a relabel of the same coffee or a decaf for a coffee with caffeine.
 function next(ctx, p, out = false) {
   const by = new Map(ctx.products.map((q) => [q.slug, q]));
   const n = TASTE.get(p.slug)?.next;
   if (!n) return "";
   const moves = out ? n.soldOut.moves : n.moves;
   const byId = new Map(moves.map((m) => [m.id, m]));
-  const labels = (m) => [m.label, ...(m.also || []).map((a) => (byId.get(a.id) || a).label.toLowerCase())].join(" · ");
-  const cards = [];
+  const tags = (list) => `<p class="next__tag">${list.map(esc).join(" · ")}</p>`;
+  const item = (q, list, line) => `<div class="next__item">
+        ${tags(list)}
+        ${card(ctx, q, { size: "quarter", text: esc(line) })}
+      </div>`;
+  const items = [];
   if (out) {
     const l = n.soldOut.lead, q = by.get(l.slug);
-    const joins = moves.filter((m) => m.joinsLead).map((m) => m.label.toLowerCase());
-    if (q) cards.push(card(ctx, q, { label: ["Ближе всего", ...joins].join(" · "), text: why(l.line) }));
+    if (q) items.push(item(q, ["Ближе всего", ...moves.filter((m) => m.joinsLead).map((m) => m.label)], l.line));
   }
-  for (const m of moves) if (m.slug && by.has(m.slug) && !m.joinsLead) cards.push(card(ctx, by.get(m.slug), { label: labels(m), text: why(m.line) }));
-  const said = [...moves.filter((m) => m.edge).map((m) => m.line), out ? n.soldOut.note : null].filter(Boolean);
-  const d = n.decaf && by.get(n.decaf.slug);
-  const decaf = d ? `Нужен без кофеина? <a href="${href(ctx, `coffee/${d.slug}/`)}">${esc(d.name)}</a>: ${esc(n.decaf.line.replace(/^Без кофеина:\s*/, ""))}` : "";
-  const notes = [...said.map(esc), decaf].filter(Boolean);
+  for (const m of moves) if (m.slug && by.has(m.slug) && !m.joinsLead) items.push(item(by.get(m.slug), [m.label, ...(m.also || []).map((a) => (byId.get(a.id) || a).label)], m.line));
   return `<section class="section next${out ? " next--out" : ""}" id="next" data-ground="paper" aria-labelledby="next-title">
   <div class="col">
-    ${head({ title: "Что взять еще", id: "next-title", aside: arrows("Что взять еще", "next") })}
-    <div class="reel next__reel" data-slider="next" tabindex="-1">
-      ${cards.join("\n      ")}
+    ${head({ title: "Что взять еще", id: "next-title" })}
+    <div class="next__grid${items.length > 3 ? " next__grid--4" : ""}" style="--n: ${items.length}">
+      ${items.join("\n      ")}
     </div>
-    ${notes.length ? `<div class="next__notes">${notes.map((x) => `<p>${x}</p>`).join("")}</div>` : ""}
   </div>
 </section>`;
 }
@@ -149,7 +137,7 @@ function outbar(ctx, p) {
   return `<div class="buybar buybar--out" data-buybar data-tone="ink">
  <div class="col"><div class="buybar__inner">
   <p class="cell buybar__state"><b>Нет в наличии</b><span>Скоро вернётся</span></p>
-  ${q ? `<a class="buybar__lead" href="${href(ctx, `coffee/${q.slug}/`)}"><span class="buybar__k">Ближе всего</span><span class="buybar__name">${esc(q.name)}</span><span class="buybar__price">${rub(w.price)}</span>${icon("arrow-right")}</a>` : ""}
+  ${q ? `<a class="buybar__lead" href="${href(ctx, `coffee/${q.slug}/`)}"><span class="buybar__k">Ближе всего${TASTE.get(p.slug)?.decaf && !TASTE.get(q.slug)?.decaf ? " · с кофеином" : ""}</span><span class="buybar__name">${esc(q.name)}</span><span class="buybar__price">${rub(w.price)}</span>${icon("arrow-right")}</a>` : ""}
  </div></div>
 </div>`;
 }

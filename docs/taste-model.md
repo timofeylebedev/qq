@@ -12,7 +12,7 @@ with each other. Session 1 of the "choosing coffee" plan (claude.ai project QQ, 
 | `build/taste.mjs` | the build step: cleans the data, places the coffees, picks neighbours and directions, writes the reasons, checks its own rules (the build fails if they break) |
 | `src/scripts/taste.js` | the arithmetic, the same in Node and in the browser: distance, family similarity, a visitor as a region, how an answer moves the region |
 | `data/flavours.json` | the flavour families: every descriptor → family, each family's place on the SCA/WCR wheel, its reference food, its dot colour |
-| `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 6 directions per coffee with reasons, anchors, relabels, the fixes list |
+| `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 7 directions per coffee with reasons (6 steps and «под молоко»), and the page's block `next`, anchors, relabels, the fixes list |
 | `docs/taste-output.md` | the same output, readable, committed so a review shows how neighbours move when the data changes |
 | `docs/next-output.md` | what each coffee's page offers («Что взять еще»), one line per move, committed for review |
 | `docs/notion-fixes.md` | what QQ should fix in the Notion table, written by the same build |
@@ -124,16 +124,18 @@ off the coffee page.
 What a coffee's page offers next (`next` in taste.json; every coffee's block, readable: `docs/next-output.md`). Four
 moves, in Tim's order (24 Nov), each one coffee and one line from the data:
 
-1. **Похожий** — the nearest coffee (said in words if it would be far).
+1. **Похожий** — the nearest coffee.
 2. **Мягче**, 3. **Ярче** — acidity, the axis people differ on most.
 4. **Необычнее**, or **Классичнее** for a coffee already at ferment 2 or more (`RULES.unusualFrom`).
 
 The model's steps, with the rules a shopper reads them by (from the outside check against the roasters' texts):
 
-- **«Мягче» is less acidity without becoming much denser or wilder** (body at most +1, ferment at most +0.5,
+- **A move with nothing that way gives its place to another** (Tim): легче, плотнее, the other end of the unusual axis,
+  then «Тоже похожий» (the second nearest); the first with a near pick not shown yet. The edge sentence stays in the
+  data (`instead.line`) and in `docs/next-output.md`, not on the page.
+- **«Мягче» is less acidity without becoming much denser or wilder** (body at most +1 point, the unusual coordinate — ferment with the process lifts — at most +0.5,
   `RULES.softerBody`, `softerWild`). A heavy robusta blend is not «мягче» for someone drinking a light Ethiopian; when
-  only such coffees are lower, the edge names them («кислотность ниже только у заметно более плотных кофе (Q-Optimistic
-  и Q-Punch)»).
+  only such coffees are lower, «мягче» is an edge and gives its place to another move.
 - **«Классичнее» lands on a classic coffee** (ferment 0, no anaerobic or culturing process), not one notch down the
   ferment scale onto another experiment.
 - **Roast:** a coffee sold in none of this one's roasts counts 0.35 against it (`RULES.roastGap`), and its line says
@@ -143,10 +145,11 @@ The model's steps, with the rules a shopper reads them by (from the outside chec
 - **The line** (`move.line`): the move's own number first («кислотность 2 вместо 3»), the biggest other difference as a
   «но …», a lot both coffees contain («в обоих Бразилия Санта Мария», «в нём 50% этого кофе»), then the other coffee's
   descriptors, «тоже …» only for a word both coffees' descriptors use. A far step says «в остальном заметно другой».
-- **Sold out** (`data/site.json` `shop.unavailable`): the page stays, says the lot will be back, and leads with
-  `next.soldOut.lead`, the nearest coffee; a move that picked the same coffee joins its card. A decaf's page says there
-  is no other decaf.
-- **Decaf** (`next.decaf`): the only decaf, a quiet line under the cards, never a move.
+- **Sold out** (`data/site.json` `shop.unavailable`): the page stays and says it will be back; its buy bar offers
+  `next.soldOut.lead`, the nearest coffee in stock, and the block begins with it («Ближе всего»); a move that picked the
+  same coffee joins its card. A decaf's page says when there is no other decaf.
+- **Decaf** (`next.decaf`): the nearest decaf in stock, kept in the data; the page does not show it (Tim).
+- **Stock:** the block never offers a coffee in `data/site.json` `shop.unavailable` (the build fails if it does); the model's positions, neighbours and directions ignore stock.
 
 ## Anchors and visitors
 

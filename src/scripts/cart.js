@@ -51,7 +51,7 @@ export function initCart() {
     name.textContent = p.name; name.href = p.href;
     node.querySelector("[data-remove]").setAttribute("aria-label", `Убрать из корзины: ${p.name}`);
     if (p.out) {
-      // its own page leads with the nearest coffee while it is out («Что взять дальше», #next)
+      // its own page leads with the nearest coffee while it is out («Что взять еще», #next)
       node.querySelector("[data-similar]").href = `${p.href}#next`;
       return node;
     }

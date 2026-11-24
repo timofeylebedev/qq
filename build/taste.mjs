@@ -19,6 +19,8 @@ const read = (f) => readFileSync(resolve(root, f), "utf8");
 const FLAV = JSON.parse(read("data/flavours.json"));
 const FAM = new Map(FLAV.families.map((f) => [f.id, f]));
 const S = familyMatrix(FLAV.families, FLAV.similarity);
+// what QQ has run out of (data/site.json shop.unavailable): the page's block never offers it (the model itself ignores stock)
+const OUT = new Set(JSON.parse(read("data/site.json")).shop.unavailable);
 
 // ── the rules, in one place ──────────────────────────────────────────────────────────────────────────────────────
 export const RULES = {
@@ -398,7 +400,7 @@ export function model() {
   const sharesRoast = (a, b) => a.roasts.some((r) => b.roasts.includes(r));
   const classicOf = (o) => o.coded.ferment === 0 && !o.codes.some((x) => EXPERIMENTAL.has(x));
   function moveCands(c, id) {
-    const others = coffees.filter((o) => alternative(c, o));
+    const others = coffees.filter((o) => alternative(c, o) && !OUT.has(o.slug));
     const roast = (o) => (sharesRoast(c, o) ? 0 : RULES.roastGap);
     if (id === "milk") return milkCands(c, others).map((x) => ({ ...x, score: x.score + roast(x.o), far: x.rest > RULES.far }));
     if (id === "similar") return others.map((o) => { const d = D(c, o); return { o, rest: d, score: d + roast(o), far: d > RULES.far }; }).sort((x, y) => x.score - y.score);
@@ -416,29 +418,51 @@ export function model() {
     const used = new Map();   // slug → move index
     const moves = [];
     // похожий first: the nearest coffee, unless it would be far
-    const near = moveCands(c, "similar");
-    if (!near[0].far) { used.set(near[0].o.slug, 0); moves.push({ id: "similar", label: "Похожий", slug: near[0].o.slug, d: +near[0].rest.toFixed(3), line: moveLine(c, near[0].o, "similar"), text: neighbourWhy(c, near[0].o).text }); }
+    const near = moveCands(c, "similar"), sim = near.find((x) => !x.far);
+    if (sim) { used.set(sim.o.slug, 0); moves.push({ id: "similar", label: "Похожий", slug: sim.o.slug, d: +sim.rest.toFixed(3), line: moveLine(c, sim.o, "similar"), text: neighbourWhy(c, sim.o).text }); }
     else moves.push({ id: "similar", label: "Похожий", edge: true, line: "Похожих у QQ сейчас нет: самый близкий кофе заметно другой." });
-    for (const id of ["softer", "brighter", unusualSide]) {
-      const label = DIRECTIONS.find((d) => d.id === id).ru;
-      const all = moveCands(c, id), cands = all.filter((x) => !x.wild);
-      if (!cands.length) { moves.push({ id, label, edge: true, line: edgeLine(c, id, all.filter((x) => x.wild)) }); continue; }
+    // a move with nothing that way gives its place to another (Tim: show something different, not «мягче у QQ нет»):
+    // легче, плотнее, the other end of the unusual axis, then a second similar coffee; the first with a near pick
+    const fallback = ["lighter", "denser", unusualSide === "unusual" ? "classic" : "unusual", "similar2"];
+    const taken = new Set([unusualSide]);
+    for (let id0 of ["softer", "brighter", unusualSide]) {
+      let id = id0, all = moveCands(c, id), cands = all.filter((x) => !x.wild), instead = null;
+      if (!cands.length) {
+        instead = { id: id0, line: edgeLine(c, id0, all.filter((x) => x.wild)) };
+        for (const f of fallback) {
+          if (taken.has(f)) continue;
+          const fc = f === "similar2" ? near.slice(1) : moveCands(c, f);
+          const ok = fc.filter((x) => !x.wild && !x.far && !used.has(x.o.slug));
+          if (ok.length) { id = f; cands = ok; break; }
+        }
+        if (id === id0) { moves.push({ id, label: DIRECTIONS.find((d) => d.id === id).ru, edge: true, line: instead.line }); continue; }
+        taken.add(id);
+      }
+      const label = id === "similar2" ? "Тоже похожий" : DIRECTIONS.find((d) => d.id === id).ru;
       let pick = cands[0];
       if (used.has(pick.o.slug)) {
         const alt = cands.find((r) => !used.has(r.o.slug));
         if (alt && !alt.far && alt.score <= pick.score + RULES.swap) pick = { ...alt, swapped: true };
-        else { const m = moves[used.get(pick.o.slug)]; m.also = [...(m.also || []), { id, label }]; moves.push({ id, label, sharedWith: m.id }); continue; }
+        else {
+          // the two moves share the card; its line also says the second move's own number («кислотность 4,5 вместо 4»)
+          const m = moves[used.get(pick.o.slug)], key = moveLine(c, pick.o, id).split(" · ")[0];
+          if (!m.line.toLowerCase().includes(key.toLowerCase())) { const [first, ...rest] = m.line.split(" · "); m.line = [first, key.toLowerCase(), ...rest].join(" · "); }
+          m.also = [...(m.also || []), { id, label }]; moves.push({ id, label, sharedWith: m.id }); continue;
+        }
       }
       used.set(pick.o.slug, moves.length);
-      moves.push({ id, label, slug: pick.o.slug, far: pick.far, swapped: !!pick.swapped, line: moveLine(c, pick.o, id, pick.far), text: stepText(c, pick.o, id, pick) });
+      const lid = id === "similar2" ? "similar" : id;
+      moves.push({ id, label, slug: pick.o.slug, far: pick.far, swapped: !!pick.swapped, line: moveLine(c, pick.o, lid, pick.far), text: id === "similar2" ? neighbourWhy(c, pick.o).text : stepText(c, pick.o, id, pick), ...(instead ? { instead } : {}) });
     }
     // sold out: the nearest of all leads (far or not); a move that picked the same coffee joins its card. A decaf's
     // lead has caffeine: the page says there is no other decaf.
-    const first = near[0];
+    const first = near.reduce((a, x) => (x.rest < a.rest ? x : a), near[0]);   // the nearest in stock, roast or not
     const nearest = { slug: first.o.slug, d: +first.rest.toFixed(3), far: first.far, line: moveLine(c, first.o, "similar", first.far), text: neighbourWhy(c, first.o).text };
-    const soldOut = { lead: nearest, note: c.decaf ? "Другого кофе без кофеина у QQ сейчас нет: ближе всего по вкусу — с кофеином." : null,
-      moves: moves.filter((m) => m.id !== "similar").map((m) => (m.slug === nearest.slug || m.sharedWith === "similar" ? { id: m.id, label: m.label, joinsLead: true } : m)) };
-    const decaf = c.decaf ? null : coffees.filter((o) => o.decaf && o.group !== c.group).map((o) => ({ o, d: D(c, o) })).sort((x, y) => x.d - y.d)[0];
+    const otherDecaf = coffees.some((o) => o.decaf && o.group !== c.group && !OUT.has(o.slug));
+    const joins = (m) => m.slug === nearest.slug || m.sharedWith === "similar" || (m.sharedWith && moves.find((x) => x.id === m.sharedWith)?.slug === nearest.slug);
+    const soldOut = { lead: nearest, note: c.decaf && !otherDecaf && !first.o.decaf ? "Другого кофе без кофеина у QQ сейчас нет: ближе всего по вкусу — с кофеином." : null,
+      moves: moves.filter((m) => m.id !== "similar").map((m) => (joins(m) ? { id: m.id, label: m.label, joinsLead: true } : m)) };
+    const decaf = c.decaf ? null : coffees.filter((o) => o.decaf && o.group !== c.group && !OUT.has(o.slug)).map((o) => ({ o, d: D(c, o) })).sort((x, y) => x.d - y.d)[0];
     return { moves, nearest, soldOut, decaf: decaf ? { slug: decaf.o.slug, line: `Без кофеина: ${decaf.o.descriptors.map((d) => d.toLowerCase()).join(", ")}.` } : null };
   }
   // the long reason of a move (the model's own words: directionWhy / the milk step)
@@ -497,7 +521,7 @@ export function model() {
           : (p.length ? `без обработки «${join(p)}»` : more.excelsa ? "арабика, не эксцельса" : "вкус привычнее"));
       }
       const other = otherChanges(a, b, dir.axis).filter((x) => x.k !== "sweet")[0];
-      if (other) bits.push(`но ${vs2(other.k)}`);
+      if (other) bits.push(vs2(other.k));
     }
     const lot = lotBit(a, b); if (lot) bits.push(lot);
     bits.push(tasteBit(a, b));
@@ -637,7 +661,7 @@ function checks(coffees, D) {
     // that shows a coffee shows a real step (milk: a coffee QQ tags for milk)
     const shown = [...a.next.moves.filter((m) => m.slug).map((m) => m.slug), a.next.nearest.slug];
     if (new Set(a.next.moves.filter((m) => m.slug).map((m) => m.slug)).size !== a.next.moves.filter((m) => m.slug).length) fail(`${a.name}: the block shows a coffee twice`);
-    for (const s of shown) { const b = by.get(s); if (b.group === a.group) fail(`${a.name}: the block shows the same coffee`); if (b.decaf && !a.decaf) fail(`${a.name}: the block offers decaf ${b.name}`); }
+    for (const s of shown) { const b = by.get(s); if (OUT.has(s)) fail(`${a.name}: the block offers ${b.name}, which is sold out`); if (b.group === a.group) fail(`${a.name}: the block shows the same coffee`); if (b.decaf && !a.decaf) fail(`${a.name}: the block offers decaf ${b.name}`); }
     for (const m of a.next.moves) if (m.slug) {
       const b = by.get(m.slug), dir = DIRECTIONS.find((d) => d.id === m.id);
       if (dir && dir.sign * (b[dir.axis] - a[dir.axis]) < RULES.step) fail(`${a.name} → block ${m.id}: ${b.name} is not a step`);
@@ -717,14 +741,15 @@ function report(m) {
 function nextReport(m) {
   const by = new Map(m.coffees.map((c) => [c.slug, c]));
   const L = ["# What each coffee's page offers next", "",
-    "Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page, from the taste model. Do not edit. How the moves are chosen: `docs/taste-model.md`, «The block on a coffee's page».", ""];
+    "Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page, from the taste model. Do not edit. How the moves are chosen: `docs/taste-model.md`, «The block on a coffee's page».", "",
+    OUT.size ? `Sold out now (data/site.json shop.unavailable), never offered: ${[...OUT].map((x) => m.coffees.find((c) => c.slug === x)?.name || x).join(", ")}.` : "Nothing is sold out now (data/site.json shop.unavailable).", ""];
   const count = (f) => m.coffees.filter((c) => c.next.moves.some(f)).length;
   L.push(`Edges said in words: ${["similar", "softer", "brighter", "unusual", "classic"].map((id) => `${id} ${m.coffees.filter((c) => c.next.moves.some((x) => x.id === id && x.edge)).length}`).join(", ")}; two moves share a card on ${count((x) => x.sharedWith)}; far picks ${m.coffees.reduce((s, c) => s + c.next.moves.filter((x) => x.far).length, 0)}.`, "");
   for (const c of m.coffees) {
     L.push(`### ${c.name}`, "", `Кислотность ${n(c.coded.acidity)}, плотность ${n(c.coded.density)}, фермент ${n(c.coded.ferment)}. ${c.descriptors.join(", ")}. ${c.use.filter((u) => u !== "Вторая кофемолка").join(", ") || "—"}. «${c.short}»`, "");
     for (const x of c.next.moves) {
       const head = x.sharedWith ? `**${x.label}** — the same card as «${c.next.moves.find((y) => y.id === x.sharedWith).label}»` : x.slug ? `**${x.label}${(x.also || []).map((y) => " · " + y.label.toLowerCase()).join("")}** → ${by.get(x.slug).name}${x.far ? " *(far)*" : ""}${x.swapped ? " *(second pick)*" : ""}` : `**${x.label}** — ${x.self ? "this coffee" : "edge"}`;
-      L.push(`- ${head}${x.line ? `: ${x.line}` : ""}`);
+      L.push(`- ${head}${x.line ? `: ${x.line}` : ""}${x.instead ? ` *(in place of «${DIRECTIONS.find((d) => d.id === x.instead.id).ru}»: ${x.instead.line})*` : ""}`);
     }
     L.push(`- *Sold out* → leads with ${by.get(c.next.nearest.slug).name}${c.next.nearest.far ? " *(far)*" : ""}: ${c.next.nearest.line}${c.next.soldOut.moves.filter((x) => x.joinsLead).map((x) => ` (also «${x.label}»)`).join("")}`);
     if (c.next.soldOut.note) L.push(`- *Sold out, note*: ${c.next.soldOut.note}`);

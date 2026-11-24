@@ -1,4 +1,4 @@
-/* The product card, one markup in every list of the site (recommended, catalog, similar coffees).
+/* The product card, one markup in every list of the site (recommended, catalog, «Что взять еще» on a coffee's page).
 
    Its picture is a 4:5 block (a half-row card in the catalog: square), in one of two looks:
      light   the 3D pack on the cloud ground (every coffee without a photo)
@@ -28,12 +28,6 @@
 
 .card__top { align-self: start; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
 .card__title { flex: 1; min-width: 0; font-size: var(--type-card-title); overflow-wrap: anywhere; }
-/* a card's label: what it is offered as («Похожий», «Мягче · похожий» on a coffee's page), above its name */
-.card__label { display: block; margin-bottom: 8px; font-size: var(--type-small); letter-spacing: var(--track-mono); color: var(--c-ink-70); }
-.card--dark .card__label { color: var(--c-white-80); }
-/* its text then: the move's own number in ink, the rest secondary */
-.card__text:has(.card__key) { color: var(--c-ink-70); }
-.card__key { color: var(--c-ink); }
 /* the name's link, stretched over the whole card (it is positioned against .card: nothing between is positioned) */
 .card__link { pointer-events: auto; }
 .card__link::after { content: ""; position: absolute; inset: 0; z-index: 6; }
@@ -85,7 +79,9 @@
 }
 .buy__add svg { width: 24px; height: 24px; flex: none; translate: 0 -2.5px; }   /* the bag's body (its lower 15 of 24px), not its handle, on the text's middle (Tim, round 7) */
 .buy__price { letter-spacing: 0; text-box: trim-both cap alphabetic; }   /* the price untracked, centred by its figures */
-@media (--mouse) { .buy__weights:hover, .buy__add:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+/* a coffee QQ has run out of: the button says it will be back and takes nothing */
+.buy__add:disabled { cursor: default; }
+@media (--mouse) { .buy__weights:hover, .buy__add:not(:disabled):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
 @keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
 

@@ -284,7 +284,7 @@ export function groups(data) {
     { id: "pstory", title: "Product story", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page", html: cut(P, /class="pstory"/) }] },
     { id: "next", title: "What to take next («Что взять еще»)", compares: "in stock / sold out", slot: SCREEN, slots: [
       { label: "a coffee's page: one row per move of the taste model", html: cut(P, /class="section next"/) },
-      { label: "the same coffee sold out: the nearest coffee leads", html: cut(PO, /class="section next next--out"/).replace(/(id|aria-labelledby)="next/g, '$1="cv-next') }
+      { label: "the same coffee sold out: the nearest coffee leads", html: cut(PO, /class="section next next--out"/).replace(/(id|aria-labelledby)="next/g, '$1="cv-out-next') }
     ] },
     { id: "buybar-out", title: "Buy bar · sold out", compares: "—", slot: SCREEN, slots: [{ label: "a coffee QQ has run out of: the nearest coffee instead of the options", html: cut(PO, /class="buybar buybar--out"/) }] }
   ];
