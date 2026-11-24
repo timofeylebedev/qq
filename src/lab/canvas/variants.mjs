@@ -282,7 +282,7 @@ export function groups(data) {
     },
     { id: "buybar", title: "Buy bar", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page (here in its place, not following the screen)", html: cut(P, /class="buybar"/) }] },
     { id: "pstory", title: "Product story", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page", html: cut(P, /class="pstory"/) }] },
-    { id: "next", title: "What to take next", compares: "in stock / sold out", slot: SCREEN, slots: [
+    { id: "next", title: "What to take next («Что взять еще»)", compares: "in stock / sold out", slot: SCREEN, slots: [
       { label: "a coffee's page: one row per move of the taste model", html: cut(P, /class="section next"/) },
       { label: "the same coffee sold out: the nearest coffee leads", html: cut(PO, /class="section next next--out"/).replace(/(id|aria-labelledby)="next/g, '$1="cv-next') }
     ] },

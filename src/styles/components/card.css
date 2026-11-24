@@ -28,6 +28,12 @@
 
 .card__top { align-self: start; z-index: 7; pointer-events: none; display: flex; align-items: flex-start; gap: 12px; padding: var(--card-pad); }
 .card__title { flex: 1; min-width: 0; font-size: var(--type-card-title); overflow-wrap: anywhere; }
+/* a card's label: what it is offered as («Похожий», «Мягче · похожий» on a coffee's page), above its name */
+.card__label { display: block; margin-bottom: 8px; font-size: var(--type-small); letter-spacing: var(--track-mono); color: var(--c-ink-70); }
+.card--dark .card__label { color: var(--c-white-80); }
+/* its text then: the move's own number in ink, the rest secondary */
+.card__text:has(.card__key) { color: var(--c-ink-70); }
+.card__key { color: var(--c-ink); }
 /* the name's link, stretched over the whole card (it is positioned against .card: nothing between is positioned) */
 .card__link { pointer-events: auto; }
 .card__link::after { content: ""; position: absolute; inset: 0; z-index: 6; }

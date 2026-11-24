@@ -135,6 +135,14 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
+- **«Что взять еще»** (a coffee's page, `next()` in `src/templates/product.mjs`): the taste model's moves for that
+  coffee (`next` in taste.json, `nextBlock` in build/taste.mjs; every coffee's list in `docs/next-output.md`): похожий,
+  мягче, ярче, необычнее or классичнее, as product cards in the reel, each with its move as `label` and one line from the
+  data as `text` (`card()` options). Never a second scoring in the template: a new move or rule goes into `nextBlock`.
+  **Sold out** = `data/site.json` `shop.unavailable`: the page stays, a pill by the name says the lot will be back, the
+  block comes right after the stage led by the nearest coffee («Ближе всего»), the buy bar (`buybar--out`) offers it,
+  and cards show a disabled «Скоро вернётся». Tim chose the form on the bench `design/next-bench/` (decision
+  `similar-coffees`).
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists

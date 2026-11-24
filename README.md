@@ -54,7 +54,7 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | `src/styles/` | `base/` (tokens, fonts, layout), `components/` (+ `blocks.css`, `forms.css`), `sections/` (home), `pages/` (catalog, product, shop, account, info) |
 | `src/scripts/` | one file per part: `main.js` starts them; `pouch3d.js` the 3D renderer, `packs.js` the packs' motion, `product.js` the product stage, `filters.js` the catalog, `curl.js` new arrivals turning like pages, `hero.js` the hero's entrance, `cart.js` and `favs.js` the bag and the favourites, `checkout.js` its steps, `ui.js` dialogs, tabs, copy, ratings |
 | `design/` | `scale.json` (every size), `colors.json` (every colour), `intro.json` (the hero's entrance; tuned in `intro-tuner/`), `fade-tuner/` and `intro-tuner/` (Tim's tuning artifacts), `taste-bench/` (the taste model's map, an artifact), `decisions.json` (every exception and stand-in), `countries.json` (outlines of the coffee countries for the account) |
-| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/notion-fixes.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
+| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/next-output.md`, `docs/notion-fixes.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
 | `site-kit.config.mjs` | QQ's adapter for site-kit: the pages, sizes, probes and scenarios of the checks, the audit's settings, the review page's blocks |
 | `design/questions.json` | questions for Tim a check cannot answer (the review page shows them with answer buttons) |
 | `public/pack/` | the 3D pack: mesh, effect maps, label art (fetched by the page) |
@@ -84,7 +84,7 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` and
 
 Every component and page block on one surface you pan and zoom, each variant beside the others: pills, the taste
 chart, the 3D pack, cards, section heads, buttons, then the navbar, hero, new arrivals, recommended, image blocks,
-business, facts, footer, catalog, product stage, buy bar, product story and similar coffees. The parts are cut out of
+business, facts, footer, catalog, product stage, buy bar (and sold out), product story and «Что взять еще». The parts are cut out of
 the real rendered pages, so it shows exactly what the templates make, with the site's own scripts running (the packs,
 sliders, filters, buy row). The navbar and the product stage run on screens of their own (iframes 390, 768 and 1440
 wide), as they depend on the page's width and scroll.

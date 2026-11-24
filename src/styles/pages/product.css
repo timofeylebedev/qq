@@ -99,76 +99,11 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 @container col (width >= 43rem) { .pstory__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 58rem) { .pstory__cols { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); } }
 
-/* «Что взять дальше» (session 2 of choosing coffee; the bench: design/next-bench/, form «Советы фразами»): one row per
-   move of the taste model, in a hairline box. Each row is one link to its coffee (the name's link stretched over the
-   row), with the bag above it: below S the condition, the answer and the bag one under another; from S the bag beside
-   the answer; from M the condition in a column of its own. A move with nothing that way is a row of words. Sold out,
-   the nearest coffee leads on cloud. */
-.next .head { margin-bottom: var(--section-gap); }
-.next__list { border: var(--hair) solid var(--line); }
-.next__row {
-  position: relative; display: grid; gap: 12px var(--gap); grid-template-columns: minmax(0, 1fr); grid-template-areas: "left" "then" "buy";
-  padding: var(--card-pad); transition: background-color var(--t-out) var(--ease-out);
-}
-.next__row + .next__row { border-top: var(--hair) solid var(--line); }
-@media (--mouse) { .next__row:not(.next__row--say):hover { background: var(--tint); transition-duration: var(--t-in); } }
-.next__left { grid-area: left; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; min-width: 0; }
-.next__then { grid-area: then; min-width: 0; }
-.next__if { font: 700 var(--type-body) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
-.next__if span { display: block; }
-.next__mark { display: inline-flex; align-items: center; gap: 8px; font-size: var(--type-small); color: var(--c-ink-70); white-space: nowrap; }
-.next__mark svg { width: 70px; height: 12px; flex: none; overflow: visible; }
-.next__dots { fill: var(--c-ink-40); }
-.next__mark line { stroke: var(--c-ink); stroke-width: 2; }
-.next__there { fill: var(--c-ink); }
-.next__here { fill: var(--c-paper); stroke: var(--c-ink); stroke-width: 1.5; }
-.next__name { font-size: var(--type-card-title); overflow-wrap: anywhere; }
-.next__link::after { content: ""; position: absolute; inset: 0; }
-.next__link:focus-visible { outline: none; }
-.next__link:focus-visible::after { outline: 2px solid var(--c-ink); outline-offset: -2px; }
-.next__line { margin-top: 6px; font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
-.next__key { color: var(--c-ink); }
-.next__far { margin-top: 8px; padding-left: 10px; border-left: var(--hair) solid var(--line); font-size: var(--type-small); line-height: var(--lh-text); max-width: 52ch; }
-.next__say { grid-area: then; font-size: var(--type-body-l); line-height: var(--lh-text); max-width: 40ch; }
-.next__row--say .next__if { grid-area: left; }
-/* the bag: 200 г of that coffee, above the row's link */
-.next__buy { grid-area: buy; position: relative; z-index: 1; justify-self: start; }
-.next__add {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border: var(--hair) solid var(--line);
-  font: 500 var(--type-price) / 1 var(--sans); white-space: nowrap; transition: background-color var(--t-out) var(--ease-out);
-}
-.next__add svg { width: 24px; height: 24px; flex: none; translate: 0 -2.5px; }
-.next__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
-@media (--mouse) { .next__add:hover { background: var(--tint); transition-duration: var(--t-in); } }
-/* sold out: the nearest coffee leads, on cloud, larger */
-.next__lead { position: relative; display: grid; gap: 12px var(--gap); margin-bottom: var(--gap); padding: calc(var(--card-pad) * 1.5) var(--card-pad); background: var(--g-bg); color: var(--g-fg); }
-.next__lead-say { font-size: var(--type-title); line-height: var(--lh-heading); }
-.next__lead-out { display: block; color: var(--g-soft); }
-.next__lead .next__link { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: var(--track-mono); overflow-wrap: anywhere; }
-.next__lead .next__line { margin-top: 0; }
-.next__note { font-size: var(--type-small); color: var(--g-soft); }
-.next__lead::before { content: ""; position: absolute; inset: 0; background: var(--tint); opacity: 0; transition: opacity var(--t-out) var(--ease-out); pointer-events: none; }
-@media (--mouse) { .next__lead:hover::before { opacity: 1; transition-duration: var(--t-in); } }
-.next__lead .next__add { background: var(--c-paper); }
-.next__decaf { margin-top: var(--gap); font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
-.next__decaf a { display: inline-block; padding-block: 12px; color: var(--c-ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
-@container col (width >= 22rem) {
-  .next__row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "left left" "then buy"; }
-  .next__row--say { grid-template-areas: "left left" "then then"; }
-  .next__buy { align-self: start; }
-}
-@container col (width >= 43rem) {
-  .next__row { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr) auto; grid-template-areas: "left then buy"; column-gap: calc(var(--gap) * 2); }
-  .next__row--say { grid-template-areas: "left then then"; }
-  .next__left { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 12px; }
-  .next__lead { grid-template-columns: minmax(0, 1fr) auto; column-gap: calc(var(--gap) * 2); align-items: end; }
-  .next__lead > :not(.next__buy) { grid-column: 1; }
-  .next__lead .next__buy { grid-column: 2; grid-row: 1 / span 4; align-self: end; }
-}
-@container col (width >= 58rem) {
-  .next__row { grid-template-columns: minmax(0, 20rem) minmax(0, 1fr) auto; }
-  .next__lead { padding-block: calc(var(--card-pad) * 2); }
-}
+/* «Что взять еще» (session 2 of choosing coffee; the bench: design/next-bench/, form 1 made simpler by Tim): the
+   product cards in the reel of «Рекомендуем», each labelled with its move and telling why in its text (the reel's own sizes: one, two, three a screen).
+   What has no coffee that way, and the decaf, are quiet sentences under the cards. */
+.next__notes { display: grid; gap: 4px; margin-top: var(--gap); max-width: 60em; font-size: var(--type-small); line-height: var(--lh-text); color: var(--c-ink-70); }
+.next__notes a { display: inline-block; padding-block: 12px; margin-block: -12px; color: var(--c-ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
 
 /* sold out: the state by the name, and the buy bar saying so and offering the nearest coffee (its page) */
 .pstage__out { justify-self: start; display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: 999px; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }

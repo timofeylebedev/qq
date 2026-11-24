@@ -14,15 +14,14 @@ with each other. Session 1 of the "choosing coffee" plan (claude.ai project QQ, 
 | `data/flavours.json` | the flavour families: every descriptor → family, each family's place on the SCA/WCR wheel, its reference food, its dot colour |
 | `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 6 directions per coffee with reasons, anchors, relabels, the fixes list |
 | `docs/taste-output.md` | the same output, readable, committed so a review shows how neighbours move when the data changes |
-| `docs/next-output.md` | what each coffee's page offers next (the block), one line per move, committed for review |
+| `docs/next-output.md` | what each coffee's page offers («Что взять еще»), one line per move, committed for review |
 | `docs/notion-fixes.md` | what QQ should fix in the Notion table, written by the same build |
 | `docs/taste-check.md`, `docs/taste-check/` | the blind check and what came of it |
 | `docs/taste-lexicon.md` | the research behind the families (WCR lexicon, flavour wheel, sources) |
 | `design/taste-bench/` | the bench: an interactive map published as an artifact (`npm run taste:bench`, then publish `out/`) |
 
 `npm run taste` rebuilds it. `predev`, `prebuild` and `precanvas` run it after `build/data.mjs`. The coffee page's
-«Кофе с похожим вкусом» now shows the model's four nearest (it had its own scoring before), and descriptor dots take
-their colour from `data/flavours.json`.
+«Что взять еще» shows the model's moves (below), and descriptor dots take their colour from `data/flavours.json`.
 
 ## Input and cleaning
 
@@ -114,36 +113,40 @@ distance without that axis). Each point beyond a full step costs 0.4, so the pic
 
 ## «Под молоко»
 
-Milk weakens a coffee's aroma and flavour and covers acidity (session 0), so «под молоко» is a move of its own, not
-«мягче» or «плотнее». The candidates are only the coffees QQ itself tags «Молочные напитки» (10 of 25). The best is the
-closest on everything except acidity and body (milk covers both), with 0.5 against each point of acidity above this
-coffee's (`RULES.milkBrighter`). A coffee QQ already tags for milk gets no other coffee here: the move says so
-(`directions.milk.self`).
+Milk weakens a coffee's aroma and flavour and covers acidity (session 0), so «под молоко» is a direction of its own
+(`directions.milk`), not «мягче» or «плотнее». The candidates are only the coffees QQ itself tags «Молочные напитки» (10
+of 25); the best is the closest on everything except acidity and body, with 0.5 against each point of acidity above
+this coffee's (`RULES.milkBrighter`). A milk-tagged coffee gets `self`. It is kept for the quiz (session 4); Tim left it
+off the coffee page.
 
-## The block on a coffee's page
+## The block on a coffee's page («Что взять еще»)
 
-What a coffee's page offers next (`next` in taste.json; every coffee's block, readable: `docs/next-output.md`). Up to
-five moves, each one coffee and one line from the data:
+What a coffee's page offers next (`next` in taste.json; every coffee's block, readable: `docs/next-output.md`). Four
+moves, in Tim's order (24 Nov), each one coffee and one line from the data:
 
-1. **Мягче**, 2. **Ярче** — acidity, the axis people differ on most.
-3. **Под молоко** — above.
-4. **Необычнее**, or **Классичнее** for a coffee already at ferment 2 or more (`RULES.unusualFrom`): the move that exists
-   and is the useful one from here (17 coffees have no «классичнее»; the unusual ones have no «необычнее» to speak of).
-5. **Похожий** — the nearest coffee that no move took; said in words when it would be far.
+1. **Похожий** — the nearest coffee (said in words if it would be far).
+2. **Мягче**, 3. **Ярче** — acidity, the axis people differ on most.
+4. **Необычнее**, or **Классичнее** for a coffee already at ferment 2 or more (`RULES.unusualFrom`).
 
-«Плотнее» and «легче» are not moves of their own on the page: body shows in the lines, and the step towards body is
-mostly «под молоко».
+The model's steps, with the rules a shopper reads them by (from the outside check against the roasters' texts):
 
-- **Each coffee once.** When two moves pick the same coffee, the earlier keeps it; the later takes its own next
-  candidate if that scores at most 0.3 worse (`RULES.swap`), else both labels share the card («Мягче · под молоко»).
-- **An edge is said, not hidden**: «Мягче у QQ нет: кислотность 1 — самая низкая в ассортименте.» That is a fact about
-  this coffee a visitor can use. A far step is shown with «в остальном заметно другой».
-- **The line** (`move.line`) is the move's own number first («кислотность 2 вместо 3»), the biggest other difference
-  as a «но …», then the other coffee's taste in its own descriptors (or the families both share). The longer reason
-  (`move.text`) is the model's, downside included.
+- **«Мягче» is less acidity without becoming much denser or wilder** (body at most +1, ferment at most +0.5,
+  `RULES.softerBody`, `softerWild`). A heavy robusta blend is not «мягче» for someone drinking a light Ethiopian; when
+  only such coffees are lower, the edge names them («кислотность ниже только у заметно более плотных кофе (Q-Optimistic
+  и Q-Punch)»).
+- **«Классичнее» lands on a classic coffee** (ferment 0, no anaerobic or culturing process), not one notch down the
+  ferment scale onto another experiment.
+- **Roast:** a coffee sold in none of this one's roasts counts 0.35 against it (`RULES.roastGap`), and its line says
+  «обжарка только под …» when it still wins.
+- **Each coffee once:** a move that picks a coffee already shown takes its own next candidate if that scores at most 0.3
+  worse (`RULES.swap`), else the two share the card («Похожий · мягче»).
+- **The line** (`move.line`): the move's own number first («кислотность 2 вместо 3»), the biggest other difference as a
+  «но …», a lot both coffees contain («в обоих Бразилия Санта Мария», «в нём 50% этого кофе»), then the other coffee's
+  descriptors, «тоже …» only for a word both coffees' descriptors use. A far step says «в остальном заметно другой».
 - **Sold out** (`data/site.json` `shop.unavailable`): the page stays, says the lot will be back, and leads with
-  `next.soldOut.lead`, the nearest coffee of all; a move that picked the same coffee joins its card.
-- **Decaf** (`next.decaf`): the only decaf, offered quietly apart from the moves, never as a move.
+  `next.soldOut.lead`, the nearest coffee; a move that picked the same coffee joins its card. A decaf's page says there
+  is no other decaf.
+- **Decaf** (`next.decaf`): the only decaf, a quiet line under the cards, never a move.
 
 ## Anchors and visitors
 

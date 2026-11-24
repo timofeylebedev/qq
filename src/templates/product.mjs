@@ -1,7 +1,7 @@
 // A coffee's page: its name and the 3D pack pinned to the screen, turning as five fact tiles scroll past; the buy bar;
-// the story (a sentence, a photo, the text of the table in columns); what to take next (the taste model's moves).
-import { page, head } from "./layout.mjs";
-import { pills, tasteChart, pack } from "./components.mjs";
+// the story (a sentence, a photo, the text of the table in columns); «Что взять еще» (the taste model's moves).
+import { page, head, arrows } from "./layout.mjs";
+import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
 
@@ -9,7 +9,7 @@ const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]
 
 export function render(ctx, p) {
   // a coffee QQ has run out of (data/site.json shop.unavailable) keeps its page: it says the lot will be back, the buy
-  // bar offers the nearest coffee instead, and «Что взять дальше» comes straight after the stage, led by that coffee
+  // bar offers the nearest coffee instead, and «Что взять еще» comes straight after the stage, led by that coffee
   const out = ctx.site.shop.unavailable.includes(p.slug);
   const body = (out ? [stage(ctx, p, out), outbar(ctx, p), next(ctx, p, out), story(p)] : [stage(ctx, p), buybar(p), story(p), next(ctx, p)]).join("\n");
   return page(ctx, {
@@ -96,64 +96,21 @@ function story(p) {
 </section>`;
 }
 
-// «Что взять дальше»: what to take after this coffee, as a shop assistant would say it (session 2 of choosing coffee;
-// the forms compared on the bench design/next-bench/). One row per move of the taste model (build/taste.mjs nextBlock
-// → src/data/taste.json `next`): the condition in the visitor's words, the coffee, one line from the data on why, and
-// the bag. A move with nothing that way says so in words (an edge); a coffee two moves picked is one row with both
-// conditions. Sold out, the nearest coffee leads. The model never offers a relabel of the same coffee or a decaf for a
-// coffee with caffeine; the only decaf is a quiet line under the list.
-const IF = { softer: "Если хочется мягче", brighter: "Если хочется ярче", milk: "Если вы пьёте с молоком", unusual: "Если хочется необычного",
-  classic: "Если хочется классики", similar: "Если понравился этот" };
-const ifOf = (m) => IF[m.id] || m.label;
-// the scale a move is about, on QQ's own coding: acidity 1–5, body 1–5, ferment 0–3 (drawn on 0–4, as the taste chart)
-const MARK = { softer: ["acidity", "кислотность", 1], brighter: ["acidity", "кислотность", 1], milk: ["density", "плотность", 1],
-  unusual: ["ferment", "фермент", 0], classic: ["ferment", "фермент", 0] };
+// «Что взять еще»: what to take after this coffee (session 2 of choosing coffee; Tim chose the bench's form 1, simpler:
+// cards and what they are about). One card per move of the taste model (build/taste.mjs nextBlock → src/data/taste.json
+// `next`): похожий, мягче, ярче, необычнее or классичнее, the move as the card's label and one line from the data as
+// its text, in the reel of the home page's «Рекомендуем». A move with nothing that way is one quiet sentence under the
+// cards; a coffee two moves picked is one card with both labels. Sold out, the nearest coffee comes first, «Ближе
+// всего». The model never offers a relabel of the same coffee or a decaf for a coffee with caffeine; the only decaf is
+// a quiet line under the cards.
 const FAR = /^(в остальном заметно другой|из кофе для молока он ближе всех по вкусу)$/;
 
-// five dots like the taste chart: this coffee a ring, the other a dot, a line between
-function mark(id, here, there) {
-  const m = MARK[id]; if (!m) return "";
-  const [k, label, from] = m, S = 14, R = 4.5, W = R * 2 + 4 * S + 2, H = 12, x = (v) => R + 1 + (v - from) * S;
-  const a = here.taste[k], b = there?.taste[k];
-  const dots = [0, 1, 2, 3, 4].map((j) => `<circle cx="${R + 1 + j * S}" cy="6" r="1.5"/>`).join("");
-  const step = b == null ? "" : `<line x1="${x(a)}" y1="6" x2="${x(b)}" y2="6"/><circle class="next__there" cx="${x(b)}" cy="6" r="${R}"/>`;
-  const val = (v) => String(v).replace(".", ",");
-  return `<span class="next__mark"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true" focusable="false"><g class="next__dots">${dots}</g>${step}<circle class="next__here" cx="${x(a)}" cy="6" r="${R - 0.75}"/></svg><span>${label} ${val(a)}${b == null ? "" : ` → ${val(b)}`}</span></span>`;
-}
-
-// the line: the move's own number first (ink), the rest secondary; a far pick's tail becomes its own sentence
-function line(text) {
+// the card's text: the move's own number first (ink), a far pick's warning next, the rest secondary
+function why(text) {
   const parts = String(text || "").split(" · ").filter(Boolean);
   const far = parts.length > 1 && FAR.test(parts.at(-1)) ? parts.pop() : "";
-  const cap = (s) => s[0].toUpperCase() + s.slice(1);
-  return `<p class="next__line"><span class="next__key">${esc(parts[0] || "")}</span>${parts.slice(1).map((x) => ` · ${esc(x)}`).join("")}</p>${far ? `
-        <p class="next__far">${esc(cap(far))}.</p>` : ""}`;
-}
-
-// the bag: 200 г of that coffee, as on a card (scripts/buy.js)
-function buy(q) {
-  const w = q.weights.find((x) => x.grams === 200) || q.weights[0];
-  return `<form class="next__buy" data-buy data-slug="${q.slug}" data-name="${esc(q.name)}" action="#">
-          <input class="sr" type="radio" name="weight" value="${esc(w.label)}" data-price="${w.price ?? ""}" checked tabindex="-1" aria-hidden="true">
-          <button class="next__add" type="submit" data-add aria-label="В корзину: ${esc(q.name)}, ${esc(w.label)}, ${rub(w.price)}">${icon("bag-fill")}<span data-price-out>${rub(w.price)}</span></button>
-        </form>`;
-}
-
-function row(ctx, p, m, also, by) {
-  const conds = [m, ...also].map((x) => `<span>${esc(ifOf(x))}</span>`).join("");
-  if (!m.slug) return `<li class="next__row next__row--say">
-      <p class="next__if">${conds}</p>
-      <p class="next__say">${esc(m.self ? "Этот кофе QQ и так советует для молока." : m.line)}</p>
-    </li>`;
-  const q = by.get(m.slug);
-  return `<li class="next__row${m.far ? " next__row--far" : ""}" data-move="${m.id}">
-      <div class="next__left"><p class="next__if">${conds}</p>${mark(m.id, p, q)}</div>
-      <div class="next__then">
-        <h3 class="next__name"><a class="next__link" href="${href(ctx, `coffee/${q.slug}/`)}">${esc(q.name)}</a></h3>
-        ${line(m.line)}
-      </div>
-      ${buy(q)}
-    </li>`;
+  const [key, ...rest] = far ? [parts[0], far, ...parts.slice(1)] : parts;
+  return `<span class="card__key">${esc(key || "")}</span>${rest.map((x) => ` · ${esc(x)}`).join("")}`;
 }
 
 function next(ctx, p, out = false) {
@@ -162,28 +119,25 @@ function next(ctx, p, out = false) {
   if (!n) return "";
   const moves = out ? n.soldOut.moves : n.moves;
   const byId = new Map(moves.map((m) => [m.id, m]));
-  const rows = moves.filter((m) => !m.sharedWith && !m.joinsLead && (m.slug ? by.has(m.slug) : true))
-    .map((m) => row(ctx, p, m, (m.also || []).map((a) => byId.get(a.id) || a), by)).join("\n    ");
-  let lead = "";
+  const labels = (m) => [m.label, ...(m.also || []).map((a) => (byId.get(a.id) || a).label.toLowerCase())].join(" · ");
+  const cards = [];
   if (out) {
-    const l = n.soldOut.lead, q = by.get(l.slug), joins = moves.filter((m) => m.joinsLead);
-    lead = `<div class="next__lead" data-tone="cloud">
-      <p class="next__lead-say"><span class="next__lead-out">Лота пока нет, скоро вернётся.</span> Ближе всего&nbsp;— <a class="next__link" href="${href(ctx, `coffee/${q.slug}/`)}">${esc(q.name)}</a></p>
-      ${line(l.line)}
-      ${n.soldOut.note ? `<p class="next__note">${esc(n.soldOut.note)}</p>` : ""}${joins.length ? `<p class="next__note">Он же — ${joins.map((m) => ifOf(m).toLowerCase()).join(", ")}.</p>` : ""}
-      ${buy(q)}
-    </div>`;
+    const l = n.soldOut.lead, q = by.get(l.slug);
+    const joins = moves.filter((m) => m.joinsLead).map((m) => m.label.toLowerCase());
+    if (q) cards.push(card(ctx, q, { label: ["Ближе всего", ...joins].join(" · "), text: why(l.line) }));
   }
+  for (const m of moves) if (m.slug && by.has(m.slug) && !m.joinsLead) cards.push(card(ctx, by.get(m.slug), { label: labels(m), text: why(m.line) }));
+  const said = [...moves.filter((m) => m.edge).map((m) => m.line), out ? n.soldOut.note : null].filter(Boolean);
   const d = n.decaf && by.get(n.decaf.slug);
-  const decaf = d ? `<p class="next__decaf">Нужен без кофеина? <a href="${href(ctx, `coffee/${d.slug}/`)}">${esc(d.name)}</a>: ${esc(n.decaf.line.replace(/^Без кофеина:\s*/, ""))}</p>` : "";
+  const decaf = d ? `Нужен без кофеина? <a href="${href(ctx, `coffee/${d.slug}/`)}">${esc(d.name)}</a>: ${esc(n.decaf.line.replace(/^Без кофеина:\s*/, ""))}` : "";
+  const notes = [...said.map(esc), decaf].filter(Boolean);
   return `<section class="section next${out ? " next--out" : ""}" id="next" data-ground="paper" aria-labelledby="next-title">
   <div class="col">
-    ${head({ title: out ? "Что взять, пока его нет" : "Что взять дальше", id: "next-title" })}
-    ${lead}
-    <ul class="next__list" role="list">
-    ${rows}
-    </ul>
-    ${decaf}
+    ${head({ title: "Что взять еще", id: "next-title", aside: arrows("Что взять еще", "next") })}
+    <div class="reel next__reel" data-slider="next" tabindex="-1">
+      ${cards.join("\n      ")}
+    </div>
+    ${notes.length ? `<div class="next__notes">${notes.map((x) => `<p>${x}</p>`).join("")}</div>` : ""}
   </div>
 </section>`;
 }

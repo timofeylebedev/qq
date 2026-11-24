@@ -66,7 +66,9 @@ export const photoOf = (ctx, p) => (p?.line === "Special" && ctx.site.photos.byS
 // ── the product card ─────────────────────────────────────────────────────────────────────────────────────────────
 // Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (a Special coffee that site.json
 // gives a photo: photoOf). A card that rises into place when it comes into view (the catalog) starts waiting (wait). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
-export function card(ctx, p, { size = "third", heading = 3, wait = false } = {}) {
+// A card may carry a label above its name (what it is offered as: «Похожий», «Мягче» on a coffee's page) and its own
+// text in place of the description (why: one line of the taste model).
+export function card(ctx, p, { size = "third", heading = 3, wait = false, label = "", text = null } = {}) {
   const photo = photoOf(ctx, p);
   const tone = photo ? "dark" : "light";
   const id = `${ctx.page}-${p.slug}`;
@@ -75,12 +77,12 @@ export function card(ctx, p, { size = "third", heading = 3, wait = false } = {})
     <div class="card__media">
       ${photo ? picture(photo[0], photo[1], { sizes, cls: "card__photo", decorative: true }) : pack(p)}
       <div class="card__top">
-        <h${heading} class="card__title"><a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
+        <h${heading} class="card__title">${label ? `<span class="card__label">${esc(label)}</span>` : ""}<a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
         <button class="fav" type="button" aria-pressed="false" aria-label="В избранное: ${esc(p.name)}" data-fav="${p.slug}">${icon("heart", 'class="i-off"')}${icon("heart-fill", 'class="i-on"')}</button>
       </div>
       ${buyRow(p, { tone, idp: id, out: ctx.site.shop.unavailable.includes(p.slug) })}
     </div>
-    <p class="card__text">${esc(cardText(p))}</p>
+    <p class="card__text">${text ?? esc(cardText(p))}</p>
   </article>`;
 }
 

@@ -29,7 +29,7 @@ export const RULES = {
   milkBonus: 0.25,     // "denser" is the step towards milk: a candidate QQ tags «Молочные напитки» is preferred by this much
   lift: 0.2,           // the most a coffee's descriptors may move it inside one step of acidity
   unusualLift: { experimental: 0.3, wetHull: 0.2, excelsa: 0.2, robusta: -0.1, families: 0.1 },
-  // the coffee page's block «Что взять дальше» (session 2): one coffee per move, each coffee once
+  // the coffee page's block «Что взять еще» (session 2): one coffee per move, each coffee once
   milkBrighter: 0.5,   // «под молоко»: each point of acidity above this coffee's counts this much against a milk coffee
   swap: 0.3,           // a coffee that two moves both pick stays with the first; the second takes its own next candidate
                        // when that one scores at most this much worse, else the two moves share one card
@@ -381,9 +381,10 @@ export function model() {
   }
 
   // ── the block on a coffee's page: what to take next ────────────────────────────────────────────────────────────
-  // Up to five moves, in this order: мягче, ярче, под молоко, необычнее (классичнее for a coffee that is already
-  // unusual), then похожий. The model's distance and steps, with the rules a shopper reads them by (the outside check
-  // of session 2 against the roasters' texts):
+  // Four moves, in this order (Tim, 24 Nov): похожий, мягче, ярче, необычнее (классичнее for a coffee that is already
+  // unusual). «Под молоко» stays a direction of the model (directions.milk, for the quiz) but is not on the page.
+  // The model's distance and steps, with the rules a shopper reads them by (the outside check of session 2 against
+  // the roasters' texts):
   //   · «мягче» is less acidity without becoming much denser or wilder (body at most +1, ferment at most +0.5): a heavy
   //     robusta blend is not «мягче» for someone drinking a light Ethiopian; when only such coffees are lower, it is an
   //     edge that names them;
@@ -391,9 +392,8 @@ export function model() {
   //     ferment scale onto another experiment;
   //   · a coffee sold in none of this one's roasts (espresso / filter) counts RULES.roastGap against it, so someone
   //     with an espresso machine is not sent to a filter-only lot when one in espresso roast is close;
-  //   · each coffee once: when two moves pick the same coffee, the later takes its own next candidate if that scores at
-  //     most RULES.swap worse, else the two share the card; «похожий» is the nearest coffee no move took, and when
-  //     that would be far, the card of the nearest coffee says «похожий» too.
+  //   · each coffee once: «похожий» is the nearest coffee; a move that picks a coffee already shown takes its own next
+  //     candidate if that scores at most RULES.swap worse, else the two share the card («Похожий · мягче»).
   // A move with no step is said in words (an edge); a far step says so. Sold out, the page leads with the nearest.
   const sharesRoast = (a, b) => a.roasts.some((r) => b.roasts.includes(r));
   const classicOf = (o) => o.coded.ferment === 0 && !o.codes.some((x) => EXPERIMENTAL.has(x));
@@ -413,14 +413,16 @@ export function model() {
   }
   function nextBlock(c) {
     const unusualSide = c.coded.ferment >= RULES.unusualFrom ? "classic" : "unusual";
-    const order = ["softer", "brighter", "milk", unusualSide];
     const used = new Map();   // slug → move index
     const moves = [];
-    for (const id of order) {
-      const label = id === "milk" ? "Под молоко" : DIRECTIONS.find((d) => d.id === id).ru;
-      if (id === "milk" && c.use.includes("Молочные напитки")) { moves.push({ id, label, self: true, line: "QQ советует этот кофе для молочных напитков." }); continue; }
+    // похожий first: the nearest coffee, unless it would be far
+    const near = moveCands(c, "similar");
+    if (!near[0].far) { used.set(near[0].o.slug, 0); moves.push({ id: "similar", label: "Похожий", slug: near[0].o.slug, d: +near[0].rest.toFixed(3), line: moveLine(c, near[0].o, "similar"), text: neighbourWhy(c, near[0].o).text }); }
+    else moves.push({ id: "similar", label: "Похожий", edge: true, line: "Похожих у QQ сейчас нет: самый близкий кофе заметно другой." });
+    for (const id of ["softer", "brighter", unusualSide]) {
+      const label = DIRECTIONS.find((d) => d.id === id).ru;
       const all = moveCands(c, id), cands = all.filter((x) => !x.wild);
-      if (!cands.length) { moves.push({ id, label, edge: true, line: edgeLine(c, id, all.filter((x) => x.wild).map((x) => x.o)) }); continue; }
+      if (!cands.length) { moves.push({ id, label, edge: true, line: edgeLine(c, id, all.filter((x) => x.wild)) }); continue; }
       let pick = cands[0];
       if (used.has(pick.o.slug)) {
         const alt = cands.find((r) => !used.has(r.o.slug));
@@ -430,17 +432,12 @@ export function model() {
       used.set(pick.o.slug, moves.length);
       moves.push({ id, label, slug: pick.o.slug, far: pick.far, swapped: !!pick.swapped, line: moveLine(c, pick.o, id, pick.far), text: stepText(c, pick.o, id, pick) });
     }
-    const near = moveCands(c, "similar");
-    const free = near.find((x) => !used.has(x.o.slug));
-    if (free && !free.far) moves.push({ id: "similar", label: "Похожий", slug: free.o.slug, d: +free.rest.toFixed(3), line: moveLine(c, free.o, "similar"), text: neighbourWhy(c, free.o).text });
-    else if (used.has(near[0].o.slug)) { const m = moves[used.get(near[0].o.slug)]; m.also = [...(m.also || []), { id: "similar", label: "Похожий" }]; moves.push({ id: "similar", label: "Похожий", sharedWith: m.id }); }
-    else moves.push({ id: "similar", label: "Похожий", edge: true, line: "Похожих у QQ сейчас нет: самый близкий кофе заметно другой." });
     // sold out: the nearest of all leads (far or not); a move that picked the same coffee joins its card. A decaf's
     // lead has caffeine: the page says there is no other decaf.
     const first = near[0];
     const nearest = { slug: first.o.slug, d: +first.rest.toFixed(3), far: first.far, line: moveLine(c, first.o, "similar", first.far), text: neighbourWhy(c, first.o).text };
     const soldOut = { lead: nearest, note: c.decaf ? "Другого кофе без кофеина у QQ сейчас нет: ближе всего по вкусу — с кофеином." : null,
-      moves: moves.filter((m) => m.id !== "similar").map((m) => (m.slug === nearest.slug ? { id: m.id, label: m.label, joinsLead: true } : m)) };
+      moves: moves.filter((m) => m.id !== "similar").map((m) => (m.slug === nearest.slug || m.sharedWith === "similar" ? { id: m.id, label: m.label, joinsLead: true } : m)) };
     const decaf = c.decaf ? null : coffees.filter((o) => o.decaf && o.group !== c.group).map((o) => ({ o, d: D(c, o) })).sort((x, y) => x.d - y.d)[0];
     return { moves, nearest, soldOut, decaf: decaf ? { slug: decaf.o.slug, line: `Без кофеина: ${decaf.o.descriptors.map((d) => d.toLowerCase()).join(", ")}.` } : null };
   }
@@ -453,11 +450,13 @@ export function model() {
   // one line from the data: the move's own number first, the biggest other difference, a lot both coffees share, then
   // the other coffee's taste in its own descriptors («тоже …» only for a word both coffees' descriptors use)
   const stem = (w) => w.toLowerCase().replace(/ё/g, "е").slice(0, 5);
-  const words = (c) => new Set(c.descriptors.flatMap((d) => d.split(/\s+/)).filter((w) => w.length >= 4 && !/^(сушен|сладк|темны|желты|черны|зелен|молоч|красн|ягодн)/i.test(w)).map(stem));
+  // words of the descriptors that name a taste (not «сушеный», «темные»…; «косточка» of a grape is not stone fruit)
+  const ok = (w) => w.length >= 3 && !/^(сушен|сладк|темны|желты|черны|зелен|молоч|красн|ягодн|косто|с$|и$)/i.test(w);
+  const words = (c) => new Set(c.descriptors.flatMap((d) => d.split(/\s+/)).filter(ok).map(stem));
   function tasteBit(a, b) {
-    const has = (c, d) => d.split(/\s+/).some((w) => w.length >= 4 && words(c).has(stem(w)));
+    const has = (c, d) => d.split(/\s+/).some((w) => ok(w) && words(c).has(stem(w)));
     // a word both use, in the shorter of the two wordings («шоколад» for «Молочный шоколад» and «Шоколад»)
-    const pair = (d) => b.descriptors.find((e) => e.split(/\s+/).some((w) => w.length >= 4 && new Set(d.split(/\s+/).map(stem)).has(stem(w))));
+    const pair = (d) => b.descriptors.find((e) => e.split(/\s+/).some((w) => ok(w) && new Set(d.split(/\s+/).filter(ok).map(stem)).has(stem(w))));
     const mine = a.descriptors.filter((d) => has(b, d)).map((d) => { const e = pair(d); return e && e.length < d.length ? e : d; });
     const theirs = b.descriptors.filter((d) => !has(a, d));
     const low = (xs) => xs.map((d) => d.toLowerCase());
@@ -508,11 +507,16 @@ export function model() {
     const s = bits.join(" · ");
     return s[0].toUpperCase() + s.slice(1);
   }
+  // why the coffees with lower acidity are not «мягче»: much denser, more fermented, or both
+  function softerWhy(c, os) {
+    const dense = os.some((o) => o.coded.density - c.coded.density > RULES.softerBody), wild = os.some((o) => o.unusual - c.unusual > RULES.softerWild);
+    return dense && wild ? "заметно более плотных или ферментированных кофе" : dense ? "заметно более плотных кофе" : "заметно более ферментированных кофе";
+  }
   function edgeLine(c, id, wild = []) {
     const v = (k) => n(c.coded[k]);
     const names = (xs) => join(xs.map((o) => o.name));
     return {
-      softer: wild.length ? `Мягче у QQ нет: кислотность ниже только у заметно более плотных или ферментированных кофе (${names(wild.slice(0, 2))}).` : `Мягче у QQ нет: кислотность ${v("acidity")} — самая низкая в ассортименте.`,
+      softer: wild.length ? `Мягче у QQ нет: кислотность ниже только у ${softerWhy(c, wild.map((x) => x.o))} (${names(wild.slice(0, 2).map((x) => x.o))}).` : `Мягче у QQ нет: кислотность ${v("acidity")} — самая низкая в ассортименте.`,
       brighter: `Ярче у QQ нет: кислотность ${v("acidity")} — самая высокая в ассортименте.`,
       unusual: "Необычнее у QQ нет: это один из самых экспериментальных лотов.",
       classic: "Классичнее у QQ нет.",
@@ -709,13 +713,13 @@ function report(m) {
   if (m.unmapped.length) L.push(`Descriptors with no family (add them to data/flavours.json): ${m.unmapped.join(", ")}.`, "");
   return L.join("\n");
 }
-// what each coffee's page offers next (the block «Что взять дальше»), one line per move: the list the outside check reads
+// what each coffee's page offers next (the block «Что взять еще»), one line per move: the list the outside check reads
 function nextReport(m) {
   const by = new Map(m.coffees.map((c) => [c.slug, c]));
   const L = ["# What each coffee's page offers next", "",
     "Written by `build/taste.mjs` (`npm run taste`): the block on every coffee's page, from the taste model. Do not edit. How the moves are chosen: `docs/taste-model.md`, «The block on a coffee's page».", ""];
   const count = (f) => m.coffees.filter((c) => c.next.moves.some(f)).length;
-  L.push(`Edges said in words: ${["softer", "brighter", "unusual", "classic", "similar"].map((id) => `${id} ${m.coffees.filter((c) => c.next.moves.some((x) => x.id === id && x.edge)).length}`).join(", ")}; «под молоко» is this coffee itself on ${count((x) => x.self)}; two moves share a card on ${count((x) => x.sharedWith)}; far picks ${m.coffees.reduce((s, c) => s + c.next.moves.filter((x) => x.far).length, 0)}.`, "");
+  L.push(`Edges said in words: ${["similar", "softer", "brighter", "unusual", "classic"].map((id) => `${id} ${m.coffees.filter((c) => c.next.moves.some((x) => x.id === id && x.edge)).length}`).join(", ")}; two moves share a card on ${count((x) => x.sharedWith)}; far picks ${m.coffees.reduce((s, c) => s + c.next.moves.filter((x) => x.far).length, 0)}.`, "");
   for (const c of m.coffees) {
     L.push(`### ${c.name}`, "", `Кислотность ${n(c.coded.acidity)}, плотность ${n(c.coded.density)}, фермент ${n(c.coded.ferment)}. ${c.descriptors.join(", ")}. ${c.use.filter((u) => u !== "Вторая кофемолка").join(", ") || "—"}. «${c.short}»`, "");
     for (const x of c.next.moves) {
@@ -723,6 +727,7 @@ function nextReport(m) {
       L.push(`- ${head}${x.line ? `: ${x.line}` : ""}`);
     }
     L.push(`- *Sold out* → leads with ${by.get(c.next.nearest.slug).name}${c.next.nearest.far ? " *(far)*" : ""}: ${c.next.nearest.line}${c.next.soldOut.moves.filter((x) => x.joinsLead).map((x) => ` (also «${x.label}»)`).join("")}`);
+    if (c.next.soldOut.note) L.push(`- *Sold out, note*: ${c.next.soldOut.note}`);
     if (c.next.decaf) L.push(`- *Without caffeine* → ${by.get(c.next.decaf.slug).name}: ${c.next.decaf.line}`);
     L.push("");
   }

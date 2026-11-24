@@ -93,3 +93,7 @@
 .signin__switch { min-height: 40px; padding-inline: 12px; font-size: var(--type-body-l); color: var(--c-ink-70); transition: color var(--t-out) var(--ease-out); }
 @media (--mouse) { .signin__switch:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 .checkout { padding-bottom: var(--section-y); }
+
+/* «Вам может понравиться» under the bag: as much room under the heading as above it (Tim, round 7: on the product page's
+   «Кофе с похожим вкусом» then, which session 2 replaced with «Что взять еще») */
+.similar .head { margin-bottom: var(--section-y); }

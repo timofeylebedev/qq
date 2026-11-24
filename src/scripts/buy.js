@@ -32,7 +32,7 @@ function price(form) {
 function update(form) {
   const p = price(form);
   for (const out of form.querySelectorAll("[data-price-out]")) out.textContent = rub(p.total);
-  const add = form.querySelector(".buy__add, [data-add]");
+  const add = form.querySelector(".buy__add");
   if (add?.hasAttribute("aria-label")) add.setAttribute("aria-label", add.getAttribute("aria-label").replace(/: (.+?), [^,]+, [^,]+$/, `: $1, ${p.weight}, ${rub(p.total)}`));
   const minus = form.querySelector('[data-step="-1"]');
   if (minus) minus.setAttribute("aria-disabled", String(p.qty <= 1));
@@ -72,9 +72,9 @@ export function initBuy() {
       const bag = load(KEY, []);
       bag.push({ slug: form.dataset.slug, weight: p.weight, grind: data.get("grind"), roast: data.get("roast"), qty: p.qty, price: p.each });
       save(KEY, bag); badge();
-      const name = form.dataset.name || form.closest("[data-card]")?.querySelector(".card__link")?.textContent || document.querySelector("h1")?.textContent || "";
+      const name = form.closest("[data-card]")?.querySelector(".card__link")?.textContent || document.querySelector("h1")?.textContent || "";
       toast(`${name.trim()} — в корзине`);
-      const add = form.querySelector(".buy__add, [data-add]");
+      const add = form.querySelector(".buy__add");
       if (add) { delete add.dataset.added; void add.offsetWidth; add.dataset.added = ""; }
     });
   }
