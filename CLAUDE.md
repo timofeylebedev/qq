@@ -143,14 +143,15 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `shop.unavailable`: the page stays, a pill under the name says it will be back, the buy bar (`buybar--out`) offers
   the nearest coffee in stock, the block begins with it («Ближе всего»), and cards show a disabled «Скоро вернётся». Tim chose the form on the bench `design/next-bench/` (decision
   `similar-coffees`).
-- **«Кто это пьёт»** (a coffee's page, after the story: `src/templates/people.mjs`, `scripts/people.js`; decision
-  `people-block`): reviews and named picks **without stars, scores, averages or percents**. A review is a cup (how it
-  was brewed, milk, what the reviewer usually drinks) and a direction per axis against expectation («ярковато / в самый
-  раз / хотелось ярче», the same for плотность), counted in words; «не про вкус» (grind, not as described) never
-  reaches the counts. Named people (QQ's team, ambassadors) stay apart from buyers, each with their status and how they
-  relate to QQ. The data is `src/data/people.json` from `build/people.mjs`: today PLACEHOLDERS from `data/people.json`
-  (decision `people-placeholder`; the page says so), the real «Выбор <имя>» from data/products.csv; what a backend must
-  do is `docs/people-backend.md`. The bench of forms: `design/people-bench/` (`npm run people:bench`).
+- **«Отзывы»** (a coffee's page, its own section after the story: `src/templates/people.mjs`, `scripts/people.js`;
+  decision `people-block`): reviews **without stars, scores, averages or percents**, and no ambassadors (Tim). A
+  centred title; the count and «Написать отзыв» on one line; chips by way of brewing; each review headed by an avatar
+  and the name, then how close the reviewer's taste is to yours (three dots and words from the taste model), the
+  answers against expectation («ярковато / в самый раз / хотелось ярче», the same for плотность), the words and the
+  date. «Не про вкус» answers (grind, not as described) never count as taste. The data is `src/data/people.json` from
+  `build/people.mjs`: today PLACEHOLDERS from `data/people.json`, and «your» taste is the account's placeholder visitor
+  (decision `people-placeholder`; the page says so); what a backend must do is `docs/people-backend.md`. The bench of
+  forms: `design/people-bench/` (`npm run people:bench`).
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists

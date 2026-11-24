@@ -1,189 +1,104 @@
-// People on a coffee's page (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка»): who
-// recommends it and how buyers drink it, without stars. Named people first, apart, as signed cards (the reason large,
-// then who: status, how they drink it, their recipe, what they usually like and the coffee they don't take); then the
-// buyers, a line each with their cup (how they brewed, milk, what they usually drink) and their answers against
-// expectation, counted in words above the list, never averaged; the notes they heard, counted; a filter by how they
-// brew (scripts/people.js recounts). The review form opens in a dialog.
-// Every person and review is a PLACEHOLDER until the shop has a backend (data/people.json → build/people.mjs;
-// docs/people-backend.md) and the page says so; «Выбор Ксюши» (data/products.csv) is the one real pick.
-import { esc, href, read, cls, icon } from "./util.mjs";
+// «Отзывы» on a coffee's page (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка», then Tim's
+// changes of 24 Nov): its own section after the story. A centred title; the number of reviews and «Написать отзыв» on
+// one line; chips by way of brewing (scripts/people.js shows only those reviews); then the reviews, each headed by the
+// reviewer's avatar and name, with how close their taste is to yours (in words and three dots, never a percent), their
+// answers against expectation per axis (кислотность: ярковато / в самый раз / хотелось ярче; плотность likewise) and
+// their words. No stars, scores or averages. The review form opens in a dialog.
+// Every review is a PLACEHOLDER until the shop has a backend (data/people.json → build/people.mjs;
+// docs/people-backend.md), and so is «your» taste: the account's placeholder visitor (data/account.json), placed on
+// the taste model by the coffees they bought. The page says so.
+import { esc, read, icon } from "./util.mjs";
 import { head } from "./layout.mjs";
 import { dialog } from "./blocks.mjs";
-import { taste } from "./util.mjs";
+import { account } from "./account-data.mjs";
 
 const D = read("src/data/people.json");
 const PAGE = new Map(D.coffees.map((c) => [c.slug, c]));
 const PERSON = new Map([...D.people, ...D.named].map((p) => [p.id, p]));
+const POS = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c.position]));
 const A = D.answers, M = D.methods;
 
 const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? few : many; };
-const count = (n, one, few, many) => `${n} ${plural(n, one, few, many)}`;
+const count = (n) => `${n} ${plural(n, "отзыв", "отзыва", "отзывов")}`;
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
-// a customer's grammatical gender from the first name («Никита» is the pool's one -а man): «купил» / «купила»
-const fem = (p) => /[ая]$/.test(p.name.split(" ")[0]) && !/^Никита/.test(p.name);
-const said = (p, word) => word + (fem(p) ? "а" : "");
 const groupOf = (r) => M[r.method].group;
 const GROUP = { espresso: "Эспрессо и кофемашина", pot: "Турка и гейзер", filter: "Фильтр", milk: "С молоком" };
-// «Выбор Ксюши»: the tag of a team pick reads in the genitive
-const pickTitle = (p) => p.tag || `Выбор: ${p.name}`;
+const initials = (name) => name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
 export const placeholder = (text) => `<span class="ph">${esc(text)}</span>`;
 
-// the line under the coffee's name: how many reviews and whose picks, linking down to the block
+// «your» taste: where the coffees the visitor bought sit on the taste model, weighted by how often (the account's
+// placeholder visitor until there are real accounts); null with no purchases
+let mine;
+function visitor(products) {
+  if (mine !== undefined) return mine;
+  const bought = account(products).purchases.filter((x) => POS.has(x.slug));
+  const n = bought.reduce((s, x) => s + x.count, 0);
+  if (!n) return (mine = null);
+  const avg = (k) => bought.reduce((s, x) => s + POS.get(x.slug)[k] * x.count, 0) / n;
+  return (mine = { bright: avg("bright"), body: avg("body"), unusual: avg("unusual") });
+}
+// how close two tastes are on the visible axes (the taste model's weights), in three steps and in words
+const W = { bright: 1, body: 0.75, unusual: 0.85 };
+const gap = (a, b) => Math.sqrt(Object.keys(W).reduce((s, k) => s + (W[k] * (a[k] - b[k])) ** 2, 0));
+const CLOSE = [[0.8, 3, "Вкус близок к вашему"], [1.6, 2, "Вкус отчасти как ваш"], [Infinity, 1, "Вкус не похож на ваш"]];
+function closeness(a, b) {
+  const [, dots, text] = CLOSE.find(([g]) => gap(a, b) < g);
+  return `<p class="buyer__close" data-close="${dots}"><span class="buyer__dots" aria-hidden="true">${[1, 2, 3].map((i) => `<i${i <= dots ? " data-on" : ""}></i>`).join("")}</span>${text}</p>`;
+}
+
+// the line under the coffee's name: how many reviews, linking down to them
 export function peopleLink(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const named = pg.picks.map((x) => PERSON.get(x.who));
-  const team = named.filter((x) => x.kind === "team"), amb = named.filter((x) => x.kind === "ambassador");
-  const bits = team.map(pickTitle);
-  if (pg.count) bits.push(count(pg.count, "отзыв", "отзыва", "отзывов"));
-  if (amb.length) bits.push(`${amb.length === 1 ? "советует" : "советуют"} ${amb.map((x) => x.name.split(" ")[0]).join(" и ")}`);
-  const text = bits.length ? bits.join(" · ") : "Отзывов пока нет — расскажите первым";
-  // the pill names what is invented, so it never covers a real pick («Выбор Ксюши»)
-  const invented = pg.placeholder && (pg.count || amb.some((x) => x.placeholder));
-  const what = team.length ? [pg.count && "отзывы", amb.length && "амбассадоры"].filter(Boolean).join(" и ") + " — пример" : "пример";
-  return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a>${invented ? placeholder(what) : ""}</p>`;
+  const text = pg.count ? count(pg.count) : "Отзывов пока нет — расскажите первым";
+  return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a>${pg.placeholder && pg.count ? placeholder("пример") : ""}</p>`;
 }
 
 export function people(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const picks = pg.picks.map((x) => ({ ...x, p: PERSON.get(x.who) }));
-  const invented = pg.placeholder && (pg.count || picks.some((x) => x.p.placeholder));
-  const real = picks.filter((x) => !x.p.placeholder).map((x) => pickTitle(x.p));
-  const mark = real.length ? `Пример: покупатели и амбассадоры выдуманы, ${real.map((t) => `«${t}»`).join(", ")} — настоящий` : "Пример: магазина ещё нет, люди и отзывы выдуманы";
+  const write = `<button class="btn-arrow people__write" type="button" data-dialog="review-${p.slug}"><span class="btn-arrow__label">Написать отзыв</span>${icon("arrow-right")}</button>`;
+  const groups = pg.groups.filter((g) => g.n);
+  const you = visitor(ctx.products);
   return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people>
   <div class="col">
-    ${head({ title: "Кто это пьёт", id: "people-title", aside: invented ? placeholder(mark) : "" })}
-    ${picks.length ? namedBlock(ctx, p, picks) : ""}
-    ${buyers(ctx, p, pg, !picks.length)}
+    ${head({ title: "Отзывы", id: "people-title", center: true })}
+    ${pg.placeholder && pg.count ? `<p class="people__ph">${placeholder("Пример: отзывы выдуманы, «ваш вкус» — из тестового профиля")}</p>` : ""}
+    <div class="people__bar">
+      <p class="people__count">${pg.count ? count(pg.count) : "Отзывов пока нет"}</p>
+      ${write}
+    </div>
+    ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
+      <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
+    </div>` : ""}
+    ${pg.count ? `<ul class="buyers">
+      ${pg.reviews.map((r) => review(r, you)).join("\n      ")}
+    </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
   </div>
   ${writeDialog(ctx, p)}
 </section>`;
 }
 
-// ── named people: QQ's team and ambassadors, each a signed card ────────────────────────────────────────────────────
-function namedBlock(ctx, p, picks) {
-  return `<div class="people__part">
-    <h3 class="people__sub">Советуют</h3>
-    <ul class="picks" style="--n: ${picks.length}">
-      ${picks.map((x) => pickCard(ctx, p, x)).join("\n      ")}
-    </ul>
-  </div>`;
-}
-
-function pickCard(ctx, p, x) {
-  const n = x.p;
-  const coffee = (slug) => ctx.products.find((q) => q.slug === slug);
-  const rows = [];
-  if (n.how) rows.push(["Пьёт", esc(n.how)]);
-  if (x.recipe) rows.push(["Рецепт", esc(x.recipe)]);
-  if (n.likes) rows.push(["Обычно любит", esc(n.likes)]);
-  if (n.not && coffee(n.not.slug)) rows.push(["Не берёт", `<a class="link" href="${href(ctx, `coffee/${n.not.slug}/`)}">${esc(coffee(n.not.slug).name)}</a> — ${esc(n.not.why.charAt(0).toLowerCase() + n.not.why.slice(1))}`]);
-  const others = (n.picks || []).filter((s) => s !== p.slug && coffee(s));
-  // QQ's own pick says what the table says: its tag and its text (written about the person, so not a quote)
-  if (n.kind === "team") return `<li class="pick" data-tone="cloud">
-        <p class="pick__kind">${esc(pickTitle(n))}</p>
-        <p class="pick__why">${esc(x.why)}</p>
-      </li>`;
-  return `<li class="pick" data-tone="cloud">
-        <p class="pick__kind">Амбассадор${n.placeholder ? " · пример" : ""}</p>
-        <blockquote class="pick__why"><p>${esc(x.why)}</p></blockquote>
-        <div class="pick__who">
-          <p class="pick__name">${esc(n.name)}</p>
-          <p class="pick__status">${esc([n.status, n.where].filter(Boolean).join(" · "))}</p>${n.about ? `
-          <p class="pick__about">${esc(n.about)}</p>` : ""}
-        </div>
-        ${rows.length ? `<dl class="pick__rows">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>` : ""}
-        <p class="pick__tie">Связь с QQ: ${n.tie ? esc(n.tie) : "строка-заглушка (бесплатный кофе, кофейня-партнёр или «Реклама», если платно)"}</p>
-        ${others.length ? `<details class="pick__more">
-          <summary>Все выборы: ${esc(n.name.split(" ")[0])} (${others.length + 1})${icon("chevron-down")}</summary>
-          <ul>${others.map((s) => `<li><a class="link" href="${href(ctx, `coffee/${s}/`)}">${esc(coffee(s).name)}</a></li>`).join("")}</ul>
-        </details>` : ""}
-      </li>`;
-}
-
-// ── buyers ────────────────────────────────────────────────────────────────────────────────────────────────────────
-function buyers(ctx, p, pg, alone = false) {
-  const write = `<button class="btn-arrow people__write" type="button" data-dialog="review-${p.slug}"><span class="btn-arrow__label">Написать отзыв</span>${icon("arrow-right")}</button>`;
-  // nobody yet: no empty counts, an invitation (and no subheading when there is nothing else under the title)
-  if (!pg.count) return `<div class="people__part">${alone ? "" : `
-    <h3 class="people__sub">Как пьют покупатели</h3>`}
-    <div class="people__empty">
-      <p>Отзывов пока нет. Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>
-      ${write}
-    </div>
-  </div>`;
-  const groups = pg.groups.filter((g) => g.n);
-  return `<div class="people__part">
-    <h3 class="people__sub">Как пьют покупатели</h3>
-    ${pg.count > 1 ? summary(p, pg) : ""}
-    ${pg.count > 2 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
-      <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
-    </div>` : ""}
-    <ul class="buyers">
-      ${pg.reviews.map((r) => review(ctx, r, pg.count === 1)).join("\n      ")}
-    </ul>
-    ${pg.issues.length ? issues(pg) : ""}
-    <div class="people__foot">${write}</div>
-  </div>`;
-}
-
-// the counts in words, per axis; the notes heard, counted (scripts/people.js redraws them for one way of brewing)
-function summary(p, pg) {
-  const line = (axis) => ["ok", "less", "more"].filter((k) => pg[axis][k]).map((k) => `${pg[axis][k]} ${A[axis][k]}`).join(" · ");
-  return `<div class="tally" data-tally>
-      <p class="tally__n" data-tally-n>${count(pg.count, "человек", "человека", "человек")}:</p>
-      <dl class="tally__rows">
-        <div><dt>${A.bright.title}</dt><dd data-tally-axis="bright">${line("bright")}</dd></div>
-        <div><dt>${A.body.title}</dt><dd data-tally-axis="body">${line("body")}</dd></div>
-        <div><dt>Узнали ноты</dt><dd><ul class="pills">${pg.heard.map((h) => `<li class="pill" style="--dot: var(--c-taste-${taste(h.d)})">${esc(h.d)} <b data-heard="${esc(h.d)}">${h.n} из ${pg.count}</b></li>`).join("")}</ul></dd></div>
-      </dl>
-    </div>`;
-}
-
-function review(ctx, r, open) {
+// a review: the avatar and the name as its heading, how close the reviewer's taste is to yours, the answers, the words
+function review(r, you) {
   const p = PERSON.get(r.who);
-  const usual = p.usual.slug ? `<a class="link" href="${href(ctx, `coffee/${p.usual.slug}/`)}">${esc(p.usual.label)}</a>` : esc(p.usual.label);
-  const answers = `кислотность — ${A.bright[r.answers.bright]}, плотность — ${A.body[r.answers.body]}`;
-  // the row: the answers (what the counts above add up), the cup they come from, and a sentence of the text that is
-  // about the coffee rather than the cup; the whole review opens below
-  const first = (r.text.match(/[^.!?]+[.!?]/g) || []).map((x) => x.trim()).find((x) => !/^(Варю|Пью|Рожков|Автомат|Делаю|Гейзер|Турка|Воронка|Завариваю|Кемекс|Аэропресс|Капельн|Френч|С молоком|Чаще с молоком)/.test(x));
-  const data = ` data-g="${groupOf(r)}"${r.milk ? " data-milk" : ""} data-bright="${r.answers.bright}" data-body="${r.answers.body}" data-heard="${esc(r.heard.join("|"))}"`;
+  const answers = `Кислотность — ${A.bright[r.answers.bright]}, плотность — ${A.body[r.answers.body]}`;
+  const data = ` data-g="${groupOf(r)}"${r.milk ? " data-milk" : ""}`;
   return `<li class="buyer"${data}>
-        <details class="buyer__box"${open ? " open" : ""}>
-          <summary class="buyer__row">
-            <span class="buyer__who"><b>${esc(p.name)}</b> <span>${esc(p.city)}</span></span>
-            <span class="buyer__line">${esc(answers.charAt(0).toUpperCase() + answers.slice(1))}</span>
-            <span class="buyer__cup">${esc(M[r.method].label)}${r.milk ? ", с молоком" : ""} · обычно пьёт ${esc(p.usual.label)}</span>${first ? `
-            <span class="buyer__quote">«${esc(first)}»</span>` : ""}
-            <span class="buyer__date">${day(r.date)}${r.verified ? ` · ${said(p, "купил")} у QQ` : ""}</span>
-          </summary>
-          <div class="buyer__body">
-            <dl class="buyer__rows">
-              <div><dt>Как заваривал${fem(p) ? "а" : ""}</dt><dd>${esc(M[r.method].label)}${r.milk ? ", с молоком" : ", без молока"} · после ${count(r.cups, "чашки", "чашек", "чашек")}</dd></div>
-              <div><dt>Обычно пьёт</dt><dd>${usual} (${esc(p.likes)})</dd></div>
-              <div><dt>${A.bright.title}</dt><dd>${A.bright[r.answers.bright]}</dd></div>
-              <div><dt>${A.body.title}</dt><dd>${A.body[r.answers.body]}</dd></div>
-              <div><dt>Узнал${fem(p) ? "а" : ""}</dt><dd>${r.heard.length ? esc(r.heard.map((d) => d.toLowerCase()).join(", ")) : "ни одной ноты из описания"}</dd></div>
-            </dl>
-            ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : `<p class="buyer__text buyer__text--none">Без текста, только ответы.</p>`}${r.reply ? `
-            <p class="issue__reply">${esc(r.reply)}</p>` : ""}
-          </div>
-        </details>
+        <div class="buyer__head">
+          <span class="buyer__avatar" aria-hidden="true">${esc(initials(p.name))}</span>
+          <h3 class="buyer__name">${esc(p.name)}</h3>
+        </div>
+        ${you ? closeness(p.pos, you) : ""}
+        <div class="buyer__body">
+          <p class="buyer__line">${esc(answers)}</p>
+          ${r.text ? `<p class="buyer__text">${esc(r.text)}</p>` : ""}${r.reply ? `
+          <p class="buyer__reply">${esc(r.reply)}</p>` : ""}
+          <p class="buyer__date">${day(r.date)}</p>
+        </div>
       </li>`;
-}
-
-// not about taste: a wrong grind, «не как в описании»; with QQ's reply; never in the counts
-function issues(pg) {
-  return `<div class="issues">
-      <h4 class="issues__title">Не про вкус</h4>
-      ${pg.issues.map((x) => { const p = PERSON.get(x.who); return `<div class="issue">
-        <p><b>${x.issue === "grind" ? "Помол не подошёл" : "Не как в описании"}</b> — ${esc(x.text)} <span class="issue__who">${esc(p.name)}, ${esc(M[x.method].label.toLowerCase())}, ${day(x.date)}</span></p>
-        ${x.reply ? `<p class="issue__reply">${esc(x.reply)}</p>` : ""}
-      </div>`; }).join("\n      ")}
-    </div>`;
 }
 
 // ── the review form (a dialog) ───────────────────────────────────────────────────────────────────────────────────

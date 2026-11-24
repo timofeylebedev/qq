@@ -6,11 +6,19 @@ write a real review. This note lists what a backend must do and the decisions on
 any shop platform, a review service or a small database of QQ's own can do this, and the choice depends on the shop,
 which is not chosen yet.
 
+**What the page shows today (Tim, 24 Nov):** a section «Отзывы» with reviews only: no ambassadors and no named picks.
+Each review is headed by an avatar and the reviewer's name, then how close their taste is to the visitor's (from the
+taste model: needs the visitor's taste, from their orders, the quiz or the feedback after delivery; today the account's
+placeholder visitor), the two direction answers, the words and the date. The reviewer's profile (method, milk, usual
+coffee) is still collected: it places them on the map for that closeness and feeds the chips by way of brewing, but is
+not printed. «Не про вкус» answers go to QQ and are not shown on the page. Ambassadors (section 2, decision 4) stay
+here for when QQ wants them.
+
 ## 1. What the front expects (the data model)
 
 The page already reads these shapes; a backend has to produce them (`build/people.mjs` documents the fields).
 
-- **Reviewer's profile** (asked once, saved, shown on each of their reviews): first name + initial of the surname, city
+- **Reviewer's profile** (asked once, saved; on the page only through the closeness and the chips): first name + initial of the surname, city
   (optional), **how they usually brew** (one of 9 methods), milk or not, and **what they usually drink** (a QQ coffee or
   one of four styles). The page places the reviewer on the taste map from that. The usual coffee is never the coffee
   being reviewed (the form leaves it out of the list): the answers are «against what you usually drink». The profile's
