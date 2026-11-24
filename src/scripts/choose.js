@@ -12,15 +12,17 @@
 // A coffee here is { slug, roasts: ["Эспрессо", "Фильтр"], grind: [...], use: [...], line, decaf, coded: { acidity,
 // density, ferment, sweetness }, position: { bright, body, unusual }, out } (src/data/choose.json `coffees`).
 
-// ── a brewing method → what QQ sells for it ──────────────────────────────────────────────────────────────────────
-// ok: QQ roasts this coffee for the method (a method that takes "any" roast fits every coffee). roast: the roast to
-// set (the method's own, or for "any" its `prefer` when the coffee is sold in it, else the coffee's first). grind: the
-// method's grind when QQ grinds this coffee so, else whole beans.
+// ── a brewing method → what QQ sells ──────────────────────────────────────────────────────────────────────────────
+// ok: QQ roasts this coffee for the method (a method that takes "any" roast fits every coffee; an omni roast, c.omni,
+// fits espresso and filter both). roast: the roast to set (the method's own; for "any" its `prefer` when the coffee is
+// sold in it, else the coffee's first; an omni coffee's own roast). grind: the method's grind when QQ grinds this
+// coffee so, else whole beans. omni: the roast is QQ's omni roast (the card says so).
 export function methodFit(c, m) {
-  const ok = m.roast === "any" || c.roasts.includes(m.roast);
-  const roast = m.roast === "any" ? (c.roasts.includes(m.prefer) ? m.prefer : c.roasts[0]) : ok ? m.roast : null;
+  const own = m.roast === "any" || c.roasts.includes(m.roast);
+  const ok = own || !!c.omni;
+  const roast = m.roast === "any" ? (c.roasts.includes(m.prefer) ? m.prefer : c.roasts[0]) : own ? m.roast : ok ? c.roasts[0] : null;
   const grind = c.grind.includes(m.grind) ? m.grind : c.grind.includes("В зернах") ? "В зернах" : c.grind[0];
-  return { ok, roast, grind };
+  return { ok, roast, grind, omni: !!c.omni };
 }
 
 // ── a chip's conditions ──────────────────────────────────────────────────────────────────────────────────────────
@@ -48,9 +50,10 @@ export function meets(c, when) {
 // (src/data/choose.json `dist`). A coffee QQ has run out of (c.out) is never a match nor offered as a near miss.
 // · exact: every condition holds, in the order given (the page's sort).
 // · near:  the coffees closest to the matches that miss as little as possible (one condition when anything matches),
-//          each with the words for what it misses; a coffee QQ doesn't roast for the chosen method comes after those
-//          that only differ in taste; then the nearest in taste to any match. When nothing meets every condition,
-//          those that meet the most, ordered by the conditions' own `near` (a price range), then by taste.
+//          each with the words for what it misses: first those a step or less from a condition (its own `near`), then
+//          those QQ doesn't roast for the chosen method, then those further off; inside each, the nearest in taste to a
+//          match. When nothing meets every condition: those that meet the most, measured against the coffees that
+//          would match but are sold out, if any (so a sold-out decaf still leads to its nearest).
 // · rest:  everyone else, in the order given.
 // The list is never empty: with no exact match, `near` leads (`empty` says so).
 export function rank(coffees, conditions, { dist = () => 0, nearMax = 3, nearMaxEmpty = 6 } = {}) {
@@ -60,12 +63,17 @@ export function rank(coffees, conditions, { dist = () => 0, nearMax = 3, nearMax
   const exact = scored.filter((s) => !s.missing.length).map((s) => s.c);
   const misses = scored.filter((s) => s.missing.length);
   const fewest = Math.min(...misses.map((s) => s.missing.length));
-  const toExact = (c) => exact.length ? Math.min(...exact.map((e) => dist(c, e))) : 0;
+  // what the near misses are measured against: the matches, or with none, every coffee that meets the choice though
+  // QQ has run out of it (the only decaf sold out: the nearest to it)
+  const targets = exact.length ? exact : coffees.filter((c) => c.out && conditions.every((k) => k.test(c)));
+  const toTarget = (c) => targets.length ? Math.min(...targets.map((e) => dist(c, e))) : 0;
   const own = (s) => s.missing.reduce((a, k) => a + (k.near ? k.near(s.c) : 0), 0);
-  const methodMiss = (s) => s.missing.some((k) => k.method) ? 1 : 0;
-  const near = misses.filter((s) => s.missing.length === fewest && (exact.length || fewest < conditions.length || conditions.some((k) => k.near)))
-    .map((s) => ({ ...s, m: methodMiss(s), o: own(s), d: toExact(s.c) }))
-    .sort((a, b) => a.m - b.m || a.o - b.o || a.d - b.d)
+  // the order of near misses: those that only differ a little in taste (a step or less from the condition), then those
+  // QQ doesn't roast for the chosen method, then those that differ more; inside each, the nearest first
+  const tier = (s) => s.missing.some((k) => k.method) ? 1 : own(s) > 1 ? 2 : 0;
+  const can = misses.filter((s) => s.missing.length === fewest && (exact.length || fewest < conditions.length || conditions.some((k) => k.near) || targets.length));
+  const near = can.map((s) => ({ ...s, t: tier(s), o: own(s), d: toTarget(s.c) }))
+    .sort((a, b) => a.t - b.t || a.o - b.o || a.d - b.d)
     .slice(0, exact.length ? nearMax : nearMaxEmpty);
   const inNear = new Set(near.map((s) => s.c));
   return {
@@ -101,7 +109,7 @@ export function nearOf(c, chip) {
 }
 
 // The words for a coffee QQ doesn't roast for a method: what it is roasted for
-export const roastMiss = (c) => c.roasts.length === 1 ? `обжариваем только под ${c.roasts[0].toLowerCase()}` : "нет такой обжарки";
+export const roastMiss = (c) => c.omni ? "омни-обжарка" : c.roasts.length === 1 ? `обжариваем только под ${c.roasts[0].toLowerCase()}` : "нет такой обжарки";
 
 // ── the taste map ────────────────────────────────────────────────────────────────────────────────────────────────
 // points: [{ id, x, y }] in the map's own units (x: acidity, y: body); the map is x0–x1 by y0–y1 of those units, drawn

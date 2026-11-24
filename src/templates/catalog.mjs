@@ -40,6 +40,7 @@ export function render(ctx) {
     choice("acid", "Кислотность", "checkbox", C.acidity.map((a) => [a.id, `${a.ru} · ${a.hint}`, "", String(n((c) => c.acid === a.id))]), null, "Любая"),
     choice("taste", "Вкус", "checkbox", C.tastes.map((t) => [t.id, t.ru, "", String(n((c) => c.tastes.includes(t.id)))]), null, "Любой"),
     choice("type", "Тип", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]].map(([v, t]) => [v, t, "", String(n((c) => c.type === v))]), null, "Моносорт, смесь"),
+    choice("caffeine", "Кофеин", "checkbox", [["caf", "С кофеином"], ["decaf", "Без кофеина"]].map(([v, t]) => [v, t, "", String(n((c) => (v === "decaf") === c.decaf))]), null, "С кофеином, без"),
     choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]].map(([v, t]) => [v, t, "", String(n((c) => c.line === v))]), null, "Classic, Special"),
     choice("country", "Страна", "checkbox", countries.map((x) => [x, x, "", String(products.filter((p) => p.countries.includes(x) && !of(p).out).length)]), null, plural(countries.length, "страна", "страны", "стран")),
     choice("process", "Обработка", "checkbox", processes.map((x) => [x, x, "", String(products.filter((p) => p.processes.includes(x) && !of(p).out).length)]), null, plural(processes.length, "тип", "типа", "типов")),
@@ -50,7 +51,7 @@ export function render(ctx) {
   const json = JSON.stringify({
     methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })),
     acidity: C.acidity, tastes: C.tastes, regions: C.map.regions,
-    coffees: C.coffees.map(({ slug, name, i, out, decaf, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region }) => ({ slug, name, i, out, decaf, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region, ...pick(products.find((p) => p.slug === slug)) })),
+    coffees: C.coffees.map(({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region }) => ({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region, ...pick(products.find((p) => p.slug === slug)) })),
     dist: C.dist
   }).replace(/</g, "\\u003c");
 
@@ -65,10 +66,11 @@ export function render(ctx) {
     <form class="filters" data-filters aria-label="Выбор кофе">
       <div class="filters__row">
         ${method}
-        <button class="filters__open" type="button" aria-expanded="false" aria-controls="catalog-map" data-open="map"><span class="filter__caption">Карта вкуса</span><span class="filter__value">${C.coffees.length} кофе</span></button>
+        <button class="filters__open" type="button" aria-expanded="false" aria-controls="catalog-map" data-open="map"><span class="filter__caption">Карта вкуса</span><span class="filter__value">${live.length} кофе</span></button>
         <button class="filters__open" type="button" aria-expanded="false" aria-controls="catalog-more" data-open="more"><span class="filter__caption">Ещё фильтры</span><span class="filter__value" data-more-value>8 фильтров</span></button>
       </div>
-      <fieldset class="chips"><legend class="sr">Что хочется</legend>${chips}</fieldset>
+      <p class="filters__why" data-why hidden></p>
+      <fieldset class="chips"><legend class="sr">Что хочется (один на выбор)</legend>${chips}</fieldset>
       <div class="filters__more" id="catalog-more" hidden>
         ${more}
       </div>
@@ -77,14 +79,15 @@ export function render(ctx) {
         <p class="filters__how">Нажмите на точку, чтобы увидеть кофе, или на область, чтобы выбрать её. Выбор выше подсвечивает свои кофе на карте.</p>
       </div>
       <div class="filters__active" data-active hidden><ul class="filters__pills" data-pills></ul><button class="filters__reset" type="reset" data-reset>Сбросить всё</button></div>
+      <p class="sr" role="status" data-status></p>
       <button class="sr" type="submit" tabindex="-1">Показать</button>
     </form>
     <script type="application/json" id="choose-data">${json}</script>
     <div class="grid grid--catalog" data-grid data-rise>
-      <h2 class="grid__head" data-head="exact" hidden></h2>
+      <h2 class="grid__head" data-head="exact" hidden>Подходят</h2>
       ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true, choose: true })).join("\n      ")}
       <h2 class="grid__head" data-head="near" hidden>Почти</h2>
-      <h2 class="grid__head" data-head="rest" hidden></h2>
+      <h2 class="grid__head" data-head="rest" hidden>Остальные</h2>
     </div>
     <p class="catalog__soon" data-soon hidden>Скоро здесь <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
   </div>

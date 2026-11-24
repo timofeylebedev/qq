@@ -18,7 +18,9 @@ from a brewing method to what QQ sells, and the taste map. Research: `docs/choos
 ## Brewing methods → what QQ sells
 
 QQ sells two roasts (под эспрессо, средняя; под фильтр, светлая; 7 coffees espresso only, 6 filter only, 12 both) and
-the same four grinds for every coffee (в зёрнах, для турки, для фильтра, для эспрессо). A method names the roast it
+the same four grinds for every coffee (в зёрнах, для турки, для фильтра, для эспрессо). Колумбия Декаф is QQ's omni
+roast («Обжарка в прайсе: Омни»; build/data.mjs keeps only «Эспрессо» from «Эспрессо • Средняя [Омни]», so
+build/choose.mjs reads the price list's column): it fits filter methods too, and its card says «Омни-обжарка». A method names the roast it
 needs and the grind it sets; `build/choose.mjs` fails if either is not one QQ sells.
 
 | Method (plain name) | Roast | Grind set | Fits |
@@ -27,9 +29,9 @@ needs and the grind it sets; `build/choose.mjs` fails if either is not one QQ se
 | Рожковая кофемашина | под эспрессо | для эспрессо | 19 |
 | Гейзерная кофеварка | под эспрессо | в зёрнах (no moka grind: question `grinds-moka-press`) | 19 |
 | Турка | any (под эспрессо when a coffee has both) | для турки | 25 |
-| Воронка или дрип-пакет (V60, кемекс, клевер, a drip bag filled at home) | под фильтр | для фильтра | 18 |
-| Капельная кофеварка | под фильтр | для фильтра | 18 |
-| Аэропресс | под фильтр | для фильтра | 18 |
+| Воронка или дрип-пакет (V60, кемекс, клевер, сифон, a drip bag filled at home) | под фильтр (or omni) | для фильтра | 19 |
+| Капельная кофеварка | под фильтр (or omni) | для фильтра | 19 |
+| Аэропресс | под фильтр (or omni) | для фильтра | 19 |
 | Френч-пресс | any (под фильтр when a coffee has both) | в зёрнах (no coarse grind: same question) | 25 |
 
 Not methods on purpose: capsules and concentrates (QQ sells neither), ready drip bags (the catalogue's «Дрипы» tab,
@@ -37,36 +39,47 @@ Not methods on purpose: capsules and concentrates (QQ sells neither), ready drip
 
 What a method does in the catalogue: a coffee QQ roasts for it is a match; its card says «Обжарка под эспрессо · в
 зёрнах», its «в корзину» puts that roast and grind into the bag, and its link opens the coffee's page with them chosen
-(`?roast=…&grind=…`, read by scripts/buy.js). A coffee QQ doesn't roast for it is never a match; as a near miss it says
-«обжариваем только под фильтр».
+(`?roast=…&grind=…`, read by scripts/buy.js); a line under the cells says what the method sets («Обжарка под эспрессо.
+Отдельного помола для гейзера у QQ нет: берите зерно.»). A coffee QQ doesn't roast for it is never a match; as a near
+miss it says «обжариваем только под фильтр».
 
 ## Chips, acidity, taste
 
 - **Chips** (one at a time; `when` in data/choose.json, all conditions must hold):
-  «Под молоко» = QQ's «Применение: Молочные напитки» (10); «Без яркой кислотности» = acidity ≤ 2 (5); «На каждый день» =
-  Classic, no ferment, acidity ≤ 3, with caffeine (12); «Необычное» = the taste model's unusual axis ≥ 2 (ferment ≥ 2 or
-  an experimental process, 5). Never «Вторая кофемолка», never «Оценка Q», never «Горечь».
+  «Под молоко» = QQ's «Применение: Молочные напитки» (10); «Мягкая кислотность» = acidity ≤ 2 (5); «На каждый день» =
+  Classic, no ferment, acidity ≤ 3 (13, the decaf included); «Необычное» = the taste model's unusual axis ≥ 2 (ferment ≥ 2
+  or an experimental process, 5). Never «Вторая кофемолка», never «Оценка Q», never «Горечь».
+  Marketing's «без яркой кислотности» became «Мягкая кислотность»: the acidity filter calls 4–5 «яркая», so «без
+  яркой» would have promised 3 too (the outside check); the chip finds the soft five.
 - **Acidity** (in «Ещё фильтры»): мягкая 1–2 (5), средняя 3 (13), яркая 4–5 (7). Every coffee in one level (the build checks).
-- **Taste groups**: a coffee is in a group when the group's families make up ≥ 0.3 of its flavour profile (the taste
-  model's; data/flavours.json): Шоколад и орехи 5, Карамель и мёд 3, Ягоды 3, Цитрусы 7, Фрукты 8, Чай и цветы 4,
-  Ликёр и специи 3. A coffee may be in none (its flavour spread thin) or in two.
-- **Secondary**: type, line, country, processing, price (200 g), sort (Популярные, Новинки, Мягче, Ярче, Дороже, Дешевле).
+- **Taste groups**: a coffee is in a group when the group's families make up ≥ 0.15 of its flavour profile (the taste
+  model's; data/flavours.json): one note of up to six is enough. Шоколад и орехи 8, Карамель и мёд 11, Ягоды 9 (Q-Berry
+  among them), Цитрусы 20 (QQ lists citrus almost everywhere), Фрукты 14, Чай и цветы 10, Ликёр и специи 6. Every
+  coffee with descriptors is in at least one (the build checks). The first rule (≥ 0.3) left six coffees in none and
+  Q-Berry out of «Ягоды» (the outside check).
+- **Secondary**: type, caffeine (с кофеином / без кофеина), line, country, processing, price (200 g), sort (Популярные,
+  Новинки, Мягче, Ярче, Дороже, Дешевле).
 
 ## Ranking: never hidden, never empty
 
 `rank(coffees, conditions, { dist })` (src/scripts/choose.js):
 - **Подходят N**: every condition holds, in the page's sort.
-- **Почти**: up to three coffees missing the fewest conditions (one, when anything matches), ordered: a coffee that only
-  differs in taste before one QQ doesn't roast for the method; then by how far it is from the condition (`nearOf`: the
-  points outside a range: «Необычное» comes nearest through ferment 1 before ferment 0); then by the taste model's
-  distance to the nearest match. Each says what it misses, in the coffee's own terms («кислотность 3», «Special»,
-  «обжариваем только под фильтр»).
+- **Почти**: up to three coffees missing the fewest conditions (one, when anything matches), ordered in three tiers:
+  those a step or less from the condition (`nearOf`: the points outside a range), then those QQ doesn't roast for the
+  chosen method, then those further off; inside a tier, by the taste model's distance to the nearest match. So an
+  espresso machine with «Необычное» offers the unusual filter-only lots («обжариваем только под фильтр»), not a plain
+  natural with ferment 0. Each says what it misses, in the coffee's own terms («кислотность 3», «Special»,
+  «не отмечен у QQ для молока»).
 - **Остальные N**: the rest, in the page's sort.
-- With no match: «Точно таких нет — ближе всего» and up to six near misses lead.
+- With no match: «Точно таких нет — ближе всего» and up to six near misses lead, measured against the coffees that would
+  match but are sold out, if any (the only decaf sold out: its nearest). With nothing to measure against: «Точно таких
+  нет», then «Остальные».
 - A sold-out coffee (data/site.json `shop.unavailable`) is never a match or a near miss; it stays in the rest with
   «Скоро вернётся».
-- Every option shows how many it would find with the rest of the choice as it is. Chosen things show as pills with ×,
-  and «Сбросить всё». The choice is in the address (shareable; Back undoes it).
+- Every option shows how many it would find with the rest of the choice as it is (sold-out coffees never counted).
+  Chosen things show as pills with ×, and «Сбросить всё» (the keyboard then goes to «Чем варите»). A screen reader
+  hears what a change found («Подходят 10, почти 3»). The choice is in the address (shareable; Back undoes it; of
+  several chips in an address, the first).
 
 ## The taste map
 
@@ -77,10 +90,13 @@ holds; the build fails if two dots overlap. Nine regions (acidity soft / mid / b
 ≥ 4: Мягкие и плотные, Плотные, Яркие и плотные, Мягкие, Середина, Лёгкие…), their lines drawn midway between the
 dots of neighbouring bands; the build fails if a dot sits outside its region.
 
+The map's box isolates its layers, so an open menu always lies over its dots.
+
 In the catalogue the map is a companion («Карта вкуса» opens it under the chips), not the way in (the bench's map form
 was 550–600px tall on a phone; research: a map is liked, but slower). A choice lights its coffees (the others shrink to
 small ink-60 dots, still seen); a region is a choice like a chip (`region` in the address); a dot opens its coffee under
-the map with what it misses and «К карточке ↓»; names show beside the lit dots when six or fewer are lit.
+the map with what it misses and «К карточке ↓» (redrawn when the choice changes); names show beside the lit dots when
+six or fewer are lit, and a screen reader hears «подходит» on a lit dot.
 
 For the quiz: `initTasteMap(el, …).area({ u, v, ru, rv })` draws the visitor's wide region (0–1 of the map's box);
 place it from the visitor's region (`src/scripts/taste.js` START, `fit`) with the map's axes (`src/data/choose.json`

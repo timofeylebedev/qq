@@ -5,7 +5,7 @@
 //   map.light(slugs | null)       the coffees to light (null: all lit); the others stay, dimmed, never hidden
 //   map.regions(ids)              which regions are pressed
 //   map.area({ u, v, ru, rv })    draw a soft region (0–1 of the box; null removes it)
-//   map.show(slug | null)         open a dot's card under the map
+//   map.show(slug | null)         open a dot's card under the map (redrawn on every light(), so it stays current)
 // Dots and regions are one Tab stop each; the arrow keys move between them (in reading order).
 import { focusFrom } from "./focus.js";
 
@@ -42,7 +42,7 @@ export function initTasteMap(el, { onRegion = () => {}, onDot = () => {}, info =
     for (const d of dots) {
       if (!lit.has(d.dataset.slug)) continue;
       const s = document.createElement("span");
-      s.className = "tmap__label"; s.textContent = d.textContent; labels.append(s);
+      s.className = "tmap__label"; s.textContent = d.querySelector(".sr").textContent; labels.append(s);
       const w = s.offsetWidth, h = s.offsetHeight, r = d.getBoundingClientRect(), g = 4;
       const spots = [[r.right + g, r.top + r.height / 2 - h / 2], [r.left - g - w, r.top + r.height / 2 - h / 2], [r.left + r.width / 2 - w / 2, r.top - g - h], [r.left + r.width / 2 - w / 2, r.bottom + g]];
       const at = spots.map(([x, y]) => ({ left: x, top: y, right: x + w, bottom: y + h })).find((q) => !clash(q));
@@ -57,8 +57,15 @@ export function initTasteMap(el, { onRegion = () => {}, onDot = () => {}, info =
     light(slugs) {
       lit = slugs ? new Set(slugs) : null;
       el.toggleAttribute("data-some", !!lit);
-      for (const d of dots) d.toggleAttribute("data-lit", !!lit && lit.has(d.dataset.slug));
+      for (const d of dots) {
+        const on = !!lit && lit.has(d.dataset.slug);
+        d.toggleAttribute("data-lit", on);
+        // a screen reader hears what the eye sees: which dots a choice lights
+        d.querySelector("[data-lit-sr]")?.remove();
+        if (on) d.insertAdjacentHTML("beforeend", '<span class="sr" data-lit-sr>, подходит</span>');
+      }
       names();
+      if (shown) api.show(shown);
     },
     regions(ids) { for (const r of regs) r.setAttribute("aria-pressed", String(ids.includes(r.dataset.region))); },
     area(a) {

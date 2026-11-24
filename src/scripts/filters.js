@@ -28,6 +28,9 @@ export function initFilters() {
   const heads = Object.fromEntries([...grid.querySelectorAll("[data-head]")].map((h) => [h.dataset.head, h]));
   const soon = document.querySelector("[data-soon]"), soonWhat = document.querySelector("[data-soon-what]");
   const active = form.querySelector("[data-active]"), pills = form.querySelector("[data-pills]");
+  const why = form.querySelector("[data-why]"), status = form.querySelector("[data-status]");
+  // where the keyboard goes when what it was on disappears (the last pill, «Сбросить всё»): the method's cell
+  const home = () => focusFrom(form.querySelector('[data-filter="method"] summary'));
   const SOON = { kaskara: "появится каскара", dripy: "появятся дрипы", sety: "появятся сеты", merch: "появится мерч" };
   const DEFAULT = { sort: "popular", method: "" };
 
@@ -47,7 +50,7 @@ export function initFilters() {
   // ── the form ↔ the state ↔ the address ──
   const state = () => {
     const f = new FormData(form), all = (k) => f.getAll(k);
-    return { method: f.get("method") || "", chip: f.get("chip") || "", acid: all("acid"), taste: all("taste"), type: all("type"), line: all("line"),
+    return { method: f.get("method") || "", chip: f.get("chip") || "", acid: all("acid"), taste: all("taste"), type: all("type"), line: all("line"), caffeine: all("caffeine"),
       country: all("country"), process: all("process"), region: all("region"),
       min: f.get("min") ? Number(f.get("min")) : null, max: f.get("max") ? Number(f.get("max")) : null, sort: f.get("sort") || "popular" };
   };
@@ -55,7 +58,8 @@ export function initFilters() {
     const q = new URLSearchParams(location.search);
     for (const el of form.elements) {
       if (!el.name) continue;
-      if (el.type === "checkbox") el.checked = q.getAll(el.name).includes(el.value);
+      // a chip is one at a time: of several in a shared address, the first
+      if (el.type === "checkbox") el.checked = el.name === "chip" ? q.get("chip") === el.value : q.getAll(el.name).includes(el.value);
       else if (el.type === "radio") el.checked = (q.get(el.name) ?? DEFAULT[el.name] ?? "") === el.value;
       else if (el.type !== "submit" && el.type !== "reset") el.value = q.get(el.name) || "";
     }
@@ -86,6 +90,7 @@ export function initFilters() {
         near: (c) => Math.min(...s.region.map((r) => { const [x, y] = at(r), [u, v] = at(c.region); return Math.abs(x - u) + Math.abs(y - v); })) });
     }
     for (const [key, field] of [["type", "type"], ["line", "line"]]) if (s[key].length && skip !== key) k.push({ id: key, test: (c) => s[key].includes(c[field]), miss: (c) => c[field] });
+    if (s.caffeine.length && skip !== "caffeine") k.push({ id: "caffeine", test: (c) => s.caffeine.includes(c.decaf ? "decaf" : "caf"), miss: (c) => c.decaf ? "без кофеина" : "с кофеином" });
     if (s.country.length && skip !== "country") k.push({ id: "country", test: (c) => s.country.some((x) => c.countries.includes(x)), miss: (c) => c.countries.join(", ") });
     if (s.process.length && skip !== "process") k.push({ id: "process", test: (c) => s.process.some((x) => c.processes.includes(x)), miss: (c) => c.processes.length ? lower(c.processes.join(", ")) : "смесь" });
     if ((s.min != null || s.max != null) && skip !== "price") {
@@ -133,7 +138,7 @@ export function initFilters() {
     for (const x of seq) grid.append(x.el || x);
     for (const h of Object.values(heads)) if (!seq.includes(h)) grid.append(h);
     heads.exact.hidden = !any; heads.near.hidden = !any || R.empty || !R.near.length; heads.rest.hidden = !any || !R.rest.length;
-    heads.exact.textContent = R.empty ? "Точно таких нет — ближе всего" : `Подходят ${R.exact.length}`;
+    heads.exact.textContent = !R.empty ? `Подходят ${R.exact.length}` : R.near.length ? "Точно таких нет — ближе всего" : "Точно таких нет";
     heads.rest.textContent = `Остальные ${R.rest.length}`;
     // sizes: the first cards take half a row in the page's own order and look, the rest a third; any choice, all thirds
     let big = !any && s.sort === "popular" ? 4 : 0;
@@ -144,7 +149,7 @@ export function initFilters() {
       c.el.classList.toggle("card--half", big > 0); c.el.classList.toggle("card--third", big <= 0); big--;
       // the line above the text: the roast and grind the method sets for a match, what a near miss misses
       const fit = m && c.methods[m.id];
-      const line = near.has(c) ? upper(near.get(c).join(", ")) : fit && fit.ok && R.exact.includes(c) ? `Обжарка ${ROAST[fit.roast]} · ${GRIND[fit.grind]}` : "";
+      const line = near.has(c) ? upper(near.get(c).join(", ")) : fit && fit.ok && R.exact.includes(c) ? `${fit.omni ? "Омни-обжарка" : `Обжарка ${ROAST[fit.roast]}`} · ${GRIND[fit.grind]}` : "";
       c.tag.textContent = line; c.tag.hidden = !line;
       // the method's roast and grind into the bag and into the link to the page
       const set = fit && fit.ok;
@@ -156,7 +161,7 @@ export function initFilters() {
     const countOf = (name, value) => exactCount({ ...s, [name]: name === "method" || name === "chip" ? value : [value] });
     for (const i of form.querySelectorAll("input[name]")) {
       const nEl = i.parentElement.querySelector("[data-n]");
-      if (!nEl || !["method", "chip", "acid", "taste", "type", "line", "country", "process"].includes(i.name)) continue;
+      if (!nEl || !["method", "chip", "acid", "taste", "type", "caffeine", "line", "country", "process"].includes(i.name)) continue;
       const v = countOf(i.name, i.value);
       nEl.textContent = v; i.parentElement.toggleAttribute("data-none", v === 0);
     }
@@ -171,13 +176,15 @@ export function initFilters() {
       else if (picked.length) { text = picked.join(", "); on = true; }
       v.textContent = text; d.toggleAttribute("data-active", on);
     }
-    const inMore = ["acid", "taste", "type", "line", "country", "process"].reduce((a, k) => a + s[k].length, 0) + (s.min != null || s.max != null ? 1 : 0) + (s.sort !== "popular" ? 1 : 0);
+    const inMore = ["acid", "taste", "type", "caffeine", "line", "country", "process"].reduce((a, k) => a + s[k].length, 0) + (s.min != null || s.max != null ? 1 : 0) + (s.sort !== "popular" ? 1 : 0);
     const moreBtn = form.querySelector('[data-open="more"]');
     moreBtn.toggleAttribute("data-active", inMore > 0);
     form.querySelector("[data-more-value]").textContent = inMore ? `Выбрано: ${inMore}` : "8 фильтров";
     const mapBtn = form.querySelector('[data-open="map"]');
     mapBtn.toggleAttribute("data-active", s.region.length > 0);
-    mapBtn.querySelector(".filter__value").textContent = s.region.length ? s.region.map(regionRu).join(", ") : `${coffees.length} кофе`;
+    mapBtn.querySelector(".filter__value").textContent = s.region.length ? s.region.map(regionRu).join(", ") : `${coffees.filter((c) => !c.out).length} кофе`;
+    // the chosen method: what it sets, in a line under the cells
+    why.hidden = !m; why.textContent = m ? m.why : "";
     // the chosen, each with its ×
     const chosen = [];
     if (m) chosen.push(["method", "", m.short]);
@@ -186,11 +193,14 @@ export function initFilters() {
     for (const t of s.taste) chosen.push(["taste", t, D.tastes.find((x) => x.id === t).ru]);
     for (const r of s.region) chosen.push(["region", r, `На карте: ${lower(regionRu(r))}`]);
     for (const k of ["type", "line", "country", "process"]) for (const v of s[k]) chosen.push([k, v, v]);
+    for (const v of s.caffeine) chosen.push(["caffeine", v, v === "decaf" ? "Без кофеина" : "С кофеином"]);
     if (s.min != null || s.max != null) chosen.push(["price", "", `${s.min ?? "…"} — ${s.max ?? "…"} ₽`]);
     pills.innerHTML = chosen.map(([k, v, t]) => `<li><button type="button" class="filters__pill" data-k="${k}" data-v="${esc(v)}" aria-label="Убрать: ${esc(t)}">${esc(t)}<span aria-hidden="true">×</span></button></li>`).join("");
     active.hidden = !chosen.length && s.sort === "popular";
     // the map lights what the list leads with
     if (tmap) { tmap.light(any ? (R.empty ? R.near : R.exact).map((x) => (x.c || x).slug) : null); tmap.regions(s.region); }
+    // a screen reader hears what a change found (only a visitor's change: not on load, not on Back)
+    if (push === true) status.textContent = !any ? `Все ${R.exact.length} кофе` : R.empty ? `Точно таких нет. Ближе всего: ${R.near.length}` : `Подходят ${R.exact.length}${R.near.length ? `, почти ${R.near.length}` : ""}`;
     write(push === true);
     dispatchEvent(new Event("qq:layout"));
   }
@@ -228,7 +238,8 @@ export function initFilters() {
     else { const i = [...form.querySelectorAll(`input[name="${k}"]`)].find((x) => x.value === v); if (i) i.checked = false; }
     const next = b.closest("li").nextElementSibling?.querySelector("button") || b.closest("li").previousElementSibling?.querySelector("button");
     changed(true);
-    if (next) focusFrom(pills.querySelector(`[data-k="${next.dataset.k}"][data-v="${next.dataset.v}"]`) || form.querySelector("[data-reset]"));
+    const to = next && pills.querySelector(`[data-k="${next.dataset.k}"][data-v="${next.dataset.v}"]`);
+    if (to) focusFrom(to); else home();
   });
 
   // the cards rise into place one after another, and again when a change of the choice deals them anew
@@ -238,14 +249,14 @@ export function initFilters() {
   let typing = 0;   // typing a price is one step of history, not one per digit
   form.addEventListener("input", (e) => { if (e.target.type === "number") { apply(!typing); clearTimeout(typing); typing = setTimeout(() => (typing = 0), 800); } });
   form.addEventListener("submit", (e) => e.preventDefault());
-  form.addEventListener("reset", () => setTimeout(() => { form.querySelector('input[name="method"][value=""]').checked = true; changed(true); }));
+  form.addEventListener("reset", () => setTimeout(() => { form.querySelector('input[name="method"][value=""]').checked = true; changed(true); home(); }));
   addEventListener("hashchange", tab);
   addEventListener("popstate", () => { read(); apply(); });
   read();
   // a shared address with a choice in a panel opens that panel
   const s0 = state();
   if (s0.region.length) open(form.querySelector('[data-open="map"]'), true);
-  if (["acid", "taste", "type", "line", "country", "process"].some((k) => s0[k].length) || s0.min != null || s0.max != null || s0.sort !== "popular") open(form.querySelector('[data-open="more"]'), true);
+  if (["acid", "taste", "type", "caffeine", "line", "country", "process"].some((k) => s0[k].length) || s0.min != null || s0.max != null || s0.sort !== "popular") open(form.querySelector('[data-open="more"]'), true);
   apply(); tab();
 }
 

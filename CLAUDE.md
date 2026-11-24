@@ -110,7 +110,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   cross-document view transition to its coffee's page (on that page the name and the line under it, `.pstage__title`).
   Leaving, `qqPacks.freeze()` leaves a picture of every pack as the canvas draws it (`stage.shot`); arriving, packs
   face front until the pages have changed. A still must stand exactly where the canvas draws its pack (rerun
-  `build/pack-still.mjs` when the model or the look changes). `data-out` is the catalog filter's; the reel's and the catalog's waiting
+  `build/pack-still.mjs` when the model or the look changes). `data-out` hides the favourites' cards that are not chosen; the reel's and the catalog's waiting
   cards are `data-wait` (on a reload or a step back the cards in view do not rise again; the catalog's rise one after
   another: `riseGrid` in `scripts/slider.js`, `html[data-enter]`).
 - **New arrivals turn like pages** (`scripts/curl.js`, «Изгиб» of Tim's artifact): the slides lie in one cell

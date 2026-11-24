@@ -35,7 +35,7 @@
     {
       "id": "pourover", "ru": "Воронка или дрип-пакет", "short": "Воронка",
       "roast": "Фильтр", "grind": "Фильтр",
-      "why": "Обжарка под фильтр, помол для фильтра: для V60, кемекса, клевера и дрип-пакета, который наполняете сами.",
+      "why": "Обжарка под фильтр, помол для фильтра: для V60, кемекса, клевера, сифона и дрип-пакета, который наполняете сами.",
       "survey": ["воронка", "v60", "пуровер", "кемекс", "клевер", "иммерсионная воронка", "сифон", "origami", "дрип-пакеты, которые наполняют сами"]
     },
     {
@@ -67,19 +67,19 @@
     {
       "id": "milk", "ru": "Под молоко",
       "when": { "use": "Молочные напитки" },
-      "miss": { "use": "QQ не советует его под молоко" },
+      "miss": { "use": "не отмечен у QQ для молока" },
       "why": "QQ советует его для капучино и латте"
     },
     {
-      "id": "soft", "ru": "Без яркой кислотности",
+      "id": "soft", "ru": "Мягкая кислотность",
       "when": { "acidity": { "max": 2 } },
       "miss": { "acidity": "кислотность {acidity}" },
       "why": "кислотность 1–2 из 5, самая мягкая у QQ"
     },
     {
       "id": "everyday", "ru": "На каждый день",
-      "when": { "line": "Classic", "ferment": { "max": 0 }, "acidity": { "max": 3 }, "decaf": false },
-      "miss": { "line": "Special", "ferment": "фермент {ferment}", "acidity": "кислотность {acidity}", "decaf": "без кофеина" },
+      "when": { "line": "Classic", "ferment": { "max": 0 }, "acidity": { "max": 3 } },
+      "miss": { "line": "Special", "ferment": "фермент {ferment}", "acidity": "кислотность {acidity}" },
       "why": "Classic: без фермента и без яркой кислотности"
     },
     {
@@ -95,8 +95,8 @@
     { "id": "bright", "ru": "Яркая", "hint": "4–5", "min": 3.5 }
   ],
   "flavours": {
-    "$about": "Taste groups for the catalogue's «Вкус» filter: a coffee is in a group when the group's families make up at least `share` of its flavour profile (the taste model's `flavour`, from data/flavours.json).",
-    "share": 0.3,
+    "$about": "Taste groups for the catalogue's «Вкус» filter: a coffee is in a group when the group's families make up at least `share` of its flavour profile (the taste model's `flavour`, from data/flavours.json): one note of up to six is enough (Q-Berry is in «Ягоды» through its «Ягоды», 0.25). Every coffee with descriptors is in at least one group (the build checks).",
+    "share": 0.15,
     "groups": [
       { "id": "choc", "ru": "Шоколад и орехи", "families": ["cocoa", "nutty"] },
       { "id": "caramel", "ru": "Карамель и мёд", "families": ["caramel"] },

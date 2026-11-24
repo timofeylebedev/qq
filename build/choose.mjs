@@ -13,6 +13,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { methodFit, meets, rank, missOf, nearOf, roastMiss, layout, clearance } from "../src/scripts/choose.js";
 import { familyMatrix, distance } from "../src/scripts/taste.js";
+import { parseCsv } from "./data.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const read = (f) => JSON.parse(readFileSync(resolve(root, f), "utf8"));
@@ -22,6 +23,10 @@ const model = read("src/data/taste.json");
 const OUT = new Set(read("data/site.json").shop.unavailable);
 const T = new Map(model.coffees.map((c) => [c.slug, c]));
 const FLAV = read("data/flavours.json"), S = familyMatrix(FLAV.families, FLAV.similarity);
+// QQ's omni roast (one roast for espresso and filter both): the price list's «Обжарка в прайсе» says «Омни», while
+// «Обжарка» keeps it only in brackets, which build/data.mjs drops (Колумбия Декаф: «Эспрессо • Средняя [Омни]»)
+const OMNI = new Set(parseCsv(readFileSync(resolve(root, "data/products.csv"), "utf8"))
+  .filter((r) => r["На сайте"] === "Да" && /Омни/.test(r["Обжарка в прайсе"] || "")).map((r) => r["Название"].replace(/\s*\[.*$/, "").trim()));
 
 const fail = (msg) => { console.error(`build/choose.mjs: ${msg}`); process.exit(1); };
 if (/"q"\s*:|Оценка Q/.test(JSON.stringify(CFG.chips))) fail("a chip reads «Оценка Q»: never rank or pick by it");
@@ -31,7 +36,7 @@ const coffees = products.map((p) => {
   const t = T.get(p.slug);
   if (!t) fail(`${p.slug} is not in the taste model`);
   return {
-    slug: p.slug, name: p.name, line: p.line, type: p.type, decaf: !!t.decaf, out: OUT.has(p.slug),
+    slug: p.slug, name: p.name, line: p.line, type: p.type, decaf: !!t.decaf, out: OUT.has(p.slug), omni: OMNI.has(p.name),
     countries: p.countries, processes: p.processes,
     roasts: p.roasts.map((r) => r.use), grind: p.grind,
     use: p.use.filter((u) => u !== "Вторая кофемолка"),   // QQ's word for cafés; never shown or matched (session 0)
@@ -94,7 +99,7 @@ const map = {
   ...SHAPE, gap: +gap.toFixed(2),
   cols: cuts((c) => c.map.u, (c) => c.acid, ACID), colIds: ACID,
   rows: cuts((c) => c.map.v, (c) => c.region.split("-")[1], BODY.map(([id]) => id)), rowIds: BODY.map(([id]) => id),
-  regions: Object.entries(REGION).map(([id, ru]) => ({ id, ru, n: coffees.filter((c) => c.region === id).length }))
+  regions: Object.entries(REGION).map(([id, ru]) => ({ id, ru, n: coffees.filter((c) => c.region === id && !c.out).length }))
 };
 // a dot must sit inside its region's lines
 for (const c of coffees) {
@@ -112,6 +117,7 @@ const live = coffees.filter((c) => !c.out);
 for (const m of CFG.methods) if (live.filter((c) => c.methods[m.id].ok).length < 3) fail(`method ${m.id} fits fewer than three coffees in stock`);
 for (const k of CFG.chips) if (live.filter((c) => c.chips.includes(k.id)).length < 3) fail(`chip ${k.id} finds fewer than three coffees in stock`);
 for (const g of CFG.flavours.groups) if (live.filter((c) => c.tastes.includes(g.id)).length < 2) fail(`taste group ${g.id} finds fewer than two coffees in stock`);
+for (const c of coffees) if (!c.tastes.length && products.find((p) => p.slug === c.slug).descriptors.length) fail(`${c.slug} has descriptors but is in no taste group (data/choose.json flavours.share)`);
 
 const out = {
   generated: "build/choose.mjs from data/choose.json, src/data/products.json, src/data/taste.json; do not edit",
@@ -138,7 +144,7 @@ function report(o) {
   L.push("## Brewing methods", "", "| Method | Roast · grind set | Fits | Coffees | Not in this roast |", "|---|---|---|---|---|");
   for (const m of o.methods) {
     const yes = o.coffees.filter((c) => c.methods[m.id].ok), no = o.coffees.filter((c) => !c.methods[m.id].ok);
-    const sets = [...new Set(yes.map((c) => `${c.methods[m.id].roast} · ${c.methods[m.id].grind}`))].join("; ");
+    const sets = [...new Set(yes.map((c) => `${c.methods[m.id].omni ? "Омни" : c.methods[m.id].roast} · ${c.methods[m.id].grind}`))].join("; ");
     L.push(`| ${m.ru} | ${sets} | ${yes.length} | ${list(yes)} | ${list(no)} |`);
   }
   L.push("", "## Chips", "", "| Chip | Rule | Finds | Coffees |", "|---|---|---|---|");

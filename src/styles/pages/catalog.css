@@ -29,6 +29,11 @@
 .filters__row, .filters__more { display: flex; flex-wrap: wrap; align-items: stretch; --cell-min: 10.5rem; }
 .filters__row > .filter[data-filter="method"] { flex: 2 1 16rem; }
 .filters__more { margin-top: -8px; }
+/* an open menu lies over everything below it, the taste map's dots too */
+.filters .filter[open] { z-index: 8; }
+/* the chosen method's roast and grind, in a line under the cells */
+.filters__why { margin-top: -4px; color: var(--c-ink-70); font-size: var(--type-body); line-height: var(--lh-text); }
+.filters__why[hidden] { display: none; }
 .filters__more[hidden], .filters__map[hidden] { display: none; }
 
 /* a cell that opens a panel: the menu cell's look (a caption over the value, the chevron), a button */
@@ -88,7 +93,6 @@ html[data-keyed] .chip:has(input:focus-visible) { box-shadow: 0 0 0 2px var(--c-
 /* the heads of a choice's groups in the grid: «Подходят N», «Почти», «Остальные N» */
 .grid__head { grid-column: 1 / -1; font-size: var(--type-title); line-height: var(--lh-heading); }
 .grid__head[hidden] { display: none; }
-.grid__head + .grid__head { display: none; }
 
 /* a card's line above its text in the catalogue: the roast and grind of the chosen method, what a near miss misses */
 .card__tag { padding-top: 16px; color: var(--c-lavender-ink); font: 700 var(--type-small) / var(--lh-compact) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }

@@ -4,7 +4,7 @@
    are ink, the others ink-20, never hidden; an unusual coffee is lavender, a decaf a ring. A region is a button: its
    ground tints on hover and stays tinted pressed. A dot opens its card under the map. */
 .tmap { display: grid; gap: 12px; min-width: 0; }
-.tmap__box { --aspect: 1.1; --dot: 8.4%; position: relative; aspect-ratio: var(--aspect); background: var(--c-cloud); border: var(--hair) solid var(--line); overflow: hidden; }
+.tmap__box { --aspect: 1.1; --dot: 8.4%; position: relative; isolation: isolate; aspect-ratio: var(--aspect); background: var(--c-cloud); border: var(--hair) solid var(--line); overflow: hidden; }
 .tmap__regions { position: absolute; inset: 0; }
 .tmap__region {
   --x0: 0%; --x1: 100%; --y0: 0%; --y1: 100%;

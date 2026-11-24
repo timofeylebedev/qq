@@ -27,7 +27,15 @@ export function initMenus() {
   cells.forEach((d) => d.addEventListener("focusout", (e) => { if (d.open && !d.contains(e.relatedTarget) && e.relatedTarget) d.open = false; }));
 
   for (const d of cells) {
-    if (!d.querySelector('input[type="radio"]') || d.closest("[data-filters]")) continue;
+    if (!d.querySelector('input[type="radio"]')) continue;
+    // the catalog's one-choice menus (the method, the sort): filters.js writes their cell; a pick by pointer closes them
+    if (d.closest("[data-filters]")) {
+      let pointer = false;
+      d.addEventListener("pointerdown", () => { pointer = true; });
+      d.addEventListener("change", () => { if (pointer) d.open = false; pointer = false; });
+      d.addEventListener("keydown", () => { pointer = false; });
+      continue;
+    }
     const value = d.querySelector("[data-filter-value]");
     const write = () => { const on = d.querySelector("input:checked"); if (on) value.textContent = on.nextElementSibling.textContent; };
     // a choice by pointer closes the list; the keyboard's arrows only move the choice (Enter closes it)
