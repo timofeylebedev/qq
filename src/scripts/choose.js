@@ -110,7 +110,7 @@ export const roastMiss = (c) => c.roasts.length === 1 ? `обжариваем т
 // and place first), a sideways step counting `keepX` times a step up or down, so that the order across (acidity, the
 // axis people differ on) holds between coffees a step apart. Coffees coded alike (eight at 3 / 3) gather round their
 // point. Deterministic. Returns [{ id, x, y, u, v }]: u, v in 0–1 of the map's box (v from the top).
-export function layout(points, { x0, x1, y0, y1, aspect = 1.6, r = 0.03, keepX = 1.6, gap = 1.12 } = {}) {
+export function layout(points, { x0, x1, y0, y1, aspect = 1.6, r = 0.03, keepX = 1.6, gap = 1.1 } = {}) {
   const W = x1 - x0, H = y1 - y0, h = 1 / aspect;            // the box is 1 across and h down, in screen proportion
   const home = points.map((p) => ({ ...p, u: (p.x - x0) / W, v: (1 - (p.y - y0) / H) * h }));
   const d = 2 * r * gap, row = d * Math.sqrt(3) / 2, slots = [];

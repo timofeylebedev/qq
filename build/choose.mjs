@@ -62,11 +62,11 @@ for (const c of coffees) {
 }
 
 // ── the taste map: acidity across, body up, in one shape (a little wider than tall) at every width: a wide one would
-// need the whole column before its dots reached 24px (the bench's map form). Nine regions: acidity soft / mid / bright
+// need the whole column before its dots reached 24px (the bench's map form). A dot is 8.4% of the map's width: 24px on a 320px screen. Nine regions: acidity soft / mid / bright
 // (data/choose.json `acidity`) × body light (≤ 2) / mid (3) / dense (≥ 4); a coffee is in its region by its coded
 // values, and the region's lines are drawn midway between the dots of neighbouring bands (never through a dot). ─────
 const BOX = { x0: 0.5, x1: 5.1, y0: 1.4, y1: 5.6 };
-const SHAPE = { aspect: 1.1, r: 0.035 };
+const SHAPE = { aspect: 1.1, r: 0.042 };
 const BODY = [["dense", (d) => d >= 4], ["mid", (d) => d > 2 && d < 4], ["light", (d) => d <= 2]];
 const ACID = CFG.acidity.map((a) => a.id);
 const REGION = {
