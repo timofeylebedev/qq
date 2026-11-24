@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T06:38:21.180Z",
- "commit": "77b5f6d139ffeef6f0b8bfbcf5bf04472b99ce1e",
+ "generated": "2026-11-24T12:00:22.218Z",
+ "commit": "6d12679589cbbdb7841727e718f35b8a52962614",
  "ref": "claude/people",
  "pr": "23",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T06:24:26.481Z",
+   "when": "2026-11-24T11:45:47.358Z",
    "quick": false,
-   "seconds": 473,
+   "seconds": 490,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T06:32:18.296Z",
+   "when": "2026-11-24T11:53:58.512Z",
    "quick": true,
-   "seconds": 363,
+   "seconds": 383,
    "errors": []
   }
  },
@@ -38,12 +38,12 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 53,
-  "warn": 11,
+  "pass": 51,
+  "warn": 13,
   "fail": 5,
   "info": 6,
-  "findings": 148,
-  "new": 7,
+  "findings": 144,
+  "new": 3,
   "fixed": 0,
   "accepted": 91,
   "questions": 7
@@ -164,7 +164,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit), PR #18 (the guard)",
    "why": "open since 2026-11-23 (PR #17 (site-kit), PR #18 (the guard))",
-   "rank": 201
+   "rank": 202
   },
   {
    "type": "question",
@@ -183,7 +183,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit: the checks found no 404.html)",
    "why": "open since 2026-11-23 (PR #17 (site-kit: the checks found no 404.html))",
-   "rank": 201
+   "rank": 202
   },
   {
    "type": "question",
@@ -202,7 +202,7 @@
    "since": "2026-11-23",
    "from": "PR #18",
    "why": "open since 2026-11-23 (PR #18)",
-   "rank": 201
+   "rank": 202
   },
   {
    "type": "question",
@@ -221,7 +221,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
    "why": "open since 2026-11-23 (PR #17 (the kit's audit in Firefox and WebKit at 280 × 653))",
-   "rank": 201
+   "rank": 202
   },
   {
    "type": "question",
@@ -240,7 +240,7 @@
    "since": "2026-11-24",
    "from": "session 5 of choosing coffee (PR #23)",
    "why": "open since 2026-11-24 (session 5 of choosing coffee (PR #23))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -259,7 +259,7 @@
    "since": "2026-11-24",
    "from": "session 5 of choosing coffee (docs/people-backend.md, decision 10)",
    "why": "open since 2026-11-24 (session 5 of choosing coffee (docs/people-backend.md, decision 10))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "rule",
@@ -268,14 +268,42 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "32 places",
-   "fresh": 7,
+   "why": "26 places",
+   "fresh": 1,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
    ],
-   "rank": 182
+   "rank": 176
+  },
+  {
+   "type": "rule",
+   "id": "type.widows",
+   "severity": "warn",
+   "area": "Type",
+   "title": "No paragraph ends on one short word",
+   "kind": "tolerance",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    "coffee/q-optimistic/ dl.props dd: last line «ярче» alone (320x568)"
+   ],
+   "rank": 151
+  },
+  {
+   "type": "rule",
+   "id": "components.copies",
+   "severity": "warn",
+   "area": "Components",
+   "title": "Copies of a component look alike",
+   "kind": "tolerance",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    ".buyer: 8 copies with 2 different looks (padding, corner, background, size) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+   ],
+   "rank": 151
   },
   {
    "type": "rule",
@@ -443,8 +471,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2440,
-   "total": 2443,
+   "on": 3061,
+   "total": 3064,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -480,8 +508,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2440,
-    "total": 2443
+    "on": 3061,
+    "total": 3064
    },
    "accepted": 0,
    "was": {
@@ -495,13 +523,21 @@
    "kind": "tolerance",
    "title": "No paragraph ends on one short word",
    "how": "Every paragraph of 2+ lines at every measured size: its last line, word by word as drawn. A long word alone is fine; one of 4 letters or fewer is a widow.",
-   "value": 0,
+   "value": 1,
    "unit": "widows",
-   "status": "pass",
-   "items": [],
+   "status": "warn",
+   "items": [
+    {
+     "key": "coffee/q-optimistic/ dl.props dd|ярче",
+     "where": "coffee/q-optimistic/ dl.props dd",
+     "what": "last line «ярче» alone",
+     "value": 4,
+     "at": "320x568"
+    }
+   ],
    "webkit": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 1
    },
    "accepted": 0,
    "was": {
@@ -545,8 +581,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 4166,
-   "total": 4166,
+   "on": 4454,
+   "total": 4454,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -554,8 +590,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 4171,
-    "total": 4171
+    "on": 4459,
+    "total": 4459
    },
    "accepted": 0,
    "was": {
@@ -935,6 +971,18 @@
      "where": "coffee/q-optimistic/ form.buybar",
      "what": "sticky, z 20",
      "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.people__side",
+     "where": "coffee/keniya-kisii/ div.people__side",
+     "what": "sticky",
+     "at": "1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.people__side",
+     "where": "coffee/q-optimistic/ div.people__side",
+     "what": "sticky",
+     "at": "1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "status": "info",
@@ -952,7 +1000,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 32,
+   "value": 26,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -1020,24 +1068,10 @@
      "at": "768x1024"
     },
     {
-     "key": "coffee/keniya-kisii/ h2.head__title|left|208",
-     "where": "coffee/keniya-kisii/ h2.head__title",
-     "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
-     "value": 1.57,
-     "at": "768x1024"
-    },
-    {
      "key": "coffee/keniya-kisii/ h3.card__title|left|406",
      "where": "coffee/keniya-kisii/ h3.card__title",
      "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
      "value": 1.2,
-     "at": "768x1024"
-    },
-    {
-     "key": "coffee/keniya-kisii/ h2.head__title|right|560",
-     "where": "coffee/keniya-kisii/ h2.head__title",
-     "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
-     "value": 1.54,
      "at": "768x1024"
     },
     {
@@ -1048,24 +1082,10 @@
      "at": "768x1024"
     },
     {
-     "key": "coffee/q-optimistic/ h2.head__title|left|208",
-     "where": "coffee/q-optimistic/ h2.head__title",
-     "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
-     "value": 1.57,
-     "at": "768x1024"
-    },
-    {
      "key": "coffee/q-optimistic/ h3.card__title|left|406",
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
      "value": 1.2,
-     "at": "768x1024"
-    },
-    {
-     "key": "coffee/q-optimistic/ h2.head__title|right|560",
-     "where": "coffee/q-optimistic/ h2.head__title",
-     "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
-     "value": 1.54,
      "at": "768x1024"
     },
     {
@@ -1104,13 +1124,6 @@
      "at": "1024x768"
     },
     {
-     "key": "coffee/q-optimistic/ h3.card__title|right|205",
-     "where": "coffee/q-optimistic/ h3.card__title",
-     "what": "right edge +1.46px off the line at 204.92 (4 blocks on it)",
-     "value": 1.46,
-     "at": "1024x768"
-    },
-    {
      "key": "catalog/ h2.card__title|left|707",
      "where": "catalog/ h2.card__title",
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
@@ -1143,13 +1156,6 @@
      "where": "coffee/q-optimistic/ h2.ptile__title",
      "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
      "value": 1.67,
-     "at": "1440x900"
-    },
-    {
-     "key": "coffee/q-optimistic/ h3.card__title|right|996",
-     "where": "coffee/q-optimistic/ h3.card__title",
-     "what": "right edge -0.59px off the line at 995.56 (6 blocks on it)",
-     "value": 0.59,
      "at": "1440x900"
     },
     {
@@ -1926,13 +1932,20 @@
    "kind": "tolerance",
    "title": "Copies of a component look alike",
    "how": "Each component (a class with __parts) and each of its variants (--modifiers): its copies on the page should share padding, corner, background, text size and display. A difference no modifier explains is a near-duplicate.",
-   "value": 0,
+   "value": 1,
    "unit": "variants that differ",
-   "status": "pass",
-   "items": [],
+   "status": "warn",
+   "items": [
+    {
+     "key": "buyer—",
+     "where": ".buyer",
+     "what": "8 copies with 2 different looks (padding, corner, background, size)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    }
+   ],
    "webkit": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 1
    },
    "accepted": 0,
    "was": {
@@ -3846,6 +3859,15 @@
    "new": false
   },
   {
+   "key": "type.widows::coffee/q-optimistic/ dl.props dd|ярче",
+   "rule": "type.widows",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ dl.props dd",
+   "what": "last line «ярче» alone",
+   "at": "320x568",
+   "new": true
+  },
+  {
    "key": "type.measure::coffee/q-optimistic/ div.pstory__cols p",
    "rule": "type.measure",
    "status": "warn",
@@ -4071,15 +4093,6 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/keniya-kisii/ h2.head__title|left|208",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/keniya-kisii/ h2.head__title",
-   "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
-   "at": "768x1024",
-   "new": true
-  },
-  {
    "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
@@ -4087,15 +4100,6 @@
    "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
    "at": "768x1024",
    "new": false
-  },
-  {
-   "key": "align.edges::coffee/keniya-kisii/ h2.head__title|right|560",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/keniya-kisii/ h2.head__title",
-   "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
-   "at": "768x1024",
-   "new": true
   },
   {
    "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
@@ -4107,15 +4111,6 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/q-optimistic/ h2.head__title|left|208",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h2.head__title",
-   "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
-   "at": "768x1024",
-   "new": true
-  },
-  {
    "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
@@ -4123,15 +4118,6 @@
    "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
    "at": "768x1024",
    "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h2.head__title|right|560",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h2.head__title",
-   "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
-   "at": "768x1024",
-   "new": true
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
@@ -4179,15 +4165,6 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|right|205",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "right edge +1.46px off the line at 204.92 (4 blocks on it)",
-   "at": "1024x768",
-   "new": true
-  },
-  {
    "key": "align.edges::catalog/ h2.card__title|left|707",
    "rule": "align.edges",
    "status": "warn",
@@ -4231,15 +4208,6 @@
    "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
    "at": "1440x900",
    "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|right|996",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "right edge -0.59px off the line at 995.56 (6 blocks on it)",
-   "at": "1440x900",
-   "new": true
   },
   {
    "key": "align.edges::li.fact|left|200",
@@ -4735,6 +4703,15 @@
    "what": "no transition",
    "at": "",
    "new": false
+  },
+  {
+   "key": "components.copies::buyer—",
+   "rule": "components.copies",
+   "status": "warn",
+   "where": ".buyer",
+   "what": "8 copies with 2 different looks (padding, corner, background, size)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": true
   },
   {
    "key": "fallback.nojs::390x844",
@@ -5615,7 +5592,7 @@
    "id": "people-block",
    "kind": "decision",
    "state": "unbound",
-   "what": "«Как он в чашке» (was «Отзывы»; Tim: about the experience, taste included) on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title «Как он в чашке»; «N человек рассказали» and «Рассказать о своей» on one line; chips by way of brewing (Эспрессо и кофемашина, Турка и гейзер, Фильтр, С молоком; remembered in this browser) that show only those reviews; then a hairline list, each review headed by the reviewer's avatar (initials in an ink dot) and name, then how close their taste is to yours (a short line filled by closeness and why in words: «Вкус как у вас: тоже любит мягкое», «Вкус другой: любит яркое»; from the taste model, never a percent), their answers against expectation (кислотность: ярковато / в самый раз / хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее), their words, the date and after how many cups; no city, no method line, no «обычно пьёт», no «купил у QQ». 0 reviews: an invitation. The line under the coffee's name says how many reviews and links down. The review form is a dialog of the site's cells: the method and both axes required",
+   "what": "«Впечатления» (was «Отзывы», then «Как он в чашке»; Tim: about the experience, taste included) on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title «Впечатления»; «N человек рассказали», «Рассказать о своей» and chips by way of brewing (Эспрессо и кофемашина, Турка и гейзер, Фильтр, С молоком; remembered in this browser) that show only those reviews; from L the count, the button and the chips stand in a column of their own on the left (sticky), the stories on the right; each story: the avatar (initials in an ink dot, 64px: as tall as the name and the closeness line, a bit more) in its own column; beside it the name, how close their taste is to yours (a short line filled by closeness and why in words: «Вкус как у вас: тоже любит мягкое», «Вкус другой: любит яркое»; from the taste model, never a percent), all four answers against expectation in two columns (сладость: приторно / в самый раз / хотелось слаще; кислотность: ярковато / … / хотелось ярче; плотность: тяжеловато / … / хотелось плотнее; ферментация: многовато / … / хотелось необычнее), their words (answers and words at body-l, 20px at 1440), the date and after how many cups; no city, no method line, no «обычно пьёт», no «купил у QQ». 0 reviews: an invitation. The line under the coffee's name says how many reviews and links down. The review form is a dialog of the site's cells: the method and both axes required",
    "decided": "Tim, 2026-11-24 (iterating on «Полка»: a separate section after the lot's text; no ambassadors; the title «Отзывы» centred; the count and «Написать отзыв» on one line; then the ways of brewing; reviews headed by the avatar and the name, with how close their taste is to yours, without «обычно пьёт», «купил у QQ», the method line or the city)"
   },
   {
