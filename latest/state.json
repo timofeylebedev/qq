@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T00:12:05.634Z",
- "commit": "7e59396319e6bfbef6acabc9974bfb0650d58d34",
+ "generated": "2026-11-24T00:40:39.106Z",
+ "commit": "99b2346b081557639e77074682203a113a196ba7",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-23T23:58:33.295Z",
+   "when": "2026-11-24T00:27:07.696Z",
    "quick": false,
-   "seconds": 459,
+   "seconds": 460,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T00:06:12.804Z",
+   "when": "2026-11-24T00:34:45.889Z",
    "quick": true,
-   "seconds": 352,
+   "seconds": 353,
    "errors": []
   }
  },
  "base": {
-  "commit": "9a4eefd0413dc0d37cde1b9496df44b34d1a5ccd",
-  "generated": "2026-11-23T22:25:18.152Z"
+  "commit": "7e59396319e6bfbef6acabc9974bfb0650d58d34",
+  "generated": "2026-11-24T00:12:05.634Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -42,13 +42,29 @@
   "warn": 10,
   "fail": 5,
   "info": 6,
-  "findings": 136,
-  "new": 0,
+  "findings": 137,
+  "new": 1,
   "fixed": 0,
   "accepted": 91,
   "questions": 5
  },
  "needs": [
+  {
+   "type": "rule",
+   "id": "code.tokens-wired",
+   "severity": "fail",
+   "area": "Code",
+   "title": "Every var() defined, every token used",
+   "kind": "hard",
+   "why": "4 places",
+   "fresh": 1,
+   "sample": [
+    "Code: defined, never used: --c-ink-10",
+    "Code: defined, never used: --c-graphite",
+    "Code: defined, never used: --trace-light"
+   ],
+   "rank": 354
+  },
   {
    "type": "rule",
    "id": "images.first",
@@ -62,22 +78,6 @@
     "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (844x390 1024x768 1440x900 1920x1080 2560x1440)",
     "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
     "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
-   ],
-   "rank": 303
-  },
-  {
-   "type": "rule",
-   "id": "code.tokens-wired",
-   "severity": "fail",
-   "area": "Code",
-   "title": "Every var() defined, every token used",
-   "kind": "hard",
-   "why": "3 places",
-   "fresh": 0,
-   "sample": [
-    "Code: defined, never used: --c-ink-10",
-    "Code: defined, never used: --c-graphite",
-    "Code: defined, never used: --trace-light"
    ],
    "rank": 303
   },
@@ -267,7 +267,7 @@
    "sample": [
     "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 1440x900)",
     "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)"
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
    ],
    "rank": 114
   },
@@ -493,8 +493,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 4048,
-   "total": 4048,
+   "on": 3988,
+   "total": 3988,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -502,8 +502,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 4053,
-    "total": 4053
+    "on": 3993,
+    "total": 3993
    },
    "accepted": 0,
    "was": {
@@ -1309,18 +1309,6 @@
      "value": 7
     },
     {
-     "key": "coffee/keniya-kisii/ picture.card__photo",
-     "where": "coffee/keniya-kisii/ picture.card__photo",
-     "what": "0.8 – 1 · changes with the screen",
-     "value": 2
-    },
-    {
-     "key": "coffee/keniya-kisii/ picture.card__photo img",
-     "where": "coffee/keniya-kisii/ picture.card__photo img",
-     "what": "0.8 – 1 · css auto 1200 / 1200 · changes with the screen",
-     "value": 2
-    },
-    {
      "key": "coffee/keniya-kisii/ picture.footer__mark",
      "where": "coffee/keniya-kisii/ picture.footer__mark",
      "what": "0.66 · 2:3",
@@ -1572,7 +1560,7 @@
      "where": "catalog/ picture.card__photo img",
      "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
      "value": 0.9,
-     "at": "390x844 844x390 1440x900"
+     "at": "390x844 844x390"
     },
     {
      "key": "approach-bean-1208.avif",
@@ -3100,16 +3088,16 @@
      "value": 61
     },
     {
-     "key": "css",
-     "where": "css",
-     "what": "1 files, 15 KB sent (was 15 KB)",
-     "value": 15
-    },
-    {
      "key": "images",
      "where": "images",
      "what": "10 files, 402 KB sent (was 402 KB)",
      "value": 402
+    },
+    {
+     "key": "css",
+     "where": "css",
+     "what": "1 files, 15 KB sent (was 15 KB)",
+     "value": 15
     },
     {
      "key": "fonts",
@@ -3227,9 +3215,9 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "131 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "130 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
-   "value": 3,
+   "value": 4,
    "unit": "places",
    "note": "",
    "items": [
@@ -3247,6 +3235,11 @@
      "key": "Code|defined, never used: --trace-light#1",
      "where": "Code",
      "what": "defined, never used: --trace-light"
+    },
+    {
+     "key": "Code|defined, never used: --c-taste-other#1",
+     "where": "Code",
+     "what": "defined, never used: --c-taste-other"
     }
    ],
    "accepted": 0,
@@ -4346,7 +4339,7 @@
    "status": "warn",
    "where": "catalog/ picture.card__photo img",
    "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
-   "at": "390x844 844x390 1440x900",
+   "at": "390x844 844x390",
    "new": false
   },
   {
@@ -4836,20 +4829,20 @@
    "new": false
   },
   {
-   "key": "weight.total::css",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "css",
-   "what": "1 files, 15 KB sent (was 15 KB)",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "weight.total::images",
    "rule": "weight.total",
    "status": "pass",
    "where": "images",
    "what": "10 files, 402 KB sent (was 402 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::css",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "css",
+   "what": "1 files, 15 KB sent (was 15 KB)",
    "at": "",
    "new": false
   },
@@ -4888,6 +4881,15 @@
    "what": "defined, never used: --trace-light",
    "at": "",
    "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-taste-other#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --c-taste-other",
+   "at": "",
+   "new": true
   }
  ],
  "fixed": [],
