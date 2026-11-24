@@ -1,0 +1,98 @@
+{
+  "judge": "A",
+  "targets": [
+    {
+      "target": "Q-Punch",
+      "closest": [
+        {"name": "Q-Optimistic", "reason": "Brazil chocolate base held together by robusta: thick structure, lush body, cocoa finish. Same heavy, low-acid espresso blend logic.", "confidence": "high"},
+        {"name": "Q-Profit", "reason": "Brazil-based natural blend, chocolate-nut base, dense sweet cup, built for espresso and milk, stable. A little more fruit (ripe berries, stone fruit).", "confidence": "high"},
+        {"name": "Бразилия Санта Мария", "reason": "Nut and chocolate notes, sweetness, clean and balanced, only light fruit. Softer body and no robusta weight.", "confidence": "medium"},
+        {"name": "Перу Пальма Реаль", "reason": "Chocolate sweetness, explicitly no bright acidity, everyday espresso and filter coffee. Lighter body than Q-Punch.", "confidence": "medium"},
+        {"name": "Индонезия Мерури", "reason": "Deep, saturated, spicy cup with no stated acidity. Shares the spice and low acidity, but is a single-origin wet-hull with a soft body.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Q-Berry", "reason": "Still a chocolate-and-nut espresso blend, but adds delicate red and dark berry acidity and floral-tea notes ('яркий, сочный'). The nearest step up in acidity.", "confidence": "medium"},
+      "softer": {"name": "none", "reason": "Q-Punch is already at the low-acid, heavy end ('без резких кислотностей'). Nothing is clearly calmer; Q-Optimistic and Мерури are about level.", "confidence": "medium"},
+      "notes": "Good text: explicit descriptors and acidity statement. The ranking of 4 and 5 is the uncertain part."
+    },
+    {
+      "target": "Бразилия Санта Мария",
+      "closest": [
+        {"name": "Перу Пальма Реаль", "reason": "Clean, balanced, chocolate sweetness, only light acidity (yellow dried fruit), easy body. Almost the same everyday 'classic' brief.", "confidence": "high"},
+        {"name": "Q-Finch (Финч бленд)", "reason": "Natural Brazil base plus washed Ethiopia: clean, balanced, light citrus acidity. Slightly livelier.", "confidence": "medium"},
+        {"name": "Q-Profit", "reason": "Brazil chocolate-nut base with more fruit; denser and sweeter than Санта Мария's soft body.", "confidence": "medium"},
+        {"name": "Q-Berry", "reason": "Chocolate-nut base sweetness, but with floral-tea notes and delicate berry acidity: a step further from plain classic.", "confidence": "medium"},
+        {"name": "Уганда Луна", "reason": "Easy, sweet, round, balanced everyday coffee, but leans fruit and berry rather than nut and chocolate.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Колумбия Антиокия", "reason": "Also a 'basic' South American coffee: clean, balanced, natural sweetness, but with bright acidity and sweet-fruit notes. A clear but small step brighter.", "confidence": "medium"},
+      "softer": {"name": "Q-Punch", "reason": "Same nut-chocolate flavour family, 'без резких кислотностей'. Calmer acidity, but heavier (robusta, crema) rather than more delicate.", "confidence": "low"},
+      "notes": "The text is short but clear (clean, balanced, nut-chocolate, light fruit). Santa Maria already sits low in acidity, so 'softer' really means 'heavier/darker' here; that is why confidence is low."
+    },
+    {
+      "target": "Индонезия Мерури",
+      "closest": [
+        {"name": "Q-Punch", "reason": "Spice notes, no sharp acidity, saturated finish. The only other text naming spice.", "confidence": "medium"},
+        {"name": "Q-Optimistic", "reason": "Dense, deep, cocoa finish, robusta weight. Low-acid and 'deep', but a much heavier body than Мерури's soft one.", "confidence": "low"},
+        {"name": "Бразилия Санта Мария", "reason": "Soft body, light sweetness, low acidity. Shares the calm structure but is clean and nutty rather than deep and spicy.", "confidence": "low"},
+        {"name": "Перу Пальма Реаль", "reason": "No bright acidity, soft long finish, chocolate sweetness. Calm like Мерури, but cleaner.", "confidence": "low"},
+        {"name": "Бразилия Ранчо Гранде", "reason": "Described with the same words ('интенсивность и глубина', 'насыщенный'), dense body. But it is fruit-chocolate and fermented, not spicy.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Перу Пальма Реаль", "reason": "Keeps the calm, low-key structure but adds light dried-fruit acidity and chocolate sweetness. A small, safe step up from a cup with no stated acidity.", "confidence": "low"},
+      "softer": {"name": "none", "reason": "Wet-hull Sumatra with no stated acidity is already the softest single origin. Nothing is clearly calmer.", "confidence": "medium"},
+      "notes": "Hard target. The wet-hull deep/spicy/earthy character is unique in the set, so every 'closest' pick is only partly alike. The text gives no acidity word at all; I read 'глубокий, насыщенный, пряный, мягкое тело' as low acid."
+    },
+    {
+      "target": "Эфиопия Бекеле",
+      "closest": [
+        {"name": "Уганда Луна", "reason": "Natural; berries and ripe fruit, soft sweetness, round body; works in espresso and milk; balance and comfort. Almost the same description.", "confidence": "high"},
+        {"name": "Вьетнам Куа Мон", "reason": "Natural, sweet, dense, ripe fruit and berries, soft sweetness, filter or espresso. A bit more dessert-like.", "confidence": "medium"},
+        {"name": "Перу Монте Верде", "reason": "Natural; bright fruity sweet notes, velvety body, tropical sweetness, creamy finish. Slightly more 'unusual' brief.", "confidence": "medium"},
+        {"name": "Q-Profit", "reason": "Dense and sweet, ripe berries and stone fruit over a chocolate base, good with milk. More 'coffee-ish' than Бекеле.", "confidence": "medium"},
+        {"name": "Q-Berry", "reason": "Contains Ethiopia; floral-tea notes echo the tea finish, gentle berry acidity, but the chocolate-nut base makes it more classic.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Руанда Ньяки", "reason": "Juicy, clean fruit acidity, delicate sweetness, smooth body, unobtrusive everyday cup. Clearly more acidity than Бекеле but still gentle, unlike Гуджи or Гицумби.", "confidence": "medium"},
+      "softer": {"name": "Q-Profit", "reason": "Keeps ripe fruit, sweetness and dense body, but sits on a calm chocolate-nut base for milk. Rounder and less lively.", "confidence": "medium"},
+      "notes": "The one-liner states its acidity position directly ('не любит лишнюю кислотность'), which helps. Уганда Луна would also be a fair 'softer' pick, but it is so close that it reads as a near-twin rather than a step."
+    },
+    {
+      "target": "Руанда Ньяки",
+      "closest": [
+        {"name": "Колумбия Чайна Альта", "reason": "Washed, bright but balanced, citrus juiciness, soft fruit sweetness; recommended for second grinder and everyday filter. Same role and structure.", "confidence": "high"},
+        {"name": "Колумбия Антиокия", "reason": "Washed, clean, balanced, bright acidity, sweet fruit notes, 'basic'. Very similar clean washed cup.", "confidence": "medium"},
+        {"name": "Руанда Гицумби", "reason": "Same variety (Red Bourbon) and the same washed process at a Rwandan station, but 'очень яркий' with red berries and citrus. A step brighter.", "confidence": "medium"},
+        {"name": "Эфиопия Гуджи", "reason": "Washed, clean, juicy, sweet, also for the second grinder or batch brew. But more intense aroma and 'богатая кислотность', with a pronounced citrus profile.", "confidence": "medium"},
+        {"name": "Q-Finch (Финч бленд)", "reason": "Juicy, clean, balanced, light citrus acidity. Similar 'unobtrusive' feel, but the Brazil base makes it rounder.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Руанда Гицумби", "reason": "Same origin, variety and process, explicitly 'very bright and juicy': red berries, citrus acidity. A textbook single step brighter.", "confidence": "high"},
+      "softer": {"name": "Перу Пальма Реаль", "reason": "Also washed, clean and everyday, but explicitly without bright acidity: chocolate sweetness, light dried-fruit acidity. Q-Finch is the gentler alternative step.", "confidence": "medium"},
+      "notes": "Clear text. Half of it is about the station, but the last paragraph gives enough on the cup (clean fruit acidity, delicate sweetness, smooth body)."
+    },
+    {
+      "target": "Кения Найваша ПБ",
+      "closest": [
+        {"name": "Руанда Гицумби", "reason": "Washed, very bright and juicy, readable berry profile, citrus acidity. The closest clean, high-acid, berry cup.", "confidence": "high"},
+        {"name": "Кения Кисии", "reason": "Kenyan varieties, bright juicy cup, saturated acidity, berries. But natural anaerobic: light ferment, denser body, tropical.", "confidence": "medium"},
+        {"name": "Эфиопия Гуджи", "reason": "Washed, clean, bright rich acidity, intense aroma. Citrus rather than berry, lighter.", "confidence": "medium"},
+        {"name": "Колумбия Вуш-Вуш", "reason": "Bright, sweet, aromatic, complex, long finish, 'memorable experience', matching Найваша's wow-effect. But processed and fruit-heavy.", "confidence": "low"},
+        {"name": "Колумбия Чайна Альта", "reason": "Washed, bright citrus juiciness, fruit sweetness. Same style at lower intensity, more everyday.", "confidence": "low"}
+      ],
+      "brighter": {"name": "none", "reason": "'Высокая кислотность', the 'juiciest Kenya': it is at the top of the brightness range. Гицумби is about level, not clearly brighter.", "confidence": "medium"},
+      "softer": {"name": "Руанда Ньяки", "reason": "Washed and juicy with clean fruit acidity, but delicate sweetness, smooth body and 'ненавязчивый'. A clear step down in acidity while staying in the washed African style.", "confidence": "medium"},
+      "notes": "Good cup text. The main uncertainty is whether Гицумби counts as 'softer' (lighter, moderate sweetness) or level; I treated it as level in acidity."
+    },
+    {
+      "target": "Колумбия Ла Сирена",
+      "closest": [
+        {"name": "Колумбия Вуш-Вуш", "reason": "Colombian experimental fermentation (bags plus sealed tanks): bright, sweet, aromatic, deep fruit. The same 'processed, fruit-forward, bright' world.", "confidence": "medium"},
+        {"name": "Руанда Гицумби", "reason": "Descriptor overlap: red berries, citrus acidity, moderate sweetness, light tea finish. But a clean washed cup with no fermentation flavour.", "confidence": "medium"},
+        {"name": "Кения Кисии", "reason": "Anaerobic: berries, tropical fruit, light fermented notes, still a clean cup. Brighter and denser.", "confidence": "low"},
+        {"name": "Колумбия Эль Пласэр ИПА", "reason": "Also a Quindío experimental culturing lot (yeasts, lactic acid, hops), described only as 'sweet and fruity accents'. Likely more extreme and funky.", "confidence": "low"},
+        {"name": "Кения Найваша ПБ", "reason": "Juicy, sweet, pronounced berry aroma. But a washed, much higher-acid cup with no fermentation.", "confidence": "low"}
+      ],
+      "brighter": {"name": "Кения Кисии", "reason": "Keeps berry fruit and a touch of fermentation, but has 'насыщенная кислотность' and is 'яркий и сочный'. More lively than the 'delicate and drinkable' Ла Сирена.", "confidence": "low"},
+      "softer": {"name": "Вьетнам Куа Мон", "reason": "Berry-fruit dessert coffee ('десертный характер', ripe berries, soft sweetness), 'more unusual than basic'. Keeps the dessert-berry idea with rounder, calmer acidity. Эфиопия Бекеле (soft sweetness, tea finish, low acidity) is the close alternative.", "confidence": "low"}
+    ,
+      "notes": "Hardest target. Its defining trait (co-fermentation with glucose and yeast, explicit strawberry) has no true twin. Candidates match it either on process (Вуш-Вуш, Эль Пласэр) or on descriptors (Гицумби: berries, citrus, tea finish), never both. Эль Пласэр's text describes only the process, so its cup is a guess."
+    }
+  ],
+  "general_notes": "I read each 'О сорте' for explicit cup words (acidity words such as яркая/высокая/деликатная/без кислотности; body words such as плотное/мягкое/питкое; flavour family: chocolate-nut vs fruit-berry vs citrus vs spice; fermentation words) and used the process (washed / pulped natural / natural / anaerobic / co-ferment / wet-hull, robusta in blends) as a secondary signal for what is not stated. One-liners helped when they state a position ('не любит лишнюю кислотность', 'сочнейшая Кения', 'без яркой кислотности'). Thin or off-cup texts: Колумбия Декаф (only the decaf process, no cup descriptors, so never picked), Колумбия Эль Пласэр ИПА (process only; cup inferred as heavily fermented), Q-Finch (two sentences), Q-Optimistic (short). Hard cases: Мерури and Ла Сирена are unique in the set (wet-hull spice; strawberry co-ferment), so their neighbours are only partly alike. 'Softer' is often 'none' or a heavier coffee for targets already at the low-acid end, and 'brighter' is 'none' for Найваша."
+}

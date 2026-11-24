@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "node build/data.mjs && node build/tokens.mjs",
+    "predev": "node build/data.mjs && node build/taste.mjs && node build/tokens.mjs",
     "dev": "vite",
-    "precanvas": "node build/data.mjs && node build/tokens.mjs",
+    "precanvas": "node build/data.mjs && node build/taste.mjs && node build/tokens.mjs",
     "canvas": "vite --open /lab/canvas/",
-    "prebuild": "node build/data.mjs && node build/tokens.mjs",
+    "prebuild": "node build/data.mjs && node build/taste.mjs && node build/tokens.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "images": "node build/images.mjs",
@@ -21,7 +21,9 @@
     "video": "node build/video.mjs",
     "checks": "site-kit checks",
     "checks:state": "site-kit checks state",
-    "report": "site-kit report"
+    "report": "site-kit report",
+    "taste": "node build/taste.mjs",
+    "taste:bench": "node build/taste.mjs && node design/taste-bench/build.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0"

@@ -2,8 +2,10 @@
 // the story (a sentence, a photo, the text of the table in columns); coffees with a similar taste.
 import { page, head } from "./layout.mjs";
 import { card, pills, tasteChart, pack } from "./components.mjs";
-import { esc, icon, picture, rub, taste, lower } from "./util.mjs";
+import { esc, icon, picture, rub, lower, read } from "./util.mjs";
 import { menu } from "./blocks.mjs";
+
+const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]));
 
 export function render(ctx, p) {
   const body = [stage(ctx, p), buybar(p), story(p), similar(ctx, p)].join("\n");
@@ -88,13 +90,11 @@ function story(p) {
 </section>`;
 }
 
-// coffees with a similar taste: the distance between the four taste scores, less for every shared flavour family
+// coffees with a similar taste: the four nearest of the taste model (build/taste.mjs → src/data/taste.json), which never
+// offers a relabel of the same coffee or a decaf for a coffee with caffeine. Session 2 adds the steps and the reasons.
 function similar(ctx, p) {
-  const fam = (x) => new Set(x.descriptors.map(taste));
-  const mine = fam(p);
-  const score = (q) => ["density", "acidity", "sweetness", "ferment"].reduce((s, k) => s + Math.abs((p.taste[k] ?? 0) - (q.taste[k] ?? 0)), 0)
-    - 0.75 * [...fam(q)].filter((f) => mine.has(f)).length + (q.line === p.line ? 0 : 0.5);
-  const list = ctx.products.filter((q) => q.slug !== p.slug).sort((a, b) => score(a) - score(b)).slice(0, 4);
+  const bySlug = new Map(ctx.products.map((q) => [q.slug, q]));
+  const list = (TASTE.get(p.slug)?.neighbours || []).map((x) => bySlug.get(x.slug)).filter(Boolean).slice(0, 4);
   return `<section class="section similar" data-ground="paper" aria-labelledby="similar-title">
   <div class="col">
     ${head({ title: "Кофе с похожим вкусом", id: "similar-title", center: true })}

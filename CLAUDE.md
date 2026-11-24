@@ -130,6 +130,11 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 - **The heroes' video** (home, about): `heroVideo()` in `src/templates/util.mjs`, files from `npm run video` (`build/video.mjs`; the original in `source/`, outside the repo); `scripts/video.js` plays it only on screen, never with «reduce motion» (decision `hero-video`).
 - **Icons**: `<svg data-icon="name">` → a sprite per page (`build/plugins.js`). Parts of an icon cannot be styled
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
+- **The taste model** (`build/taste.mjs` → `src/data/taste.json`; `docs/taste-model.md`): every surface that says
+  which coffees are alike or offers a step (brighter, softer, denser, lighter, more unusual, more classic) reads it,
+  and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
+  or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
+  in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QQ Taste Bench</title>
+<style>
+/* VOICE: a roaster's workbench, clinical and quiet; the coffee's own words do the talking.
+   IDEA: a cupping table seen from above — every coffee a cup on the map, the chosen one with strings to its
+         neighbours and arrows to its six steps.
+   PICTURE: the map itself, as large as the screen allows; the dots are the coffees' flavour-family colours.
+   COLOUR and TYPE: QQ's own — ink on paper, hairlines, lavender for what is chosen; PT Mono Bold capitals for
+         names, Apercu for text.
+   LAYOUT: map left, the chosen coffee on the right; stacked on a phone (map, then the coffee). */
+@font-face { font-family: "Apercu"; src: url("fonts/apercu-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Apercu"; src: url("fonts/apercu-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "PT Mono"; src: url("fonts/pt-mono-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+:root {
+  color-scheme: light dark;
+  --ground: light-dark(#ffffff, #0d0d0e); --cell: light-dark(#f6f6f6, #17181a); --ink: light-dark(#2d2f33, #f2f2f3);
+  --soft: light-dark(#2d2f33b3, #ffffffb3); --faint: light-dark(#2d2f3366, #ffffff66); --line: light-dark(#2d2f3333, #ffffff4d);
+  --tint: light-dark(#2d2f330f, #ffffff1a); --accent: light-dark(#7f4fc9, #b190ec); --on-accent: light-dark(#ffffff, #000000);
+  --sans: "Apercu", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --mono: "PT Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+:root[data-theme=light] { color-scheme: light; } :root[data-theme=dark] { color-scheme: dark; }
+* { box-sizing: border-box; min-width: 0; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px / 1.5 var(--sans); overflow-x: clip; }
+button, input, select { font: inherit; color: inherit; }
+h1, h2, h3, .mono { font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin: 0; text-wrap: balance; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.app { display: grid; grid-template-columns: minmax(0, 1fr) 440px; height: 100%; }
+.stage { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; background: var(--cell); }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 16px; background: var(--ground); border-bottom: 1px solid var(--line); }
+.bar h1 { font-size: 15px; margin-right: auto; }
+.seg { display: flex; border: 1px solid var(--line); }
+.seg button { background: none; border: 0; padding: 8px 12px; min-height: 40px; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button:hover { background: var(--tint); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--ground); }
+.fig { position: relative; min-height: 420px; }
+.fig > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 10px 16px; border-top: 1px solid var(--line); background: var(--ground); color: var(--soft); font-size: 13px; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--c); margin-right: 6px; vertical-align: 0; }
+svg text { font: 400 12px var(--sans); fill: var(--soft); paint-order: stroke; stroke: var(--cell); stroke-width: 4px; stroke-linejoin: round; }
+svg .t-sel { font: 700 13px var(--mono); fill: var(--ink); text-transform: uppercase; }
+svg .t-rel { fill: var(--ink); font-weight: 500; }
+svg .t-axis { fill: var(--faint); font-size: 12px; stroke: none; }
+svg .t-dir { font: 700 11px var(--mono); fill: var(--accent); letter-spacing: 0.04em; }
+svg .t-anchor { fill: var(--faint); font-style: italic; }
+.cup { cursor: pointer; }
+.cup circle.hit { fill: transparent; }
+.panel { overflow-y: auto; border-left: 1px solid var(--line); }
+.cell { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.cell > h2 { font-size: 13px; margin-bottom: 12px; color: var(--soft); }
+.pick { display: flex; gap: 8px; align-items: center; }
+.pick select { flex: 1; min-height: 44px; padding: 8px 10px; font-size: 16px; background: var(--ground); border: 1px solid var(--line); border-radius: 0; }
+.name { font-size: 22px; line-height: 1.1; margin: 16px 0 6px; }
+.short { margin: 0 0 12px; color: var(--soft); }
+.scales { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--line); }
+.scales div { padding: 8px 10px; } .scales div + div { border-left: 1px solid var(--line); }
+.scales b { display: block; font: 700 18px var(--mono); }
+.scales span { font-size: 12px; color: var(--soft); }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.pills li { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: 13px; }
+.meta { margin: 10px 0 0; font-size: 13px; color: var(--soft); }
+.dirs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); }
+.dir { padding: 12px; border-top: 1px solid var(--line); }
+.dir:nth-child(-n+2) { border-top: 0; } .dir:nth-child(even) { border-left: 1px solid var(--line); }
+.dir h3 { font-size: 12px; color: var(--accent); margin-bottom: 4px; }
+.dir button, .near button { all: unset; cursor: pointer; font-weight: 500; }
+.dir button:hover, .near button:hover { text-decoration: underline; }
+.dir p, .near p { margin: 4px 0 0; font-size: 13px; color: var(--soft); }
+.dir.edge h3 { color: var(--soft); }
+.far { font-size: 11px; font-family: var(--mono); text-transform: uppercase; color: var(--soft); border: 1px solid var(--line); padding: 0 4px; margin-left: 6px; }
+.near { list-style: none; margin: 0; padding: 0; counter-reset: n; }
+.near li { padding: 10px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 22px minmax(0, 1fr) 52px; gap: 0 8px; }
+.near li:first-child { border-top: 0; padding-top: 0; }
+.near li::before { counter-increment: n; content: counter(n); font: 700 13px var(--mono); color: var(--soft); }
+.near .d { text-align: right; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--soft); }
+.changed { margin: 0 0 10px; padding: 8px 10px; background: var(--tint); font-size: 13px; }
+.check table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.check th, .check td { text-align: left; vertical-align: top; padding: 6px 6px 6px 0; border-top: 1px solid var(--line); }
+.check th { font-weight: 500; color: var(--soft); width: 64px; }
+.check .hit { color: var(--accent); font-weight: 500; }
+.check p { font-size: 13px; margin: 10px 0 0; }
+.weights label { display: grid; grid-template-columns: 92px minmax(0, 1fr) 40px; gap: 10px; align-items: center; font-size: 13px; min-height: 36px; }
+.weights input { accent-color: var(--accent); }
+.weights output { text-align: right; font-variant-numeric: tabular-nums; }
+.btn { background: none; border: 1px solid var(--line); padding: 8px 12px; min-height: 40px; cursor: pointer; margin-top: 8px; }
+.btn:hover { background: var(--tint); }
+.notes p { font-size: 13px; color: var(--soft); margin: 0 0 8px; }
+details summary { cursor: pointer; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; font-size: 13px; color: var(--soft); min-height: 32px; }
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, 1fr); height: auto; }
+  .stage { grid-template-rows: auto 62vh auto; }
+  .panel { border-left: 0; overflow: visible; }
+}
+@media (max-width: 420px) { .dirs { grid-template-columns: minmax(0, 1fr); } .dir:nth-child(2) { border-top: 1px solid var(--line); } .dir:nth-child(even) { border-left: 0; } .scales b { font-size: 16px; } }
+@media (prefers-reduced-motion: no-preference) { .cup circle.c { transition: r 0.2s; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="stage">
+    <div class="bar">
+      <h1>QQ · карта вкуса</h1>
+      <div class="seg" role="group" aria-label="Вид карты">
+        <button type="button" data-view="axes" aria-pressed="true">Оси</button>
+        <button type="button" data-view="mds">Расстояния</button>
+      </div>
+      <div class="seg" role="group" aria-label="Ориентиры">
+        <button type="button" data-anchor="none" aria-pressed="true">Без ориентиров</button>
+        <button type="button" data-anchor="origins">Страны</button>
+        <button type="button" data-anchor="drinks">Напитки</button>
+      </div>
+    </div>
+    <div class="fig" id="fig"><svg id="map" role="img" aria-label="Карта 25 кофе QQ"></svg></div>
+    <div class="legend" id="legend"></div>
+  </div>
+  <div class="panel">
+    <div class="cell">
+      <div class="pick"><label class="mono" for="sel" style="font-size:12px;color:var(--soft)">Кофе</label><select id="sel"></select></div>
+      <div id="head"></div>
+    </div>
+    <div class="cell"><h2>Шаг в сторону</h2><div id="changed"></div><div class="dirs" id="dirs"></div></div>
+    <div class="cell"><h2>Ближайшие</h2><ol class="near" id="near"></ol></div>
+    <div class="cell check" id="check" hidden></div>
+    <div class="cell" id="same" hidden></div>
+    <div class="cell">
+      <details>
+        <summary>Веса расстояния</summary>
+        <div class="weights" id="weights"></div>
+        <button type="button" class="btn" id="reset">Вернуть веса модели</button>
+        <div class="notes" style="margin-top:12px" id="notes"></div>
+      </details>
+    </div>
+  </div>
+</div>
+<script>
+{
+const M = {{model}};
+const CHECK = {{check}};
+{{tastejs}}
+const S = M.familySimilarity, R = M.rules;
+const FAM = Object.fromEntries(M.families.map((f) => [f.id, f]));
+const DOT = {{dots}};
+const by = Object.fromEntries(M.coffees.map((c) => [c.slug, c]));
+const P = (c) => ({ ...c.position, flavour: c.flavour, process: c.process });
+const n = (x) => String(+(+x).toFixed(1)).replace(".", ",");
+const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+const PROC = { natural: "натуральная", washed: "мытая", honey: "хани", "semi-anaerobic": "полуанаэробная", anaerobic: "анаэробная", culturing: "культуринг", "wet-hull": "вэт-халл", wethull: "вэт-халл", decaf: "декаф" };
+const short = (name) => name.replace(/\s*\(.*\)/, "");
+const topFam = (c) => Object.entries(c.flavour).sort((a, b) => b[1] - a[1])[0][0];
+const state = { sel: "efiopiya-bekele", view: "axes", anchor: "none", w: { ...M.weights } };
+try { const h = location.hash.slice(1); if (by[h]) state.sel = h; } catch (e) {}
+if (!by[state.sel]) state.sel = M.coffees[0].slug;
+
+// neighbours and directions under the current weights (the build's rules, src/scripts/taste.js's distance)
+function solve(c, w) {
+  const a = P(c), D = (o, opt) => distance(a, P(o), S, { ...opt, w });
+  const others = M.coffees.filter((o) => o.slug !== c.slug && o.group !== c.group && (c.decaf || !o.decaf));
+  const near = others.map((o) => ({ o, d: D(o) })).sort((x, y) => x.d - y.d).slice(0, R.neighbours);
+  const dirs = {};
+  for (const dir of M.directions) {
+    const cands = others.map((o) => {
+      const step = dir.sign * (o.position[dir.axis] - c.position[dir.axis]);
+      if (step < R.step) return null;
+      const rest = D(o, { skip: dir.axis }), milk = dir.id === "denser" && o.use.includes("Молочные напитки");
+      return { o, step, rest, score: rest + R.overshoot * Math.max(0, step - 1) - (milk ? R.milkBonus : 0) };
+    }).filter(Boolean).sort((x, y) => x.score - y.score);
+    dirs[dir.id] = cands[0] || null;
+  }
+  return { near, dirs };
+}
+const same = (w) => Object.keys(M.weights).every((k) => Math.abs(w[k] - M.weights[k]) < 1e-9);
+// a short reason when the weights differ from the model's (the model's own reasons are written for its weights)
+function quick(a, b) {
+  const bits = [];
+  for (const [k, l] of [["acidity", "кислотность"], ["density", "плотность"], ["ferment", "фермент"]]) if (a.coded[k] !== b.coded[k]) bits.push(`${l} ${n(b.coded[k])} против ${n(a.coded[k])}`);
+  return bits.length ? bits.join(", ") + "." : "Те же шкалы; отличие во вкусе.";
+}
+
+const measure = document.createElement("canvas").getContext("2d");
+const textW = (t) => { measure.font = '500 12px Apercu, system-ui, sans-serif'; return measure.measureText(t).width; };
+
+// ── the map ──────────────────────────────────────────────────────────────────────────────────────────────────────
+const svg = document.getElementById("map"), fig = document.getElementById("fig");
+let layout = null;
+function place(W, H) {
+  const pad = { l: 56, r: 140, t: 28, b: 44 };
+  let pts, sx, sy;
+  if (state.view === "axes") {
+    sx = (v) => pad.l + (v - 0.6) / (4.9 - 0.6) * (W - pad.l - pad.r);
+    sy = (v) => H - pad.b - (v - 1.6) / (5.4 - 1.6) * (H - pad.t - pad.b);
+    // the coffees of one cell of QQ's scales (acidity × body) stand in a column, ordered by their exact brightness
+    const cells = {};
+    for (const c of M.coffees) (cells[c.coded.acidity + "/" + c.coded.density] ||= []).push(c);
+    const gap = Math.min(22, (H - pad.t - pad.b) / 3.8 / 9);
+    pts = [];
+    for (const cs of Object.values(cells)) {
+      cs.sort((a, b) => b.position.bright - a.position.bright);
+      cs.forEach((c, i) => pts.push({ c, x: sx(c.position.bright), y: sy(c.position.body) + (i - (cs.length - 1) / 2) * gap }));
+    }
+  } else {
+    const xs = M.coffees.map((c) => c.map.x), ys = M.coffees.map((c) => c.map.y);
+    const [x0, x1, y0, y1] = [Math.min(...xs), Math.max(...xs), Math.min(...ys), Math.max(...ys)];
+    const k = Math.min((W - pad.l - pad.r) / (x1 - x0), (H - pad.t - pad.b) / (y1 - y0));
+    sx = (v) => pad.l + (v - x0) * k + ((W - pad.l - pad.r) - (x1 - x0) * k) / 2;
+    sy = (v) => H - pad.b - (v - y0) * k - ((H - pad.t - pad.b) - (y1 - y0) * k) / 2;
+    pts = M.coffees.map((c) => ({ c, x: sx(c.map.x), y: sy(c.map.y) }));
+    // cups that sit on each other are pushed apart, mostly up and down so the labels to their right stay readable
+    for (let it = 0; it < 200; it++) for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const dx = pts[j].x - pts[i].x, dy = pts[j].y - pts[i].y;
+      if (Math.abs(dx) < 120 && Math.abs(dy) < 20) { const f = (20 - Math.abs(dy)) / 2, sgn = dy === 0 ? (i % 2 ? 1 : -1) : Math.sign(dy); pts[i].y -= sgn * f; pts[j].y += sgn * f; }
+    }
+  }
+  // cups stay where the model puts them; only their labels move: a label that would cross an earlier one steps down a
+  // line, and one that would run off the right edge goes to the left of its cup
+  pts.forEach((p) => { p.x = Math.max(pad.l, Math.min(W - 16, p.x)); p.y = Math.max(pad.t, Math.min(H - pad.b, p.y)); p.w = textW(short(p.c.name)); p.left = p.x + 14 + p.w > W - 8; p.lx = p.left ? p.x - 12 : p.x + 12; p.ly = p.y + 4; });
+  const box = (p) => (p.left ? [p.lx - p.w, p.lx] : [p.lx, p.lx + p.w]);
+  pts.sort((a, b) => a.x - b.x);
+  for (let i = 0; i < pts.length; i++) for (let guard = 0; guard < 12; guard++) {
+    const a = pts[i], [a0, a1] = box(a);
+    const hit = pts.slice(0, i).some((b) => { const [b0, b1] = box(b); return Math.abs(a.ly - b.ly) < 14 && a0 < b1 + 2 && a1 > b0 - 2; })
+      || pts.some((q) => q !== a && q.x > a0 - 8 && q.x < a1 + 8 && Math.abs(q.y - (a.ly - 4)) < 10);
+    if (!hit) break; a.ly += 14;
+  }
+  return { pts: Object.fromEntries(pts.map((p) => [p.c.slug, p])), sx, sy, pad, W, H };
+}
+function draw() {
+  const W = fig.clientWidth, H = fig.clientHeight; if (!W || !H) return;
+  layout = place(W, H);
+  const { pts, sx, sy, pad } = layout, c = by[state.sel], sol = solve(c, state.w);
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  let g = "";
+  if (state.view === "axes") {
+    for (let v = 1; v <= 4.5; v += 1) g += `<line x1="${sx(v)}" x2="${sx(v)}" y1="${pad.t}" y2="${H - pad.b}" stroke="var(--line)"/>`;
+    for (let v = 2; v <= 5; v += 1) g += `<line x1="${pad.l}" x2="${W - pad.r + 60}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--line)"/><text class="t-axis" x="${pad.l - 10}" y="${sy(v) + 4}" text-anchor="end">${v}</text>`;
+    for (let v = 1; v <= 4.5; v += 1) g += `<text class="t-axis" x="${sx(v)}" y="${H - pad.b + 18}" text-anchor="middle">${v}</text>`;
+    g += `<text class="t-axis" x="${pad.l}" y="${H - 8}">мягче ← кислотность → ярче</text><text class="t-axis" x="14" y="${pad.t + 4}" transform="rotate(-90 14 ${pad.t + 4})" text-anchor="end">плотнее ↑</text>`;
+    const placed = [];
+    if (state.anchor !== "none") for (const a of M.anchors[state.anchor]) {
+      const cx = sx(a.center.bright), cy = sy(a.center.body), rx = Math.abs(sx(a.center.bright + a.spread.bright) - cx), ry = Math.abs(sy(a.center.body + a.spread.body) - cy);
+      let ly = cy - ry - 6; while (placed.some(([x, y]) => Math.abs(x - cx) < 140 && Math.abs(y - ly) < 15)) ly -= 15; placed.push([cx, ly]);
+      g += `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="var(--tint)" stroke="var(--line)" stroke-dasharray="${a.assumption ? "3 4" : "none"}"/><text class="t-anchor" x="${cx}" y="${ly}" text-anchor="middle">${esc(a.name)}${a.assumption ? " (допущение)" : ""}</text>`;
+    }
+  } else g += `<text class="t-axis" x="${pad.l}" y="${H - 8}">расстояние модели на плоскости · искажение ${M.map.stress} (меньше 0,1 — хорошо)</text>`;
+  // strings to the neighbours, arrows to the steps
+  const p0 = pts[c.slug];
+  sol.near.forEach(({ o }, i) => { const p = pts[o.slug]; g += `<line x1="${p0.x}" y1="${p0.y}" x2="${p.x}" y2="${p.y}" stroke="var(--accent)" stroke-opacity="${0.75 - i * 0.1}" stroke-width="${3 - i * 0.4}"/>`; });
+  const tags = {};
+  for (const dir of M.directions) {
+    const x = sol.dirs[dir.id]; if (!x) continue;
+    const p = pts[x.o.slug], dx = p.x - p0.x, dy = p.y - p0.y, L = Math.hypot(dx, dy) || 1, ex = p.x - dx / L * 11, ey = p.y - dy / L * 11;
+    g += `<line x1="${p0.x}" y1="${p0.y}" x2="${ex}" y2="${ey}" stroke="var(--ink)" stroke-width="1.25" stroke-dasharray="4 3" marker-end="url(#arr)"/>`;
+    (tags[x.o.slug] ||= []).push(dir.ru.toUpperCase());
+  }
+  for (const [slug, t] of Object.entries(tags)) { const p = pts[slug]; g += p.left ? `<text class="t-dir" x="${p.lx}" y="${p.ly - 13}" text-anchor="end">${t.join(" · ")}</text>` : `<text class="t-dir" x="${p.lx + p.w + 6}" y="${p.ly}">${t.join(" · ")}</text>`; }
+  const rel = new Set([...sol.near.map((x) => x.o.slug), ...Object.values(sol.dirs).filter(Boolean).map((x) => x.o.slug)]);
+  // labels first (with a hairline to the cup when a label had to step down), cups on top, so no label hides a cup
+  let labels = "", cups = "";
+  for (const k of M.coffees) {
+    const p = pts[k.slug], isSel = k.slug === c.slug;
+    if (Math.abs(p.ly - p.y - 4) > 1) labels += `<line x1="${p.x}" y1="${p.y}" x2="${p.left ? p.lx + 2 : p.lx - 2}" y2="${p.ly - 4}" stroke="var(--line)"/>`;
+    labels += `<text class="${isSel ? "t-sel" : rel.has(k.slug) ? "t-rel" : ""}" x="${p.lx}" y="${p.ly}"${p.left ? ' text-anchor="end"' : ""}>${esc(short(k.name))}</text>`;
+    cups += `<g class="cup" data-slug="${k.slug}" tabindex="0" role="button" aria-label="${esc(k.name)}"><circle class="hit" cx="${p.x}" cy="${p.y}" r="16"/>`;
+    if (isSel) cups += `<circle cx="${p.x}" cy="${p.y}" r="13" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+    cups += `<circle class="c" cx="${p.x}" cy="${p.y}" r="${isSel ? 8 : 6.5}" fill="${DOT[FAM[topFam(k)].dot]}" stroke="var(--ground)" stroke-width="1.5"/></g>`;
+  }
+  g += labels + cups;
+  svg.innerHTML = `<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker></defs>` + g;
+}
+const ro = new ResizeObserver(draw); ro.observe(fig);
+svg.addEventListener("click", (e) => { const g = e.target.closest(".cup"); if (g) choose(g.dataset.slug); });
+svg.addEventListener("keydown", (e) => { const g = e.target.closest(".cup"); if (g && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); choose(g.dataset.slug); } });
+
+// ── the panel ────────────────────────────────────────────────────────────────────────────────────────────────────
+const sel = document.getElementById("sel");
+sel.innerHTML = [...M.coffees].sort((a, b) => a.name.localeCompare(b.name, "ru")).map((c) => `<option value="${c.slug}">${esc(c.name)}</option>`).join("");
+sel.addEventListener("change", () => choose(sel.value));
+function link(slug) { return `<button type="button" data-go="${slug}">${esc(by[slug].name)}</button>`; }
+function panel() {
+  const c = by[state.sel], sol = solve(c, state.w), own = same(state.w);
+  sel.value = c.slug;
+  const fams = Object.entries(c.flavour).sort((a, b) => b[1] - a[1]);
+  document.getElementById("head").innerHTML = `<h2 class="name">${esc(c.name)}</h2><p class="short">${esc(c.short)}</p>
+    <div class="scales">${[["acidity", "кислотность"], ["density", "плотность"], ["ferment", "фермент"], ["sweetness", "сладость"]].map(([k, l]) => `<div><b>${n(c.coded[k])}</b><span>${l}</span></div>`).join("")}</div>
+    <ul class="pills">${c.descriptors.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
+    <p class="meta">${fams.map(([f, w]) => `<span class="dot" style="--c:${DOT[FAM[f].dot]}"></span>${FAM[f].ru} ${Math.round(w * 100)}%`).join(" · ")}</p>
+    <p class="meta">${[c.line, c.type, c.countries.join(", "), c.processing.map((x) => PROC[x] || x).join(" / ") || (c.process ? Object.entries(c.process).map(([k, w]) => `${PROC[k] || k} ${Math.round(w * 100)}%`).join(", ") : ""), c.roasts.join(" и ")].filter(Boolean).map(esc).join(" · ")}. Позиция: ярче ${c.position.bright}, плотнее ${c.position.body}, необычнее ${c.position.unusual}.</p>`;
+  document.getElementById("changed").innerHTML = own ? "" : `<p class="changed">Веса изменены: выбор пересчитан, причины — короткие. Причины модели написаны для её весов.</p>`;
+  document.getElementById("dirs").innerHTML = M.directions.map((dir) => {
+    const x = sol.dirs[dir.id], m = c.directions[dir.id];
+    if (!x) return `<div class="dir edge"><h3>${dir.ru}</h3><p>${esc(m.edge ? m.text : "В этом направлении ничего нет.")}</p></div>`;
+    const text = own && m.slug === x.o.slug ? m.text : quick(c, x.o);
+    return `<div class="dir"><h3>${dir.ru}</h3>${link(x.o.slug)}${x.rest > R.far ? '<span class="far">далеко</span>' : ""}<p>${esc(text)}</p></div>`;
+  }).join("");
+  document.getElementById("near").innerHTML = sol.near.map(({ o, d }) => {
+    const m = c.neighbours.find((x) => x.slug === o.slug);
+    return `<li><div>${link(o.slug)}${d > R.far ? '<span class="far">далеко</span>' : ""}<p>${esc(own && m ? m.text : quick(c, o))}</p></div><span class="d">${d.toFixed(2)}</span></li>`;
+  }).join("");
+  const ck = CHECK.targets.find((t) => t.slug === c.slug), box = document.getElementById("check");
+  box.hidden = !ck;
+  if (ck) {
+    const mine = new Set(sol.near.map((x) => x.o.slug));
+    const row = (label, list) => `<tr><th>${label}</th><td>${list.map((s) => s === "none" ? "—" : `<span class="${mine.has(s) ? "hit" : ""}">${esc(short(by[s].name))}</span>`).join(", ")}</td></tr>`;
+    const one = (s) => s === "none" ? "нет" : esc(short(by[s].name));
+    const md = (id) => sol.dirs[id] ? one(sol.dirs[id].o.slug) : "нет";
+    box.innerHTML = `<h2>Слепая проверка</h2><table>${row("Судья A", ck.A.closest)}${row("Судья B", ck.B.closest)}
+      <tr><th>Ярче</th><td>модель: ${md("brighter")} · A: ${one(ck.A.brighter)} · B: ${one(ck.B.brighter)}</td></tr>
+      <tr><th>Мягче</th><td>модель: ${md("softer")} · A: ${one(ck.A.softer)} · B: ${one(ck.B.softer)}</td></tr></table>
+      <p><span class="hit">Выделены</span> совпадения с ближайшими модели. ${esc(ck.verdict)}</p>`;
+  }
+  const rl = M.anchors.relabels.filter((r) => r.sameAs === c.slug), sb = document.getElementById("same");
+  sb.hidden = !rl.length;
+  if (rl.length) sb.innerHTML = `<h2>Тот же кофе под другим названием</h2><p class="meta" style="margin:0">${rl.map((r) => esc(r.name) + (r.sameProfile ? "" : " (другой профиль)")).join(", ")}. Никогда не предлагаются как альтернатива.</p>`;
+  for (const b of document.querySelectorAll("[data-go]")) b.addEventListener("click", () => choose(b.dataset.go));
+}
+function choose(slug) { state.sel = slug; try { history.replaceState(null, "", "#" + slug); } catch (e) {} panel(); draw(); }
+window.addEventListener("hashchange", () => { const h = location.hash.slice(1); if (by[h] && h !== state.sel) choose(h); });
+
+for (const b of document.querySelectorAll("[data-view]")) b.addEventListener("click", () => { state.view = b.dataset.view; for (const x of document.querySelectorAll("[data-view]")) x.setAttribute("aria-pressed", x === b); draw(); });
+for (const b of document.querySelectorAll("[data-anchor]")) b.addEventListener("click", () => { state.anchor = b.dataset.anchor; for (const x of document.querySelectorAll("[data-anchor]")) x.setAttribute("aria-pressed", x === b); if (state.view !== "axes" && state.anchor !== "none") document.querySelector('[data-view="axes"]').click(); else draw(); });
+
+const WL = { bright: "кислотность", body: "плотность", unusual: "фермент", sweet: "сладость", flavour: "вкус (семьи)", process: "обработка" };
+const wbox = document.getElementById("weights");
+function weights() {
+  wbox.innerHTML = Object.keys(M.weights).map((k) => `<label>${WL[k]}<input type="range" min="0" max="3" step="0.05" value="${state.w[k]}" data-w="${k}"><output>${state.w[k].toFixed(2)}</output></label>`).join("");
+  for (const i of wbox.querySelectorAll("input")) i.addEventListener("input", () => { state.w[i.dataset.w] = +i.value; i.nextElementSibling.textContent = (+i.value).toFixed(2); panel(); draw(); });
+}
+document.getElementById("reset").addEventListener("click", () => { state.w = { ...M.weights }; weights(); panel(); draw(); });
+document.getElementById("notes").innerHTML = CHECK.notes.map((t) => `<p>${esc(t)}</p>`).join("");
+const byDot = {}; for (const f of M.families) (byDot[f.dot] ||= []).push(f.ru);
+document.getElementById("legend").innerHTML = Object.entries(byDot).map(([d, names]) => `<span><span class="dot" style="--c:${DOT[d]}"></span>${esc(names.join(", "))}</span>`).join("") + `<span>· цвет точки — главная семья вкуса</span>`;
+weights(); panel();
+}
+</script>
+</body>
+</html>
