@@ -98,12 +98,12 @@
 /* the taste scale under the text (components.mjs tasteScale): three rows, a dot on a line between the axis's words,
    the line QQ's own range. One grid for the rows, so every line starts and ends at the same place; the words small,
    in the secondary colour. The line is ink-60 (3.9 : 1 on paper, 3.7 : 1 on cloud) and the dot ink: a graphic that
-   carries meaning needs 3 : 1 (WCAG 1.4.11), the hairlines' ink-20 would not (decision card-scale). From M, where
-   cards stand side by side, the text keeps room for its three lines, so the scales of a row start level. */
+   carries meaning needs 3 : 1 (WCAG 1.4.11), the hairlines' ink-20 would not (decision card-scale). The text takes
+   what height the card has to spare (cards of a row are as tall as the tallest), so the scales of a row stand level. */
 .scale { margin-top: 12px; max-width: 24rem; }
 .scale__rows { display: grid; grid-template-columns: max-content minmax(3rem, 1fr) max-content; align-items: center; gap: 2px 8px; font-size: var(--type-small); line-height: var(--lh-compact); color: var(--c-ink-70); }
 .scale__end:nth-child(3n + 1) { text-align: right; }
 .scale__line { position: relative; height: 10px; }
 .scale__line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: var(--hair); background: var(--c-ink-60); }
 .scale__dot { --t: 0.5; position: absolute; top: 50%; left: calc(var(--t) * (100% - 10px)); width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--c-ink); }
-@container col (width >= 43rem) { .card__text { min-height: calc(16px + 3em * var(--lh-text)); } }
+.card__text { flex: 1 0 auto; }
