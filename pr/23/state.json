@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T04:56:23.281Z",
- "commit": "30f2c8df5713d3effbb63d8d7dd28fb45a26eb66",
+ "generated": "2026-11-24T06:38:21.180Z",
+ "commit": "77b5f6d139ffeef6f0b8bfbcf5bf04472b99ce1e",
  "ref": "claude/people",
  "pr": "23",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T04:42:17.572Z",
+   "when": "2026-11-24T06:24:26.481Z",
    "quick": false,
-   "seconds": 474,
+   "seconds": 473,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T04:50:10.666Z",
+   "when": "2026-11-24T06:32:18.296Z",
    "quick": true,
-   "seconds": 372,
+   "seconds": 363,
    "errors": []
   }
  },
@@ -42,8 +42,8 @@
   "warn": 11,
   "fail": 5,
   "info": 6,
-  "findings": 144,
-  "new": 3,
+  "findings": 148,
+  "new": 7,
   "fixed": 0,
   "accepted": 91,
   "questions": 7
@@ -268,14 +268,14 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "28 places",
-   "fresh": 3,
+   "why": "32 places",
+   "fresh": 7,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
    ],
-   "rank": 178
+   "rank": 182
   },
   {
    "type": "rule",
@@ -443,8 +443,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2458,
-   "total": 2461,
+   "on": 2440,
+   "total": 2443,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -480,8 +480,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2458,
-    "total": 2461
+    "on": 2440,
+    "total": 2443
    },
    "accepted": 0,
    "was": {
@@ -545,8 +545,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 4184,
-   "total": 4184,
+   "on": 4166,
+   "total": 4166,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -554,8 +554,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 4189,
-    "total": 4189
+    "on": 4171,
+    "total": 4171
    },
    "accepted": 0,
    "was": {
@@ -584,9 +584,9 @@
     },
     {
      "key": "alpha",
-     "where": "coffee/keniya-kisii/ li.ptile, coffee/keniya-kisii/ span.buyer__dots i, coffee/q-optimistic/ li.ptile, coffee/q-optimistic/ span.buyer__dots i",
+     "where": "coffee/keniya-kisii/ li.ptile, coffee/keniya-kisii/ span.buyer__meter, coffee/q-optimistic/ li.ptile, coffee/q-optimistic/ span.buyer__meter",
      "what": "alpha",
-     "value": 15
+     "value": 13
     }
    ],
    "status": "info",
@@ -606,8 +606,8 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 652,
-   "total": 652,
+   "on": 373,
+   "total": 373,
    "pass": 90,
    "warn": 75,
    "status": "warn",
@@ -655,9 +655,9 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 89.3,
-    "on": 652,
-    "total": 730
+    "value": 82.7,
+    "on": 373,
+    "total": 451
    },
    "accepted": 0,
    "was": {
@@ -952,7 +952,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 28,
+   "value": 32,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -975,6 +975,13 @@
      "where": "coffee/keniya-kisii/ div.footer__legal p",
      "what": "right edge -3px off the line at 256 (4 blocks on it)",
      "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ p.people__count|right|256",
+     "where": "coffee/q-optimistic/ p.people__count",
+     "what": "right edge -2px off the line at 256 (4 blocks on it)",
+     "value": 2,
      "at": "320x568"
     },
     {
@@ -1013,10 +1020,24 @@
      "at": "768x1024"
     },
     {
+     "key": "coffee/keniya-kisii/ h2.head__title|left|208",
+     "where": "coffee/keniya-kisii/ h2.head__title",
+     "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
+     "value": 1.57,
+     "at": "768x1024"
+    },
+    {
      "key": "coffee/keniya-kisii/ h3.card__title|left|406",
      "where": "coffee/keniya-kisii/ h3.card__title",
      "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
      "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h2.head__title|right|560",
+     "where": "coffee/keniya-kisii/ h2.head__title",
+     "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
+     "value": 1.54,
      "at": "768x1024"
     },
     {
@@ -1027,10 +1048,24 @@
      "at": "768x1024"
     },
     {
+     "key": "coffee/q-optimistic/ h2.head__title|left|208",
+     "where": "coffee/q-optimistic/ h2.head__title",
+     "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
+     "value": 1.57,
+     "at": "768x1024"
+    },
+    {
      "key": "coffee/q-optimistic/ h3.card__title|left|406",
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
      "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/q-optimistic/ h2.head__title|right|560",
+     "where": "coffee/q-optimistic/ h2.head__title",
+     "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
+     "value": 1.54,
      "at": "768x1024"
     },
     {
@@ -1066,6 +1101,13 @@
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
      "value": 0.74,
+     "at": "1024x768"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|right|205",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "right edge +1.46px off the line at 204.92 (4 blocks on it)",
+     "value": 1.46,
      "at": "1024x768"
     },
     {
@@ -1125,13 +1167,6 @@
      "at": "1920x1080"
     },
     {
-     "key": "coffee/q-optimistic/ li.ptile|left|260",
-     "where": "coffee/q-optimistic/ li.ptile",
-     "what": "left edge +0.8px off the line at 260 (8 blocks on it)",
-     "value": 0.8,
-     "at": "1920x1080"
-    },
-    {
      "key": "li.fact|left|520",
      "where": "li.fact",
      "what": "left edge +1px off the line at 520 (11 blocks on it)",
@@ -1143,13 +1178,6 @@
      "where": "li.fact",
      "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
      "value": 0.99,
-     "at": "2560x1440"
-    },
-    {
-     "key": "coffee/q-optimistic/ li.ptile|left|580",
-     "where": "coffee/q-optimistic/ li.ptile",
-     "what": "left edge +0.8px off the line at 580 (8 blocks on it)",
-     "value": 0.8,
      "at": "2560x1440"
     }
    ],
@@ -3347,7 +3375,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "130 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "131 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
    "value": 4,
    "unit": "places",
@@ -3691,7 +3719,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "119 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "120 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3989,6 +4017,15 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/q-optimistic/ p.people__count|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ p.people__count",
+   "what": "right edge -2px off the line at 256 (4 blocks on it)",
+   "at": "320x568",
+   "new": true
+  },
+  {
    "key": "align.edges::coffee/q-optimistic/ div.footer__legal p|right|256",
    "rule": "align.edges",
    "status": "warn",
@@ -4034,6 +4071,15 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/keniya-kisii/ h2.head__title|left|208",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h2.head__title",
+   "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
+   "at": "768x1024",
+   "new": true
+  },
+  {
    "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
@@ -4041,6 +4087,15 @@
    "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
    "at": "768x1024",
    "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h2.head__title|right|560",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h2.head__title",
+   "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
+   "at": "768x1024",
+   "new": true
   },
   {
    "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
@@ -4052,6 +4107,15 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/q-optimistic/ h2.head__title|left|208",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h2.head__title",
+   "what": "left edge +1.57px off the line at 207.98 (5 blocks on it)",
+   "at": "768x1024",
+   "new": true
+  },
+  {
    "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
@@ -4059,6 +4123,15 @@
    "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
    "at": "768x1024",
    "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h2.head__title|right|560",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h2.head__title",
+   "what": "right edge -1.54px off the line at 559.98 (5 blocks on it)",
+   "at": "768x1024",
+   "new": true
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
@@ -4104,6 +4177,15 @@
    "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
    "at": "1024x768",
    "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|right|205",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "right edge +1.46px off the line at 204.92 (4 blocks on it)",
+   "at": "1024x768",
+   "new": true
   },
   {
    "key": "align.edges::catalog/ h2.card__title|left|707",
@@ -4178,15 +4260,6 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/q-optimistic/ li.ptile|left|260",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ li.ptile",
-   "what": "left edge +0.8px off the line at 260 (8 blocks on it)",
-   "at": "1920x1080",
-   "new": true
-  },
-  {
    "key": "align.edges::li.fact|left|520",
    "rule": "align.edges",
    "status": "warn",
@@ -4203,15 +4276,6 @@
    "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
    "at": "2560x1440",
    "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ li.ptile|left|580",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ li.ptile",
-   "what": "left edge +0.8px off the line at 580 (8 blocks on it)",
-   "at": "2560x1440",
-   "new": true
   },
   {
    "key": "align.icons::a.nav__tool",
@@ -5551,14 +5615,14 @@
    "id": "people-block",
    "kind": "decision",
    "state": "unbound",
-   "what": "«Отзывы» on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title «Отзывы»; the number of reviews and «Написать отзыв» on one line; chips by way of brewing (Эспрессо и кофемашина, Турка и гейзер, Фильтр, С молоком; remembered in this browser) that show only those reviews; then a hairline list, each review headed by the reviewer's avatar (initials in an ink dot) and name, then how close their taste is to yours (three dots and words: близок / отчасти / не похож; from the taste model, never a percent), their answers against expectation (кислотность: ярковато / в самый раз / хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее), their words and the date; no city, no method line, no «обычно пьёт», no «купил у QQ». 0 reviews: an invitation. The line under the coffee's name says how many reviews and links down. The review form is a dialog of the site's cells: the method and both axes required",
+   "what": "«Как он в чашке» (was «Отзывы»; Tim: about the experience, taste included) on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title «Как он в чашке»; «N человек рассказали» and «Рассказать о своей» on one line; chips by way of brewing (Эспрессо и кофемашина, Турка и гейзер, Фильтр, С молоком; remembered in this browser) that show only those reviews; then a hairline list, each review headed by the reviewer's avatar (initials in an ink dot) and name, then how close their taste is to yours (a short line filled by closeness and why in words: «Вкус как у вас: тоже любит мягкое», «Вкус другой: любит яркое»; from the taste model, never a percent), their answers against expectation (кислотность: ярковато / в самый раз / хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее), their words, the date and after how many cups; no city, no method line, no «обычно пьёт», no «купил у QQ». 0 reviews: an invitation. The line under the coffee's name says how many reviews and links down. The review form is a dialog of the site's cells: the method and both axes required",
    "decided": "Tim, 2026-11-24 (iterating on «Полка»: a separate section after the lot's text; no ambassadors; the title «Отзывы» centred; the count and «Написать отзыв» on one line; then the ways of brewing; reviews headed by the avatar and the name, with how close their taste is to yours, without «обычно пьёт», «купил у QQ», the method line or the city)"
   },
   {
    "id": "people-placeholder",
    "kind": "placeholder",
    "state": "unbound",
-   "what": "Every reviewer and review of «Отзывы» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so they behave as real ones would; «your» taste, for how close a reviewer's is, is the account's placeholder visitor (data/account.json) placed by the coffees they bought. The section says so in a lavender pill («Пример: отзывы выдуманы, «ваш вкус» — из тестового профиля»), the line under the name in a pill «пример». Sending a review says it is not sent yet. data/people.json also keeps invented ambassadors, not shown on the page (Tim, 24 Nov)",
+   "what": "Every reviewer and review of «Отзывы» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so they behave as real ones would; «your» taste, for how close a reviewer's is, is the account's placeholder visitor (data/account.json) placed by the coffees they bought. Tim, 24 Nov: no «пример» marks on the page; this decision, the PR and docs/people-backend.md say it instead. Sending a review says it is not sent yet. data/people.json also keeps invented ambassadors, not shown on the page (Tim, 24 Nov)",
    "decided": "Claude, 2026-11-24 (session 5 of choosing coffee)"
   }
  ],
