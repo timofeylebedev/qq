@@ -1,0 +1,5566 @@
+{
+ "schema": 1,
+ "site": "QQ Coffee",
+ "generated": "2026-11-24T02:01:36.109Z",
+ "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
+ "ref": "main",
+ "pr": null,
+ "errors": [],
+ "engines": {
+  "chromium": {
+   "version": "141.0.7390.37",
+   "when": "2026-11-24T01:48:11.947Z",
+   "quick": false,
+   "seconds": 454,
+   "errors": []
+  },
+  "webkit": {
+   "version": "26.0",
+   "when": "2026-11-24T01:55:46.028Z",
+   "quick": true,
+   "seconds": 349,
+   "errors": []
+  }
+ },
+ "base": {
+  "commit": "99b2346b081557639e77074682203a113a196ba7",
+  "generated": "2026-11-24T00:40:39.106Z"
+ },
+ "kinds": {
+  "hard": "any item is a failure",
+  "share": "a share of the uses must follow the rule",
+  "tolerance": "each item inside a band",
+  "convention": "a count that should stay small",
+  "trend": "compared with the last deploy",
+  "scenario": "played in a browser",
+  "inventory": "what there is, no verdict"
+ },
+ "summary": {
+  "rules": 75,
+  "errors": 0,
+  "pass": 53,
+  "warn": 11,
+  "fail": 5,
+  "info": 6,
+  "findings": 141,
+  "new": 4,
+  "fixed": 0,
+  "accepted": 91,
+  "questions": 5
+ },
+ "needs": [
+  {
+   "type": "rule",
+   "id": "code.tokens-wired",
+   "severity": "fail",
+   "area": "Code",
+   "title": "Every var() defined, every token used",
+   "kind": "hard",
+   "why": "4 places",
+   "fresh": 0,
+   "sample": [
+    "Code: defined, never used: --c-ink-10",
+    "Code: defined, never used: --c-graphite",
+    "Code: defined, never used: --trace-light"
+   ],
+   "rank": 304
+  },
+  {
+   "type": "rule",
+   "id": "images.first",
+   "severity": "fail",
+   "area": "Images",
+   "title": "The first screen does not wait",
+   "kind": "hard",
+   "why": "3 places",
+   "fresh": 0,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (844x390 1024x768 1440x900 1920x1080 2560x1440)",
+    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
+    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
+   ],
+   "rank": 303
+  },
+  {
+   "type": "rule",
+   "id": "fallback.nojs",
+   "severity": "fail",
+   "area": "Fallbacks",
+   "title": "The page reads without scripts",
+   "kind": "hard",
+   "why": "2 places",
+   "fresh": 0,
+   "sample": [
+    "390x844: 44.1% of the text shown, 6 of 9 headings, h1 shown (390x844)",
+    "1440x900: 44.1% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
+   ],
+   "rank": 302
+  },
+  {
+   "type": "rule",
+   "id": "health.head",
+   "severity": "fail",
+   "area": "Page health",
+   "title": "Titles, descriptions, outline",
+   "kind": "tolerance",
+   "why": "17 places · 24 notes",
+   "fresh": 0,
+   "sample": [
+    "/: no og:image",
+    "/: no web manifest",
+    "/cart/: description of 23 characters (50–170)"
+   ],
+   "rank": 297
+  },
+  {
+   "type": "rule",
+   "id": "health.files",
+   "severity": "fail",
+   "area": "Page health",
+   "title": "robots.txt, sitemap, manifest, icons",
+   "kind": "hard",
+   "why": "4 places",
+   "fresh": 0,
+   "sample": [
+    "sitemap.xml: answers 404",
+    "site.webmanifest: answers 404",
+    "favicon.ico: answers 404"
+   ],
+   "rank": 284
+  },
+  {
+   "type": "question",
+   "id": "hero-footer-links",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The navbar links only to pages that exist (an item without a page is a label: decision nav-links-pages). The hero's and the footer's links are not under that rule yet. Should they follow it too (no link where there is no page), or stay as they are?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/",
+   "options": [
+    "Same rule as the navbar",
+    "Keep them as they are"
+   ],
+   "since": "2026-10-20",
+   "from": "round 2 (CLAUDE.md «Navbar links»)",
+   "why": "open since 2026-10-20 (round 2 (CLAUDE.md «Navbar links»))",
+   "rank": 230
+  },
+  {
+   "type": "question",
+   "id": "tabbar-safari-bar",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "On your iPhone, in Safari: scroll any page down and up with the tab bar at the bottom. Does Safari's own bottom bar stay plain glass, or does it take the tab bar's colour (or turn white)? Safari tints its bar from anything fixed at the bottom edge (a lesson of Flow Medium, site-kit AGENTS.md). PR #18 adds Flow Medium's guard (an empty fixed block over that point, site-kit/runtime/safari.css): look at the test site once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/catalog/), the catalog and a coffee's page (its buy bar sits on the tab bar), also near the footer.",
+   "needs": [
+    "iphone"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/catalog/",
+   "options": [
+    "Plain glass, looks right",
+    "It takes a colour (say which page)"
+   ],
+   "since": "2026-11-23",
+   "from": "PR #17 (site-kit), PR #18 (the guard)",
+   "why": "open since 2026-11-23 (PR #17 (site-kit), PR #18 (the guard))",
+   "rank": 201
+  },
+  {
+   "type": "question",
+   "id": "not-found-page",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The site has no page of its own for a wrong address: GitHub Pages shows its plain «404 File not found». Make a QQ page for it (the navbar, a line and a link to the catalog), or leave it until the real host?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/no-such-page",
+   "options": [
+    "Make a QQ page",
+    "Leave it until the real host"
+   ],
+   "since": "2026-11-23",
+   "from": "PR #17 (site-kit: the checks found no 404.html)",
+   "why": "open since 2026-11-23 (PR #17 (site-kit: the checks found no 404.html))",
+   "rank": 201
+  },
+  {
+   "type": "question",
+   "id": "box-mac-safari",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
+   "needs": [
+    "mac-safari"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/?qqbox=1",
+   "options": [
+    "Solid bar, everything works",
+    "Something is off (say what and where)"
+   ],
+   "since": "2026-11-23",
+   "from": "PR #18",
+   "why": "open since 2026-11-23 (PR #18)",
+   "rank": 201
+  },
+  {
+   "type": "question",
+   "id": "checkout-sideways",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/checkout/",
+   "options": [
+    "Fix it in the next PR",
+    "Leave it (folded phones are rare)"
+   ],
+   "since": "2026-11-23",
+   "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+   "why": "open since 2026-11-23 (PR #17 (the kit's audit in Firefox and WebKit at 280 × 653))",
+   "rank": 201
+  },
+  {
+   "type": "rule",
+   "id": "align.edges",
+   "severity": "warn",
+   "area": "Alignment",
+   "title": "Edges line up",
+   "kind": "tolerance",
+   "why": "25 places",
+   "fresh": 2,
+   "sample": [
+    "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
+    "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
+    "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
+   ],
+   "rank": 175
+  },
+  {
+   "type": "rule",
+   "id": "images.sharp",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are sharp",
+   "kind": "tolerance",
+   "why": "15 places",
+   "fresh": 1,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
+   ],
+   "rank": 165
+  },
+  {
+   "type": "rule",
+   "id": "images.weight",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are not much bigger than drawn",
+   "kind": "tolerance",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    "coffee/q-optimistic/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px (2560x1440)"
+   ],
+   "rank": 151
+  },
+  {
+   "type": "rule",
+   "id": "icons.sizes",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Few icon sizes",
+   "kind": "convention",
+   "why": "16 places",
+   "fresh": 0,
+   "sample": [
+    "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn: 24×24",
+    "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron: 20×20",
+    "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
+   ],
+   "rank": 116
+  },
+  {
+   "type": "rule",
+   "id": "fallback.fonts",
+   "severity": "warn",
+   "area": "Fallbacks",
+   "title": "The fallback font keeps the layout",
+   "kind": "tolerance",
+   "why": "14 places",
+   "fresh": 0,
+   "sample": [
+    "p.featured__about: «Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font (390x844 1440x900)",
+    "p.featured__about: «Куа Мон в переводе с вье» 14 → 16 lines, 303 → 303px wide with the fallback font (390x844)",
+    "p.featured__about: «Алехандра Муньос пришла » 18 → 20 lines, 303 → 303px wide with the fallback font (390x844 1440x900)"
+   ],
+   "rank": 114
+  },
+  {
+   "type": "rule",
+   "id": "align.icons",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Icons sit on their text's line",
+   "kind": "tolerance",
+   "why": "12 places",
+   "fresh": 0,
+   "sample": [
+    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)",
+    "button.buy__add: higher than its text's line by 2.59px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+   ],
+   "rank": 112
+  },
+  {
+   "type": "rule",
+   "id": "layers.z",
+   "severity": "warn",
+   "area": "Layers",
+   "title": "A short ladder of layers",
+   "kind": "convention",
+   "why": "8 places",
+   "fresh": 0,
+   "sample": [
+    "picture.bcard__image: z-index -1",
+    "div.story__text: z-index 1",
+    "button.hero__info-btn: z-index 2"
+   ],
+   "rank": 108
+  },
+  {
+   "type": "rule",
+   "id": "shape.radii",
+   "severity": "warn",
+   "area": "Shape",
+   "title": "Corners are radius roles (or pills)",
+   "kind": "share",
+   "why": "100% of rounded boxes (wanted 90%)",
+   "fresh": 0,
+   "sample": [
+    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "catalog/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
+   ],
+   "rank": 104
+  },
+  {
+   "type": "rule",
+   "id": "shape.borders",
+   "severity": "warn",
+   "area": "Shape",
+   "title": "Few border widths",
+   "kind": "convention",
+   "why": "3 places · 1 widths",
+   "fresh": 0,
+   "sample": [
+    "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts: 1px",
+    "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box: 1.5px",
+    "catalog/ input.box: 1.33px"
+   ],
+   "rank": 103
+  },
+  {
+   "type": "rule",
+   "id": "icons.colour",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Icons take the colour of their text",
+   "kind": "tolerance",
+   "why": "3 places",
+   "fresh": 0,
+   "sample": [
+    "svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "coffee/keniya-kisii/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "coffee/q-optimistic/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+   ],
+   "rank": 103
+  },
+  {
+   "type": "rule",
+   "id": "type.measure",
+   "severity": "warn",
+   "area": "Type",
+   "title": "Lines of running text are not too long",
+   "kind": "tolerance",
+   "why": "1 place · 3 too long",
+   "fresh": 0,
+   "sample": [
+    "coffee/q-optimistic/ div.pstory__cols p: 93 characters a line over 3 lines (1024x768 1366x650 1440x900)"
+   ],
+   "rank": 101
+  }
+ ],
+ "rules": [
+  {
+   "id": "type.roles",
+   "area": "Type",
+   "kind": "share",
+   "title": "Text is set in the roles of the scale",
+   "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
+   "value": 99.9,
+   "unit": "% of text holders",
+   "on": 2164,
+   "total": 2167,
+   "pass": 97,
+   "warn": 90,
+   "status": "pass",
+   "items": [
+    {
+     "key": "catalog/ h1.sr|29.6",
+     "where": "catalog/ h1.sr",
+     "what": "29.6px PT Mono 700",
+     "value": 29.6,
+     "n": 1,
+     "at": "768x1024",
+     "note": "nearest role type/h3 = 32.8px"
+    },
+    {
+     "key": "catalog/ h1.sr|30.51",
+     "where": "catalog/ h1.sr",
+     "what": "30.51px PT Mono 700",
+     "value": 30.51,
+     "n": 1,
+     "at": "1024x768",
+     "note": "nearest role type/title = 28.29px"
+    },
+    {
+     "key": "catalog/ h1.sr|30.07",
+     "where": "catalog/ h1.sr",
+     "what": "30.07px PT Mono 700",
+     "value": 30.07,
+     "n": 1,
+     "at": "1366x650",
+     "note": "nearest role type/title = 27.18px"
+    }
+   ],
+   "webkit": {
+    "status": "pass",
+    "value": 99.9,
+    "on": 2164,
+    "total": 2167
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 99.9
+   }
+  },
+  {
+   "id": "type.widows",
+   "area": "Type",
+   "kind": "tolerance",
+   "title": "No paragraph ends on one short word",
+   "how": "Every paragraph of 2+ lines at every measured size: its last line, word by word as drawn. A long word alone is fine; one of 4 letters or fewer is a widow.",
+   "value": 0,
+   "unit": "widows",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "type.measure",
+   "area": "Type",
+   "kind": "tolerance",
+   "title": "Lines of running text are not too long",
+   "how": "Paragraphs of 3+ lines: the median characters a line, at most 90 (45–75 is the classic range; headings and short texts left out).",
+   "value": 3,
+   "unit": "too long",
+   "status": "warn",
+   "items": [
+    {
+     "key": "coffee/q-optimistic/ div.pstory__cols p",
+     "where": "coffee/q-optimistic/ div.pstory__cols p",
+     "what": "93 characters a line over 3 lines",
+     "value": 93,
+     "at": "1024x768 1366x650 1440x900"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 2
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 3
+   }
+  },
+  {
+   "id": "colour.palette",
+   "area": "Colour",
+   "kind": "share",
+   "title": "Every colour drawn is a token",
+   "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
+   "value": 100,
+   "unit": "% of colour uses",
+   "on": 4035,
+   "total": 4035,
+   "pass": 99,
+   "warn": 95,
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 100,
+    "on": 4040,
+    "total": 4040
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 100
+   }
+  },
+  {
+   "id": "fills.kinds",
+   "area": "Fills",
+   "kind": "inventory",
+   "title": "Kinds of fill",
+   "how": "Backgrounds the browser drew, by kind: solid, see-through (alpha), gradient, picture.",
+   "items": [
+    {
+     "key": "solid",
+     "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
+     "what": "solid",
+     "value": 45
+    },
+    {
+     "key": "gradient",
+     "where": "div.hero__dock, p.featured__caption, form.buy, div.bcard__info, catalog/ form.buy, coffee/keniya-kisii/ form.buy",
+     "what": "gradient",
+     "value": 25
+    },
+    {
+     "key": "alpha",
+     "where": "coffee/keniya-kisii/ li.ptile, coffee/q-optimistic/ li.ptile",
+     "what": "alpha",
+     "value": 5
+    }
+   ],
+   "status": "info",
+   "webkit": {
+    "status": "info"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "shape.radii",
+   "area": "Shape",
+   "kind": "share",
+   "title": "Corners are radius roles (or pills)",
+   "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
+   "value": 100,
+   "unit": "% of rounded boxes",
+   "on": 256,
+   "total": 256,
+   "pass": 90,
+   "warn": 75,
+   "status": "warn",
+   "items": [
+    {
+     "key": "select.buy__select|5",
+     "where": "select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 12,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "catalog/ select.buy__select|5",
+     "where": "catalog/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 50,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "coffee/keniya-kisii/ select.buy__select|5",
+     "where": "coffee/keniya-kisii/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 8,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    },
+    {
+     "key": "coffee/q-optimistic/ select.buy__select|5",
+     "where": "coffee/q-optimistic/ select.buy__select",
+     "what": "radius 5px on a 144×54 box",
+     "value": 5,
+     "n": 8,
+     "at": "320x568 390x844",
+     "note": "roles here: ",
+     "engine": "webkit"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 76.6,
+    "on": 256,
+    "total": 334
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 100
+   }
+  },
+  {
+   "id": "shape.borders",
+   "area": "Shape",
+   "kind": "convention",
+   "title": "Few border widths",
+   "how": "Distinct border widths drawn at all sizes; more than 2 warns.",
+   "value": 1,
+   "unit": "widths",
+   "warn": 2,
+   "status": "warn",
+   "items": [
+    {
+     "key": "1",
+     "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
+     "what": "1px",
+     "value": 99
+    },
+    {
+     "key": "1.5",
+     "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
+     "what": "1.5px",
+     "value": 29,
+     "engine": "webkit"
+    },
+    {
+     "key": "1.33",
+     "where": "catalog/ input.box",
+     "what": "1.33px",
+     "value": 29,
+     "engine": "webkit"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 3
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 1
+   }
+  },
+  {
+   "id": "effects.shadows",
+   "area": "Effects",
+   "kind": "convention",
+   "title": "Few shadows",
+   "how": "Distinct shadows drawn (box and text); more than 6 warns. There are no shadow tokens yet: each is written in its stylesheet.",
+   "value": 0,
+   "unit": "shadows",
+   "warn": 6,
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "effects.cost",
+   "area": "Effects",
+   "kind": "inventory",
+   "title": "Effects that cost the graphics card",
+   "how": "Blur and glass (backdrop-filter), filters, blend modes, canvases and video, by element. What each costs on a phone needs a real device (the checks here have no GPU).",
+   "items": [
+    {
+     "key": "videodiv.hero__bg video",
+     "where": "div.hero__bg video",
+     "what": "video: 320×521",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "backdrop-filtercoffee/keniya-kisii/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile",
+     "what": "backdrop-filter: blur(40px)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "backdrop-filtercoffee/q-optimistic/ li.ptile",
+     "where": "coffee/q-optimistic/ li.ptile",
+     "what": "backdrop-filter: blur(40px)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    }
+   ],
+   "status": "info",
+   "webkit": {
+    "status": "info"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "layers.z",
+   "area": "Layers",
+   "kind": "convention",
+   "title": "A short ladder of layers",
+   "how": "Distinct z-index values of positioned elements (what checks.skip leaves out excepted); more than 6 warns.",
+   "value": 8,
+   "unit": "values",
+   "warn": 6,
+   "status": "warn",
+   "items": [
+    {
+     "key": "-1",
+     "where": "picture.bcard__image",
+     "what": "z-index -1",
+     "value": -1
+    },
+    {
+     "key": "1",
+     "where": "div.story__text",
+     "what": "z-index 1",
+     "value": 1
+    },
+    {
+     "key": "2",
+     "where": "button.hero__info-btn",
+     "what": "z-index 2",
+     "value": 2
+    },
+    {
+     "key": "6",
+     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
+     "what": "z-index 6",
+     "value": 6
+    },
+    {
+     "key": "7",
+     "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
+     "what": "z-index 7",
+     "value": 7
+    },
+    {
+     "key": "20",
+     "where": "catalog/ form.filters, coffee/keniya-kisii/ form.buybar, coffee/q-optimistic/ form.buybar",
+     "what": "z-index 20",
+     "value": 20
+    },
+    {
+     "key": "50",
+     "where": "header.nav, nav.tabbar, catalog/ header.nav, catalog/ nav.tabbar, coffee/keniya-kisii/ header.nav, coffee/keniya-kisii/ nav.tabbar",
+     "what": "z-index 50",
+     "value": 50
+    },
+    {
+     "key": "100",
+     "where": "a.skip, catalog/ a.skip, coffee/keniya-kisii/ a.skip, coffee/q-optimistic/ a.skip",
+     "what": "z-index 100",
+     "value": 100
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 8
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 8
+   }
+  },
+  {
+   "id": "layers.fixed",
+   "area": "Layers",
+   "kind": "inventory",
+   "title": "What stays on the screen",
+   "how": "Fixed and sticky elements, by the sizes they are found at.",
+   "items": [
+    {
+     "key": "a.skip",
+     "where": "a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "header.nav",
+     "where": "header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "nav.tabbar",
+     "where": "nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "catalog/ a.skip",
+     "where": "catalog/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ header.nav",
+     "where": "catalog/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ nav.tabbar",
+     "where": "catalog/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/keniya-kisii/ a.skip",
+     "where": "coffee/keniya-kisii/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ header.nav",
+     "where": "coffee/keniya-kisii/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ nav.tabbar",
+     "where": "coffee/keniya-kisii/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.pstage__pin",
+     "where": "coffee/keniya-kisii/ div.pstage__pin",
+     "what": "sticky",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ form.buybar",
+     "where": "coffee/keniya-kisii/ form.buybar",
+     "what": "sticky, z 20",
+     "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ a.skip",
+     "where": "coffee/q-optimistic/ a.skip",
+     "what": "fixed, z 100",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ header.nav",
+     "where": "coffee/q-optimistic/ header.nav",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ nav.tabbar",
+     "where": "coffee/q-optimistic/ nav.tabbar",
+     "what": "fixed, z 50",
+     "at": "320x568 390x844"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.pstage__pin",
+     "where": "coffee/q-optimistic/ div.pstage__pin",
+     "what": "sticky",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ form.buybar",
+     "where": "coffee/q-optimistic/ form.buybar",
+     "what": "sticky, z 20",
+     "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    }
+   ],
+   "status": "info",
+   "webkit": {
+    "status": "info"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "align.edges",
+   "area": "Alignment",
+   "kind": "tolerance",
+   "title": "Edges line up",
+   "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
+   "value": 25,
+   "unit": "near misses",
+   "status": "warn",
+   "items": [
+    {
+     "key": "div.footer__group a|right|144",
+     "where": "div.footer__group a",
+     "what": "right edge -3px off the line at 144 (4 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "catalog/ div.footer__legal p|right|256",
+     "where": "catalog/ div.footer__legal p",
+     "what": "right edge -3px off the line at 256 (25 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.footer__legal p|right|256",
+     "where": "coffee/keniya-kisii/ div.footer__legal p",
+     "what": "right edge -3px off the line at 256 (4 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.footer__legal p|right|256",
+     "where": "coffee/q-optimistic/ div.footer__legal p",
+     "what": "right edge -3px off the line at 256 (4 blocks on it)",
+     "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "h3.card__title|left|439",
+     "where": "h3.card__title",
+     "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+     "value": 1.89,
+     "at": "844x390"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h3.card__title|left|439",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+     "value": 1.89,
+     "at": "844x390"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|439",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+     "value": 1.89,
+     "at": "844x390"
+    },
+    {
+     "key": "h3.card__title|left|406",
+     "where": "h3.card__title",
+     "what": "left edge +1.18px off the line at 406.38 (9 blocks on it)",
+     "value": 1.18,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h3.card__title|left|406",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+     "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.footer__group a|right|538",
+     "where": "coffee/keniya-kisii/ div.footer__group a",
+     "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+     "value": 0.79,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|406",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+     "value": 1.2,
+     "at": "768x1024"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.footer__group a|right|538",
+     "where": "coffee/q-optimistic/ div.footer__group a",
+     "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+     "value": 0.79,
+     "at": "768x1024"
+    },
+    {
+     "key": "catalog/ h2.card__title|left|538",
+     "where": "catalog/ h2.card__title",
+     "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+     "value": 0.74,
+     "at": "1024x768"
+    },
+    {
+     "key": "catalog/ div.footer__group a|right|611",
+     "where": "catalog/ div.footer__group a",
+     "what": "right edge +2.95px off the line at 611.08 (8 blocks on it)",
+     "value": 2.95,
+     "at": "1024x768"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h3.card__title|left|538",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+     "value": 0.74,
+     "at": "1024x768"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|538",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+     "value": 0.74,
+     "at": "1024x768"
+    },
+    {
+     "key": "catalog/ h2.card__title|left|707",
+     "where": "catalog/ h2.card__title",
+     "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+     "value": 0.95,
+     "at": "1366x650"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h3.card__title|left|707",
+     "where": "coffee/keniya-kisii/ h3.card__title",
+     "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+     "value": 0.95,
+     "at": "1366x650"
+    },
+    {
+     "key": "coffee/q-optimistic/ h3.card__title|left|707",
+     "where": "coffee/q-optimistic/ h3.card__title",
+     "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+     "value": 0.95,
+     "at": "1366x650"
+    },
+    {
+     "key": "coffee/keniya-kisii/ h2.ptile__title|left|1074",
+     "where": "coffee/keniya-kisii/ h2.ptile__title",
+     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+     "value": 1.67,
+     "at": "1440x900"
+    },
+    {
+     "key": "coffee/q-optimistic/ h2.ptile__title|left|1074",
+     "where": "coffee/q-optimistic/ h2.ptile__title",
+     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+     "value": 1.67,
+     "at": "1440x900"
+    },
+    {
+     "key": "li.fact|left|200",
+     "where": "li.fact",
+     "what": "left edge +1px off the line at 200 (11 blocks on it)",
+     "value": 1,
+     "at": "1920x1080"
+    },
+    {
+     "key": "li.fact|right|1720",
+     "where": "li.fact",
+     "what": "right edge -0.99px off the line at 1719.99 (8 blocks on it)",
+     "value": 0.99,
+     "at": "1920x1080"
+    },
+    {
+     "key": "li.fact|left|520",
+     "where": "li.fact",
+     "what": "left edge +1px off the line at 520 (11 blocks on it)",
+     "value": 1,
+     "at": "2560x1440"
+    },
+    {
+     "key": "li.fact|right|2040",
+     "where": "li.fact",
+     "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
+     "value": 0.99,
+     "at": "2560x1440"
+    }
+   ],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 23
+   }
+  },
+  {
+   "id": "align.icons",
+   "area": "Icons",
+   "kind": "tolerance",
+   "title": "Icons sit on their text's line",
+   "how": "An icon next to a label (a button, a link): the centre of the icon against the centre of the label's first line, at most 1px apart.",
+   "value": 12,
+   "unit": "off",
+   "status": "warn",
+   "items": [
+    {
+     "key": "a.nav__tool",
+     "where": "a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "svg.buy__chevron",
+     "where": "svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "button.buy__add",
+     "where": "button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ a.nav__tool",
+     "where": "catalog/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "catalog/ svg.buy__chevron",
+     "where": "catalog/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "catalog/ button.buy__add",
+     "where": "catalog/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ a.nav__tool",
+     "where": "coffee/keniya-kisii/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ svg.buy__chevron",
+     "where": "coffee/keniya-kisii/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/keniya-kisii/ button.buy__add",
+     "where": "coffee/keniya-kisii/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ a.nav__tool",
+     "where": "coffee/q-optimistic/ a.nav__tool",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ svg.buy__chevron",
+     "where": "coffee/q-optimistic/ svg.buy__chevron",
+     "what": "lower than its text's line by 10.8px",
+     "value": 10.8,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ button.buy__add",
+     "where": "coffee/q-optimistic/ button.buy__add",
+     "what": "higher than its text's line by 2.59px",
+     "value": 2.59,
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 12
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 12
+   }
+  },
+  {
+   "id": "ratios.inventory",
+   "area": "Ratios",
+   "kind": "inventory",
+   "title": "Aspect ratios of pictures and cards",
+   "how": "Width ÷ height of every picture, canvas and card at each size, matched to a family (1:1, 4:3, 3:2, 16:9, 4:5…) within 1.5%; a CSS aspect-ratio is shown when one is set.",
+   "items": [
+    {
+     "key": "div.featured__media picture",
+     "where": "div.featured__media picture",
+     "what": "1 · 1:1",
+     "value": 1
+    },
+    {
+     "key": "div.featured__media img",
+     "where": "div.featured__media img",
+     "what": "1 · css auto 1200 / 1200 · 1:1",
+     "value": 1
+    },
+    {
+     "key": "article.card",
+     "where": "article.card",
+     "what": "0.66 – 0.71 · changes with the screen",
+     "value": 6
+    },
+    {
+     "key": "picture.story__image",
+     "where": "picture.story__image",
+     "what": "0.75 – 3.76 · changes with the screen",
+     "value": 15
+    },
+    {
+     "key": "picture.story__image img",
+     "where": "picture.story__image img",
+     "what": "0.75 – 3.76 · css auto 1208 / 680 · changes with the screen",
+     "value": 15
+    },
+    {
+     "key": "article.bcard",
+     "where": "article.bcard",
+     "what": "1 · css 1 / 1 · 1:1",
+     "value": 1
+    },
+    {
+     "key": "picture.bcard__image",
+     "where": "picture.bcard__image",
+     "what": "1 · 1:1",
+     "value": 1
+    },
+    {
+     "key": "picture.bcard__image img",
+     "where": "picture.bcard__image img",
+     "what": "1 · css auto 1200 / 1200 · 1:1",
+     "value": 1
+    },
+    {
+     "key": "li.fact",
+     "where": "li.fact",
+     "what": "0.92 – 2.05 · changes with the screen",
+     "value": 9
+    },
+    {
+     "key": "picture.footer__mark",
+     "where": "picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "picture.footer__mark img",
+     "where": "picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "catalog/ article.card",
+     "where": "catalog/ article.card",
+     "what": "0.66 – 0.93 · changes with the screen",
+     "value": 11
+    },
+    {
+     "key": "catalog/ picture.card__photo",
+     "where": "catalog/ picture.card__photo",
+     "what": "0.8 – 1 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "catalog/ picture.card__photo img",
+     "where": "catalog/ picture.card__photo img",
+     "what": "0.8 – 1 · css auto 1200 / 1200 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "catalog/ picture.footer__mark",
+     "where": "catalog/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "catalog/ picture.footer__mark img",
+     "where": "catalog/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile",
+     "what": "1.09 – 1.33 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.pstory__image",
+     "where": "coffee/keniya-kisii/ picture.pstory__image",
+     "what": "1.68",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.pstory__image img",
+     "where": "coffee/keniya-kisii/ picture.pstory__image img",
+     "what": "1.68 · css auto 1344 / 800",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ article.card",
+     "where": "coffee/keniya-kisii/ article.card",
+     "what": "0.53 – 0.72 · changes with the screen",
+     "value": 10
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.footer__mark",
+     "where": "coffee/keniya-kisii/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ picture.footer__mark img",
+     "where": "coffee/keniya-kisii/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ li.ptile",
+     "where": "coffee/q-optimistic/ li.ptile",
+     "what": "1.09 – 1.33 · changes with the screen",
+     "value": 2
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.pstory__image",
+     "where": "coffee/q-optimistic/ picture.pstory__image",
+     "what": "1.68",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.pstory__image img",
+     "where": "coffee/q-optimistic/ picture.pstory__image img",
+     "what": "1.68 · css auto 1344 / 800",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ article.card",
+     "where": "coffee/q-optimistic/ article.card",
+     "what": "0.53 – 0.72 · changes with the screen",
+     "value": 10
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.card__photo",
+     "where": "coffee/q-optimistic/ picture.card__photo",
+     "what": "0.8 · 4:5",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.card__photo img",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "0.8 · css auto 1200 / 1200 · 4:5",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.footer__mark",
+     "where": "coffee/q-optimistic/ picture.footer__mark",
+     "what": "0.66 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/q-optimistic/ picture.footer__mark img",
+     "where": "coffee/q-optimistic/ picture.footer__mark img",
+     "what": "0.66 · css auto 218 / 332 · 2:3",
+     "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.cell",
+     "where": "coffee/keniya-kisii/ div.cell",
+     "what": "1.89 – 2.03 · changes with the screen",
+     "value": 4
+    },
+    {
+     "key": "coffee/keniya-kisii/ output.cell",
+     "where": "coffee/keniya-kisii/ output.cell",
+     "what": "1.28 – 1.52 · changes with the screen",
+     "value": 4
+    },
+    {
+     "key": "coffee/q-optimistic/ div.cell",
+     "where": "coffee/q-optimistic/ div.cell",
+     "what": "1.89 – 2.03 · changes with the screen",
+     "value": 4
+    },
+    {
+     "key": "coffee/q-optimistic/ output.cell",
+     "where": "coffee/q-optimistic/ output.cell",
+     "what": "1.21 – 1.4 · changes with the screen",
+     "value": 4
+    }
+   ],
+   "status": "info",
+   "webkit": {
+    "status": "info"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "icons.colour",
+   "area": "Icons",
+   "kind": "tolerance",
+   "title": "Icons take the colour of their text",
+   "how": "Inline icons outside the drawings: every fill and stroke equals the icon's own color (currentColor), so an icon follows its button's state.",
+   "value": 3,
+   "unit": "in their own colour",
+   "status": "warn",
+   "items": [
+    {
+     "key": "svg.taste__plot",
+     "where": "svg.taste__plot",
+     "what": "drawn in its own colour, not the text's (currentColor)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ svg.taste__plot",
+     "where": "coffee/keniya-kisii/ svg.taste__plot",
+     "what": "drawn in its own colour, not the text's (currentColor)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ svg.taste__plot",
+     "where": "coffee/q-optimistic/ svg.taste__plot",
+     "what": "drawn in its own colour, not the text's (currentColor)",
+     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 3
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 3
+   }
+  },
+  {
+   "id": "icons.sizes",
+   "area": "Icons",
+   "kind": "convention",
+   "title": "Few icon sizes",
+   "how": "Distinct sizes the inline icons are drawn at; more than 5 warns.",
+   "value": 16,
+   "unit": "sizes",
+   "warn": 5,
+   "status": "warn",
+   "items": [
+    {
+     "key": "24×24",
+     "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn",
+     "what": "24×24"
+    },
+    {
+     "key": "20×20",
+     "where": "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron",
+     "what": "20×20"
+    },
+    {
+     "key": "72×98",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "72×98"
+    },
+    {
+     "key": "40×40",
+     "where": "span.fact__icon",
+     "what": "40×40"
+    },
+    {
+     "key": "32×32",
+     "where": "a.hero__link",
+     "what": "32×32"
+    },
+    {
+     "key": "72×99",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "72×99"
+    },
+    {
+     "key": "41×41",
+     "where": "span.fact__icon",
+     "what": "41×41"
+    },
+    {
+     "key": "76×104",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "76×104"
+    },
+    {
+     "key": "46×46",
+     "where": "span.fact__icon",
+     "what": "46×46"
+    },
+    {
+     "key": "78×107",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "78×107"
+    },
+    {
+     "key": "50×50",
+     "where": "span.fact__icon",
+     "what": "50×50"
+    },
+    {
+     "key": "77×105",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "77×105"
+    },
+    {
+     "key": "48×48",
+     "where": "span.fact__icon",
+     "what": "48×48"
+    },
+    {
+     "key": "82×112",
+     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "what": "82×112"
+    },
+    {
+     "key": "55×55",
+     "where": "span.fact__icon",
+     "what": "55×55"
+    },
+    {
+     "key": "56×56",
+     "where": "span.fact__icon",
+     "what": "56×56"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 16
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 16
+   }
+  },
+  {
+   "id": "images.sharp",
+   "area": "Images",
+   "kind": "tolerance",
+   "title": "Pictures are sharp",
+   "how": "Every picture outside the drawings: the file's width against the device pixels it covers (its drawn width × the screen's pixel ratio: 3 on phones, 2 on tablets and the 1440 laptop). Below 0.95 it is upscaled.",
+   "value": 15,
+   "unit": "upscaled",
+   "status": "warn",
+   "items": [
+    {
+     "key": "life-box-1200.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
+     "value": 0.9,
+     "at": "390x844 844x390 1440x900"
+    },
+    {
+     "key": "life-jacket-1200.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3)",
+     "value": 0.9,
+     "at": "390x844 844x390 768x1024 1440x900"
+    },
+    {
+     "key": "life-sweater-1200.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
+     "value": 0.9,
+     "at": "390x844 844x390"
+    },
+    {
+     "key": "approach-bean-1208.avif",
+     "where": "picture.story__image img",
+     "what": "approach-bean-1208-CYEwXOjT.avif: 1208px wide for 1266 device px (×3)",
+     "value": 0.55,
+     "at": "844x390 1024x768 1440x900 2560x1440"
+    },
+    {
+     "key": "approach-people-1440.avif",
+     "where": "picture.story__image img",
+     "what": "approach-people-1440-PP9TsNeI.avif: 1440px wide for 2532 device px (×3)",
+     "value": 0.55,
+     "at": "844x390 1024x768 1440x900 2560x1440"
+    },
+    {
+     "key": "farm-drying-1344.avif",
+     "where": "coffee/keniya-kisii/ picture.pstory__image img",
+     "what": "farm-drying-1344-DW2pHWMf.avif: 1344px wide for 2426 device px (×3)",
+     "value": 0.55,
+     "at": "844x390 1024x768 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "approach-bean-900.avif",
+     "where": "picture.story__image img",
+     "what": "approach-bean-900-Rn_9lHki.avif: 900px wide for 768 device px (×2)",
+     "value": 0.5,
+     "at": "768x1024 1366x650"
+    },
+    {
+     "key": "approach-people-1080.avif",
+     "where": "picture.story__image img",
+     "what": "approach-people-1080-D-Jdt5Zb.avif: 1080px wide for 1536 device px (×2)",
+     "value": 0.5,
+     "at": "768x1024 1366x650 1920x1080"
+    },
+    {
+     "key": "life-jacket-800.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-jacket-800-kd2lZvyr.avif: 800px wide for 694 device px (×2)",
+     "value": 0.92,
+     "at": "768x1024"
+    },
+    {
+     "key": "life-sweater-800.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-sweater-800-Bpm0EGd0.avif: 800px wide for 694 device px (×2)",
+     "value": 0.92,
+     "at": "768x1024"
+    },
+    {
+     "key": "life-box-800.avif",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "life-box-800-DpMwwL7W.avif: 800px wide for 694 device px (×2)",
+     "value": 0.92,
+     "at": "768x1024"
+    },
+    {
+     "key": "life-jacket-480.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-jacket-480-D-C-fR97.avif: 480px wide for 421 device px (×1)",
+     "value": 0.91,
+     "at": "1366x650"
+    },
+    {
+     "key": "life-sweater-480.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-sweater-480-C11YdwXH.avif: 480px wide for 421 device px (×1)",
+     "value": 0.91,
+     "at": "1366x650"
+    },
+    {
+     "key": "business-cafe-1200.avif",
+     "where": "picture.bcard__image img",
+     "what": "business-cafe-1200-DOTVU3mx.avif: 1200px wide for 1323 device px (×2)",
+     "value": 0.91,
+     "at": "1440x900"
+    },
+    {
+     "key": "business-office-1200.avif",
+     "where": "picture.bcard__image img",
+     "what": "business-office-1200-Dtv7kpi1.avif: 1200px wide for 1323 device px (×2)",
+     "value": 0.91,
+     "at": "1440x900"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 15
+   },
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 14
+   }
+  },
+  {
+   "id": "images.weight",
+   "area": "Images",
+   "kind": "tolerance",
+   "title": "Pictures are not much bigger than drawn",
+   "how": "The same ratio above 2.5: the file is far bigger than the screen can show (bytes for nothing).",
+   "value": 1,
+   "unit": "too big",
+   "status": "warn",
+   "items": [
+    {
+     "key": "life-box-1200.avif",
+     "where": "coffee/q-optimistic/ picture.card__photo img",
+     "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px",
+     "value": 2.65,
+     "at": "2560x1440"
+    }
+   ],
+   "webkit": {
+    "status": "warn",
+    "value": 1
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "images.format",
+   "area": "Images",
+   "kind": "hard",
+   "title": "Pictures in a modern format",
+   "how": "AVIF, WebP or SVG (drawings left out).",
+   "value": 0,
+   "unit": "old formats",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "images.alt",
+   "area": "Images",
+   "kind": "hard",
+   "title": "Every picture has an alt",
+   "how": "An alt attribute on every <img> (empty for decoration).",
+   "value": 0,
+   "unit": "without alt",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "images.first",
+   "area": "Images",
+   "kind": "hard",
+   "title": "The first screen does not wait",
+   "how": "Pictures on the first screen at any size are not lazy.",
+   "value": 3,
+   "unit": "lazy on the first screen",
+   "status": "fail",
+   "items": [
+    {
+     "key": "life-box-1200.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
+     "at": "844x390 1024x768 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "life-box-800.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
+     "at": "768x1024 1366x650"
+    },
+    {
+     "key": "life-jacket-1200.avif",
+     "where": "div.featured__media img",
+     "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
+     "at": "2560x1440"
+    }
+   ],
+   "webkit": {
+    "status": "fail",
+    "value": 2
+   },
+   "accepted": 0,
+   "was": {
+    "status": "fail",
+    "value": 3
+   }
+  },
+  {
+   "id": "states.timing",
+   "area": "States",
+   "kind": "share",
+   "title": "One hover timing",
+   "how": "Links and buttons that change on hover: the length of their colour/background transition. The grammar says one timing everywhere.",
+   "value": 100,
+   "unit": "% at 0ms",
+   "pass": 95,
+   "warn": 85,
+   "status": "pass",
+   "items": [
+    {
+     "key": "0",
+     "where": "a.skip, button.nav__logo, button.nav__tool, a.tabbar__item, button.hero__info-btn, a.hero__link",
+     "what": "no transition",
+     "value": 0
+    }
+   ],
+   "webkit": {
+    "status": "pass",
+    "value": 100
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 100
+   }
+  },
+  {
+   "id": "components.copies",
+   "area": "Components",
+   "kind": "tolerance",
+   "title": "Copies of a component look alike",
+   "how": "Each component (a class with __parts) and each of its variants (--modifiers): its copies on the page should share padding, corner, background, text size and display. A difference no modifier explains is a near-duplicate.",
+   "value": 0,
+   "unit": "variants that differ",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass",
+    "value": 0
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "components.inventory",
+   "area": "Components",
+   "kind": "inventory",
+   "title": "Components on the page",
+   "how": "Classes with __parts, the most copies seen at one size, and their variants.",
+   "items": [
+    {
+     "key": "card",
+     "where": ".card",
+     "what": "25 on the page · variants: card--half card--light, card--dark card--half, card--light card--third, card--dark card--third",
+     "value": 25
+    },
+    {
+     "key": "buy",
+     "where": ".buy",
+     "what": "25 on the page · variants: —, buy--dark",
+     "value": 25
+    },
+    {
+     "key": "filter",
+     "where": ".filter",
+     "what": "7 on the page",
+     "value": 7
+    },
+    {
+     "key": "ptile",
+     "where": ".ptile",
+     "what": "5 on the page",
+     "value": 5
+    },
+    {
+     "key": "head",
+     "where": ".head",
+     "what": "3 on the page · variants: head--middle, —, head--center",
+     "value": 3
+    },
+    {
+     "key": "fact",
+     "where": ".fact",
+     "what": "3 on the page",
+     "value": 3
+    },
+    {
+     "key": "arrows",
+     "where": ".arrows",
+     "what": "2 on the page",
+     "value": 2
+    },
+    {
+     "key": "story",
+     "where": ".story",
+     "what": "2 on the page · variants: story--dark, story--light",
+     "value": 2
+    },
+    {
+     "key": "btn-arrow",
+     "where": ".btn-arrow",
+     "what": "2 on the page",
+     "value": 2
+    },
+    {
+     "key": "bcard",
+     "where": ".bcard",
+     "what": "2 on the page",
+     "value": 2
+    },
+    {
+     "key": "nav",
+     "where": ".nav",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "tabbar",
+     "where": ".tabbar",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "hero",
+     "where": ".hero",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "featured",
+     "where": ".featured",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "pager",
+     "where": ".pager",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "taste",
+     "where": ".taste",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "business",
+     "where": ".business",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "facts",
+     "where": ".facts",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "footer",
+     "where": ".footer",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "catalog",
+     "where": ".catalog",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "filters",
+     "where": ".filters",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "pstage",
+     "where": ".pstage",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "buybar",
+     "where": ".buybar",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "pstory",
+     "where": ".pstory",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "next",
+     "where": ".next",
+     "what": "1 on the page",
+     "value": 1
+    }
+   ],
+   "status": "info",
+   "webkit": {
+    "status": "info"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "logic.bag-add",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Shop: «В корзину» of the first card is pressed",
+   "how": "Given an empty bag, the catalog; when «В корзину» of the first card is pressed; then the bag (localStorage qq-bag) holds that coffee and the navbar's count shows 1. At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "an empty bag, the catalog",
+    "when": "«В корзину» of the first card is pressed",
+    "then": "the bag (localStorage qq-bag) holds that coffee and the navbar's count shows 1"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.heart-favourites",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Shop: the heart of the first card is pressed, then the favourites page opened",
+   "how": "Given no favourites, the catalog; when the heart of the first card is pressed, then the favourites page opened; then the heart is pressed (aria-pressed true) and the favourites page shows that coffee. At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "no favourites, the catalog",
+    "when": "the heart of the first card is pressed, then the favourites page opened",
+    "then": "the heart is pressed (aria-pressed true) and the favourites page shows that coffee"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.catalog-filter",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Catalog: a country is ticked in the filter «Страна»",
+   "how": "Given the whole catalog; when a country is ticked in the filter «Страна»; then only that country's coffees stay, and the address keeps the choice (?country=…). At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "the whole catalog",
+    "when": "a country is ticked in the filter «Страна»",
+    "then": "only that country's coffees stay, and the address keeps the choice (?country=…)"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.menu-cell",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Catalog: one menu cell is opened, then another, then a click lands elsewhere",
+   "how": "Given the catalog's filters; when one menu cell is opened, then another, then a click lands elsewhere; then one cell is open at a time, and a click elsewhere closes it. At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "the catalog's filters",
+    "when": "one menu cell is opened, then another, then a click lands elsewhere",
+    "then": "one cell is open at a time, and a click elsewhere closes it"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.nav-ground",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Navbar: the page is scrolled from the hero into the next section",
+   "how": "Given the home page (the hero is black, the next section paper); when the page is scrolled from the hero into the next section; then the navbar takes the ground under it: black over the hero, paper below. At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "the home page (the hero is black, the next section paper)",
+    "when": "the page is scrolled from the hero into the next section",
+    "then": "the navbar takes the ground under it: black over the hero, paper below"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.reload-place",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Page: the page is reloaded",
+   "how": "Given the catalog scrolled down; when the page is reloaded; then it comes back at the same place (scripts/scroll.js). At 1440×900.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "the catalog scrolled down",
+    "when": "the page is reloaded",
+    "then": "it comes back at the same place (scripts/scroll.js)"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "logic.burger-menu",
+   "area": "Logic",
+   "kind": "scenario",
+   "title": "Navbar: the burger is pressed, then Escape",
+   "how": "Given a phone (the burger); when the burger is pressed, then Escape; then the menu opens (aria-expanded true) and closes again. At 390×844.",
+   "status": "pass",
+   "items": [],
+   "scenario": {
+    "given": "a phone (the burger)",
+    "when": "the burger is pressed, then Escape",
+    "then": "the menu opens (aria-expanded true) and closes again"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "fallback.nojs",
+   "area": "Fallbacks",
+   "kind": "hard",
+   "title": "The page reads without scripts",
+   "how": "Scripts turned off: at least 90% of the main text shown, every heading and the h1 visible (at 390×844 and 1440×900).",
+   "status": "fail",
+   "items": [
+    {
+     "key": "390x844",
+     "where": "390x844",
+     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44.1,
+     "at": "390x844"
+    },
+    {
+     "key": "1440x900",
+     "where": "1440x900",
+     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44.1,
+     "at": "1440x900"
+    }
+   ],
+   "accepted": 0,
+   "was": {
+    "status": "fail"
+   }
+  },
+  {
+   "id": "fallback.nowebgl",
+   "area": "Fallbacks",
+   "kind": "hard",
+   "title": "The page works without WebGL",
+   "how": "WebGL turned off (old devices, blocked GPUs): no script errors, the same text shown.",
+   "status": "pass",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "fallback.forced",
+   "area": "Fallbacks",
+   "kind": "hard",
+   "title": "The page works in forced colours",
+   "how": "Windows High Contrast and the like (forced-colors: active): no script errors, the same text shown.",
+   "status": "pass",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "fallback.calm",
+   "area": "Fallbacks",
+   "kind": "hard",
+   "title": "Reduced motion stops the motion",
+   "how": "With reduce motion: after the load and a scroll top to bottom, no CSS or Web Animations still running (GSAP's own motion is not seen by this check).",
+   "status": "pass",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "fallback.fonts",
+   "area": "Fallbacks",
+   "kind": "tolerance",
+   "title": "The fallback font keeps the layout",
+   "how": "The web fonts never arrive (blocked): every heading, text and button against the normal page; a change of line count or more than 6% of width warns (the text would jump when the font comes).",
+   "value": 14,
+   "unit": "texts that jump",
+   "status": "warn",
+   "items": [
+    {
+     "key": "p.featured__aboutКения Найваша PB — регио",
+     "where": "p.featured__about",
+     "what": "«Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font",
+     "value": 0,
+     "at": "390x844 1440x900"
+    },
+    {
+     "key": "p.featured__aboutКуа Мон в переводе с вье",
+     "where": "p.featured__about",
+     "what": "«Куа Мон в переводе с вье» 14 → 16 lines, 303 → 303px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.featured__aboutАлехандра Муньос пришла ",
+     "where": "p.featured__about",
+     "what": "«Алехандра Муньос пришла » 18 → 20 lines, 303 → 303px wide with the fallback font",
+     "value": 0,
+     "at": "390x844 1440x900"
+    },
+    {
+     "key": "p.featured__aboutChina Alta — региональны",
+     "where": "p.featured__about",
+     "what": "«China Alta — региональны» 13 → 14 lines, 303 → 303px wide with the fallback font",
+     "value": 0,
+     "at": "390x844 1440x900"
+    },
+    {
+     "key": "p.featured__aboutКооператив Wonosalam объ",
+     "where": "p.featured__about",
+     "what": "«Кооператив Wonosalam объ» 17 → 20 lines, 303 → 303px wide with the fallback font",
+     "value": 0,
+     "at": "390x844 1440x900"
+    },
+    {
+     "key": "p.card__textКофе с классическим и чи",
+     "where": "p.card__text",
+     "what": "«Кофе с классическим и чи» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.card__textЭксклюзив №1 в нашем асс",
+     "where": "p.card__text",
+     "what": "«Эксклюзив №1 в нашем асс» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.card__textАвторская смесь (классич",
+     "where": "p.card__text",
+     "what": "«Авторская смесь (классич» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844 1440x900"
+    },
+    {
+     "key": "p.card__textДля тех, кто не любит ли",
+     "where": "p.card__text",
+     "what": "«Для тех, кто не любит ли» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.card__textДля любителей сочнейшей ",
+     "where": "p.card__text",
+     "what": "«Для любителей сочнейшей » 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.bcard__textЗерно, бесплатная школа ",
+     "where": "p.bcard__text",
+     "what": "«Зерно, бесплатная школа » 4 → 5 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.bcard__textСвежая обжарка со стабил",
+     "where": "p.bcard__text",
+     "what": "«Свежая обжарка со стабил» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "value": 0,
+     "at": "390x844"
+    },
+    {
+     "key": "p.hero__captionДо ближайшей обжарки",
+     "where": "p.hero__caption",
+     "what": "«До ближайшей обжарки» 1 → 1 lines, 277 → 337px wide with the fallback font",
+     "value": 21.66,
+     "at": "1440x900"
+    },
+    {
+     "key": "p.card__textКлассика кофейного вкуса",
+     "where": "p.card__text",
+     "what": "«Классика кофейного вкуса» 3 → 4 lines, 433 → 433px wide with the fallback font",
+     "value": 0,
+     "at": "1440x900"
+    }
+   ],
+   "accepted": 0,
+   "was": {
+    "status": "warn",
+    "value": 14
+   }
+  },
+  {
+   "id": "privacy.hosts",
+   "area": "Privacy",
+   "kind": "inventory",
+   "title": "Who is called on a visit",
+   "how": "A first visit: the page, a scroll, pointer moves and 3.5 s of waiting. The other hosts the page called (the site asks for no consent).",
+   "items": [],
+   "status": "info",
+   "accepted": 0,
+   "was": {
+    "status": "info"
+   }
+  },
+  {
+   "id": "health.head",
+   "area": "Page health",
+   "kind": "tolerance",
+   "title": "Titles, descriptions, outline",
+   "how": "Every page: lang and viewport (fail), one h1 (fail), a title of 10–65 characters, a description of 50–170, headings that do not skip a level, in-page links that name an id, og:image and a manifest on the home page.",
+   "value": 24,
+   "unit": "notes",
+   "status": "fail",
+   "items": [
+    {
+     "key": "og",
+     "where": "/",
+     "what": "no og:image",
+     "at": ""
+    },
+    {
+     "key": "manifest",
+     "where": "/",
+     "what": "no web manifest",
+     "at": ""
+    },
+    {
+     "key": "/catalog/#all",
+     "where": "/catalog/",
+     "what": "a link to #all, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#kofe",
+     "where": "/catalog/",
+     "what": "a link to #kofe, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#kaskara",
+     "where": "/catalog/",
+     "what": "a link to #kaskara, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#dripy",
+     "where": "/catalog/",
+     "what": "a link to #dripy, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#sety",
+     "where": "/catalog/",
+     "what": "a link to #sety, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#merch",
+     "where": "/catalog/",
+     "what": "a link to #merch, which names nothing on the page",
+     "at": "",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/cart/desc",
+     "where": "/cart/",
+     "what": "description of 23 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/favourites/desc",
+     "where": "/favourites/",
+     "what": "description of 34 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/checkout/desc",
+     "where": "/checkout/",
+     "what": "description of 49 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/checkout/details/desc",
+     "where": "/checkout/details/",
+     "what": "description of 21 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/checkout/delivery/desc",
+     "where": "/checkout/delivery/",
+     "what": "description of 42 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/desc",
+     "where": "/account/",
+     "what": "description of 44 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/beans/desc",
+     "where": "/account/beans/",
+     "what": "description of 44 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/orders/desc",
+     "where": "/account/orders/",
+     "what": "description of 22 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/orders/433273/desc",
+     "where": "/account/orders/433273/",
+     "what": "description of 23 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/purchases/desc",
+     "where": "/account/purchases/",
+     "what": "description of 41 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/account/settings/desc",
+     "where": "/account/settings/",
+     "what": "description of 38 characters (50–170)",
+     "at": ""
+    },
+    {
+     "key": "/no-such-pagelang",
+     "where": "/no-such-page",
+     "what": "no lang on <html>",
+     "severity": "fail",
+     "at": ""
+    },
+    {
+     "key": "/no-such-pagevp",
+     "where": "/no-such-page",
+     "what": "no viewport meta",
+     "severity": "fail",
+     "at": ""
+    },
+    {
+     "key": "/no-such-pageh1",
+     "where": "/no-such-page",
+     "what": "0 h1 headings (one wanted)",
+     "severity": "fail",
+     "at": ""
+    },
+    {
+     "key": "/no-such-pagetitle",
+     "where": "/no-such-page",
+     "what": "title of 0 characters (10–65)",
+     "at": ""
+    }
+   ],
+   "webkit": {
+    "status": "fail",
+    "value": 24
+   },
+   "accepted": 6,
+   "was": {
+    "status": "fail",
+    "value": 24
+   }
+  },
+  {
+   "id": "health.overflow",
+   "area": "Page health",
+   "kind": "hard",
+   "title": "No page scrolls sideways",
+   "how": "Every page at 390×844 and 1440×900, and the home page at every measured size and every 10px of width.",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "health.errors",
+   "area": "Page health",
+   "kind": "hard",
+   "title": "No script errors",
+   "how": "Errors thrown on every page and size measured.",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "health.status",
+   "area": "Page health",
+   "kind": "hard",
+   "title": "Pages answer as they should",
+   "how": "Every page 200; an address that is not there 404 with the not-found page.",
+   "status": "pass",
+   "items": [],
+   "webkit": {
+    "status": "pass"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "health.links",
+   "area": "Page health",
+   "kind": "hard",
+   "title": "Links on the site lead somewhere",
+   "how": "Every link that stays on the site (496), from every page, opened; one with #id must find it.",
+   "status": "pass",
+   "items": [
+    {
+     "key": "/catalog/#kaskara",
+     "where": "/",
+     "what": "catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#dripy",
+     "where": "/",
+     "what": "catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#sety",
+     "where": "/",
+     "what": "catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "/catalog/#merch",
+     "where": "/",
+     "what": "catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "catalog/../catalog/#kaskara",
+     "where": "catalog/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "catalog/../catalog/#dripy",
+     "where": "catalog/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "catalog/../catalog/#sety",
+     "where": "catalog/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "catalog/../catalog/#merch",
+     "where": "catalog/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/keniya-kisii/../../catalog/#kaskara",
+     "where": "coffee/keniya-kisii/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/keniya-kisii/../../catalog/#dripy",
+     "where": "coffee/keniya-kisii/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/keniya-kisii/../../catalog/#sety",
+     "where": "coffee/keniya-kisii/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/keniya-kisii/../../catalog/#merch",
+     "where": "coffee/keniya-kisii/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/q-optimistic/../../catalog/#kaskara",
+     "where": "coffee/q-optimistic/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/q-optimistic/../../catalog/#dripy",
+     "where": "coffee/q-optimistic/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/q-optimistic/../../catalog/#sety",
+     "where": "coffee/q-optimistic/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "coffee/q-optimistic/../../catalog/#merch",
+     "where": "coffee/q-optimistic/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "cart/../checkout/#gift",
+     "where": "cart/",
+     "what": "../checkout/#gift: no #gift",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "cart/../catalog/#kaskara",
+     "where": "cart/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "cart/../catalog/#dripy",
+     "where": "cart/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "cart/../catalog/#sety",
+     "where": "cart/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "cart/../catalog/#merch",
+     "where": "cart/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "favourites/../catalog/#kaskara",
+     "where": "favourites/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "favourites/../catalog/#dripy",
+     "where": "favourites/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "favourites/../catalog/#sety",
+     "where": "favourites/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "favourites/../catalog/#merch",
+     "where": "favourites/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/../catalog/#kaskara",
+     "where": "checkout/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/../catalog/#dripy",
+     "where": "checkout/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/../catalog/#sety",
+     "where": "checkout/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/../catalog/#merch",
+     "where": "checkout/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/details/../../catalog/#kaskara",
+     "where": "checkout/details/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/details/../../catalog/#dripy",
+     "where": "checkout/details/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/details/../../catalog/#sety",
+     "where": "checkout/details/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/details/../../catalog/#merch",
+     "where": "checkout/details/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/delivery/../../catalog/#kaskara",
+     "where": "checkout/delivery/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/delivery/../../catalog/#dripy",
+     "where": "checkout/delivery/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/delivery/../../catalog/#sety",
+     "where": "checkout/delivery/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "checkout/delivery/../../catalog/#merch",
+     "where": "checkout/delivery/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/../catalog/#kaskara",
+     "where": "account/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/../catalog/#dripy",
+     "where": "account/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/../catalog/#sety",
+     "where": "account/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/../catalog/#merch",
+     "where": "account/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/beans/../../catalog/#kaskara",
+     "where": "account/beans/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/beans/../../catalog/#dripy",
+     "where": "account/beans/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/beans/../../catalog/#sety",
+     "where": "account/beans/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/beans/../../catalog/#merch",
+     "where": "account/beans/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/../../catalog/#kaskara",
+     "where": "account/orders/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/../../catalog/#dripy",
+     "where": "account/orders/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/../../catalog/#sety",
+     "where": "account/orders/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/../../catalog/#merch",
+     "where": "account/orders/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/433273/../../../catalog/#kaskara",
+     "where": "account/orders/433273/",
+     "what": "../../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/433273/../../../catalog/#dripy",
+     "where": "account/orders/433273/",
+     "what": "../../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/433273/../../../catalog/#sety",
+     "where": "account/orders/433273/",
+     "what": "../../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/orders/433273/../../../catalog/#merch",
+     "where": "account/orders/433273/",
+     "what": "../../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/purchases/../../catalog/#kaskara",
+     "where": "account/purchases/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/purchases/../../catalog/#dripy",
+     "where": "account/purchases/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/purchases/../../catalog/#sety",
+     "where": "account/purchases/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/purchases/../../catalog/#merch",
+     "where": "account/purchases/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/settings/../../catalog/#kaskara",
+     "where": "account/settings/",
+     "what": "../../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/settings/../../catalog/#dripy",
+     "where": "account/settings/",
+     "what": "../../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/settings/../../catalog/#sety",
+     "where": "account/settings/",
+     "what": "../../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "account/settings/../../catalog/#merch",
+     "where": "account/settings/",
+     "what": "../../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "business/../catalog/#kaskara",
+     "where": "business/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "business/../catalog/#dripy",
+     "where": "business/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "business/../catalog/#sety",
+     "where": "business/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "business/../catalog/#merch",
+     "where": "business/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "faq/../catalog/#sety",
+     "where": "faq/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "faq/../catalog/#kaskara",
+     "where": "faq/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "faq/../catalog/#dripy",
+     "where": "faq/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "faq/../catalog/#merch",
+     "where": "faq/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "delivery/../catalog/#kaskara",
+     "where": "delivery/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "delivery/../catalog/#dripy",
+     "where": "delivery/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "delivery/../catalog/#sety",
+     "where": "delivery/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "delivery/../catalog/#merch",
+     "where": "delivery/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "contacts/../catalog/#kaskara",
+     "where": "contacts/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "contacts/../catalog/#dripy",
+     "where": "contacts/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "contacts/../catalog/#sety",
+     "where": "contacts/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "contacts/../catalog/#merch",
+     "where": "contacts/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "privacy/../catalog/#kaskara",
+     "where": "privacy/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "privacy/../catalog/#dripy",
+     "where": "privacy/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "privacy/../catalog/#sety",
+     "where": "privacy/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "privacy/../catalog/#merch",
+     "where": "privacy/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "about/../catalog/#kaskara",
+     "where": "about/",
+     "what": "../catalog/#kaskara: no #kaskara",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "about/../catalog/#dripy",
+     "where": "about/",
+     "what": "../catalog/#dripy: no #dripy",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "about/../catalog/#sety",
+     "where": "about/",
+     "what": "../catalog/#sety: no #sety",
+     "accepted": "hash-states"
+    },
+    {
+     "key": "about/../catalog/#merch",
+     "where": "about/",
+     "what": "../catalog/#merch: no #merch",
+     "accepted": "hash-states"
+    }
+   ],
+   "webkit": {
+    "status": "fail"
+   },
+   "accepted": 85,
+   "was": {
+    "status": "pass"
+   }
+  },
+  {
+   "id": "health.files",
+   "area": "Page health",
+   "kind": "hard",
+   "title": "robots.txt, sitemap, manifest, icons",
+   "how": "The files a browser or a search engine asks for, all there.",
+   "status": "fail",
+   "items": [
+    {
+     "key": "sitemap.xml",
+     "where": "sitemap.xml",
+     "what": "answers 404"
+    },
+    {
+     "key": "site.webmanifest",
+     "where": "site.webmanifest",
+     "what": "answers 404"
+    },
+    {
+     "key": "favicon.ico",
+     "where": "favicon.ico",
+     "what": "answers 404"
+    },
+    {
+     "key": "apple-touch-icon.png",
+     "where": "apple-touch-icon.png",
+     "what": "answers 404"
+    }
+   ],
+   "note": "robots.txt keeps every search engine out.",
+   "webkit": {
+    "status": "fail"
+   },
+   "accepted": 0,
+   "was": {
+    "status": "fail"
+   }
+  },
+  {
+   "id": "weight.total",
+   "area": "Weight",
+   "kind": "trend",
+   "title": "A first visit does not get heavier",
+   "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
+   "value": 558,
+   "unit": "KB",
+   "was": {
+    "status": "pass",
+    "value": 558
+   },
+   "status": "pass",
+   "items": [
+    {
+     "key": "html",
+     "where": "html",
+     "what": "1 files, 17 KB sent (was 17 KB)",
+     "value": 17
+    },
+    {
+     "key": "js",
+     "where": "js",
+     "what": "10 files, 61 KB sent (was 61 KB)",
+     "value": 61
+    },
+    {
+     "key": "images",
+     "where": "images",
+     "what": "10 files, 402 KB sent (was 402 KB)",
+     "value": 402
+    },
+    {
+     "key": "css",
+     "where": "css",
+     "what": "1 files, 16 KB sent (was 15 KB)",
+     "value": 16
+    },
+    {
+     "key": "fonts",
+     "where": "fonts",
+     "what": "4 files, 63 KB sent (was 63 KB)",
+     "value": 63
+    }
+   ],
+   "accepted": 0
+  },
+  {
+   "id": "code.ladder",
+   "area": "Type",
+   "kind": "hard",
+   "title": "Every size ends on the ladder",
+   "how": "36 roles of scale.json, both ends, against 0 2 … 24 28 … 64 72 … 128 144 … 256 (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.relations",
+   "area": "Type",
+   "kind": "hard",
+   "title": "Neighbouring text levels at least ×1.125 apart",
+   "how": "10 pairs of type.relations at 320 and 1440 (a ratio of two lines moves only between its two ends) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.no-swallowed-css",
+   "area": "Code",
+   "kind": "hard",
+   "title": "No CSS hidden inside a comment",
+   "how": "every comment of 21 stylesheets: rules inside, unbalanced marks (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.colour-tokens",
+   "area": "Colour",
+   "kind": "hard",
+   "title": "Colours from the tokens only",
+   "how": "literal #hex / rgb() / hsl() / oklch() in the page's stylesheets (token definitions left out) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.type-from-scale",
+   "area": "Type",
+   "kind": "hard",
+   "title": "Text sizes from the scale",
+   "how": "every font-size: a --type-* role, em or %, or an object's own size (--hero-title) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.fluid-from-scale",
+   "area": "Space",
+   "kind": "hard",
+   "title": "Spacing, radii and type never own vw/cq/clamp()",
+   "how": "margin, padding, gaps, radii, font-size and inset declarations in every stylesheet (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.tokens-wired",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Every var() defined, every token used",
+   "how": "130 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "status": "fail",
+   "value": 4,
+   "unit": "places",
+   "note": "",
+   "items": [
+    {
+     "key": "Code|defined, never used: --c-ink-10#1",
+     "where": "Code",
+     "what": "defined, never used: --c-ink-10"
+    },
+    {
+     "key": "Code|defined, never used: --c-graphite#1",
+     "where": "Code",
+     "what": "defined, never used: --c-graphite"
+    },
+    {
+     "key": "Code|defined, never used: --trace-light#1",
+     "where": "Code",
+     "what": "defined, never used: --trace-light"
+    },
+    {
+     "key": "Code|defined, never used: --c-taste-other#1",
+     "where": "Code",
+     "what": "defined, never used: --c-taste-other"
+    }
+   ],
+   "accepted": 0,
+   "was": {
+    "status": "fail",
+    "value": 4
+   }
+  },
+  {
+   "id": "code.layout-steps",
+   "area": "Layout",
+   "kind": "hard",
+   "title": "Layouts change only at the shared steps or a declared own step",
+   "how": "57 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.media-steps",
+   "area": "Layout",
+   "kind": "hard",
+   "title": "Screen steps only from media.css",
+   "how": "8 custom media (--links-full, --links, --phone, --short, --framed, --mouse, --calm, --motion); raw width queries elsewhere (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.decisions",
+   "area": "Decisions",
+   "kind": "hard",
+   "title": "Every decision complete",
+   "how": "65 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.window-scroll",
+   "area": "Code",
+   "kind": "hard",
+   "title": "The scroll goes through one module",
+   "how": "No script reads window.scrollY / scrollX / pageYOffset or the root's scrollTop, listens to the window's (or document's) scroll, or scrolls the window, outside the scroll module (src/scripts/scroller.js). In Safari on a Mac the page may scroll in its own box (runtime/scroller.js): the window's scroll then never changes. Ask the module: y(), to(), onScroll(). (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.io-root",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Observers that look ahead watch from the scroller",
+   "how": "Every IntersectionObserver with a rootMargin also names its root (the scroll module's ioRoot): in the box the box clips what is in it, so seen from the screen nothing below it would ever be \"near\" and nothing loads. (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.webgl-caveat",
+   "area": "Code",
+   "kind": "hard",
+   "title": "WebGL only on a real GPU",
+   "how": "Every getContext(\"webgl\"/\"webgl2\") (and three.js WebGLRenderer) asks for failIfMajorPerformanceCaveat or reads the renderer's name right after (software: SwiftShader, llvmpipe), or goes through runtime/gpu.js. Without a GPU, Chrome copies a WebGL canvas back to the processor every frame (≈ 12 ms a frame for one ring of covers). (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.bare-load",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Nothing waits for a load that has passed",
+   "how": "No addEventListener(\"load\") on the window unless the line or the three above check document.readyState: a script that starts late (after the first frame, imported on demand) comes after the load, and the listener never runs. Use whenLoaded(fn) (runtime/loaded.js). (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.styles-first",
+   "area": "Code",
+   "kind": "hard",
+   "title": "The start-up waits for the stylesheets",
+   "how": "The entry script waits for every stylesheet (runtime/styles.js stylesReady(), or the same wait written out) before its first call of anything it imports: Safari may run a module before the stylesheet applies (WebKit bug 261655), and what is measured then stays wrong. (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.consent-first",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Third parties start only after consent",
+   "how": "— (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "turned off by the adapter (rules.learnings.consent: false)",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.lazy-media",
+   "area": "Code",
+   "kind": "hard",
+   "title": "A stylesheet loaded on its own imports the custom media",
+   "how": "Every stylesheet the pages or the scripts load (an entry) has, in its @import closure, the file of the custom media (src/styles/base/media.css) when any file of that closure uses one: Lightning CSS (Vite) defines a custom media per bundle, and fails on (or drops) one it has not seen. (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "49 stylesheets loaded on their own",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.bar-guard",
+   "area": "Code",
+   "kind": "hard",
+   "title": "The bottom bar's guard stays empty",
+   "how": "No rule for .bar-guard gives it a background, a backdrop filter, content or pointer-events: none: Safari skips it as see-through only while it has nothing to show and takes taps (a backdrop filter made the bar white; runtime/safari.css). (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "no .bar-guard in the styles",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.learn.box-every-page",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Every page with the box runs the box script first",
+   "how": "Every page that has the page's box ([data-page]) runs the box script (node_modules/site-kit/runtime/box.js) in its <head>, before any other script: else Safari on a Mac scrolls that page in the window (a glass bar), and scripts that ask the scroll module read the wrong scroller. (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "49 pages with the box",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.colours-only-from-tokens",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Colours only from tokens",
+   "how": "no #hex, colour functions or named colours in 20 stylesheets (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.sizes-only-from-the-scale",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Sizes only from the scale",
+   "how": "font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 10 rules listed in decisions.json (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.layout-steps-only-at-s-m-l",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Layout steps only at S, M, L",
+   "how": "container queries at 22rem, 43rem, 58rem, 1520px on the column; media only through media.css (--links-full 70em, --links 48em, --phone 40em, --short 32em tall, --framed 1616px, input, motion) (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.no-rounded-corners",
+   "area": "Code",
+   "kind": "hard",
+   "title": "No rounded corners",
+   "how": "border-radius only 999px (pills) or 50% (dots) (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.motion-only-from-motion-css",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Motion only from motion.css",
+   "how": "transitions use var(--t-in/out/move) and var(--ease-out/move/leave); the hero's slow drift is the one loop (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.faces-only-through-tokens",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Faces only through tokens",
+   "how": "font-family is var(--sans) or var(--mono) (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.every-token-defined-and-used",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Every token defined and used",
+   "how": "119 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.the-scale-holds-its-own-rules",
+   "area": "Code",
+   "kind": "hard",
+   "title": "The scale holds its own rules",
+   "how": "both ends of 36 roles on the ladder, 10 type pairs ≥ ×1.125, 14 colour pairs (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.every-decision-complete",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Every decision complete",
+   "how": "65 decisions: 41 decisions, 9 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.one-line-colour",
+   "area": "Code",
+   "kind": "hard",
+   "title": "One line colour",
+   "how": "every border is var(--line), set by the ground to ink-20 or white-30 (7 places); states may use ink (or ink 50%) (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.every-fade-eased",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Every fade eased",
+   "how": "gradients are var(--fade-*) (colors.json fades: one per place, eased, over the whole block, no solid band under it) or solid bands for lines (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  },
+  {
+   "id": "code.qq.hovers-never-move",
+   "area": "Code",
+   "kind": "hard",
+   "title": "Hovers never move",
+   "how": "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground (but the 2 photo zooms of decision hover-zoom) (build/rules.mjs) (read from the code).",
+   "status": "pass",
+   "value": 0,
+   "unit": "places",
+   "note": "",
+   "items": [],
+   "accepted": 0,
+   "was": {
+    "status": "pass",
+    "value": 0
+   }
+  }
+ ],
+ "findings": [
+  {
+   "key": "type.roles::catalog/ h1.sr|29.6",
+   "rule": "type.roles",
+   "status": "pass",
+   "where": "catalog/ h1.sr",
+   "what": "29.6px PT Mono 700",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "type.roles::catalog/ h1.sr|30.51",
+   "rule": "type.roles",
+   "status": "pass",
+   "where": "catalog/ h1.sr",
+   "what": "30.51px PT Mono 700",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "type.roles::catalog/ h1.sr|30.07",
+   "rule": "type.roles",
+   "status": "pass",
+   "where": "catalog/ h1.sr",
+   "what": "30.07px PT Mono 700",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "type.measure::coffee/q-optimistic/ div.pstory__cols p",
+   "rule": "type.measure",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.pstory__cols p",
+   "what": "93 characters a line over 3 lines",
+   "at": "1024x768 1366x650 1440x900",
+   "new": false
+  },
+  {
+   "key": "shape.radii::select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::catalog/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "catalog/ select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::coffee/keniya-kisii/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.radii::coffee/q-optimistic/ select.buy__select|5",
+   "rule": "shape.radii",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ select.buy__select",
+   "what": "radius 5px on a 144×54 box",
+   "at": "320x568 390x844",
+   "new": false
+  },
+  {
+   "key": "shape.borders::1",
+   "rule": "shape.borders",
+   "status": "warn",
+   "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
+   "what": "1px",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "shape.borders::1.5",
+   "rule": "shape.borders",
+   "status": "warn",
+   "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
+   "what": "1.5px",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "shape.borders::1.33",
+   "rule": "shape.borders",
+   "status": "warn",
+   "where": "catalog/ input.box",
+   "what": "1.33px",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::-1",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "picture.bcard__image",
+   "what": "z-index -1",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::1",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "div.story__text",
+   "what": "z-index 1",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::2",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "button.hero__info-btn",
+   "what": "z-index 2",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::6",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
+   "what": "z-index 6",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::7",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
+   "what": "z-index 7",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::20",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "catalog/ form.filters, coffee/keniya-kisii/ form.buybar, coffee/q-optimistic/ form.buybar",
+   "what": "z-index 20",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::50",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "header.nav, nav.tabbar, catalog/ header.nav, catalog/ nav.tabbar, coffee/keniya-kisii/ header.nav, coffee/keniya-kisii/ nav.tabbar",
+   "what": "z-index 50",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "layers.z::100",
+   "rule": "layers.z",
+   "status": "warn",
+   "where": "a.skip, catalog/ a.skip, coffee/keniya-kisii/ a.skip, coffee/q-optimistic/ a.skip",
+   "what": "z-index 100",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "align.edges::div.footer__group a|right|144",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "div.footer__group a",
+   "what": "right edge -3px off the line at 144 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ div.footer__legal p|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ div.footer__legal p",
+   "what": "right edge -3px off the line at 256 (25 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__legal p|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ div.footer__legal p",
+   "what": "right edge -3px off the line at 256 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ div.footer__legal p|right|256",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.footer__legal p",
+   "what": "right edge -3px off the line at 256 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::h3.card__title|left|439",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+   "at": "844x390",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+   "at": "844x390",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (9 blocks on it)",
+   "at": "844x390",
+   "new": false
+  },
+  {
+   "key": "align.edges::h3.card__title|left|406",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "h3.card__title",
+   "what": "left edge +1.18px off the line at 406.38 (9 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ div.footer__group a",
+   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (9 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.footer__group a",
+   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ h2.card__title|left|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ h2.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ div.footer__group a|right|611",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ div.footer__group a",
+   "what": "right edge +2.95px off the line at 611.08 (8 blocks on it)",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|538",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)",
+   "at": "1024x768",
+   "new": false
+  },
+  {
+   "key": "align.edges::catalog/ h2.card__title|left|707",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ h2.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|707",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|707",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+   "at": "1440x900",
+   "new": true
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
+   "at": "1440x900",
+   "new": true
+  },
+  {
+   "key": "align.edges::li.fact|left|200",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "li.fact",
+   "what": "left edge +1px off the line at 200 (11 blocks on it)",
+   "at": "1920x1080",
+   "new": false
+  },
+  {
+   "key": "align.edges::li.fact|right|1720",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "li.fact",
+   "what": "right edge -0.99px off the line at 1719.99 (8 blocks on it)",
+   "at": "1920x1080",
+   "new": false
+  },
+  {
+   "key": "align.edges::li.fact|left|520",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "li.fact",
+   "what": "left edge +1px off the line at 520 (11 blocks on it)",
+   "at": "2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.edges::li.fact|right|2040",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "li.fact",
+   "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
+   "at": "2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/keniya-kisii/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ a.nav__tool",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ a.nav__tool",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ svg.buy__chevron",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ svg.buy__chevron",
+   "what": "lower than its text's line by 10.8px",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ button.buy__add",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ button.buy__add",
+   "what": "higher than its text's line by 2.59px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.colour::svg.taste__plot",
+   "rule": "icons.colour",
+   "status": "warn",
+   "where": "svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.colour::coffee/keniya-kisii/ svg.taste__plot",
+   "rule": "icons.colour",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.colour::coffee/q-optimistic/ svg.taste__plot",
+   "rule": "icons.colour",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)",
+   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::24×24",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn",
+   "what": "24×24",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::20×20",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron",
+   "what": "20×20",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::72×98",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "72×98",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::40×40",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "40×40",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::32×32",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "a.hero__link",
+   "what": "32×32",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::72×99",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "72×99",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::41×41",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "41×41",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::76×104",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "76×104",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::46×46",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "46×46",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::78×107",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "78×107",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::50×50",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "50×50",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::77×105",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "77×105",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::48×48",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "48×48",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::82×112",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "what": "82×112",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::55×55",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "55×55",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "icons.sizes::56×56",
+   "rule": "icons.sizes",
+   "status": "warn",
+   "where": "span.fact__icon",
+   "what": "56×56",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-box-1200.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3)",
+   "at": "390x844 844x390 1440x900",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-jacket-1200.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3)",
+   "at": "390x844 844x390 768x1024 1440x900",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-sweater-1200.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3)",
+   "at": "390x844 844x390",
+   "new": false
+  },
+  {
+   "key": "images.sharp::approach-bean-1208.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.story__image img",
+   "what": "approach-bean-1208-CYEwXOjT.avif: 1208px wide for 1266 device px (×3)",
+   "at": "844x390 1024x768 1440x900 2560x1440",
+   "new": false
+  },
+  {
+   "key": "images.sharp::approach-people-1440.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.story__image img",
+   "what": "approach-people-1440-PP9TsNeI.avif: 1440px wide for 2532 device px (×3)",
+   "at": "844x390 1024x768 1440x900 2560x1440",
+   "new": false
+  },
+  {
+   "key": "images.sharp::farm-drying-1344.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ picture.pstory__image img",
+   "what": "farm-drying-1344-DW2pHWMf.avif: 1344px wide for 2426 device px (×3)",
+   "at": "844x390 1024x768 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "images.sharp::approach-bean-900.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.story__image img",
+   "what": "approach-bean-900-Rn_9lHki.avif: 900px wide for 768 device px (×2)",
+   "at": "768x1024 1366x650",
+   "new": false
+  },
+  {
+   "key": "images.sharp::approach-people-1080.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.story__image img",
+   "what": "approach-people-1080-D-Jdt5Zb.avif: 1080px wide for 1536 device px (×2)",
+   "at": "768x1024 1366x650 1920x1080",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-jacket-800.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-jacket-800-kd2lZvyr.avif: 800px wide for 694 device px (×2)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-sweater-800.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-sweater-800-Bpm0EGd0.avif: 800px wide for 694 device px (×2)",
+   "at": "768x1024",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-box-800.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ picture.card__photo img",
+   "what": "life-box-800-DpMwwL7W.avif: 800px wide for 694 device px (×2)",
+   "at": "768x1024",
+   "new": true
+  },
+  {
+   "key": "images.sharp::life-jacket-480.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-jacket-480-D-C-fR97.avif: 480px wide for 421 device px (×1)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "images.sharp::life-sweater-480.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-sweater-480-C11YdwXH.avif: 480px wide for 421 device px (×1)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "images.sharp::business-cafe-1200.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.bcard__image img",
+   "what": "business-cafe-1200-DOTVU3mx.avif: 1200px wide for 1323 device px (×2)",
+   "at": "1440x900",
+   "new": false
+  },
+  {
+   "key": "images.sharp::business-office-1200.avif",
+   "rule": "images.sharp",
+   "status": "warn",
+   "where": "picture.bcard__image img",
+   "what": "business-office-1200-Dtv7kpi1.avif: 1200px wide for 1323 device px (×2)",
+   "at": "1440x900",
+   "new": false
+  },
+  {
+   "key": "images.weight::life-box-1200.avif",
+   "rule": "images.weight",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px",
+   "at": "2560x1440",
+   "new": true
+  },
+  {
+   "key": "images.first::life-box-1200.avif",
+   "rule": "images.first",
+   "status": "fail",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
+   "at": "844x390 1024x768 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "images.first::life-box-800.avif",
+   "rule": "images.first",
+   "status": "fail",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
+   "at": "768x1024 1366x650",
+   "new": false
+  },
+  {
+   "key": "images.first::life-jacket-1200.avif",
+   "rule": "images.first",
+   "status": "fail",
+   "where": "div.featured__media img",
+   "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
+   "at": "2560x1440",
+   "new": false
+  },
+  {
+   "key": "states.timing::0",
+   "rule": "states.timing",
+   "status": "pass",
+   "where": "a.skip, button.nav__logo, button.nav__tool, a.tabbar__item, button.hero__info-btn, a.hero__link",
+   "what": "no transition",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "fallback.nojs::390x844",
+   "rule": "fallback.nojs",
+   "status": "fail",
+   "where": "390x844",
+   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.nojs::1440x900",
+   "rule": "fallback.nojs",
+   "status": "fail",
+   "where": "1440x900",
+   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+   "at": "1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.featured__aboutКения Найваша PB — регио",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.featured__about",
+   "what": "«Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font",
+   "at": "390x844 1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.featured__aboutКуа Мон в переводе с вье",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.featured__about",
+   "what": "«Куа Мон в переводе с вье» 14 → 16 lines, 303 → 303px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.featured__aboutАлехандра Муньос пришла ",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.featured__about",
+   "what": "«Алехандра Муньос пришла » 18 → 20 lines, 303 → 303px wide with the fallback font",
+   "at": "390x844 1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.featured__aboutChina Alta — региональны",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.featured__about",
+   "what": "«China Alta — региональны» 13 → 14 lines, 303 → 303px wide with the fallback font",
+   "at": "390x844 1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.featured__aboutКооператив Wonosalam объ",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.featured__about",
+   "what": "«Кооператив Wonosalam объ» 17 → 20 lines, 303 → 303px wide with the fallback font",
+   "at": "390x844 1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textКофе с классическим и чи",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Кофе с классическим и чи» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textЭксклюзив №1 в нашем асс",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Эксклюзив №1 в нашем асс» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textАвторская смесь (классич",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Авторская смесь (классич» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844 1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textДля тех, кто не любит ли",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Для тех, кто не любит ли» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textДля любителей сочнейшей ",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Для любителей сочнейшей » 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.bcard__textЗерно, бесплатная школа ",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.bcard__text",
+   "what": "«Зерно, бесплатная школа » 4 → 5 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.bcard__textСвежая обжарка со стабил",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.bcard__text",
+   "what": "«Свежая обжарка со стабил» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "at": "390x844",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.hero__captionДо ближайшей обжарки",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.hero__caption",
+   "what": "«До ближайшей обжарки» 1 → 1 lines, 277 → 337px wide with the fallback font",
+   "at": "1440x900",
+   "new": false
+  },
+  {
+   "key": "fallback.fonts::p.card__textКлассика кофейного вкуса",
+   "rule": "fallback.fonts",
+   "status": "warn",
+   "where": "p.card__text",
+   "what": "«Классика кофейного вкуса» 3 → 4 lines, 433 → 433px wide with the fallback font",
+   "at": "1440x900",
+   "new": false
+  },
+  {
+   "key": "health.head::og",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/",
+   "what": "no og:image",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::manifest",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/",
+   "what": "no web manifest",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/cart/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/cart/",
+   "what": "description of 23 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/favourites/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/favourites/",
+   "what": "description of 34 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/checkout/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/checkout/",
+   "what": "description of 49 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/checkout/details/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/checkout/details/",
+   "what": "description of 21 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/checkout/delivery/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/checkout/delivery/",
+   "what": "description of 42 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/",
+   "what": "description of 44 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/beans/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/beans/",
+   "what": "description of 44 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/orders/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/orders/",
+   "what": "description of 22 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/orders/433273/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/orders/433273/",
+   "what": "description of 23 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/purchases/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/purchases/",
+   "what": "description of 41 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/account/settings/desc",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/account/settings/",
+   "what": "description of 38 characters (50–170)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/no-such-pagelang",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/no-such-page",
+   "what": "no lang on <html>",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/no-such-pagevp",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/no-such-page",
+   "what": "no viewport meta",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/no-such-pageh1",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/no-such-page",
+   "what": "0 h1 headings (one wanted)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.head::/no-such-pagetitle",
+   "rule": "health.head",
+   "status": "fail",
+   "where": "/no-such-page",
+   "what": "title of 0 characters (10–65)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.files::sitemap.xml",
+   "rule": "health.files",
+   "status": "fail",
+   "where": "sitemap.xml",
+   "what": "answers 404",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.files::site.webmanifest",
+   "rule": "health.files",
+   "status": "fail",
+   "where": "site.webmanifest",
+   "what": "answers 404",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.files::favicon.ico",
+   "rule": "health.files",
+   "status": "fail",
+   "where": "favicon.ico",
+   "what": "answers 404",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "health.files::apple-touch-icon.png",
+   "rule": "health.files",
+   "status": "fail",
+   "where": "apple-touch-icon.png",
+   "what": "answers 404",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::html",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "html",
+   "what": "1 files, 17 KB sent (was 17 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::js",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "js",
+   "what": "10 files, 61 KB sent (was 61 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::images",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "images",
+   "what": "10 files, 402 KB sent (was 402 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::css",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "css",
+   "what": "1 files, 16 KB sent (was 15 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::fonts",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "fonts",
+   "what": "4 files, 63 KB sent (was 63 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-ink-10#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --c-ink-10",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-graphite#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --c-graphite",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --trace-light#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --trace-light",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-taste-other#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --c-taste-other",
+   "at": "",
+   "new": false
+  }
+ ],
+ "fixed": [],
+ "decisions": [
+  {
+   "id": "font-headings",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Headings and names are set in PT Mono Bold, as in Figma (self-hosted, cut to the text face's characters: 13 KB)",
+   "decided": "Tim, 2026-10-20 (round 3)"
+  },
+  {
+   "id": "footer-squares",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "From L the footer is two equal halves, each at least a square: the animated flame centred on the left one by its mass (measured over its animation: 50.5% across, 62.9% down its box), the newsletter and the links on the right. Square from about 1360px wide; narrower, the links need more height than the square has and both halves grow with them (1280: 599 × 626)",
+   "decided": "Tim, 2026-10-20 (round 3)"
+  },
+  {
+   "id": "reel-bleed",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Superseded in round 7 by reel-whole-cards (the row is clipped at the column, no --bleed). Before: the recommended row ran out to the screen's edges (scripts/slider.js measures the column's margins into --bleed-l/-r), padded back so its cards stand and snap on the column; cards rise into place from below as they come into view",
+   "decided": "Tim, 2026-10-20 (round 3)"
+  },
+  {
+   "id": "featured-photos",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Every new arrival shows a photo; a coffee without its own (photos.bySlug) shows the next of four moodboard photos (site.json featured.photos)",
+   "decided": "Claude, 2026-10-20"
+  },
+  {
+   "id": "page-transition",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Pages cross-fade (cross-document view transitions); a card opening its coffee carries its name and pack to the page's title and big pack. For the capture the packs show their stills. Chrome 126+, Safari 18.2+; elsewhere a page simply opens. public/vt.js, a plain script in <head>, names the parts",
+   "decided": "Tim, 2026-10-20 (round 3)"
+  },
+  {
+   "id": "facts-modal",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The three info blocks are buttons that grow into one modal (Figma info-blocks-modal): a box of --modal-w in the middle of the dimmed screen, a sheet at the foot of a phone's; it steps to the other blocks; the text of the roast block names the next roast live",
+   "decided": "Tim, 2026-10-20 (round 3)"
+  },
+  {
+   "id": "font-countdown",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The countdown digits are Technology Bold, subset to 0–9 and the colon (1.2 KB)",
+   "decided": "Tim, 2026-10-19"
+  },
+  {
+   "id": "pack-label",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Every 3D pack shows the label of Индонезия Суматра Паллунг",
+   "decided": "Tim, 2026-10-19"
+  },
+  {
+   "id": "price-placeholder",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Prices are placeholders by price group and weight (data/prices.json: Classic 250 / 680 / 2600 ₽ for 50 г / 200 г / 1 кг, Citric 290 / 780 / 2900, Special 390 / 1180 / 4400)",
+   "decided": "Tim, 2026-10-19 («placeholder prices, clearly marked»)"
+  },
+  {
+   "id": "photos-placeholder",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The photos are the Figma moodboard's: several show other roasters' packs (SIP, Cafe Public, Paloma, Stereoscope, MARU) and none is QQ's own; they are renders exported from Figma at 1280–1440 px",
+   "decided": "Claude, 2026-10-19 (to replace before launch)"
+  },
+  {
+   "id": "hero-video",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The home's and the about page's heroes show Tim's looped video (build/video.mjs: 1280 and 1920 px H.264, 3.4 and 6.5 MB, poster its first frame) instead of the roast photo; it plays only on screen, and with «reduce motion» or Save-Data the poster stays. The photo's slow drift went with it. Not measured across widths this time (Tim asked to skip it)",
+   "decided": "Tim, 2026-10-21"
+  },
+  {
+   "id": "roast-schedule",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The countdown and the catalog's shipping line assume roasting on weekdays at 10:00 Moscow time",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "facts-text",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The texts of the info blocks' modal for payment and delivery were written for the site (the roasting one is Figma's)",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "no-shop-yet",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The bag, the favourites, the ratings and the checkout keep everything in the visitor's browser (localStorage, sessionStorage for the checkout); nothing is sent: the checkout's last step, the business request form, «Добавить» an address and «Выйти» say so in a toast",
+   "decided": "Claude, 2026-10-19; round 4, 2026-10-20"
+  },
+  {
+   "id": "mobile-menu",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Under 48em the sections open from the burger: a menu under the bar that slides down from under it, every section a cell divided by hairlines that run its whole width, no padding of the menu's own and the gutter on all four sides of every cell (the text trimmed), no line under the last cells (the menu's own closes it); two columns filled left to right from the tab bar's step (40em) up. Its height is at most the screen's less the bars (svh)",
+   "decided": "Tim, 2026-10-20 (round 6)"
+  },
+  {
+   "id": "catalog-order",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "«Популярные» (the catalog's default order): coffees with a tag first, then Special, then the newest",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "similar-coffees",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "«Что взять еще» on a coffee's page (was «Кофе с похожим вкусом», four big cards with no reason): the product cards in a grid, one per move of the taste model — похожий first, then мягче, ярче, необычнее or классичнее — each under its move in colour (lavender, mono capitals), its text one line (one colour) from the data on why; no «под молоко» and no decaf line on the page; a move with nothing that way gives its place to another (легче, плотнее, the other end of the unusual axis, тоже похожий), never an «у QQ нет» sentence; four in a row from L, where the pack keeps clear of a name on three lines; a sold-out coffee (data/site.json shop.unavailable) keeps its page, its buy bar offers the nearest coffee in stock and the grid begins with it; nothing sold out is ever offered",
+   "decided": "Tim, 2026-11-24 (form 1, simpler: cards and what they are about; «Похожий» first; no «под молоко»; title «Что взять еще»; then: the move above the card in coloured text, no pills; the text one colour; no decaf line and no «у QQ нет»; a grid and not a slider)"
+  },
+  {
+   "id": "secondary-text",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Secondary text is ink-70 (#2d2f33 at 70%), never ink-60 or ink-50 as some Figma texts are (the unchosen weight «1 кг», small numbers of the pager)",
+   "decided": "Claude, 2026-10-19 (the colour check in build/tokens.mjs)"
+  },
+  {
+   "id": "no-radius",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "No rounded corners: blocks, cards, buttons and fields are sharp; only pills (descriptors, the bag counter) and dots are round",
+   "decided": "Claude, 2026-10-19 (as in Figma)"
+  },
+  {
+   "id": "nav-height",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The navbar is 48px at every size, its links in --type-body; its own side margin is 16px (the small gutter) and its content stops at the column widened by the 8px of air inside the logo's and icons' boxes",
+   "decided": "Claude, 2026-10-19; Tim, 2026-10-20"
+  },
+  {
+   "id": "hero-height",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "The hero is the screen less a 24px peek (less the tab bar on a phone), at most --hero-max (960 → 1200); never less than its cells, the fade and --hero-photo need",
+   "decided": "Tim, 2026-10-20 (round 2)"
+  },
+  {
+   "id": "hero-title-fills-cell",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "From L the hero's title fills its cell: its longest word «обжарки» (4.55em) runs from padding to padding, so its size is the cell less its two gutters, ÷ 4.55 (the cell: a third of the column and its two gutters below the max, a third of the column from it), held between 48px and --type-hero (48 → 88), both ends on the ladder: 58px at 1024, 84 at 1440, 88 from about 1540. Below L the title is --type-hero itself. From about 1366 its three lines and their padding set the height of the cells and the countdown's and the links' three rows share it; on narrower L screens the countdown's digits are taller and lead",
+   "decided": "Tim, 2026-10-20 (rounds 5 and 6)"
+  },
+  {
+   "id": "product-pin",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "The product stage is pinned at the height of the screen less the navbar and the buy bar; the fact tiles are spaced by 40% of the screen's height (28% from L)",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "qq-digits",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The countdown's digits are QQ Digits, drawn as SVG segments by the build (build/digits.mjs from Tim's settings in design/digits.json, the artifact «QQ Digits»): seven segments per digit and the colon's dots, the unlit ones shown as a trace (white 12% on black), each segment fading on in 120ms and off in 200ms. Not a font: Technology Bold is gone",
+   "decided": "Tim, 2026-10-20 (round 6)"
+  },
+  {
+   "id": "hero-entrance",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "When the home page opens, the hero's dock rises into place over 1.4s (--t-intro; from L the whole row of cells), and inside it each cell part by part, a third of a part's 0.9s apart: the title line by line (GSAP SplitText, the lines as set at that width), the countdown row by row, the links one by one. A click, a key or a scroll ends it at once. GSAP (with SplitText and CustomEase, about 34 KB gzipped) loads only on the home page, after the page; an inline script in <head> hides the parts from the first frame, and if the script never runs they show after 3s. Nothing of it with «reduce motion»",
+   "decided": "Tim, 2026-10-20 (round 6)"
+  },
+  {
+   "id": "hero-layers-full-width",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "From L the hero's fade into black and the hairline above its cells are layers of the cells' grid that reach the screen's edges (50% − 50vw on each side), past the frame from the column's max; below L the fade over the title runs from its box to the screen's right edge (100% − 100vw); the hero clips them",
+   "decided": "Claude, 2026-10-20 (round 6)"
+  },
+  {
+   "id": "countdown-as-caption",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "Everything in the roast cell is as wide as its caption «До ближайшей обжарки» (13.9em of --type-control), or as wide as the cell allows where it is narrower and the caption takes two lines (below M, and between M and L where the countdown's parts stand side by side): the digits (QQ Digits, SVG, «00:00:00» 3em) fill that width, the date (more than a day to wait) fills it with its letters, 0.65em each in mono (a container unit of the digits' box)",
+   "decided": "Tim, 2026-10-20 (rounds 2 and 6)"
+  },
+  {
+   "id": "photos-in-catalog",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Only a Special coffee may show a photo on its card instead of the 3D pack (components.mjs photoOf over data/site.json photos); three do (Вьетнам Куа Мон, the second card of the catalog, Кения Киси, Перу Монте Верде), as the Figma catalog mixes photos with packs. A Classic coffee always shows its pack",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "buybar-phone",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "On a narrow column the buy bar stays at the foot of the screen in two rows (options; quantity, price, button). Since round 8 it is cool grey (the ink ground; black in round 7), with no line above it, and its options are the catalog's menu cells opening upwards",
+   "decided": "Claude, 2026-10-19 (to check with the designer)"
+  },
+  {
+   "id": "short-screens",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "On a screen under 32em tall (a phone sideways) the buy bar waits after the product stage instead of following the screen, and the stage pins at the whole screen under the navbar (no 22rem floor)",
+   "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "nav-steps",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The navbar in four steps: every section (≥ 70em), four short ones «Каталог, Бизнесу, Журнал, Контакты» (≥ 48em), the burger, and under 40em a tab bar at the foot of the screen with «Каталог, Корзина, Избранное, Профиль». Every link a cell with 14px each side of its text, the cells 8px apart",
+   "decided": "Tim, 2026-10-20 (the steps, rounds 2 and 6); Claude (the widths)"
+  },
+  {
+   "id": "nav-links-pages",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Navbar and tab-bar items link only to pages that exist: the catalog, «Кофейням» / «Бизнесу» (business/), «Контакты», favourites, bag and profile do; «Каскара», «Дрипы», «Сеты», «Офисам», «Журнал» and search are labels without a link",
+   "decided": "Tim, 2026-10-20; round 4 (the new pages), 2026-10-20"
+  },
+  {
+   "id": "nav-ground",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The navbar (and the tab bar) take the colours of the section under them, changing the moment their leading edge touches it (round 7, nav-leading-edge; before: once wholly over it), on --t-move; above the top of the page they keep the first section's",
+   "decided": "Tim, 2026-10-20"
+  },
+  {
+   "id": "hover-tint",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Hover on a control (the navbar's links and icons, the tab bar, the hero's links and «i», the pager's numbers, the arrows, a card's two cells and its heart): a tint behind the one item, white at 20% on dark grounds, ink at 6% on light ones (white would not show on white); nothing moves. A pointer's focus changes nothing; the keyboard's draws the ring",
+   "decided": "Tim, 2026-10-20 (rounds 2 and 5); Claude (the light-ground tint, the keyboard's ring kept)"
+  },
+  {
+   "id": "one-line-colour",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Every hairline is var(--line): cool grey at 20% on light grounds, white at 30% on dark ones; only states (the current dot of the pager, a field focused from the keyboard) draw a border in ink",
+   "decided": "Tim, 2026-10-20 (build/rules.mjs checks it)"
+  },
+  {
+   "id": "account-placeholder",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The account pages show a made-up visitor, «Марк Новиков» of Figma, with six orders (data/account.json); every number on them (lots, processes, Q, countries, descriptors, the taste profile, beans, totals) is worked out from those orders and the catalog by src/templates/account-data.mjs",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "shop-numbers",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Delivery prices and the free-delivery threshold: courier 415 ₽, pickup 240 ₽, 1–2 days, free from 1 799 ₽ (data/site.json shop)",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "faq-answers",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Of the 15 questions of «Вопросы и ответы» Figma answers one («Как выбрать кофе?»); the other 14 answers are written from what the site already says (delivery, payment, the roast) and marked placeholder in data/faq.json",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "business-blanks",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The business page keeps the copywriter's blanks of Figma visible: [чемпионат, год], [название], [N] лотов, [N] минут",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "privacy-blanks",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The privacy policy keeps the blanks of its Figma text: ОГРНИП [указать], ИНН [указать], адрес [указать]; it names qqcoffee@mail.ru while the contacts name sales@qqcoffee.ru",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "about-photos",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The team of «О компании» is the fourteen people of Tim's picture (round 7: names and roles in its order, the roles word for word); their portraits are still the seven Figma stock photos (Pexels), repeated to fourteen. The Instagram strip has no link (Figma gives no account address)",
+   "decided": "Claude, 2026-10-20 (round 4); the team's number and roles: Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "maps-placeholder",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "The two maps of the contacts are pictures from Figma (both crops of one map screenshot, not of the real addresses); each links to its address on Yandex Maps",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "older-colours",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Pages drawn with older colours or styles in Figma follow the system instead: the bag's cards are the cloud squares of the catalog's half cards (Figma: a warm photo ground and hairlines #c0c1c2 at 30%), the orange roast line of the bag is ink-70, the purple «Заявка» button of the business page is white on ink, the green «Доставлен» is ink (lavender stays the state of an order on its way), radii of 4px are sharp",
+   "decided": "Tim, 2026-10-20 (the rule, round 4: «be systematic»); Claude (each case)"
+  },
+  {
+   "id": "chart-marks",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The drawings of the account (the beans' ring, the taste profile, the countries, the descriptors, the beans by month) mark data in lavender, on white over the cloud tiles",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "prose-headings",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The headings inside the privacy policy and its summary are Apercu Bold, not mono capitals",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "account-tabs",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The account's tabs are pages (Профиль, Заказы, Покупки, Настройки); «Активность» is a label without a link, as it is a part of the profile; «Зернышки» opens as a dialog over the profile, and account/beans/ is the same profile with the dialog open (Back closes it)",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "checkout-steps",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The checkout is three addresses: checkout/ (sign-in by phone or email), checkout/details/ (for yourself or as a gift), checkout/delivery/ (city and CDEK); what was typed is kept for the visit (sessionStorage), and «Заказать в подарок» opens the gift",
+   "decided": "Claude, 2026-10-20 (round 4)"
+  },
+  {
+   "id": "tabs-30",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "The catalog's inactive tabs are ink at 30% (1.7 : 1 on white), the current one ink; each tab's text is trimmed to its capitals and baseline (text-box: trim-both cap alphabetic)",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "menu-cells",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "One menu cell for the catalog's filters and the product's options (blocks.mjs menu, components/menu.css, scripts/menus.js): a caption, the choice, a chevron at 30%; open, its list continues the cell in one hairline box with no line between them (downwards in the catalog, upwards in the buy bar), as wide as the cell (at least 10.5rem; 11rem in the buy bar, where a list wider than its cell opens leftwards at the column's edge). Hovered, the cell and each option fill with the ground's tint; options are rows edge to edge; a checkbox is the site's sharp box, a radio its dot",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "catalog-rise",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The catalog's cards rise into place one after another (90ms apart, in reading order): those on the screen when the page opens, then each as it comes onto the screen, and again after the filters change. The page's inline script sets html[data-enter] so they wait from the first frame; not with «reduce motion», not coming back to the page (Back), and without scripts they simply stand",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "footer-no-line",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The footer has no line above it; its cloud ground parts it from the white section above. A section whose own lines run down to the footer closes itself with a hairline the screen wide (only the home page's facts do)",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "pack-drag",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The big pack of a coffee's page turns exactly with the scroll (no easing behind it) and can be dragged: across turns it, down tilts it (at most 0.6 rad); let go, it turns back to the scroll's angle (5/s). While it is pinned the 3D canvas is fixed to the screen (pouch3d stage.fixed), so the pack never rides the page's scroll for the frame before it is drawn again. On a touch screen a drag across turns it and a drag up or down scrolls (touch-action: pan-y on the stage)",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "hover-zoom",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "Hovered, the photo of a card (a product card with a photo, a business card) comes a little closer (scale 1.04 on --t-move, --ease-out), as a card's 3D pack does",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "nav-leading-edge",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The navbar and the tab bar take the ground of a section the moment their leading edge touches it: scrolling down the lower edge, up the upper one (scripts/nav.js)",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "page-curl",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "New arrivals turn like the pages of a magazine («Изгиб» of Tim's artifact «Новинки: листаем журнал», its default settings): a spread from L (the right page bends over the spine), one page below L (turned over its left edge); a drag turns it under the hand; a jump turns every sheet between. WebGL, the faces painted from the slides as laid out (scripts/curl.js); without WebGL the slide changes, with «reduce motion» at once",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "intro-numbers",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The numbers of the hero's entrance (when each group starts, its duration, lift, stagger and curve) live in design/intro.json, tuned in the intro tuner (design/intro-tuner/); the moving parts stay on their own layers until the whole entrance has stopped",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "roast-note-swap",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The «i» of the countdown keeps its row: the digits and then the caption step away upwards, and the note comes in where they stood, as wide as the digits; closing, the note goes first and the two come back",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "hero-equal-rows",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The hero's three shared rows are equal (1fr): the three links are one height, the countdown's parts keep lining up with them",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "reel-whole-cards",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The recommended row shows whole cards only, as many as the column holds (1 below M, 2 from M, 3 from L), clipped at the column: no peek of the next card, no card beyond the column",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "weight-dropdown",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Below M a card's two weights are a dropdown (the weight and a chevron) over the weights cell; from M the two radios. The radios stay the choice, the dropdown sets them",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "no-eyebrows",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The image blocks (Наш подход, О компании) have no lavender eyebrow; their button is an outlined cell with the block's name and an arrow (Figma 1114:35930), and that is the arrow button everywhere (the business page's offers too). The role type/label went with the eyebrows",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "modal-one-step-row",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The info modal has one step row for its three panels: stepping changes the words of its two buttons, the buttons never move; the text comes in line by line; closing runs on --ease-move",
+   "decided": "Tim, 2026-10-21 (round 7)"
+  },
+  {
+   "id": "count-12px",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "The bag's count on the navbar's icon is 12px (a 16px pill over the corner of a 24px icon), not a role of the scale",
+   "decided": "Claude, 2026-11-23 (written down from build/rules.mjs for site-kit's rules)"
+  },
+  {
+   "id": "beans-axe",
+   "kind": "exception",
+   "state": "unbound",
+   "what": "account/beans/ opens with the beans dialog standing over the profile (a modal): axe marks the contrast of every text there as «needs review» and checks none, which site-kit's audit fails a page for",
+   "decided": "Claude, 2026-11-23 (site-kit audit, PR #17)"
+  },
+  {
+   "id": "hash-states",
+   "kind": "decision",
+   "state": "holding",
+   "covered": 91,
+   "notes": [],
+   "what": "The catalog's tabs (#all, #kofe, #kaskara, #dripy, #sety, #merch) and the checkout's «В подарок» (#gift) are states chosen by the address's hash, read by the scripts (filters.js, checkout.js): no element has that id",
+   "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
+   "until": null
+  }
+ ],
+ "questions": [
+  {
+   "id": "hero-footer-links",
+   "ask": "The navbar links only to pages that exist (an item without a page is a label: decision nav-links-pages). The hero's and the footer's links are not under that rule yet. Should they follow it too (no link where there is no page), or stay as they are?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/",
+   "since": "2026-10-20",
+   "from": "round 2 (CLAUDE.md «Navbar links»)",
+   "options": [
+    "Same rule as the navbar",
+    "Keep them as they are"
+   ],
+   "about": [
+    "data/site.json",
+    "src/templates/home.mjs",
+    "src/templates/layout.mjs"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "tabbar-safari-bar",
+   "ask": "On your iPhone, in Safari: scroll any page down and up with the tab bar at the bottom. Does Safari's own bottom bar stay plain glass, or does it take the tab bar's colour (or turn white)? Safari tints its bar from anything fixed at the bottom edge (a lesson of Flow Medium, site-kit AGENTS.md). PR #18 adds Flow Medium's guard (an empty fixed block over that point, site-kit/runtime/safari.css): look at the test site once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/catalog/), the catalog and a coffee's page (its buy bar sits on the tab bar), also near the footer.",
+   "needs": [
+    "iphone"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/catalog/",
+   "since": "2026-11-23",
+   "from": "PR #17 (site-kit), PR #18 (the guard)",
+   "options": [
+    "Plain glass, looks right",
+    "It takes a colour (say which page)"
+   ],
+   "about": [
+    "src/styles/components/nav.css",
+    "src/templates/layout.mjs",
+    "src/styles/base/safari.css",
+    "node_modules/site-kit/runtime/safari.css"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "not-found-page",
+   "ask": "The site has no page of its own for a wrong address: GitHub Pages shows its plain «404 File not found». Make a QQ page for it (the navbar, a line and a link to the catalog), or leave it until the real host?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/no-such-page",
+   "since": "2026-11-23",
+   "from": "PR #17 (site-kit: the checks found no 404.html)",
+   "options": [
+    "Make a QQ page",
+    "Leave it until the real host"
+   ],
+   "about": [
+    "build/pages.mjs",
+    "vite.config.js"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "box-mac-safari",
+   "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
+   "needs": [
+    "mac-safari"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/?qqbox=1",
+   "since": "2026-11-23",
+   "from": "PR #18",
+   "options": [
+    "Solid bar, everything works",
+    "Something is off (say what and where)"
+   ],
+   "about": [
+    "src/styles/base/safari.css",
+    "src/templates/layout.mjs",
+    "src/scripts/scroller.js",
+    "src/scripts/nav.js",
+    "src/scripts/pouch3d.js",
+    "src/scripts/scroll.js",
+    "public/vt.js"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "checkout-sideways",
+   "ask": "The checkout scrolls sideways by 40px on a folded phone (280 × 653), in Firefox and in WebKit (Safari), not in Chromium. A real bug, to fix in a later pull request (PR #17 changes nothing visible)? Open the link in a window 280px wide to see it.",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/checkout/",
+   "since": "2026-11-23",
+   "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
+   "options": [
+    "Fix it in the next PR",
+    "Leave it (folded phones are rare)"
+   ],
+   "about": [
+    "src/styles/pages/shop.css",
+    "src/templates/shop.mjs"
+   ],
+   "status": "open",
+   "state": "open"
+  }
+ ],
+ "from": "the last deploy of main",
+ "whose": "measured on main at 399c4de, before this change (claude/card-scales at d439bb0)",
+ "own": false
+}
