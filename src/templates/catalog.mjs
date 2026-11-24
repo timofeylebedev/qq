@@ -50,7 +50,7 @@ export function render(ctx) {
   const json = JSON.stringify({
     methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })),
     acidity: C.acidity, tastes: C.tastes, regions: C.map.regions,
-    coffees: C.coffees.map(({ slug, name, i, out, decaf, line, type, roasts, grind, use, coded, position, methods, chips, acid, tastes, region }) => ({ slug, name, i, out, decaf, line, type, roasts, grind, use, coded, position, methods, chips, acid, tastes, region, ...pick(products.find((p) => p.slug === slug)) })),
+    coffees: C.coffees.map(({ slug, name, i, out, decaf, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region }) => ({ slug, name, i, out, decaf, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region, ...pick(products.find((p) => p.slug === slug)) })),
     dist: C.dist
   }).replace(/</g, "\\u003c");
 
@@ -96,7 +96,7 @@ export function render(ctx) {
   });
 }
 
-const pick = (p) => ({ short: p.short, countries: p.countries, processes: p.processes });
+const pick = (p) => ({ short: p.short });
 
 function plural(n, one, few, many) {
   const m10 = n % 10, m100 = n % 100;

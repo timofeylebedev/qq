@@ -32,6 +32,7 @@ const coffees = products.map((p) => {
   if (!t) fail(`${p.slug} is not in the taste model`);
   return {
     slug: p.slug, name: p.name, line: p.line, type: p.type, decaf: !!t.decaf, out: OUT.has(p.slug),
+    countries: p.countries, processes: p.processes,
     roasts: p.roasts.map((r) => r.use), grind: p.grind,
     use: p.use.filter((u) => u !== "Вторая кофемолка"),   // QQ's word for cafés; never shown or matched (session 0)
     coded: { acidity: p.taste.acidity, density: p.taste.density, ferment: p.taste.ferment, sweetness: p.taste.sweetness },
@@ -146,6 +147,15 @@ function report(o) {
   for (const a of o.acidity) { const yes = o.coffees.filter((c) => c.acid === a.id); L.push(`| ${a.ru} (${a.hint}) | ${yes.length} | ${list(yes)} |`); }
   L.push("", `## Taste groups (families ≥ ${CFG.flavours.share} of the profile)`, "", "| Group | Finds | Coffees |", "|---|---|---|");
   for (const g of o.tastes) { const yes = o.coffees.filter((c) => c.tastes.includes(g.id)); L.push(`| ${g.ru} | ${yes.length} | ${list(yes)} |`); }
+  const facet = (title, values, has) => {
+    L.push("", `## ${title}`, "", "| Option | Finds | Coffees |", "|---|---|---|");
+    for (const v of values) { const yes = o.coffees.filter((c) => has(c, v)); L.push(`| ${v} | ${yes.length} | ${list(yes)} |`); }
+  };
+  const uniq = (fn) => [...new Set(o.coffees.flatMap(fn))].sort((a, b) => a.localeCompare(b, "ru"));
+  facet("Type (secondary)", ["Моносорт", "Смесь"], (c, v) => c.type === v);
+  facet("Line (secondary)", ["Classic", "Special"], (c, v) => c.line === v);
+  facet("Country (secondary)", uniq((c) => c.countries), (c, v) => c.countries.includes(v));
+  facet("Processing (secondary)", uniq((c) => c.processes), (c, v) => c.processes.includes(v));
   L.push("", "## Regions of the taste map", "", "| Region | Finds | Coffees |", "|---|---|---|");
   for (const r of o.map.regions) { const yes = o.coffees.filter((c) => c.region === r.id); L.push(`| ${r.ru} | ${yes.length} | ${list(yes)} |`); }
   L.push("", "## Every chip alone", "", "Matches, then «Почти»: the three coffees nearest in taste to the matches (what each misses in brackets).", "");
