@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T02:01:36.109Z",
- "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
- "ref": "main",
- "pr": null,
+ "generated": "2026-11-24T03:43:14.325Z",
+ "commit": "f295f6302526f364d0279222480d6c5ff7053ffd",
+ "ref": "claude/catalogue-filters",
+ "pr": "24",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T01:48:11.947Z",
+   "when": "2026-11-24T03:28:50.759Z",
    "quick": false,
-   "seconds": 454,
+   "seconds": 513,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T01:55:46.028Z",
+   "when": "2026-11-24T03:37:21.590Z",
    "quick": true,
-   "seconds": 349,
+   "seconds": 352,
    "errors": []
   }
  },
  "base": {
-  "commit": "99b2346b081557639e77074682203a113a196ba7",
-  "generated": "2026-11-24T00:40:39.106Z"
+  "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
+  "generated": "2026-11-24T02:01:36.109Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,32 +38,44 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 53,
+  "pass": 51,
   "warn": 11,
-  "fail": 5,
+  "fail": 7,
   "info": 6,
-  "findings": 141,
-  "new": 4,
-  "fixed": 0,
+  "findings": 142,
+  "new": 2,
+  "fixed": 1,
   "accepted": 91,
-  "questions": 5
+  "questions": 6
  },
  "needs": [
   {
    "type": "rule",
-   "id": "code.tokens-wired",
+   "id": "logic.catalog-filter",
    "severity": "fail",
-   "area": "Code",
-   "title": "Every var() defined, every token used",
-   "kind": "hard",
-   "why": "4 places",
-   "fresh": 0,
+   "area": "Logic",
+   "title": "Catalog: a country is ticked in the filter «Страна»",
+   "kind": "scenario",
+   "why": "1 place",
+   "fresh": 1,
    "sample": [
-    "Code: defined, never used: --c-ink-10",
-    "Code: defined, never used: --c-graphite",
-    "Code: defined, never used: --trace-light"
+    "Catalog: page.click: Timeout 30000ms exceeded."
    ],
-   "rank": 304
+   "rank": 351
+  },
+  {
+   "type": "rule",
+   "id": "logic.menu-cell",
+   "severity": "fail",
+   "area": "Logic",
+   "title": "Catalog: one menu cell is opened, then another, then a click lands elsewhere",
+   "kind": "scenario",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    "Catalog: page.click: Timeout 30000ms exceeded."
+   ],
+   "rank": 351
   },
   {
    "type": "rule",
@@ -83,6 +95,22 @@
   },
   {
    "type": "rule",
+   "id": "code.tokens-wired",
+   "severity": "fail",
+   "area": "Code",
+   "title": "Every var() defined, every token used",
+   "kind": "hard",
+   "why": "3 places",
+   "fresh": 0,
+   "sample": [
+    "Code: defined, never used: --c-graphite",
+    "Code: defined, never used: --trace-light",
+    "Code: defined, never used: --c-taste-other"
+   ],
+   "rank": 303
+  },
+  {
+   "type": "rule",
    "id": "fallback.nojs",
    "severity": "fail",
    "area": "Fallbacks",
@@ -91,8 +119,8 @@
    "why": "2 places",
    "fresh": 0,
    "sample": [
-    "390x844: 44.1% of the text shown, 6 of 9 headings, h1 shown (390x844)",
-    "1440x900: 44.1% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
+    "390x844: 44% of the text shown, 6 of 9 headings, h1 shown (390x844)",
+    "1440x900: 44% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
    ],
    "rank": 302
   },
@@ -224,6 +252,26 @@
    "rank": 201
   },
   {
+   "type": "question",
+   "id": "grinds-moka-press",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "QQ grinds only for turka, filter and espresso. 13 of 106 respondents of the B2C survey brew in a moka pot and 7 in a French press, and every Russian roaster that names its grinds by method has one for the moka pot. For now the catalogue sets «в зёрнах» for both (the espresso roast for the moka pot, any roast for the French press) and says QQ has no such grind. Should QQ add a moka-pot grind and a coarse grind for the French press, or advise its espresso grind for the moka pot?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/catalog/?method=moka",
+   "options": [
+    "Add both grinds",
+    "Advise the espresso grind for the moka pot",
+    "Keep «в зёрнах» for now"
+   ],
+   "since": "2026-11-24",
+   "from": "session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md)",
+   "why": "open since 2026-11-24 (session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md))",
+   "rank": 200
+  },
+  {
    "type": "rule",
    "id": "align.edges",
    "severity": "warn",
@@ -231,43 +279,13 @@
    "title": "Edges line up",
    "kind": "tolerance",
    "why": "25 places",
-   "fresh": 2,
+   "fresh": 0,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
    ],
-   "rank": 175
-  },
-  {
-   "type": "rule",
-   "id": "images.sharp",
-   "severity": "warn",
-   "area": "Images",
-   "title": "Pictures are sharp",
-   "kind": "tolerance",
-   "why": "15 places",
-   "fresh": 1,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
-    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
-   ],
-   "rank": 165
-  },
-  {
-   "type": "rule",
-   "id": "images.weight",
-   "severity": "warn",
-   "area": "Images",
-   "title": "Pictures are not much bigger than drawn",
-   "kind": "tolerance",
-   "why": "1 place",
-   "fresh": 1,
-   "sample": [
-    "coffee/q-optimistic/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px (2560x1440)"
-   ],
-   "rank": 151
+   "rank": 125
   },
   {
    "type": "rule",
@@ -284,6 +302,22 @@
     "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
    ],
    "rank": 116
+  },
+  {
+   "type": "rule",
+   "id": "images.sharp",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are sharp",
+   "kind": "tolerance",
+   "why": "15 places",
+   "fresh": 0,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
+   ],
+   "rank": 115
   },
   {
    "type": "rule",
@@ -394,6 +428,20 @@
     "coffee/q-optimistic/ div.pstory__cols p: 93 characters a line over 3 lines (1024x768 1366x650 1440x900)"
    ],
    "rank": 101
+  },
+  {
+   "type": "rule",
+   "id": "images.weight",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are not much bigger than drawn",
+   "kind": "tolerance",
+   "why": "1 place",
+   "fresh": 0,
+   "sample": [
+    "coffee/q-optimistic/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px (2560x1440)"
+   ],
+   "rank": 101
   }
  ],
  "rules": [
@@ -405,8 +453,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2164,
-   "total": 2167,
+   "on": 2021,
+   "total": 2024,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -442,8 +490,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2164,
-    "total": 2167
+    "on": 2021,
+    "total": 2024
    },
    "accepted": 0,
    "was": {
@@ -507,8 +555,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 4035,
-   "total": 4035,
+   "on": 3611,
+   "total": 3611,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -516,8 +564,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 4040,
-    "total": 4040
+    "on": 3608,
+    "total": 3608
    },
    "accepted": 0,
    "was": {
@@ -536,7 +584,7 @@
      "key": "solid",
      "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
      "what": "solid",
-     "value": 45
+     "value": 35
     },
     {
      "key": "gradient",
@@ -568,8 +616,8 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 256,
-   "total": 256,
+   "on": 337,
+   "total": 337,
    "pass": 90,
    "warn": 75,
    "status": "warn",
@@ -617,9 +665,9 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 76.6,
-    "on": 256,
-    "total": 334
+    "value": 81.2,
+    "on": 337,
+    "total": 415
    },
    "accepted": 0,
    "was": {
@@ -642,20 +690,20 @@
      "key": "1",
      "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
      "what": "1px",
-     "value": 99
+     "value": 70
     },
     {
      "key": "1.5",
      "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
      "what": "1.5px",
-     "value": 29,
+     "value": 9,
      "engine": "webkit"
     },
     {
      "key": "1.33",
      "where": "catalog/ input.box",
      "what": "1.33px",
-     "value": 29,
+     "value": 9,
      "engine": "webkit"
     }
    ],
@@ -1101,7 +1149,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 23
+    "value": 25
    }
   },
   {
@@ -1694,7 +1742,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 14
+    "value": 15
    }
   },
   {
@@ -1721,8 +1769,8 @@
    },
    "accepted": 0,
    "was": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 1
    }
   },
   {
@@ -1873,16 +1921,22 @@
      "value": 25
     },
     {
-     "key": "filter",
-     "where": ".filter",
-     "what": "7 on the page",
-     "value": 7
+     "key": "option",
+     "where": ".option",
+     "what": "9 on the page",
+     "value": 9
     },
     {
      "key": "ptile",
      "where": ".ptile",
      "what": "5 on the page",
      "value": 5
+    },
+    {
+     "key": "chip",
+     "where": ".chip",
+     "what": "4 on the page",
+     "value": 4
     },
     {
      "key": "head",
@@ -1894,6 +1948,12 @@
      "key": "fact",
      "where": ".fact",
      "what": "3 on the page",
+     "value": 3
+    },
+    {
+     "key": "filter",
+     "where": ".filter",
+     "what": "3 on the page · variants: —, filter--up",
      "value": 3
     },
     {
@@ -1987,6 +2047,12 @@
      "value": 1
     },
     {
+     "key": "grid",
+     "where": ".grid",
+     "what": "1 on the page · variants: grid--catalog",
+     "value": 1
+    },
+    {
      "key": "pstage",
      "where": ".pstage",
      "what": "1 on the page",
@@ -2062,8 +2128,14 @@
    "kind": "scenario",
    "title": "Catalog: a country is ticked in the filter «Страна»",
    "how": "Given the whole catalog; when a country is ticked in the filter «Страна»; then only that country's coffees stay, and the address keeps the choice (?country=…). At 1440×900.",
-   "status": "pass",
-   "items": [],
+   "status": "fail",
+   "items": [
+    {
+     "key": "fail",
+     "where": "Catalog",
+     "what": "page.click: Timeout 30000ms exceeded."
+    }
+   ],
    "scenario": {
     "given": "the whole catalog",
     "when": "a country is ticked in the filter «Страна»",
@@ -2080,8 +2152,14 @@
    "kind": "scenario",
    "title": "Catalog: one menu cell is opened, then another, then a click lands elsewhere",
    "how": "Given the catalog's filters; when one menu cell is opened, then another, then a click lands elsewhere; then one cell is open at a time, and a click elsewhere closes it. At 1440×900.",
-   "status": "pass",
-   "items": [],
+   "status": "fail",
+   "items": [
+    {
+     "key": "fail",
+     "where": "Catalog",
+     "what": "page.click: Timeout 30000ms exceeded."
+    }
+   ],
    "scenario": {
     "given": "the catalog's filters",
     "when": "one menu cell is opened, then another, then a click lands elsewhere",
@@ -2157,15 +2235,15 @@
     {
      "key": "390x844",
      "where": "390x844",
-     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44.1,
+     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44,
      "at": "390x844"
     },
     {
      "key": "1440x900",
      "where": "1440x900",
-     "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44.1,
+     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 44,
      "at": "1440x900"
     }
    ],
@@ -3128,7 +3206,7 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 558,
+   "value": 559,
    "unit": "KB",
    "was": {
     "status": "pass",
@@ -3149,16 +3227,16 @@
      "value": 61
     },
     {
+     "key": "css",
+     "where": "css",
+     "what": "1 files, 17 KB sent (was 16 KB)",
+     "value": 17
+    },
+    {
      "key": "images",
      "where": "images",
      "what": "10 files, 402 KB sent (was 402 KB)",
      "value": 402
-    },
-    {
-     "key": "css",
-     "where": "css",
-     "what": "1 files, 16 KB sent (was 15 KB)",
-     "value": 16
     },
     {
      "key": "fonts",
@@ -3208,7 +3286,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "No CSS hidden inside a comment",
-   "how": "every comment of 21 stylesheets: rules inside, unbalanced marks (read from the code).",
+   "how": "every comment of 22 stylesheets: rules inside, unbalanced marks (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3276,17 +3354,12 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "130 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "141 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
-   "value": 4,
+   "value": 3,
    "unit": "places",
    "note": "",
    "items": [
-    {
-     "key": "Code|defined, never used: --c-ink-10#1",
-     "where": "Code",
-     "what": "defined, never used: --c-ink-10"
-    },
     {
      "key": "Code|defined, never used: --c-graphite#1",
      "where": "Code",
@@ -3314,7 +3387,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "57 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "58 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3348,7 +3421,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "65 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "66 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3518,7 +3591,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Colours only from tokens",
-   "how": "no #hex, colour functions or named colours in 20 stylesheets (build/rules.mjs) (read from the code).",
+   "how": "no #hex, colour functions or named colours in 21 stylesheets (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3620,7 +3693,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "119 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "130 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3654,7 +3727,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "65 decisions: 41 decisions, 9 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
+   "how": "66 decisions: 42 decisions, 9 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4068,7 +4141,7 @@
    "where": "coffee/keniya-kisii/ h2.ptile__title",
    "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
    "at": "1440x900",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|1074",
@@ -4077,7 +4150,7 @@
    "where": "coffee/q-optimistic/ h2.ptile__title",
    "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
    "at": "1440x900",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::li.fact|left|200",
@@ -4491,7 +4564,7 @@
    "where": "coffee/q-optimistic/ picture.card__photo img",
    "what": "life-box-800-DpMwwL7W.avif: 800px wide for 694 device px (×2)",
    "at": "768x1024",
-   "new": true
+   "new": false
   },
   {
    "key": "images.sharp::life-jacket-480.avif",
@@ -4536,7 +4609,7 @@
    "where": "coffee/q-optimistic/ picture.card__photo img",
    "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px",
    "at": "2560x1440",
-   "new": true
+   "new": false
   },
   {
    "key": "images.first::life-box-1200.avif",
@@ -4575,11 +4648,29 @@
    "new": false
   },
   {
+   "key": "logic.catalog-filter::fail",
+   "rule": "logic.catalog-filter",
+   "status": "fail",
+   "where": "Catalog",
+   "what": "page.click: Timeout 30000ms exceeded.",
+   "at": "",
+   "new": true
+  },
+  {
+   "key": "logic.menu-cell::fail",
+   "rule": "logic.menu-cell",
+   "status": "fail",
+   "where": "Catalog",
+   "what": "page.click: Timeout 30000ms exceeded.",
+   "at": "",
+   "new": true
+  },
+  {
    "key": "fallback.nojs::390x844",
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "390x844",
-   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
    "at": "390x844",
    "new": false
   },
@@ -4588,7 +4679,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "1440x900",
-   "what": "44.1% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
    "at": "1440x900",
    "new": false
   },
@@ -4926,6 +5017,15 @@
    "new": false
   },
   {
+   "key": "weight.total::css",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "css",
+   "what": "1 files, 17 KB sent (was 16 KB)",
+   "at": "",
+   "new": false
+  },
+  {
    "key": "weight.total::images",
    "rule": "weight.total",
    "status": "pass",
@@ -4935,29 +5035,11 @@
    "new": false
   },
   {
-   "key": "weight.total::css",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "css",
-   "what": "1 files, 16 KB sent (was 15 KB)",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "weight.total::fonts",
    "rule": "weight.total",
    "status": "pass",
    "where": "fonts",
    "what": "4 files, 63 KB sent (was 63 KB)",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "code.tokens-wired::Code|defined, never used: --c-ink-10#1",
-   "rule": "code.tokens-wired",
-   "status": "fail",
-   "where": "Code",
-   "what": "defined, never used: --c-ink-10",
    "at": "",
    "new": false
   },
@@ -4989,7 +5071,14 @@
    "new": false
   }
  ],
- "fixed": [],
+ "fixed": [
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-ink-10#1",
+   "rule": "code.tokens-wired",
+   "where": "Code",
+   "what": "defined, never used: --c-ink-10"
+  }
+ ],
  "decisions": [
   {
    "id": "font-headings",
@@ -5109,6 +5198,13 @@
    "state": "unbound",
    "what": "«Что взять еще» on a coffee's page (was «Кофе с похожим вкусом», four big cards with no reason): the product cards in a grid, one per move of the taste model — похожий first, then мягче, ярче, необычнее or классичнее — each under its move in colour (lavender, mono capitals), its text one line (one colour) from the data on why; no «под молоко» and no decaf line on the page; a move with nothing that way gives its place to another (легче, плотнее, the other end of the unusual axis, тоже похожий), never an «у QQ нет» sentence; four in a row from L, where the pack keeps clear of a name on three lines; a sold-out coffee (data/site.json shop.unavailable) keeps its page, its buy bar offers the nearest coffee in stock and the grid begins with it; nothing sold out is ever offered",
    "decided": "Tim, 2026-11-24 (form 1, simpler: cards and what they are about; «Похожий» first; no «под молоко»; title «Что взять еще»; then: the move above the card in coloured text, no pills; the text one colour; no decaf line and no «у QQ нет»; a grid and not a slider)"
+  },
+  {
+   "id": "catalog-choose",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The catalog's way to choose (session 3 of choosing coffee; docs/choose.md): «Чем варите» first (a menu of eight brewing methods by plain names, each with how many coffees it fits; a method sets the roast and grind QQ sells for it on the cards, in the bag and on the coffee's page: data/choose.json); four scenario chips with counts («Под молоко», «Мягкая кислотность» (marketing's «без яркой кислотности»: renamed, the acidity filter calls 4–5 «яркая»), «На каждый день», «Необычное», one at a time); «Карта вкуса» and «Ещё фильтры» open in place (the taste map; acidity, taste, type, caffeine, line, country, processing, price, sort). Nothing is hidden: the matches first («Подходят N»), then «Почти» (the three nearest in taste, each saying in lavender what it misses), then «Остальные N»; with no match, «Точно таких нет — ближе всего». The taste map is a companion, not the way in: a choice lights its coffees on it, a region is a choice. All on src/data/choose.json and src/scripts/choose.js, which the quiz will read too",
+   "decided": "Claude, 2026-11-24 (session 3, for Tim's review in the PR)"
   },
   {
    "id": "secondary-text",
@@ -5452,6 +5548,27 @@
  ],
  "questions": [
   {
+   "id": "grinds-moka-press",
+   "ask": "QQ grinds only for turka, filter and espresso. 13 of 106 respondents of the B2C survey brew in a moka pot and 7 in a French press, and every Russian roaster that names its grinds by method has one for the moka pot. For now the catalogue sets «в зёрнах» for both (the espresso roast for the moka pot, any roast for the French press) and says QQ has no such grind. Should QQ add a moka-pot grind and a coarse grind for the French press, or advise its espresso grind for the moka pot?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/catalog/?method=moka",
+   "since": "2026-11-24",
+   "from": "session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md)",
+   "options": [
+    "Add both grinds",
+    "Advise the espresso grind for the moka pot",
+    "Keep «в зёрнах» for now"
+   ],
+   "about": [
+    "data/choose.json",
+    "data/products.csv"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
    "id": "hero-footer-links",
    "ask": "The navbar links only to pages that exist (an item without a page is a label: decision nav-links-pages). The hero's and the footer's links are not under that rule yet. Should they follow it too (no link where there is no page), or stay as they are?",
    "needs": [
@@ -5560,7 +5677,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 399c4de, before this change (claude/catalogue-filters at f295f63)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (f295f63)",
+ "own": true
 }
