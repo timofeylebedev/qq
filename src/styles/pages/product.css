@@ -150,8 +150,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 /* links inside the block's text: tall enough to tap (24px: the audit's targets), with no change to the line */
 .pstage__link { padding-block: 5px; }
 
-.people .head { margin-bottom: var(--text-gap); }
-.people__bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px var(--gap); padding-bottom: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
+.people .head { margin-bottom: var(--section-y-s); }
 .people__count { font: 700 var(--type-card-title) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
 .people__empty { max-width: 36em; padding-top: var(--text-gap); font-size: var(--type-body-l); line-height: var(--lh-text); }
 
@@ -164,32 +163,24 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .chip:focus-visible { outline-color: var(--c-ink); }   /* the ring of the global focus is the text's colour: white on a chosen chip */
 @media (--mouse) { .chip[aria-pressed="false"]:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
-/* the stories, and beside them from L a column of what they add up to (so the stories don't stretch) */
+/* the count, «Рассказать о своей» and the chips stand in a column of their own on the left from L (sticky while the
+   stories pass); below L they come first, above the stories */
 .people__grid { display: grid; gap: var(--text-gap); }
+.people__side { display: grid; justify-items: start; align-content: start; gap: var(--text-gap); }
+.people__side .chips { padding: 0; }
 @container col (width >= 58rem) {
-  .people__grid { grid-template-columns: minmax(0, 1fr) 20rem; column-gap: var(--gap); align-items: start; }
-  .people__sum { grid-column: 2; grid-row: 1; position: sticky; top: calc(var(--nav-h) + var(--text-gap)); }
-  .buyers { grid-column: 1; grid-row: 1; }
+  .people__grid { grid-template-columns: 20rem minmax(0, 1fr); column-gap: var(--gap); align-items: start; }
+  .people__side { position: sticky; top: calc(var(--nav-h) + var(--text-gap)); }
 }
-.people__sum { display: grid; gap: 12px; padding: var(--tile-pad); background: var(--c-cloud); }
-.people__sum-title { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
-.people__sum .props { grid-template-columns: minmax(0, 1fr); gap: 10px; font-size: var(--type-body); }
-.people__sum .props div { display: grid; }
-.people__sum .props dt::after { content: none; }
-.people__sum .props + .people__sum-title { margin-top: 12px; }
-.people__heard { display: grid; gap: 4px; font-size: var(--type-body); }
-.people__heard li { display: flex; justify-content: space-between; gap: 12px; }
-.people__heard b { font-weight: 400; color: var(--c-ink-70); white-space: nowrap; }
 
 /* a story: the avatar in its own column, the rest beside it */
-.chips + .people__grid { padding-top: var(--text-gap); border-top: var(--hair) solid var(--line); }
-.buyer { display: grid; grid-template-columns: 32px minmax(0, 1fr); column-gap: 14px; padding-block: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
+.buyer { display: grid; grid-template-columns: 64px minmax(0, 1fr); column-gap: 16px; padding-block: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
 .buyer:first-child { padding-top: 0; }
-.buyer__avatar { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-small) / 1 var(--mono); }
+.buyer__avatar { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-body-l) / 1 var(--mono); }
 .buyer__main { display: grid; gap: 10px; min-width: 0; }
-.buyer__name { font-size: var(--type-card-title); line-height: 32px; }
+.buyer__name { font-size: var(--type-card-title); line-height: 1.2; }
 /* how close: a short line filled by closeness (the meter's track is ink-20, its fill ink) and why in words */
-.buyer__close { display: flex; align-items: baseline; gap: 10px; margin-top: -6px; font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.buyer__close { display: flex; align-items: baseline; gap: 10px; margin-top: -4px; font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 .buyer__meter { --fill: 1; flex: none; align-self: start; width: 48px; height: 3px; margin-top: 0.7em; background: var(--c-ink-20); }
 .buyer__meter i { display: block; width: calc(var(--fill) * 100%); height: 100%; background: var(--c-ink); }
 /* the answers: label and word, two pairs a row */
@@ -199,7 +190,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .props dt::after { content: " —"; }
 .buyer__text { max-width: 40em; font-size: var(--type-body-l); line-height: var(--lh-text); }
 .buyer__reply { max-width: 40em; padding-left: 16px; border-left: var(--hair) solid var(--line); font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
-.buyer__date { font-size: var(--type-small); color: var(--c-ink-70); }
+.buyer__date { font-size: var(--type-body); color: var(--c-ink-70); }
 
 /* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
 .rform { --menu-min: 0; }

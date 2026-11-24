@@ -73,36 +73,24 @@ export function people(ctx, p) {
   return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people>
   <div class="col">
     ${head({ title: TITLE, id: "people-title", center: true })}
-    <div class="people__bar">
-      <p class="people__count">${pg.count ? told(pg.count) : "Пока никто не рассказал"}</p>
-      ${write}
-    </div>
-    ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
-      <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
-    </div>` : ""}
-    ${pg.count ? `<div class="people__grid">
-      ${summary(pg)}
-      <ul class="buyers">
+    <div class="people__grid">
+      <div class="people__side">
+        <p class="people__count">${pg.count ? told(pg.count) : "Пока никто не рассказал"}</p>
+        ${write}
+        ${pg.count > 1 && groups.length > 1 ? `<div class="chips" role="group" aria-label="Как заваривали" data-people-filter hidden>
+          <button class="chip" type="button" aria-pressed="true" data-g="all">Все <span>${pg.count}</span></button>${groups.map((g) => `<button class="chip" type="button" aria-pressed="false" data-g="${g.id}">${esc(GROUP[g.id])} <span>${g.n}</span></button>`).join("")}
+        </div>` : ""}
+      </div>
+      ${pg.count ? `<ul class="buyers">
         ${pg.reviews.map((r) => review(r, you)).join("\n        ")}
-      </ul>
-    </div>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
+      </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и куда он ушёл от ожидания: следующему будет проще выбрать.</p>`}
+    </div>
   </div>
   ${writeDialog(ctx, p)}
 </section>`;
 }
 
-// the column beside the stories: what they add up to, per scale in words (never an average), and the notes heard
-function summary(pg) {
-  const line = (axis) => ["ok", "less", "more"].filter((k) => pg[axis][k]).map((k) => `${pg[axis][k]} — ${A[axis][k]}`).join(", ");
-  return `<aside class="people__sum" aria-label="Что вместе">
-        <p class="people__sum-title">Вместе</p>
-        <dl class="props">${AXES.map((a) => `<div><dt>${A[a].title}</dt><dd>${line(a)}</dd></div>`).join("")}</dl>
-        ${pg.heard.some((h) => h.n) ? `<p class="people__sum-title">Узнали ноты</p>
-        <ul class="people__heard">${pg.heard.map((h) => `<li><span>${esc(h.d)}</span> <b>${h.n} из ${pg.count}</b></li>`).join("")}</ul>` : ""}
-      </aside>`;
-}
-
-// a story: the avatar in its own column; beside it the name, how close the teller's taste is to yours, the four
+// a story: the avatar in its own column, as tall as the name and the closeness line; beside it the name, how close the teller's taste is to yours, the four
 // answers in two columns, the words, the date and after how many cups
 function review(r, you) {
   const p = PERSON.get(r.who);

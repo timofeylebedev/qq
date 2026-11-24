@@ -145,11 +145,11 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `similar-coffees`).
 - **«Впечатления»** (a coffee's page, its own section after the story: `src/templates/people.mjs`, `scripts/people.js`;
   decision `people-block`): how the coffee turned out in people's cups (not «отзывы»: Tim), **without stars, scores,
-  averages or percents**, and no ambassadors. A centred title; «N человек рассказали» and «Рассказать о своей» on one
-  line; chips by way of brewing; the stories, and from L a column of what they add up to; each story: the avatar in
-  its own column, then the name, how close the teller's taste is to yours (a short line filled by closeness and why in
+  averages or percents**, and no ambassadors. A centred title; from L a left column (sticky) with «N человек рассказали»,
+  «Рассказать о своей» and chips by way of brewing, the stories beside it; each story: the avatar in its own column
+  (as tall as the name and the closeness line), then the name, how close the teller's taste is to yours (a short line filled by closeness and why in
   words, from the taste model), the four answers against expectation in two columns (сладость, кислотность, плотность,
-  ферментация: «ярковато / в самый раз / хотелось ярче» and the like), the words, the date and after how many cups. «Не про вкус» answers (grind, not as described) never count as taste. The data is `src/data/people.json` from
+  ферментация: «ярковато / в самый раз / хотелось ярче» and the like), the words, the date and after how many cups (the closeness and the date in one grey size). «Не про вкус» answers (grind, not as described) never count as taste. The data is `src/data/people.json` from
   `build/people.mjs`: today PLACEHOLDERS from `data/people.json`, and «your» taste is the account's placeholder visitor
   (decision `people-placeholder`; unmarked on the page, Tim); what a backend must do is `docs/people-backend.md`. The bench of
   forms: `design/people-bench/` (`npm run people:bench`).
