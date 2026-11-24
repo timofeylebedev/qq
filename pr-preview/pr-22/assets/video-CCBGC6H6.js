@@ -1,1 +1,0 @@
-function e(){let e=matchMedia(`(prefers-reduced-motion: reduce)`),t=navigator.connection?.saveData;for(let n of document.querySelectorAll(`[data-hero-video]`)){let r=!1,i=()=>{r&&!e.matches&&!t?n.play().catch(()=>{}):n.pause()};new IntersectionObserver(([e])=>{r=e.isIntersecting,i()}).observe(n),e.addEventListener(`change`,i)}}export{e as initVideo};
