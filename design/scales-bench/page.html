@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Шкалы вкуса в карточке — стенд</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15px / 1.5 var(--sans); overflow-x: clip; }
+.top { position: sticky; top: 0; z-index: 40; background: var(--c-paper); border-bottom: 1px solid var(--line); }
+.top__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 16px; max-width: 1600px; margin: 0 auto; }
+.top h1 { font: 700 15px / 1.2 var(--mono); text-transform: uppercase; margin: 0 auto 0 0; }
+.top button { font: inherit; height: 36px; border: 1px solid var(--line); background: var(--c-paper); padding: 0 10px; color: inherit; border-radius: 0; cursor: pointer; }
+.top button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+@media (hover: hover) { .top button[aria-pressed="false"]:hover { background: var(--tint); transition: background-color var(--t-in) var(--ease-out); } }
+.seg { display: inline-flex; flex-wrap: wrap; }
+.seg button + button { border-left: 0; }
+.intro { max-width: 1600px; margin: 0 auto; padding: 24px 16px 8px; display: grid; gap: 12px; }
+.intro h2 { font: 700 22px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.intro p { margin: 0; max-width: 80ch; }
+.pick { background: var(--c-paper); border: 1px solid var(--line); padding: 16px; max-width: 80ch; }
+.pick b { font-family: var(--mono); text-transform: uppercase; }
+.form { max-width: 1600px; margin: 0 auto; padding: 32px 16px; border-top: 1px solid var(--line); }
+.form__head { display: grid; gap: 4px; margin-bottom: 16px; max-width: 80ch; }
+.form__head h2 { font: 700 18px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.form__head h3 { font: 700 15px / 1.2 var(--mono); text-transform: uppercase; margin: 12px 0 0; }
+.form__head p { margin: 0; }
+.form__head .axes, .form__head .cost { color: var(--c-ink-70); font-size: 14px; }
+.form__head .verdict { margin: 4px 0 0; font-size: 14px; }
+.form__head .verdict b { font-family: var(--mono); text-transform: uppercase; }
+.form.is-pick { background: var(--c-paper); }
+.stagewrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; max-width: 100%; }
+.stagewrap > .cap { font-size: 12px; color: var(--c-ink-70); font-family: var(--mono); text-transform: uppercase; }
+.stage { container: col / inline-size; background: var(--c-paper); outline: 1px solid var(--line); max-width: 100%; overflow: hidden; }
+.stage__ctx { padding: 12px var(--card-pad); border-bottom: 1px dashed var(--line); font-size: 12px; color: var(--c-ink-70); }
+.stage__body { padding: 24px var(--card-pad) 48px; }
+.sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* the card as the catalogue's: its text at most three lines; where cards stand in a row (from M) the text keeps
+   three lines' room, so every scale of a row starts at the same height and the cards line up */
+.f .bcard { display: flex; flex-direction: column; gap: 12px; }
+.f .bcard__text { padding-right: 24px; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+@container col (width >= 43rem) { .f .bcard__text { min-height: calc(3em * var(--lh-text)); } }
+.scale { padding-right: 24px; font-size: var(--type-small); line-height: var(--lh-text); }
+.scale__lbl { color: var(--c-ink-70); }
+
+/* «все»: six coffees, the five scales of each side by side (as many as the width takes) */
+.allrows { display: grid; gap: 32px; }
+.allrow { display: grid; gap: 12px; }
+.allrow h3 { margin: 0; font-size: var(--type-card-title); line-height: 1.1; }
+.allrow__line { margin: 0; color: var(--c-ink-70); }
+.allcells { display: grid; grid-template-columns: repeat(auto-fit, minmax(13.5rem, 1fr)); gap: 16px var(--gap); }
+.allcell { display: grid; gap: 8px; align-content: start; border-top: var(--hair) solid var(--line); padding-top: 8px; }
+.allcell > .cap { font-size: var(--type-small); color: var(--c-ink-70); }
+</style>
+{{forms}}
+<script>window.QQBench = { forms: [], register(f) { this.forms.push(f); } };</script>
+<script src="data.js"></script>
+<script src="notes.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top__row">
+    <h1>Шкалы вкуса · стенд карточки</h1>
+    <span class="seg" role="group" aria-label="Вариант" id="views"></span>
+    <span class="seg" role="group" aria-label="Ширина">
+      <button type="button" data-w="360">360</button><button type="button" data-w="390">390</button><button type="button" data-w="768">768</button><button type="button" data-w="1280">1280</button>
+    </span>
+  </div>
+</header>
+<section class="intro">
+  <h2>Шкалы вкуса в карточке каталога</h2>
+  <p>Сейчас текст карточки кончается фразой «Плотность 3 из 5. Кислотность 3 из 5.». Маркетинг просит маленькие шкалы (строка 14 плана). Решено исследованием: показывать только оси, которые различают кофе QQ, и мерить их по самим 25 кофе QQ. Сладость везде 3–5 — не различает; «Горечи» нет в данных; «Оценка Q» никогда. Оси: кислотность (у QQ 1–4,5), плотность (2–5), необычность (фермент 0–3, у 17 из 25 — 0; в модели вкуса «классичнее — необычнее» от −0,1 до 3,5). Ниже пять форм шкалы на всех 25 карточках в сетке каталога; «все» — пять форм рядом на шести кофе, которые покрывают диапазон.</p>
+  <div class="pick" id="pick"></div>
+</section>
+<main id="forms"></main>
+<script>
+(() => {
+  const D = window.QQ_DATA;
+  const ORDER = ["bars", "line", "dots", "words", "map"];
+  const forms = () => ((window.QQBench && window.QQBench.forms) || []).slice().sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+  const rub = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
+  const num = (v) => String(v).replace(".", ",");
+  const R = D.range;
+  // where a value stands in QQ's own range (0 at QQ's least, 1 at its most) and in which third of it
+  const share = (v, [lo, hi]) => (hi > lo ? (v - lo) / (hi - lo) : 0.5);
+  const third = (v, r) => { const x = share(v, r); return x < 1 / 3 - 1e-9 ? 0 : x < 2 / 3 - 1e-9 ? 1 : 2; };
+  // the three axes: the coded value (the table's 1–5, ferment 0–4), its range at QQ, the words of its thirds, and
+  // the taste model's position on the same axis with its end words (taste.json)
+  const axes = {
+    acidity: { label: "Кислотность", of: 5, value: (c) => c.coded.acidity, range: R.acidity, words: ["мягкая", "средняя", "яркая"],
+      pos: (c) => c.position.bright, prange: R.bright, ends: D.ends.bright },
+    density: { label: "Плотность", of: 5, value: (c) => c.coded.density, range: R.density, words: ["лёгкая", "средняя", "высокая"],
+      pos: (c) => c.position.body, prange: R.body, ends: D.ends.body },
+    ferment: { label: "Вкус", of: 4, value: (c) => c.coded.ferment, range: R.ferment, words: ["классический", "чуть необычный", "необычный"],
+      pos: (c) => c.position.unusual, prange: R.unusual, ends: D.ends.unusual }
+  };
+  const word = (c, id) => axes[id].words[third(axes[id].value(c), axes[id].range)];
+  // the text a screen reader hears in place of the graphic: the table's value and where it stands among QQ's coffees
+  const sr = (c, ids) => ids.map((id) => {
+    const a = axes[id], v = num(a.value(c));
+    return id === "ferment" ? `Фермент ${v} из 4, вкус ${word(c, id)} для QQ` : `${a.label} ${v} из 5, ${word(c, id)} для QQ`;
+  }).join(". ") + ".";
+  const ctx = { ...D, esc, rub, num, share, third, axes, word, sr, srp: (text) => `<p class="sr">${esc(text)}</p>` };
+  const card = (c, f) => `<article class="bcard" data-slug="${c.slug}">
+      <div class="bcard__media"><img class="bcard__pack" src="pack.webp" alt="" width="512" height="512" loading="lazy"><h3 class="bcard__name mono">${esc(c.name)}</h3>
+        <div class="bcard__buy"><span>${esc(c.weight)}</span><b>${rub(c.price)}</b></div></div>
+      <p class="bcard__text">${esc(c.short.replace(/\.$/, ""))}. Во вкусе ${esc(c.descriptors.map((d) => d.toLowerCase()).join(", "))}.</p>
+      <div class="scale scale--${f.id}" data-scale="${f.id}">${f.render(c, ctx)}</div>
+    </article>`;
+
+  const q = new URLSearchParams(location.hash.slice(1));
+  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : "390");
+  let view = q.get("v") || "bars";
+  const host = document.getElementById("forms");
+  const head = (f, i, n, level = 2) => `<div class="form__head"><h${level}>${i + 1}. ${n.name || f.id}</h${level}>${n.idea ? `<p class="idea">${n.idea}</p>` : ""}${n.axes ? `<p class="axes">${n.axes}</p>` : ""}${n.cost ? `<p class="cost">${n.cost}</p>` : ""}${n.verdict ? `<p class="verdict">${n.verdict}</p>` : ""}</div>`;
+  function draw() {
+    const NOTES = window.QQ_NOTES || {};
+    const views = document.getElementById("views");
+    if (!views.children.length) {
+      views.innerHTML = forms().map((f, i) => `<button type="button" data-v="${f.id}">${i + 1}. ${esc((NOTES[f.id] || {}).short || f.id)}</button>`).join("") + `<button type="button" data-v="all">все</button>`;
+      views.querySelectorAll("[data-v]").forEach((b) => (b.onclick = () => { view = b.dataset.v; draw(); }));
+    }
+    document.getElementById("pick").innerHTML = NOTES.pick || "<b>Выбор</b>: ещё не сделан.";
+    location.hash = `v=${view}&w=${width}`;
+    document.querySelectorAll("[data-w]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.w === width));
+    document.querySelectorAll("[data-v]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === view));
+    const list = forms();
+    const sec = document.createElement("section");
+    host.innerHTML = ""; host.append(sec);
+    let body;
+    if (view === "all") {
+      sec.className = "form";
+      sec.innerHTML = `<div class="form__head"><h2>Все пять рядом</h2><p class="idea">Шесть кофе от края до края: самый мягкий и плотный, мягкий, середина, середина, но необычная, самый яркий и лёгкий, яркий и необычный.</p></div>`
+        + list.map((f, i) => head(f, i, NOTES[f.id] || {}, 3)).join("");
+      body = `<div class="allrows f">${D.all.map((s) => D.coffees.find((c) => c.slug === s)).map((c) => `<div class="allrow" data-slug="${c.slug}"><h3 class="mono">${esc(c.name)}</h3><p class="allrow__line">${esc(c.descriptors.join(", "))}</p>
+        <div class="allcells">${list.map((f, i) => `<div class="allcell"><span class="cap">${i + 1}. ${esc((NOTES[f.id] || {}).short || f.id)}</span><div class="scale scale--${f.id}" data-scale="${f.id}">${f.render(c, ctx)}</div></div>`).join("")}</div></div>`).join("")}</div>`;
+    } else {
+      const f = list.find((x) => x.id === view) || list[0], i = list.indexOf(f), n = NOTES[f.id] || {};
+      sec.className = "form" + (NOTES.chosen === f.id ? " is-pick" : "");
+      sec.innerHTML = head(f, i, n);
+      body = `<div class="bgrid f">${D.coffees.map((c) => card(c, f)).join("")}</div>`;
+    }
+    const wrap = document.createElement("div"); wrap.className = "stagewrap";
+    wrap.innerHTML = `<span class="cap">${width}px</span><div class="stage" style="width:${width}px"><div class="stage__ctx">…навбар, «Каталог», вкладки и фильтры</div><div class="stage__body">${body}</div></div>`;
+    sec.append(wrap);
+  }
+  document.querySelectorAll("[data-w]").forEach((b) => (b.onclick = () => { width = b.dataset.w; draw(); }));
+  // an address typed or pasted with another view or width draws it (the bench's own hash writes change nothing)
+  addEventListener("hashchange", () => {
+    const h = new URLSearchParams(location.hash.slice(1));
+    if ((h.get("v") || view) !== view || (h.get("w") || width) !== width) { view = h.get("v") || view; width = h.get("w") || width; draw(); }
+  });
+  addEventListener("DOMContentLoaded", draw);
+})();
+</script>
+</body>
+</html>

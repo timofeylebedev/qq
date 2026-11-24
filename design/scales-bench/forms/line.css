@@ -1,0 +1,6 @@
+/* one grid for the three rows, so the lines start and end at the same place in every row */
+.sl { display: grid; grid-template-columns: max-content minmax(3rem, 1fr) max-content; align-items: center; gap: 0 8px; }
+.sl__a { text-align: right; }
+/* the line is a solid band (a line, not a fade): ink-60, 1px; the dot ink, 9px */
+.sl__track { display: block; height: 9px; background: linear-gradient(var(--c-ink-60), var(--c-ink-60)) center / 100% var(--hair) no-repeat; }
+.sl__dot { display: block; width: 9px; height: 9px; border-radius: 50%; background: var(--c-ink); margin-left: calc(var(--t) * (100% - 9px)); }

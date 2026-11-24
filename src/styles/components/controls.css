@@ -69,7 +69,7 @@ html[data-keyed] .field:focus-within { border-color: var(--c-ink); }   /* the ke
 .taste { display: grid; grid-template-columns: 1fr auto; align-items: start; column-gap: 12px; font-size: var(--type-body); }
 .taste__list > div { height: 1.75em; display: flex; align-items: center; }
 .taste__plot { width: calc(1.75em * 82 / 28); height: calc(1.75em * var(--rows)); overflow: visible; }
-.taste__grid { fill: var(--c-ink-40); }
+.taste__grid { fill: var(--c-ink-60); }   /* 3.9 : 1 on paper: a graphic's parts need 3 : 1 (WCAG 1.4.11; ink-40 was 2.1) */
 .taste__line { fill: none; stroke: var(--c-ink); stroke-width: 1; }
 .taste__dot { fill: var(--c-ink); }
 
