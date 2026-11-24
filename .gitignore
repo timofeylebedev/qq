@@ -28,5 +28,6 @@ design/fade-tuner/out/
 design/intro-tuner/out/
 design/report/out-*.html
 design/taste-bench/out/
+design/next-bench/out/
 # site-kit: the checks' records and the review page are built, not committed
 .site-kit/

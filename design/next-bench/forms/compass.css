@@ -1,0 +1,118 @@
+/* «Компас». Below M: a vertical list along the ↑↓ axis (a spine behind it), ← picks pushed left, → picks pushed right.
+   From M: a 3×3 plane — ↑ in the top middle, ← · centre · → in the middle row, milk in the bottom-left corner, ↓ under
+   the centre; each arm draws its lead to the centre (solid when near, dashed and longer when the pick is far). */
+.f-compass { display: grid; gap: var(--gap); min-width: 0; }
+.f-compass__h { margin: 0; font: 700 var(--type-h2) / 1.05 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; overflow-wrap: anywhere; }
+.f-compass__legend { margin: 0 0 var(--gap); color: var(--c-ink-70); max-width: 60ch; }
+.f-compass__legend b { font-weight: 500; color: var(--c-ink); white-space: nowrap; }
+
+.f-compass__lab { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font: 700 var(--type-small) / 1.3 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; }
+.f-compass__ar { font-family: var(--sans); font-weight: 500; }
+.f-compass__name { display: block; font: 700 var(--type-card-title) / 1.15 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; overflow-wrap: anywhere; }
+.f-compass__why { display: grid; gap: 2px; }
+.f-compass__w { display: block; color: var(--c-ink-70); }
+.f-compass__w.is-step { color: var(--c-ink); font-weight: 500; }
+.f-compass__w.is-far { color: var(--c-ink); }
+.f-compass__w.is-far::before { content: "≠ "; font-family: var(--mono); }
+.f-compass__meta { display: block; color: var(--c-ink-70); font-size: var(--type-small); }
+.f-compass__chips { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+.f-compass__chip { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: 999px; border: 1px solid currentColor; font: 700 11px / 1 var(--mono); }
+
+/* a pick: a whole card is one link */
+.f-compass__card { position: relative; z-index: 1; display: grid; gap: 8px; align-content: start; min-width: 0; padding: var(--card-pad); background: var(--c-paper); border: 1px solid var(--line); text-decoration: none; transition: background-color var(--t-out); }
+.f-compass__card:hover { background-color: var(--c-cloud); transition-duration: var(--t-in); }
+.f-compass__card.is-far { border-style: dashed; border-color: var(--c-ink-40); }
+
+/* the wall at the end of an axis: hatched, on the side facing the centre */
+.f-compass__wall { position: relative; z-index: 1; display: grid; gap: 8px; padding: var(--card-pad); padding-right: calc(var(--card-pad) + 14px); background: var(--c-paper); }
+.f-compass__wall::after { content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 12px; border-left: 2px solid var(--c-ink); background: repeating-linear-gradient(135deg, var(--c-ink-40) 0 1px, transparent 1px 5px); }
+.f-compass__arm--rgt .f-compass__wall { padding-right: var(--card-pad); padding-left: calc(var(--card-pad) + 14px); }
+.f-compass__arm--rgt .f-compass__wall::after { right: auto; left: 0; border-left: 0; border-right: 2px solid var(--c-ink); }
+.f-compass__arm--up .f-compass__wall, .f-compass__arm--down .f-compass__wall { padding: var(--card-pad); padding-bottom: calc(var(--card-pad) + 14px); }
+.f-compass__arm--up .f-compass__wall::after { top: auto; left: 0; width: auto; height: 12px; border-left: 0; border-top: 2px solid var(--c-ink); }
+.f-compass__arm--down .f-compass__wall { padding: var(--card-pad); padding-top: calc(var(--card-pad) + 14px); }
+.f-compass__arm--down .f-compass__wall::after { bottom: auto; left: 0; width: auto; height: 12px; border-left: 0; border-bottom: 2px solid var(--c-ink); }
+.f-compass__wallt { display: block; color: var(--c-ink-70); }
+
+/* a move whose coffee another move took: a pointer, still a link to that coffee */
+.f-compass__stub { position: relative; z-index: 1; display: grid; gap: 4px; align-content: center; min-height: 44px; padding: 10px var(--card-pad); background: var(--c-paper); border: 1px dashed var(--line); text-decoration: none; color: var(--c-ink-70); transition: background-color var(--t-out); }
+.f-compass__stub .f-compass__lab { color: var(--c-ink); }
+.f-compass__stub:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+
+/* the centre: this coffee, and in the same box the one beside it (similar, or the lead when sold out) */
+.f-compass__mid { position: relative; z-index: 1; display: grid; border: 1px solid var(--c-ink); background: var(--c-paper); min-width: 0; }
+.f-compass__here { display: grid; gap: 8px; padding: var(--card-pad); background: var(--c-cloud); }
+.f-compass__name--here { font-size: var(--type-title); }
+.f-compass__scale { display: block; color: var(--c-ink-70); }
+.f-compass__gone { display: block; font-weight: 500; font-size: var(--type-body-l); }
+.f-compass__mid.is-out .f-compass__here .f-compass__name--here { color: var(--c-ink-60); }
+.f-compass__self { display: grid; gap: 2px; padding-top: 8px; border-top: 1px solid var(--line); }
+.f-compass__mid > .f-compass__card { border: 0; border-top: 1px solid var(--c-ink); }
+.f-compass .f-compass__card--lead { background: var(--c-black); color: var(--c-paper); }
+.f-compass .f-compass__card--lead:hover { background-color: var(--c-ink); }
+.f-compass__card--lead .f-compass__w, .f-compass__card--lead .f-compass__meta { color: var(--c-white-60); }
+.f-compass__card--lead .f-compass__w.is-step, .f-compass__card--lead .f-compass__w.is-far { color: var(--c-paper); }
+.f-compass__nearnone { display: grid; gap: 4px; padding: var(--card-pad); border-top: 1px solid var(--c-ink); }
+
+.f-compass__decaf { display: block; padding: 12px 0; min-height: 44px; box-sizing: border-box; color: var(--c-ink-70); text-decoration: none; border-top: 1px solid var(--line); transition: background-color var(--t-out); }
+.f-compass__decaf .f-compass__name { display: inline; font-size: var(--type-small); color: var(--c-ink); }
+.f-compass__decaf:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+
+/* ── phone: the vertical axis as a list; ← left, → right ── */
+.f-compass__map { display: grid; gap: calc(var(--gap) * 2); min-width: 0; }
+.f-compass__axis { position: relative; display: grid; gap: 20px; min-width: 0; }
+.f-compass__axis::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; border-left: 1px solid var(--c-ink-30); }
+.f-compass__arm { display: grid; min-width: 0; }
+.f-compass__lead { display: none; }
+.f-compass__arm--lft { margin-right: 2rem; }
+.f-compass__arm--rgt { margin-left: 2rem; }
+.f-compass__arm--lft.is-far { margin-right: 3rem; }
+.f-compass__arm--rgt.is-far { margin-left: 3rem; }
+.f-compass.is-out .f-compass__mid { order: -1; }
+
+/* ── M and up: the plane ── */
+@container col (width >= 43rem) {
+  .f-compass__map { display: grid; gap: 0; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto auto; }
+  .f-compass__axis { display: contents; }
+  .f-compass__axis::before { content: none; }
+  /* the box spans two rows: this coffee in the arms' row, the one beside it under it (subgrid) */
+  .f-compass__mid { grid-column: 2; grid-row: 2 / 4; grid-template-rows: subgrid; }
+  .f-compass__here { align-self: stretch; }
+  .f-compass__arm { --reach: 20px; display: flex; align-items: center; margin: 0; }
+  .f-compass__arm.is-far { --reach: clamp(48px, 24%, 128px); }
+  .f-compass__arm > :not(.f-compass__lead) { flex: 1 1 auto; min-width: 0; max-width: calc(100% - var(--reach)); }
+  .f-compass__lead { display: block; flex: 1 0 var(--reach); align-self: center; height: 0; border-top: 1px solid var(--c-ink-40); }
+  .f-compass__arm.is-far .f-compass__lead { border-top-style: dashed; }
+  .f-compass__arm.is-edge, .f-compass__arm.is-stub { --reach: 8px; }
+  .f-compass__arm--lft { grid-column: 1; grid-row: 2; margin: 0; }
+  .f-compass__arm--rgt { grid-column: 3; grid-row: 2; margin: 0; }
+  .f-compass__arm--lft.is-far, .f-compass__arm--rgt.is-far { margin: 0; }
+  .f-compass__arm--rgt .f-compass__lead { order: -1; }
+  .f-compass__arm--up, .f-compass__arm--down { flex-direction: column; align-items: stretch; }
+  .f-compass__arm--up { grid-column: 2; grid-row: 1; justify-content: flex-end; }
+  .f-compass__arm--down { grid-column: 2; grid-row: 4; justify-content: flex-start; }
+  .f-compass__arm--up > :not(.f-compass__lead), .f-compass__arm--down > :not(.f-compass__lead) { max-width: none; flex: 0 0 auto; }
+  .f-compass__arm--up .f-compass__lead, .f-compass__arm--down .f-compass__lead { flex: 0 0 var(--reach); width: 0; height: auto; align-self: center; border-top: 0; border-left: 1px solid var(--c-ink-40); }
+  .f-compass__arm--up.is-far, .f-compass__arm--down.is-far { --reach: 56px; }
+  .f-compass__arm--up.is-far .f-compass__lead, .f-compass__arm--down.is-far .f-compass__lead { border-left-style: dashed; }
+  .f-compass__arm--down .f-compass__lead { order: -1; }
+  /* off the axes: the milk pick in the corner, a step down from the left arm */
+  .f-compass__arm--milk { grid-column: 1; grid-row: 3 / 5; align-self: start; padding: var(--gap) calc(var(--gap) + 20px) 0 0; }
+  .f-compass__arm--milk > * { max-width: none; }
+  .f-compass.is-out .f-compass__mid { order: 0; }
+}
+@container col (width >= 58rem) {
+  .f-compass__map { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); }
+  .f-compass__arm { --reach: 28px; }
+}
+
+/* ── the buy bar while the coffee is out: the lead instead of the menus ── */
+.f-compass--bar { display: block; }
+.f-compass__bar { display: flex; align-items: stretch; gap: 0; background: var(--c-black); color: var(--c-paper); min-height: var(--control-h); }
+.f-compass__bart { flex: 1 1 auto; min-width: 0; display: grid; gap: 2px; align-content: center; padding: 8px var(--card-pad); }
+.f-compass__bart .f-compass__lab { color: var(--c-white-60); }
+.f-compass__barn { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; }
+.f-compass__bargo { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; padding: 0 var(--card-pad); min-width: 44px; background: var(--c-paper); text-decoration: none; font: 700 var(--type-control) / 1 var(--mono); white-space: nowrap; border-left: 1px solid var(--c-white-30); transition: background-color var(--t-out); }
+.f-compass .f-compass__bargo { color: var(--c-ink); }
+.f-compass__bargo:hover { background-color: var(--c-cloud); transition-duration: var(--t-in); }

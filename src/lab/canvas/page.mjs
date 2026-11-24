@@ -92,7 +92,7 @@ export function framePages(d = data()) {
   const without = (html, ...parts) => parts.reduce((h, re) => h.replace(cut(h, re), ""), html);
   return {
     ...Object.fromEntries(GROUNDS.map(([g]) => [`frame-nav-${g}.html`, without(pages.frame(g), /class="footer"/)])),
-    "frame-stage.html": without(pages.product, /class="nav"/, /class="tabbar"/, /class="footer"/, /class="pstory"/, /class="section similar"/)
+    "frame-stage.html": without(pages.product, /class="nav"/, /class="tabbar"/, /class="footer"/, /class="pstory"/, /class="section next"/)
   };
 }
 

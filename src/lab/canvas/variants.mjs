@@ -50,7 +50,9 @@ export function rendered(data) {
     profile: acc.profile({ ...c, page: "account" }), order: acc.order({ ...c, page: "order" }, "433273"), purchases: acc.purchases({ ...c, page: "purchases" }),
     home: home.render({ site, products, page: "home", rel: REL }),
     catalog: catalog.render({ site, products, page: "catalog", rel: REL }),
-    product: product.render({ site, products, page: "product", rel: REL }, p),
+    product: product.render({ site: { ...site, shop: { ...site.shop, unavailable: site.shop.unavailable.filter((x) => x !== PRODUCT) } }, products, page: "product", rel: REL }, p),
+    // the same coffee sold out (data/site.json shop.unavailable): the page says so and leads with the nearest coffee
+    productOut: product.render({ site: { ...site, shop: { ...site.shop, unavailable: [PRODUCT] } }, products, page: "product", rel: REL }, p),
     frame: (ground) => page({ site, products, page: "canvas", rel: REL }, { title: "Navbar — QQ Coffee", description: "", body: "", ground })
   };
 }
@@ -91,7 +93,7 @@ export const GROUNDS = [["paper", "white"], ["cloud", "cloud (the footer, a prod
 export function groups(data) {
   const s = samples(data);
   const pages = rendered(data);
-  const { home: H, catalog: C, product: P } = pages;
+  const { home: H, catalog: C, product: P, productOut: PO } = pages;
   const lightStory = cut(H, /class="story story--light"/), darkStory = cut(H, /class="story story--dark"/);
   // the account's head and its parts are cut from the order (which has no tabs) and the purchases page: each id once
   const PR = pages.purchases;
@@ -280,7 +282,11 @@ export function groups(data) {
     },
     { id: "buybar", title: "Buy bar", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page (here in its place, not following the screen)", html: cut(P, /class="buybar"/) }] },
     { id: "pstory", title: "Product story", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page", html: cut(P, /class="pstory"/) }] },
-    { id: "similar", title: "Similar coffees", compares: "—", slot: SCREEN, slots: [{ label: "a coffee's page", html: cut(P, /class="section similar"/) }] }
+    { id: "next", title: "What to take next («Что взять еще»)", compares: "in stock / sold out", slot: SCREEN, slots: [
+      { label: "a coffee's page: one row per move of the taste model", html: cut(P, /class="section next"/) },
+      { label: "the same coffee sold out: the nearest coffee leads", html: cut(PO, /class="section next next--out"/).replace(/(id|aria-labelledby)="next/g, '$1="cv-out-next') }
+    ] },
+    { id: "buybar-out", title: "Buy bar · sold out", compares: "—", slot: SCREEN, slots: [{ label: "a coffee QQ has run out of: the nearest coffee instead of the options", html: cut(PO, /class="buybar buybar--out"/) }] }
   ];
 }
 

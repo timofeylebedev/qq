@@ -1,4 +1,4 @@
-/* The product card, one markup in every list of the site (recommended, catalog, similar coffees).
+/* The product card, one markup in every list of the site (recommended, catalog, «Что взять еще» on a coffee's page).
 
    Its picture is a 4:5 block (a half-row card in the catalog: square), in one of two looks:
      light   the 3D pack on the cloud ground (every coffee without a photo)
@@ -79,7 +79,9 @@
 }
 .buy__add svg { width: 24px; height: 24px; flex: none; translate: 0 -2.5px; }   /* the bag's body (its lower 15 of 24px), not its handle, on the text's middle (Tim, round 7) */
 .buy__price { letter-spacing: 0; text-box: trim-both cap alphabetic; }   /* the price untracked, centred by its figures */
-@media (--mouse) { .buy__weights:hover, .buy__add:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+/* a coffee QQ has run out of: the button says it will be back and takes nothing */
+.buy__add:disabled { cursor: default; }
+@media (--mouse) { .buy__weights:hover, .buy__add:not(:disabled):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 .buy__add[data-added] svg { animation: bag-pop var(--t-move) var(--ease-out); }
 @keyframes bag-pop { 40% { transform: scale(1.2) rotate(-6deg); } }
 

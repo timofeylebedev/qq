@@ -12,16 +12,16 @@ with each other. Session 1 of the "choosing coffee" plan (claude.ai project QQ, 
 | `build/taste.mjs` | the build step: cleans the data, places the coffees, picks neighbours and directions, writes the reasons, checks its own rules (the build fails if they break) |
 | `src/scripts/taste.js` | the arithmetic, the same in Node and in the browser: distance, family similarity, a visitor as a region, how an answer moves the region |
 | `data/flavours.json` | the flavour families: every descriptor → family, each family's place on the SCA/WCR wheel, its reference food, its dot colour |
-| `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 6 directions per coffee with reasons, anchors, relabels, the fixes list |
+| `src/data/taste.json` | **the output** (generated, not committed, like `products.json`): positions, flavour profiles, 5 neighbours and 7 directions per coffee with reasons (6 steps and «под молоко»), and the page's block `next`, anchors, relabels, the fixes list |
 | `docs/taste-output.md` | the same output, readable, committed so a review shows how neighbours move when the data changes |
+| `docs/next-output.md` | what each coffee's page offers («Что взять еще»), one line per move, committed for review |
 | `docs/notion-fixes.md` | what QQ should fix in the Notion table, written by the same build |
 | `docs/taste-check.md`, `docs/taste-check/` | the blind check and what came of it |
 | `docs/taste-lexicon.md` | the research behind the families (WCR lexicon, flavour wheel, sources) |
 | `design/taste-bench/` | the bench: an interactive map published as an artifact (`npm run taste:bench`, then publish `out/`) |
 
 `npm run taste` rebuilds it. `predev`, `prebuild` and `precanvas` run it after `build/data.mjs`. The coffee page's
-«Кофе с похожим вкусом» now shows the model's four nearest (it had its own scoring before), and descriptor dots take
-their colour from `data/flavours.json`.
+«Что взять еще» shows the model's moves (below), and descriptor dots take their colour from `data/flavours.json`.
 
 ## Input and cleaning
 
@@ -111,6 +111,47 @@ distance without that axis). Each point beyond a full step costs 0.4, so the pic
   the nearer ones differ more elsewhere. A neighbour's reason names what is the same, then the biggest difference. The
   structured `why` sits beside each text, so a surface can phrase it its own way.
 
+## «Под молоко»
+
+Milk weakens a coffee's aroma and flavour and covers acidity (session 0), so «под молоко» is a direction of its own
+(`directions.milk`), not «мягче» or «плотнее». The candidates are only the coffees QQ itself tags «Молочные напитки» (10
+of 25); the best is the closest on everything except acidity and body, with 0.5 against each point of acidity above
+this coffee's (`RULES.milkBrighter`). A milk-tagged coffee gets `self`. It is kept for the quiz (session 4); Tim left it
+off the coffee page.
+
+## The block on a coffee's page («Что взять еще»)
+
+What a coffee's page offers next (`next` in taste.json; every coffee's block, readable: `docs/next-output.md`). Four
+moves, in Tim's order (24 Nov), each one coffee and one line from the data:
+
+1. **Похожий** — the nearest coffee.
+2. **Мягче**, 3. **Ярче** — acidity, the axis people differ on most.
+4. **Необычнее**, or **Классичнее** for a coffee already at ferment 2 or more (`RULES.unusualFrom`).
+
+The model's steps, with the rules a shopper reads them by (from the outside check against the roasters' texts):
+
+- **A move with nothing that way gives its place to another** (Tim): легче, плотнее, the other end of the unusual axis,
+  then «Тоже похожий» (the second nearest); the first with a near pick not shown yet that does not repeat a step a card
+  already takes. When none is near (Эль Пласэр ИПА's «ярче»), the page shows three cards. The edge sentence stays in the
+  data (`instead.line`) and in `docs/next-output.md`, not on the page.
+- **«Мягче» is less acidity without becoming much denser or wilder** (body at most +1 point, the unusual coordinate — ferment with the process lifts — at most +0.5,
+  `RULES.softerBody`, `softerWild`). A heavy robusta blend is not «мягче» for someone drinking a light Ethiopian; when
+  only such coffees are lower, «мягче» is an edge and gives its place to another move.
+- **«Классичнее» lands on a classic coffee** (ferment 0, no anaerobic or culturing process), not one notch down the
+  ferment scale onto another experiment.
+- **Roast:** a coffee sold in none of this one's roasts counts 0.35 against it (`RULES.roastGap`), and its line says
+  «обжарка только под …» when it still wins.
+- **Each coffee once:** a move that picks a coffee already shown takes its own next candidate if that scores at most 0.3
+  worse (`RULES.swap`), else the two share the card («Похожий · мягче»).
+- **The line** (`move.line`): the move's own number first («кислотность 2 вместо 3»), the biggest other difference as a
+  «но …», a lot both coffees contain («в обоих Бразилия Санта Мария», «в нём 50% этого кофе»), then the other coffee's
+  descriptors, «тоже …» only for a word both coffees' descriptors use. A far step says «в остальном заметно другой».
+- **Sold out** (`data/site.json` `shop.unavailable`): the page stays and says it will be back; its buy bar offers
+  `next.soldOut.lead`, the nearest coffee in stock, and the block begins with it («Ближе всего»); a move that picked the
+  same coffee joins its card. A decaf's page says when there is no other decaf.
+- **Decaf** (`next.decaf`): the nearest decaf in stock, kept in the data; the page does not show it (Tim).
+- **Stock:** the block never offers a coffee in `data/site.json` `shop.unavailable` (the build fails if it does); the model's positions, neighbours and directions ignore stock.
+
 ## Anchors and visitors
 
 - **Anchors** are what people already know, placed as regions (centre + spread) on the same axes. Origins come from
@@ -143,11 +184,6 @@ question went to QQ. Next is the roaster's blind sheet.
 - **The weights and family similarities are judgements**, written down to be revised by tasting data. The bench has
   sliders. Between flavour weights of 1 and 3, process 0–1 and acidity 0.6–1, agreement with the judges moves only
   between 2.1 and 3.0 of 5.
-- **«Под молоко» as its own direction** (session 2): today «плотнее» prefers milk-tagged coffees, but milk also masks
-  acidity.
-- **«Кофе с похожим вкусом» shows far neighbours** without saying so: 3 of 4 on Q-Optimistic, Q-Punch and Эль Пласэр
-  ИПА. Session 2 decides the form (fewer cards, «ближе у нас нет»).
 - **The account's "for you" list** (`src/templates/account-data.mjs`) still scores the four scales on its own. Move it
   to a region with `fit()` in session 5 or 6.
 - **"A supermarket bag"** as an anchor is an assumption. Ask QQ what their newcomers drank before.
-- **«Вторая кофемолка»** still shows on the coffee page («Как готовить»). Remove it in session 2 or 3.

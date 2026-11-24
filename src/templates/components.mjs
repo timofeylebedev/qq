@@ -38,7 +38,7 @@ export function pack(p, { size = "card", eager = false } = {}) {
 // ── weights and the add-to-bag button (the card's bottom row) ────────────────────────────────────────────────────
 // Cards offer the two retail weights (200 г and 1 кг): two radios, or below M a dropdown in their place (Figma, Tim,
 // round 7; the radios stay the choice, the dropdown sets them: scripts/buy.js). The product page offers every weight.
-export function buyRow(p, { tone = "light", idp }) {
+export function buyRow(p, { tone = "light", idp, out = false }) {
   const weights = p.weights.filter((w) => w.grams >= 200).slice(0, 2);
   const first = weights[0];
   return `<form class="${cls("buy", tone === "dark" && "buy--dark")}" data-buy data-slug="${p.slug}" action="#">
@@ -46,7 +46,7 @@ export function buyRow(p, { tone = "light", idp }) {
         <span class="buy__radios" role="radiogroup" aria-label="Вес">${weights.map((w, i) => `<label class="weight"><input type="radio" name="w-${idp}" value="${esc(w.label)}" data-price="${w.price ?? ""}"${i === 0 ? " checked" : ""}><span>${esc(w.label)}</span></label>`).join("")}</span>
         <select class="buy__select" aria-label="Вес" data-weight-select>${weights.map((w) => `<option value="${esc(w.label)}">${esc(w.label)}</option>`).join("")}</select>${icon("chevron-down", 'class="buy__chevron"')}
       </div>
-      <button class="buy__add" type="submit" aria-label="В корзину: ${esc(p.name)}, ${esc(first.label)}, ${rub(first.price)}">${icon("bag-fill")}<span class="buy__price" data-price-out>${rub(first.price)}</span></button>
+      ${out ? `<button class="buy__add" type="submit" disabled>Скоро вернётся</button>` : `<button class="buy__add" type="submit" aria-label="В корзину: ${esc(p.name)}, ${esc(first.label)}, ${rub(first.price)}">${icon("bag-fill")}<span class="buy__price" data-price-out>${rub(first.price)}</span></button>`}
     </form>`;
 }
 
@@ -66,7 +66,9 @@ export const photoOf = (ctx, p) => (p?.line === "Special" && ctx.site.photos.byS
 // ── the product card ─────────────────────────────────────────────────────────────────────────────────────────────
 // Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (a Special coffee that site.json
 // gives a photo: photoOf). A card that rises into place when it comes into view (the catalog) starts waiting (wait). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
-export function card(ctx, p, { size = "third", heading = 3, wait = false } = {}) {
+// A card may carry its own text in place of the description (on a coffee's page: why it is offered, one line of the
+// taste model; already escaped).
+export function card(ctx, p, { size = "third", heading = 3, wait = false, text = null } = {}) {
   const photo = photoOf(ctx, p);
   const tone = photo ? "dark" : "light";
   const id = `${ctx.page}-${p.slug}`;
@@ -78,9 +80,9 @@ export function card(ctx, p, { size = "third", heading = 3, wait = false } = {})
         <h${heading} class="card__title"><a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
         <button class="fav" type="button" aria-pressed="false" aria-label="В избранное: ${esc(p.name)}" data-fav="${p.slug}">${icon("heart", 'class="i-off"')}${icon("heart-fill", 'class="i-on"')}</button>
       </div>
-      ${buyRow(p, { tone, idp: id })}
+      ${buyRow(p, { tone, idp: id, out: ctx.site.shop.unavailable.includes(p.slug) })}
     </div>
-    <p class="card__text">${esc(cardText(p))}</p>
+    <p class="card__text">${text ?? esc(cardText(p))}</p>
   </article>`;
 }
 

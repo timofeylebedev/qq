@@ -33,7 +33,7 @@ function update(form) {
   const p = price(form);
   for (const out of form.querySelectorAll("[data-price-out]")) out.textContent = rub(p.total);
   const add = form.querySelector(".buy__add");
-  if (add) add.setAttribute("aria-label", add.getAttribute("aria-label").replace(/: (.+?), [^,]+, [^,]+$/, `: $1, ${p.weight}, ${rub(p.total)}`));
+  if (add?.hasAttribute("aria-label")) add.setAttribute("aria-label", add.getAttribute("aria-label").replace(/: (.+?), [^,]+, [^,]+$/, `: $1, ${p.weight}, ${rub(p.total)}`));
   const minus = form.querySelector('[data-step="-1"]');
   if (minus) minus.setAttribute("aria-disabled", String(p.qty <= 1));
 }

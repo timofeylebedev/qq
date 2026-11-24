@@ -99,5 +99,42 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 @container col (width >= 43rem) { .pstory__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 58rem) { .pstory__cols { grid-template-columns: repeat(var(--cols), minmax(0, 1fr)); } }
 
-/* similar coffees: as much room under the heading as above it (Tim, round 7) */
-.similar .head { margin-bottom: var(--section-y); }
+/* «Что взять еще» (session 2 of choosing coffee; the bench: design/next-bench/, form 1 made simpler by Tim): the
+   product cards in a grid, each under a word in colour saying what it is offered as (Похожий, Мягче…), its text one
+   line of why; one a row below M, two from M, all (three or four) in one row from L. */
+.next__grid { display: grid; gap: var(--row-gap) var(--gap); grid-template-columns: minmax(0, 1fr); }
+/* the pack keeps clear of a name on two lines (280 wide, or the browser's text at 24px) */
+.next__grid .card .pack { margin-top: max(17.5%, calc(var(--card-pad) + 2 * var(--lh-heading) * var(--type-card-title))); }
+@container col (width >= 43rem) { .next__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 58rem) {
+  .next__grid { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+  /* three or four in a row are narrower than the site's other cards: the pack keeps clear of a name on three lines */
+  .next__grid .card .pack { margin-top: max(17.5%, calc(var(--card-pad) + 3 * var(--lh-heading) * var(--type-card-title))); }
+}
+.next__item { display: grid; grid-template-rows: auto 1fr; gap: 12px; min-width: 0; }
+.next__item .card__text { -webkit-line-clamp: none; line-clamp: none; }   /* the text is why the card is here: never cut */
+.next__tag { color: var(--c-lavender-ink); font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+
+/* sold out: the state under the name (outside the title, which travels in the page change), and the buy bar saying so
+   and offering the nearest coffee (its page) */
+.pstage__out { justify-self: start; position: relative; z-index: 6; display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: 999px; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); }
+.buybar--out .buybar__inner { grid-template-columns: minmax(0, 1fr); }
+.buybar__state { margin: 0 -1px -1px 0; font-size: var(--type-small); color: var(--g-soft); }
+.buybar__state b { font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--g-fg); }
+.buybar__lead {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "k price arrow" "name price arrow"; align-items: center; gap: 2px 12px;
+  min-height: 52px; padding: 6px 12px; margin: 0 -1px -1px 0; background: var(--g-fg); color: var(--g-bg); transition: background-color var(--t-out) var(--ease-out);
+}
+.buybar__lead:focus-visible { outline-color: var(--g-fg); }
+@media (--mouse) { .buybar__lead:hover { background: var(--c-white-80); transition-duration: var(--t-in); } }
+.buybar__k { grid-area: k; font-size: var(--type-small); color: var(--c-ink-70); }
+.buybar__name { grid-area: name; font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); overflow-wrap: anywhere; }
+.buybar__price { grid-area: price; font: 500 var(--type-control) / 1 var(--sans); white-space: nowrap; }
+.buybar__lead svg { grid-area: arrow; width: 24px; height: 24px; }
+@container col (width >= 22rem) { .buybar--out .buybar__inner { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+@container col (width >= 58rem) {
+  .buybar--out .buybar__inner { grid-template-columns: auto minmax(0, 28rem); justify-content: space-between; }
+  .buybar__state, .buybar__lead { min-height: 72px; }
+  .buybar__state { padding-inline: var(--control-x); }
+  .buybar__lead { grid-template-areas: "k k arrow" "name price arrow"; padding-inline: var(--control-x); margin: 0; }
+}

@@ -1,0 +1,1071 @@
+[
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Похожий",
+  "pick": "Q-Punch",
+  "verdict": "ok",
+  "why": "Both 60% Санта Мария plus robusta; «в обоих Бразилия Санта Мария» is true."
+ },
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Легче (in place of Мягче)",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "Makes sense: nothing at QQ is less acidic, so the other natural step from a body-5 robusta blend («густую структуру, пышное тело») is a lighter cup. Бекеле is the gentlest lighter coffee («без перегруза и излишней кислотности», acidity only 2 against 1), QQ recommends it for milk and espresso like Q-Optimistic, and it comes in espresso roast. (Its text says «Тело плотное», but body 3 against 5 is plainly lighter.) «тоже сушеный апельсин» matches «Апельсиновые чипсы»."
+ },
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Ярче",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "«в обоих Бразилия Санта Мария», «тоже орехи» are both true; Q-Profit «Профиль яркий»."
+ },
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон (far)",
+  "verdict": "ok",
+  "why": "«более необычным профилем, чем классические базовые лоты»; espresso roast available; «тоже апельсин» matches «Апельсиновые чипсы»."
+ },
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Sold out",
+  "pick": "Q-Punch",
+  "verdict": "ok",
+  "why": "Same as «Похожий»."
+ },
+ {
+  "coffee": "Q-Optimistic",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Похожий",
+  "pick": "Q-Finch (Финч бленд)",
+  "verdict": "ok",
+  "why": "Both Санта Мария + Ethiopian blends for milk/espresso; «тоже чай, шоколад» and «у него ещё орехи, цветы» are both correct."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "«Для тех, кто не любит лишнюю кислотность»."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "«ягодным профилем», espresso roast available."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "«более необычным профилем»; espresso roast available."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Sold out",
+  "pick": "Q-Finch (Финч бленд)",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Q-Berry",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Похожий",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "«в нём 50% этого кофе» is true."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Мягче",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "«тоже молочный шоколад» is exact; «мягкая сладость и округлое тело»."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Brighter; espresso roast available."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "Espresso roast available; «более необычным профилем»."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Sold out",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "Half of it is this lot."
+ },
+ {
+  "coffee": "Бразилия Санта Мария",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Похожий",
+  "pick": "Индонезия Воносалам",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Lowered from medium: Колумбия Ла Сирена, its textual sibling («регионе Киндио», culturing, ferment 2), is now on the page as «Легче», so the shopper can reach it. «Похожий» itself is still Воносалам, another species («Эксельса», «natural mosto»), where Ла Сирена is nearer by text."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Мягче",
+  "pick": "Бразилия Ранчо Гранде",
+  "verdict": "ok",
+  "why": "Lower acidity and body, same ferment, also experimental."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Легче (in place of Ярче)",
+  "pick": "Колумбия Ла Сирена",
+  "verdict": "ok",
+  "why": "Makes sense, and it's the best change in v4. With nothing brighter than 4.5, a lighter cup at nearly the same acidity is a real alternative: body 2 against 4, Ла Сирена «достаточно деликатный и питкий». It's also the IPA's sibling (Киндио, culturing). No «в остальном заметно другой» on this side."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Классичнее",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Washed, ferment 0, «классической мытой Руанды»."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Sold out",
+  "pick": "Индонезия Воносалам",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "Remains from v3. Колумбия Ла Сирена (same region and process) is the natural stand-in for a sold-out Colombian culturing lot."
+ },
+ {
+  "coffee": "Колумбия Эль Пласэр ИПА",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Похожий",
+  "pick": "Индонезия Мерури",
+  "verdict": "flag",
+  "severity": "high",
+  "why": "Remains from v3. Антиокия «яркую кислотность, чистый вкус», washed; Мерури «глубокий, насыщенный и пряный», wet-hull, «Табачный лист». They match only on the scales. As the first card, it's now the block's headline suggestion."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "«без ... излишней кислотности»."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Ярче",
+  "pick": "Колумбия Чайна Альта",
+  "verdict": "ok",
+  "why": "Washed Colombian, «тоже карамель»."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "«нестандартные вкусы»."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Sold out",
+  "pick": "Индонезия Мерури",
+  "verdict": "flag",
+  "severity": "high",
+  "why": "Remains from v3. Same as «Похожий»."
+ },
+ {
+  "coffee": "Колумбия Антиокия",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Its textual twin."
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Похожий",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "Changed because Q-Berry is out, and the new pick is good: the same acidity and body, «в обоих Бразилия Санта Мария», «тоже шоколад, орехи»; both blends for milk and espresso. (Q-Profit is «плотную ... выразительную», Q-Finch «Сочный, чистый, сбалансированный»; close enough.)"
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "«тоже цветы» is exact."
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Espresso roast available."
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Sold out",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "As «Похожий»: a good stand-in for a Санта Мария-based espresso blend."
+ },
+ {
+  "coffee": "Q-Finch (Финч бленд)",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Похожий",
+  "pick": "Колумбия Антиокия",
+  "verdict": "ok",
+  "why": "The false «ещё ... чай» is gone. The textual twin (same varieties, «тоже карамель, цитрусы»); «с кофеином»."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "Marked «с кофеином»."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "«тоже карамель»; «с кофеином»."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "«с кофеином»."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Sold out",
+  "pick": "Колумбия Антиокия",
+  "verdict": "ok",
+  "why": "With the new note below, leading with the caffeinated twin is honest and useful."
+ },
+ {
+  "coffee": "Колумбия Декаф",
+  "move": "Sold out, note",
+  "pick": "—",
+  "verdict": "ok",
+  "why": "«Другого кофе без кофеина у QQ сейчас нет: ближе всего по вкусу — с кофеином.» True (one decaf in `texts.json`) and clear."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Похожий",
+  "pick": "Колумбия Антиокия",
+  "verdict": "flag",
+  "severity": "high",
+  "why": "Remains from v3. «глубокий, насыщенный и пряный» against «яркую кислотность, чистый вкус»."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Ярче",
+  "pick": "Колумбия Чайна Альта",
+  "verdict": "ok",
+  "why": "«тоже грейпфрут, карамель»."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "«тоже тропики»."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Sold out",
+  "pick": "Колумбия Антиокия",
+  "verdict": "flag",
+  "severity": "high",
+  "why": "Remains from v3. Same as «Похожий»."
+ },
+ {
+  "coffee": "Индонезия Мерури",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Похожий",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "«понятный ... кофе на каждый день» in both texts; «тоже шоколад»."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Плотнее (in place of Мягче)",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "New. «Плотнее» itself makes sense (Пальма is among the lightest, «питким телом»; Бекеле keeps the same low acidity, and its text says «Тело плотное»). But the page's «Похожий», Уганда Луна, takes the very same step (acidity 2, body 3 against 2, and the card says «плотность 3 вместо 2»). Луна and Бекеле have identical scales, so the shopper sees two cards making one move with nothing to tell them apart. Better: a joined «Похожий · плотнее» card on Луна, and the freed place for another direction (e.g. «Тоже похожий»)."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Ярче",
+  "pick": "Эфиопия Гуджи",
+  "verdict": "ok",
+  "why": "Washed, same body, «яркой кислотностью»."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "Peruvian natural, «хочу не как всегда»."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Sold out",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Перу Пальма Реаль",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Похожий",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "Natural, «десертным характером», ferment 0.5; «тоже апельсин»."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "«тоже сушеный апельсин»."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Ярче",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "ok",
+  "why": "Natural, ferment 1."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Необычнее",
+  "pick": "Бразилия Ранчо Гранде",
+  "verdict": "ok",
+  "why": "«ищет удивление»."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Sold out",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "Now the same as «Похожий»."
+ },
+ {
+  "coffee": "Перу Монте Верде",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Похожий",
+  "pick": "Эфиопия Гуджи",
+  "verdict": "ok",
+  "why": "«тоже ягоды, чай» is correct; the texts match closely (second grinder, everyday filter)."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Мягче",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Ярче",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "Washed, berries. «тоже черный чай» matches Ньяки's «Чай с бергамотом» (Earl Grey-style black tea). Defensible, though «тоже чай» would be safer."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Sold out",
+  "pick": "Эфиопия Гуджи",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Руанда Ньяки",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Похожий",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "Both natural, «мягкая сладость», for milk and espresso."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Легче (in place of Мягче)",
+  "pick": "Перу Пальма Реаль",
+  "verdict": "ok",
+  "why": "Makes sense, and suits this coffee's buyer exactly: Бекеле is «Для тех, кто не любит лишнюю кислотность»; Пальма Реаль has the same low acidity, «без яркой кислотности», with «питким телом» (body 2 against 3). Filter and espresso roasts both available."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Ярче",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "«тоже апельсин»."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "«тоже сушеный апельсин»."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Sold out",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Эфиопия Бекеле",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Похожий",
+  "pick": "Q-Optimistic",
+  "verdict": "ok",
+  "why": "«в обоих Бразилия Санта Мария»."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Легче (in place of Мягче)",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "Same reasoning as Q-Optimistic: a lighter (body 3 against 5), still low-acid coffee that QQ recommends for milk and espresso; espresso roast available."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Ярче",
+  "pick": "Q-Profit",
+  "verdict": "ok",
+  "why": "«в обоих Бразилия Санта Мария»."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон (far)",
+  "verdict": "ok",
+  "why": "Espresso roast available; recommended for milk."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Sold out",
+  "pick": "Q-Optimistic",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Q-Punch",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Похожий",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Легче (in place of Мягче)",
+  "pick": "Перу Пальма Реаль",
+  "verdict": "ok",
+  "why": "Makes sense: same acidity 2, lighter body, «понятный ... кофе на каждый день» in both texts; «тоже шоколад» is correct."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Ярче",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде (second pick)",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Sold out",
+  "pick": "Эфиопия Бекеле",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Уганда Луна",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Похожий",
+  "pick": "Q-Finch (Финч бленд)",
+  "verdict": "ok",
+  "why": "«в обоих Бразилия Санта Мария», «тоже орехи, шоколад»."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Мягче",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "«тоже цитрусы, шоколад» is now true, and «виноградная косточка» is listed as Луна's own; «он есть в этой смеси (50%)»."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Espresso roast available."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Необычнее",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "Espresso roast available."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Sold out",
+  "pick": "Q-Finch (Финч бленд)",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Q-Profit",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Похожий",
+  "pick": "Руанда Ньяки",
+  "verdict": "ok",
+  "why": "«тоже чай, ягоды»; texts match closely."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Мягче",
+  "pick": "Перу Пальма Реаль",
+  "verdict": "ok",
+  "why": "Washed, same body, «без яркой кислотности»."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Ярче",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "«тоже чай» is correct."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Sold out",
+  "pick": "Руанда Ньяки",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Эфиопия Гуджи",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Похожий",
+  "pick": "Кения Кисии",
+  "verdict": "ok",
+  "why": "The same words in both texts («легкие ферментированные оттенки»)."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Мягче",
+  "pick": "Уганда Луна (far)",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. The pick is fair (fruit and chocolate in both texts), but «в остальном заметно другой» undersells it."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Ярче",
+  "pick": "Колумбия Ла Сирена",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Классичнее",
+  "pick": "Индонезия Мерури",
+  "verdict": "ok",
+  "why": "Ferment 0, «Высокогорная классика Суматры», «тоже грейпфрут»."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Sold out",
+  "pick": "Кения Кисии",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Бразилия Ранчо Гранде",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Похожий",
+  "pick": "Бразилия Ранчо Гранде",
+  "verdict": "ok",
+  "why": "«легкие ферментированные оттенки» in both."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Мягче",
+  "pick": "Уганда Луна (far)",
+  "verdict": "ok",
+  "why": "Кисии's text says «насыщенную кислотность»; Луна «мягкая сладость»."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Ярче",
+  "pick": "Индонезия Воносалам",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. Only the scales make it brighter; Воносалам's text never mentions acidity, Кисии's says «насыщенную кислотность»."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Классичнее",
+  "pick": "Индонезия Мерури",
+  "verdict": "ok",
+  "why": "Ferment 0, «классика», «тоже тропики»."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Sold out",
+  "pick": "Бразилия Ранчо Гранде",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Кения Кисии",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Похожий",
+  "pick": "Колумбия Чайна Альта",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "Remains from v3. Гицумби «Для любителей сочного ягодного кофе»; Чайна Альта has no berries and is «легкого питкого». Руанда Ньяки (same country, Red Bourbon, washed, berries, bergamot) is still unused. As the first card, it's now the headline suggestion."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Мягче",
+  "pick": "Колумбия Антиокия",
+  "verdict": "ok",
+  "why": "«тоже карамель»."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Ярче",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "«тоже смородина, апельсин»."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Необычнее",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Sold out",
+  "pick": "Колумбия Чайна Альта",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "Remains from v3. Руанда Ньяки is the natural stand-in."
+ },
+ {
+  "coffee": "Руанда Гицумби",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Похожий",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "ok",
+  "why": "Colombian, experimental, hand brew, same acidity and body."
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Мягче",
+  "pick": "Бразилия Ранчо Гранде",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "Remains from v3. Ранчо Гранде «про интенсивность и глубину вкуса. Плотное тело» against Ла Сирена «деликатный и питкий». The scale rule passes it (body +1). Вьетнам Куа Мон (shared strawberry, «мягкая сладость») is the softer pick."
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Ярче",
+  "pick": "Колумбия Эль Пласэр ИПА (far)",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "Remains from v3. «в остальном заметно другой» contradicts the texts; both are culturing lots from Киндио, ferment 2, hand brew. (ИПА is also the textual «Похожий» for Ла Сирена; see ИПА.)"
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Классичнее",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "«классическим для Кении мытым способом»; «тоже черный чай» is exact."
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Sold out",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Колумбия Ла Сирена",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Похожий · мягче",
+  "pick": "Кения Кисии",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. «Похожий» is right (Кисии is the closest by process, and it now leads the label). «мягче» rests only on the scales: Кисии's text says «насыщенную кислотность», «с плотным телом». Body 3 against 4 is no longer stated on the card."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Мягче",
+  "pick": "same card as «Похожий»",
+  "verdict": "ok",
+  "why": "See the line above."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Ярче",
+  "pick": "Колумбия Эль Пласэр ИПА",
+  "verdict": "ok",
+  "why": "Fair as «Ярче»."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Классичнее",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Washed, ferment 0, «классической мытой Руанды»; «тоже апельсин, карамель»."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Sold out",
+  "pick": "Кения Кисии",
+  "verdict": "ok",
+  "why": "Closest by process."
+ },
+ {
+  "coffee": "Индонезия Воносалам",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Похожий · ярче",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "The joined card now gives both labels a reason («кислотность 4,5 вместо 4» backs «ярче»)."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Мягче",
+  "pick": "Вьетнам Куа Мон",
+  "verdict": "ok",
+  "why": "No longer labelled «под молоко», so the missing milk reason is moot. Lower acidity, «мягкая сладость»."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Ярче",
+  "pick": "same card as «Похожий»",
+  "verdict": "ok",
+  "why": "See the line above."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Необычнее",
+  "pick": "Колумбия Ла Сирена",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Sold out",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "Comparable bright, sweet, light-bodied cup."
+ },
+ {
+  "coffee": "Колумбия Вуш-Вуш",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Похожий",
+  "pick": "Руанда Гицумби",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. Гицумби's identity is berries («ягодного кофе»), which Чайна Альта lacks; acceptable since Антиокия is in «Мягче»."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Мягче",
+  "pick": "Колумбия Антиокия",
+  "verdict": "ok",
+  "why": "Washed Colombian, «тоже карамель»."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Ярче",
+  "pick": "Кения Найваша ПБ",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Необычнее",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Sold out",
+  "pick": "Руанда Гицумби",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. Same as «Похожий»."
+ },
+ {
+  "coffee": "Колумбия Чайна Альта",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Похожий",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "Washed, berry-forward, «тоже апельсин, смородина»."
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Мягче",
+  "pick": "Руанда Ньяки",
+  "verdict": "ok",
+  "why": "Washed, berries and tea, «ненавязчивого фильтра». («тоже черный чай» against Ньяки's «Чай с бергамотом» is defensible.)"
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Плотнее (in place of Ярче)",
+  "pick": "Колумбия Чайна Альта",
+  "verdict": "flag",
+  "severity": "medium",
+  "why": "New. The label contradicts the pick's own short: Чайна Альта is «Для любителей легкого питкого кофе». A shopper who clicks «Плотнее» from Найваша lands on a page selling lightness. It's denser only on the scale (body 3 against 2), and the page's «Похожий», Руанда Гицумби, already makes the same step (body 3 against 2, acidity 4). Better: join it to the Гицумби card as «Похожий · плотнее» (Гицумби's text doesn't call it light), and use the freed place for another direction."
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Необычнее",
+  "pick": "Колумбия Вуш-Вуш",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. Кения Кисии («более насыщенную и современную интерпретацию кенийского кофе», the same SL28/Ruiru 11/Batian varieties) is the textual «unusual Kenya»."
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Sold out",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "As «Похожий»."
+ },
+ {
+  "coffee": "Кения Найваша ПБ",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Похожий · необычнее",
+  "pick": "Перу Монте Верде",
+  "verdict": "ok",
+  "why": "Both natural, dessert-like, same acidity and body, ferment 1 against 0.5. Right for both labels, and the line gives both reasons («фермент 1 вместо 0,5»)."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Мягче",
+  "pick": "Уганда Луна",
+  "verdict": "ok",
+  "why": "As before."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Ярче",
+  "pick": "Руанда Гицумби",
+  "verdict": "ok",
+  "why": "«тоже апельсин»."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Необычнее",
+  "pick": "same card as «Похожий»",
+  "verdict": "ok",
+  "why": "See the line above."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Sold out",
+  "pick": "Перу Монте Верде",
+  "verdict": "flag",
+  "severity": "low",
+  "why": "Remains from v3. Монте Верде is filter-roast and hand-brew only, while QQ recommends Куа Мон for milk. With «Под молоко» gone from the page, this matters less, but a milk buyer's sold-out page still leads with a hand-brew lot. Уганда Луна (milk, both roasts) keeps the use."
+ },
+ {
+  "coffee": "Вьетнам Куа Мон",
+  "move": "Decaf",
+  "pick": "Колумбия Декаф",
+  "verdict": "ok",
+  "why": "Only decaf QQ sells; labelled «Без кофеина»; its short «Хоть в капуч, хоть в фильтр, хоть ночью…» supports offering it on any page."
+ }
+]

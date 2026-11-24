@@ -90,7 +90,7 @@ export function plural(n, one, few, many) {
   return m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? few : many;
 }
 
-// coffees for this visitor: nearest to the taste of what they bought, not bought yet (as «Кофе с похожим вкусом»)
+// coffees for this visitor: nearest to the taste of what they bought, not bought yet (the taste model's job since session 2: move it to `fit()`)
 export function forYou(products, acc, count = 6) {
   const bought = new Set(acc.purchases.map((x) => x.slug));
   const t = acc.taste;
