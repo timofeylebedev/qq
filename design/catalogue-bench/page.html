@@ -14,11 +14,20 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
 .top button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
 .seg { display: inline-flex; flex-wrap: wrap; }
 .seg button + button { border-left: 0; }
+.tabsbar { scrollbar-width: none; }
+.tabsbar { display: flex; gap: 0; padding: 0 16px; max-width: 1600px; margin: 0 auto; overflow-x: auto; position: relative; border-top: 1px solid var(--line); }
+.tabsbar button { flex: none; font: 700 13px / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; height: 44px; padding: 0 14px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--c-ink-70); cursor: pointer; }
+.tabsbar button[aria-selected="true"] { color: var(--c-ink); border-bottom-color: var(--c-ink); }
+.tabsbar button:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
+.tabsbar .pick-mark { color: var(--c-lavender-ink); margin-left: 6px; }
 .cases { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px; max-width: 1600px; margin: 0 auto; font-size: 13px; color: var(--c-ink-70); align-items: center; }
 .cases button { font: inherit; border: 1px solid var(--line); background: none; border-radius: 999px; padding: 2px 10px; cursor: pointer; color: var(--c-ink); }
 .cases button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); }
-.intro { max-width: 1600px; margin: 0 auto; padding: 24px 16px 8px; display: grid; gap: 12px; }
-.intro h2 { font: 700 22px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.intro { max-width: 1600px; margin: 0 auto; padding: 4px 16px 0; display: grid; gap: 12px; }
+.intro:not([open]) { gap: 0; }
+.intro summary { font: 700 13px / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--c-ink-70); }
+.intro summary:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.intro[open] { padding-bottom: 24px; }
 .intro p { margin: 0; max-width: 80ch; }
 .pick { background: var(--c-paper); border: 1px solid var(--line); padding: 16px; max-width: 80ch; }
 .pick b { font-family: var(--mono); text-transform: uppercase; }
@@ -31,12 +40,18 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
 .form__head .verdict b { font-family: var(--mono); text-transform: uppercase; }
 .form.is-pick { background: var(--c-paper); }
 .stages { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
-.stagewrap { display: grid; gap: 6px; max-width: 100%; }
+.stagewrap { display: grid; gap: 6px; max-width: 100%; min-width: 0; }
+.stagewrap > * { min-width: 0; }
 .stagewrap > .cap { font-size: 12px; color: var(--c-ink-70); font-family: var(--mono); text-transform: uppercase; }
 .stage { container: col / inline-size; background: var(--c-paper); outline: 1px solid var(--line); max-width: 100%; overflow: hidden; }
 .stage__ctx { padding: 12px var(--card-pad); border-bottom: 1px dashed var(--line); font-size: 12px; color: var(--c-ink-70); }
 .stage__body { padding: 24px var(--card-pad) 48px; }
 .empty { color: var(--c-ink-70); font-style: italic; }
+@media (max-width: 700px) {
+  .cases { flex-wrap: nowrap; overflow-x: auto; position: relative; white-space: nowrap; scrollbar-width: none; }
+  .cases button { flex: none; }
+  .top h1 { font-size: 13px; }
+}
 </style>
 {{forms}}
 <script>window.QQBench = { forms: [], register(f) { this.forms.push(f); } };</script>
@@ -53,12 +68,13 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
     </span>
   </div>
   <div class="cases" id="cases">Начать с: </div>
+  <div class="tabsbar" id="tabs" role="tablist" aria-label="Формы"></div>
 </header>
-<section class="intro">
-  <h2>Как выбрать из 25 кофе</h2>
+<details class="intro">
+  <summary>О стенде и что выбрано</summary>
   <p>Данные одни для всех форм (<code>src/data/choose.json</code>): 8 способов приготовления, каждый ставит обжарку и помол, которые QQ продаёт; 4 сценария; кислотность и вкус; карта вкуса (кислотность × плотность). Ни одна форма не прячет кофе в пустоту: выбор поднимает подходящие наверх, затем «почти» — ближайшие по вкусу с тем, чего не хватает, затем остальные. Формы отличаются тем, как в это войти.</p>
   <div class="pick" id="pick"></div>
-</section>
+</details>
 <main id="forms"></main>
 <script>
 (() => {
@@ -72,7 +88,7 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
   const CASES = [
     ["nothing", "ничего не выбрано", {}],
     ["moka", "гейзер", { method: "moka" }],
-    ["soft", "без яркой кислотности", { chip: "soft" }],
+    ["soft", "мягкая кислотность", { chip: "soft" }],
     ["pour-milk", "воронка + под молоко", { method: "pourover", chip: "milk" }],
     ["auto-unusual", "автомат + необычное (2)", { method: "auto", chip: "unusual" }],
     ["berry-soft", "ягоды + мягкая (0)", { tastes: ["berry"], acid: ["soft"] }],
@@ -112,20 +128,29 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
   const casesEl = document.getElementById("cases");
   for (const [id, label] of CASES) { const b = document.createElement("button"); b.type = "button"; b.dataset.case = id; b.textContent = label; casesEl.append(b); }
   const q = new URLSearchParams(location.hash.slice(1));
-  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : "390");
+  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : innerWidth >= 422 ? "390" : "360");
   let start = q.get("s") || "nothing";
+  let tab = q.get("f") || null;
+  const tabsEl = document.getElementById("tabs");
   const host = document.getElementById("forms");
   function draw() {
     const NOTES = window.QQ_NOTES || {};
     document.getElementById("pick").innerHTML = NOTES.pick || "<b>Выбор</b>: ещё не сделан.";
-    location.hash = `w=${width}&s=${start}`;
+    const list = forms();
+    if (!list.some((f) => f.id === tab)) tab = (list.find((f) => f.id === NOTES.chosen) || list[0] || {}).id;
+    location.hash = `w=${width}&s=${start}&f=${tab}`;
+    requestAnimationFrame(() => { const t = document.getElementById(`tab-${tab}`); if (t) tabsEl.scrollLeft = t.offsetLeft + t.offsetWidth > tabsEl.clientWidth ? t.offsetLeft - 16 : 0; });
+    // the tabs: one per form, the chosen form marked; one form shown at a time
+    tabsEl.innerHTML = list.map((f, i) => `<button type="button" role="tab" id="tab-${f.id}" aria-controls="panel-${f.id}" aria-selected="${f.id === tab}" tabindex="${f.id === tab ? 0 : -1}" data-tab="${f.id}">${i + 1}. ${esc(f.name)}${NOTES.chosen === f.id ? '<span class="pick-mark">· выбрана</span>' : ""}</button>`).join("");
     document.querySelectorAll("[data-w]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.w === width));
     document.querySelectorAll("[data-case]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.case === start));
     host.innerHTML = "";
-    forms().forEach((f, i) => {
+    list.forEach((f, i) => {
+      if (f.id !== tab) return;
       const n = NOTES[f.id] || {};
       const sec = document.createElement("section");
       sec.className = "form" + (NOTES.chosen === f.id ? " is-pick" : "");
+      sec.id = `panel-${f.id}`; sec.setAttribute("role", "tabpanel"); sec.setAttribute("aria-labelledby", `tab-${f.id}`);
       sec.innerHTML = `<div class="form__head"><h2>${i + 1}. ${f.name}</h2><p class="idea">${f.idea}</p>${f.notes ? `<p class="notes">${f.notes}</p>` : ""}${n.verdict ? `<p class="verdict">${n.verdict}</p>` : ""}</div><div class="stages"></div>`;
       host.append(sec);
       const ws = width === "all" ? ["360", "1280"] : [width];
@@ -141,6 +166,26 @@ body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15p
   }
   document.querySelectorAll("[data-w]").forEach((b) => (b.onclick = () => { width = b.dataset.w; draw(); }));
   casesEl.addEventListener("click", (e) => { const b = e.target.closest("[data-case]"); if (b) { start = b.dataset.case; draw(); } });
+  // switching keeps the place: if the page was scrolled into the form, the new form opens at its top
+  const go = (id, focus) => {
+    tab = id; draw();
+    if (focus) document.getElementById(`tab-${id}`)?.focus({ preventScroll: true });
+    const top = host.getBoundingClientRect().top - document.querySelector(".top").offsetHeight;
+    if (top < 0) scrollBy(0, top);
+  };
+  tabsEl.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) go(b.dataset.tab, true); });
+  tabsEl.addEventListener("keydown", (e) => {
+    const ids = forms().map((f) => f.id), i = ids.indexOf(tab);
+    const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ids.length - 1 }[e.key];
+    if (n == null) return;
+    e.preventDefault(); go(ids[(n + ids.length) % ids.length], true);
+  });
+  // number keys 1–4 switch forms from anywhere on the page (not while typing)
+  addEventListener("keydown", (e) => {
+    if (e.target.closest("input, select, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+    const ids = forms().map((f) => f.id), k = Number(e.key);
+    if (k >= 1 && k <= ids.length) go(ids[k - 1]);
+  });
   addEventListener("DOMContentLoaded", draw);
   if (document.readyState !== "loading") draw();
 })();

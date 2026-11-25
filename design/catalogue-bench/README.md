@@ -1,6 +1,6 @@
 # The bench of the catalogue's way in
 
-Four forms of choosing among QQ's 25 coffees, side by side on the real data (src/data/choose.json), at 360 / 390 / 768
+Four forms of choosing among QQ's 25 coffees, one tab each (keys 1–4 or the arrows switch them), on the real data (src/data/choose.json), at 360 / 390 / 768
 / 1280, each opened in the same starting state (nothing, «гейзер», «без яркой кислотности», «воронка + под молоко»,
 «автомат + необычное», «ягоды + мягкая» with no exact match, «Кения»). Session 3 of choosing coffee. Published as an
 artifact: https://claude.ai/artifact/6VaiD1zwsYtAoeqQWy212X
