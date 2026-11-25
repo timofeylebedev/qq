@@ -97,6 +97,12 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   edges (a positioned line with `--out-l` / `--out-r` = `--gutter`); from the max the block is framed instead. The
   hero goes further: its cells themselves reach over the gutters (`--bleed`) and each is padded by the gutter on both
   sides (Tim, round 6: a cell's padding is its own, never a higher box's).
+- **The card's taste scale** (`tasteScale()` in components.mjs, `scripts/about.js`; decision `card-scale`): three
+  rows, a dot on a line between the taste model's words, the line QQ's own range; positions from taste.json, never
+  computed in a template; no sweetness, no «Горечь», no «Оценка Q». It is hidden in the picture: an info button in
+  the bottom left corner above the buy row (z-index 7, like the heart) raises it as a sheet from the buy row, hovered
+  with a mouse or pressed (it never follows the card's link); the button's name reads the values. The card's text no
+  longer says «… из 5».
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).

@@ -6,6 +6,7 @@ import { initNav } from "./nav.js";
 import { initToggles } from "./toggle.js";
 import { initRoast } from "./roast.js";
 import { initBuy } from "./buy.js";
+import { initAbout } from "./about.js";
 import { initSliders } from "./slider.js";
 import { initFacts } from "./facts.js";
 import { initCart } from "./cart.js";
@@ -25,6 +26,7 @@ initNav();
 initToggles();
 initRoast();
 initBuy();
+initAbout();
 initSliders();
 initFacts();
 // the bag and the favourites write their cards before the 3D packs are set up below, so their packs are drawn

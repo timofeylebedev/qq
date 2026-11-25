@@ -94,3 +94,38 @@
 .pack__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity 0.3s var(--ease-out); }   /* the slot's box, the square still contained: the pack the canvas draws, to the pixel (it stood taller than its slot, and the pack jumped when the canvas took over: Tim, round 7) */
 .pack--hero .pack__still { scale: calc(0.82 / 0.9); }   /* the still is drawn at a card's fit (0.9 of its slot), the big pack at 0.82 (scripts/packs.js) */
 .has-3d .pack[data-live] .pack__still { opacity: 0; }
+
+/* the taste sheet (components.mjs tasteScale, scripts/about.js): in the picture, over the buy row. The info button
+   sits in the bottom left corner, just above the row (as the heart in the top right: with a mouse it shows when the
+   card is hovered). Hovered (with a mouse) or pressed, the sheet shows over it: the card's own ground, a hairline on
+   top, three rows of the scale — a dot on a line between the axis's words, the line QQ's own range. It only fades: it
+   never moves anything. The line is ink-60 (3.8 : 1 on cloud… 3.7 : 1), white-60 on a dark card, the dot ink / paper:
+   a graphic that carries meaning needs 3 : 1 (WCAG 1.4.11), the hairlines' ink-20 would not (decision card-scale). */
+.about { position: relative; z-index: 7; align-self: end; margin-bottom: var(--control-h); display: grid; grid-template: auto / minmax(0, 1fr); pointer-events: none; }
+.about > * { grid-area: 1 / 1; }   /* the button lies in the sheet's bottom left corner: the sheet rises from the buy row around it */
+.about__info {
+  justify-self: start; align-self: end; position: relative; display: grid; place-items: center; width: 40px; height: 40px; margin: 0 0 8px calc(var(--card-pad) - 8px);
+  color: var(--fg); pointer-events: auto; transition: background-color var(--t-out) var(--ease-out), opacity var(--t-out) var(--ease-out);
+}
+.about__info svg { width: 24px; height: 24px; }
+.about__info:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; }
+.about__sheet {
+  padding: 16px var(--card-pad) calc(40px + 16px); background: var(--ground); border-top: var(--hair) solid var(--line);
+  opacity: 0; pointer-events: none; transition: opacity var(--t-out) var(--ease-out);
+}
+/* shown: pressed (data-open), or with a mouse while the pointer is on the button or on the sheet itself */
+.about[data-open] .about__sheet { opacity: 1; pointer-events: auto; transition-duration: var(--t-in); }
+@media (--mouse) {
+  .card .about__info { opacity: 0; }
+  .card:hover .about__info, .about__info:focus-visible, .about[data-open] .about__info { opacity: 1; transition-duration: var(--t-in); }
+  .about__info:hover { background-color: var(--tint); transition-duration: var(--t-in); }
+  .about:has(.about__info:hover) .about__sheet, .about:has(.about__sheet:hover) .about__sheet { opacity: 1; pointer-events: auto; transition-duration: var(--t-in); }
+}
+.scale__rows { display: grid; grid-template-columns: max-content minmax(24px, 1fr) max-content; align-items: center; gap: 4px 12px; font-size: var(--type-small); line-height: var(--lh-compact); color: var(--c-ink-70); }
+.card--dark .scale__rows { color: var(--c-white-80); }
+@container col (width < 22rem) { .scale__rows { column-gap: 8px; } }   /* 320 with 24px text: «классичнее» and «необычнее» leave the line 24px or more */
+.scale__end:nth-child(3n + 1) { text-align: right; }
+.scale__line { position: relative; height: 12px; }
+.scale__line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: var(--hair); background: var(--c-ink-60); }
+.card--dark .scale__line::before { background: var(--c-white-60); }
+.scale__dot { --t: 0.5; position: absolute; top: 50%; left: calc(var(--t) * (100% - 12px)); width: 12px; height: 12px; margin-top: -6px; border-radius: 50%; background: var(--fg); }
