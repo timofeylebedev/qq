@@ -1,0 +1,98 @@
+/* The quiz «Выбрать кофе за минуту» (src/templates/start.mjs, scripts/quizpage.js; docs/quiz.md) on «Заказываю кофе
+   впервые» and its way in on the home page. The grammar of the site: the options are cells divided by hairlines (one
+   column below S, two from S, three from L), the name in Apercu, a hint under it in ink-70; the chosen one fills with
+   ink, the one under the pointer takes the tint. One question at a time once the script runs (data-js); without it
+   the four stand one under another. */
+.start .phead { margin-bottom: var(--section-gap); }
+.quiz__title, .qentry__title { font-size: var(--type-h3); margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
+.quiz { display: grid; gap: var(--section-gap); }
+.quiz__form { display: grid; gap: var(--text-gap); }
+.quiz__top { display: flex; align-items: center; justify-content: space-between; gap: var(--gap); min-height: 40px; }
+.quiz:not([data-js]) .quiz__top { display: none; }
+/* how far along: four short bars, the passed ones in ink */
+.quiz__progress { display: flex; gap: 4px; }
+.quiz__progress i { width: 32px; height: 3px; background: var(--c-ink-20); }
+.quiz__progress i[data-on] { background: var(--c-ink); }
+.quiz__back { margin-left: auto; }
+.quiz__back[hidden], .quiz__show[hidden] { display: none; }
+
+.qstep { display: grid; gap: 8px; min-width: 0; padding: 0; margin: 0; border: 0; }
+.qstep[hidden] { display: none; }
+.quiz:not([data-js]) .qstep + .qstep { padding-top: var(--section-gap); }
+.qstep__ask { display: grid; gap: 8px; padding: 0; margin-bottom: 4px; }
+.qstep__ask:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.qstep__n { font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-lavender-ink); }
+.qstep__q { font: 700 var(--type-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); overflow-wrap: anywhere; }
+.qstep__hint { font-size: var(--type-body); color: var(--c-ink-70); margin-bottom: 8px; }
+
+/* the options: cells divided by hairlines (the tiles' way: each cell's border, overlapping by one) */
+.qopts { display: grid; grid-template-columns: minmax(0, 1fr); padding: 0 1px 1px 0; }
+.qopts > li { display: grid; }
+@container col (width >= 22rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container col (width >= 43rem) { .qopts--few { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.qopt {
+  position: relative; display: grid; align-content: start; gap: 4px; min-height: 72px; padding: var(--tile-pad);
+  border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; cursor: pointer;
+  transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+}
+.qopt__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.qopt__name { font-size: var(--type-body-l); font-weight: 500; line-height: var(--lh-compact); }
+.qopt__hint { font-size: var(--type-body); line-height: var(--lh-compact); color: var(--c-ink-70); }
+.qopt__dots { display: flex; gap: 4px; margin-top: 4px; }
+.qopt__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--dot); }
+.qopt:has(:checked) { background: var(--c-ink); color: var(--c-paper); }
+.qopt:has(:checked) .qopt__hint { color: var(--c-white-80); }
+.qopt:has(:focus-visible), a.qopt:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+.qopt:has(:checked:focus-visible) { outline-color: var(--c-paper); }
+@media (--mouse) { .qopt:not(:has(:checked)):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+
+.quiz__show { justify-self: start; }
+.quiz__b2b { padding-top: 8px; }
+
+/* ── the result ─────────────────────────────────────────────────────────────────────────────────────────────── */
+.quiz__result { display: grid; gap: var(--section-gap); }
+.quiz__result[hidden] { display: none; }
+.quiz__result:focus { outline: none; }
+.qres__head { display: grid; gap: var(--text-gap); max-width: 48rem; }
+.qres__title-main { font-size: var(--type-h3); text-box: trim-both cap alphabetic; }
+.qres__title-main:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.qres__summary { font-size: var(--type-lead); font-weight: 500; line-height: var(--lh-text); }
+.qres__start { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+/* the answers in one line, each a way back to its question (and then straight back here) */
+.qres__answers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.qres__answer {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border: var(--hair) solid var(--line);
+  font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out);
+}
+.qres__edit { font-size: var(--type-small); color: var(--c-ink-70); }
+@media (--mouse) { .qres__answer:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+
+/* the three cards: the move in lavender over the reasons, never cut; the downside and what the method sets after */
+.qres__picks .card__text { -webkit-line-clamp: none; line-clamp: none; }
+.card__but { color: var(--c-ink); font-weight: 500; }
+.card__set, .card__lead { color: var(--c-ink); font-weight: 500; }
+.qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); }
+.qres__actions .btn[hidden] { display: none; }
+.qres__saved, .qres__decaf, .qres__note { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.qres__saved[hidden] { display: none; }
+.qres__map { display: grid; gap: 12px; max-width: 34rem; }
+.qres__title { font-size: var(--type-card-title); }
+
+/* ── the rest of «Заказываю кофе впервые» ───────────────────────────────────────────────────────────────────── */
+.start__lead { max-width: 40rem; margin-bottom: var(--section-gap); padding-top: 8px; font-size: var(--type-body-l); line-height: var(--lh-text); }
+.start__more { display: flex; flex-wrap: wrap; gap: 12px; padding-top: var(--section-gap); }
+.start-page .part__title { margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
+.start-page .part__title + .tiles, .start-page .part__title + .grid { margin-top: var(--section-gap); }
+
+/* ── the home page's way in: the first question, each method a link into the quiz ────────────────────────── */
+.qentry__head { display: grid; gap: 8px; margin-bottom: var(--section-gap); max-width: 44rem; }
+.qentry__lead { font-size: var(--type-body-l); line-height: var(--lh-text); }
+.qentry .qentry__title { margin-bottom: 0; }
+
+/* ── the catalogue's way in, and the profile's part ─────────────────────────────────────────────────────── */
+.catalog__quiz { margin-bottom: var(--text-gap); font-size: var(--type-body); }
+.taste-part { display: grid; gap: 8px; font-size: var(--type-body-l); }
+.taste-part__label { margin-left: 8px; font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-lavender-ink); }
+.pstage__fit { justify-self: start; position: relative; z-index: 6; max-width: 32rem; font-size: var(--type-body); line-height: var(--lh-compact); }
+.pstage__fit[hidden] { display: none; }

@@ -30,7 +30,7 @@ function stage(ctx, p, out = false) {
       <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
       <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
     </div>
-    ${peopleLink(ctx, p)}${out ? `
+    ${peopleLink(ctx, p)}${fitLine(p)}${out ? `
     <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
     ${pack(p, { size: "hero", eager: true })}
   </div>
@@ -41,6 +41,16 @@ function stage(ctx, p, out = false) {
     </li>`).join("\n    ")}
   </ul></div>
 </section>`;
+}
+
+// the visitor's way of brewing, from the quiz (scripts/tastesaved.js fills it; hidden without a saved quiz): whether QQ
+// roasts this coffee for it, and the roast and grind the buy bar then starts on (src/data/choose.json, the catalogue's)
+const CHOOSE = read("src/data/choose.json"), QWORDS = read("data/quiz.json").words;
+function fitLine(p) {
+  const c = CHOOSE.coffees.find((x) => x.slug === p.slug);
+  if (!c) return "";
+  const data = { slug: p.slug, roasts: c.roasts, methods: c.methods, names: Object.fromEntries(CHOOSE.methods.map((m) => [m.id, m.ru])), roast: QWORDS.roast, grind: QWORDS.grind };
+  return `\n    <p class="pstage__fit" data-fit="${esc(JSON.stringify(data))}" hidden></p>`;
 }
 
 const GRIND = { "В зернах": "Зерна", "Турка": "Для турки", "Фильтр": "Для фильтра", "Эспрессо": "Для эспрессо" };

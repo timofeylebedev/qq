@@ -20,10 +20,12 @@ src/cart/
 src/favourites/
 src/checkout/
 src/account/
+src/start/
 src/data/products.json
 src/data/choose.json
 src/data/taste.json
 src/data/people.json
+src/data/quiz.json
 # the component canvas page and its preview documents (src/lab/canvas/page.mjs, dev server only)
 src/lab/canvas/*.html
 design/fade-tuner/out/

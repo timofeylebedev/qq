@@ -27,6 +27,7 @@ const PAGES = [
   { path: "contacts/", title: "Contacts" },
   { path: "privacy/", title: "Privacy policy" },
   { path: "about/", title: "About" },
+  { path: "start/", title: "First order: the quiz «Выбрать кофе за минуту»" },
   // the site has no 404.html of its own yet: GitHub Pages shows its own page (the checks see the kit's plain one)
   { path: "no-such-page", title: "Not found (404)", status: 404 },
 ];
