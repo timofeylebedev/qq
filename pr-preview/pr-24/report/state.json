@@ -5730,6 +5730,6 @@
   }
  ],
  "from": "the last deploy of main",
- "whose": "measured on main at 05d9fd9, before this change (claude/catalogue-filters at 3b183b3)",
+ "whose": "measured on main at 05d9fd9, before this change (claude/catalogue-filters at e569742)",
  "own": false
 }
