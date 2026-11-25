@@ -9,6 +9,7 @@
 import { result, answered } from "./quiz.js";
 import { initTasteMap } from "./tastemap.js";
 import { focusFrom } from "./focus.js";
+import { y, to } from "./scroller.js";
 import { saveTaste } from "./tastesaved.js";
 import { KEY, load, save, badge, toast, rub } from "./buy.js";
 
@@ -40,17 +41,21 @@ export function initQuiz() {
     const at = q.has("q") ? Math.max(0, Math.min(IDS.length - 1, Number(q.get("q")) || 0)) : null;
     return { a, at, ret: q.get("r") === "1" };
   };
-  const go = (a, at, { push = true, ret = false } = {}) => {
+  const url = (a, at, ret) => {
     const q = new URLSearchParams(location.search);
     for (const k of [...IDS, "q", "r"]) q.delete(k);
     for (const id of IDS) if (a[id]) q.set(id, a[id]);
     if (at != null) q.set("q", at);
     if (ret) q.set("r", "1");
     const s = q.toString();
-    history[push ? "pushState" : "replaceState"]({ quiz: true }, "", location.pathname + (s ? "?" + s : "") + location.hash);
-    draw(true);
+    return location.pathname + (s ? "?" + s : "") + location.hash;
   };
-
+  // a step: the entry of the question just answered keeps its answer (so Back shows it chosen), then the next is pushed
+  const go = (a, at, { push = true, ret = false, from = null, moved = true } = {}) => {
+    if (push && from != null) history.replaceState({ quiz: true }, "", url(a, from, parse().ret));
+    history[push ? "pushState" : "replaceState"]({ quiz: true }, "", url(a, at, ret));
+    draw(moved);
+  };
   // ── draw what the address says: a question, or the result ──
   function draw(moved) {
     const { a, at } = parse();
@@ -75,7 +80,8 @@ export function initQuiz() {
     if (!s) return;
     const { a, ret } = parse(), i = Number(s.dataset.i);
     a[s.dataset.step] = e.target.value;
-    if (arrow) { arrow = false; go(a, i, { push: false, ret }); return; }   // the arrow keys choose; Enter moves on
+    // the arrow keys choose (the address keeps it; the focus stays on the option); Enter moves on
+    if (arrow) { arrow = false; go(a, i, { push: false, ret, moved: false }); return; }
     advance(a, i, ret);
   });
   // a tap on the option already chosen moves on too (no change event for it)
@@ -86,8 +92,8 @@ export function initQuiz() {
     if (a[s.dataset.step] === input.value) advance(a, Number(s.dataset.i), ret);
   });
   const advance = (a, i, ret) => {
-    if (ret || answered(a, D) >= IDS.length && i === IDS.length - 1) return go(a, null);
-    go(a, i + 1 < IDS.length ? i + 1 : null, { ret });
+    if (ret || answered(a, D) >= IDS.length && i === IDS.length - 1) return go(a, null, { from: i });
+    go(a, i + 1 < IDS.length ? i + 1 : null, { ret, from: i });
   };
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -99,7 +105,9 @@ export function initQuiz() {
     if (ret) return go(a, null);
     if (history.state?.quiz) history.back(); else go(a, Math.max(0, i - 1), { push: false });
   });
-  res.querySelector("[data-quiz-again]").addEventListener("click", () => go({}, 0));
+  // «Пройти заново»: question 1, and the page back up to the quiz (the focus alone doesn't scroll: focusFrom)
+  const toTop = () => { const top = root.getBoundingClientRect().top; if (top < 0) to(Math.max(0, y() + top - 96)); };
+  res.querySelector("[data-quiz-again]").addEventListener("click", () => { go({}, 0); toTop(); });
   addEventListener("popstate", () => draw(true));
 
   // ── the result ──
@@ -122,8 +130,9 @@ export function initQuiz() {
       c.tag.hidden = false; c.tag.textContent = p.label;
       const why = p.why.length ? `${cap(p.why.join("; "))}. ` : "";
       c.text.innerHTML = `${esc(why)}${esc(p.taste)}${p.but ? ` <span class="card__but">${esc(p.but)}</span>` : ""}${p.set ? ` <span class="card__set">${esc(p.set.text)}.</span>` : ""}`;
-      c.set.roast.value = p.set ? p.set.roast : ""; c.set.grind.value = p.set ? p.set.grind : "";
-      c.link.setAttribute("href", p.set ? `${c.href}?${new URLSearchParams({ roast: p.set.roast, grind: p.set.grind })}` : c.href);
+      c.set.roast.value = p.set?.roast || ""; c.set.grind.value = p.set?.grind || "";
+      const params = p.set ? Object.entries({ roast: p.set.roast, grind: p.set.grind }).filter(([, v]) => v) : [];
+      c.link.setAttribute("href", params.length ? `${c.href}?${new URLSearchParams(params)}` : c.href);
     }
     // three different coffees: all three in small packs, when QQ sells each in 50 g
     const small = r.mode === "spread" && r.picks.every((p) => coffee.get(p.slug).small);
@@ -132,14 +141,14 @@ export function initQuiz() {
     // the part of the catalogue that fits
     const q = new URLSearchParams(r.catalogue.params);
     cat.setAttribute("href", catHref + (q.toString() ? "?" + q : ""));
-    cat.querySelector(".btn-arrow__label").textContent = `Все подходящие в каталоге: ${r.catalogue.n}`;
+    cat.querySelector(".btn-arrow__label").textContent = `Все подходящие: ${r.catalogue.n}`;
     // the map: the region, the three lit and named
     if (!map) map = initTasteMap(res.querySelector("[data-tmap]"), { info: (slug) => mapInfo(slug) });
     map.light(r.picks.map((p) => p.slug)); map.area(r.area);
     saveTaste({ answers: a, region: r.region, mode: r.mode, picks: r.picks.map((p) => ({ slug: p.slug, label: p.label, name: coffee.get(p.slug).name })) });
     res.querySelector("[data-quiz-saved]").hidden = false;
     dispatchEvent(new Event("qq:layout"));
-    if (moved) focusFrom(res.querySelector("#quiz-summary"));
+    if (moved) { focusFrom(res.querySelector("#quiz-summary")); toTop(); }
   }
   const mapInfo = (slug) => {
     const c = coffee.get(slug), p = picks.find((x) => x.slug === slug);

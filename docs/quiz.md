@@ -3,7 +3,9 @@
 Session 4 of choosing coffee (26 Nov 2026), from marketing's rows 4 and 10 and their doc's sections 2 and 15. Research:
 `docs/quiz-research.md`. Every answer's result, listed: `docs/quiz-output.md` (generated). The outside check against the
 B2C survey: `docs/quiz-check/`. A script for testing it with five newcomers: `docs/quiz-test.md`. Decision: `quiz`
-(design/decisions.json). Bench: `design/quiz-bench/` (`npm run quiz && node design/quiz-bench/build.mjs`).
+(design/decisions.json). Bench: `design/quiz-bench/` (`npm run quiz && node design/quiz-bench/build.mjs`), published at
+https://claude.ai/artifact/AZFRK774BDY4sEPQq1EspK: any answers with three forms of the result side by side, and the 106
+respondents of the survey check with their verdicts.
 
 ## Where it is
 - **One quiz, one page:** «Заказываю кофе впервые» (`start/`, `src/templates/start.mjs`). The quiz comes first; under it

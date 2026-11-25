@@ -14,6 +14,7 @@
 .quiz__progress i { width: 32px; height: 3px; background: var(--c-ink-20); }
 .quiz__progress i[data-on] { background: var(--c-ink); }
 .quiz__back { margin-left: auto; }
+.quiz__back, .qres__actions .iconlink { min-height: 44px; }   /* the site's iconlink is 40: these are the quiz's main ways back */
 .quiz__back[hidden], .quiz__show[hidden] { display: none; }
 
 .qstep { display: grid; gap: 8px; min-width: 0; padding: 0; margin: 0; border: 0; }
@@ -66,7 +67,7 @@
 /* the answers in one line, each a way back to its question (and then straight back here) */
 .qres__answers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .qres__answer {
-  display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px; border: var(--hair) solid var(--line);
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border: var(--hair) solid var(--line);
   font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out);
 }
 .qres__edit { font-size: var(--type-small); color: var(--c-ink-70); }
@@ -76,11 +77,18 @@
 .qres__picks .card__text { -webkit-line-clamp: none; line-clamp: none; }
 .card__but { color: var(--c-ink); font-weight: 500; }
 .card__set, .card__lead { color: var(--c-ink); font-weight: 500; }
-.qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); }
+.qres__actions { display: grid; justify-items: stretch; gap: 12px; }
+.qres__actions .btn-arrow { justify-content: space-between; white-space: normal; text-align: left; }
+.qres__actions .iconlink { justify-self: start; }
+@container col (width >= 43rem) { .qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); } }
 .qres__actions .btn[hidden] { display: none; }
 .qres__saved, .qres__decaf, .qres__note { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 .qres__saved[hidden] { display: none; }
-.qres__map { display: grid; gap: 12px; max-width: 34rem; }
+.qres__map { display: grid; gap: var(--text-gap); }
+.qres__maptext { display: grid; gap: 12px; align-content: start; max-width: 34rem; }
+.qres__map .tmap { max-width: 34rem; }
+/* from L the words stand beside the map, not under an empty half of the column */
+@container col (width >= 58rem) { .qres__map { grid-template-columns: minmax(0, 1fr) minmax(0, 34rem); align-items: start; } }
 .qres__title { font-size: var(--type-card-title); }
 
 /* ── the rest of «Заказываю кофе впервые» ───────────────────────────────────────────────────────────────────── */

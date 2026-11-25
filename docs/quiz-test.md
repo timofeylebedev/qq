@@ -83,6 +83,6 @@ Do they find «Нажмите на ответ, чтобы изменить»? Do
 
 ## The roaster's part (30 minutes, separate)
 The plan also asks a QQ roaster or head barista to check the matches. Open the bench
-(https://claude.ai/artifact/… — see the PR) and go through the twelve most common answer sets in
+(https://claude.ai/artifact/AZFRK774BDY4sEPQq1EspK) and go through the twelve most common answer sets in
 `docs/quiz-output.md` (the «Обычно с молоком» and «Без молока» rows for the espresso machine and the pour-over). For each,
 ask: «Вы бы предложили этот кофе новичку с такими ответами? Если нет — какой?» Write their answer next to the row.

@@ -61,11 +61,13 @@ export function quizBlock(ctx) {
       </div>
       <p class="qres__saved" data-quiz-saved hidden>Сохранили в <a class="link" href="${href(ctx, "account/")}">профиле</a>: по этим ответам сайт подскажет обжарку и помол на странице кофе.</p>
       <section class="qres__map" aria-labelledby="quiz-map-title">
-        <h3 class="qres__title" id="quiz-map-title">Где ваш вкус на карте</h3>
-        <p class="qres__note">Пятно — ваш вкус по ответам. Оно широкое: это начало, а не точка. Точки — все кофе QQ, три из подбора подписаны.</p>
+        <div class="qres__maptext">
+          <h3 class="qres__title" id="quiz-map-title">Где ваш вкус на карте</h3>
+          <p class="qres__note">Пятно — ваш вкус по ответам. Оно широкое: это начало, а не точка. Точки — все кофе QQ, три из подбора подписаны. Влево — мягче, вправо — ярче, вверх — плотнее.</p>
+          ${decaf ? `<p class="qres__decaf">Пьёте без кофеина? Есть <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>. ${esc(tasteWords(decaf, D.words))}${decaf.milk ? " QQ советует его для капучино и латте." : ""}${C.coffees.find((c) => c.slug === decaf.slug)?.omni ? " Омни-обжарка: подходит к любому способу." : ""}</p>` : ""}
+        </div>
         ${tasteMap(ctx, { id: "quiz-map", label: "Карта вкуса" })}
       </section>
-      ${decaf ? `<p class="qres__decaf">Пьёте без кофеина? Есть <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>. ${esc(tasteWords(decaf, D.words))}${decaf.milk ? " QQ советует его для капучино и латте." : ""}${C.coffees.find((c) => c.slug === decaf.slug)?.omni ? " Омни-обжарка: подходит к любому способу." : ""}</p>` : ""}
     </div>
     <script type="application/json" id="quiz-data">${json}</script>
   </div>`;
@@ -112,7 +114,7 @@ export function render(ctx) {
 </section>
 <section class="section section--after-tight" data-ground="paper" aria-labelledby="three-title">
   <div class="col">
-    <h2 class="part__title" id="three-title">Или начните с этих трёх</h2>
+    <h2 class="part__title" id="three-title" data-typeset="off">Или начните с этих трёх</h2>
     <p class="start__lead">Не хотите отвечать — возьмите три разных: ${plain.picks.map((x) => x.label.toLowerCase()).join(", ").replace(/, ([^,]+)$/, " и $1")}. Попробуете и поймёте, какой ваш. ${both} из ${live.length} наших кофе обжариваем и под эспрессо, и под фильтр: подойдут к любому способу.</p>
     <div class="grid grid--thirds">
       ${three}
@@ -121,19 +123,19 @@ export function render(ctx) {
 </section>
 <section class="section section--after-tight" data-ground="paper" aria-labelledby="roast-title">
   <div class="col">
-    <h2 class="part__title" id="roast-title">Под эспрессо или под фильтр</h2>
+    <h2 class="part__title" id="roast-title" data-typeset="off">Под эспрессо или под фильтр</h2>
     ${tiles(roastTiles, { cols: "4" })}
   </div>
 </section>
 <section class="section section--after-tight" data-ground="paper" aria-labelledby="words-title">
   <div class="col">
-    <h2 class="part__title" id="words-title">Что значат слова на странице кофе</h2>
+    <h2 class="part__title" id="words-title" data-typeset="off">Что значат слова на странице кофе</h2>
     ${tiles(wordTiles, { cols: "3" })}
   </div>
 </section>
 <section class="section section--after-tight" data-ground="paper" aria-labelledby="order-title">
   <div class="col">
-    <h2 class="part__title" id="order-title">Как мы обжариваем и доставляем</h2>
+    <h2 class="part__title" id="order-title" data-typeset="off">Как мы обжариваем и доставляем</h2>
     ${tiles(facts, { cols: "3", cls: "tiles--icons" })}
     <p class="start__more"><a class="btn-arrow" href="${href(ctx, "delivery/")}"><span class="btn-arrow__label">Доставка и оплата</span>${icon("arrow-right")}</a><a class="btn-arrow" href="${href(ctx, "faq/")}"><span class="btn-arrow__label">Вопросы и ответы</span>${icon("arrow-right")}</a></p>
   </div>
