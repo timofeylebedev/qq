@@ -21,76 +21,53 @@
 .tab[aria-current="page"] { color: var(--c-ink); }
 @media (--mouse) { .tab:not([aria-current]):hover { color: var(--c-ink-60); transition-duration: var(--t-in); } }
 
-/* the way to choose (scripts/filters.js; docs/choose.md). Three rows: the cells «Чем варите» (a menu), «Карта вкуса»
-   and «Ещё фильтры» (each opens its panel in place, under the chips); the scenario chips; what is chosen, each with
-   its ×. Cells are the menu cells of components/menu.css, wrapping onto as many rows as the column needs: below M the
-   method takes a whole row and the two panels share the next. */
+/* the way to choose (scripts/filters.js; docs/choose.md). One row of menu cells (components/menu.css), wrapping onto
+   two a row below M, four from M, all eight from L: Сортировка, Цена, Вкус, Приготовление, Страна, Обработка, Моносорт / смесь,
+   Линейка. Under it a row of checkboxes (Под молоко, На каждый день, Необычные, Без кофеина), each with its count, and
+   «Сбросить всё» once anything is chosen. */
 .filters { position: relative; z-index: 20; display: grid; gap: 16px; margin-bottom: var(--section-gap); }
-.filters__row, .filters__more { display: flex; flex-wrap: wrap; align-items: stretch; --cell-min: 10.5rem; }
-.filters__row > .filter[data-filter="method"] { flex: 2 1 16rem; }
-.filters__more { margin-top: -8px; }
-/* an open menu lies over everything below it, the taste map's dots too */
+.filters__row { --cell-min: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.filters__row > .filter { --menu-min: 12rem; }
+@container col (width >= 43rem) { .filters__row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@container col (width >= 58rem) { .filters__row { grid-template-columns: repeat(8, minmax(0, 1fr)); } }
+/* an open menu lies over everything below it */
 .filters .filter[open] { z-index: 8; }
-/* the chosen method's roast and grind, in a line under the cells */
-.filters__why { margin-top: -4px; color: var(--c-ink-70); font-size: var(--type-body); line-height: var(--lh-text); }
-.filters__why[hidden] { display: none; }
-.filters__more[hidden], .filters__map[hidden] { display: none; }
-
-/* a cell that opens a panel: the menu cell's look (a caption over the value, the chevron), a button */
-.filters__open {
-  position: relative; flex: 1 0 var(--cell-min); min-width: 0; margin: 0 -1px -1px 0; border: var(--hair) solid var(--line);
-  display: grid; align-content: center; gap: 2px; padding: 12px calc(16px + 24px) 12px 16px; min-height: var(--control-h);
-  text-align: left; background: var(--g-bg); color: var(--g-fg); transition: background-color var(--t-out) var(--ease-out);
-}
-.filters__open::after {
-  content: ""; position: absolute; right: 16px; top: 50%; width: 8px; height: 8px; margin-top: -6px; opacity: 0.3;
-  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg);
-  transition: transform var(--t-out) var(--ease-out);
-}
-.filters__open[aria-expanded="true"]::after { transform: translateY(4px) rotate(-135deg); }
-.filters__open[data-active] .filter__value::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--c-lavender-ink); margin-right: 6px; vertical-align: middle; }
-.filters__open:focus-visible { outline: none; box-shadow: inset 0 0 0 2px currentColor; }
-@media (--mouse) { .filters__open:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* a count beside an option of a menu (how many it would find with the rest of the choice) */
 .option__n { margin-left: auto; padding-left: 12px; color: var(--g-soft); font-variant-numeric: tabular-nums; }
 .option[data-none] > span:not(.option__n) { color: var(--g-soft); }
 
-/* the scenario chips: pills, one at a time, each with its count; chosen, the pill is ink */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; border: 0; margin: 0; padding: 0; min-width: 0; }
-.chip {
-  position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px;
-  border: var(--hair) solid var(--line); border-radius: 999px; cursor: pointer; font-size: var(--type-body); line-height: var(--lh-compact);
-  transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
+/* «Вкус»: three switches (the site's .seg, three cells: the low side, «все», the high side), each under its name, then
+   the taste groups as the menu's usual options */
+.filters__row > .filter--taste { --menu-min: 20rem; }
+/* below M the column may be narrower than the menu: it opens under its cell across the whole row of cells */
+.filters__row { position: relative; }
+@container col (width < 43rem) {
+  .filters__row > .filter--taste { position: static; }
+  .filters__row > .filter--taste[open] { position: static; }
+  .filters__row > .filter--taste .filter__options { left: 0; top: auto; width: 100%; min-width: 0; border-top: var(--hair) solid var(--line); }
 }
-.chip input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.chip__n { color: var(--c-ink-70); font-variant-numeric: tabular-nums; }
-.chip:has(input:checked) { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
-.chip:has(input:checked) .chip__n { color: var(--c-white-80); }
-html[data-keyed] .chip:has(input:focus-visible) { box-shadow: 0 0 0 2px var(--c-paper), 0 0 0 4px var(--c-ink); }
-@media (--mouse) { .chip:not(:has(input:checked)):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.filter__options--taste { padding-top: 8px; }
+.switch { display: grid; gap: 6px; margin: 0; padding: 4px 16px 12px; border: 0; min-width: 0; }
+.switch__name { padding: 0; font-size: var(--type-small); color: var(--g-soft); }
+.switch .seg { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); }
+.switch .seg label { display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 0 6px; min-width: 0; min-height: 44px; padding: 6px 8px; font-size: var(--type-body); }
+.switch .seg .option__n { margin: 0; padding: 0; }
+.switch .seg label:has(:checked) .option__n { color: inherit; opacity: 0.7; }
+.filter__group { display: grid; margin: 0; padding: 8px 0 0; border: 0; border-top: var(--hair) solid var(--line); min-width: 0; }
 
-/* the taste map's panel: the map, and beside it from M how it works */
-.filters__map { display: grid; gap: 12px var(--gap); margin-top: -8px; }
-.filters__how { color: var(--c-ink-70); font-size: var(--type-body); line-height: var(--lh-text); max-width: 36em; }
-@container col (width >= 43rem) {
-  .filters__map { grid-template-columns: minmax(0, 28rem) minmax(0, 1fr); align-items: start; }
-}
-
-/* what is chosen: a pill each with its ×, and «Сбросить всё» */
-.filters__active { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
-.filters__active[hidden] { display: none; }
-.filters__pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.filters__pill {
-  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px 0 16px; border: var(--hair) solid var(--line);
-  border-radius: 999px; font-size: var(--type-small); line-height: var(--lh-compact); transition: background-color var(--t-out) var(--ease-out);
-}
-.filters__pill span { font-size: var(--type-body); }
-@media (--mouse) { .filters__pill:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
-.filters__reset { text-decoration: underline; text-underline-offset: 0.2em; color: var(--c-ink); min-height: 40px; font-size: var(--type-body); }
+/* the checkboxes under the row: the site's box, its name and its count; any number of them */
+.filters__checks { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 24px; margin: 0; padding: 0; border: 0; min-width: 0; }
+.check { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; font-size: var(--type-body); line-height: var(--lh-compact); }
+.check .box { width: 20px; height: 20px; }
+.check .box::after { scale: 0.8; }
+.check__n { color: var(--c-ink-70); font-variant-numeric: tabular-nums; }
+.check[data-none] > span:not(.check__n) { color: var(--c-ink-70); }
+.filters__reset { margin-left: auto; text-decoration: underline; text-underline-offset: 0.2em; color: var(--c-ink); min-height: 44px; font-size: var(--type-body); }
+.filters__reset[hidden] { display: none; }
 .catalog__soon { padding-block: var(--section-y); font-size: var(--type-body-l); color: var(--c-ink-70); }
 
-/* the heads of a choice's groups in the grid: «Подходят N», «Почти», «Остальные N» */
+/* the heads in the grid: «Похожие» over the near ones; «Точно таких нет» when nothing matches */
 .grid__head { grid-column: 1 / -1; font-size: var(--type-title); line-height: var(--lh-heading); }
 .grid__head[hidden] { display: none; }
 

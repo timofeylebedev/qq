@@ -4,6 +4,23 @@ Session 3 of choosing coffee (24 Nov 2026): the catalogue. The quiz (session 4) 
 from a brewing method to what QQ sells, and the taste map. Research: `docs/choose-research.md`. Every result, listed:
 `docs/choose-output.md` (generated). Checks: `docs/choose-check/`. Decision: `catalog-choose` (design/decisions.json).
 
+## The catalogue now (Tim, 26 Nov)
+
+Tim reshaped the first build (24 Nov, described below) into the catalogue's original row of cells:
+- **The row:** Сортировка · Цена · **Вкус** · **Приготовление** · Страна · Обработка · Моносорт / смесь · Линейка (two a
+  row below M, four from M, eight from L). «Вкус» holds three switches and the seven taste groups; «Приготовление» is
+  the eight methods (below), each setting the roast and grind.
+- **The switches** (`axes` in data/choose.json; «все» is no condition, the middle of an axis is on neither side):
+  Кислотность мягче (acidity ≤ 2, 5) / ярче (≥ 3.5, 7); Плотность легче (density ≤ 2, 6) / плотнее (≥ 4, 7); Характер
+  классичнее (the model's unusual < 0.3, 17) / необычнее (≥ 1, 7).
+- **The checkboxes under the row** (`chips`; any number, each a condition): Под молоко 10, На каждый день 13,
+  Необычные 5 (unusual ≥ 2), Без кофеина 1. «Мягкая кислотность» left: it is the «мягче» switch.
+- **The result:** the matches, then «Похожие» (`rank()`'s near misses, without the words of what they miss), and
+  nothing else; with no match, «Точно таких нет» over «Похожие». A match still carries the method's roast and grind in
+  lavender. Below M the «Вкус» menu opens across the whole row of cells (it is wider than one cell).
+- **Not on the catalogue now:** the taste map (kept for the quiz), the chips with pills, «Ещё фильтры», the applied
+  pills, the method's line under the cells, «Остальные».
+
 ## The parts, and where they live
 
 | Part | File | Who reads it |

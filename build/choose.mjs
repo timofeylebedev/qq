@@ -60,6 +60,8 @@ const levelOf = (c) => CFG.acidity.filter((l) => (l.min == null || c.coded.acidi
 for (const c of coffees) {
   c.methods = Object.fromEntries(CFG.methods.map((m) => [m.id, methodFit(c, m)]));
   c.chips = CFG.chips.filter((k) => meets(c, k.when)).map((k) => k.id);
+  // the «Вкус» cell's switches: which side of each axis this coffee is on ("low", "high" or "" in the middle)
+  c.axes = Object.fromEntries(CFG.axes.list.map((a) => [a.id, meets(c, a.low.when) ? "low" : meets(c, a.high.when) ? "high" : ""]));
   const lv = levelOf(c);
   if (lv.length !== 1) fail(`${c.slug}: acidity ${c.coded.acidity} is in ${lv.length} levels of data/choose.json acidity (must be one)`);
   c.acid = lv[0];
@@ -115,7 +117,8 @@ coffees.forEach((c, i) => { c.i = i; delete c.flavour; });
 // ── every option must find coffees ───────────────────────────────────────────────────────────────────────────────
 const live = coffees.filter((c) => !c.out);
 for (const m of CFG.methods) if (live.filter((c) => c.methods[m.id].ok).length < 3) fail(`method ${m.id} fits fewer than three coffees in stock`);
-for (const k of CFG.chips) if (live.filter((c) => c.chips.includes(k.id)).length < 3) fail(`chip ${k.id} finds fewer than three coffees in stock`);
+for (const k of CFG.chips) if (!live.some((c) => c.chips.includes(k.id))) fail(`chip ${k.id} finds no coffee in stock`);
+for (const a of CFG.axes.list) for (const side of ["low", "high"]) if (live.filter((c) => c.axes[a.id] === side).length < 3) fail(`«${a[side].ru}» finds fewer than three coffees in stock`);
 for (const g of CFG.flavours.groups) if (live.filter((c) => c.tastes.includes(g.id)).length < 2) fail(`taste group ${g.id} finds fewer than two coffees in stock`);
 for (const c of coffees) if (!c.tastes.length && products.find((p) => p.slug === c.slug).descriptors.length) fail(`${c.slug} has descriptors but is in no taste group (data/choose.json flavours.share)`);
 
@@ -123,6 +126,7 @@ const out = {
   generated: "build/choose.mjs from data/choose.json, src/data/products.json, src/data/taste.json; do not edit",
   methods: CFG.methods.map(({ survey, ...m }) => m),
   chips: CFG.chips.map(({ id, ru, why }) => ({ id, ru, why })),
+  axes: CFG.axes.list,
   acidity: CFG.acidity.map(({ id, ru, hint }) => ({ id, ru, hint })),
   tastes: CFG.flavours.groups.map(({ id, ru }) => ({ id, ru })),
   map,
@@ -149,7 +153,9 @@ function report(o) {
   }
   L.push("", "## Chips", "", "| Chip | Rule | Finds | Coffees |", "|---|---|---|---|");
   for (const k of CFG.chips) { const yes = o.coffees.filter((c) => c.chips.includes(k.id)); L.push(`| ${k.ru} | \`${JSON.stringify(k.when)}\` | ${yes.length} | ${list(yes)} |`); }
-  L.push("", "## Acidity", "", "| Level | Finds | Coffees |", "|---|---|---|");
+  L.push("", "## The «Вкус» switches", "", "| Switch | Rule | Finds | Coffees |", "|---|---|---|---|");
+  for (const a of o.axes) for (const side of ["low", "high"]) { const yes = o.coffees.filter((c) => c.axes[a.id] === side); L.push(`| ${a.ru}: ${a[side].ru} | \`${JSON.stringify(a[side].when)}\` | ${yes.length} | ${list(yes)} |`); }
+  L.push("", "## Acidity levels (for the quiz)", "", "| Level | Finds | Coffees |", "|---|---|---|");
   for (const a of o.acidity) { const yes = o.coffees.filter((c) => c.acid === a.id); L.push(`| ${a.ru} (${a.hint}) | ${yes.length} | ${list(yes)} |`); }
   L.push("", `## Taste groups (families ≥ ${CFG.flavours.share} of the profile)`, "", "| Group | Finds | Coffees |", "|---|---|---|");
   for (const g of o.tastes) { const yes = o.coffees.filter((c) => c.tastes.includes(g.id)); L.push(`| ${g.ru} | ${yes.length} | ${list(yes)} |`); }

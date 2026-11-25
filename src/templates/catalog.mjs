@@ -1,14 +1,13 @@
 // The catalog: the roast and shipping line, the category tabs, the way to choose, the grid of every coffee.
-// Choosing (session 3 of choosing coffee; docs/choose.md): «Чем варите» (a brewing method sets the roast and grind QQ
-// sells for it), the scenario chips, «Карта вкуса» (the taste map: a region is a choice, a choice lights its coffees)
-// and «Ещё фильтры» (acidity, taste, type, line, country, processing, price, sort). Nothing is ever hidden: the
-// matches come first, then «Почти» (the nearest, each saying what it misses), then the rest (scripts/filters.js, over
-// src/data/choose.json through src/scripts/choose.js).
+// Choosing (session 3 of choosing coffee; docs/choose.md): one row of menu cells (Сортировка, Цена, Вкус — three
+// switches «мягче / все / ярче»… and the taste groups —, Приготовление — a brewing method sets the roast and grind QQ
+// sells for it —, Страна, Обработка, Моносорт / смесь, Линейка) and under it a row of checkboxes (Под молоко, На каждый
+// день, Необычные, Без кофеина). A choice shows its matches, then «Похожие» (the nearest that miss a little); never an
+// empty page (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
 import { esc, icon, read } from "./util.mjs";
 import { menu } from "./blocks.mjs";
-import { tasteMap } from "./map.mjs";
 
 const choice = (name, caption, type, options, checked = null, summary = null) => menu(name, caption, type, options, { checked, summary });
 
@@ -31,27 +30,32 @@ export function render(ctx) {
   const by = new Map(C.coffees.map((c) => [c.slug, c]));
   const of = (p) => by.get(p.slug);
 
-  // the first level: how you brew (a menu: eight plain names, each with how many it fits), what you want (chips)
-  const method = choice("method", "Чем варите", "radio", [["", "Любым способом", "", String(live.length)], ...C.methods.map((m) => [m.id, m.ru, "", String(n((c) => c.methods[m.id].ok))])], "", "Любым способом");
-  const chips = C.chips.map((k) => `<label class="chip"><input type="checkbox" name="chip" value="${k.id}"><span>${esc(k.ru)}</span><span class="chip__n" data-n>${n((c) => c.chips.includes(k.id))}</span></label>`).join("");
-  // one tap away: the rest (multi-choice within a cell, each option with its count)
-  const more = [
+  const cnt = (fn) => String(n(fn));
+  // Вкус: three switches (a radio each: the low side, all, the high side) and the taste groups (checkboxes)
+  const axes = C.axes.map((a) => `<fieldset class="switch"><legend class="switch__name">${esc(a.ru)}</legend><div class="seg">${[["low", a.low.ru], ["", "все"], ["high", a.high.ru]].map(([v, t]) =>
+    `<label class="switch__opt"><input type="radio" name="${a.id}" value="${v}"${v ? "" : " checked"}><span>${esc(t)}</span>${v ? `<span class="option__n" data-n>${cnt((c) => c.axes[a.id] === v)}</span>` : ""}</label>`).join("")}</div></fieldset>`).join("");
+  const tastes = C.tastes.map((t) => `<label class="option"><input class="box" type="checkbox" name="taste" value="${t.id}"><span>${esc(t.ru)}</span><span class="option__n" data-n>${cnt((c) => c.tastes.includes(t.id))}</span></label>`).join("");
+  const taste = `<details class="filter filter--taste" data-filter="taste">
+        <summary class="filter__summary"><span class="filter__caption">Вкус</span><span class="filter__value" data-filter-value data-all="Любой">Любой</span></summary>
+        <div class="filter__options filter__options--taste">${axes}<fieldset class="filter__group"><legend class="sr">Во вкусе</legend>${tastes}</fieldset></div>
+      </details>`;
+  const cells = [
     choice("sort", "Сортировка", "radio", [["popular", "Популярные"], ["new", "Новинки"], ["soft", "Мягче"], ["bright", "Ярче"], ["expensive", "Дороже"], ["cheap", "Дешевле"]], "popular"),
-    choice("acid", "Кислотность", "checkbox", C.acidity.map((a) => [a.id, `${a.ru} · ${a.hint}`, "", String(n((c) => c.acid === a.id))]), null, "Любая"),
-    choice("taste", "Вкус", "checkbox", C.tastes.map((t) => [t.id, t.ru, "", String(n((c) => c.tastes.includes(t.id)))]), null, "Любой"),
-    choice("type", "Тип", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]].map(([v, t]) => [v, t, "", String(n((c) => c.type === v))]), null, "Моносорт, смесь"),
-    choice("caffeine", "Кофеин", "checkbox", [["caf", "С кофеином"], ["decaf", "Без кофеина"]].map(([v, t]) => [v, t, "", String(n((c) => (v === "decaf") === c.decaf))]), null, "С кофеином, без"),
-    choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]].map(([v, t]) => [v, t, "", String(n((c) => c.line === v))]), null, "Classic, Special"),
+    range(Math.min(...prices), Math.max(...prices)),
+    taste,
+    choice("method", "Приготовление", "radio", [["", "Любое", "", String(live.length)], ...C.methods.map((m) => [m.id, m.ru, "", cnt((c) => c.methods[m.id].ok)])], "", "Любое"),
     choice("country", "Страна", "checkbox", countries.map((x) => [x, x, "", String(products.filter((p) => p.countries.includes(x) && !of(p).out).length)]), null, plural(countries.length, "страна", "страны", "стран")),
     choice("process", "Обработка", "checkbox", processes.map((x) => [x, x, "", String(products.filter((p) => p.processes.includes(x) && !of(p).out).length)]), null, plural(processes.length, "тип", "типа", "типов")),
-    range(Math.min(...prices), Math.max(...prices))
+    choice("type", "Моносорт / смесь", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]].map(([v, t]) => [v, t, "", cnt((c) => c.type === v)]), null, "Моносорт, смесь"),
+    choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]].map(([v, t]) => [v, t, "", cnt((c) => c.line === v)]), null, "Classic, Special")
   ].join("\n        ");
-  const regions = C.map.regions.map((r) => `<input type="checkbox" name="region" value="${r.id}" hidden>`).join("");
+  // under the row: the scenarios, as checkboxes (any number; each is a condition), each with its count
+  const checks = C.chips.map((k) => `<label class="check"><input class="box" type="checkbox" name="chip" value="${k.id}"><span>${esc(k.ru)}</span><span class="check__n" data-n>${cnt((c) => c.chips.includes(k.id))}</span></label>`).join("");
   // what the script reads: each coffee's choices, the methods, the chips' rules and words, the taste distances
   const json = JSON.stringify({
-    methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })),
-    acidity: C.acidity, tastes: C.tastes, regions: C.map.regions,
-    coffees: C.coffees.map(({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region }) => ({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, acid, tastes, region, ...pick(products.find((p) => p.slug === slug)) })),
+    methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })), axes: C.axes,
+    tastes: C.tastes,
+    coffees: C.coffees.map(({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, axes, tastes }) => ({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, axes, tastes, ...pick(products.find((p) => p.slug === slug)) })),
     dist: C.dist
   }).replace(/</g, "\\u003c");
 
@@ -65,29 +69,17 @@ export function render(ctx) {
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
     <form class="filters" data-filters aria-label="Выбор кофе">
       <div class="filters__row">
-        ${method}
-        <button class="filters__open" type="button" aria-expanded="false" aria-controls="catalog-map" data-open="map"><span class="filter__caption">Карта вкуса</span><span class="filter__value">${live.length} кофе</span></button>
-        <button class="filters__open" type="button" aria-expanded="false" aria-controls="catalog-more" data-open="more"><span class="filter__caption">Ещё фильтры</span><span class="filter__value" data-more-value>8 фильтров</span></button>
+        ${cells}
       </div>
-      <p class="filters__why" data-why hidden></p>
-      <fieldset class="chips"><legend class="sr">Что хочется (один на выбор)</legend>${chips}</fieldset>
-      <div class="filters__more" id="catalog-more" hidden>
-        ${more}
-      </div>
-      <div class="filters__map" id="catalog-map" hidden>
-        ${tasteMap(ctx, { id: "catalog-tmap", label: "Карта вкуса" })}${regions}
-        <p class="filters__how">Нажмите на точку, чтобы увидеть кофе, или на область, чтобы выбрать её. Выбор выше подсвечивает свои кофе на карте.</p>
-      </div>
-      <div class="filters__active" data-active hidden><ul class="filters__pills" data-pills></ul><button class="filters__reset" type="reset" data-reset>Сбросить всё</button></div>
+      <fieldset class="filters__checks"><legend class="sr">Что хочется</legend>${checks}<button class="filters__reset" type="reset" data-reset hidden>Сбросить всё</button></fieldset>
       <p class="sr" role="status" data-status></p>
       <button class="sr" type="submit" tabindex="-1">Показать</button>
     </form>
     <script type="application/json" id="choose-data">${json}</script>
     <div class="grid grid--catalog" data-grid data-rise>
-      <h2 class="grid__head" data-head="exact" hidden>Подходят</h2>
+      <h2 class="grid__head" data-head="exact" hidden>Точно таких нет</h2>
       ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true, choose: true })).join("\n      ")}
-      <h2 class="grid__head" data-head="near" hidden>Почти</h2>
-      <h2 class="grid__head" data-head="rest" hidden>Остальные</h2>
+      <h2 class="grid__head" data-head="near" hidden>Похожие</h2>
     </div>
     <p class="catalog__soon" data-soon hidden>Скоро здесь <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
   </div>
