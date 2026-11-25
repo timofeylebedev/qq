@@ -160,4 +160,6 @@ the spread, so «Ваш подбор» becomes sharper with each answer. «Не 
 - **Q-Punch is in the «Ликёр и специи» taste group** through «сладкие специи» (data/choose.json, session 3), which the
   survey check questioned. The quiz names notes, not groups, so it doesn't show.
 - **No decaf answer.** There is one decaf; the result names it under the cards. Two survey respondents liked only decaf.
+- **On a folded phone (280px)** the map's dots are 21px, under the 24px target, as in the catalogue (`docs/choose.md`); from
+  320px they are 24px or more. The three coffees are also cards, so nothing depends on tapping a dot.
 - **The quiz can't know dislikes** («перу точно не нравится»). Feedback after delivery and the catalogue handle those.
