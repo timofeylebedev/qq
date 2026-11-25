@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-24T12:32:11.741Z",
- "commit": "05d9fd955d4b24bf6d975676eec9803786ca6b5f",
+ "generated": "2026-11-25T22:58:26.669Z",
+ "commit": "c47c2ff40786d7fce960b325671ca3c6b75e078c",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -119,13 +119,13 @@
    "page": "",
    "selector": "main > section:nth-of-type(3)",
    "files": {
-    "src/styles/components/card.css": "58aa27c8226c5c319f5624f7517eaffa39ca9f34",
+    "src/styles/components/card.css": "e45ba8ede3f6f0522952e724d372ee0b333eb03c",
     "src/scripts/slider.js": "6969b2ac483abf3e8118cbfd0e1647c4e336c021",
     "src/scripts/packs.js": "3365015f5d05dce20f644ddd944a7cce41b26fb9",
-    "src/templates/components.mjs": "98ecc766361a7c8b21c1543e3c146dc3f91d7158"
+    "src/templates/components.mjs": "c49974b111c966472a31486dccf77617c7d571de"
    },
-   "taken": "2026-11-24T02:01:44.089Z",
-   "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
+   "taken": "2026-11-25T22:58:34.140Z",
+   "commit": "c47c2ff40786d7fce960b325671ca3c6b75e078c",
    "sizes": [
     {
      "w": 390,
@@ -135,7 +135,7 @@
       "w": 390,
       "h": 643
      },
-     "bytes": 69930
+     "bytes": 66290
     },
     {
      "w": 1440,
@@ -143,9 +143,9 @@
      "file": "recs/1440x900.jpg",
      "css": {
       "w": 1440,
-      "h": 829
+      "h": 807
      },
-     "bytes": 56556
+     "bytes": 51809
     }
    ]
   },
