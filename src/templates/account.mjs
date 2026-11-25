@@ -155,6 +155,10 @@ export function profile(ctx, { beans = false } = {}) {
       <div class="part__head"><h2 class="part__title" id="buys-title">Покупки</h2><a class="iconlink" href="${href(ctx, "account/purchases/")}"><span>Все покупки</span>${icon("arrow-right")}</a></div>
       <div class="grid grid--quarters">${acc.purchases.slice(0, 4).map((x) => purchaseCard(ctx, x)).join("\n      ")}</div>
     </section>
+    <section class="part" aria-labelledby="quiztaste-title" data-taste-part hidden>
+      <div class="part__head"><h2 class="part__title" id="quiztaste-title">Ваш подбор</h2><a class="iconlink" href="${href(ctx, "start/")}" data-taste-again><span>Открыть подбор</span>${icon("arrow-right")}</a></div>
+      <ul class="taste-part" data-taste-list></ul>
+    </section>
     <section class="part" aria-labelledby="foryou-title">
       <h2 class="part__title" id="foryou-title">Подобрали для вас</h2>
       <div class="grid grid--thirds">${forYou(ctx.products, acc).map((q) => card({ ...ctx, page: "foryou" }, q, { size: "third" })).join("\n      ")}</div>

@@ -30,22 +30,30 @@ export function initTasteMap(el, { onRegion = () => {}, onDot = () => {}, info =
   regs.forEach((r) => r.addEventListener("click", () => onRegion(r.dataset.region, r.getAttribute("aria-pressed") !== "true")));
   dots.forEach((d) => d.addEventListener("click", () => { api.show(shown === d.dataset.slug ? null : d.dataset.slug); onDot(d.dataset.slug); }));
 
-  // ── names beside lit dots, where they fit: right, left, above, below; none over another dot or name ──
+  // ── names beside lit dots, where they fit: right, left, above, below, then the four corners; none over another dot
+  // (lit or not) or name; with no such place, over a small unlit dot; with none at all it is left out ──
   function names() {
     labels.textContent = "";
     if (!lit || lit.size > LABELS_UPTO || !lit.size) return;
     const B = box.getBoundingClientRect(), taken = [];
     const dotRects = dots.map((d) => d.getBoundingClientRect());
+    let strict = true;
     const clash = (r) => r.left < B.left + 2 || r.right > B.right - 2 || r.top < B.top + 2 || r.bottom > B.bottom - 2 ||
       taken.some((t) => !(r.right <= t.left || r.left >= t.right || r.bottom <= t.top || r.top >= t.bottom)) ||
-      dotRects.some((t, i) => lit.has(dots[i].dataset.slug) && !(r.right <= t.left || r.left >= t.right || r.bottom <= t.top || r.top >= t.bottom));
+      dotRects.some((t, i) => dots[i] !== own && (strict || lit.has(dots[i].dataset.slug)) && !(r.right <= t.left || r.left >= t.right || r.bottom <= t.top || r.top >= t.bottom));
+    let own = null;
     for (const d of dots) {
       if (!lit.has(d.dataset.slug)) continue;
+      own = d;
       const s = document.createElement("span");
       s.className = "tmap__label"; s.textContent = d.querySelector(".sr").textContent; labels.append(s);
       const w = s.offsetWidth, h = s.offsetHeight, r = d.getBoundingClientRect(), g = 4;
-      const spots = [[r.right + g, r.top + r.height / 2 - h / 2], [r.left - g - w, r.top + r.height / 2 - h / 2], [r.left + r.width / 2 - w / 2, r.top - g - h], [r.left + r.width / 2 - w / 2, r.bottom + g]];
-      const at = spots.map(([x, y]) => ({ left: x, top: y, right: x + w, bottom: y + h })).find((q) => !clash(q));
+      const spots = [[r.right + g, r.top + r.height / 2 - h / 2], [r.left - g - w, r.top + r.height / 2 - h / 2], [r.left + r.width / 2 - w / 2, r.top - g - h], [r.left + r.width / 2 - w / 2, r.bottom + g],
+        [r.right, r.top - h], [r.right, r.bottom], [r.left - w, r.top - h], [r.left - w, r.bottom]];
+      const boxes = spots.map(([x, y]) => ({ left: x, top: y, right: x + w, bottom: y + h }));
+      strict = true; let at = boxes.find((q) => !clash(q));
+      strict = false; at ||= boxes.find((q) => !clash(q));   // no free place: over a small unlit dot rather than no name
+      strict = true;
       if (!at) { s.remove(); continue; }
       taken.push(at);
       s.style.left = `${at.left - B.left}px`; s.style.top = `${at.top - B.top}px`;

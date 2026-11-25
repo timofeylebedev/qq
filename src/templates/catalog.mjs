@@ -6,7 +6,7 @@
 // empty page (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
-import { esc, icon, read } from "./util.mjs";
+import { esc, icon, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
 
 const choice = (name, caption, type, options, checked = null, summary = null) => menu(name, caption, type, options, { checked, summary });
@@ -67,6 +67,7 @@ export function render(ctx) {
       <li>${icon("truck")}<span data-ship-date>Передадим в доставку на следующий рабочий день после обжарки</span></li>
     </ul>
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
+    <p class="catalog__quiz" data-quiz-entry><span data-quiz-entry-text>Выбираете впервые?</span> <a class="link" href="${href(ctx, "start/")}" data-quiz-entry-link>Выбрать кофе за минуту</a></p>
     <form class="filters" data-filters aria-label="Выбор кофе">
       <div class="filters__row">
         ${cells}

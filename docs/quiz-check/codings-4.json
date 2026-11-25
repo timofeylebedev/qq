@@ -1,0 +1,402 @@
+[
+ {
+  "id": 82,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "Дрип; prefer «Пуровер, чистый вкус»",
+   "milk": "add «Ничего»",
+   "now": "EK43; others «На равне с хорошими обжарщиками»; «Постоянно пробую новое»",
+   "taste": "roast Средняя; Фруктовые, Шоколадные, Ягодные; Руанда"
+  },
+  "unsure": "taste caramel vs bright (fruit+berry but medium roast)"
+ },
+ {
+  "id": 83,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«через v60 или капельным методом»",
+   "milk": "Молоко, Сироп; «для добавления молока (когда хочется)»",
+   "now": "«камеру обскура, мануфактуру кофе и submarine»",
+   "taste": "Средняя, Темная; Фруктовые, Цветочные, Пряные, Ягодные; «сорта из Африки»"
+  },
+  "unsure": "milk some vs yes (adds milk 'когда хочется'); taste caramel vs bright (fruity but medium/dark roast)"
+ },
+ {
+  "id": 84,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«Электрическая турка»",
+   "milk": "add «Нет»",
+   "now": "buys online only, light/medium roast; tried one other roaster «не понравилось качество»",
+   "taste": "Светлая, Средняя; Фруктовые, Ореховые, Ягодные; «Бразилия»"
+  },
+  "unsure": "now is a guess: names no other roaster (special by light roast; shop possible); taste caramel vs choc"
+ },
+ {
+  "id": 85,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "«v60»",
+   "milk": "«нет»",
+   "now": "specialty shop + café, light roast, «Постоянно пробую новое»",
+   "taste": "Светлая; Фруктовые, Цветочные, Ягодные"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 86,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«кофемашина, зерно»; no grinder",
+   "milk": "Молоко",
+   "now": "«theweldercatherine»; «не беру кофе, который не пробовала в кофейнях»",
+   "taste": "Светлая, Средняя, Темная; Фруктовые, Шоколадные; «эфиопия Оромия, мой фаворит»"
+  },
+  "unsure": "method auto is a guess (кофемашина without type, no separate grinder); now special vs cafe"
+ },
+ {
+  "id": 87,
+  "answers": {
+   "method": "turka",
+   "milk": "some",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "«В будни турку из-за быстроты... Воронку за вкус»",
+   "milk": "«Молоко, Либо чисто черный»",
+   "now": "«Балтик ростерс, Танзанию Hq..., стрелку»",
+   "taste": "Светлая, Средняя; Цветочные, Пряные, Ягодные; «фильтр Кения, Колумбия и Руанда»"
+  },
+  "unsure": "method turka (used most, weekdays) vs pourover (preferred for taste)"
+ },
+ {
+  "id": 88,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "prefer «Кофемашина»; buys ground, no grinder",
+   "milk": "Молоко",
+   "now": "«Tasty узнаваемый и привычный»",
+   "taste": "Средняя; Шоколадные, Ореховые"
+  },
+  "unsure": "method auto is a guess (кофемашина without type, ground coffee could mean a рожковая); now special only via Tasty"
+ },
+ {
+  "id": 89,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«Гейзерная кофеварка»; «эспрессо машины дома еще нет»",
+   "milk": "Молоко",
+   "now": "specialty shop; others «пока нет значительной разницы между обжарщиками»",
+   "taste": "Средняя, Темная; Фруктовые, Ягодные"
+  },
+  "unsure": "now special vs shop (newcomer, no roaster named); taste caramel vs bright"
+ },
+ {
+  "id": 90,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "prefer «V60»",
+   "milk": "«Нет»",
+   "now": "«заказывал у всех по очереди»; «знаю все необходимые аспекты»",
+   "taste": "Светлая; Фруктовые, Цветочные, Ягодные"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 91,
+  "answers": {
+   "method": "moka",
+   "milk": "some",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«Сейчас гейзерную кофеварку»",
+   "milk": "«плотный кофе бывает пью с малым количеством сливок»; «Зависит»",
+   "now": "«заказываю у разных, постоянно, из любопытства»",
+   "taste": "Средняя, Темная; Фруктовые, Пряные, Цитрусовые; Робуста, Смесь; «Колумбию разную»"
+  },
+  "unsure": "taste caramel vs choc (medium/dark, robusta, but fruity/citrus notes)"
+ },
+ {
+  "id": 92,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "prefer «Фильтр - достаточно быстро, сразу большая порция» (listed apart from воронка)",
+   "milk": "«Без никто»",
+   "now": "«Заказываю Tasty, покупаю Verle»",
+   "taste": "Средняя; Фруктовые, Цветочные, Ягодные; «колумбию в анаэробной обработке»; wants the mandarin infused"
+  },
+  "unsure": "method drip vs pourover («Фильтр» may mean a batch brewer); taste wild vs bright"
+ },
+ {
+  "id": 93,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "prefer «Дрип пакет- раскрывается ароматика» (moka second)",
+   "milk": "Молоко, Специи",
+   "now": "«Botanica, Bernin, Hq coffee»",
+   "taste": "Светлая, Средняя; Фруктовые, Цветочные; «Инфьюзы, редкие сорта»"
+  },
+  "unsure": "method pourover vs moka; taste wild vs bright"
+ },
+ {
+  "id": 94,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "prefer «Дрип. Просто удобнее»",
+   "milk": "«Нет»",
+   "now": "where «Супермаркет, Онлайн»; others «Не заказываю»; sorts Робуста",
+   "taste": "Средняя; Фруктовые, Ореховые, Ягодные; «колумбия»"
+  },
+  "unsure": "now shop vs special; taste caramel vs choc"
+ },
+ {
+  "id": 95,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "«Дома - дрип»",
+   "milk": "«Нет, редко беру флэт уайт или латте»",
+   "now": "«В кофейне - фильтр, колд брю, эспрессо»",
+   "taste": "Средняя; Шоколадные, Пряные, Ягодные; «нравится сочетание горечи и кислоты»; «Колумбия катурра рамирес (нравится фермент)»"
+  },
+  "unsure": "milk some vs no (no at home, rare latte in cafés: coded some by the rule, may well answer no); now special vs cafe; taste wild vs caramel"
+ },
+ {
+  "id": 96,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«воронку, потому что нравится процесс»",
+   "milk": "«Нет»",
+   "now": "«каждый раз покупаю у разных»",
+   "taste": "Средняя; Фруктовые, Шоколадные, Ореховые; «Бразилию и Кению»"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 97,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«Кофе в турке»",
+   "milk": "Молоко, Сахар",
+   "now": "specialty shop; other roasters «Да»",
+   "taste": "Средняя; all six note groups; «сбалансированный вкус»"
+  },
+  "unsure": "now special is weak (only «Да», 2 purchases)"
+ },
+ {
+  "id": 98,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "cafe",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«В турке»",
+   "milk": "Молоко",
+   "now": "prefer «Из кофе машины профессиональной в кафе»; buys ground at a specialty shop out of habit",
+   "taste": "Средняя; Фруктовые, Цветочные, Ягодные"
+  },
+  "unsure": "now cafe vs special/shop; taste caramel vs bright"
+ },
+ {
+  "id": 99,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "«Капельная кофеварка дома»",
+   "milk": "«нет»",
+   "now": "«Да, Тейсти»; Светлая, омни",
+   "taste": "«Цитрусовые, фрутковые, алкогольные»; «интересные обработки»"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 100,
+  "answers": {
+   "method": "espresso",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«Профессиональная эспрессо-машина»; «Эспрессо (первая чашка дня)»",
+   "milk": "«Нет.»",
+   "now": "«заказывает Tasty»",
+   "taste": "«Темная.»; «Классическая Бразилия и яркие ферментированные лоты — по настроению»"
+  },
+  "unsure": "taste choc (dark, classic Brazil) vs wild (bright fermented lots, the very thing he values at QQ)"
+ },
+ {
+  "id": 101,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«Простая рожковая кофемашина + отдельная кофемолка»",
+   "milk": "«Кофе с молоком (капучино/вайт)»",
+   "now": "«Сварщица Екатерина — не зацепила»; Tasty",
+   "taste": "Средняя; «Ореховые, шоколадные, фруктовые»; «Любит сладкий вкус, яркие ноты при умеренной кислотности»; favourite Q-Optimistic"
+  },
+  "unsure": "taste caramel vs choc (favourite is the no-acidity Q-Optimistic); now special vs QQ-only"
+ },
+ {
+  "id": 102,
+  "answers": {
+   "method": "press",
+   "milk": "yes",
+   "now": "instant",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«На работе — заваривает молотый “эспрессо” в кружке... в термосе настаиванием»",
+   "milk": "«Специи, сливки»",
+   "now": "«Дома — капсульная кофемашина»",
+   "taste": "«Предпочитает больше сладость; кислый кофе не любит»; Средняя"
+  },
+  "unsure": "method is a guess: capsules at home are not a quiz option, mug/thermos steeping coded as press (none possible)"
+ },
+ {
+  "id": 103,
+  "answers": {
+   "method": "drip",
+   "milk": "yes",
+   "now": "special",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«капельный кофе (капельная кофеварка)»",
+   "milk": "«Сливки»",
+   "now": "«если нет желанного лота в QQ, ищет у тейсти»",
+   "taste": "«Средняя (не светлая и не слишком тёмная)»; Суматра; «Эфиопия (мягкая, не кислотная)»; «ограничений по кислотности (особенно для жены)»"
+  },
+  "unsure": "taste choc vs caramel (likes moderate fruity/wine notes in naturals)"
+ },
+ {
+  "id": 104,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "«дома (90%) - турка»",
+   "milk": "«Нет»",
+   "now": "«Больше интересных лотов, заказывает ещё у Тейсти»",
+   "taste": "«любит кислотные дескрипторы. фруктовые, цветочные»; Средняя"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 105,
+  "answers": {
+   "method": "aeropress",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "«нравится аэропресс»; «если один, то аэропресс»",
+   "milk": "«Нет»",
+   "now": "«Сварщица..., Субмарина»",
+   "taste": "«Светлая, натуральной обработки»; Фруктовые, ягодные; «Кения, Колумбия»"
+  },
+  "unsure": "method aeropress vs pourover (pourover for several cups)"
+ },
+ {
+  "id": 106,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "«Воронка - дело привычки»",
+   "milk": "«Нет»",
+   "now": "«нас, HQ, Камера Обскура, Тейсти..., иногда Нефть»",
+   "taste": "Светлая, средняя; Фруктовые; «Колумбия - интересный лот с хмелем»"
+  },
+  "unsure": "taste wild vs bright (only «Фруктовые», but the liked lot is the hop co-ferment)"
+ }
+]

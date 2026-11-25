@@ -1,0 +1,457 @@
+{
+  "$about": [
+    "The quiz «Выбрать кофе за минуту» (session 4 of choosing coffee): its four questions, what each answer does to the visitor's place on the taste map, and the words of the result. build/quiz.mjs reads it with src/data/choose.json (the brewing methods and what QQ sells for each, the map) and src/data/taste.json (positions, flavour profiles, the anchors, the coffee page's moves), and writes src/data/quiz.json for the page; src/scripts/quiz.js is the arithmetic, the same in the build and in the browser. How it works: docs/quiz.md. Every result of every answer, listed: docs/quiz-output.md.",
+    "A visitor is a region on the taste model's visible axes (bright = acidity, body = density, unusual = ferment and processing), centre and spread, as in src/scripts/taste.js. `now` sets where it starts: one of the taste model's anchors (taste.json anchors.drinks, by name), widened, or the model's START. `taste` moves the centre towards its own point by `weight` and narrows the spread; `milk` shifts it and prefers QQ's milk-tagged coffees. «Не знаю» changes nothing and turns the result into three different coffees.",
+    "Never «Оценка Q», never a decaf for a visitor who did not ask for one, never a coffee QQ has run out of (data/site.json shop.unavailable), never a roast the method does not take: build/quiz.mjs fails if any result breaks one of these."
+  ],
+  "title": "Выбрать кофе за минуту",
+  "lead": "Четыре вопроса — и три кофе, с которых стоит начать, с объяснением, почему они.",
+  "steps": [
+    {
+      "id": "method",
+      "ask": "Чем вы варите кофе дома?",
+      "hint": "Если несколькими способами — тем, которым чаще.",
+      "methods": true,
+      "extra": [
+        {
+          "id": "none",
+          "ru": "Пока не знаю",
+          "hint": "или выбираю в подарок"
+        }
+      ]
+    },
+    {
+      "id": "milk",
+      "ask": "Пьёте с молоком?",
+      "options": [
+        {
+          "id": "yes",
+          "ru": "Обычно с молоком",
+          "hint": "капучино, латте, раф"
+        },
+        {
+          "id": "some",
+          "ru": "Когда как"
+        },
+        {
+          "id": "no",
+          "ru": "Без молока",
+          "hint": "эспрессо, американо, чёрный"
+        }
+      ]
+    },
+    {
+      "id": "now",
+      "ask": "Какой кофе вы пьёте сейчас?",
+      "hint": "Чтобы понять, с чем сравнивать.",
+      "options": [
+        {
+          "id": "shop",
+          "ru": "Из магазина или маркетплейса",
+          "hint": "пачка зерна или молотого, которую берёте по привычке"
+        },
+        {
+          "id": "cafe",
+          "ru": "В кофейнях",
+          "hint": "капучино, флэт уайт, эспрессо"
+        },
+        {
+          "id": "instant",
+          "ru": "Растворимый или капсулы"
+        },
+        {
+          "id": "special",
+          "ru": "Спешелти других обжарщиков",
+          "hint": "светлая обжарка, фильтр, моносорта"
+        },
+        {
+          "id": "none",
+          "ru": "Почти не пью",
+          "hint": "только начинаю"
+        }
+      ]
+    },
+    {
+      "id": "taste",
+      "ask": "Что вам ближе на вкус?",
+      "hint": "Как в шоколаде или фруктах, а не как добавка.",
+      "options": [
+        {
+          "id": "choc",
+          "ru": "Шоколад и орехи",
+          "hint": "без кислинки",
+          "families": [
+            "cocoa",
+            "nutty"
+          ]
+        },
+        {
+          "id": "caramel",
+          "ru": "Карамель и фрукты",
+          "hint": "с лёгкой кислинкой",
+          "families": [
+            "caramel",
+            "orchard",
+            "dried"
+          ]
+        },
+        {
+          "id": "bright",
+          "ru": "Ягоды и цитрусы",
+          "hint": "яркая, сочная кислинка",
+          "families": [
+            "berry",
+            "citrus"
+          ]
+        },
+        {
+          "id": "wild",
+          "ru": "Что-то необычное",
+          "hint": "как вино, тропические фрукты",
+          "families": [
+            "fermented",
+            "tropical"
+          ]
+        },
+        {
+          "id": "dunno",
+          "ru": "Не знаю",
+          "hint": "подберём три разных — попробуете и поймёте"
+        }
+      ]
+    }
+  ],
+  "b2b": {
+    "text": "Для кофейни или офиса",
+    "hint": "подберём с менеджером и на дегустации",
+    "href": "business/"
+  },
+  "region": {
+    "$about": "`now`: the anchor (taste.json anchors.drinks by name; `milkAnchor` when the visitor drinks with milk) and the spread a region starts with (what you drink now is not what you would pick, so it is wider than the anchor). `taste`: the point it pulls towards (`bright`, `unusual`, each with its own spread) by `weight`, and the flavour profile it asks for. `milk`: a shift of the centre and the cost of a coffee QQ does not tag for milk. `method`: how the brewing method thickens what the visitor expects (a moka pot, a turka and a machine are chosen for a fuller cup: survey respondents say «насыщенный», «крепость»). `special` takes the espresso anchor for a method QQ roasts for espresso or that takes any roast, the filter anchor for a filter method.",
+    "now": {
+      "shop": {
+        "anchor": "пачка из супермаркета",
+        "spread": {
+          "bright": 1.2,
+          "body": 1.0,
+          "unusual": 0.8
+        }
+      },
+      "instant": {
+        "anchor": "пачка из супермаркета",
+        "spread": {
+          "bright": 1.4,
+          "body": 1.2,
+          "unusual": 0.8
+        }
+      },
+      "cafe": {
+        "anchor": "эспрессо",
+        "milkAnchor": "капучино, латте",
+        "spread": {
+          "bright": 1.2,
+          "body": 1.0,
+          "unusual": 1.0
+        }
+      },
+      "special": {
+        "anchor": "фильтр, воронка",
+        "spread": {
+          "bright": 1.1,
+          "body": 1.1,
+          "unusual": 1.3
+        },
+        "methodAnchor": {
+          "any": "эспрессо",
+          "Эспрессо": "эспрессо",
+          "Фильтр": "фильтр, воронка"
+        }
+      },
+      "none": {
+        "start": true
+      }
+    },
+    "taste": {
+      "choc": {
+        "bright": 1.6,
+        "brightSpread": 0.8,
+        "unusual": 0,
+        "unusualSpread": 0.6,
+        "weight": 0.85,
+        "flavour": {
+          "cocoa": 0.5,
+          "nutty": 0.5
+        }
+      },
+      "caramel": {
+        "bright": 2.9,
+        "brightSpread": 0.8,
+        "unusual": 0.3,
+        "unusualSpread": 0.8,
+        "weight": 0.85,
+        "flavour": {
+          "caramel": 0.5,
+          "orchard": 0.3,
+          "dried": 0.2
+        }
+      },
+      "bright": {
+        "bright": 4.5,
+        "brightSpread": 0.8,
+        "unusual": 0.5,
+        "unusualSpread": 1.2,
+        "weight": 0.85,
+        "flavour": {
+          "berry": 0.5,
+          "citrus": 0.5
+        }
+      },
+      "wild": {
+        "bright": 3.6,
+        "brightSpread": 1.1,
+        "unusual": 2.6,
+        "unusualSpread": 0.8,
+        "weight": 0.85,
+        "flavour": {
+          "fermented": 0.4,
+          "tropical": 0.3,
+          "berry": 0.3
+        }
+      },
+      "dunno": {
+        "spread": true
+      }
+    },
+    "milk": {
+      "yes": {
+        "bright": -0.25,
+        "body": 0.4,
+        "untagged": 0.45
+      },
+      "some": {
+        "bright": -0.1,
+        "body": 0.2,
+        "untagged": 0.15
+      },
+      "no": {
+        "bright": 0,
+        "body": 0,
+        "untagged": 0
+      }
+    },
+    "method": {
+      "moka": 0.4,
+      "turka": 0.3,
+      "auto": 0.2,
+      "espresso": 0.2,
+      "press": 0.2
+    }
+  },
+  "alternatives": {
+    "$about": "The two coffees after the first: one step each from it, in the directions that hedge what the answers leave least sure. «body» is «плотнее» when the first is of middle density or lighter, else «легче». A key «<taste>-milk» is used when the visitor drinks with milk. With milk (and a taste that is not bright or unusual) a move takes a coffee QQ tags for milk when one exists. A direction with no coffee that fits gives way to the next one in `fallback`, then to «Тоже подходит» (the next best in the region). `spread`: the three slots of «Не знаю», by acidity, with a dense coffee in place of the bright one for milk and for the methods chosen for a fuller cup.",
+    "choc": [
+      "brighter",
+      "body"
+    ],
+    "caramel": [
+      "softer",
+      "brighter"
+    ],
+    "bright": [
+      "softer",
+      "unusual"
+    ],
+    "wild": [
+      "brighter",
+      "unusual"
+    ],
+    "fallback": [
+      "softer",
+      "brighter",
+      "body",
+      "unusual",
+      "classic"
+    ],
+    "bright-milk": [
+      "brighter",
+      "softer"
+    ],
+    "spread": {
+      "plain": [
+        "soft",
+        "mid",
+        "bright"
+      ],
+      "full": [
+        "soft",
+        "mid",
+        "dense"
+      ],
+      "fullMethods": [
+        "moka",
+        "turka",
+        "auto",
+        "espresso"
+      ]
+    },
+    "wild-milk": [
+      "classic",
+      "unusual"
+    ]
+  },
+  "words": {
+    "acidity": [
+      [
+        1.4,
+        "почти без кислинки"
+      ],
+      [
+        2.4,
+        "мягкая кислинка"
+      ],
+      [
+        3.4,
+        "лёгкая кислинка"
+      ],
+      [
+        4.4,
+        "яркая кислинка"
+      ],
+      [
+        9,
+        "очень яркая кислинка"
+      ]
+    ],
+    "body": [
+      [
+        2.4,
+        "лёгкий"
+      ],
+      [
+        3.4,
+        "средней плотности"
+      ],
+      [
+        4.4,
+        "плотный"
+      ],
+      [
+        9,
+        "очень плотный"
+      ]
+    ],
+    "unusual": [
+      [
+        0.9,
+        ""
+      ],
+      [
+        1.9,
+        "с лёгкой ферментацией"
+      ],
+      [
+        9,
+        "необычный: заметная ферментация"
+      ]
+    ],
+    "roast": {
+      "Эспрессо": "обжарка под эспрессо",
+      "Фильтр": "обжарка под фильтр"
+    },
+    "grind": {
+      "В зернах": "в зёрнах",
+      "Эспрессо": "помол для эспрессо",
+      "Фильтр": "помол для фильтра",
+      "Турка": "помол для турки"
+    },
+    "moves": {
+      "first": "Начните с него",
+      "softer": "Мягче",
+      "brighter": "Ярче",
+      "denser": "Плотнее",
+      "lighter": "Легче",
+      "unusual": "Необычнее",
+      "classic": "Классичнее",
+      "also": "Тоже подходит"
+    },
+    "moveWhy": {
+      "softer": "Мягче первого: кислинки меньше.",
+      "brighter": "Ярче первого: кислинка заметнее.",
+      "denser": "Плотнее первого: гуще и насыщеннее.",
+      "lighter": "Легче первого: тоньше и прозрачнее.",
+      "unusual": "Необычнее первого: с ферментацией.",
+      "classic": "Классичнее первого: без ферментации.",
+      "also": "Тоже близко к тому, что вы описали."
+    },
+    "tasteMatch": {
+      "choc": "шоколад и орехи, как вы хотели",
+      "caramel": "карамель и фрукты, как вы хотели",
+      "bright": "ягоды и цитрусы, как вы хотели",
+      "wild": "необычный, как вы хотели"
+    },
+    "milk": "QQ советует его для капучино и латте",
+    "milkNot": "QQ не советует его для молока",
+    "shop": "похож на кофе из магазина, только свежей обжарки",
+    "regions": {
+      "soft-dense": [
+        "Мягкий и плотный",
+        "мягкого и плотного"
+      ],
+      "mid-dense": [
+        "Плотный",
+        "плотного"
+      ],
+      "bright-dense": [
+        "Яркий и плотный",
+        "яркого и плотного"
+      ],
+      "soft-mid": [
+        "Мягкий",
+        "мягкого"
+      ],
+      "mid-mid": [
+        "Сбалансированный",
+        "сбалансированного"
+      ],
+      "bright-mid": [
+        "Яркий",
+        "яркого"
+      ],
+      "soft-light": [
+        "Мягкий и лёгкий",
+        "мягкого и лёгкого"
+      ],
+      "mid-light": [
+        "Лёгкий",
+        "лёгкого"
+      ],
+      "bright-light": [
+        "Яркий и лёгкий",
+        "яркого и лёгкого"
+      ]
+    },
+    "because": {
+      "milk-yes": "пьёте с молоком",
+      "milk-some": "иногда пьёте с молоком",
+      "now-shop": "привыкли к кофе из магазина",
+      "now-instant": "привыкли к растворимому или капсулам",
+      "now-cafe": "берёте кофе в кофейнях",
+      "now-special": "уже пьёте спешелти",
+      "taste-choc": "выбрали шоколад и орехи",
+      "taste-caramel": "выбрали карамель и фрукты",
+      "taste-bright": "выбрали ягоды и цитрусы",
+      "taste-wild": "хотите необычного"
+    },
+    "start": "Это начало, а не приговор: запомним ответы в этом браузере, и на странице кофе сразу будут ваши обжарка и помол. Изменить ответы можно в любой момент.",
+    "spread": "Вкус пока не знаем — поэтому три разных кофе. Попробуйте и поймёте, какой ваш.",
+    "grindNote": {
+      "auto": "кофемашина мелет сама",
+      "moka": "помола для гейзера у QQ пока нет",
+      "press": "крупного помола у QQ пока нет",
+      "none": "сменить можно на странице кофе",
+      "ground": "или в зёрнах, если мелете сами"
+    },
+    "unusualStart": "необычного",
+    "robusta": "Смесь с робустой: крепче и с горчинкой."
+  }
+}

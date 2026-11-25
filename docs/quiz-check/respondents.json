@@ -1,0 +1,1941 @@
+[
+ {
+  "id": 1,
+  "answers": {
+   "method": "auto",
+   "milk": "no",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Кнопочная кофемашина, без молока, средняя обжарка, фруктовые ноты, робуста и смеси, спецмагазин.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry, a dense fruity espresso blend in beans, suits a black-coffee machine user who likes medium «Фруктовые» blends; Бекеле and Гицумби give softer and brighter steps.",
+  "before": "fits"
+ },
+ {
+  "id": 2,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Воронка, Comandante, светлая обжарка, без молока, понравилось «все подряд».",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Перу Монте Верде",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Three different filter coffees (Бекеле, Монте Верде, Вуш-Вуш), beans possible: right for a light-roast hand brewer who liked «все подряд».",
+  "before": "fits"
+ },
+ {
+  "id": 3,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Timemore, светлая/средняя, фруктовые и цветочные, любит Кению, Колумбию, Эфиопию.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright berry Гицумби first, softer Антиокия, fermented Вуш-Вуш, all filter roast: matches a fruity-floral light-roast brewer who likes Kenya and Colombia.",
+  "before": "fits"
+ },
+ {
+  "id": 4,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Капельная кофеварка, светлая, «люблю лёгкость и кислинку», Кения и Колумбия, Tasty и HQ.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast Гицумби first, as asked by someone who loves «лёгкость и кислинку»; the two Colombians fit their taste.",
+  "before": "fits"
+ },
+ {
+  "id": 5,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Гейзер, капучино с молоком, средняя, фрукты/шоколад/орехи, жерновая кофемолка, редко пробует новое.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Q-Berry (fruit, chocolate, berries, milk-tagged) now starts with a true reason; Бекеле and Куа Мон are milk coffees too; beans suit their burr grinder.",
+  "before": "questionable"
+ },
+ {
+  "id": 6,
+  "answers": {
+   "method": "auto",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Кофемашина без молока, средняя, фрукты/шоколад/орехи, смеси, любит Колумбию и Африку, пробует Tasty, Lemur.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry (Brazil–Ethiopia–Rwanda espresso blend) fits «Арабика, Смесь» and African taste; Бекеле and Гицумби add softer and brighter Africans. Beans for the machine.",
+  "before": "fits"
+ },
+ {
+  "id": 7,
+  "answers": {
+   "method": "aeropress",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Аэропресс, чёрный, светлая, фрукты/цветы, понравился «очень яркий» пинк бурбон, кофемолки нет.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two Colombians, filter roast, ground for filter: fits a black-filter drinker without a grinder who liked a «очень яркий» pink bourbon.",
+  "before": "fits"
+ },
+ {
+  "id": 8,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Chestnut, светлая, фрукты/цветы/специи, робусту не пьёт, последние лоты «пережарены».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Light filter roasts, bright Гицумби first, no robusta: fits a light-roast pour-over drinker who found recent lots «пережарены».",
+  "before": "fits"
+ },
+ {
+  "id": 9,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Воронка, Timemore, средняя, фрукты/орехи/специи, Бразилия, «муж любил некислые», Tasty.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Куа Мон (light acidity, apricot, hazelnut) first with softer Уганда Луна: a gentle start for a medium-roast household that likes «некислые».",
+  "before": "fits"
+ },
+ {
+  "id": 10,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Кофемашина, молоко, средняя, ореховые, «Бразильский», редко пробует новое.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Q-Optimistic (cocoa, nuts, dense, milk-tagged, robusta now stated) suits a milk drinker who likes Brazilian nutty coffee; Q-Profit and Луна are milk-tagged steps.",
+  "before": "fits"
+ },
+ {
+  "id": 11,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, жерновая кофемолка, светлая, фрукты/цветы/специи, Torrefacto.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast Гицумби with Антиокия and Вуш-Вуш matches a light, fruity-floral pour-over drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 12,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60 ради вкуса, молочное только из Nespresso, светлая, фрукты/ягоды, молотый, Камера Обскура.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright berry Гицумби, filter roast, ground for filter: right for a light, fruity V60 drinker who doesn't grind; their milk drinks come from capsules.",
+  "before": "fits"
+ },
+ {
+  "id": 13,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка как ритуал, Timemore, светлая/средняя, фрукты/цветы, нравится бурбон.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби first with softer and fermented Colombians: fits a light/medium fruity-floral pour-over drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 14,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Кофеварка, молотый, средняя/тёмная, орехи/ягоды, супермаркет, понравилась «Бразилия декаф», недоверие к новому.",
+  "picks": [
+   "Уганда Луна",
+   "Вьетнам Куа Мон",
+   "Перу Монте Верде"
+  ],
+  "verdict": "questionable",
+  "why": "Unchanged: Уганда Луна is a fair soft start (now honestly «легче, чем вы привыкли»), but their liked decaf is never offered and fermented Монте Верде suits «с недоверием» poorly.",
+  "before": "questionable"
+ },
+ {
+  "id": 15,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "cafe",
+   "taste": "caramel"
+  },
+  "said": "Кофемашина, сливки, молотый без кофемолки, средняя, фрукты и шоколад, смеси.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "For the coding (automatic): Q-Berry, Бекеле, Куа Мон, all milk-tagged, fix the not-for-milk third. Coding risk: a ground-only buyer probably owns a рожковая, not an automatic.",
+  "before": "questionable"
+ },
+ {
+  "id": 16,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Воронка, Timemore C3, светлая Эфиопия, шоколадные и ореховые ноты.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Balanced Куа Мон with softer Луна and brighter Гицумби, all filter roast, covers both their light-Ethiopia and chocolate-nut sides.",
+  "before": "fits"
+ },
+ {
+  "id": 17,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Гейзер с молоком, средняя/тёмная, всегда одно и то же: «Декаф, у вас он самый вкусный».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "misfit",
+  "why": "Unchanged: Q-Optimistic, Q-Profit, Луна suit moka with milk, but her one coffee is decaf and the quiz never shows Колумбия Декаф or says it exists.",
+  "before": "misfit"
+ },
+ {
+  "id": 18,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Фильтр, джезва, капсулы; средняя, шоколад/орехи/специи, понравилась Колумбия.",
+  "picks": [
+   "Перу Пальма Реаль",
+   "Эфиопия Гуджи",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Пальма Реаль (praline, chocolate, low acidity) in filter roast fits a medium-roast chocolate-nut filter drinker; Гуджи and Луна are honest steps.",
+  "before": "fits"
+ },
+ {
+  "id": 19,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Автомат, молоко, средняя, шоколад/орехи/ягоды, любит Санта Марию, редко пробует новое.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Q-Optimistic, Q-Profit, Луна: dense chocolate-nut milk coffees in beans for an automatic. Their favourite Санта Мария isn't shown, but this is the same kind of cup.",
+  "before": "fits"
+ },
+ {
+  "id": 20,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Капельная и дрипы, светлая/средняя, фрукты/орехи/цветы/ягоды, Коф, Триптих.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Balanced Куа Мон with softer and brighter options in filter roast fits a light/medium drip brewer with mixed fruity-nutty taste.",
+  "before": "fits"
+ },
+ {
+  "id": 21,
+  "answers": {
+   "method": "auto",
+   "milk": "no",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Кофемашина, специи, светлая/средняя, фрукты/орехи/специи, смеси, супермаркет.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry, a fruity blend in beans, is a sensible step up for a supermarket blend buyer; Бекеле and Гицумби bracket it.",
+  "before": "fits"
+ },
+ {
+  "id": 22,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Автомат одной кнопкой, молоко и сахар, средняя, все ноты, смеси, вернулся к Tasty.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: dense milk-tagged Q-Berry now starts and all three suit milk and sugar; before, a not-for-milk Гицумби was third and no blend was offered.",
+  "before": "questionable"
+ },
+ {
+  "id": 23,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Клевер, светлая, шоколад/орехи/ягоды, «Кения за вкус».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright berry Гицумби first in filter roast fits a light-roast Clever brewer who likes Kenya; Кения Найваша would be even closer.",
+  "before": "fits"
+ },
+ {
+  "id": 24,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Eureka, светлая, фрукты/цветы/специи/ягоды, «что-то кислотное и интересное».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби plus fermented Вуш-Вуш answers «что-то кислотное и интересное»; filter roast, beans possible.",
+  "before": "fits"
+ },
+ {
+  "id": 25,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Дрип-пакеты с молоком, кофемолки нет, тёмная обжарка, фрукты/специи/ягоды, Tasty и Rockets.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "questionable",
+  "why": "Better: Куа Мон, Луна, Бекеле are all milk-tagged now. Still light filter roasts for a «Темная» drinker, and ground coffee for someone using ready drip bags.",
+  "before": "questionable"
+ },
+ {
+  "id": 26,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Бариста, кемекс/турка, светлая/средняя, все ноты и добавки, «нету конкретного предпочтения».",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон",
+   "Колумбия Чайна Альта"
+  ],
+  "verdict": "fits",
+  "why": "Three different filter coffees (Бекеле, Куа Мон, Чайна Альта) suit a barista with no fixed preference.",
+  "before": "fits"
+ },
+ {
+  "id": 27,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Готовые дрип-пакеты, светлая/средняя, фрукты/ягоды, «ягодно-фруктовые вкусы с умеренной кислинкой».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби with softer Антиокия suits «ягодно-фруктовые… с умеренной кислинкой»; ground filter coffee needs a funnel until QQ's drip bags arrive.",
+  "before": "fits"
+ },
+ {
+  "id": 28,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Timemore, светлая, все ноты, запомнилась «ферментированная Колумбия».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби first and fermented Colombian Вуш-Вуш third, filter roast: fits a light-roast black-coffee lover who remembers a fermented Colombia.",
+  "before": "fits"
+ },
+ {
+  "id": 29,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Рожковая, молоко, средняя, кофемолка Dedica, «Арабика, т.к. сбалансированный».",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Q-Berry (no robusta, fruit and chocolate) replaces robusta Q-Punch and its self-contradicting reason; all three are milk-tagged espresso roasts.",
+  "before": "misfit"
+ },
+ {
+  "id": 30,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Дрипы с молоком и специями, «люблю кислинку», Колумбия Пиберри, кофемолки нет, Mikale.",
+  "picks": [
+   "Руанда Гицумби",
+   "Кения Найваша ПБ",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Better: bright Гицумби and Найваша honour «люблю кислинку», honestly marked not for milk, with milk-tagged Куа Мон as the softer step. Summary «вы пьёте с молоком» reads oddly.",
+  "before": "questionable",
+  "note": "After round 2: the summary no longer gives milk as a reason when the first coffee is not for milk."
+ },
+ {
+  "id": 31,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Сам наполняет дрипы, Timemore, средняя, фрукты/цветы/ягоды, любит «сладкие».",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Sweet balanced Куа Мон first, softer Луна, brighter Гицумби, filter roast: fits a medium-roast drinker who likes «сладкие».",
+  "before": "fits"
+ },
+ {
+  "id": 32,
+  "answers": {
+   "method": "press",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Френч-пресс, Timemore C3, средняя, фрукты/цветы/специи, любит необычные обработки и ферментации.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Эль Пласэр ИПА",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Better: fermented Ранчо Гранде, bright ИПА and Кисии in whole beans for a grinder owner form a coherent unusual set; the summary now says «необычного».",
+  "before": "fits"
+ },
+ {
+  "id": 33,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Chestnut, светлая, цветы/специи/ягоды.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright berry Гицумби in filter roast fits a light-roast floral-berry pour-over drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 34,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, светлая/средняя, «Кислотные, яркие, не плотные (в основном - Колумбия)».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright, not dense Гицумби and two Colombians fit «Кислотные, яркие, не плотные».",
+  "before": "fits"
+ },
+ {
+  "id": 35,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Гейзер, молоко, средняя, шоколад/орехи/ягоды/коньяк, любит Q-tropic и Колумбию.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Q-Berry (berries, chocolate, milk-tagged) starts instead of Q-Punch with contradicting reasons; beans suit their hand grinder.",
+  "before": "misfit"
+ },
+ {
+  "id": 36,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Пуровер, Timemore, светлая/средняя, «очень вкусный ИПА. Хочу больше таких ярких сортов».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two Colombians answer «Хочу больше таких ярких сортов»; filter roast, beans possible.",
+  "before": "fits"
+ },
+ {
+  "id": 37,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Турка с молоком, средняя, фрукты/орехи/специи, любимый Q-Optimistic.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Q-Berry, milk-tagged and ground for turka, starts with a true reason; their favourite Q-Optimistic isn't shown only because they were coded caramel.",
+  "before": "misfit"
+ },
+ {
+  "id": 38,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "9barista с молоком, Comandante, средняя/тёмная, «Эфиопия на первом месте».",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry, Бекеле (an Ethiopian), Куа Мон, all milk-tagged espresso roasts: fits an espresso-with-milk drinker who puts Ethiopia first.",
+  "before": "fits"
+ },
+ {
+  "id": 39,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Турка Soy, «самый насыщенный и яркий», средняя, шоколад и специи, без молока.",
+  "picks": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Punch"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: espresso-roast Уганда Луна (milk chocolate) starts, with denser Q-Berry and brighter Q-Profit; no more «мягкого и лёгкого» for a turka brewer wanting «насыщенный».",
+  "before": "questionable",
+  "picksRound2": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Berry"
+  ],
+  "note": "After the review: two moves may not be twins, so «Плотнее» is Q-Punch (dense, robusta, said on its card), not Q-Berry beside Q-Profit."
+ },
+ {
+  "id": 40,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Фильтр и аэропресс с молоком, все обжарки, фрукты/шоколад/ягоды, любит Q-Berry, Колумбию.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Куа Мон, Луна and now Бекеле are all milk-tagged filter roasts; a balanced fruity-chocolate start fits.",
+  "before": "fits"
+ },
+ {
+  "id": 41,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Moccamaster, светлая, понравился розовый бурбон, Tasty.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast coffees, beans possible, fit a light-roast batch brewer who liked a pink bourbon.",
+  "before": "fits"
+ },
+ {
+  "id": 42,
+  "answers": {
+   "method": "aeropress",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Аэропресс, Timemore, светлая, фрукты/специи/ягоды, «скучная мытая Африка».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Washed Rwandan Гицумби first fits a light-roast AeroPress drinker who likes «скучная мытая Африка».",
+  "before": "fits"
+ },
+ {
+  "id": 43,
+  "answers": {
+   "method": "espresso",
+   "milk": "some",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Рожковая, сироп, тёмная, шоколад/фрукты, смеси, «не разбираюсь».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Dense chocolate Q-Optimistic (robusta stated) in espresso roast suits a dark-roast blend drinker; Q-Profit and Луна are honest steps.",
+  "before": "fits"
+ },
+ {
+  "id": 44,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Воронка и Moccamaster, Baratza, светлая/средняя, все ноты, «богатство и сложность».",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Перу Монте Верде",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Three different filter coffees are a fair start for someone who ticks every note and wants «богатство и сложность».",
+  "before": "fits"
+ },
+ {
+  "id": 45,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Фильтр-кофеварка, «кофе не горький», без молока, средняя.",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Перу Монте Верде",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Three different filter coffees, none bitter, fit a black drip drinker who wants «кофе не горький».",
+  "before": "fits"
+ },
+ {
+  "id": 46,
+  "answers": {
+   "method": "none",
+   "milk": "yes",
+   "now": "instant",
+   "taste": "choc"
+  },
+  "said": "«Три в одном», молоко и сахар, шоколад/орехи, «спокойные», Tasty.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Soft dense milk coffees Q-Optimistic, Q-Profit, Луна; the shop reason is gone and the summary now names instant. Beans fit their Porlex.",
+  "before": "fits"
+ },
+ {
+  "id": 47,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, Timemore, светлая, фрукты/ягоды, Латинская Америка кроме Бразилии, Tasty и Rockets.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two Colombians in filter roast fit a light, fruity V60 drinker who prefers Latin America.",
+  "before": "fits"
+ },
+ {
+  "id": 48,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Сам мелет в дрипы, Chestnut, средняя, шоколад/орехи, «Сорта с низкой кислотностью».",
+  "picks": [
+   "Перу Пальма Реаль",
+   "Эфиопия Гуджи",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Пальма Реаль (acidity 2, praline, chocolate) first fits «Сорта с низкой кислотностью»; Гуджи is honestly labelled «Ярче».",
+  "before": "fits"
+ },
+ {
+  "id": 49,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Гейзер/автомат, молоко и специи, средняя/тёмная, фрукты/шоколад/специи.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Dense milk coffees Q-Optimistic, Q-Profit, Луна in beans fit a medium-dark milk drinker using moka or an automatic.",
+  "before": "fits"
+ },
+ {
+  "id": 50,
+  "answers": {
+   "method": "espresso",
+   "milk": "some",
+   "now": "shop",
+   "taste": "dunno"
+  },
+  "said": "Рожковая: эспрессо, флэт, раф; средняя, брал «одну из самых дешевых пачек».",
+  "picks": [
+   "Q-Optimistic",
+   "Эфиопия Бекеле",
+   "Q-Finch (Финч бленд)"
+  ],
+  "verdict": "questionable",
+  "why": "Worse: «три разных кофе» now gives Q-Optimistic and Q-Punch, both «Мягкий и плотный» (same profile, both robusta), plus Q-Finch; the softer Бекеле was lost.",
+  "before": "fits",
+  "picksRound2": [
+   "Q-Optimistic",
+   "Q-Punch",
+   "Q-Finch (Финч бленд)"
+  ],
+  "note": "After round 2: the three different coffees must be in different regions and a step apart: now Q-Optimistic, Эфиопия Бекеле, Q-Finch."
+ },
+ {
+  "id": 51,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, Chestnut, светлая, фрукты/цветы/ягоды, «Колумбию, что-то покислотнее и поярче», Tasty.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and Colombians fit «что-то покислотнее и поярче».",
+  "before": "fits"
+ },
+ {
+  "id": 52,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Дрипы с безлактозным молоком, кофемолки нет, средняя, фрукты/ягоды, робуста, супермаркет.",
+  "picks": [
+   "Уганда Луна",
+   "Вьетнам Куа Мон",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Better: Луна, Куа Мон, Бекеле are milk-tagged and ground for filter; «Но легче, чем вы привыкли» is true for a robusta drinker; fermented Монте Верде is gone.",
+  "before": "fits"
+ },
+ {
+  "id": 53,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60/Comandante, светлая, все ноты, «главное, чтобы вкус был интересным», Колумбия.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two Colombians, one fermented, fit a light-roast V60 drinker who wants an «интересным» cup.",
+  "before": "fits"
+ },
+ {
+  "id": 54,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Электротурка, молотый, средняя, «молочные» ноты, супермаркет.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Soft chocolate Q-Optimistic ground for turka, with Q-Profit and Луна, is a sensible step from supermarket coffee.",
+  "before": "fits"
+ },
+ {
+  "id": 55,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Сам наполняет дрипы, светлая/средняя, «сладкие лоты, кислотные», анаэробы.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Sweet bright Гицумби and lightly fermented Вуш-Вуш suit «сладкие лоты, кислотные» and an anaerobic fan.",
+  "before": "fits"
+ },
+ {
+  "id": 56,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Мокамастер/воронка, светлая/средняя, «Яркие, сочные, сладкие, редкие».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright, juicy filter-roast Гицумби first matches «Яркие, сочные, сладкие».",
+  "before": "fits"
+ },
+ {
+  "id": 57,
+  "answers": {
+   "method": "turka",
+   "milk": "some",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Турка «наиболее яркий вкус», средняя, шоколад/цветы, «мягкий насыщенный вкус».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Dense cocoa Q-Optimistic ground for turka with Q-Profit and Луна fits «мягкий насыщенный вкус».",
+  "before": "fits"
+ },
+ {
+  "id": 58,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Дрипы, без кофемолки, средняя/тёмная, фрукты/орехи/ягоды, Tasty, Yellow Submarine.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Куа Мон (hazelnut, strawberry) with softer and brighter steps, ground for filter, fits their mixed nut-berry taste.",
+  "before": "fits"
+ },
+ {
+  "id": 59,
+  "answers": {
+   "method": "drip",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Капельная с молоком и сиропом, средняя, фрукты/орехи/ягоды, выбирает по цене.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Better: Куа Мон, Луна and now Бекеле are milk-tagged filter roasts; the not-for-milk Гицумби is gone.",
+  "before": "fits"
+ },
+ {
+  "id": 60,
+  "answers": {
+   "method": "espresso",
+   "milk": "some",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Рожок с DF64, «эспрессо под сигарету», орехи/специи/ягоды, молоко иногда, Tasty.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry (berries, chocolate) in espresso roast with Бекеле and Гицумби suits a nut-spice-berry espresso drinker; the grind line now says beans are possible.",
+  "before": "fits"
+ },
+ {
+  "id": 61,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Капельная/воронка, Eureka, светлая, фрукты/цветы/специи/ягоды, выбирает по дескрипторам.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast Гицумби and two Colombians fit a light-roast drinker who picks by descriptors.",
+  "before": "fits"
+ },
+ {
+  "id": 62,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Готовые дрипы с молоком, светлая/средняя, шоколад/орехи/ягоды, «перу точно не нравится».",
+  "picks": [
+   "Уганда Луна",
+   "Вьетнам Куа Мон",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Монте Верде (a Peru, not for milk) is gone; Луна, Куа Мон, Бекеле are milk-tagged and ground for filter.",
+  "before": "questionable"
+ },
+ {
+  "id": 63,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Воронка, средняя, пряные, «затрудняюсь ответить».",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Перу Монте Верде",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Three different filter coffees are exactly right for «затрудняюсь ответить».",
+  "before": "fits"
+ },
+ {
+  "id": 64,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Фильтр/дрипы, светлая/средняя, специи/ягоды, понравилась «руанда», Мануфактура, Триптих.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "A Rwandan berry coffee (Гицумби) first is right for someone who liked «руанда».",
+  "before": "fits"
+ },
+ {
+  "id": 65,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Дрип-пакеты, ручная кофемолка, светлая, фрукты/цветы, «более чистый вкус», «я не разбираюсь».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Clean bright Гицумби in filter roast fits a light-roast drinker who wants a «более чистый вкус».",
+  "before": "fits"
+ },
+ {
+  "id": 66,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "cafe",
+   "taste": "caramel"
+  },
+  "said": "Бариста, дома дрипы с молоком и специями, средняя, Эфиопия, Кения, «сбалансированный».",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Better: Куа Мон, Луна and an Ethiopian (Бекеле), all milk-tagged and balanced, fit «Эфиопия, Кения, сбалансированный».",
+  "before": "fits"
+ },
+ {
+  "id": 67,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60/аэропресс, Comandante, светлая, фрукты/цветы/специи/ягоды, «люблю разнообразие».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби with softer and fermented Colombians fits a light-roast fruity-floral drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 68,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Origami, DF54, светлая, фрукты/цветы/ягоды, «Колумбия Ипа», Кения за кислотность.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright berry Гицумби is a fine start for a Kenya-acidity fan; Найваша or ИПА would be closer.",
+  "before": "fits"
+ },
+ {
+  "id": 69,
+  "answers": {
+   "method": "espresso",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Эспрессо, Eureka, светлая/средняя, шоколад/ягоды/алкогольные, «Колумбия нестандартных обработок».",
+  "picks": [
+   "Кения Кисии",
+   "Индонезия Воносалам",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Heavily fermented Кисии and Воносалам in espresso roast answer «нестандартных обработок» and alcoholic notes; Луна is a calm option.",
+  "before": "fits"
+ },
+ {
+  "id": 70,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Автомат, молоко и сахар, тёмная, смесь «Сухой закон», Tasty «менее насыщенное».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: dense Q-Optimistic (cocoa, nuts, milk-tagged) now starts, fitting a dark-roast blend lover with milk and sugar.",
+  "before": "questionable"
+ },
+ {
+  "id": 71,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Воронка, Simonelli, светлая/средняя, фрукты/специи/ягоды, Кения за «хорошая кислотность».",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and Colombians fit a pour-over Kenya fan; milk is only for machine drinks.",
+  "before": "fits"
+ },
+ {
+  "id": 72,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "said": "Гейзер «более крепкий», молоко и специи, средняя, все ноты, «пока не определилась».",
+  "picks": [
+   "Эфиопия Бекеле",
+   "Бразилия Санта Мария",
+   "Q-Finch (Финч бленд)"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: spread Бекеле, Санта Мария, Q-Finch are all milk-tagged espresso roasts, with dense Q-Finch for «более крепкий».",
+  "before": "questionable"
+ },
+ {
+  "id": 73,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Воронка, Chestnut, светлая, «больше люблю сладость и горечь, меньше кислотность», Бразилия.",
+  "picks": [
+   "Перу Пальма Реаль",
+   "Эфиопия Гуджи",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Low-acidity Пальма Реаль (praline, chocolate) first fits «меньше кислотность».",
+  "before": "fits"
+ },
+ {
+  "id": 74,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Рожковая, флэт уайт, светлая, «не люблю горечь», фрукты/шоколад/ягоды.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry (no robusta, gentle acidity) with Бекеле and Куа Мон, all milk-tagged: fits a flat-white drinker who dislikes bitterness.",
+  "before": "fits"
+ },
+ {
+  "id": 75,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Турка с молоком, сахаром, сиропом; средняя, фрукты/цветы/ягоды, «Колумбийские».",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: Q-Berry (berries, milk-tagged, ground for turka) replaces Q-Punch and its false «карамель и фрукты»; Бекеле and Куа Мон fit too.",
+  "before": "misfit"
+ },
+ {
+  "id": 76,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Воронка, Comandante, светлая, «с необычными, яркими дескрипторами», HQ, Сварщица.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Ла Сирена",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Fixed: fermented Ранчо Гранде, then bright fermented Ла Сирена and Кисии match «необычными, яркими»; no more drift to Мерури and Луна.",
+  "before": "questionable"
+ },
+ {
+  "id": 77,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Smeg с капучино, средняя, шоколад/орехи, «Бразилия - хороший букет и мягкость».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Brazil-based milk blends Q-Optimistic and Q-Profit plus Луна fit a cappuccino drinker who likes Brazilian «мягкость».",
+  "before": "fits"
+ },
+ {
+  "id": 78,
+  "answers": {
+   "method": "moka",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Гейзер, «насыщенный вкус и крепость», средняя/тёмная, Tasty, «классические» сорта.",
+  "picks": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Punch"
+  ],
+  "verdict": "fits",
+  "why": "Better: espresso-roast Луна first, with denser Q-Berry and Q-Profit, no more «лёгкого»; Q-Optimistic would suit «крепость» best, but this is sensible.",
+  "before": "questionable",
+  "picksRound2": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Berry"
+  ],
+  "note": "After the review: «Плотнее» is Q-Punch (dense, robusta, said on its card), not Q-Berry beside its twin Q-Profit."
+ },
+ {
+  "id": 79,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "said": "Дрипы и турка с молоком, без кофемолки, шоколад/орехи/специи.",
+  "picks": [
+   "Уганда Луна",
+   "Вьетнам Куа Мон",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Better: Луна, Куа Мон, Бекеле are milk-tagged and ground for filter; the not-for-milk Монте Верде is gone.",
+  "before": "fits"
+ },
+ {
+  "id": 80,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, Chestnut, светлая, фрукты/цветы/ягоды, Сидра, мацерация «не всегда», Сварщица.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби first and lightly fermented Вуш-Вуш third suit a V60 drinker who likes maceration «не всегда».",
+  "before": "fits"
+ },
+ {
+  "id": 81,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, Timemore, светлая, фрукты/цветы/специи/ягоды, любит Колумбию за разнообразие.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two different Colombians fit a light-roast V60 drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 82,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Пуровер, EK43, средняя, фрукты/шоколад/ягоды, любит Руанду.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Fruity Куа Мон first, with Гицумби as the brighter Rwanda, fits a medium-roast Rwanda fan.",
+  "before": "fits"
+ },
+ {
+  "id": 83,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "V60, Timemore, средняя/тёмная, фрукты/цветы/ягоды, молоко «когда хочется», Африка.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Milk-tagged Куа Мон and Луна, with Гицумби for «сорта из Африки», fit an occasional-milk pour-over drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 84,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Электротурка, Delonghi, светлая/средняя, фрукты/орехи/ягоды, любит Бразилию.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry (Brazil-based blend) in espresso roast ground for turka fits their fruity-nutty Brazil taste.",
+  "before": "fits"
+ },
+ {
+  "id": 85,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, светлая, фрукты/цветы/ягоды, пробовал разное.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast Гицумби with fermented Вуш-Вуш fits a light-roast fruity V60 drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 86,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Кофемашина с молоком, без кофемолки, все обжарки, «эфиопия Оромия, мой фаворит».",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Milk-tagged Q-Berry, Бекеле (a soft Ethiopian) and Куа Мон in beans for the machine fit an Ethiopia fan who drinks with milk.",
+  "before": "fits"
+ },
+ {
+  "id": 87,
+  "answers": {
+   "method": "turka",
+   "milk": "some",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Турка в будни, воронка за вкус, молоко иногда, Кения/Колумбия/Руанда, «чистота».",
+  "picks": [
+   "Руанда Гицумби",
+   "Q-Berry",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "questionable",
+  "why": "Worse in words: picks fit, and the set now keeps one roast, but Куа Мон is labelled «Необычнее первого: с ферментацией» while its own taste line names no fermentation.",
+  "before": "fits",
+  "note": "After round 2: the move «Необычнее» says «смелее по обработке и вкусу», no longer «с ферментацией». After the review: «Необычнее» needs real fermentation (unusual ≥ 0.9): now Колумбия Вуш-Вуш, ferment 1, «с лёгкой ферментацией».",
+  "picksRound2": [
+   "Руанда Гицумби",
+   "Q-Berry",
+   "Вьетнам Куа Мон"
+  ]
+ },
+ {
+  "id": 88,
+  "answers": {
+   "method": "auto",
+   "milk": "yes",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Кофемашина с молоком, молотый, шоколад/орехи, Tasty «привычный».",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "fits",
+  "why": "Q-Optimistic, Q-Profit and now Луна (instead of the twin Q-Punch) are chocolate-nut milk coffees; coding auto is a guess for a ground buyer.",
+  "before": "fits"
+ },
+ {
+  "id": 89,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Гейзер с молоком, Chestnut ESP, средняя/тёмная, фрукты/ягоды, хочет эспрессо.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Milk-tagged espresso roasts Q-Berry, Бекеле, Куа Мон in beans fit a moka-with-milk drinker who grinds himself.",
+  "before": "fits"
+ },
+ {
+  "id": 90,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "V60, Timemore, светлая, фрукты/цветы/ягоды.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast Гицумби and two Colombians fit a light-roast V60 drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 91,
+  "answers": {
+   "method": "moka",
+   "milk": "some",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Гейзер, средняя/тёмная, робуста и смеси, фрукты/специи/цитрусы, иногда сливки.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Blend Q-Berry in espresso roast first suits a moka blend drinker; Бекеле and Гицумби bracket it; he grinds himself.",
+  "before": "fits"
+ },
+ {
+  "id": 92,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Фильтр, средняя, фрукты/цветы/ягоды, «Люблю колумбию в анаэробной обработке», Tasty, Verle.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Ла Сирена",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Fermented Ранчо Гранде, Ла Сирена (an experimental Colombian) and Кисии answer «колумбию в анаэробной обработке».",
+  "before": "fits"
+ },
+ {
+  "id": 93,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Дрипы и гейзер, молоко и специи, инфьюзы и редкие сорта, Botanica, HQ.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Уганда Луна",
+   "Кения Кисии"
+  ],
+  "verdict": "questionable",
+  "why": "Unchanged: all three cards (Ранчо Гранде, Мерури, Кисии) say «Но QQ не советует его для молока» to a milk-and-spices drinker; no milk-friendly slot.",
+  "before": "questionable",
+  "picksRound2": [
+   "Бразилия Ранчо Гранде",
+   "Индонезия Мерури",
+   "Кения Кисии"
+  ],
+  "note": "After round 2: with milk, the safe move takes a milk coffee: «Классичнее» is now Уганда Луна; the summary names milk only when the first coffee suits milk."
+ },
+ {
+  "id": 94,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "said": "Дрип-пакеты без кофемолки, средняя, фрукты/орехи/ягоды, робуста, супермаркет.",
+  "picks": [
+   "Индонезия Мерури",
+   "Эфиопия Бекеле",
+   "Колумбия Чайна Альта"
+  ],
+  "verdict": "questionable",
+  "why": "Unchanged: a supermarket robusta drinker starts on grapefruit-tobacco Мерури with acidity-4 Чайна Альта, and gets ground coffee for ready drip bags QQ doesn't sell yet.",
+  "before": "questionable"
+ },
+ {
+  "id": 95,
+  "answers": {
+   "method": "pourover",
+   "milk": "some",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Дрипы, средняя, шоколад/специи/ягоды, «нравится фермент», латте редко.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Ла Сирена",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Ранчо Гранде (грильяж, фруктовый ликер) first fits «нравится фермент» and «сочетание горечи и кислоты».",
+  "before": "fits"
+ },
+ {
+  "id": 96,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Воронка, средняя, фрукты/шоколад/орехи, Бразилия и Кения.",
+  "picks": [
+   "Вьетнам Куа Мон",
+   "Уганда Луна",
+   "Руанда Гицумби"
+  ],
+  "verdict": "fits",
+  "why": "Balanced Куа Мон with softer Луна and brighter Гицумби fits a medium-roast drinker who likes Brazil and Kenya.",
+  "before": "fits"
+ },
+ {
+  "id": 97,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Турка, молоко и сахар, все ноты, «сбалансированный вкус», Эфиопия/Кения.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Milk-tagged espresso roasts Q-Berry, Бекеле, Куа Мон ground for turka fit a balanced-taste milk drinker.",
+  "before": "fits"
+ },
+ {
+  "id": 98,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "cafe",
+   "taste": "caramel"
+  },
+  "said": "Турка, молотый, молоко, фрукты/цветы/ягоды, любит кофе из кафе.",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Q-Berry ground for turka is a close home version of a café milk drink; Бекеле and Куа Мон are milk-tagged.",
+  "before": "fits"
+ },
+ {
+  "id": 99,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "Капельная, светлая/омни, цитрус/фрукты/алкогольные, «интересные обработки», Tasty.",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Ла Сирена",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Ранчо Гранде («фруктовый ликер»), Ла Сирена, Кисии in filter roast are spot on for alcoholic notes and «интересные обработки».",
+  "before": "fits"
+ },
+ {
+  "id": 100,
+  "answers": {
+   "method": "espresso",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Эспрессо-машина, тёмная, «Классическая Бразилия и яркие ферментированные лоты».",
+  "picks": [
+   "Уганда Луна",
+   "Бразилия Санта Мария",
+   "Q-Berry"
+  ],
+  "verdict": "fits",
+  "why": "Soft chocolatey Луна with Санта Мария (a Brazil) and denser Q-Berry, espresso roast, fit his «Классическая Бразилия» side.",
+  "before": "fits"
+ },
+ {
+  "id": 101,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "said": "Рожковая, капучино, средняя, любимый Q-Optimistic, «сладкий вкус, яркие ноты при умеренной кислотности».",
+  "picks": [
+   "Q-Berry",
+   "Эфиопия Бекеле",
+   "Вьетнам Куа Мон"
+  ],
+  "verdict": "fits",
+  "why": "Sweet milk blend Q-Berry with gentle berry acidity fits «яркие ноты при умеренной кислотности»; all three milk-tagged.",
+  "before": "fits"
+ },
+ {
+  "id": 102,
+  "answers": {
+   "method": "press",
+   "milk": "yes",
+   "now": "instant",
+   "taste": "choc"
+  },
+  "said": "Капсулы дома, молотый в кружке, кофемолки нет, сливки, «робуста… не нравятся», кислый не любит.",
+  "picks": [
+   "Q-Optimistic",
+   "Q-Profit",
+   "Уганда Луна"
+  ],
+  "verdict": "misfit",
+  "why": "Better (robusta now stated), but still beans only («крупного помола у QQ пока нет») for someone with no grinder, and robusta Q-Optimistic first though she dislikes robusta.",
+  "before": "misfit"
+ },
+ {
+  "id": 103,
+  "answers": {
+   "method": "drip",
+   "milk": "yes",
+   "now": "special",
+   "taste": "choc"
+  },
+  "said": "Капельная со сливками, средняя, Суматра, «Эфиопия (мягкая, не кислотная)», кислотность ограничена.",
+  "picks": [
+   "Уганда Луна",
+   "Вьетнам Куа Мон",
+   "Эфиопия Бекеле"
+  ],
+  "verdict": "fits",
+  "why": "Low-acidity milk-tagged Луна, Куа Мон and a mild Ethiopian Бекеле fit his acidity limits and cream.",
+  "before": "fits"
+ },
+ {
+  "id": 104,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Турка, средняя, «любит кислотные дескрипторы», фрукты/цветы, Колумбия, Tasty.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright Гицумби and two Colombians ground for turka fit; Вуш-Вуш comes in filter roast within an espresso-roast set, unexplained.",
+  "before": "fits"
+ },
+ {
+  "id": 105,
+  "answers": {
+   "method": "aeropress",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "said": "Аэропресс, светлая, натуралы, фрукты/ягоды, Кения и Колумбия, бленды не берёт.",
+  "picks": [
+   "Руанда Гицумби",
+   "Колумбия Антиокия",
+   "Колумбия Вуш-Вуш"
+  ],
+  "verdict": "fits",
+  "why": "Bright filter-roast single origins, no blends, fit a light-roast AeroPress drinker who likes Kenya and Colombia.",
+  "before": "fits"
+ },
+ {
+  "id": 106,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "said": "V60, Knock, светлая/средняя, фрукты, «Колумбия - интересный лот с хмелем».",
+  "picks": [
+   "Бразилия Ранчо Гранде",
+   "Колумбия Ла Сирена",
+   "Кения Кисии"
+  ],
+  "verdict": "fits",
+  "why": "Fermented Ранчо Гранде, Ла Сирена, Кисии fit; the hop lot he means (Эль Пласэр ИПА) still isn't among the three.",
+  "before": "fits"
+ }
+]
