@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-25T21:43:58.974Z",
- "commit": "aad714ec9825c19ea0fb20b33a67e44b89ca2987",
+ "generated": "2026-11-25T23:01:16.817Z",
+ "commit": "e569742e9243b78c6d0303461b96463c6446d29c",
  "ref": "claude/catalogue-filters",
  "pr": "24",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-25T21:29:23.899Z",
+   "when": "2026-11-25T22:47:03.433Z",
    "quick": false,
-   "seconds": 506,
+   "seconds": 494,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-25T21:37:49.890Z",
+   "when": "2026-11-25T22:55:15.951Z",
    "quick": true,
-   "seconds": 368,
+   "seconds": 361,
    "errors": []
   }
  },
  "base": {
-  "commit": "05d9fd955d4b24bf6d975676eec9803786ca6b5f",
-  "generated": "2026-11-24T12:32:11.115Z"
+  "commit": "c47c2ff40786d7fce960b325671ca3c6b75e078c",
+  "generated": "2026-11-25T22:58:26.072Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -39,10 +39,10 @@
   "rules": 75,
   "errors": 0,
   "pass": 51,
-  "warn": 11,
-  "fail": 7,
+  "warn": 10,
+  "fail": 8,
   "info": 6,
-  "findings": 146,
+  "findings": 150,
   "new": 2,
   "fixed": 1,
   "accepted": 91,
@@ -76,6 +76,22 @@
     "Catalog: page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')"
    ],
    "rank": 351
+  },
+  {
+   "type": "rule",
+   "id": "shape.radii",
+   "severity": "fail",
+   "area": "Shape",
+   "title": "Corners are radius roles (or pills)",
+   "kind": "share",
+   "why": "100% of rounded boxes (wanted 90%)",
+   "fresh": 0,
+   "sample": [
+    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "catalog/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
+    "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
+   ],
+   "rank": 304
   },
   {
    "type": "rule",
@@ -119,8 +135,8 @@
    "why": "2 places",
    "fresh": 0,
    "sample": [
-    "390x844: 44% of the text shown, 6 of 9 headings, h1 shown (390x844)",
-    "1440x900: 44% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
+    "390x844: 46.6% of the text shown, 6 of 9 headings, h1 shown (390x844)",
+    "1440x900: 35.2% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
    ],
    "rank": 302
   },
@@ -327,6 +343,22 @@
   },
   {
    "type": "rule",
+   "id": "align.icons",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Icons sit on their text's line",
+   "kind": "tolerance",
+   "why": "16 places",
+   "fresh": 0,
+   "sample": [
+    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)",
+    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)"
+   ],
+   "rank": 116
+  },
+  {
+   "type": "rule",
    "id": "icons.sizes",
    "severity": "warn",
    "area": "Icons",
@@ -375,22 +407,6 @@
   },
   {
    "type": "rule",
-   "id": "align.icons",
-   "severity": "warn",
-   "area": "Icons",
-   "title": "Icons sit on their text's line",
-   "kind": "tolerance",
-   "why": "12 places",
-   "fresh": 0,
-   "sample": [
-    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)",
-    "button.buy__add: higher than its text's line by 2.59px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
-   ],
-   "rank": 112
-  },
-  {
-   "type": "rule",
    "id": "layers.z",
    "severity": "warn",
    "area": "Layers",
@@ -407,22 +423,6 @@
   },
   {
    "type": "rule",
-   "id": "shape.radii",
-   "severity": "warn",
-   "area": "Shape",
-   "title": "Corners are radius roles (or pills)",
-   "kind": "share",
-   "why": "100% of rounded boxes (wanted 90%)",
-   "fresh": 0,
-   "sample": [
-    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
-    "catalog/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
-    "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
-   ],
-   "rank": 104
-  },
-  {
-   "type": "rule",
    "id": "shape.borders",
    "severity": "warn",
    "area": "Shape",
@@ -432,7 +432,7 @@
    "fresh": 0,
    "sample": [
     "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts: 1px",
-    "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box: 1.5px",
+    "catalog/ input.box: 1.5px",
     "catalog/ input.box: 1.33px"
    ],
    "rank": 103
@@ -491,8 +491,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 3019,
-   "total": 3022,
+   "on": 2227,
+   "total": 2230,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -528,8 +528,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 3019,
-    "total": 3022
+    "on": 2227,
+    "total": 2230
    },
    "accepted": 0,
    "was": {
@@ -593,8 +593,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 5097,
-   "total": 5097,
+   "on": 3694,
+   "total": 3694,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -602,8 +602,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 5103,
-    "total": 5103
+    "on": 3695,
+    "total": 3695
    },
    "accepted": 0,
    "was": {
@@ -622,7 +622,7 @@
      "key": "solid",
      "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
      "what": "solid",
-     "value": 50
+     "value": 39
     },
     {
      "key": "gradient",
@@ -654,11 +654,11 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 409,
-   "total": 409,
+   "on": 189,
+   "total": 189,
    "pass": 90,
    "warn": 75,
-   "status": "warn",
+   "status": "fail",
    "items": [
     {
      "key": "select.buy__select|5",
@@ -702,10 +702,10 @@
     }
    ],
    "webkit": {
-    "status": "warn",
-    "value": 84,
-    "on": 409,
-    "total": 487
+    "status": "fail",
+    "value": 70.8,
+    "on": 189,
+    "total": 267
    },
    "accepted": 0,
    "was": {
@@ -728,20 +728,20 @@
      "key": "1",
      "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
      "what": "1px",
-     "value": 129
+     "value": 65
     },
     {
      "key": "1.5",
-     "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
+     "where": "catalog/ input.box",
      "what": "1.5px",
-     "value": 47,
+     "value": 4,
      "engine": "webkit"
     },
     {
      "key": "1.33",
      "where": "catalog/ input.box",
      "what": "1.33px",
-     "value": 47,
+     "value": 4,
      "engine": "webkit"
     }
    ],
@@ -848,7 +848,7 @@
     },
     {
      "key": "7",
-     "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
+     "where": "button.fav, div.about, form.buy, catalog/ button.fav, catalog/ div.about, catalog/ form.buy",
      "what": "z-index 7",
      "value": 7
     },
@@ -1224,7 +1224,7 @@
    "kind": "tolerance",
    "title": "Icons sit on their text's line",
    "how": "An icon next to a label (a button, a link): the centre of the icon against the centre of the label's first line, at most 1px apart.",
-   "value": 12,
+   "value": 16,
    "unit": "off",
    "status": "warn",
    "items": [
@@ -1234,6 +1234,13 @@
      "what": "higher than its text's line by 8.5px",
      "value": 8.5,
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "button.about__info",
+     "where": "button.about__info",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768"
     },
     {
      "key": "svg.buy__chevron",
@@ -1257,6 +1264,13 @@
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     },
     {
+     "key": "catalog/ button.about__info",
+     "where": "catalog/ button.about__info",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768"
+    },
+    {
      "key": "catalog/ svg.buy__chevron",
      "where": "catalog/ svg.buy__chevron",
      "what": "lower than its text's line by 10.8px",
@@ -1276,6 +1290,13 @@
      "what": "higher than its text's line by 8.5px",
      "value": 8.5,
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ button.about__info",
+     "where": "coffee/keniya-kisii/ button.about__info",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768"
     },
     {
      "key": "coffee/keniya-kisii/ svg.buy__chevron",
@@ -1299,6 +1320,13 @@
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     },
     {
+     "key": "coffee/q-optimistic/ button.about__info",
+     "where": "coffee/q-optimistic/ button.about__info",
+     "what": "higher than its text's line by 8.5px",
+     "value": 8.5,
+     "at": "320x568 390x844 844x390 768x1024 1024x768"
+    },
+    {
      "key": "coffee/q-optimistic/ svg.buy__chevron",
      "where": "coffee/q-optimistic/ svg.buy__chevron",
      "what": "lower than its text's line by 10.8px",
@@ -1315,12 +1343,12 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 12
+    "value": 16
    },
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 12
+    "value": 16
    }
   },
   {
@@ -1345,7 +1373,7 @@
     {
      "key": "article.card",
      "where": "article.card",
-     "what": "0.66 – 0.71 · changes with the screen",
+     "what": "0.66 – 0.73 · changes with the screen",
      "value": 6
     },
     {
@@ -1399,8 +1427,8 @@
     {
      "key": "catalog/ article.card",
      "where": "catalog/ article.card",
-     "what": "0.66 – 0.93 · changes with the screen",
-     "value": 11
+     "what": "0.66 – 0.95 · changes with the screen",
+     "value": 13
     },
     {
      "key": "catalog/ picture.card__photo",
@@ -1975,15 +2003,15 @@
    "how": "Classes with __parts, the most copies seen at one size, and their variants.",
    "items": [
     {
-     "key": "option",
-     "where": ".option",
-     "what": "37 on the page",
-     "value": 37
-    },
-    {
      "key": "card",
      "where": ".card",
      "what": "25 on the page · variants: card--half card--light, card--dark card--half, card--light card--third, card--dark card--third",
+     "value": 25
+    },
+    {
+     "key": "about",
+     "where": ".about",
+     "what": "25 on the page",
      "value": 25
     },
     {
@@ -2025,12 +2053,6 @@
     {
      "key": "fact",
      "where": ".fact",
-     "what": "3 on the page",
-     "value": 3
-    },
-    {
-     "key": "switch",
-     "where": ".switch",
      "what": "3 on the page",
      "value": 3
     },
@@ -2319,15 +2341,15 @@
     {
      "key": "390x844",
      "where": "390x844",
-     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44,
+     "what": "46.6% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 46.6,
      "at": "390x844"
     },
     {
      "key": "1440x900",
      "where": "1440x900",
-     "what": "44% of the text shown, 6 of 9 headings, h1 shown",
-     "value": 44,
+     "what": "35.2% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 35.2,
      "at": "1440x900"
     }
    ],
@@ -2423,35 +2445,35 @@
     {
      "key": "p.card__textКофе с классическим и чи",
      "where": "p.card__text",
-     "what": "«Кофе с классическим и чи» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "what": "«Кофе с классическим и чи» 2 → 3 lines, 354 → 354px wide with the fallback font",
      "value": 0,
      "at": "390x844"
     },
     {
      "key": "p.card__textЭксклюзив №1 в нашем асс",
      "where": "p.card__text",
-     "what": "«Эксклюзив №1 в нашем асс» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "what": "«Эксклюзив №1 в нашем асс» 2 → 3 lines, 354 → 354px wide with the fallback font",
      "value": 0,
      "at": "390x844"
     },
     {
      "key": "p.card__textАвторская смесь (классич",
      "where": "p.card__text",
-     "what": "«Авторская смесь (классич» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "what": "«Авторская смесь (классич» 2 → 3 lines, 354 → 354px wide with the fallback font",
      "value": 0,
      "at": "390x844 1440x900"
     },
     {
      "key": "p.card__textДля тех, кто не любит ли",
      "where": "p.card__text",
-     "what": "«Для тех, кто не любит ли» 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "what": "«Для тех, кто не любит ли» 2 → 3 lines, 354 → 354px wide with the fallback font",
      "value": 0,
      "at": "390x844"
     },
     {
      "key": "p.card__textДля любителей сочнейшей ",
      "where": "p.card__text",
-     "what": "«Для любителей сочнейшей » 3 → 4 lines, 354 → 354px wide with the fallback font",
+     "what": "«Для любителей сочнейшей » 2 → 3 lines, 354 → 354px wide with the fallback font",
      "value": 0,
      "at": "390x844"
     },
@@ -2479,7 +2501,7 @@
     {
      "key": "p.card__textКлассика кофейного вкуса",
      "where": "p.card__text",
-     "what": "«Классика кофейного вкуса» 3 → 4 lines, 433 → 433px wide with the fallback font",
+     "what": "«Классика кофейного вкуса» 2 → 3 lines, 433 → 433px wide with the fallback font",
      "value": 0,
      "at": "1440x900"
     }
@@ -3294,7 +3316,7 @@
    "unit": "KB",
    "was": {
     "status": "pass",
-    "value": 559
+    "value": 560
    },
    "status": "pass",
    "items": [
@@ -3307,20 +3329,20 @@
     {
      "key": "js",
      "where": "js",
-     "what": "11 files, 61 KB sent (was 61 KB)",
-     "value": 61
+     "what": "11 files, 62 KB sent (was 61 KB)",
+     "value": 62
+    },
+    {
+     "key": "css",
+     "where": "css",
+     "what": "1 files, 17 KB sent (was 17 KB)",
+     "value": 17
     },
     {
      "key": "images",
      "where": "images",
      "what": "10 files, 402 KB sent (was 402 KB)",
      "value": 402
-    },
-    {
-     "key": "css",
-     "where": "css",
-     "what": "1 files, 17 KB sent (was 16 KB)",
-     "value": 17
     },
     {
      "key": "fonts",
@@ -3438,7 +3460,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "142 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "143 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
    "value": 3,
    "unit": "places",
@@ -3471,7 +3493,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "62 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "63 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3505,7 +3527,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "68 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "69 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3777,7 +3799,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "131 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "132 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3811,7 +3833,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "68 decisions: 43 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
+   "how": "69 decisions: 44 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3915,7 +3937,7 @@
   {
    "key": "shape.radii::select.buy__select|5",
    "rule": "shape.radii",
-   "status": "warn",
+   "status": "fail",
    "where": "select.buy__select",
    "what": "radius 5px on a 144×54 box",
    "at": "320x568 390x844",
@@ -3924,7 +3946,7 @@
   {
    "key": "shape.radii::catalog/ select.buy__select|5",
    "rule": "shape.radii",
-   "status": "warn",
+   "status": "fail",
    "where": "catalog/ select.buy__select",
    "what": "radius 5px on a 144×54 box",
    "at": "320x568 390x844",
@@ -3933,7 +3955,7 @@
   {
    "key": "shape.radii::coffee/keniya-kisii/ select.buy__select|5",
    "rule": "shape.radii",
-   "status": "warn",
+   "status": "fail",
    "where": "coffee/keniya-kisii/ select.buy__select",
    "what": "radius 5px on a 144×54 box",
    "at": "320x568 390x844",
@@ -3942,7 +3964,7 @@
   {
    "key": "shape.radii::coffee/q-optimistic/ select.buy__select|5",
    "rule": "shape.radii",
-   "status": "warn",
+   "status": "fail",
    "where": "coffee/q-optimistic/ select.buy__select",
    "what": "radius 5px on a 144×54 box",
    "at": "320x568 390x844",
@@ -3961,7 +3983,7 @@
    "key": "shape.borders::1.5",
    "rule": "shape.borders",
    "status": "warn",
-   "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
+   "where": "catalog/ input.box",
    "what": "1.5px",
    "at": "",
    "new": false
@@ -4015,7 +4037,7 @@
    "key": "layers.z::7",
    "rule": "layers.z",
    "status": "warn",
-   "where": "button.fav, form.buy, catalog/ button.fav, catalog/ form.buy, coffee/keniya-kisii/ button.fav, coffee/keniya-kisii/ form.buy",
+   "where": "button.fav, div.about, form.buy, catalog/ button.fav, catalog/ div.about, catalog/ form.buy",
    "what": "z-index 7",
    "at": "",
    "new": false
@@ -4318,6 +4340,15 @@
    "new": false
   },
   {
+   "key": "align.icons::button.about__info",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "button.about__info",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768",
+   "new": false
+  },
+  {
    "key": "align.icons::svg.buy__chevron",
    "rule": "align.icons",
    "status": "warn",
@@ -4342,6 +4373,15 @@
    "where": "catalog/ a.nav__tool",
    "what": "higher than its text's line by 8.5px",
    "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::catalog/ button.about__info",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "catalog/ button.about__info",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768",
    "new": false
   },
   {
@@ -4372,6 +4412,15 @@
    "new": false
   },
   {
+   "key": "align.icons::coffee/keniya-kisii/ button.about__info",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ button.about__info",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768",
+   "new": false
+  },
+  {
    "key": "align.icons::coffee/keniya-kisii/ svg.buy__chevron",
    "rule": "align.icons",
    "status": "warn",
@@ -4396,6 +4445,15 @@
    "where": "coffee/q-optimistic/ a.nav__tool",
    "what": "higher than its text's line by 8.5px",
    "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "new": false
+  },
+  {
+   "key": "align.icons::coffee/q-optimistic/ button.about__info",
+   "rule": "align.icons",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ button.about__info",
+   "what": "higher than its text's line by 8.5px",
+   "at": "320x568 390x844 844x390 768x1024 1024x768",
    "new": false
   },
   {
@@ -4790,7 +4848,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "390x844",
-   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "46.6% of the text shown, 6 of 9 headings, h1 shown",
    "at": "390x844",
    "new": false
   },
@@ -4799,7 +4857,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "1440x900",
-   "what": "44% of the text shown, 6 of 9 headings, h1 shown",
+   "what": "35.2% of the text shown, 6 of 9 headings, h1 shown",
    "at": "1440x900",
    "new": false
   },
@@ -4853,7 +4911,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Кофе с классическим и чи» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "what": "«Кофе с классическим и чи» 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
    "new": false
   },
@@ -4862,7 +4920,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Эксклюзив №1 в нашем асс» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "what": "«Эксклюзив №1 в нашем асс» 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
    "new": false
   },
@@ -4871,7 +4929,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Авторская смесь (классич» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "what": "«Авторская смесь (классич» 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844 1440x900",
    "new": false
   },
@@ -4880,7 +4938,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Для тех, кто не любит ли» 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "what": "«Для тех, кто не любит ли» 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
    "new": false
   },
@@ -4889,7 +4947,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Для любителей сочнейшей » 3 → 4 lines, 354 → 354px wide with the fallback font",
+   "what": "«Для любителей сочнейшей » 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
    "new": false
   },
@@ -4925,7 +4983,7 @@
    "rule": "fallback.fonts",
    "status": "warn",
    "where": "p.card__text",
-   "what": "«Классика кофейного вкуса» 3 → 4 lines, 433 → 433px wide with the fallback font",
+   "what": "«Классика кофейного вкуса» 2 → 3 lines, 433 → 433px wide with the fallback font",
    "at": "1440x900",
    "new": false
   },
@@ -5132,7 +5190,16 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "js",
-   "what": "11 files, 61 KB sent (was 61 KB)",
+   "what": "11 files, 62 KB sent (was 61 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::css",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "css",
+   "what": "1 files, 17 KB sent (was 17 KB)",
    "at": "",
    "new": false
   },
@@ -5142,15 +5209,6 @@
    "status": "pass",
    "where": "images",
    "what": "10 files, 402 KB sent (was 402 KB)",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "weight.total::css",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "css",
-   "what": "1 files, 17 KB sent (was 16 KB)",
    "at": "",
    "new": false
   },
@@ -5402,6 +5460,13 @@
    "state": "unbound",
    "what": "Only a Special coffee may show a photo on its card instead of the 3D pack (components.mjs photoOf over data/site.json photos); three do (Вьетнам Куа Мон, the second card of the catalog, Кения Киси, Перу Монте Верде), as the Figma catalog mixes photos with packs. A Classic coffee always shows its pack",
    "decided": "Claude, 2026-10-19"
+  },
+  {
+   "id": "card-scale",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "Every product card has a small taste scale in place of «Плотность 3 из 5. Кислотность 3 из 5.»: three rows, a dot on a line between the taste model's words («мягче · ярче», «легче · плотнее», «классичнее · необычнее»), the line QQ's own range (its softest to its brightest coffee…), positions from src/data/taste.json. It is hidden in the card's picture until asked for (Tim, 25 Nov): an info button in the bottom left corner, just above the buy row; hovered with a mouse or pressed (scripts/about.js), a sheet of the card's own ground rises from the buy row with the rows. The button's name reads «Вкус: Кислотность 3 из 5, средняя для QQ…» to a screen reader. The line is ink-60 (white-60 on a dark card) drawn as a 1px band, not a border, the dot ink (paper); no sweetness, no «Горечь», never «Оценка Q»",
+   "decided": "Claude, 2026-11-24 (session 3, for Tim's review in the PR)"
   },
   {
    "id": "buybar-phone",
