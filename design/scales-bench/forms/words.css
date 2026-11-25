@@ -1,0 +1,5 @@
+.sw { display: grid; grid-template-columns: max-content max-content 1fr; align-items: center; gap: 0 10px; }
+.sw__mark { display: block; }
+.sw__on { fill: var(--c-ink); }
+.sw__off { fill: var(--c-ink-60); }
+.sw__w { color: var(--c-ink); white-space: nowrap; }

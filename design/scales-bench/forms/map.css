@@ -1,0 +1,12 @@
+/* the map 88 × 80 (the tall map's 1.1), «плотнее →» up its left edge (turned, so it takes one
+   line's width, not a word's), «ярче →» under it at the right, the words beside */
+.smap { display: grid; grid-template-columns: max-content 88px minmax(0, 1fr); grid-template-rows: 80px auto; gap: 2px 8px; }
+.smap__y { grid-area: 1 / 1; writing-mode: vertical-rl; rotate: 180deg; text-align: end; line-height: 1.1; white-space: nowrap; }
+.smap__plot { grid-area: 1 / 2; display: block; }
+.smap__x { grid-area: 2 / 2; text-align: right; line-height: 1.1; white-space: nowrap; }
+.smap__words { grid-area: 1 / 3 / span 2 / 4; display: grid; align-content: start; padding-left: 6px; }
+/* the frame is a border (--line, decorative: the dots carry the meaning); the other coffees ink-60, this one ink with a
+   paper ring that parts it from a neighbour under it */
+.smap__frame { fill: none; stroke: var(--line); stroke-width: 1.25; }
+.smap__o { fill: var(--c-ink-60); }
+.smap__me { fill: var(--c-ink); stroke: var(--c-paper); stroke-width: 2; }
