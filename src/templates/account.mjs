@@ -156,7 +156,7 @@ export function profile(ctx, { beans = false } = {}) {
       <div class="grid grid--quarters">${acc.purchases.slice(0, 4).map((x) => purchaseCard(ctx, x)).join("\n      ")}</div>
     </section>
     <section class="part" aria-labelledby="quiztaste-title" data-taste-part hidden>
-      <div class="part__head"><h2 class="part__title" id="quiztaste-title">Ваш подбор</h2><a class="iconlink" href="${href(ctx, "start/")}" data-taste-again><span>Изменить ответы</span>${icon("arrow-right")}</a></div>
+      <div class="part__head"><h2 class="part__title" id="quiztaste-title">Ваш подбор</h2><a class="iconlink" href="${href(ctx, "start/")}" data-taste-again><span>Открыть подбор</span>${icon("arrow-right")}</a></div>
       <ul class="taste-part" data-taste-list></ul>
     </section>
     <section class="part" aria-labelledby="foryou-title">

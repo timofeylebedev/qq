@@ -177,6 +177,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   browser (`qq-taste`, `scripts/tastesaved.js`): the catalogue's line, a coffee's page (`[data-fit]`: the roast and grind
   for the visitor's method, which the buy bar starts on; the closeness in «Впечатления») and the profile read it; the
   feedback after delivery (session 6) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.
+  Its moves start from the taste model's (`next`, `directions`) and add the quiz's own guards in quiz.js (`MOVES`,
+  `near`: milk, method, no twins); a rule for the coffee page's moves still goes into `nextBlock`. The answers in the
+  address: `q` the question shown, `r=1` back to the result after it. Saved only when answered on this page.
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists

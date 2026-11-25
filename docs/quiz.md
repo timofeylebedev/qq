@@ -59,8 +59,9 @@ processing): a centre and a spread, as `START` and `fit()` in src/scripts/taste.
     - caramel: мягче, ярче;
     - bright: мягче, необычнее (with milk: ярче, мягче);
     - wild: ярче, необычнее (with milk: классичнее, необычнее).
-  - The coffee page's own «Что взять еще» move is taken when it fits the visitor almost as well as the best (68% of all
-    moves); otherwise the best fit in the region. With milk (and a taste that isn't bright or unusual) a move is only onto
+  - The coffee page's own «Что взять еще» move is taken when it fits the visitor almost as well as the best (652 of the
+    1 080 moves, 60%); otherwise the taste model's next candidate in that direction or the best fit in the region.
+    Two moves are never near twins of each other (taste distance ≥ 0.6), and «Необычнее» needs real fermentation. With milk (and a taste that isn't bright or unusual) a move is only onto
     a coffee QQ tags for milk.
   - A direction with nothing in it gives way to the next; the last resort is «Тоже подходит», never a near twin of a coffee
     already shown (two robusta blends side by side).
@@ -77,14 +78,14 @@ processing): a centre and a spread, as `START` and `fit()` in src/scripts/taste.
 
 **Reasons in plain words** (data/quiz.json `words`), on each card under its move in lavender:
 - **What ties it to the answers:**
-  - the taste asked for, naming the coffee's own notes that match it («шоколад и орехи, как вы хотели: какао, орехи»),
-    never beside a contrary downside;
+  - the taste asked for («шоколад и орехи, как вы хотели»), only when the coffee's own notes are of those families, and
+    never beside a contrary downside (the summary then leaves the taste out of its reasons too);
   - «QQ советует его для капучино и латте»;
   - «похож на кофе из магазина, только свежей обжарки» (only the anchor's own coffees).
 - **The coffee in words:** «Почти без кислинки, очень плотный. Во вкусе …» (acidity, density and ferment as words, never
   «3 из 5»); a blend with robusta says so («Смесь с робустой: крепче и с горчинкой»: some people avoid it).
 - **One downside at most,** where it is furthest from what was asked: «Но кислинка ярче, чем вы описали», «Но легче, чем вы
-  привыкли», «Но QQ не советует его для молока». About one card in six carries one (334 of 2 025).
+  привыкли», «Но QQ не советует его для молока». About one card in seven carries one (296 of 2 025).
 - **What the method sets:** «Обжарка под эспрессо, помол для эспрессо — или в зёрнах, если мелете сами» (moka and French
   press: in beans, QQ has no such grind yet).
 - **Above the cards, one sentence:** what kind of coffee to start with and why, from the answers: «Начните с мягкого и
@@ -93,7 +94,7 @@ processing): a centre and a spread, as `START` and `fit()` in src/scripts/taste.
 - No persona labels: a label changes taste and self-image (research), and the region already says it.
 
 Also on the result:
-- the answers, each a button that opens its question and comes straight back;
+- the answers, each a button that opens its question and comes straight back (`?…&q=2&r=1`: `r` returns to the result);
 - «Все подходящие в каталоге: N» (the method, milk, and the taste as the catalogue's own switches: choc → acid=low,
   bright → acid=high, wild → chip=unusual; a condition that would leave fewer than three is dropped);
 - the taste map (the catalogue's `tasteMap()`, `initTasteMap().area()`), with the three lit and named;
@@ -111,7 +112,8 @@ Also on the result:
 - The catalogue's chips and switches, for the link to its part.
 
 ## Saved, and who reads it
-Until the account has a backend, the result is kept in this browser: localStorage `qq-taste` =
+Until the account has a backend, the result is kept in this browser, only when the visitor answered the questions here
+(a shared result offers «Сделать этот подбор моим» instead of replacing theirs): localStorage `qq-taste` =
 `{ v: 1, at, answers: { method, milk, now, taste }, region: { center, spread, flavour? }, mode, picks: [{ slug, label, name }] }`
 (`scripts/tastesaved.js`). Read by:
 - **the catalogue:** its line becomes «Ваш подбор: A, B и C. Открыть подбор»;
@@ -139,15 +141,22 @@ the spread, so «Ваш подбор» becomes sharper with each answer. «Не 
   - has an empty or broken reason, or reads «Оценка Q».
 - **The survey** (`docs/quiz-check/`): 106 respondents coded blind from their own answers, run through the quiz, judged
   against what they said. Results and fixes there.
+- **build/quiz.mjs also checks against the sources,** not quiz.js's own rules: products.json's roasts and grinds,
+  site.json's `shop.unavailable`, the decaf tag; no near twins among the three; the catalogue link keeps the first coffee;
+  the summary never names a taste the first card contradicts. It runs every answer again with the most offered coffee
+  sold out.
 - **The browser** (`docs/quiz-check/browser.md`): the audit's sizes, the result's three cards, the map, the keyboard.
+- **The independent review** (in the PR): its findings were fixed in «Fixes from the independent review».
 
 ## Known limits
 - **The anchors are judgements.** «Пачка из супермаркета» is an assumption of the taste model (dark roast, often with
   robusta) for QQ to confirm. The specialty anchor is the model's filter or espresso anchor, not a measured place.
 - **A wide region still picks one first coffee.** For the most common answers (machine, milk, shop) it is QQ's dense
   milk blends. That is right for those people, but it means few lots ever come first: 11 of 24.
+- **«Или начните с этих трёх»** is the quiz's own «не знаю» everywhere, among the coffees roasted for espresso and filter
+  both (so they suit any method): today Эфиопия Бекеле, Вьетнам Куа Мон, Руанда Гицумби.
 - **Kenya Найваша ПБ and Ла Сирена are rarely offered.** They sit at the bright edge, beyond what newcomers ask.
-- **«Тоже подходит»** appears when a direction has no coffee (52 of the 1 080 cards after a first one), mostly at the soft-dense edge.
+- **«Тоже подходит»** appears when a direction has no coffee (21 of the 1 080 cards after a first one), mostly at the soft-dense edge.
 - **Q-Punch is in the «Ликёр и специи» taste group** through «сладкие специи» (data/choose.json, session 3), which the
   survey check questioned. The quiz names notes, not groups, so it doesn't show.
 - **No decaf answer.** There is one decaf; the result names it under the cards. Two survey respondents liked only decaf.

@@ -696,11 +696,17 @@
   "picks": [
    "Уганда Луна",
    "Q-Profit",
-   "Q-Berry"
+   "Q-Punch"
   ],
   "verdict": "fits",
   "why": "Fixed: espresso-roast Уганда Луна (milk chocolate) starts, with denser Q-Berry and brighter Q-Profit; no more «мягкого и лёгкого» for a turka brewer wanting «насыщенный».",
-  "before": "questionable"
+  "before": "questionable",
+  "picksRound2": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Berry"
+  ],
+  "note": "After the review: two moves may not be twins, so «Плотнее» is Q-Punch (dense, robusta, said on its card), not Q-Berry beside Q-Profit."
  },
  {
   "id": 40,
@@ -1404,11 +1410,17 @@
   "picks": [
    "Уганда Луна",
    "Q-Profit",
-   "Q-Berry"
+   "Q-Punch"
   ],
   "verdict": "fits",
   "why": "Better: espresso-roast Луна first, with denser Q-Berry and Q-Profit, no more «лёгкого»; Q-Optimistic would suit «крепость» best, but this is sensible.",
-  "before": "questionable"
+  "before": "questionable",
+  "picksRound2": [
+   "Уганда Луна",
+   "Q-Profit",
+   "Q-Berry"
+  ],
+  "note": "After the review: «Плотнее» is Q-Punch (dense, robusta, said on its card), not Q-Berry beside its twin Q-Profit."
  },
  {
   "id": 79,
@@ -1566,12 +1578,17 @@
   "picks": [
    "Руанда Гицумби",
    "Q-Berry",
-   "Вьетнам Куа Мон"
+   "Колумбия Вуш-Вуш"
   ],
   "verdict": "questionable",
   "why": "Worse in words: picks fit, and the set now keeps one roast, but Куа Мон is labelled «Необычнее первого: с ферментацией» while its own taste line names no fermentation.",
   "before": "fits",
-  "note": "After round 2: the move «Необычнее» says «смелее по обработке и вкусу», no longer «с ферментацией»."
+  "note": "After round 2: the move «Необычнее» says «смелее по обработке и вкусу», no longer «с ферментацией». After the review: «Необычнее» needs real fermentation (unusual ≥ 0.9): now Колумбия Вуш-Вуш, ferment 1, «с лёгкой ферментацией».",
+  "picksRound2": [
+   "Руанда Гицумби",
+   "Q-Berry",
+   "Вьетнам Куа Мон"
+  ]
  },
  {
   "id": 88,

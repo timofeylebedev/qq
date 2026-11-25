@@ -4,7 +4,7 @@
    ink, the one under the pointer takes the tint. One question at a time once the script runs (data-js); without it
    the four stand one under another. */
 .start .phead { margin-bottom: var(--section-gap); }
-.quiz__title, .qentry__title { font-size: var(--type-h3); margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
+.qentry__title { font-size: var(--type-h3); margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
 .quiz { display: grid; gap: var(--section-gap); }
 .quiz__form { display: grid; gap: var(--text-gap); }
 .quiz__top { display: flex; align-items: center; justify-content: space-between; gap: var(--gap); min-height: 40px; }
@@ -38,7 +38,7 @@
 @container col (width >= 22rem) and (width < 58rem) { .qopts--many > :last-child:nth-child(odd), .qopts--some > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .qopt {
   position: relative; display: grid; align-content: start; gap: 4px; min-height: 72px; padding: var(--tile-pad);
-  border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; cursor: pointer;
+  border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; cursor: pointer; touch-action: manipulation;
   transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
 }
 .qopt__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
@@ -74,7 +74,7 @@
 @media (--mouse) { .qres__answer:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* the three cards: the move in lavender over the reasons, never cut; the downside and what the method sets after */
-.qres__picks .card__text { -webkit-line-clamp: none; line-clamp: none; }
+.qres__picks .card__text { display: block; -webkit-line-clamp: none; line-clamp: none; }   /* a -webkit-box drops the space between the reason's spans */
 .card__but { color: var(--c-ink); font-weight: 500; }
 .card__set, .card__lead { color: var(--c-ink); font-weight: 500; }
 .qres__actions { display: grid; justify-items: stretch; gap: 12px; }
@@ -83,7 +83,8 @@
 @container col (width >= 43rem) { .qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); } }
 .qres__actions .btn[hidden] { display: none; }
 .qres__saved, .qres__decaf, .qres__note { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
-.qres__saved[hidden] { display: none; }
+.qres__saved[hidden], .qres__saved [hidden] { display: none; }
+.qres__saved:has(> [hidden]:only-child) { display: none; }
 .qres__map { display: grid; gap: var(--text-gap); }
 .qres__maptext { display: grid; gap: 12px; align-content: start; max-width: 34rem; }
 .qres__map .tmap { max-width: 34rem; }

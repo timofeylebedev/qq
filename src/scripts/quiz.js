@@ -7,7 +7,7 @@
 //   result(answers, D)     what the page shows: the form (one coffee and two moves away from it, or three different
 //                          ones), each coffee with its reasons in plain words, the region, the catalogue's part
 //   area(region, D)        the region in the taste map's box (0–1), for scripts/tastemap.js area()
-//   ANSWERED(answers, D)   how many questions are answered, in order (the page shows the next one)
+//   answered(answers, D)   how many questions are answered, in order (the page shows the next one)
 //
 // answers: { method, milk, now, taste } with the ids of data/quiz.json (method: a method of data/choose.json or "none").
 import { fit, START, distance, AXES } from "./taste.js";
@@ -68,15 +68,16 @@ const MOVES = {
   brighter: (x, y) => y.position.bright - x.position.bright >= STEP,
   denser: (x, y) => y.position.body - x.position.body >= STEP,
   lighter: (x, y) => y.position.body - x.position.body <= -STEP,
-  unusual: (x, y) => y.position.unusual - x.position.unusual >= STEP,
+  unusual: (x, y) => y.position.unusual - x.position.unusual >= STEP && y.position.unusual >= 0.9,   // fermented enough for its card to say so
   classic: (x, y) => x.position.unusual - y.position.unusual >= STEP && y.coded.ferment === 0 && y.position.unusual < 0.3
 };
 
 // ── the result ───────────────────────────────────────────────────────────────────────────────────────────────────
 // `form` forces one form ("pick" or "spread") whatever the answers: the bench compares them on the same answers
-export function result(a, D, { form = null } = {}) {
+// `only` narrows the coffees offered (the page's «start here» set: those QQ roasts for espresso and filter both)
+export function result(a, D, { form = null, only = null } = {}) {
   const W = D.words, region = regionOf(a, D);
-  const pool = D.coffees.filter((c) => eligible(c, a));
+  const pool = D.coffees.filter((c) => eligible(c, a) && (!only || only(c)));
   const cost = new Map(pool.map((c) => [c, costOf(c, region, a, D)]));
   const spread = form ? form === "spread" : !a.taste || D.rules.taste[a.taste]?.spread;
   // three different coffees are a tasting: those QQ also sells in 50 g come a little first, so all three can be small
@@ -127,7 +128,8 @@ export function result(a, D, { form = null } = {}) {
   // candidate (so the quiz and «Что взять еще» agree), else the best fit in the region among those a real step away
   function move(first, d) {
     // a real step, near on the other axes, and still inside the visitor's region (at most one and a half spreads further than the first)
-    const ok = (c) => c !== first && !picks.some((p) => p.c === c) && MOVES[d](first, c) && near(first, c, AXIS[d]) && cost.get(c) <= cost.get(first) + 1.5;
+    // and never a near twin of a move already shown («Ярче» and «Плотнее» on the same spot)
+    const ok = (c) => c !== first && !picks.some((p) => p.c === c || dist(p.c, c) < 0.6) && MOVES[d](first, c) && near(first, c, AXIS[d]) && cost.get(c) <= cost.get(first) + 1.5;
     let can = byCost.filter(ok);
     // with milk, only a coffee QQ tags for milk (none in that direction: it gives way to the next). A visitor who asked
     // for bright or unusual coffee keeps those moves open, and gets a milk coffee for the safe ones when there is one.
@@ -140,7 +142,7 @@ export function result(a, D, { form = null } = {}) {
     return { c: best, from: "region" };
   }
   const out = picks.map((p) => ({ slug: p.c.slug, role: p.role, label: p.label, ...(p.from ? { from: p.from } : {}), ...reasons(p, picks[0].c, a, region, D) }));
-  return { mode: spread ? "spread" : "pick", region, area: area(region, D), summary: summary(a, picks[0].c, spread, D), picks: out, catalogue: catalogue(a, D) };
+  return { mode: spread ? "spread" : "pick", region, area: area(region, D), summary: summary(a, picks[0].c, spread, D, out[0]), picks: out, catalogue: catalogue(a, D, picks[0].c) };
 }
 
 // ── the words ────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -152,7 +154,12 @@ export const tasteWords = (c, W) => {
 
 // what the method sets on this coffee, in words («Обжарка под эспрессо, в зёрнах»), or null without a method
 export function setOf(c, a, W) {
-  if (!a.method || a.method === "none") return { roast: null, grind: "В зернах", omni: false, text: `В зёрнах — ${W.grindNote.none}` };
+  // no method (a gift, or not decided): beans, in the espresso roast when QQ sells it (machines, moka and turka are most
+  // homes), and both can be changed on the coffee's page
+  if (!a.method || a.method === "none") {
+    const roast = c.roasts.includes("Эспрессо") ? "Эспрессо" : c.roasts[0];
+    return { roast, grind: "В зернах", omni: !!c.omni, text: `В зёрнах, ${c.omni ? "омни-обжарка" : W.roast[roast]} — ${W.grindNote.none}` };
+  }
   const f = c.methods[a.method];
   const note = f.grind === "В зернах" ? W.grindNote[a.method] : W.grindNote.ground;
   return { roast: f.roast, grind: f.grind, omni: f.omni, text: `${f.omni ? "Омни-обжарка" : cap(W.roast[f.roast])}, ${W.grind[f.grind]}${note ? ` — ${note}` : ""}` };
@@ -168,18 +175,18 @@ function reasons(p, first, a, region, D) {
     const asked = a.taste && !D.rules.taste[a.taste]?.spread;
     const gaps = [
       ["bright", c.position.bright - region.center.bright, 0.9, ["мягче, чем вы описали", "кислинка ярче, чем вы описали"]],
-      ["body", c.position.body - region.center.body, 1.1, ["легче, чем вы привыкли", "плотнее, чем вы привыкли"]],
+      ["body", c.position.body - region.center.body, 1.1, a.now && a.now !== "none" ? ["легче, чем вы привыкли", "плотнее, чем вы привыкли"] : ["легче, чем подсказали ответы", "плотнее, чем подсказали ответы"]],
       ["unusual", c.position.unusual - region.center.unusual, 1.2, ["классичнее, чем вы просили", "необычнее, чем вы просили: с ферментацией"]]
     ].filter(([k, g, lim]) => Math.abs(g) >= lim && (asked || k === "body")).sort((x, y) => Math.abs(y[1]) / y[2] - Math.abs(x[1]) / x[2]);
     if (gaps.length) but = `Но ${gaps[0][3][gaps[0][1] > 0 ? 1 : 0]}.`;
   }
-  // what ties it to the answers: the taste asked for (only when its notes say so, naming them, and never beside a
+  // what ties it to the answers: the taste asked for (only when its own notes say so, and never beside a
   // downside about acidity or ferment), milk, what the visitor drinks now
   if (p.role === "first" || p.role === "also") {
-    const fams = W.tasteFamilies[a.taste];
+    const fams = D.steps.find((st) => st.id === "taste").options.find((o) => o.id === a.taste)?.families;
     const hit = fams ? c.notes.filter((n) => n.f.some((f) => fams.includes(f))).map((n) => n.d.toLowerCase()) : [];
     const unusual = a.taste === "wild" && c.position.unusual >= 1;
-    if ((hit.length || unusual) && !/кислинк|мягче, чем|классичнее|необычнее/.test(but || "")) why.push(unusual ? W.tasteMatch.wild : `${W.tasteMatch[a.taste]}: ${hit.join(", ")}`);
+    if ((hit.length || unusual) && !CONTRARY.test(but || "")) why.push(unusual ? W.tasteMatch.wild : W.tasteMatch[a.taste]);   // the notes themselves follow in the taste line
   } else if (p.role !== "spread") why.push(W.moveWhy[p.role].replace(/\.$/, ""));
   if ((a.milk === "yes" || a.milk === "some") && c.milk) why.push(W.milk);
   if (a.now === "shop" && D.anchors["пачка из супермаркета"].coffees.includes(c.slug) && p.role !== "spread") why.push(W.shop);
@@ -189,19 +196,21 @@ function reasons(p, first, a, region, D) {
 
 // the result in one sentence: what kind of coffee to start with (the first coffee's region of the map), and why (from
 // the answers), then that it is a start
-function summary(a, first, spread, D) {
+const CONTRARY = /кислинк|мягче, чем|классичнее|необычнее/;
+function summary(a, first, spread, D, card) {
   const W = D.words;
   if (spread) return [W.spread, W.start];
   // milk is a reason only when the first coffee is one QQ advises for milk
-  const because = [(a.milk === "yes" || a.milk === "some") && first.milk ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", W.because[`taste-${a.taste}`] || ""].filter(Boolean);
+  const because = [(a.milk === "yes" || a.milk === "some") && first.milk ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", CONTRARY.test(card?.but || "") ? "" : W.because[`taste-${a.taste}`] || ""].filter(Boolean);
   const list = because.length > 1 ? `${because.slice(0, -1).join(", ")} и ${because.at(-1)}` : because[0] || "";
   const adj = first.position.unusual >= 1.5 ? W.unusualStart : W.regions[first.region][1];
   return [`Начните ${/^с[^аеёиоуыэюя]/.test(adj) ? "со" : "с"} ${adj} кофе${list ? `: вы ${list}` : ""}.`, W.start];
 }
 
 // the part of the catalogue that fits: the method, milk, and the taste as the catalogue's own switches and checkboxes
-// (data/choose.json); a condition that would leave fewer than three coffees is dropped, the taste first
-export function catalogue(a, D) {
+// (data/choose.json); a condition that would leave fewer than three coffees, or leave out the quiz's first coffee, is
+// dropped, the taste first
+export function catalogue(a, D, first = null) {
   const tasteParam = { choc: ["acid", "low"], bright: ["acid", "high"], wild: ["chip", "unusual"] }[a.taste];
   const live = D.coffees.filter((c) => !c.out);
   const tests = [];
@@ -210,7 +219,9 @@ export function catalogue(a, D) {
   if (tasteParam) tests.push([...tasteParam, tasteParam[0] === "acid" ? (c) => c.axes.acid === tasteParam[1] : (c) => c.chips.includes("unusual")]);
   let use = tests;
   const n = (list) => live.filter((c) => list.every(([, , t]) => t(c))).length;
-  while (use.length && n(use) < 3) use = use.slice(0, -1);
+  // never a part of the catalogue without the quiz's own first coffee, nor one of fewer than three
+  const keeps = (list) => !first || list.every(([, , t]) => t(first));
+  while (use.length && (n(use) < 3 || !keeps(use))) use = use.slice(0, -1);
   return { params: use.map(([k, v]) => [k, v]), n: n(use) };
 }
 

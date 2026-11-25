@@ -10,7 +10,7 @@ import { result, answered } from "./quiz.js";
 import { initTasteMap } from "./tastemap.js";
 import { focusFrom } from "./focus.js";
 import { y, to } from "./scroller.js";
-import { saveTaste } from "./tastesaved.js";
+import { saveTaste, loadTaste } from "./tastesaved.js";
 import { KEY, load, save, badge, toast, rub } from "./buy.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -29,8 +29,11 @@ export function initQuiz() {
     text: el.querySelector(".card__text"), set: Object.fromEntries([...el.querySelectorAll("[data-set]")].map((i) => [i.dataset.set, i]))
   }]));
   const coffee = new Map(D.coffees.map((c) => [c.slug, c]));
+  const keep = res.querySelector("[data-quiz-keep]");
   const setBtn = res.querySelector("[data-quiz-set]"), cat = res.querySelector("[data-quiz-catalogue]"), catHref = cat.getAttribute("href");
   let map = null, picks = [];
+  // the focus alone doesn't scroll (focusFrom): when the quiz's top is above the screen after a step, bring it back
+  const toTop = () => { const top = root.getBoundingClientRect().top; if (top < 0) to(Math.max(0, y() + top - 96)); };
   root.setAttribute("data-js", "");
   next.textContent = "Дальше";
 
@@ -60,24 +63,31 @@ export function initQuiz() {
   function draw(moved) {
     const { a, at } = parse();
     const done = answered(a, D);
-    const i = at ?? (done >= IDS.length ? null : done);
+    // a question past the first unanswered one (a shared or typed address) shows the first unanswered one
+    const i = at == null ? (done >= IDS.length ? null : done) : Math.min(at, done);
     for (const s of steps) for (const r of s.querySelectorAll("input")) r.checked = a[s.dataset.step] === r.value;
     if (i == null || i > done) { if (done >= IDS.length) return showResult(a, moved); }
     const cur = i ?? done;
     form.hidden = false; res.hidden = true;
     steps.forEach((s, k) => { s.hidden = k !== cur; });
     bars.forEach((b, k) => b.toggleAttribute("data-on", k <= cur));
-    back.hidden = cur === 0 && !parse().ret;
+    back.hidden = cur === 0 && !(parse().ret && done >= IDS.length);
     next.hidden = !a[IDS[cur]];
-    if (moved) focusFrom(steps[cur].querySelector("legend"));
+    changedAt = performance.now();
+    if (moved) { focusFrom(steps[cur].querySelector("legend")); toTop(); }
   }
 
   // ── answering ──
-  let arrow = false;
-  form.addEventListener("keydown", (e) => { arrow = /^Arrow/.test(e.key); });
+  // a double tap must not answer the next question too: answers within 350 ms of a step change are ignored (and the
+  // option goes back to what the address says)
+  let changedAt = 0, arrow = false;
+  const tooSoon = () => performance.now() - changedAt < 350;
+  form.addEventListener("keydown", (e) => { arrow = /^Arrow/.test(e.key) && e.target.matches(".qopt__input"); });
+  form.addEventListener("pointerdown", () => { arrow = false; });
   form.addEventListener("change", (e) => {
     const s = e.target.closest("[data-step]");
     if (!s) return;
+    if (tooSoon() && !arrow) { draw(false); return; }
     const { a, ret } = parse(), i = Number(s.dataset.i);
     a[s.dataset.step] = e.target.value;
     // the arrow keys choose (the address keeps it; the focus stays on the option); Enter moves on
@@ -87,11 +97,13 @@ export function initQuiz() {
   // a tap on the option already chosen moves on too (no change event for it)
   form.addEventListener("click", (e) => {
     const input = e.target.closest(".qopt__input");
-    if (!input || e.detail === 0) return;
+    if (!input || e.detail === 0 || tooSoon()) return;
     const { a, ret } = parse(), s = input.closest("[data-step]");
     if (a[s.dataset.step] === input.value) advance(a, Number(s.dataset.i), ret);
   });
+  let mine = false;   // the result was reached by answering here (only then is it saved as the visitor's own)
   const advance = (a, i, ret) => {
+    mine = true;
     if (ret || answered(a, D) >= IDS.length && i === IDS.length - 1) return go(a, null, { from: i });
     go(a, i + 1 < IDS.length ? i + 1 : null, { ret, from: i });
   };
@@ -105,9 +117,8 @@ export function initQuiz() {
     if (ret) return go(a, null);
     if (history.state?.quiz) history.back(); else go(a, Math.max(0, i - 1), { push: false });
   });
-  // «Пройти заново»: question 1, and the page back up to the quiz (the focus alone doesn't scroll: focusFrom)
-  const toTop = () => { const top = root.getBoundingClientRect().top; if (top < 0) to(Math.max(0, y() + top - 96)); };
-  res.querySelector("[data-quiz-again]").addEventListener("click", () => { go({}, 0); toTop(); });
+  // «Пройти заново»: question 1, and the page back up to the quiz
+  res.querySelector("[data-quiz-again]").addEventListener("click", () => go({}, 0));
   addEventListener("popstate", () => draw(true));
 
   // ── the result ──
@@ -120,7 +131,7 @@ export function initQuiz() {
     res.querySelector("[data-quiz-answers]").innerHTML = D.steps.map((s, k) => {
       const o = s.options.find((x) => x.id === a[s.id]);
       return `<li><button class="qres__answer" type="button" data-edit="${k}" aria-label="${esc(s.ask)} ${esc(o.ru)}. Изменить">${esc(o.ru)}</button></li>`;
-    }).join("") + `<li class="qres__edit">${D.steps.length > 1 ? "Нажмите на ответ, чтобы изменить" : ""}</li>`;
+    }).join("");
     // the three coffees, in order; the others stay hidden
     picks = r.picks;
     for (const [, c] of cards) c.el.setAttribute("data-out", "");
@@ -145,8 +156,13 @@ export function initQuiz() {
     // the map: the region, the three lit and named
     if (!map) map = initTasteMap(res.querySelector("[data-tmap]"), { info: (slug) => mapInfo(slug) });
     map.light(r.picks.map((p) => p.slug)); map.area(r.area);
-    saveTaste({ answers: a, region: r.region, mode: r.mode, picks: r.picks.map((p) => ({ slug: p.slug, label: p.label, name: coffee.get(p.slug).name })) });
-    res.querySelector("[data-quiz-saved]").hidden = false;
+    // saved as the visitor's own only when they answered here; a shared address offers to save it instead
+    const entry = { answers: a, region: r.region, mode: r.mode, picks: r.picks.map((p) => ({ slug: p.slug, label: p.label, name: coffee.get(p.slug).name })) };
+    const saved = loadTaste(), same = saved && IDS.every((k) => saved.answers[k] === a[k]);
+    const stored = mine || !saved ? saveTaste(entry) : same;
+    res.querySelector("[data-quiz-saved]").hidden = !stored;
+    keep.hidden = stored || !saved; keep.onclick = () => { if (saveTaste(entry)) { keep.hidden = true; res.querySelector("[data-quiz-saved]").hidden = false; } };
+    setBtn.disabled = false;
     dispatchEvent(new Event("qq:layout"));
     if (moved) { focusFrom(res.querySelector("#quiz-summary")); toTop(); }
   }
@@ -163,9 +179,11 @@ export function initQuiz() {
     const { a } = parse(), bag = load(KEY, []);
     for (const p of picks) {
       const c = coffee.get(p.slug), f = a.method && a.method !== "none" ? c.methods[a.method] : null;
-      bag.push({ slug: p.slug, weight: c.small.label, grind: f ? f.grind : "В зернах", roast: f ? f.roast : null, qty: 1, price: c.small.price });
+      const set = p.set || {};
+      bag.push({ slug: p.slug, weight: c.small.label, grind: f ? f.grind : set.grind || "В зернах", roast: f ? f.roast : set.roast || null, qty: 1, price: c.small.price });
     }
     save(KEY, bag); badge(); toast("Три кофе по 50 г — в корзине");
+    setBtn.disabled = true; setBtn.textContent = "Уже в корзине";
   });
 
   draw(false);

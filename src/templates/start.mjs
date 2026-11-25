@@ -12,7 +12,7 @@ import { tasteMap } from "./map.mjs";
 import { esc, icon, href, read } from "./util.mjs";
 import { result, tasteWords } from "../scripts/quiz.js";
 
-const DOTS = { cocoa: "chocolate", nutty: "nuts", caramel: "sweet", orchard: "orchard", berry: "berry", citrus: "citrus", fermented: "vine", tropical: "tropical" };
+const DOTS = { cocoa: "chocolate", nutty: "nuts", caramel: "sweet", orchard: "orchard", dried: "vine", berry: "berry", citrus: "citrus", fermented: "vine", tropical: "tropical" };
 
 // one question: its options as cells (a radio each); the taste options carry the dots of their flavour families
 function step(s, i, n) {
@@ -44,12 +44,13 @@ export function quizBlock(ctx) {
       <button class="btn quiz__show" type="submit" data-quiz-submit>Показать</button>
       <p class="quiz__b2b"><a class="iconlink" href="${href(ctx, D.b2b.href)}">${icon("arrow-steps")}<span>${esc(D.b2b.text)}: ${esc(D.b2b.hint)}</span></a></p>
     </form>
-    <div class="quiz__result" data-quiz-result hidden tabindex="-1" aria-labelledby="quiz-summary">
+    <section class="quiz__result" data-quiz-result hidden tabindex="-1" aria-labelledby="quiz-summary">
       <div class="qres__head">
         <h2 class="qres__title-main" id="quiz-summary" tabindex="-1">Ваш подбор</h2>
         <p class="qres__summary" data-quiz-summary></p>
         <p class="qres__start" data-quiz-start></p>
-        <ul class="qres__answers" aria-label="Ваши ответы: нажмите, чтобы изменить" data-quiz-answers></ul>
+        <ul class="qres__answers" aria-label="Ваши ответы" aria-describedby="quiz-edit-hint" data-quiz-answers></ul>
+        <p class="qres__edit" id="quiz-edit-hint">Нажмите на ответ, чтобы изменить его.</p>
       </div>
       <div class="grid grid--thirds qres__picks" data-quiz-picks>
         ${products.filter((p) => offered.has(p.slug)).map((p) => card({ ...ctx, page: "quiz" }, p, { size: "third", heading: 3, choose: true })).join("\n        ")}
@@ -59,7 +60,8 @@ export function quizBlock(ctx) {
         <a class="btn-arrow" href="${href(ctx, "catalog/")}" data-quiz-catalogue><span class="btn-arrow__label">В каталоге</span>${icon("arrow-right")}</a>
         <button class="iconlink" type="button" data-quiz-again>${icon("arrow-left")}<span>Пройти заново</span></button>
       </div>
-      <p class="qres__saved" data-quiz-saved hidden>Сохранили в <a class="link" href="${href(ctx, "account/")}">профиле</a>: по этим ответам сайт подскажет обжарку и помол на странице кофе.</p>
+      <p class="qres__saved" data-quiz-saved hidden>Запомнили в этом браузере: на странице кофе сразу будут ваши обжарка и помол, а в <a class="link" href="${href(ctx, "account/")}">профиле</a> — этот подбор.</p>
+      <p class="qres__saved"><button class="iconlink" type="button" data-quiz-keep hidden>${icon("check")}<span>Сделать этот подбор моим</span></button></p>
       <section class="qres__map" aria-labelledby="quiz-map-title">
         <div class="qres__maptext">
           <h3 class="qres__title" id="quiz-map-title">Где ваш вкус на карте</h3>
@@ -68,7 +70,7 @@ export function quizBlock(ctx) {
         </div>
         ${tasteMap(ctx, { id: "quiz-map", label: "Карта вкуса" })}
       </section>
-    </div>
+    </section>
     <script type="application/json" id="quiz-data">${json}</script>
   </div>`;
 }
@@ -79,23 +81,22 @@ export function render(ctx) {
   const { products, site } = ctx;
   const P = new Map(products.map((p) => [p.slug, p]));
   // «Или начните с этих трёх»: the quiz's own answer to «don't know» everywhere (no method, no milk, no coffee now, no
-  // taste): three different coffees across the map
-  const plain = result({ method: "none", milk: "no", now: "none", taste: "dunno" }, D);
+  // taste): three different coffees across the map, each roasted for espresso and filter both, so they suit any method
+  const plain = result({ method: "none", milk: "no", now: "none", taste: "dunno" }, D, { only: (c) => c.roasts.length > 1 || c.omni });
   const three = plain.picks.map((x) => {
     const p = P.get(x.slug);
     return card({ ...ctx, page: "start" }, p, { size: "third", text: `<b class="card__lead">${esc(x.label)}.</b> ${esc(x.taste)}` });
   }).join("\n      ");
-  const methods = (roast) => C.methods.filter((m) => m.roast === roast).map((m) => m.ru.toLowerCase());
-  const any = C.methods.filter((m) => m.roast === "any").map((m) => m.ru.toLowerCase());
   const live = C.coffees.filter((c) => !c.out);
   const count = (fn) => live.filter(fn).length;
-  const both = count((c) => c.roasts.length > 1);
+  // the roasts and the methods (the same as data/choose.json's; written out, for the cases of Russian)
   const roastTiles = [
-    { title: "Под эспрессо", text: `Средняя обжарка: плотнее и слаще, кислинка мягче. Для кофемашин и гейзера: ${methods("Эспрессо").join(", ")}. Хорошо с молоком.` },
-    { title: "Под фильтр", text: `Светлая обжарка: прозрачнее, ярче, слышнее фрукты и ягоды. Для ${methods("Фильтр").join(", ")}.` },
-    { title: "Турка и френч-пресс", text: `Подойдёт любая обжарка: ${any.join(" и ")}. Под эспрессо — привычнее и плотнее, под фильтр — ярче.` },
+    { title: "Под эспрессо", text: "Средняя обжарка: плотнее и слаще, кислинка мягче. Для автоматической и рожковой кофемашины и гейзерной кофеварки. Хорошо с молоком." },
+    { title: "Под фильтр", text: "Светлая обжарка: прозрачнее и ярче, слышнее фрукты и ягоды. Для воронки и дрип-пакета, капельной кофеварки и аэропресса." },
+    { title: "Турка и френч-пресс", text: "Для турки и френч-пресса подойдёт любая обжарка: под эспрессо — привычнее и плотнее, под фильтр — ярче." },
     { title: "Помол", text: "Смелем для эспрессо, для турки или для фильтра — или пришлём в зёрнах. Для автомата, гейзера и френч-пресса берите зёрна: отдельного помола для них у нас пока нет." }
   ];
+  if (C.methods.length !== 8) throw new Error("start.mjs: the roast tiles name the eight methods of data/choose.json; it now has " + C.methods.length);
   const wordTiles = [
     { title: "Кислотность", text: "Кислинка, как у яблока или апельсина. Мягкая — почти незаметна, яркая — сочная. Это главное, в чём вкусы людей расходятся: если не уверены, начните с мягкой." },
     { title: "Плотность", text: "Насколько кофе ощущается густым во рту. Плотный — насыщенный и хорош с молоком, лёгкий — прозрачный, как чай." },
@@ -115,7 +116,7 @@ export function render(ctx) {
 <section class="section section--after-tight" data-ground="paper" aria-labelledby="three-title">
   <div class="col">
     <h2 class="part__title" id="three-title" data-typeset="off">Или начните с этих трёх</h2>
-    <p class="start__lead">Не хотите отвечать — возьмите три разных: ${plain.picks.map((x) => x.label.toLowerCase()).join(", ").replace(/, ([^,]+)$/, " и $1")}. Попробуете и поймёте, какой ваш. ${both} из ${live.length} наших кофе обжариваем и под эспрессо, и под фильтр: подойдут к любому способу.</p>
+    <p class="start__lead">Не хотите отвечать — возьмите три разных: ${plain.picks.map((x) => x.label.toLowerCase()).join(", ").replace(/, ([^,]+)$/, " и $1")}. Попробуете и поймёте, какой ваш. Все три обжариваем и под эспрессо, и под фильтр: обжарку под ваш способ выберете на странице кофе.</p>
     <div class="grid grid--thirds">
       ${three}
     </div>
