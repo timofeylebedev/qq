@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Люди на странице кофе — стенд форм</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15px / 1.5 var(--sans); overflow-x: clip; }
+.top { position: sticky; top: 0; z-index: 20; background: var(--c-paper); border-bottom: 1px solid var(--line); }
+.top__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 16px; max-width: 1600px; margin: 0 auto; }
+.top h1 { font: 700 15px / 1.2 var(--mono); text-transform: uppercase; margin: 0 auto 0 0; }
+.top select, .top button { font: inherit; height: 36px; border: 1px solid var(--line); background: var(--c-paper); padding: 0 10px; color: inherit; border-radius: 0; cursor: pointer; }
+.top button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.top label { display: inline-flex; align-items: center; gap: 6px; }
+.seg { display: inline-flex; }
+.seg button + button { border-left: 0; }
+.cases { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px; max-width: 1600px; margin: 0 auto; font-size: 13px; color: var(--c-ink-70); }
+.cases button { font: inherit; border: 1px solid var(--line); background: none; border-radius: 999px; padding: 2px 10px; cursor: pointer; color: var(--c-ink); }
+.intro { max-width: 1600px; margin: 0 auto; padding: 24px 16px 8px; display: grid; gap: 12px; }
+.intro h2 { font: 700 22px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.intro p { margin: 0; max-width: 72ch; }
+.pick { background: var(--c-paper); border: 1px solid var(--line); padding: 16px; max-width: 72ch; }
+.pick b { font-family: var(--mono); text-transform: uppercase; }
+.form { max-width: 1600px; margin: 0 auto; padding: 32px 16px; border-top: 1px solid var(--line); }
+.form__head { display: grid; gap: 4px; margin-bottom: 16px; max-width: 80ch; }
+.form__head h2 { font: 700 18px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.form__head .idea { margin: 0; }
+.form__head .notes { margin: 0; color: var(--c-ink-70); font-size: 14px; }
+.form__head .verdict { margin: 4px 0 0; font-size: 14px; }
+.form__head .verdict b { font-family: var(--mono); text-transform: uppercase; }
+.form.is-pick { background: var(--c-paper); }
+.stages { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.stagewrap { display: grid; gap: 6px; max-width: 100%; }
+.stagewrap > .cap { font-size: 12px; color: var(--c-ink-70); font-family: var(--mono); text-transform: uppercase; }
+.stage { container: col / inline-size; background: var(--c-paper); outline: 1px solid var(--line); max-width: 100%; overflow: hidden; }
+.stage__ctx { padding: 12px var(--card-pad); border-bottom: 1px dashed var(--line); font-size: 12px; color: var(--c-ink-70); display: flex; justify-content: space-between; gap: 12px; }
+.stage__ctx b { font-family: var(--mono); text-transform: uppercase; color: var(--c-ink); }
+.stage__body { padding: var(--section-y) var(--card-pad); }
+.stage__bar { border-top: 1px dashed var(--line); }
+.stage__bar > .cap { display: block; padding: 8px var(--card-pad) 0; font-size: 12px; color: var(--c-ink-70); }
+.empty { color: var(--c-ink-70); font-style: italic; }
+.stage__part { border-top: 1px dashed var(--line); }
+.stage__part > .cap { display: block; padding: 8px var(--card-pad) 0; font-size: 12px; color: var(--c-ink-70); }
+.stage__top { padding: 16px var(--card-pad) 20px; }
+.stage__top .name { font: 700 var(--type-title) / 1.1 var(--mono); text-transform: uppercase; margin: 0 0 6px; }
+.stage__top .meta { margin: 0 0 8px; font-size: var(--type-small); color: var(--c-ink-70); }
+.stage__write { padding: 16px var(--card-pad) 24px; background: var(--c-cloud); }
+/* the one marker of invented content, on every form (QQKit.placeholder) */
+.qq-ph { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; border: 1px dashed var(--c-lavender-ink); color: var(--c-lavender-ink); font: 500 12px / 1 var(--sans); white-space: nowrap; }
+.qq-ph::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c-lavender-ink); }
+</style>
+{{forms}}
+<script>window.QQBench = { forms: [], register(f) { this.forms.push(f); } };</script>
+<script src="data.js"></script>
+<script src="kit.js"></script>
+<script src="notes.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top__row">
+    <h1>Люди на странице кофе · стенд форм</h1>
+    <label>Кофе <select id="coffee"></select></label>
+    <label>Посетитель <select id="visitor"></select></label>
+    <span class="seg" role="group" aria-label="Ширина">
+      <button type="button" data-w="360">360</button><button type="button" data-w="768">768</button><button type="button" data-w="1280">1280</button><button type="button" data-w="all">все три</button>
+    </span>
+  </div>
+  <div class="cases">Показательные: <button data-c="braziliya-santa-mariya">9 отзывов + выбор Ксюши (настоящий)</button> <button data-c="q-optimistic">8 отзывов, два амбассадора, жалоба на помол</button> <button data-c="efiopiya-bekele">7 отзывов, «не как в описании»</button> <button data-c="keniya-nayvasha-pb">5, яркий</button> <button data-c="kolumbiya-el-plaser-ipa">2 отзыва</button> <button data-c="keniya-kisii">1 отзыв</button> <button data-c="kolumbiya-vush-vush">0 отзывов, есть амбассадор</button> <button data-c="kolumbiya-chayna-alta">никого</button></div>
+</header>
+<section class="intro">
+  <h2>Люди помогают выбрать кофе — без звёзд</h2>
+  <p>Строка 19 маркетинга: отзывы со ссылкой на них сверху страницы, способ написать свой и рекомендации амбассадоров с автором и статусом, отдельно от отзывов покупателей. Тим: <b>без звёздного рейтинга</b>. Вместо оценки отзыв — это чашка: как заварили, с молоком ли, что человек обычно пьёт, и куда кофе ушёл от ожидания по двум осям («ярковато / в самый раз / хотелось ярче», то же про плотность), плюс какие ноты узнал. Сводка — счёт этих ответов, никогда не среднее.</p>
+  <p><b>Все люди и отзывы — заглушки</b> (магазина ещё нет): ответы выведены из модели вкуса — где обычный кофе человека стоит относительно этого и как он заваривает, — поэтому счёт ведёт себя как настоящий. Настоящий только «Выбор Ксюши» из таблицы (Бразилия Санта Мария). Амбассадоры (Лиза, Артём, Мария, Глеб) и их статусы выдуманы: кто амбассадоры, ещё неизвестно.</p>
+  <p>У каждой формы три части: <b>ссылка под названием кофе</b> (верх страницы), <b>блок</b> (после рассказа о кофе, перед «Что взять еще») и <b>как написать отзыв</b>. «Посетитель» сверху — как будто квиз или отзывы после доставки уже знают его вкус.</p>
+  <div class="pick" id="pick"></div>
+</section>
+<main id="forms"></main>
+<script>
+(() => {
+  const { coffees, pages, visitors } = window.QQ_DATA;
+  const by = Object.fromEntries(coffees.map((c) => [c.slug, c]));
+  const ORDER = window.QQ_ORDER || [];
+  const forms = () => ((window.QQBench && window.QQBench.forms) || []).slice().sort((a, b) => (ORDER.indexOf(a.id) + 99 * (ORDER.indexOf(a.id) < 0)) - (ORDER.indexOf(b.id) + 99 * (ORDER.indexOf(b.id) < 0)));
+  const sel = document.getElementById("coffee"), vis = document.getElementById("visitor");
+  for (const c of coffees) sel.add(new Option(`${c.name} · ${pages[c.slug].count}`, c.slug));
+  for (const v of visitors) vis.add(new Option(v.label, v.id));
+  const q = new URLSearchParams(location.hash.slice(1));
+  sel.value = q.get("c") || "braziliya-santa-mariya"; vis.value = q.get("v") || "none";
+  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : "360");
+  const host = document.getElementById("forms");
+  function draw() {
+    const NOTES = window.QQ_NOTES || {};
+    document.getElementById("pick").innerHTML = NOTES.pick || "<b>Выбор</b>: ещё не сделан.";
+    location.hash = `c=${sel.value}&v=${vis.value}&w=${width}`;
+    document.querySelectorAll("[data-w]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.w === width));
+    const coffee = by[sel.value], visitor = visitors.find((v) => v.id === vis.value);
+    host.innerHTML = "";
+    forms().forEach((f, i) => {
+      const n = NOTES[f.id] || {};
+      const sec = document.createElement("section");
+      sec.className = "form" + (NOTES.chosen === f.id ? " is-pick" : "");
+      sec.innerHTML = `<div class="form__head"><h2>${i + 1}. ${f.name}</h2><p class="idea">${f.idea}</p>${f.notes ? `<p class="notes">${f.notes}</p>` : ""}${n.verdict ? `<p class="verdict">${n.verdict}</p>` : ""}</div><div class="stages"></div>`;
+      host.append(sec);
+      const ws = width === "all" ? ["360", "768", "1280"] : [width];
+      for (const w of ws) {
+        const wrap = document.createElement("div"); wrap.className = "stagewrap";
+        wrap.innerHTML = `<span class="cap">${w}px</span><div class="stage" style="width:${w}px">
+          <div class="stage__ctx"><span>Верх страницы <b>${coffee.name}</b></span><span>под названием</span></div>
+          <div class="stage__top f"><p class="name">${coffee.name}</p><p class="meta">${[coffee.line, coffee.type, coffee.countries.join(", ")].filter(Boolean).join(" · ")}</p><div class="top"></div></div>
+          <div class="stage__part"><span class="cap">…рассказ о кофе. Блок людей:</span><div class="stage__body f body"></div></div>
+          <div class="stage__part"><span class="cap">Как написать отзыв (открывается из блока):</span><div class="stage__write f write"></div></div>
+          <div class="stage__ctx"><span>дальше «Что взять еще»</span><span></span></div></div>`;
+        sec.querySelector(".stages").append(wrap);
+        const ctx = { coffee, page: pages[coffee.slug], visitor, width: +w, kit: window.QQKit, uid: `${f.id}-${w}` };
+        for (const [part, fn] of [["top", f.top], ["body", f.render], ["write", f.write]]) {
+          const el = wrap.querySelector("." + part);
+          try { if (fn) fn(el, ctx); else el.innerHTML = '<p class="empty">—</p>'; } catch (e) { el.innerHTML = `<p class="empty">Ошибка формы: ${e.message}</p>`; console.error(e); }
+        }
+      }
+    });
+  }
+  sel.onchange = draw; vis.onchange = draw;
+  document.querySelectorAll("[data-w]").forEach((b) => (b.onclick = () => { width = b.dataset.w; draw(); }));
+  document.querySelectorAll("[data-c]").forEach((b) => (b.onclick = () => { sel.value = b.dataset.c; draw(); }));
+  addEventListener("DOMContentLoaded", draw);
+  if (document.readyState !== "loading") draw();
+})();
+</script>
+</body>
+</html>
