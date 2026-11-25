@@ -34,7 +34,7 @@ const coffees = C.coffees.map((c) => {
   return {
     slug: c.slug, name: c.name, i: c.i, out: c.out, decaf: c.decaf, line: c.line, short: p.short, descriptors: p.descriptors,
     milk: c.use.includes("Молочные напитки"), chips: c.chips, axes: c.axes, tastes: c.tastes, region: c.region, map: c.map,
-    coded: c.coded, position: c.position, flavour: t.flavour, notes, methods: c.methods, next, dirs,
+    robusta: !!t.robusta, coded: c.coded, position: c.position, flavour: t.flavour, notes, methods: c.methods, next, dirs,
     small: small ? { label: small.label, price: small.price } : null
   };
 });

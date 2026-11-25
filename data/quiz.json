@@ -293,7 +293,11 @@
         "auto",
         "espresso"
       ]
-    }
+    },
+    "wild-milk": [
+      "classic",
+      "unusual"
+    ]
   },
   "words": {
     "acidity": [
@@ -480,6 +484,7 @@
         "tropical"
       ]
     },
-    "unusualStart": "необычного"
+    "unusualStart": "необычного",
+    "robusta": "Смесь с робустой: крепче и с горчинкой."
   }
 }

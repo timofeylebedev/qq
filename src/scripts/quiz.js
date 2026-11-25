@@ -58,10 +58,10 @@ const costOf = (c, region, a, D) => fit(region, { ...c.position, flavour: c.flav
 
 // a move from coffee x to y: one real step on its axis (≥ 0.45, the taste model's), with the coffee page's guards
 // («мягче» not much denser or wilder; «классичнее» only onto a coffee without ferment and without an experimental process)
-// On the other axes a move stays near the first coffee (acidity and body within a point, ferment not more than half a
+// On the other axes a move stays near the first coffee (acidity and body within about a point, ferment not more than half a
 // point wilder), so «плотнее» after a soft chocolate coffee is never a bright fermented one.
 const STEP = 0.45;
-const near = (x, y, own) => ["bright", "body"].every((k) => k === own || Math.abs(y.position[k] - x.position[k]) <= 1.05) && (own === "unusual" || own === "classic" || y.position.unusual - x.position.unusual <= 0.6);
+const near = (x, y, own) => ["bright", "body"].every((k) => k === own || Math.abs(y.position[k] - x.position[k]) <= 1.1) && (own === "unusual" || own === "classic" || y.position.unusual - x.position.unusual <= 0.6);
 const AXIS = { softer: "bright", brighter: "bright", denser: "body", lighter: "body", unusual: "unusual", classic: "classic" };
 const MOVES = {
   softer: (x, y) => y.position.bright - x.position.bright <= -STEP && y.position.body - x.position.body <= 1 && y.position.unusual - x.position.unusual <= 0.5,
@@ -116,7 +116,11 @@ export function result(a, D, { form = null } = {}) {
       const alt = move(first, d);
       if (alt) picks.push({ c: alt.c, role: d, label: W.moves[d], from: alt.from });
     }
-    for (const c of byCost) { if (picks.length === 3) break; if (!picks.some((p) => p.c === c)) picks.push({ c, role: "also", label: W.moves.also }); }
+    // «Тоже подходит»: the next best that is not a near twin of one already shown (two robusta blends side by side)
+    for (const strict of [true, false]) for (const c of byCost) {
+      if (picks.length === 3) break;
+      if (!picks.some((p) => p.c === c) && (!strict || picks.every((p) => dist(p.c, c) >= 0.6))) picks.push({ c, role: "also", label: W.moves.also });
+    }
   }
   // a move from the first coffee: the coffee page's own move when it fits this visitor almost as well as the best
   // candidate (so the quiz and «Что взять еще» agree), else the best fit in the region among those a real step away
@@ -141,7 +145,7 @@ export function result(a, D, { form = null } = {}) {
 export const tasteWords = (c, W) => {
   const bits = [word(W.acidity, c.coded.acidity), word(W.body, c.coded.density), word(W.unusual, c.position.unusual)].filter(Boolean);
   const s = bits.join(", ");
-  return s[0].toUpperCase() + s.slice(1) + "." + (c.descriptors.length ? ` Во вкусе ${c.descriptors.map((d) => d.toLowerCase()).join(", ")}.` : "");
+  return s[0].toUpperCase() + s.slice(1) + "." + (c.descriptors.length ? ` Во вкусе ${c.descriptors.map((d) => d.toLowerCase()).join(", ")}.` : "") + (c.robusta && W.robusta ? ` ${W.robusta}` : "");
 };
 
 // what the method sets on this coffee, in words («Обжарка под эспрессо, в зёрнах»), or null without a method

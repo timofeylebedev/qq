@@ -31,6 +31,10 @@
 @container col (width >= 22rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 43rem) { .qopts--few { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @container col (width >= 58rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* five answers stand in one row from L */
+@container col (width >= 58rem) { .qopts--some:has(> :nth-child(5):last-child) { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+/* two a row: an odd last cell («Пока не знаю», «Почти не пью», «Не знаю») takes the whole row, never an orphan beside a gap */
+@container col (width >= 22rem) and (width < 58rem) { .qopts--many > :last-child:nth-child(odd), .qopts--some > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .qopt {
   position: relative; display: grid; align-content: start; gap: 4px; min-height: 72px; padding: var(--tile-pad);
   border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; cursor: pointer;
@@ -89,6 +93,8 @@
 .qentry__head { display: grid; gap: 8px; margin-bottom: var(--section-gap); max-width: 44rem; }
 .qentry__lead { font-size: var(--type-body-l); line-height: var(--lh-text); }
 .qentry .qentry__title { margin-bottom: 0; }
+.qentry .qstep__n { display: block; margin-bottom: 8px; }
+.qentry__q { margin-bottom: var(--text-gap); }
 
 /* ── the catalogue's way in, and the profile's part ─────────────────────────────────────────────────────── */
 .catalog__quiz { margin-bottom: var(--text-gap); font-size: var(--type-body); }

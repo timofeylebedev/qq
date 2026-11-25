@@ -10,7 +10,7 @@ import { card } from "./components.mjs";
 import { pageHead, tiles } from "./blocks.mjs";
 import { tasteMap } from "./map.mjs";
 import { esc, icon, href, read } from "./util.mjs";
-import { result } from "../scripts/quiz.js";
+import { result, tasteWords } from "../scripts/quiz.js";
 
 const DOTS = { cocoa: "chocolate", nutty: "nuts", caramel: "sweet", orchard: "orchard", berry: "berry", citrus: "citrus", fermented: "vine", tropical: "tropical" };
 
@@ -27,7 +27,7 @@ function step(s, i, n) {
 }
 
 export function quizBlock(ctx) {
-  const D = read("src/data/quiz.json");
+  const D = read("src/data/quiz.json"), C = read("src/data/choose.json");
   const { products } = ctx;
   const n = D.steps.length;
   const offered = new Set(D.coffees.filter((c) => !c.out && !c.decaf).map((c) => c.slug));
@@ -65,7 +65,7 @@ export function quizBlock(ctx) {
         <p class="qres__note">Пятно — ваш вкус по ответам. Оно широкое: это начало, а не точка. Точки — все кофе QQ, три из подбора подписаны.</p>
         ${tasteMap(ctx, { id: "quiz-map", label: "Карта вкуса" })}
       </section>
-      ${decaf ? `<p class="qres__decaf">Нужен кофе без кофеина? <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>.</p>` : ""}
+      ${decaf ? `<p class="qres__decaf">Пьёте без кофеина? Есть <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>. ${esc(tasteWords(decaf, D.words))}${decaf.milk ? " QQ советует его для капучино и латте." : ""}${C.coffees.find((c) => c.slug === decaf.slug)?.omni ? " Омни-обжарка: подходит к любому способу." : ""}</p>` : ""}
     </div>
     <script type="application/json" id="quiz-data">${json}</script>
   </div>`;
@@ -153,8 +153,10 @@ export function quizEntry(ctx) {
   <div class="col">
     <div class="qentry__head">
       <h2 class="qentry__title" id="qentry-title">${esc(D.title)}</h2>
-      <p class="qentry__lead">${esc(D.lead)} ${esc(s.ask)}</p>
+      <p class="qentry__lead">${esc(D.lead)}</p>
     </div>
+    <p class="qstep__n">Вопрос 1 из ${D.steps.length}</p>
+    <h3 class="qstep__q qentry__q">${esc(s.ask)}</h3>
     <ul class="qopts qopts--many qentry__opts">${s.options.map((o) => `<li><a class="qopt" href="${href(ctx, `start/?${s.id}=${o.id}`)}"><span class="qopt__name">${esc(o.ru)}</span>${o.hint ? `<span class="qopt__hint">${esc(o.hint)}</span>` : ""}</a></li>`).join("")}</ul>
     <p class="quiz__b2b"><a class="iconlink" href="${href(ctx, D.b2b.href)}">${icon("arrow-steps")}<span>${esc(D.b2b.text)}: ${esc(D.b2b.hint)}</span></a></p>
   </div>
