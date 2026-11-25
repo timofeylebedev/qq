@@ -1,0 +1,4 @@
+.sb { display: grid; grid-template-columns: max-content max-content; justify-content: start; align-items: center; gap: 2px 12px; }
+.sb__cells { display: block; }
+.sb__on { fill: var(--c-ink); }
+.sb__off { fill: var(--c-ink-60); }

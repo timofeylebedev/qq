@@ -1,6 +1,6 @@
 // The components every page shares: the product card, the descriptor pills, the taste chart, the 3D pack slot, the
 // weight choice with its add-to-bag button. One markup each; their looks are in src/styles/components/.
-import { esc, icon, href, cls, picture, rub, taste, lower } from "./util.mjs";
+import { esc, icon, href, cls, picture, rub, taste, lower, read } from "./util.mjs";
 
 // ── descriptors ──────────────────────────────────────────────────────────────────────────────────────────────────
 export const pills = (list) => `<ul class="pills">${list.map((d) => `<li class="pill" style="--dot: var(--c-taste-${taste(d)})">${esc(d)}</li>`).join("")}</ul>`;
@@ -24,6 +24,41 @@ export function tasteChart(t) {
     <dl class="taste__list">${rows.map(([k, label, from]) => `<div><dt>${label}</dt><dd class="sr">${text(k, from)}</dd></div>`).join("")}</dl>
     ${svg}
   </div>`;
+}
+
+// ── the card's taste scale: where this coffee stands among QQ's own 25, on the taste model's three axes ──────────
+// A dot on a short line between the axis's words («мягче · ярче», «легче · плотнее», «классичнее · необычнее»): the
+// line runs from QQ's softest (lightest, most classic) coffee to its brightest (densest, most unusual), so the dot says
+// «for QQ», not «for coffee in general». Positions are the taste model's (src/data/taste.json: acidity and ferment
+// moved at most a little by the descriptors), never computed here. Only the axes that separate QQ's coffees: no
+// sweetness (3–5 everywhere), no «Горечь» (no data), never «Оценка Q». A screen reader hears the table's values and
+// their third of QQ's range. Session 3 of choosing coffee (row 14; the bench design/scales-bench/, form «Точка на линии»).
+const TASTE = read("src/data/taste.json");
+const POS = new Map(TASTE.coffees.map((c) => [c.slug, c.position]));
+const AXES = [
+  { id: "bright", coded: "acidity", label: "Кислотность", of: 5, words: ["мягкая", "средняя", "яркая"] },
+  { id: "body", coded: "density", label: "Плотность", of: 5, words: ["лёгкая", "средняя", "высокая"] },
+  { id: "unusual", coded: "ferment", label: "Фермент", of: 4, words: ["классический вкус", "чуть необычный вкус", "необычный вкус"] }
+].map((a) => {
+  const v = TASTE.coffees.map((c) => c.position[a.id]);
+  return { ...a, lo: Math.min(...v), hi: Math.max(...v), ends: TASTE.axes.find((x) => x.id === a.id).ru.split(" — ") };
+});
+// On a card the scale lies in the picture, as a sheet over the buy row, shown by the info button in the picture's
+// bottom left corner (hovered or pressed: scripts/about.js); the button's name reads the values to a screen reader.
+export function tasteScale(p) {
+  const pos = POS.get(p.slug);
+  if (!pos) return "";
+  const at = (a) => (a.hi > a.lo ? (pos[a.id] - a.lo) / (a.hi - a.lo) : 0.5);
+  const say = AXES.map((a) => {
+    const t = at(a), w = a.words[t < 1 / 3 ? 0 : t < 2 / 3 ? 1 : 2], v = String(p.taste[a.coded] ?? "").replace(".", ",");
+    return `${a.label} ${v} из ${a.of}, ${w} для QQ`;
+  }).join(". ") + ".";
+  const rows = `<div class="scale__rows">${AXES.map((a) =>
+    `<span class="scale__end">${esc(a.ends[0])}</span><span class="scale__line"><i class="scale__dot" style="--t: ${at(a).toFixed(3)}"></i></span><span class="scale__end">${esc(a.ends[1])}</span>`).join("")}</div>`;
+  return `<div class="about" data-about>
+        <div class="about__sheet scale" aria-hidden="true">${rows}</div>
+        <button class="about__info" type="button" aria-expanded="false" data-about-toggle>${icon("info")}<span class="sr">Вкус: ${esc(say)}</span></button>
+      </div>`;
 }
 
 // ── the 3D pack ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -52,12 +87,10 @@ export function buyRow(p, { tone = "light", idp, out = false, choose = false }) 
     </form>`;
 }
 
-// The sentence under a card: its short line, the descriptors, density and acidity
+// The sentence under a card: its short line and the descriptors (its acidity, body and ferment are the scale below it)
 export function cardText(p) {
   const bits = [p.short && p.short.replace(/\.$/, "") + "."];
   if (p.descriptors.length) bits.push("Во вкусе " + p.descriptors.map(lower).join(", ") + ".");
-  if (p.taste.density != null) bits.push(`Плотность ${p.taste.density} из 5.`);
-  if (p.taste.acidity != null) bits.push(`Кислотность ${String(p.taste.acidity).replace(".", ",")} из 5.`);
   return bits.filter(Boolean).join(" ");
 }
 
@@ -84,6 +117,7 @@ export function card(ctx, p, { size = "third", heading = 3, wait = false, text =
         <h${heading} class="card__title"><a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
         <button class="fav" type="button" aria-pressed="false" aria-label="В избранное: ${esc(p.name)}" data-fav="${p.slug}">${icon("heart", 'class="i-off"')}${icon("heart-fill", 'class="i-on"')}</button>
       </div>
+      ${tasteScale(p)}
       ${buyRow(p, { tone, idp: id, out: ctx.site.shop.unavailable.includes(p.slug), choose })}
     </div>${choose ? `
     <p class="card__tag" data-tag hidden></p>` : ""}

@@ -1,0 +1,7 @@
+/* the labels' rows are the plot's rows (17px); the grid dots in ink-60 (the page's ink-40 is 2.1:1, under 3:1) */
+.sd { display: grid; grid-template-columns: max-content max-content; justify-content: start; column-gap: 12px; }
+.sd__labels { display: grid; grid-auto-rows: 17px; align-items: center; line-height: 1; }
+.sd__plot { display: block; overflow: visible; }
+.sd__grid { fill: var(--c-ink-60); }
+.sd__line { fill: none; stroke: var(--c-ink); stroke-width: 1; }
+.sd__dot { fill: var(--c-ink); }
