@@ -5,8 +5,6 @@
   "scripts": {
     "predev": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/tokens.mjs",
     "dev": "vite",
-    "precanvas": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/tokens.mjs",
-    "canvas": "vite --open /lab/canvas/",
     "prebuild": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/tokens.mjs",
     "build": "vite build",
     "preview": "vite preview",
@@ -17,7 +15,6 @@
     "check": "html-validate dist/index.html \"dist/{catalog,coffee,business,faq,delivery,contacts,privacy,about,start,cart,favourites,checkout,account}/**/*.html\"",
     "audit": "site-kit audit",
     "rules": "node build/rules.mjs && site-kit rules",
-    "canvas:check": "node src/lab/canvas/check.mjs",
     "video": "node build/video.mjs",
     "checks": "site-kit checks",
     "checks:state": "site-kit checks state",
