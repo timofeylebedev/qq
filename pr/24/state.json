@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-24T03:43:14.325Z",
- "commit": "f295f6302526f364d0279222480d6c5ff7053ffd",
+ "generated": "2026-11-25T21:43:58.974Z",
+ "commit": "aad714ec9825c19ea0fb20b33a67e44b89ca2987",
  "ref": "claude/catalogue-filters",
  "pr": "24",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-24T03:28:50.759Z",
+   "when": "2026-11-25T21:29:23.899Z",
    "quick": false,
-   "seconds": 513,
+   "seconds": 506,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-24T03:37:21.590Z",
+   "when": "2026-11-25T21:37:49.890Z",
    "quick": true,
-   "seconds": 352,
+   "seconds": 368,
    "errors": []
   }
  },
  "base": {
-  "commit": "399c4de90a6dd9ede75149610d5453df863f6fea",
-  "generated": "2026-11-24T02:01:36.109Z"
+  "commit": "05d9fd955d4b24bf6d975676eec9803786ca6b5f",
+  "generated": "2026-11-24T12:32:11.115Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -42,13 +42,27 @@
   "warn": 11,
   "fail": 7,
   "info": 6,
-  "findings": 142,
+  "findings": 146,
   "new": 2,
   "fixed": 1,
   "accepted": 91,
-  "questions": 6
+  "questions": 8
  },
  "needs": [
+  {
+   "type": "rule",
+   "id": "logic.bag-add",
+   "severity": "fail",
+   "area": "Logic",
+   "title": "Shop: «В корзину» of the first card is pressed",
+   "kind": "scenario",
+   "why": "1 place",
+   "fresh": 1,
+   "sample": [
+    "Shop: locator.hover: Timeout 30000ms exceeded."
+   ],
+   "rank": 351
+  },
   {
    "type": "rule",
    "id": "logic.catalog-filter",
@@ -59,21 +73,7 @@
    "why": "1 place",
    "fresh": 1,
    "sample": [
-    "Catalog: page.click: Timeout 30000ms exceeded."
-   ],
-   "rank": 351
-  },
-  {
-   "type": "rule",
-   "id": "logic.menu-cell",
-   "severity": "fail",
-   "area": "Logic",
-   "title": "Catalog: one menu cell is opened, then another, then a click lands elsewhere",
-   "kind": "scenario",
-   "why": "1 place",
-   "fresh": 1,
-   "sample": [
-    "Catalog: page.click: Timeout 30000ms exceeded."
+    "Catalog: page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')"
    ],
    "rank": 351
   },
@@ -87,8 +87,8 @@
    "why": "3 places",
    "fresh": 0,
    "sample": [
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (844x390 1024x768 1440x900 1920x1080 2560x1440)",
     "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
     "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
    ],
    "rank": 303
@@ -192,7 +192,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit), PR #18 (the guard)",
    "why": "open since 2026-11-23 (PR #17 (site-kit), PR #18 (the guard))",
-   "rank": 201
+   "rank": 203
   },
   {
    "type": "question",
@@ -211,7 +211,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit: the checks found no 404.html)",
    "why": "open since 2026-11-23 (PR #17 (site-kit: the checks found no 404.html))",
-   "rank": 201
+   "rank": 203
   },
   {
    "type": "question",
@@ -230,7 +230,7 @@
    "since": "2026-11-23",
    "from": "PR #18",
    "why": "open since 2026-11-23 (PR #18)",
-   "rank": 201
+   "rank": 203
   },
   {
    "type": "question",
@@ -249,7 +249,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
    "why": "open since 2026-11-23 (PR #17 (the kit's audit in Firefox and WebKit at 280 × 653))",
-   "rank": 201
+   "rank": 203
   },
   {
    "type": "question",
@@ -269,7 +269,45 @@
    "since": "2026-11-24",
    "from": "session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md)",
    "why": "open since 2026-11-24 (session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md))",
-   "rank": 200
+   "rank": 202
+  },
+  {
+   "type": "question",
+   "id": "people-form",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "«Отзывы» on a coffee's page, as you iterated «Полка» (no ambassadors, a centred title, the count and «Написать отзыв» on one line, the ways of brewing, reviews headed by the avatar and name with how close the taste is to yours). Does it look right on the PR preview, or iterate again?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/pr-preview/pr-23/coffee/braziliya-santa-mariya/#people",
+   "options": [
+    "Looks right",
+    "Iterate again (say what)"
+   ],
+   "since": "2026-11-24",
+   "from": "session 5 of choosing coffee (PR #23)",
+   "why": "open since 2026-11-24 (session 5 of choosing coffee (PR #23))",
+   "rank": 202
+  },
+  {
+   "type": "question",
+   "id": "people-third-answer",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "A review answers two directions (кислотность, плотность: ярковато / в самый раз / хотелось ярче…). Wine, perfume and coffee sites add a third, verbal answer: «возьму ещё / рад(а), что попробовал(а) / не моё». It catches a coffee that is right on both axes and still not liked, but counted it becomes a rating. Add it (shown inside each review only, never counted at the top), or leave it out?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://claude.ai/artifact/BZaoFhcidtu2FARXUcYdkn",
+   "options": [
+    "Leave it out",
+    "Add it inside each review, not counted"
+   ],
+   "since": "2026-11-24",
+   "from": "session 5 of choosing coffee (docs/people-backend.md, decision 10)",
+   "why": "open since 2026-11-24 (session 5 of choosing coffee (docs/people-backend.md, decision 10))",
+   "rank": 202
   },
   {
    "type": "rule",
@@ -278,14 +316,14 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "25 places",
+   "why": "29 places",
    "fresh": 0,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
-    "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (4 blocks on it) (320x568)"
+    "coffee/keniya-kisii/ button.btn: left edge -0.55px off the line at 28 (4 blocks on it) (320x568)"
    ],
-   "rank": 125
+   "rank": 129
   },
   {
    "type": "rule",
@@ -453,8 +491,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2021,
-   "total": 2024,
+   "on": 3019,
+   "total": 3022,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -490,8 +528,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2021,
-    "total": 2024
+    "on": 3019,
+    "total": 3022
    },
    "accepted": 0,
    "was": {
@@ -555,8 +593,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3611,
-   "total": 3611,
+   "on": 5097,
+   "total": 5097,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -564,8 +602,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3608,
-    "total": 3608
+    "on": 5103,
+    "total": 5103
    },
    "accepted": 0,
    "was": {
@@ -584,7 +622,7 @@
      "key": "solid",
      "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
      "what": "solid",
-     "value": 35
+     "value": 50
     },
     {
      "key": "gradient",
@@ -594,9 +632,9 @@
     },
     {
      "key": "alpha",
-     "where": "coffee/keniya-kisii/ li.ptile, coffee/q-optimistic/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile, coffee/q-optimistic/ li.ptile, coffee/q-optimistic/ span.buyer__meter",
      "what": "alpha",
-     "value": 5
+     "value": 11
     }
    ],
    "status": "info",
@@ -616,8 +654,8 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 337,
-   "total": 337,
+   "on": 409,
+   "total": 409,
    "pass": 90,
    "warn": 75,
    "status": "warn",
@@ -665,9 +703,9 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 81.2,
-    "on": 337,
-    "total": 415
+    "value": 84,
+    "on": 409,
+    "total": 487
    },
    "accepted": 0,
    "was": {
@@ -690,20 +728,20 @@
      "key": "1",
      "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
      "what": "1px",
-     "value": 70
+     "value": 129
     },
     {
      "key": "1.5",
      "where": "catalog/ input.box, coffee/keniya-kisii/ input.box, coffee/q-optimistic/ input.box",
      "what": "1.5px",
-     "value": 9,
+     "value": 47,
      "engine": "webkit"
     },
     {
      "key": "1.33",
      "where": "catalog/ input.box",
      "what": "1.33px",
-     "value": 9,
+     "value": 47,
      "engine": "webkit"
     }
    ],
@@ -804,7 +842,7 @@
     },
     {
      "key": "6",
-     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
+     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ p.pstage__people",
      "what": "z-index 6",
      "value": 6
     },
@@ -962,7 +1000,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 25,
+   "value": 29,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -981,10 +1019,24 @@
      "at": "320x568"
     },
     {
+     "key": "coffee/keniya-kisii/ button.btn|left|28",
+     "where": "coffee/keniya-kisii/ button.btn",
+     "what": "left edge -0.55px off the line at 28 (4 blocks on it)",
+     "value": 0.55,
+     "at": "320x568"
+    },
+    {
      "key": "coffee/keniya-kisii/ div.footer__legal p|right|256",
      "where": "coffee/keniya-kisii/ div.footer__legal p",
      "what": "right edge -3px off the line at 256 (4 blocks on it)",
      "value": 3,
+     "at": "320x568"
+    },
+    {
+     "key": "coffee/q-optimistic/ button.btn|left|28",
+     "where": "coffee/q-optimistic/ button.btn",
+     "what": "left edge -0.55px off the line at 28 (4 blocks on it)",
+     "value": 0.55,
      "at": "320x568"
     },
     {
@@ -1093,6 +1145,20 @@
      "at": "1366x650"
     },
     {
+     "key": "coffee/q-optimistic/ h2.ptile__title|left|772",
+     "where": "coffee/q-optimistic/ h2.ptile__title",
+     "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
+     "value": 0.53,
+     "at": "1366x650"
+    },
+    {
+     "key": "coffee/q-optimistic/ p.ptile__text|left|772",
+     "where": "coffee/q-optimistic/ p.ptile__text",
+     "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
+     "value": 0.53,
+     "at": "1366x650"
+    },
+    {
      "key": "coffee/q-optimistic/ h3.card__title|left|707",
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
@@ -1149,7 +1215,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 25
+    "value": 29
    }
   },
   {
@@ -1824,16 +1890,16 @@
    "status": "fail",
    "items": [
     {
-     "key": "life-box-1200.avif",
-     "where": "catalog/ picture.card__photo img",
-     "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
-     "at": "844x390 1024x768 1440x900 1920x1080 2560x1440"
-    },
-    {
      "key": "life-box-800.avif",
      "where": "catalog/ picture.card__photo img",
      "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
      "at": "768x1024 1366x650"
+    },
+    {
+     "key": "life-box-1200.avif",
+     "where": "catalog/ picture.card__photo img",
+     "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
+     "at": "1024x768 1440x900 1920x1080 2560x1440"
     },
     {
      "key": "life-jacket-1200.avif",
@@ -1909,6 +1975,12 @@
    "how": "Classes with __parts, the most copies seen at one size, and their variants.",
    "items": [
     {
+     "key": "option",
+     "where": ".option",
+     "what": "37 on the page",
+     "value": 37
+    },
+    {
      "key": "card",
      "where": ".card",
      "what": "25 on the page · variants: card--half card--light, card--dark card--half, card--light card--third, card--dark card--third",
@@ -1921,10 +1993,16 @@
      "value": 25
     },
     {
-     "key": "option",
-     "where": ".option",
-     "what": "9 on the page",
-     "value": 9
+     "key": "filter",
+     "where": ".filter",
+     "what": "8 on the page · variants: —, filter--taste",
+     "value": 8
+    },
+    {
+     "key": "buyer",
+     "where": ".buyer",
+     "what": "6 on the page",
+     "value": 6
     },
     {
      "key": "ptile",
@@ -1933,8 +2011,8 @@
      "value": 5
     },
     {
-     "key": "chip",
-     "where": ".chip",
+     "key": "check",
+     "where": ".check",
      "what": "4 on the page",
      "value": 4
     },
@@ -1951,9 +2029,9 @@
      "value": 3
     },
     {
-     "key": "filter",
-     "where": ".filter",
-     "what": "3 on the page · variants: —, filter--up",
+     "key": "switch",
+     "where": ".switch",
+     "what": "3 on the page",
      "value": 3
     },
     {
@@ -2071,6 +2149,12 @@
      "value": 1
     },
     {
+     "key": "people",
+     "where": ".people",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
      "key": "next",
      "where": ".next",
      "what": "1 on the page",
@@ -2092,8 +2176,14 @@
    "kind": "scenario",
    "title": "Shop: «В корзину» of the first card is pressed",
    "how": "Given an empty bag, the catalog; when «В корзину» of the first card is pressed; then the bag (localStorage qq-bag) holds that coffee and the navbar's count shows 1. At 1440×900.",
-   "status": "pass",
-   "items": [],
+   "status": "fail",
+   "items": [
+    {
+     "key": "fail",
+     "where": "Shop",
+     "what": "locator.hover: Timeout 30000ms exceeded."
+    }
+   ],
    "scenario": {
     "given": "an empty bag, the catalog",
     "when": "«В корзину» of the first card is pressed",
@@ -2133,7 +2223,7 @@
     {
      "key": "fail",
      "where": "Catalog",
-     "what": "page.click: Timeout 30000ms exceeded."
+     "what": "page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')"
     }
    ],
    "scenario": {
@@ -2152,14 +2242,8 @@
    "kind": "scenario",
    "title": "Catalog: one menu cell is opened, then another, then a click lands elsewhere",
    "how": "Given the catalog's filters; when one menu cell is opened, then another, then a click lands elsewhere; then one cell is open at a time, and a click elsewhere closes it. At 1440×900.",
-   "status": "fail",
-   "items": [
-    {
-     "key": "fail",
-     "where": "Catalog",
-     "what": "page.click: Timeout 30000ms exceeded."
-    }
-   ],
+   "status": "pass",
+   "items": [],
    "scenario": {
     "given": "the catalog's filters",
     "when": "one menu cell is opened, then another, then a click lands elsewhere",
@@ -3206,11 +3290,11 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 559,
+   "value": 560,
    "unit": "KB",
    "was": {
     "status": "pass",
-    "value": 558
+    "value": 559
    },
    "status": "pass",
    "items": [
@@ -3223,20 +3307,20 @@
     {
      "key": "js",
      "where": "js",
-     "what": "10 files, 61 KB sent (was 61 KB)",
+     "what": "11 files, 61 KB sent (was 61 KB)",
      "value": 61
-    },
-    {
-     "key": "css",
-     "where": "css",
-     "what": "1 files, 17 KB sent (was 16 KB)",
-     "value": 17
     },
     {
      "key": "images",
      "where": "images",
      "what": "10 files, 402 KB sent (was 402 KB)",
      "value": 402
+    },
+    {
+     "key": "css",
+     "where": "css",
+     "what": "1 files, 17 KB sent (was 16 KB)",
+     "value": 17
     },
     {
      "key": "fonts",
@@ -3354,7 +3438,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "141 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "142 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
    "value": 3,
    "unit": "places",
@@ -3387,7 +3471,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "58 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "62 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3421,7 +3505,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "66 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "68 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3693,7 +3777,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "130 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "131 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3727,7 +3811,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "66 decisions: 42 decisions, 9 exceptions, 15 placeholders (build/rules.mjs) (read from the code).",
+   "how": "68 decisions: 43 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3922,7 +4006,7 @@
    "key": "layers.z::6",
    "rule": "layers.z",
    "status": "warn",
-   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ div.col",
+   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ p.pstage__people",
    "what": "z-index 6",
    "at": "",
    "new": false
@@ -3982,11 +4066,29 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/keniya-kisii/ button.btn|left|28",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ button.btn",
+   "what": "left edge -0.55px off the line at 28 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
    "key": "align.edges::coffee/keniya-kisii/ div.footer__legal p|right|256",
    "rule": "align.edges",
    "status": "warn",
    "where": "coffee/keniya-kisii/ div.footer__legal p",
    "what": "right edge -3px off the line at 256 (4 blocks on it)",
+   "at": "320x568",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ button.btn|left|28",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ button.btn",
+   "what": "left edge -0.55px off the line at 28 (4 blocks on it)",
    "at": "320x568",
    "new": false
   },
@@ -4122,6 +4224,24 @@
    "status": "warn",
    "where": "coffee/keniya-kisii/ h3.card__title",
    "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|772",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ h2.ptile__title",
+   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
+   "at": "1366x650",
+   "new": false
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ p.ptile__text|left|772",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ p.ptile__text",
+   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
    "at": "1366x650",
    "new": false
   },
@@ -4612,21 +4732,21 @@
    "new": false
   },
   {
-   "key": "images.first::life-box-1200.avif",
-   "rule": "images.first",
-   "status": "fail",
-   "where": "catalog/ picture.card__photo img",
-   "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
-   "at": "844x390 1024x768 1440x900 1920x1080 2560x1440",
-   "new": false
-  },
-  {
    "key": "images.first::life-box-800.avif",
    "rule": "images.first",
    "status": "fail",
    "where": "catalog/ picture.card__photo img",
    "what": "life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy)",
    "at": "768x1024 1366x650",
+   "new": false
+  },
+  {
+   "key": "images.first::life-box-1200.avif",
+   "rule": "images.first",
+   "status": "fail",
+   "where": "catalog/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
+   "at": "1024x768 1440x900 1920x1080 2560x1440",
    "new": false
   },
   {
@@ -4648,20 +4768,20 @@
    "new": false
   },
   {
-   "key": "logic.catalog-filter::fail",
-   "rule": "logic.catalog-filter",
+   "key": "logic.bag-add::fail",
+   "rule": "logic.bag-add",
    "status": "fail",
-   "where": "Catalog",
-   "what": "page.click: Timeout 30000ms exceeded.",
+   "where": "Shop",
+   "what": "locator.hover: Timeout 30000ms exceeded.",
    "at": "",
    "new": true
   },
   {
-   "key": "logic.menu-cell::fail",
-   "rule": "logic.menu-cell",
+   "key": "logic.catalog-filter::fail",
+   "rule": "logic.catalog-filter",
    "status": "fail",
    "where": "Catalog",
-   "what": "page.click: Timeout 30000ms exceeded.",
+   "what": "page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')",
    "at": "",
    "new": true
   },
@@ -5012,16 +5132,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "js",
-   "what": "10 files, 61 KB sent (was 61 KB)",
-   "at": "",
-   "new": false
-  },
-  {
-   "key": "weight.total::css",
-   "rule": "weight.total",
-   "status": "pass",
-   "where": "css",
-   "what": "1 files, 17 KB sent (was 16 KB)",
+   "what": "11 files, 61 KB sent (was 61 KB)",
    "at": "",
    "new": false
   },
@@ -5031,6 +5142,15 @@
    "status": "pass",
    "where": "images",
    "what": "10 files, 402 KB sent (was 402 KB)",
+   "at": "",
+   "new": false
+  },
+  {
+   "key": "weight.total::css",
+   "rule": "weight.total",
+   "status": "pass",
+   "where": "css",
+   "what": "1 files, 17 KB sent (was 16 KB)",
    "at": "",
    "new": false
   },
@@ -5203,8 +5323,8 @@
    "id": "catalog-choose",
    "kind": "decision",
    "state": "unbound",
-   "what": "The catalog's way to choose (session 3 of choosing coffee; docs/choose.md): «Чем варите» first (a menu of eight brewing methods by plain names, each with how many coffees it fits; a method sets the roast and grind QQ sells for it on the cards, in the bag and on the coffee's page: data/choose.json); four scenario chips with counts («Под молоко», «Мягкая кислотность» (marketing's «без яркой кислотности»: renamed, the acidity filter calls 4–5 «яркая»), «На каждый день», «Необычное», one at a time); «Карта вкуса» and «Ещё фильтры» open in place (the taste map; acidity, taste, type, caffeine, line, country, processing, price, sort). Nothing is hidden: the matches first («Подходят N»), then «Почти» (the three nearest in taste, each saying in lavender what it misses), then «Остальные N»; with no match, «Точно таких нет — ближе всего». The taste map is a companion, not the way in: a choice lights its coffees on it, a region is a choice. All on src/data/choose.json and src/scripts/choose.js, which the quiz will read too",
-   "decided": "Claude, 2026-11-24 (session 3, for Tim's review in the PR)"
+   "what": "The catalog's way to choose (session 3 of choosing coffee; docs/choose.md), as Tim set it on 26 Nov: one row of menu cells — Сортировка, Цена, Вкус (three switches «мягче / все / ярче», «легче / все / плотнее», «классичнее / все / необычнее», and the taste groups), Приготовление (eight brewing methods by plain names; a method sets the roast and grind QQ sells for it on the cards, in the bag and on the coffee's page: data/choose.json), Страна, Обработка, Моносорт / смесь, Линейка — two a row below M, four from M, eight from L; under it a row of checkboxes (Под молоко, На каждый день, Необычные, Без кофеина), each with its count. A choice shows its matches, then «Похожие» (the nearest that miss a little; no text on them); the rest are not shown; with no match «Точно таких нет» over «Похожие». The taste map is kept for the quiz, not shown in the catalog. All on src/data/choose.json and src/scripts/choose.js",
+   "decided": "Tim, 2026-11-26 (session 3; first built by Claude on 24 Nov)"
   },
   {
    "id": "secondary-text",
@@ -5544,6 +5664,20 @@
    "what": "The catalog's tabs (#all, #kofe, #kaskara, #dripy, #sety, #merch) and the checkout's «В подарок» (#gift) are states chosen by the address's hash, read by the scripts (filters.js, checkout.js): no element has that id",
    "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
    "until": null
+  },
+  {
+   "id": "people-block",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "«Впечатления» (was «Отзывы»; Tim: about the experience, taste included) on a coffee's page: its own section after the story, before «Что взять еще» (marketing's row 19: reviews, a link to them from the top, writing one). No stars, scores, averages or percents, and no ambassadors. A centred title; under it, centred on one line, «Поделиться впечатлениями» (the form: a dialog of the site's cells, the method and acidity and body required) and «Задать вопрос» (a question to QQ); then the stories, two a row from M, each: the avatar (initials in an ink dot, 64px) in its own column; beside it the name, how close the teller's taste is to yours (a short line filled by closeness and one of three labels: «Очень похожие вкусы», «Похожие вкусы», «Разные вкусы»; from the taste model, never a percent), their words, the date and after how many cups. The answers against expectation (сладость, кислотность, плотность, ферментация) are collected but not printed; a review without words is not shown. The line under the coffee's name says how many stories and links down",
+   "decided": "Tim, 2026-11-24 (iterating on «Полка»: a separate section after the lot's text; no ambassadors; the title «Отзывы» centred; the count and «Написать отзыв» on one line; then the ways of brewing; reviews headed by the avatar and the name, with how close their taste is to yours, without «обычно пьёт», «купил у QQ», the method line or the city)"
+  },
+  {
+   "id": "people-placeholder",
+   "kind": "placeholder",
+   "state": "unbound",
+   "what": "Every reviewer and review of «Отзывы» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so they behave as real ones would; «your» taste, for how close a reviewer's is, is the account's placeholder visitor (data/account.json) placed by the coffees they bought. Tim, 24 Nov: no «пример» marks on the page; this decision, the PR and docs/people-backend.md say it instead. Sending a review says it is not sent yet. data/people.json also keeps invented ambassadors, not shown on the page (Tim, 24 Nov)",
+   "decided": "Claude, 2026-11-24 (session 5 of choosing coffee)"
   }
  ],
  "questions": [
@@ -5672,6 +5806,47 @@
    "about": [
     "src/styles/pages/shop.css",
     "src/templates/shop.mjs"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "people-form",
+   "ask": "«Отзывы» on a coffee's page, as you iterated «Полка» (no ambassadors, a centred title, the count and «Написать отзыв» on one line, the ways of brewing, reviews headed by the avatar and name with how close the taste is to yours). Does it look right on the PR preview, or iterate again?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://timofeylebedev.github.io/qq/pr-preview/pr-23/coffee/braziliya-santa-mariya/#people",
+   "since": "2026-11-24",
+   "from": "session 5 of choosing coffee (PR #23)",
+   "options": [
+    "Looks right",
+    "Iterate again (say what)"
+   ],
+   "about": [
+    "src/templates/people.mjs",
+    "src/styles/pages/product.css",
+    "src/scripts/people.js"
+   ],
+   "status": "open",
+   "state": "open"
+  },
+  {
+   "id": "people-third-answer",
+   "ask": "A review answers two directions (кислотность, плотность: ярковато / в самый раз / хотелось ярче…). Wine, perfume and coffee sites add a third, verbal answer: «возьму ещё / рад(а), что попробовал(а) / не моё». It catches a coffee that is right on both axes and still not liked, but counted it becomes a rating. Add it (shown inside each review only, never counted at the top), or leave it out?",
+   "needs": [
+    "choice"
+   ],
+   "link": "https://claude.ai/artifact/BZaoFhcidtu2FARXUcYdkn",
+   "since": "2026-11-24",
+   "from": "session 5 of choosing coffee (docs/people-backend.md, decision 10)",
+   "options": [
+    "Leave it out",
+    "Add it inside each review, not counted"
+   ],
+   "about": [
+    "build/people.mjs",
+    "src/templates/people.mjs"
    ],
    "status": "open",
    "state": "open"
