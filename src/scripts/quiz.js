@@ -24,7 +24,9 @@ export function regionOf(a, D) {
   let center, spread, flavour = null;
   if (now.start || !a.now) { center = { ...START.center }; spread = { ...START.spread }; }
   else {
-    const an = D.anchors[(a.milk === "yes" && now.milkAnchor) || now.anchor];
+    // a specialty drinker who brews in a machine, a moka pot or a turka drinks espresso-roast specialty, not filter
+    const roast = D.steps[0].options.find((o) => o.id === a.method)?.roast;
+    const an = D.anchors[(a.milk === "yes" && now.milkAnchor) || (roast && now.methodAnchor?.[roast]) || now.anchor];
     center = { ...an.center }; spread = { ...now.spread };
   }
   const t = R.taste[a.taste];
@@ -35,7 +37,7 @@ export function regionOf(a, D) {
     flavour = t.flavour;
   }
   const m = R.milk[a.milk] || R.milk.no;
-  center.bright += m.bright; center.body += m.body;
+  center.bright += m.bright; center.body += m.body + (R.method?.[a.method] || 0);
   center.bright = clamp(center.bright, 1, 4.6); center.body = clamp(center.body, 2, 5); center.unusual = clamp(center.unusual, 0, 3.3);
   for (const k of AXES) { center[k] = +center[k].toFixed(3); spread[k] = +spread[k].toFixed(3); }
   return { center, spread, ...(flavour ? { flavour } : {}) };
@@ -86,10 +88,13 @@ export function result(a, D, { form = null } = {}) {
     // three different coffees inside the region. Acidity first (the axis people differ on most): the best soft, middle
     // and bright coffee, each while it costs at most a spread more than the best of all; what is left is filled by the
     // best in another region of the map and a step away in taste from those already taken. Softest to brightest.
-    const level = (c) => c.coded.acidity <= 2 ? 0 : c.coded.acidity < 3.5 ? 1 : 2;
+    // the slots: soft, middle, bright; for milk, or a method chosen for a fuller cup, a dense coffee instead of the bright
+    const SP = D.alternatives.spread;
+    const slots = a.milk === "yes" || SP.fullMethods.includes(a.method) ? SP.full : SP.plain;
+    const inSlot = { soft: (c) => c.coded.acidity <= 2, mid: (c) => c.coded.acidity > 2 && c.coded.acidity < 3.5 && (slots !== SP.full || c.coded.density < 4), bright: (c) => c.coded.acidity >= 3.5, dense: (c) => c.coded.density >= 4 };
     const top = cost.get(byCost[0]);
     const got = [];
-    for (const l of [0, 1, 2]) { const c = byCost.find((x) => level(x) === l && cost.get(x) <= top + 1); if (c) got.push(c); }
+    for (const sl of slots) { const c = byCost.find((x) => !got.includes(x) && inSlot[sl](x) && cost.get(x) <= top + 1); if (c) got.push(c); }
     if (!got.includes(byCost[0]) && got.length === 3) got.splice(got.indexOf(got.reduce((w, c) => cost.get(c) > cost.get(w) ? c : w)), 1, byCost[0]);
     for (const strict of [true, false]) for (const c of byCost) {
       if (got.length === 3) break;
@@ -101,7 +106,7 @@ export function result(a, D, { form = null } = {}) {
   } else {
     const first = byCost[0];
     picks = [{ c: first, role: "first", label: W.moves.first }];
-    const want = [...(D.alternatives[a.taste] || []), ...D.alternatives.fallback];
+    const want = [...(D.alternatives[`${a.taste}-milk`] && a.milk === "yes" ? D.alternatives[`${a.taste}-milk`] : D.alternatives[a.taste] || []), ...D.alternatives.fallback];
     const tried = new Set();
     for (let d of want) {
       if (picks.length === 3) break;
@@ -118,10 +123,13 @@ export function result(a, D, { form = null } = {}) {
   function move(first, d) {
     // a real step, near on the other axes, and still inside the visitor's region (at most one and a half spreads further than the first)
     const ok = (c) => c !== first && !picks.some((p) => p.c === c) && MOVES[d](first, c) && near(first, c, AXIS[d]) && cost.get(c) <= cost.get(first) + 1.5;
-    const can = byCost.filter(ok);
+    let can = byCost.filter(ok);
+    // with milk, only a coffee QQ tags for milk (unless the visitor asked for bright or unusual coffee)
+    // (none in that direction: the direction gives way to the next)
+    if (a.milk === "yes" && !["bright", "wild"].includes(a.taste)) can = can.filter((c) => c.milk);
     if (!can.length) return null;
     const best = can[0];
-    const page = [first.next[d], ...(first.dirs[d] || [])].map((s) => pool.find((c) => c.slug === s)).find((c) => c && ok(c));
+    const page = [first.next[d], ...(first.dirs[d] || [])].map((s) => can.find((c) => c.slug === s)).find(Boolean);
     if (page && cost.get(page) <= cost.get(best) + 0.25) return { c: page, from: page.slug === first.next[d] ? "page" : "model" };
     return { c: best, from: "region" };
   }
@@ -138,21 +146,15 @@ export const tasteWords = (c, W) => {
 
 // what the method sets on this coffee, in words («Обжарка под эспрессо, в зёрнах»), or null without a method
 export function setOf(c, a, W) {
-  if (!a.method || a.method === "none") return null;
+  if (!a.method || a.method === "none") return { roast: null, grind: "В зернах", omni: false, text: `В зёрнах — ${W.grindNote.none}` };
   const f = c.methods[a.method];
-  return { roast: f.roast, grind: f.grind, omni: f.omni, text: `${f.omni ? "Омни-обжарка" : cap(W.roast[f.roast])}, ${W.grind[f.grind]}` };
+  const note = f.grind === "В зернах" ? W.grindNote[a.method] : W.grindNote.ground;
+  return { roast: f.roast, grind: f.grind, omni: f.omni, text: `${f.omni ? "Омни-обжарка" : cap(W.roast[f.roast])}, ${W.grind[f.grind]}${note ? ` — ${note}` : ""}` };
 }
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
 
 function reasons(p, first, a, region, D) {
   const W = D.words, c = p.c, why = [];
-  // what ties it to the answers: the taste asked for, milk, what the visitor drinks now
-  if (p.role === "first" || p.role === "also") {
-    const groups = W.tasteGroups[a.taste];
-    if (a.taste === "wild" ? c.position.unusual >= 1 : groups?.some((g) => c.tastes.includes(g))) why.push(W.tasteMatch[a.taste]);
-  } else if (p.role !== "spread") why.push(W.moveWhy[p.role].replace(/\.$/, ""));
-  if ((a.milk === "yes" || a.milk === "some") && c.milk) why.push(W.milk);
-  if ((a.now === "shop" || a.now === "instant") && D.anchors["пачка из супермаркета"].coffees.includes(c.slug) && p.role !== "spread") why.push(W.shop);
   // the downside, one at most: where this coffee is furthest from what was asked (not for three different ones, which
   // differ on purpose, nor for a move, whose difference is its point), or milk when QQ does not advise it
   let but = null;
@@ -165,6 +167,16 @@ function reasons(p, first, a, region, D) {
     ].filter(([k, g, lim]) => Math.abs(g) >= lim && (asked || k === "body")).sort((x, y) => Math.abs(y[1]) / y[2] - Math.abs(x[1]) / x[2]);
     if (gaps.length) but = `Но ${gaps[0][3][gaps[0][1] > 0 ? 1 : 0]}.`;
   }
+  // what ties it to the answers: the taste asked for (only when its notes say so, naming them, and never beside a
+  // downside about acidity or ferment), milk, what the visitor drinks now
+  if (p.role === "first" || p.role === "also") {
+    const fams = W.tasteFamilies[a.taste];
+    const hit = fams ? c.notes.filter((n) => n.f.some((f) => fams.includes(f))).map((n) => n.d.toLowerCase()) : [];
+    const unusual = a.taste === "wild" && c.position.unusual >= 1;
+    if ((hit.length || unusual) && !/кислинк|мягче, чем|классичнее|необычнее/.test(but || "")) why.push(unusual ? W.tasteMatch.wild : `${W.tasteMatch[a.taste]}: ${hit.join(", ")}`);
+  } else if (p.role !== "spread") why.push(W.moveWhy[p.role].replace(/\.$/, ""));
+  if ((a.milk === "yes" || a.milk === "some") && c.milk) why.push(W.milk);
+  if (a.now === "shop" && D.anchors["пачка из супермаркета"].coffees.includes(c.slug) && p.role !== "spread") why.push(W.shop);
   if (!but && a.milk === "yes" && !c.milk) but = `Но ${W.milkNot}.`;
   return { why, taste: tasteWords(c, W), but, set: setOf(c, a, W) };
 }
@@ -176,7 +188,7 @@ function summary(a, first, spread, D) {
   if (spread) return [W.spread, W.start];
   const because = [a.milk === "yes" || a.milk === "some" ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", W.because[`taste-${a.taste}`] || ""].filter(Boolean);
   const list = because.length > 1 ? `${because.slice(0, -1).join(", ")} и ${because.at(-1)}` : because[0] || "";
-  const adj = W.regions[first.region][1];
+  const adj = first.position.unusual >= 1.5 ? W.unusualStart : W.regions[first.region][1];
   return [`Начните ${/^с[^аеёиоуыэюя]/.test(adj) ? "со" : "с"} ${adj} кофе${list ? `: вы ${list}` : ""}.`, W.start];
 }
 

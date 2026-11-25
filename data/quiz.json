@@ -47,8 +47,8 @@
       "options": [
         {
           "id": "shop",
-          "ru": "Из магазина",
-          "hint": "пачка зерна или молотого из супермаркета"
+          "ru": "Из магазина или маркетплейса",
+          "hint": "пачка зерна или молотого, которую берёте по привычке"
         },
         {
           "id": "cafe",
@@ -126,7 +126,7 @@
     "href": "business/"
   },
   "region": {
-    "$about": "`now`: the anchor (taste.json anchors.drinks by name; `milkAnchor` when the visitor drinks with milk) and the spread a region starts with (what you drink now is not what you would pick, so it is wider than the anchor). `taste`: the point it pulls towards (`bright`, `unusual`, each with its own spread) by `weight`, and the flavour profile it asks for. `milk`: a shift of the centre and the cost of a coffee QQ does not tag for milk.",
+    "$about": "`now`: the anchor (taste.json anchors.drinks by name; `milkAnchor` when the visitor drinks with milk) and the spread a region starts with (what you drink now is not what you would pick, so it is wider than the anchor). `taste`: the point it pulls towards (`bright`, `unusual`, each with its own spread) by `weight`, and the flavour profile it asks for. `milk`: a shift of the centre and the cost of a coffee QQ does not tag for milk. `method`: how the brewing method thickens what the visitor expects (a moka pot, a turka and a machine are chosen for a fuller cup: survey respondents say «насыщенный», «крепость»). `special` takes the espresso anchor for a method QQ roasts for espresso or that takes any roast, the filter anchor for a filter method.",
     "now": {
       "shop": {
         "anchor": "пачка из супермаркета",
@@ -159,6 +159,12 @@
           "bright": 1.1,
           "body": 1.1,
           "unusual": 1.3
+        },
+        "methodAnchor": {
+          "espresso": "эспрессо",
+          "any": "эспрессо",
+          "Эспрессо": "эспрессо",
+          "Фильтр": "фильтр, воронка"
         }
       },
       "none": {
@@ -171,7 +177,7 @@
         "brightSpread": 0.8,
         "unusual": 0,
         "unusualSpread": 0.6,
-        "weight": 0.75,
+        "weight": 0.85,
         "flavour": {
           "cocoa": 0.5,
           "nutty": 0.5
@@ -182,7 +188,7 @@
         "brightSpread": 0.8,
         "unusual": 0.3,
         "unusualSpread": 0.8,
-        "weight": 0.75,
+        "weight": 0.85,
         "flavour": {
           "caramel": 0.5,
           "orchard": 0.3,
@@ -190,11 +196,11 @@
         }
       },
       "bright": {
-        "bright": 4.2,
+        "bright": 4.5,
         "brightSpread": 0.8,
         "unusual": 0.5,
         "unusualSpread": 1.2,
-        "weight": 0.75,
+        "weight": 0.85,
         "flavour": {
           "berry": 0.5,
           "citrus": 0.5
@@ -205,7 +211,7 @@
         "brightSpread": 1.1,
         "unusual": 2.6,
         "unusualSpread": 0.8,
-        "weight": 0.75,
+        "weight": 0.85,
         "flavour": {
           "fermented": 0.4,
           "tropical": 0.3,
@@ -218,12 +224,12 @@
     },
     "milk": {
       "yes": {
-        "bright": -0.4,
+        "bright": -0.25,
         "body": 0.4,
         "untagged": 0.45
       },
       "some": {
-        "bright": -0.2,
+        "bright": -0.1,
         "body": 0.2,
         "untagged": 0.15
       },
@@ -232,10 +238,17 @@
         "body": 0,
         "untagged": 0
       }
+    },
+    "method": {
+      "moka": 0.4,
+      "turka": 0.3,
+      "auto": 0.2,
+      "espresso": 0.2,
+      "press": 0.2
     }
   },
   "alternatives": {
-    "$about": "The two coffees after the first: one step each from it, in the directions that hedge what the answers leave least sure. «body» is «плотнее» when the first is of middle density or lighter, else «легче». A direction with no coffee that fits gives way to the next one in `fallback`, then to «Тоже подходит» (the next best in the region).",
+    "$about": "The two coffees after the first: one step each from it, in the directions that hedge what the answers leave least sure. «body» is «плотнее» when the first is of middle density or lighter, else «легче». A key «<taste>-milk» is used when the visitor drinks with milk. With milk (and a taste that is not bright or unusual) a move takes a coffee QQ tags for milk when one exists. A direction with no coffee that fits gives way to the next one in `fallback`, then to «Тоже подходит» (the next best in the region). `spread`: the three slots of «Не знаю», by acidity, with a dense coffee in place of the bright one for milk and for the methods chosen for a fuller cup.",
     "choc": [
       "brighter",
       "body"
@@ -249,8 +262,8 @@
       "unusual"
     ],
     "wild": [
-      "classic",
-      "softer"
+      "brighter",
+      "unusual"
     ],
     "fallback": [
       "softer",
@@ -258,7 +271,29 @@
       "body",
       "unusual",
       "classic"
-    ]
+    ],
+    "bright-milk": [
+      "brighter",
+      "softer"
+    ],
+    "spread": {
+      "plain": [
+        "soft",
+        "mid",
+        "bright"
+      ],
+      "full": [
+        "soft",
+        "mid",
+        "dense"
+      ],
+      "fullMethods": [
+        "moka",
+        "turka",
+        "auto",
+        "espresso"
+      ]
+    }
   },
   "words": {
     "acidity": [
@@ -418,6 +453,33 @@
       "taste-wild": "хотите необычного"
     },
     "start": "Это начало, а не приговор: ответы сохранятся в профиле, и по ним сайт будет подсказывать дальше. Изменить их можно в любой момент.",
-    "spread": "Вкус пока не знаем — поэтому три разных кофе. Попробуйте и поймёте, какой ваш."
+    "spread": "Вкус пока не знаем — поэтому три разных кофе. Попробуйте и поймёте, какой ваш.",
+    "grindNote": {
+      "auto": "кофемашина мелет сама",
+      "moka": "помола для гейзера у QQ пока нет",
+      "press": "крупного помола у QQ пока нет",
+      "none": "смелете под свой способ",
+      "ground": "или в зёрнах, если мелете сами"
+    },
+    "tasteFamilies": {
+      "choc": [
+        "cocoa",
+        "nutty"
+      ],
+      "caramel": [
+        "caramel",
+        "orchard",
+        "dried"
+      ],
+      "bright": [
+        "berry",
+        "citrus"
+      ],
+      "wild": [
+        "fermented",
+        "tropical"
+      ]
+    },
+    "unusualStart": "необычного"
   }
 }

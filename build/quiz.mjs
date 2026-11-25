@@ -29,20 +29,22 @@ const coffees = C.coffees.map((c) => {
   const next = Object.fromEntries((t.next?.moves || []).filter((m) => MOVES.includes(m.id)).map((m) => [m.id, m.slug]));
   const dirs = Object.fromEntries(MOVES.map((d) => [d, (t.directions[d]?.ranked || []).map((r) => r.slug)]));
   const small = p.weights.find((w) => w.grams === 50);
+  // each descriptor with its flavour families (data/flavours.json), so a reason names the notes that match an answer
+  const notes = p.descriptors.map((d) => { const m = FLAV.descriptors[d]; return { d, f: !m ? [] : typeof m === "string" ? [m] : Object.keys(m) }; });
   return {
     slug: c.slug, name: c.name, i: c.i, out: c.out, decaf: c.decaf, line: c.line, short: p.short, descriptors: p.descriptors,
     milk: c.use.includes("Молочные напитки"), chips: c.chips, axes: c.axes, tastes: c.tastes, region: c.region, map: c.map,
-    coded: c.coded, position: c.position, flavour: t.flavour, methods: c.methods, next, dirs,
+    coded: c.coded, position: c.position, flavour: t.flavour, notes, methods: c.methods, next, dirs,
     small: small ? { label: small.label, price: small.price } : null
   };
 });
 
 // the questions, with the brewing methods of the catalogue (the same eight, the same names) and «Пока не знаю»
 const steps = Q.steps.map((s) => s.methods
-  ? { id: s.id, ask: s.ask, hint: s.hint, options: [...C.methods.map((m) => ({ id: m.id, ru: m.ru })), ...s.extra] }
+  ? { id: s.id, ask: s.ask, hint: s.hint, options: [...C.methods.map((m) => ({ id: m.id, ru: m.ru, roast: m.roast })), ...s.extra] }
   : { id: s.id, ask: s.ask, hint: s.hint, options: s.options });
 const anchors = Object.fromEntries(T.anchors.drinks.map((d) => [d.name, { center: d.center, spread: d.spread, flavour: d.flavour, coffees: d.coffees }]));
-for (const [id, n] of Object.entries(Q.region.now)) if (!n.start && (!anchors[n.anchor] || (n.milkAnchor && !anchors[n.milkAnchor]))) fail(`now.${id}: no anchor «${n.anchor}» in taste.json anchors.drinks`);
+for (const [id, n] of Object.entries(Q.region.now)) for (const name of [n.anchor, n.milkAnchor, ...Object.values(n.methodAnchor || {})].filter(Boolean)) if (!n.start && !anchors[name]) fail(`now.${id}: no anchor «${name}» in taste.json anchors.drinks`);
 for (const o of Q.steps.find((s) => s.id === "taste").options) if (!Q.region.taste[o.id]) fail(`taste.${o.id} has no rule in region.taste`);
 
 const D = {
