@@ -94,7 +94,8 @@ export function result(a, D, { form = null } = {}) {
     const inSlot = { soft: (c) => c.coded.acidity <= 2, mid: (c) => c.coded.acidity > 2 && c.coded.acidity < 3.5 && (slots !== SP.full || c.coded.density < 4), bright: (c) => c.coded.acidity >= 3.5, dense: (c) => c.coded.density >= 4 };
     const top = cost.get(byCost[0]);
     const got = [];
-    for (const sl of slots) { const c = byCost.find((x) => !got.includes(x) && inSlot[sl](x) && cost.get(x) <= top + 1); if (c) got.push(c); }
+    const apart = (c) => got.every((g) => g.region !== c.region && dist(g, c) >= 0.8);
+    for (const sl of slots) { const c = byCost.find((x) => !got.includes(x) && inSlot[sl](x) && cost.get(x) <= top + 1 && apart(x)); if (c) got.push(c); }
     if (!got.includes(byCost[0]) && got.length === 3) got.splice(got.indexOf(got.reduce((w, c) => cost.get(c) > cost.get(w) ? c : w)), 1, byCost[0]);
     for (const strict of [true, false]) for (const c of byCost) {
       if (got.length === 3) break;
@@ -128,9 +129,10 @@ export function result(a, D, { form = null } = {}) {
     // a real step, near on the other axes, and still inside the visitor's region (at most one and a half spreads further than the first)
     const ok = (c) => c !== first && !picks.some((p) => p.c === c) && MOVES[d](first, c) && near(first, c, AXIS[d]) && cost.get(c) <= cost.get(first) + 1.5;
     let can = byCost.filter(ok);
-    // with milk, only a coffee QQ tags for milk (unless the visitor asked for bright or unusual coffee)
-    // (none in that direction: the direction gives way to the next)
+    // with milk, only a coffee QQ tags for milk (none in that direction: it gives way to the next). A visitor who asked
+    // for bright or unusual coffee keeps those moves open, and gets a milk coffee for the safe ones when there is one.
     if (a.milk === "yes" && !["bright", "wild"].includes(a.taste)) can = can.filter((c) => c.milk);
+    else if (a.milk === "yes" && ["classic", "softer", "denser"].includes(d) && can.some((c) => c.milk)) can = can.filter((c) => c.milk);
     if (!can.length) return null;
     const best = can[0];
     const page = [first.next[d], ...(first.dirs[d] || [])].map((s) => can.find((c) => c.slug === s)).find(Boolean);
@@ -190,7 +192,8 @@ function reasons(p, first, a, region, D) {
 function summary(a, first, spread, D) {
   const W = D.words;
   if (spread) return [W.spread, W.start];
-  const because = [a.milk === "yes" || a.milk === "some" ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", W.because[`taste-${a.taste}`] || ""].filter(Boolean);
+  // milk is a reason only when the first coffee is one QQ advises for milk
+  const because = [(a.milk === "yes" || a.milk === "some") && first.milk ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", W.because[`taste-${a.taste}`] || ""].filter(Boolean);
   const list = because.length > 1 ? `${because.slice(0, -1).join(", ")} и ${because.at(-1)}` : because[0] || "";
   const adj = first.position.unusual >= 1.5 ? W.unusualStart : W.regions[first.region][1];
   return [`Начните ${/^с[^аеёиоуыэюя]/.test(adj) ? "со" : "с"} ${adj} кофе${list ? `: вы ${list}` : ""}.`, W.start];

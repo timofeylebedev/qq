@@ -1,0 +1,434 @@
+[
+ {
+  "id": 28,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "Любой способ, сваренный через фильтр",
+   "milk": "add: НЕТ",
+   "now": "Тести, chooce; roast Светлая",
+   "taste": "Светлая; Фруктовые, Ягодные, Цветочные…; «Ферментированная Колумбия»"
+  },
+  "unsure": "taste could be wild (remembers a fermented Colombia); notes list is almost everything"
+ },
+ {
+  "id": 29,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "рожковая кофеварка",
+   "milk": "add: Молоко",
+   "now": "others_now: не заказываю; buys online/marketplaces",
+   "taste": "Средняя; «Арабика, т.к. сбалансированный»"
+  },
+  "unsure": "now is a guess: names no other roasters, no enthusiast language, buys online and marketplaces"
+ },
+ {
+  "id": 30,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "home: «Дрип», ground coffee and drip bags, no grinder",
+   "milk": "add: Молоко, Специи",
+   "now": "«на сайтах любимых обжарщиков», Mikale, Verle",
+   "taste": "«люблю кислинку», Колумбия Пиберри; Mikale fruit-infused «ярко и свежо»"
+  },
+  "unsure": "milk: says filter makes black coffee brighter, so could be some; method: prefers espresso machine at work but has none at home"
+ },
+ {
+  "id": 31,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "«молю и сразу засыпаю в дрип пакеты»",
+   "milk": "add: нет",
+   "now": "own Timemore grinder, drip bags, fruity/floral notes (no roaster named)",
+   "taste": "Средняя; Фруктовые, Цветочные, Ягодные; like_sorts «сладкие»"
+  },
+  "unsure": "now: no other roaster named (others_now «нет»), coded special from grinder + drip + notes; taste could be bright (fruity/floral/berry) but medium roast and «сладкие»"
+ },
+ {
+  "id": 32,
+  "answers": {
+   "method": "press",
+   "milk": "no",
+   "now": "special",
+   "taste": "wild"
+  },
+  "evidence": {
+   "method": "prefer: Френч пресс",
+   "milk": "add: Нет",
+   "now": "«Мне нравится сейчас Тэсти и Лоботрясы»",
+   "taste": "«нравятся новые страны и всякие необычные обработки, ферментации»"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 33,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "Воронка",
+   "milk": "add: Нет",
+   "now": "«нравится вкус светлой обжарки»; compares Q-grades with other places",
+   "taste": "Светлая; Цветочные, Пряные, Ягодные"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 34,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "воронка",
+   "milk": "add: Нет",
+   "now": "«Иногда заказываю тести»",
+   "taste": "«Кислотные, яркие, не плотные (в основном - Колумбия)»"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 35,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "Гейзер",
+   "milk": "add: Молоко",
+   "now": "Специализированный магазин кофе, интернет-магазин; no other roaster named",
+   "taste": "Средняя; Шоколадные, Ореховые, Пряные, Ягодные, Коньячные; likes Q-tropic"
+  },
+  "unsure": "now is a guess (shop vs special); taste could be choc (chocolate/nut first)"
+ },
+ {
+  "id": 36,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "Пуровер",
+   "milk": "add: Нет",
+   "now": "TASTY",
+   "taste": "«у вас очень вкусный ИПА. Хочу больше таких ярких сортов»; Колумбия, Эфиопия, Кения"
+  },
+  "unsure": "taste: notes ticked are Шоколадные, Ореховые, Пряные, but words point to bright; IPA could also mean wild"
+ },
+ {
+  "id": 37,
+  "answers": {
+   "method": "turka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "prefer: Турка",
+   "milk": "add: Молоко",
+   "now": "where includes Супермаркет; others_now: Не заказываю",
+   "taste": "Средняя; Фруктовые, Ореховые, Пряные; likes Q-optimistic"
+  },
+  "unsure": "taste could be choc (favourite is Q-Optimistic); now shop vs special is a guess"
+ },
+ {
+  "id": 38,
+  "answers": {
+   "method": "espresso",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "prefer: 9barista (stovetop espresso maker)",
+   "milk": "add: Молоко",
+   "now": "orders from other roasters; Comandante c40",
+   "taste": "Средняя, Темная; no notes; «Эфиопия-на первом месте»"
+  },
+  "unsure": "method: 9barista is a stovetop espresso maker, could be coded moka; taste is a guess between choc (medium-dark) and fruity (Ethiopia)"
+ },
+ {
+  "id": 39,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«В профессиональной турке Soy»",
+   "milk": "add: Нет",
+   "now": "«Заказываю у разных. Пробую, тестирую.»",
+   "taste": "Средняя; Шоколадные, Пряные"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 40,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "special",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "prefer: «фильтр и аэропресс»",
+   "milk": "add: Молоко",
+   "now": "buys other brands on marketplaces, «есть кофе по качеству не уступающее QQ»",
+   "taste": "all roasts; Фруктовые, Шоколадные, Ореховые, Ягодные, цитрусовые; Berry, Колумбия, Бразилия"
+  },
+  "unsure": "method could be aeropress or drip ('фильтр')"
+ },
+ {
+  "id": 41,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "prefer: Мокамастер",
+   "milk": "add: Нет",
+   "now": "Tasty coffee, rare 100 g lots",
+   "taste": "Светлая; liked «Ахи бурбон розовый»"
+  },
+  "unsure": "taste from light roast + a Pink Bourbon only, no notes ticked"
+ },
+ {
+  "id": 42,
+  "answers": {
+   "method": "aeropress",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "Аэропресс",
+   "milk": "add: Нет",
+   "now": "Светлая; specialty shops, cafés",
+   "taste": "Светлая; Фруктовые, Пряные, Ягодные"
+  },
+  "unsure": "liked «скучная мытая Африка», so maybe caramel"
+ },
+ {
+  "id": 43,
+  "answers": {
+   "method": "espresso",
+   "milk": "some",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«Рожок»",
+   "milk": "add: Сироп",
+   "now": "others_now: Нет; «Не знаю не разбираюсь»",
+   "taste": "Темная; Шоколадные, Фруктовые; Смесь"
+  },
+  "unsure": "milk is a guess: only Сироп ticked; now: no roaster named"
+ },
+ {
+  "id": 44,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "evidence": {
+   "method": "фильтр воронка (first), also Moccamaster",
+   "milk": "add: нет",
+   "now": "Baratza Sette, light roast, «богатство и сложность вкусового букета»",
+   "taste": "all notes ticked; «очень многие»"
+  },
+  "unsure": "taste could be bright (light-medium, filter); method could be drip"
+ },
+ {
+  "id": 45,
+  "answers": {
+   "method": "drip",
+   "milk": "no",
+   "now": "special",
+   "taste": "dunno"
+  },
+  "evidence": {
+   "method": "Фильтр-кофемашина",
+   "milk": "«От молока в кофе мне плохо»",
+   "now": "others_now: «Раньше заказывала»",
+   "taste": "no notes; «Не помню»; «кофе не горький»"
+  },
+  "unsure": "now is a guess (special vs shop)"
+ },
+ {
+  "id": 46,
+  "answers": {
+   "method": "none",
+   "milk": "yes",
+   "now": "instant",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "«три в одном, извините»",
+   "milk": "add: Молоко, Сахар",
+   "now": "format: Растворимый",
+   "taste": "Шоколадные, Ореховые; «спокойные. хорошо сочетаются с молоком и сахаром»"
+  },
+  "unsure": "method: jokey answer, owns a Porlex grinder; none is a guess"
+ },
+ {
+  "id": 47,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "Воронка V60",
+   "milk": "add: Нет",
+   "now": "«Tasty, Rockets, честно говоря чаще беру у них»",
+   "taste": "Светлая; Фруктовые, Ягодные; prefers naturals"
+  },
+  "unsure": "taste could be wild (naturals)"
+ },
+ {
+  "id": 48,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "grinds by hand into drip bags",
+   "milk": "add: Нет",
+   "now": "«чаще всего от Tasty Coffee»",
+   "taste": "Шоколадные, Ореховые; «Сорта с низкой кислотностью»"
+  },
+  "unsure": ""
+ },
+ {
+  "id": 49,
+  "answers": {
+   "method": "moka",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "prefer: «Варка в гейзерной кофеварке» (also automatic machine for lungo)",
+   "milk": "add: Молоко, Специи",
+   "now": "online/marketplaces, no other roaster named, «пока в поиске своего вкуса»",
+   "taste": "Средняя, Темная; Фруктовые, Шоколадные, Пряные"
+  },
+  "unsure": "method: actually uses an automatic machine, prefers moka; now and taste (choc vs caramel) are guesses"
+ },
+ {
+  "id": 50,
+  "answers": {
+   "method": "espresso",
+   "milk": "some",
+   "now": "shop",
+   "taste": "dunno"
+  },
+  "evidence": {
+   "method": "«В Рожковой кофемашине»",
+   "milk": "«раф, флет, эспрессо, американо обычно либо ничего не добавляю»",
+   "now": "marketplaces; «брал одну из самых дешевых пачек»",
+   "taste": "no notes; Средняя"
+  },
+  "unsure": "now: shop is a guess; taste might be choc (medium)"
+ },
+ {
+  "id": 51,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "V60",
+   "milk": "add: «Обычно нет» (sometimes cappuccino)",
+   "now": "«Тейсти кофе или Джаст кофе»",
+   "taste": "«что-то покислотнее и поярче»; Светлая"
+  },
+  "unsure": "milk could be some; taste could be wild (buys experimental processing)"
+ },
+ {
+  "id": 52,
+  "answers": {
+   "method": "pourover",
+   "milk": "yes",
+   "now": "shop",
+   "taste": "caramel"
+  },
+  "evidence": {
+   "method": "Дрип-пакеты; prefer Воронка",
+   "milk": "«добавляю немного безлактозного молока»",
+   "now": "Супермаркет, маркетплейсы; ground; Робуста",
+   "taste": "Средняя; Фруктовые, Ягодные"
+  },
+  "unsure": "taste could be bright (fruity/berry) but medium roast"
+ },
+ {
+  "id": 53,
+  "answers": {
+   "method": "pourover",
+   "milk": "no",
+   "now": "special",
+   "taste": "bright"
+  },
+  "evidence": {
+   "method": "«Если есть время, V60»",
+   "milk": "add: Ничего",
+   "now": "«Чаще всего Tasty coffee»",
+   "taste": "Светлая; «Все, главное, чтобы вкус был и был интересным»; Колумбия"
+  },
+  "unsure": "taste could be dunno (all notes) or wild ('интересный'); method could be drip ('фильтр' when hurried)"
+ },
+ {
+  "id": 54,
+  "answers": {
+   "method": "turka",
+   "milk": "no",
+   "now": "shop",
+   "taste": "choc"
+  },
+  "evidence": {
+   "method": "электрическая турка",
+   "milk": "«Ничего не добавляю»",
+   "now": "Супермаркет; others_now: Не заказываю",
+   "taste": "Средняя; Молочные"
+  },
+  "unsure": "taste: only 'Молочные' notes; choc is a guess"
+ }
+]
