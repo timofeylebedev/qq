@@ -5729,7 +5729,7 @@
    "state": "open"
   }
  ],
- "from": "this build",
- "whose": "measured on this commit (05d9fd9)",
- "own": true
+ "from": "the last deploy of main",
+ "whose": "measured on main at 05d9fd9, an earlier commit than this one (c47c2ff)",
+ "own": false
 }
