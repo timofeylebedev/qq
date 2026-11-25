@@ -21,7 +21,7 @@ export function initNav() {
   let queued = false, lastY = null, down = true;
   const update = () => {
     queued = false;
-    if (!grounds.length) return;   // a page without sections (the component canvas's navbar frames) keeps its ground
+    if (!grounds.length) return;   // a page without sections keeps its ground
     // a jump (the first look, a reload in the middle of the page, an anchor, End): no colour to keep, and no crossing
     const sy = y(), full = height();
     const fresh = lastY === null || Math.abs(sy - lastY) > innerHeight / 2;
