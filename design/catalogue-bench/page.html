@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Как выбрать из 25 — стенд каталога</title>
+<link rel="stylesheet" href="base.css">
+<style>
+body { margin: 0; background: var(--c-cloud); color: var(--c-ink); font: 400 15px / 1.5 var(--sans); overflow-x: clip; }
+.top { position: sticky; top: 0; z-index: 40; background: var(--c-paper); border-bottom: 1px solid var(--line); }
+.top__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 16px; max-width: 1600px; margin: 0 auto; }
+.top h1 { font: 700 15px / 1.2 var(--mono); text-transform: uppercase; margin: 0 auto 0 0; }
+.top button { font: inherit; height: 36px; border: 1px solid var(--line); background: var(--c-paper); padding: 0 10px; color: inherit; border-radius: 0; cursor: pointer; }
+.top button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.seg { display: inline-flex; flex-wrap: wrap; }
+.seg button + button { border-left: 0; }
+.tabsbar { scrollbar-width: none; }
+.tabsbar { display: flex; gap: 0; padding: 0 16px; max-width: 1600px; margin: 0 auto; overflow-x: auto; position: relative; border-top: 1px solid var(--line); }
+.tabsbar button { flex: none; font: 700 13px / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; height: 44px; padding: 0 14px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--c-ink-70); cursor: pointer; }
+.tabsbar button[aria-selected="true"] { color: var(--c-ink); border-bottom-color: var(--c-ink); }
+.tabsbar button:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
+.tabsbar .pick-mark { color: var(--c-lavender-ink); margin-left: 6px; }
+.cases { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 10px; max-width: 1600px; margin: 0 auto; font-size: 13px; color: var(--c-ink-70); align-items: center; }
+.cases button { font: inherit; border: 1px solid var(--line); background: none; border-radius: 999px; padding: 2px 10px; cursor: pointer; color: var(--c-ink); }
+.cases button[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); }
+.intro { max-width: 1600px; margin: 0 auto; padding: 4px 16px 0; display: grid; gap: 12px; }
+.intro:not([open]) { gap: 0; }
+.intro summary { font: 700 13px / 1 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; cursor: pointer; min-height: 44px; display: flex; align-items: center; color: var(--c-ink-70); }
+.intro summary:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.intro[open] { padding-bottom: 24px; }
+.intro p { margin: 0; max-width: 80ch; }
+.pick { background: var(--c-paper); border: 1px solid var(--line); padding: 16px; max-width: 80ch; }
+.pick b { font-family: var(--mono); text-transform: uppercase; }
+.form { max-width: 1600px; margin: 0 auto; padding: 32px 16px; border-top: 1px solid var(--line); }
+.form__head { display: grid; gap: 4px; margin-bottom: 16px; max-width: 80ch; }
+.form__head h2 { font: 700 18px / 1.2 var(--mono); text-transform: uppercase; margin: 0; }
+.form__head .idea { margin: 0; }
+.form__head .notes { margin: 0; color: var(--c-ink-70); font-size: 14px; }
+.form__head .verdict { margin: 4px 0 0; font-size: 14px; }
+.form__head .verdict b { font-family: var(--mono); text-transform: uppercase; }
+.form.is-pick { background: var(--c-paper); }
+.stages { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.stagewrap { display: grid; gap: 6px; max-width: 100%; min-width: 0; }
+.stagewrap > * { min-width: 0; }
+.stagewrap > .cap { font-size: 12px; color: var(--c-ink-70); font-family: var(--mono); text-transform: uppercase; }
+.stage { container: col / inline-size; background: var(--c-paper); outline: 1px solid var(--line); max-width: 100%; overflow: hidden; }
+.stage__ctx { padding: 12px var(--card-pad); border-bottom: 1px dashed var(--line); font-size: 12px; color: var(--c-ink-70); }
+.stage__body { padding: 24px var(--card-pad) 48px; }
+.empty { color: var(--c-ink-70); font-style: italic; }
+@media (max-width: 700px) {
+  .cases { flex-wrap: nowrap; overflow-x: auto; position: relative; white-space: nowrap; scrollbar-width: none; }
+  .cases button { flex: none; }
+  .top h1 { font-size: 13px; }
+}
+</style>
+{{forms}}
+<script>window.QQBench = { forms: [], register(f) { this.forms.push(f); } };</script>
+<script src="data.js"></script>
+<script src="choose.js"></script>
+<script src="notes.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top__row">
+    <h1>Как выбрать из 25 · стенд каталога</h1>
+    <span class="seg" role="group" aria-label="Ширина">
+      <button type="button" data-w="360">360</button><button type="button" data-w="390">390</button><button type="button" data-w="768">768</button><button type="button" data-w="1280">1280</button><button type="button" data-w="all">360 + 1280</button>
+    </span>
+  </div>
+  <div class="cases" id="cases">Начать с: </div>
+  <div class="tabsbar" id="tabs" role="tablist" aria-label="Формы"></div>
+</header>
+<details class="intro">
+  <summary>О стенде и что выбрано</summary>
+  <p>Данные одни для всех форм (<code>src/data/choose.json</code>): 8 способов приготовления, каждый ставит обжарку и помол, которые QQ продаёт; 4 сценария; кислотность и вкус; карта вкуса (кислотность × плотность). Ни одна форма не прячет кофе в пустоту: выбор поднимает подходящие наверх, затем «почти» — ближайшие по вкусу с тем, чего не хватает, затем остальные. Формы отличаются тем, как в это войти.</p>
+  <div class="pick" id="pick"></div>
+</details>
+<main id="forms"></main>
+<script>
+(() => {
+  const D = window.QQ_DATA, C = window.QQChoose;
+  const by = Object.fromEntries(D.coffees.map((c) => [c.slug, c]));
+  const ORDER = ["chips", "map", "shelves", "sentence"];
+  const forms = () => ((window.QQBench && window.QQBench.forms) || []).slice().sort((a, b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id));
+  const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[ch]);
+  const rub = (n) => `${String(n).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} ₽`;
+  // the starting states every form can be opened in (the same for all, to compare)
+  const CASES = [
+    ["nothing", "ничего не выбрано", {}],
+    ["moka", "гейзер", { method: "moka" }],
+    ["soft", "мягкая кислотность", { chip: "soft" }],
+    ["pour-milk", "воронка + под молоко", { method: "pourover", chip: "milk" }],
+    ["auto-unusual", "автомат + необычное (2)", { method: "auto", chip: "unusual" }],
+    ["berry-soft", "ягоды + мягкая (0)", { tastes: ["berry"], acid: ["soft"] }],
+    ["kenya", "страна Кения", { country: ["Кения"] }]
+  ];
+  // the shared helpers every form gets
+  const dist = (a, b) => D.dist[a.i][b.i];
+  const conditions = (s) => {
+    const k = [];
+    if (s.method) { const m = D.methods.find((x) => x.id === s.method); k.push({ id: m.id, method: true, test: (c) => c.methods[m.id].ok, miss: C.roastMiss }); }
+    if (s.chip) { const ch = D.chips.find((x) => x.id === s.chip); k.push({ id: ch.id, test: (c) => c.chips.includes(ch.id), miss: (c) => C.missOf(c, ch), near: (c) => C.nearOf(c, ch) }); }
+    if (s.acid?.length) k.push({ id: "acid", test: (c) => s.acid.includes(c.acid), miss: (c) => `кислотность ${String(c.coded.acidity).replace(".", ",")}`, near: (c) => Math.min(...s.acid.map((a) => Math.abs(["soft", "mid", "bright"].indexOf(a) - ["soft", "mid", "bright"].indexOf(c.acid)))) });
+    if (s.tastes?.length) k.push({ id: "taste", test: (c) => s.tastes.some((t) => c.tastes.includes(t)), miss: (c) => `во вкусе ${c.top.join(", ")}` });
+    if (s.country?.length) k.push({ id: "country", test: (c) => s.country.some((x) => c.countries.includes(x)), miss: (c) => c.countries.join(", ") || "смесь" });
+    if (s.cells?.length) k.push({ id: "cells", test: (c) => s.cells.includes(c.cell), miss: () => "в другом месте карты" });
+    return k;
+  };
+  const ctx0 = {
+    ...D, by, esc, rub, choose: C, dist, conditions,
+    rank: (state, list = D.coffees) => C.rank(list, conditions(state), { dist }),
+    // a product card as the site draws it, simplified (the pack's still, the name, the price, one line of text);
+    // `note`: a line in lavender above the text (why it is here or what it misses); `method`: the roast and grind
+    // the bag would take
+    card(c, { note = "", method = null, size = "third", muted = false } = {}) {
+      const fit = method ? c.methods[method] : null;
+      return `<article class="bcard bcard--${size}${muted ? " bcard--muted" : ""}" data-slug="${c.slug}">
+        <div class="bcard__media"><img class="bcard__pack" src="pack.webp" alt="" width="512" height="512" loading="lazy"><h3 class="bcard__name mono">${esc(c.name)}</h3>
+          <div class="bcard__buy"><span>200 г</span><b>${rub(c.price)}</b></div></div>
+        ${note ? `<p class="bcard__note">${esc(note)}</p>` : ""}
+        <p class="bcard__text">${esc(c.short.replace(/\.$/, ""))}. Во вкусе ${esc(c.descriptors.map((d) => d.toLowerCase()).join(", "))}.${fit && fit.ok ? ` <span class="bcard__fit">${esc(fit.roast === "Эспрессо" ? "Обжарка под эспрессо" : "Обжарка под фильтр")}, ${esc(fit.grind === "В зернах" ? "в зёрнах" : "помол " + ({ Эспрессо: "для эспрессо", Фильтр: "для фильтра", Турка: "для турки" })[fit.grind])}.</span>` : ""}</p>
+      </article>`;
+    }
+  };
+  // which cell of the map a coffee sits in: acidity (soft / mid / bright) × body (light 2, mid 3, dense 4–5)
+  for (const c of D.coffees) c.cell = `${c.acid}-${c.coded.density <= 2 ? "light" : c.coded.density >= 4 ? "dense" : "mid"}`;
+
+  const casesEl = document.getElementById("cases");
+  for (const [id, label] of CASES) { const b = document.createElement("button"); b.type = "button"; b.dataset.case = id; b.textContent = label; casesEl.append(b); }
+  const q = new URLSearchParams(location.hash.slice(1));
+  let width = q.get("w") || (innerWidth >= 1340 ? "1280" : innerWidth >= 820 ? "768" : innerWidth >= 422 ? "390" : "360");
+  let start = q.get("s") || "nothing";
+  let tab = q.get("f") || null;
+  const tabsEl = document.getElementById("tabs");
+  const host = document.getElementById("forms");
+  function draw() {
+    const NOTES = window.QQ_NOTES || {};
+    document.getElementById("pick").innerHTML = NOTES.pick || "<b>Выбор</b>: ещё не сделан.";
+    const list = forms();
+    if (!list.some((f) => f.id === tab)) tab = (list.find((f) => f.id === NOTES.chosen) || list[0] || {}).id;
+    location.hash = `w=${width}&s=${start}&f=${tab}`;
+    requestAnimationFrame(() => { const t = document.getElementById(`tab-${tab}`); if (t) tabsEl.scrollLeft = t.offsetLeft + t.offsetWidth > tabsEl.clientWidth ? t.offsetLeft - 16 : 0; });
+    // the tabs: one per form, the chosen form marked; one form shown at a time
+    tabsEl.innerHTML = list.map((f, i) => `<button type="button" role="tab" id="tab-${f.id}" aria-controls="panel-${f.id}" aria-selected="${f.id === tab}" tabindex="${f.id === tab ? 0 : -1}" data-tab="${f.id}">${i + 1}. ${esc(f.name)}${NOTES.chosen === f.id ? '<span class="pick-mark">· выбрана</span>' : ""}</button>`).join("");
+    document.querySelectorAll("[data-w]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.w === width));
+    document.querySelectorAll("[data-case]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.case === start));
+    host.innerHTML = "";
+    list.forEach((f, i) => {
+      if (f.id !== tab) return;
+      const n = NOTES[f.id] || {};
+      const sec = document.createElement("section");
+      sec.className = "form" + (NOTES.chosen === f.id ? " is-pick" : "");
+      sec.id = `panel-${f.id}`; sec.setAttribute("role", "tabpanel"); sec.setAttribute("aria-labelledby", `tab-${f.id}`);
+      sec.innerHTML = `<div class="form__head"><h2>${i + 1}. ${f.name}</h2><p class="idea">${f.idea}</p>${f.notes ? `<p class="notes">${f.notes}</p>` : ""}${n.verdict ? `<p class="verdict">${n.verdict}</p>` : ""}</div><div class="stages"></div>`;
+      host.append(sec);
+      const ws = width === "all" ? ["360", "1280"] : [width];
+      for (const w of ws) {
+        const wrap = document.createElement("div"); wrap.className = "stagewrap";
+        wrap.innerHTML = `<span class="cap">${w}px</span><div class="stage" style="width:${w}px"><div class="stage__ctx">…навбар, «До обжарки — …», вкладки «Все · Кофе · Каскара…»</div><div class="stage__body f"></div></div>`;
+        sec.querySelector(".stages").append(wrap);
+        const state = structuredClone(CASES.find((c) => c[0] === start)[2]);
+        const ctx = { ...ctx0, width: +w, state };
+        try { f.render(wrap.querySelector(".stage__body"), ctx); } catch (e) { wrap.querySelector(".stage__body").innerHTML = `<p class="empty">Ошибка формы: ${esc(e.message)}</p>`; console.error(e); }
+      }
+    });
+  }
+  document.querySelectorAll("[data-w]").forEach((b) => (b.onclick = () => { width = b.dataset.w; draw(); }));
+  casesEl.addEventListener("click", (e) => { const b = e.target.closest("[data-case]"); if (b) { start = b.dataset.case; draw(); } });
+  // switching keeps the place: if the page was scrolled into the form, the new form opens at its top
+  const go = (id, focus) => {
+    tab = id; draw();
+    if (focus) document.getElementById(`tab-${id}`)?.focus({ preventScroll: true });
+    const top = host.getBoundingClientRect().top - document.querySelector(".top").offsetHeight;
+    if (top < 0) scrollBy(0, top);
+  };
+  tabsEl.addEventListener("click", (e) => { const b = e.target.closest("[data-tab]"); if (b) go(b.dataset.tab, true); });
+  tabsEl.addEventListener("keydown", (e) => {
+    const ids = forms().map((f) => f.id), i = ids.indexOf(tab);
+    const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: ids.length - 1 }[e.key];
+    if (n == null) return;
+    e.preventDefault(); go(ids[(n + ids.length) % ids.length], true);
+  });
+  // number keys 1–4 switch forms from anywhere on the page (not while typing)
+  addEventListener("keydown", (e) => {
+    if (e.target.closest("input, select, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+    const ids = forms().map((f) => f.id), k = Number(e.key);
+    if (k >= 1 && k <= ids.length) go(ids[k - 1]);
+  });
+  addEventListener("DOMContentLoaded", draw);
+  if (document.readyState !== "loading") draw();
+})();
+</script>
+</body>
+</html>

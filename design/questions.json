@@ -6,6 +6,12 @@
     "status: open | answered. A question can also be closed by a decision (answer.decision) or dropped (status: dropped, with why)."
   ],
   "questions": [
+    { "id": "grinds-moka-press",
+      "ask": "QQ grinds only for turka, filter and espresso. 13 of 106 respondents of the B2C survey brew in a moka pot and 7 in a French press, and every Russian roaster that names its grinds by method has one for the moka pot. For now the catalogue sets «в зёрнах» for both (the espresso roast for the moka pot, any roast for the French press) and says QQ has no such grind. Should QQ add a moka-pot grind and a coarse grind for the French press, or advise its espresso grind for the moka pot?",
+      "needs": ["choice"], "link": "https://timofeylebedev.github.io/qq/catalog/?method=moka", "since": "2026-11-24",
+      "from": "session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md)",
+      "options": ["Add both grinds", "Advise the espresso grind for the moka pot", "Keep «в зёрнах» for now"],
+      "about": ["data/choose.json", "data/products.csv"], "status": "open" },
     {
       "id": "hero-footer-links",
       "ask": "The navbar links only to pages that exist (an item without a page is a label: decision nav-links-pages). The hero's and the footer's links are not under that rule yet. Should they follow it too (no link where there is no page), or stay as they are?",

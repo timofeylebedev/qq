@@ -1,8 +1,12 @@
-// The catalog: the roast and shipping line, the category tabs, the filters, the grid of every coffee.
-// Filtering and sorting happen in the browser (scripts/filters.js) over the data-* of the cards.
+// The catalog: the roast and shipping line, the category tabs, the way to choose, the grid of every coffee.
+// Choosing (session 3 of choosing coffee; docs/choose.md): one row of menu cells (Сортировка, Цена, Вкус — three
+// switches «мягче / все / ярче»… and the taste groups —, Приготовление — a brewing method sets the roast and grind QQ
+// sells for it —, Страна, Обработка, Моносорт / смесь, Линейка) and under it a row of checkboxes (Под молоко, На каждый
+// день, Необычные, Без кофеина). A choice shows its matches, then «Похожие» (the nearest that miss a little); never an
+// empty page (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
-import { esc, icon } from "./util.mjs";
+import { esc, icon, read } from "./util.mjs";
 import { menu } from "./blocks.mjs";
 
 const choice = (name, caption, type, options, checked = null, summary = null) => menu(name, caption, type, options, { checked, summary });
@@ -13,24 +17,47 @@ const popular = (a, b) => (b.tags.length - a.tags.length) || ((b.line === "Speci
 
 export function render(ctx) {
   const { site, products } = ctx;
+  const C = read("src/data/choose.json");
   const list = [...products].sort(popular);
+  const live = C.coffees.filter((c) => !c.out);
+  const n = (fn) => live.filter(fn).length;
   const count = (fn) => [...new Set(products.flatMap(fn))];
   const countries = count((p) => p.countries).sort((a, b) => a.localeCompare(b, "ru"));
-  const processes = count((p) => p.processes);
+  const processes = count((p) => p.processes).sort((a, b) => a.localeCompare(b, "ru"));
   const prices = products.flatMap((p) => p.weights.filter((w) => w.grams === 200).map((w) => w.price)).filter((x) => x != null);
   const data = esc(JSON.stringify({ days: site.roast.days, hour: site.roast.hour, tz: site.roast.timezoneOffset }));
-
   const tabs = site.catalog.tabs.map(([t, id], i) => `<li><a class="tab" href="#${id}" data-tab="${id}"${i === 0 ? ' aria-current="page"' : ""}>${esc(t)}</a></li>`).join("");
+  const by = new Map(C.coffees.map((c) => [c.slug, c]));
+  const of = (p) => by.get(p.slug);
 
-  const filters = [
-    choice("sort", "Сортировка", "radio", [["popular", "Популярные"], ["new", "Новинки"], ["expensive", "Дороже"], ["cheap", "Дешевле"]], "popular"),
+  const cnt = (fn) => String(n(fn));
+  // Вкус: three switches (a radio each: the low side, all, the high side) and the taste groups (checkboxes)
+  const axes = C.axes.map((a) => `<fieldset class="switch"><legend class="switch__name">${esc(a.ru)}</legend><div class="seg">${[["low", a.low.ru], ["", "все"], ["high", a.high.ru]].map(([v, t]) =>
+    `<label class="switch__opt"><input type="radio" name="${a.id}" value="${v}"${v ? "" : " checked"}><span>${esc(t)}</span>${v ? `<span class="option__n" data-n>${cnt((c) => c.axes[a.id] === v)}</span>` : ""}</label>`).join("")}</div></fieldset>`).join("");
+  const tastes = C.tastes.map((t) => `<label class="option"><input class="box" type="checkbox" name="taste" value="${t.id}"><span>${esc(t.ru)}</span><span class="option__n" data-n>${cnt((c) => c.tastes.includes(t.id))}</span></label>`).join("");
+  const taste = `<details class="filter filter--taste" data-filter="taste">
+        <summary class="filter__summary"><span class="filter__caption">Вкус</span><span class="filter__value" data-filter-value data-all="Любой">Любой</span></summary>
+        <div class="filter__options filter__options--taste">${axes}<fieldset class="filter__group"><legend class="sr">Во вкусе</legend>${tastes}</fieldset></div>
+      </details>`;
+  const cells = [
+    choice("sort", "Сортировка", "radio", [["popular", "Популярные"], ["new", "Новинки"], ["soft", "Мягче"], ["bright", "Ярче"], ["expensive", "Дороже"], ["cheap", "Дешевле"]], "popular"),
     range(Math.min(...prices), Math.max(...prices)),
-    choice("type", "Тип", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]]),
-    choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]]),
-    choice("country", "Страна", "checkbox", countries.map((c) => [c, c]), null, plural(countries.length, "страна", "страны", "стран")),
-    choice("process", "Обработка", "checkbox", processes.map((c) => [c, c]), null, plural(processes.length, "тип", "типа", "типов")),
-    choice("prep", "Приготовление", "checkbox", [["espresso", "Эспрессо"], ["filter", "Фильтр"], ["milk", "С молоком"], ["turka", "Турка"]], null, "4 способа")
-  ].join("\n      ");
+    taste,
+    choice("method", "Приготовление", "radio", [["", "Любое", "", String(live.length)], ...C.methods.map((m) => [m.id, m.ru, "", cnt((c) => c.methods[m.id].ok)])], "", "Любое"),
+    choice("country", "Страна", "checkbox", countries.map((x) => [x, x, "", String(products.filter((p) => p.countries.includes(x) && !of(p).out).length)]), null, plural(countries.length, "страна", "страны", "стран")),
+    choice("process", "Обработка", "checkbox", processes.map((x) => [x, x, "", String(products.filter((p) => p.processes.includes(x) && !of(p).out).length)]), null, plural(processes.length, "тип", "типа", "типов")),
+    choice("type", "Моносорт / смесь", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]].map(([v, t]) => [v, t, "", cnt((c) => c.type === v)]), null, "Моносорт, смесь"),
+    choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]].map(([v, t]) => [v, t, "", cnt((c) => c.line === v)]), null, "Classic, Special")
+  ].join("\n        ");
+  // under the row: the scenarios, as checkboxes (any number; each is a condition), each with its count
+  const checks = C.chips.map((k) => `<label class="check"><input class="box" type="checkbox" name="chip" value="${k.id}"><span>${esc(k.ru)}</span><span class="check__n" data-n>${cnt((c) => c.chips.includes(k.id))}</span></label>`).join("");
+  // what the script reads: each coffee's choices, the methods, the chips' rules and words, the taste distances
+  const json = JSON.stringify({
+    methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })), axes: C.axes,
+    tastes: C.tastes,
+    coffees: C.coffees.map(({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, axes, tastes }) => ({ slug, name, i, out, decaf, omni, line, type, countries, processes, roasts, grind, use, coded, position, methods, chips, axes, tastes, ...pick(products.find((p) => p.slug === slug)) })),
+    dist: C.dist
+  }).replace(/</g, "\\u003c");
 
   const body = `<section class="section section--first catalog" data-ground="paper" aria-labelledby="catalog-title">
   <div class="col">
@@ -40,23 +67,31 @@ export function render(ctx) {
       <li>${icon("truck")}<span data-ship-date>Передадим в доставку на следующий рабочий день после обжарки</span></li>
     </ul>
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
-    <form class="filters" data-filters aria-label="Фильтры">
-      ${filters}
-      <p class="filters__result" data-reset-row hidden><button class="filters__reset" type="reset" data-reset>Сбросить</button></p><button class="sr" type="submit" tabindex="-1">Показать</button>
+    <form class="filters" data-filters aria-label="Выбор кофе">
+      <div class="filters__row">
+        ${cells}
+      </div>
+      <fieldset class="filters__checks"><legend class="sr">Что хочется</legend>${checks}<button class="filters__reset" type="reset" data-reset hidden>Сбросить всё</button></fieldset>
+      <p class="sr" role="status" data-status></p>
+      <button class="sr" type="submit" tabindex="-1">Показать</button>
     </form>
+    <script type="application/json" id="choose-data">${json}</script>
     <div class="grid grid--catalog" data-grid data-rise>
-      ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true })).join("\n      ")}
+      <h2 class="grid__head" data-head="exact" hidden>Точно таких нет</h2>
+      ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true, choose: true })).join("\n      ")}
+      <h2 class="grid__head" data-head="near" hidden>Похожие</h2>
     </div>
-    <p class="catalog__empty" data-empty hidden>Ничего не нашлось. <button type="button" class="link" data-reset>Сбросить фильтры</button></p>
     <p class="catalog__soon" data-soon hidden>Скоро здесь <span data-soon-what></span>. А пока — <a class="link" href="#all" data-tab="all">весь кофе</a>.</p>
   </div>
 </section>`;
   return page(ctx, {
     title: "Каталог — QQ Coffee",
-    description: "Весь кофе QQ: моносорта и смеси, Classic и Special, под эспрессо и фильтр.",
+    description: "Весь кофе QQ: моносорта и смеси, Classic и Special, для кофемашины, гейзера, турки, воронки и френч-пресса.",
     main: "catalog-page", body
   });
 }
+
+const pick = (p) => ({ short: p.short });
 
 function plural(n, one, few, many) {
   const m10 = n % 10, m100 = n % 100;

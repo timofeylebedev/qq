@@ -104,6 +104,18 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   with a mouse or pressed (it never follows the card's link); the button's name reads the values. The card's text no
   longer says «… из 5».
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
+- **Choosing in the catalogue** (`docs/choose.md`; decision `catalog-choose`): one row of menu cells (Сортировка, Цена,
+  Вкус, Приготовление, Страна, Обработка, Моносорт / смесь, Линейка: two a row below M, four from M, eight from L) and
+  under it a row of checkboxes (Под молоко, На каждый день, Необычные, Без кофеина). «Вкус» holds three switches
+  («мягче / все / ярче», «легче / все / плотнее», «классичнее / все / необычнее»: `axes` in `data/choose.json`) and the
+  taste groups. «Приготовление» is a brewing method: it names a roast and a grind QQ sells (`data/choose.json`;
+  build/choose.mjs fails otherwise) and sets them on the card's «в корзину» and its link (`?roast=…&grind=…`, read by
+  scripts/buy.js on the coffee's page). A choice shows its matches, then «Похожие» (the nearest, no text), never the
+  rest; with no match «Точно таких нет» over «Похожие» (Tim, 26 Nov). `rank()` of `src/scripts/choose.js` decides;
+  never score in filters.js or a template. Every result of every option is listed in the generated
+  `docs/choose-output.md`: read it after changing a rule. The taste map (`tasteMap()` in src/templates/map.mjs +
+  `initTasteMap()` in scripts/tastemap.js) is not on the catalogue now; the quiz reads it, `src/data/choose.json` and
+  `choose.js`.
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -116,7 +128,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   cross-document view transition to its coffee's page (on that page the name and the line under it, `.pstage__title`).
   Leaving, `qqPacks.freeze()` leaves a picture of every pack as the canvas draws it (`stage.shot`); arriving, packs
   face front until the pages have changed. A still must stand exactly where the canvas draws its pack (rerun
-  `build/pack-still.mjs` when the model or the look changes). `data-out` is the catalog filter's; the reel's and the catalog's waiting
+  `build/pack-still.mjs` when the model or the look changes). `data-out` hides the favourites' cards that are not chosen and the catalog's that a choice leaves out; the reel's and the catalog's waiting
   cards are `data-wait` (on a reload or a step back the cards in view do not rise again; the catalog's rise one after
   another: `riseGrid` in `scripts/slider.js`, `html[data-enter]`).
 - **New arrivals turn like pages** (`scripts/curl.js`, «Изгиб» of Tim's artifact): the slides lie in one cell

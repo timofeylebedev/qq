@@ -21,6 +21,7 @@ src/favourites/
 src/checkout/
 src/account/
 src/data/products.json
+src/data/choose.json
 src/data/taste.json
 src/data/people.json
 # the component canvas page and its preview documents (src/lab/canvas/page.mjs, dev server only)
@@ -28,6 +29,8 @@ src/lab/canvas/*.html
 design/fade-tuner/out/
 design/intro-tuner/out/
 design/report/out-*.html
+design/catalogue-bench/out/
+design/scales-bench/out/
 design/taste-bench/out/
 design/next-bench/out/
 design/people-bench/out/

@@ -40,6 +40,13 @@ function update(form) {
 
 export function initBuy() {
   badge();
+  // a coffee's page opened from the catalogue with a brewing method chosen (?roast=Эспрессо&grind=В зернах: the card's
+  // link, scripts/filters.js) starts its buy bar on that roast and grind; a value this coffee is not sold in is ignored
+  const q = new URLSearchParams(location.search), bar = document.querySelector("[data-buybar]");
+  if (bar) for (const k of ["grind", "roast"]) {
+    const r = q.get(k) && [...bar.querySelectorAll(`input[name="${k}"]`)].find((x) => x.value === q.get(k));
+    if (r) r.checked = true;
+  }
   for (const form of document.querySelectorAll("[data-buy]")) {
     update(form);
     // the dropdown of a card (below M) sets the radios, which stay the choice; a radio picked sets the dropdown

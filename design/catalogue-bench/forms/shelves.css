@@ -1,0 +1,68 @@
+/* «Полки» (forms/shelves.js): methods and scenarios in two rows, then five shelves by taste. On a phone the rows and the
+   shelves scroll sideways (each its own positioned row, the page never moves sideways); from M the shelves are grids. */
+.f-shelves { display: grid; gap: 32px; }
+.f-shelves-ctl { display: grid; gap: 8px; }
+
+/* a row of pills: sideways on a phone, wrapping from M */
+.f-shelves-scroll { display: flex; align-items: center; gap: 8px; }
+.f-shelves-scroll {
+  position: relative; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+  margin-inline: calc(-1 * var(--card-pad)); padding: 2px var(--card-pad); scroll-padding-inline: var(--card-pad);
+}
+.f-shelves-scroll::-webkit-scrollbar { display: none; }
+.f-shelves-group { display: grid; gap: 4px; }
+.f-shelves-lab { flex: none; max-width: 5em; font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); margin-right: 4px; }
+@container col (width >= 43rem) {
+  .f-shelves-scroll { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .f-shelves-group { grid-template-columns: 9rem 1fr; align-items: center; gap: 8px; }
+  .f-shelves-lab { max-width: none; min-width: 9rem; }
+}
+
+.f .f-shelves-pill {
+  flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 16px; white-space: nowrap;
+  border: var(--hair) solid var(--line); border-radius: 999px; font-size: var(--type-body);
+  transition: background-color var(--t-out) var(--ease-out);
+}
+.f .f-shelves-pill:hover { background: var(--tint); transition-duration: var(--t-in); }
+.f .f-shelves-pill[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.f-shelves-n { color: var(--c-ink-70); font-size: var(--type-small); }
+.f-shelves-pill[aria-pressed="true"] .f-shelves-n { color: var(--c-white-60); }
+
+/* how many fit, the way back, the link to the other filters */
+.f-shelves-sum { display: flex; flex-wrap: wrap; min-height: 44px; align-items: center; justify-content: space-between; gap: 0 16px; }
+.f-shelves-say { margin: 0; color: var(--c-ink-70); }
+.f-shelves-say b { color: var(--c-ink); font-weight: 500; }
+.f-shelves-where { margin: -4px 0 0; color: var(--c-ink-70); }
+.f .f-shelves-go { color: var(--c-ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; padding-block: 4px; transition: text-decoration-color var(--t-out); }
+.f .f-shelves-go:hover { text-decoration-color: currentColor; transition-duration: var(--t-in); }
+.f-shelves-acts { display: flex; gap: 16px; margin-left: auto; }
+.f .f-shelves-link { min-height: 44px; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: text-decoration-color var(--t-out); }
+.f .f-shelves-link:hover { text-decoration-color: currentColor; transition-duration: var(--t-in); }
+.f-shelves-more { border-top: var(--hair) solid var(--line); padding-top: 8px; display: grid; gap: 8px; }
+.f-shelves-more[hidden] { display: none; }
+
+/* a shelf: its name, how many it holds or lights, one line of taste; then its coffees */
+.f-shelves-shelves { display: grid; gap: 40px; }
+.f-shelves-shelf { display: grid; gap: 16px; border-top: var(--hair) solid var(--line); padding-top: 16px; scroll-margin-top: 7rem; }
+.f-shelves-head { display: grid; grid-template-columns: 1fr auto; align-items: baseline; gap: 4px 16px; }
+.f .f-shelves-name { margin: 0; font-size: var(--type-card-title); line-height: 1.1; }
+.f-shelves-count { font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.02em; color: var(--c-ink-70); white-space: nowrap; }
+.f-shelves-count.is-lit { color: var(--c-lavender-ink); }
+.f-shelves-line { grid-column: 1 / -1; margin: 0; color: var(--c-ink-70); }
+.f-shelves-like { color: var(--c-ink); }
+
+/* the coffees of a shelf: a sideways row on a phone (whole cards snap to its start, the next one shows), grids from M */
+.f-shelves-row {
+  position: relative; display: grid; grid-auto-flow: column; grid-auto-columns: 78%; gap: 12px;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+  margin-inline: calc(-1 * var(--card-pad)); padding-inline: var(--card-pad); scroll-padding-inline: var(--card-pad);
+}
+.f-shelves-row::-webkit-scrollbar { display: none; }
+.f-shelves-row > * { scroll-snap-align: start; }
+@container col (width >= 43rem) {
+  .f-shelves-row { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px var(--gap); overflow: visible; margin-inline: 0; padding-inline: 0; }
+}
+@container col (width >= 58rem) { .f-shelves-row { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* a coffee that doesn't fit the choice stays on its shelf, quieter */
+.f-shelves .bcard--muted .bcard__text { color: var(--c-ink-70); }

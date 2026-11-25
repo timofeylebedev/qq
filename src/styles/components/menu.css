@@ -34,6 +34,9 @@
   max-height: 24rem; overflow: auto; overscroll-behavior: contain;
   background: var(--g-bg); border: var(--hair) solid var(--line); border-top: 0;
 }
+/* a closed menu's list is not laid out at all: Chromium lays out a closed <details>'s content (hidden only by
+   content-visibility), and a list that has never opened has not yet been turned leftwards (scripts/menus.js) */
+.filter:not([open]) > .filter__options { display: none; }
 .filter--up .filter__options { top: auto; bottom: 100%; border-top: var(--hair) solid var(--line); border-bottom: 0; }
 /* no room above it (scripts/menus.js): it opens down after all */
 .filter--up[data-down] .filter__options { top: 100%; bottom: auto; border-top: 0; border-bottom: var(--hair) solid var(--line); }
