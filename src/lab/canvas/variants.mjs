@@ -53,6 +53,9 @@ export function rendered(data) {
     product: product.render({ site: { ...site, shop: { ...site.shop, unavailable: site.shop.unavailable.filter((x) => x !== PRODUCT) } }, products, page: "product", rel: REL }, p),
     // the same coffee sold out (data/site.json shop.unavailable): the page says so and leads with the nearest coffee
     productOut: product.render({ site: { ...site, shop: { ...site.shop, unavailable: [PRODUCT] } }, products, page: "product", rel: REL }, p),
+    // the reviews: a coffee with many, and one with none yet (the canvas's own coffee has one review)
+    peopleMany: product.render({ site, products, page: "product", rel: REL }, products.find((x) => x.slug === "braziliya-santa-mariya")),
+    peopleNone: product.render({ site, products, page: "product", rel: REL }, products.find((x) => x.slug === "kolumbiya-chayna-alta")),
     frame: (ground) => page({ site, products, page: "canvas", rel: REL }, { title: "Navbar — QQ Coffee", description: "", body: "", ground })
   };
 }
@@ -285,6 +288,12 @@ export function groups(data) {
     { id: "next", title: "What to take next («Что взять еще»)", compares: "in stock / sold out", slot: SCREEN, slots: [
       { label: "a coffee's page: one row per move of the taste model", html: cut(P, /class="section next"/) },
       { label: "the same coffee sold out: the nearest coffee leads", html: cut(PO, /class="section next next--out"/).replace(/(id|aria-labelledby)="next/g, '$1="cv-out-next') }
+    ] },
+    { id: "people", title: "Reviews («Отзывы»)", compares: "many reviews / one review / none yet", slot: SCREEN, slots: [
+      // each slot's ids made its own (the section, its title, the review dialog), so no id is on the canvas twice
+      { label: "9 placeholder reviews, the chips by way of brewing", html: cut(pages.peopleMany, /class="section people"/).replace(/(id|aria-labelledby|data-dialog|for)="(people|review-|f-)/g, '$1="cv-many-$2') },
+      { label: "one review", html: cut(P, /class="section people"/) },
+      { label: "none yet: an invitation", html: cut(pages.peopleNone, /class="section people"/).replace(/(id|aria-labelledby|data-dialog|for)="(people|review-|f-)/g, '$1="cv-none-$2') }
     ] },
     { id: "buybar-out", title: "Buy bar · sold out", compares: "—", slot: SCREEN, slots: [{ label: "a coffee QQ has run out of: the nearest coffee instead of the options", html: cut(PO, /class="buybar buybar--out"/) }] }
   ];

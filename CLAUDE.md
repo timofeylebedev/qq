@@ -141,7 +141,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **The taste model** (`build/taste.mjs` → `src/data/taste.json`; `docs/taste-model.md`): every surface that says
   which coffees are alike or offers a step (brighter, softer, denser, lighter, more unusual, more classic) reads it,
-  and no new one scores similarity on its own (the account's `forYou()` still does, until session 5 or 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
+  and no new one scores similarity on its own (the account's `forYou()` still does, until session 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
 - **«Что взять еще»** (a coffee's page, `next()` in `src/templates/product.mjs`): the taste model's moves for that
@@ -152,6 +152,17 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `shop.unavailable`: the page stays, a pill under the name says it will be back, the buy bar (`buybar--out`) offers
   the nearest coffee in stock, the block begins with it («Ближе всего»), and cards show a disabled «Скоро вернётся». Tim chose the form on the bench `design/next-bench/` (decision
   `similar-coffees`).
+- **«Впечатления»** (a coffee's page, its own section after the story: `src/templates/people.mjs`, `scripts/people.js`;
+  decision `people-block`): how the coffee turned out in people's cups (not «отзывы»: Tim), **without stars, scores,
+  averages or percents**, and no ambassadors. A centred title; «Поделиться впечатлениями» and «Задать вопрос» centred on
+  one line; the stories two a row from M, each: the avatar in its own column (as tall as the name and the closeness
+  line), the name, how close the teller's taste is to yours (a short line filled by closeness and «Очень похожие
+  вкусы» / «Похожие вкусы» / «Разные вкусы», from the taste model), the words, the date and after how many cups (the
+  closeness and the date in one grey size). The answers against expectation (сладость, кислотность, плотность,
+  ферментация) are collected, not printed; a review without words is not shown. «Не про вкус» answers (grind, not as described) never count as taste. The data is `src/data/people.json` from
+  `build/people.mjs`: today PLACEHOLDERS from `data/people.json`, and «your» taste is the account's placeholder visitor
+  (decision `people-placeholder`; unmarked on the page, Tim); what a backend must do is `docs/people-backend.md`. The bench of
+  forms: `design/people-bench/` (`npm run people:bench`).
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists

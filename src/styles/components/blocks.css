@@ -186,8 +186,8 @@
 .dialog--wide { width: min(100% - 2 * var(--gutter), 50rem); }
 .dialog::backdrop { background: var(--c-ink-40); }
 .dialog__head { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 12px 12px var(--tile-pad); background: var(--c-cloud); border-bottom: var(--hair) solid var(--line); }
-.dialog__title { font-size: var(--type-card-title); }
-.dialog__close { display: grid; place-items: center; width: 48px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
+.dialog__title { min-width: 0; overflow-wrap: anywhere; font-size: var(--type-card-title); }
+.dialog__close { flex: none; display: grid; place-items: center; width: 48px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
 .dialog__close svg { width: 24px; height: 24px; }
 @media (--mouse) { .dialog__close:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 @media (--motion) {

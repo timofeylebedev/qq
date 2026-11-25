@@ -138,3 +138,59 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   .buybar__state { padding-inline: var(--control-x); }
   .buybar__lead { grid-template-areas: "k k arrow" "name price arrow"; padding-inline: var(--control-x); margin: 0; }
 }
+
+/* «Отзывы» (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка», then Tim's changes of 24 Nov):
+   its own section after the story. A centred title; the number of reviews and «Написать отзыв» on one line; chips by
+   way of brewing (scripts/people.js); then a hairline list of reviews, each headed by an avatar (the initials in a dot)
+   and the name, how close the reviewer's taste is to yours (three dots and words), the answers and the words. From L
+   the head and the closeness stand in a column of their own beside the review. */
+.pstage__people { justify-self: start; position: relative; z-index: 6; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: var(--type-body); }
+.pstage__link { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.25em; text-decoration-color: var(--c-ink-30); transition: text-decoration-color var(--t-out) var(--ease-out); }
+@media (--mouse) { .pstage__link:hover { text-decoration-color: currentColor; transition-duration: var(--t-in); } }
+/* links inside the block's text: tall enough to tap (24px: the audit's targets), with no change to the line */
+.pstage__link { padding-block: 5px; }
+
+.people .head { margin-bottom: var(--section-y-s); }
+.people__empty { max-width: 36em; padding-top: var(--text-gap); font-size: var(--type-body-l); line-height: var(--lh-text); }
+
+
+/* the two actions on one line, centred; then the stories, two a row from M */
+.people__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-bottom: var(--section-y-s); }
+.buyers { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--gap); border-top: var(--hair) solid var(--line); }
+@container col (width >= 43rem) { .buyers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* a story: the avatar in its own column, the rest beside it */
+.buyer { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: start; column-gap: 16px; padding-block: var(--text-gap); border-bottom: var(--hair) solid var(--line); }
+.buyer__avatar { display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-body-l) / 1 var(--mono); }
+.buyer__main { display: grid; align-content: start; gap: 10px; min-width: 0; }
+.buyer__name { font-size: var(--type-card-title); line-height: 1.2; }
+/* how close: a short line filled by closeness (the meter's track is ink-20, its fill ink) and why in words */
+.buyer__close { display: flex; align-items: baseline; gap: 10px; margin-top: -4px; font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.buyer__meter { --fill: 1; flex: none; align-self: start; width: 48px; height: 3px; margin-top: 0.7em; background: var(--c-ink-20); }
+.buyer__meter i { display: block; width: calc(var(--fill) * 100%); height: 100%; background: var(--c-ink); }
+.buyer__text { max-width: 40em; font-size: var(--type-body-l); line-height: var(--lh-text); }
+.buyer__reply { max-width: 40em; padding-left: 16px; border-left: var(--hair) solid var(--line); font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.buyer__date { font-size: var(--type-body); color: var(--c-ink-70); }
+
+/* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
+.rform { --menu-min: 0; }
+.rform__lead { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.rform__req { margin-left: 6px; text-transform: none; letter-spacing: 0; color: var(--c-ink-70); }
+.rform__hint { clear: both; font-size: var(--type-small); color: var(--c-ink-70); }
+.ropts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
+.ropt { position: relative; }
+.ropt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ropt span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: var(--hair) solid var(--line); border-radius: 999px; font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out); }
+.ropt input:checked + span { background: var(--c-ink); border-color: var(--c-ink); color: var(--c-paper); }
+.ropt input:focus-visible + span { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+@media (--mouse) { .ropt input:not(:checked):hover + span { background-color: var(--tint); transition-duration: var(--t-in); } }
+.seg--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); clear: both; }
+.seg--3 span { font-size: var(--type-body); }
+.rform__milk { margin-top: 6px; }
+.rform__text { min-height: 4.5em; resize: vertical; font-size: max(16px, var(--type-body)); }
+.rform__pair { display: grid; gap: var(--card-pad); }
+.rform__pair > div { display: grid; gap: 6px; }
+@container col (width >= 22rem) { .rform__pair { grid-template-columns: 1fr 1fr; } }
+.rform__other { font-size: var(--type-body); }
+.rform__other summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 0.25em; }
+.rform__other p { margin-block: 8px; color: var(--c-ink-70); }

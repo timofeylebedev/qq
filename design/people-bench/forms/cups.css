@@ -1,0 +1,98 @@
+/* «Чашки» */
+.f-cups-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin-bottom: 24px; }
+.f-cups-title { margin: 0; font-size: var(--type-h2); line-height: 1; }
+.f-cups-label { margin: 0 0 12px; font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: 0.04em; color: var(--c-lavender-ink); }
+.f-cups-top { font-size: var(--type-small); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--c-ink-30); }
+.f-cups-top:hover { text-decoration-color: currentColor; }
+.f .f-cups-btn { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: var(--c-ink); color: var(--c-paper); font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; }
+.f .f-cups-btn--line { background: none; color: var(--c-ink); border: 1px solid var(--c-ink); }
+.f .f-cups-link { font-size: var(--type-small); color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 3px; }
+
+/* named picks: the ink ground, apart */
+.f-cups-named { background: var(--c-ink); color: var(--c-paper); padding: var(--card-pad); margin-bottom: 32px; }
+.f-cups-named .f-cups-label { color: var(--c-lavender); }
+.f-cups-named__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.f-cups-pick { padding: 16px 0; border-top: 1px solid var(--c-white-30); display: grid; gap: 6px; }
+.f-cups-pick:first-child { border-top: 0; padding-top: 0; }
+.f-cups-pick p { margin: 0; }
+.f-cups-pick__who b { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; }
+.f-cups-pick__why { font-size: var(--type-lead); line-height: 1.3; }
+.f-cups-pick__how, .f-cups-pick__likes, .f-cups-named__note { font-size: var(--type-small); color: var(--c-white-60); }
+.f-cups-named__note { margin: 12px 0 0; }
+.f-cups-ex { display: inline-block; padding: 0 8px; border: 1px dashed var(--c-lavender); border-radius: 999px; color: var(--c-lavender); font-size: 12px; }
+@container col (width >= 43rem) {
+  .f-cups-named__list { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0 var(--card-pad); }
+  .f-cups-pick, .f-cups-pick:first-child { border-top: 0; padding: 0 0 0 var(--card-pad); border-left: 1px solid var(--c-white-30); }
+  .f-cups-pick:first-child { padding-left: 0; border-left: 0; }
+}
+
+/* customers */
+.f-cups-cust__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
+.f-cups-cust__head .f-cups-label { margin: 0; }
+.f-cups-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.f .f-cups-chip { height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--type-small); }
+.f-cups-chip span { color: var(--c-ink-70); }
+.f .f-cups-chip:hover { background: var(--tint); }
+.f .f-cups-chip[aria-pressed="true"] { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.f-cups-chip[aria-pressed="true"] span { color: var(--c-white-60); }
+.f-cups-sum { display: grid; gap: 20px; padding: 20px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: 8px; }
+@container col (width >= 43rem) { .f-cups-sum { grid-template-columns: 1fr 1fr; } .f-cups-heard { grid-column: 1 / -1; } }
+@container col (width >= 58rem) { .f-cups-sum { grid-template-columns: 1fr 1fr 1.2fr; } .f-cups-heard { grid-column: auto; } }
+.f-cups-bar p { margin: 0; }
+.f-cups-bar__title { margin: 0 0 8px; font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; }
+.f-cups-bar__track { display: flex; gap: 2px; height: 10px; }
+.f-cups-bar__seg { flex-basis: 0; min-width: 0; }
+.f-cups-bar__seg--ok { background: var(--c-ink); }
+.f-cups-bar__seg--less { background: var(--c-lavender-ink); }
+.f-cups-bar__seg--more { background: var(--c-ink-30); }
+.f-cups-bar__ends { display: flex; justify-content: space-between; font-size: 12px; color: var(--c-ink-70); margin-top: 4px; }
+.f-cups-bar__words { margin-top: 6px; }
+.f-cups-heard ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.f-cups-heard li { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dotted var(--line); }
+.f-cups-heard b { font-weight: 500; white-space: nowrap; }
+.f-cups-revs { list-style: none; margin: 0; padding: 0; }
+.f-cups-rev { padding: 20px 0; border-bottom: 1px solid var(--line); display: grid; gap: 6px; }
+.f-cups-rev p { margin: 0; }
+.f-cups-rev__cup { font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.f-cups-rev__mine { font: 500 12px / 1 var(--sans); text-transform: none; padding: 4px 8px; border-radius: 999px; background: var(--c-lavender); color: var(--c-ink); }
+.f-cups-rev__usual { color: var(--c-ink-70); }
+.f-cups-rev__usual span { white-space: nowrap; }
+.f-cups-rev__ans { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.f-cups-rev__ans b { font-weight: 500; }
+.f-cups-rev__heard, .f-cups-rev__sign { font-size: var(--type-small); color: var(--c-ink-70); }
+.f-cups-rev__text { max-width: 60ch; }
+@container col (width >= 58rem) {
+  .f-cups-rev { grid-template-columns: 18rem 1fr; column-gap: 32px; }
+  .f-cups-rev__cup, .f-cups-rev__usual { grid-column: 1; }
+  .f-cups-rev__ans, .f-cups-rev__heard, .f-cups-rev__text, .f-cups-rev__sign { grid-column: 2; }
+  .f-cups-rev__ans { grid-row: 1; } .f-cups-rev__heard { grid-row: 2; }
+}
+.f-cups-issues { padding: 20px 0; display: grid; gap: 6px; }
+.f-cups-issues p { margin: 0; }
+.f-cups-issue span { color: var(--c-ink-70); font-size: var(--type-small); }
+.f-cups-reply { padding-left: 16px; border-left: 2px solid var(--c-lavender); font-size: var(--type-small); }
+.f-cups-empty { display: grid; gap: 16px; justify-items: start; padding: 20px 0; border-top: 1px solid var(--line); }
+.f-cups-empty p { margin: 0; max-width: 52ch; }
+
+/* write */
+.f-cups-write { display: grid; gap: 0; background: var(--c-paper); border: 1px solid var(--line); }
+.f-cups-write__title { margin: 0; padding: 16px; font: 700 var(--type-body) / 1.2 var(--mono); text-transform: uppercase; border-bottom: 1px solid var(--line); }
+.f-cups-q { margin: 0; padding: 14px 16px; border: 0; border-bottom: 1px solid var(--line); display: grid; gap: 10px; min-width: 0; }
+.f-cups-q legend, .f-cups-legend { padding: 0; font-size: var(--type-small); color: var(--c-ink-70); float: left; width: 100%; margin-bottom: 10px; }
+.f-cups-legend { margin: 0; }
+.f-cups-q legend span, .f-cups-legend span { color: var(--c-ink-50); }
+.f-cups-opts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
+.f-cups-opts label, .f-cups-seg label { position: relative; }
+.f-cups-opts input, .f-cups-seg input { position: absolute; opacity: 0; inset: 0; margin: 0; }
+.f-cups-opts span { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; font-size: var(--type-small); cursor: pointer; }
+.f-cups-opts input:checked + span, .f-cups-seg input:checked + span { background: var(--c-ink); color: var(--c-paper); border-color: var(--c-ink); }
+.f-cups-opts input:focus-visible + span, .f-cups-seg input:focus-visible + span { outline: 2px solid var(--c-ink); outline-offset: 2px; }
+.f-cups-seg { display: grid; grid-template-columns: repeat(3, 1fr); clear: both; }
+.f-cups-seg span { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 44px; padding: 4px 6px; border: 1px solid var(--line); margin-left: -1px; font-size: var(--type-small); cursor: pointer; }
+.f-cups-q textarea { font: inherit; border: 1px solid var(--line); padding: 10px; resize: vertical; width: 100%; box-sizing: border-box; border-radius: 0; }
+.f-cups-usual { margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: var(--type-small); }
+.f .f-cups-usual button { text-decoration: underline; text-underline-offset: 3px; }
+.f-cups-usual span { color: var(--c-ink-70); }
+.f-cups-write__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding: 16px; }
+.f-cups-sent { display: block; padding: 0 16px 16px; font-size: var(--type-small); }
+.f-cups-sent:empty { display: none; }
