@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QQ · подбор кофе: стенд</title>
+<style>
+@font-face { font-family: "Apercu"; src: url("fonts/apercu-400.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Apercu"; src: url("fonts/apercu-500.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "PT Mono"; src: url("fonts/pt-mono-700.woff2") format("woff2"); font-weight: 700; }
+:root { --ink: #1f1f1f; --ink70: #5c5c5c; --line: #d6d6d6; --cloud: #f4f4f4; --lav: #7c5cd6; --lavl: #d9cff7; }
+* { box-sizing: border-box; margin: 0; }
+body { font: 400 15px/1.4 Apercu, system-ui, sans-serif; color: var(--ink); background: #fff; padding: 24px clamp(16px, 4vw, 48px) 64px; }
+h1, h2, h3, .mono { font-family: "PT Mono", monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+h1 { font-size: clamp(24px, 3vw, 36px); margin-bottom: 12px; }
+h2 { font-size: 20px; margin: 40px 0 12px; }
+p.lead { max-width: 60rem; color: var(--ink70); margin-bottom: 8px; }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0; border: 1px solid var(--line); margin-top: 20px; }
+.controls label { display: grid; gap: 4px; padding: 12px 16px; border-right: 1px solid var(--line); font-size: 12px; color: var(--ink70); text-transform: uppercase; letter-spacing: 0.03em; }
+.controls select { font: 500 15px Apercu, sans-serif; color: var(--ink); border: 0; background: none; padding: 4px 0; text-transform: none; letter-spacing: 0; }
+.controls button { font: 700 13px "PT Mono", monospace; text-transform: uppercase; letter-spacing: 0.05em; border: 0; background: var(--ink); color: #fff; padding: 0 20px; cursor: pointer; min-height: 48px; }
+.say { margin: 16px 0 0; font-size: 18px; font-weight: 500; max-width: 60rem; }
+.forms { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 24px; margin-top: 24px; }
+.form { border: 1px solid var(--line); padding: 20px; display: grid; gap: 14px; align-content: start; }
+.form[data-built] { border-color: var(--ink); border-width: 2px; }
+.form h3 { font-size: 16px; }
+.form .idea { color: var(--ink70); font-size: 13px; }
+.tag { font: 700 11px "PT Mono", monospace; letter-spacing: 0.05em; text-transform: uppercase; color: var(--lav); }
+.pick { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--line); }
+.pick b { font: 700 15px "PT Mono", monospace; text-transform: uppercase; letter-spacing: 0.04em; }
+.pick .why { font-size: 13px; }
+.pick .but { font-size: 13px; font-weight: 500; }
+.list { display: grid; gap: 2px; font-size: 13px; }
+.list li { list-style: none; display: flex; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--cloud); padding: 3px 0; }
+svg.map { width: 100%; height: auto; background: var(--cloud); border: 1px solid var(--line); }
+.verdict-fits { color: #2b7a3d; } .verdict-questionable { color: #a86400; } .verdict-misfit { color: #b3261e; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr[data-a] { cursor: pointer; } tr[data-a]:hover { background: var(--cloud); }
+tr[aria-current] { background: var(--lavl); }
+.why-built { max-width: 60rem; display: grid; gap: 8px; }
+.note { color: var(--ink70); font-size: 13px; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.filters button { border: 1px solid var(--line); background: #fff; padding: 6px 12px; font: 500 13px Apercu, sans-serif; cursor: pointer; }
+.filters button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+</style>
+</head>
+<body>
+<h1>Подбор кофе · стенд</h1>
+<p class="lead">Любые ответы — и три формы результата рядом, на данных сайта и его арифметике (<code>src/scripts/quiz.js</code>). Рамкой отмечена построенная форма: «Один и два шага», а при «Не знаю» — «Три разных». Ниже — 106 респондентов опроса B2C: как внешняя проверка закодировала их ответы, что им выдал подбор и её вердикт. Нажмите на строку, чтобы увидеть результат.</p>
+<div class="controls" id="controls"></div>
+<p class="say" id="say"></p>
+<div class="forms" id="forms"></div>
+<h2>Почему построена эта форма</h2>
+<div class="why-built">
+<p><b>Один кофе и два шага от него, когда вкус назван.</b> Новичку нужно решение, а не список: при неуверенности выбор из многих хуже (метаанализ Chernev et al. 2015, 7 202 человека). «Лучший + альтернативы с понятной разницей» вызывал больше доверия, чем ранжированный список (Pu &amp; Chen 2006). Но заявленный вкус совпадает со слепым выбором только примерно в половине случаев, поэтому два других — не «тоже хорошие», а шаги в сторону, где ответы менее надёжны: мягче/ярче, плотнее/легче. Это те же ходы, что в «Что взять еще» на странице кофе: подбор берёт их оттуда, когда они подходят человеку.</p>
+<p><b>Три разных, когда ответ «Не знаю».</b> Угадывать нечего — честнее дать попробовать: мягкий, средний, яркий (кислотность — то, в чём вкусы расходятся сильнее всего), по 50 г, если QQ продаёт такие пачки.</p>
+<p><b>Место на карте — не результат, а пояснение.</b> Пятно на карте показывает, что подбор — начало, и потом его сдвинут ответы после доставки. Но как результат оно ничего не выбирает: по всем 675 наборам ответов внутри пятна от 0 до 19 кофе, обычно 2–10 (медиана 6) — то пусто, то слишком много для первого заказа.</p>
+</div>
+<h2>Респонденты опроса</h2>
+<div class="filters" id="vf"></div>
+<table id="people"><thead><tr><th>№</th><th>Ответы</th><th>Подбор</th><th>Вердикт</th></tr></thead><tbody></tbody></table>
+<script>
+/*{{lib}}*/
+/*{{data}}*/
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;");
+const C = new Map(D.coffees.map((c) => [c.slug, c]));
+const label = (k, v) => D.steps.find((s) => s.id === k).options.find((o) => o.id === v)?.ru || v;
+let A = { method: "espresso", milk: "yes", now: "shop", taste: "choc" };
+$("#controls").innerHTML = D.steps.map((s) => `<label>${esc(s.ask)}<select name="${s.id}">${s.options.map((o) => `<option value="${o.id}">${esc(o.ru)}</option>`).join("")}</select></label>`).join("") + `<button type="button" id="rnd">Случайно</button>`;
+$("#controls").addEventListener("change", (e) => { A[e.target.name] = e.target.value; draw(); });
+$("#rnd").addEventListener("click", () => { for (const s of D.steps) A[s.id] = s.options[Math.floor(Math.random() * s.options.length)].id; draw(); });
+
+function svgMap(region, lit, ring = []) {
+  const W = 330, H = W / MAP.aspect, x = D.map.axes.x, y = D.map.axes.y;
+  const ar = area(region, D);
+  const dots = D.coffees.map((c) => { const on = lit.includes(c.slug); return `<circle cx="${c.map.u * W}" cy="${c.map.v * H}" r="${on ? 8 : 5}" fill="${on ? "#1f1f1f" : ring.includes(c.slug) ? "#7c5cd6" : "#9a9a9a"}"><title>${esc(c.name)}</title></circle>${on ? `<text x="${c.map.u * W + 10}" y="${c.map.v * H + 4}" font-size="10">${esc(c.name)}</text>` : ""}`; }).join("");
+  const grid = MAP.cols.slice(1, -1).map((u) => `<line x1="${u * W}" x2="${u * W}" y1="0" y2="${H}" stroke="#d6d6d6"/>`).join("") + MAP.rows.slice(1, -1).map((v) => `<line y1="${v * H}" y2="${v * H}" x1="0" x2="${W}" stroke="#d6d6d6"/>`).join("");
+  return `<svg class="map" viewBox="0 0 ${W} ${H}"><ellipse cx="${ar.u * W}" cy="${ar.v * H}" rx="${ar.ru * W}" ry="${ar.rv * H}" fill="#d9cff7" opacity="0.8"/>${grid}${dots}<text x="6" y="14" font-size="9" fill="#5c5c5c">↑ ПЛОТНЕЕ</text><text x="${W - 6}" y="${H - 6}" font-size="9" fill="#5c5c5c" text-anchor="end">ЯРЧЕ →</text><text x="6" y="${H - 6}" font-size="9" fill="#5c5c5c">← МЯГЧЕ</text></svg>`;
+}
+const pickHtml = (p) => `<div class="pick"><span class="tag">${esc(p.label)}</span><b>${esc(C.get(p.slug).name)}</b><span class="why">${esc(p.why.join("; "))}${p.why.length ? ". " : ""}${esc(p.taste)}</span>${p.but ? `<span class="but">${esc(p.but)}</span>` : ""}${p.set ? `<span class="note">${esc(p.set.text)}</span>` : ""}</div>`;
+
+function draw() {
+  for (const s of D.steps) $(`select[name="${s.id}"]`).value = A[s.id];
+  const r = result(A, D), pick = result(A, D, { form: "pick" }), spread = result(A, D, { form: "spread" });
+  $("#say").textContent = r.summary[0];
+  const inside = D.coffees.filter((c) => eligible(c, A)).map((c) => ({ c, f: fit(r.region, { ...c.position, flavour: c.flavour }, D.S) })).sort((a, b) => a.f - b.f);
+  const inR = inside.filter((x) => x.f <= 1);
+  $("#forms").innerHTML = [
+    { name: "Один и два шага", idea: "Первый кофе — лучший в пятне; два других — шаги от него в стороны, где ответы ненадёжны.", res: pick, built: r.mode === "pick" },
+    { name: "Три разных", idea: "Три кофе внутри пятна, по возможности мягкий, средний и яркий: попробовать и понять.", res: spread, built: r.mode === "spread" },
+    { name: "Место на карте", idea: "Только пятно и все кофе внутри него, по близости. Ничего не выбрано." }
+  ].map((f) => `<section class="form"${f.built ? " data-built" : ""}><h3>${f.name}${f.built ? " · построено" : ""}</h3><p class="idea">${f.idea}</p>${f.res
+    ? svgMap(r.region, f.res.picks.map((p) => p.slug)) + f.res.picks.map(pickHtml).join("")
+    : svgMap(r.region, [], inR.map((x) => x.c.slug)) + `<p class="note">В пятне ${inR.length} кофе (близость ≤ 1, где 1 — край пятна):</p><ul class="list">${inside.slice(0, 12).map((x) => `<li><span>${esc(x.c.name)}</span><span>${x.f.toFixed(2)}</span></li>`).join("")}</ul>`}</section>`).join("");
+  for (const tr of document.querySelectorAll("#people tr[data-a]")) tr.toggleAttribute("aria-current", tr.dataset.a === JSON.stringify(A));
+}
+
+// the respondents, with the outside check's verdicts
+let only = "all";
+function table() {
+  const counts = PEOPLE.reduce((m, p) => (m[p.verdict] = (m[p.verdict] || 0) + 1, m), {});
+  $("#vf").innerHTML = [["all", `Все ${PEOPLE.length}`], ["fits", `Подходит ${counts.fits || 0}`], ["questionable", `Спорно ${counts.questionable || 0}`], ["misfit", `Не подходит ${counts.misfit || 0}`]].map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${only === v}">${t}</button>`).join("");
+  $("#people tbody").innerHTML = PEOPLE.filter((p) => only === "all" || p.verdict === only).map((p) => `<tr data-a='${esc(JSON.stringify(p.answers))}'><td>${p.id}</td><td>${D.steps.map((s) => esc(label(s.id, p.answers[s.id]))).join(" · ")}<div class="note">${esc(p.said || "")}</div></td><td>${esc(p.picks.join(" · "))}</td><td class="verdict-${p.verdict}">${esc(p.verdict)}<div class="note">${esc(p.why || "")}</div></td></tr>`).join("") || `<tr><td colspan="4" class="note">Проверка ещё не выгружена.</td></tr>`;
+}
+$("#vf").addEventListener("click", (e) => { const b = e.target.closest("[data-v]"); if (b) { only = b.dataset.v; table(); draw(); } });
+$("#people").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-a]"); if (tr) { A = JSON.parse(tr.dataset.a); draw(); scrollTo({ top: 0, behavior: "smooth" }); } });
+table(); draw();
+</script>
+</body>
+</html>

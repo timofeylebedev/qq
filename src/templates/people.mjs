@@ -66,7 +66,7 @@ export function people(ctx, p) {
   const share = `<button class="btn people__write" type="button" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
   const ask = `<button class="btn-arrow" type="button" data-dialog="ask-${p.slug}"><span class="btn-arrow__label">Задать вопрос</span>${icon("arrow-right")}</button>`;
   const you = visitor(ctx.products);
-  return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people>
+  return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people data-close="${esc(JSON.stringify({ w: W, close: CLOSE.map(([m, t]) => [Number.isFinite(m) ? m : 99, t]) }))}">
   <div class="col">
     ${head({ title: TITLE, id: "people-title", center: true })}
     <div class="people__actions">${share}${ask}</div>
@@ -83,7 +83,9 @@ export function people(ctx, p) {
 // answers in two columns, the words, the date and after how many cups
 function review(r, you) {
   const p = PERSON.get(r.who);
-  const data = ` data-g="${groupOf(r)}"${r.milk ? " data-milk" : ""}`;
+  // the teller's place (bright, body, unusual): a saved quiz redraws the closeness against the visitor's own region
+  // (scripts/tastesaved.js), with the same weights and labels (data-close on the section)
+  const data = ` data-g="${groupOf(r)}"${r.milk ? " data-milk" : ""} data-pos="${[p.pos.bright, p.pos.body, p.pos.unusual].map((x) => +x.toFixed(3)).join(",")}"`;
   return `<li class="buyer"${data}>
           <span class="buyer__avatar" aria-hidden="true">${esc(initials(p.name))}</span>
           <div class="buyer__main">

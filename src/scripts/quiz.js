@@ -71,11 +71,12 @@ const MOVES = {
 };
 
 // ── the result ───────────────────────────────────────────────────────────────────────────────────────────────────
-export function result(a, D) {
+// `form` forces one form ("pick" or "spread") whatever the answers: the bench compares them on the same answers
+export function result(a, D, { form = null } = {}) {
   const W = D.words, region = regionOf(a, D);
   const pool = D.coffees.filter((c) => eligible(c, a));
   const cost = new Map(pool.map((c) => [c, costOf(c, region, a, D)]));
-  const spread = !a.taste || D.rules.taste[a.taste]?.spread;
+  const spread = form ? form === "spread" : !a.taste || D.rules.taste[a.taste]?.spread;
   // three different coffees are a tasting: those QQ also sells in 50 g come a little first, so all three can be small
   if (spread) for (const c of pool) if (!c.small) cost.set(c, cost.get(c) + 0.15);
   const byCost = [...pool].sort((x, y) => cost.get(x) - cost.get(y) || x.i - y.i);

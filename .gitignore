@@ -36,6 +36,7 @@ design/scales-bench/out/
 design/taste-bench/out/
 design/next-bench/out/
 design/people-bench/out/
+design/quiz-bench/out/
 *.tmp.mjs
 # site-kit: the checks' records and the review page are built, not committed
 .site-kit/

@@ -3,6 +3,7 @@
 //   the catalogue      [data-quiz-entry]: «Ваш подбор: …» in place of «Выбираете впервые?»
 //   a coffee's page    [data-fit]: whether QQ roasts it for the visitor's way of brewing, and with what grind; the buy
 //                      bar starts on that roast and grind (unless the address chose them: ?roast=…&grind=…)
+//   «Впечатления»      [data-people][data-close]: how close each teller's taste is to the visitor's quiz region
 //   the profile        [data-taste-part]: what the quiz said, with a way back to it
 // and later by the feedback after delivery (session 6): its answers move this region (src/scripts/taste.js update).
 import { load, save } from "./buy.js";
@@ -41,6 +42,20 @@ export function initSaved() {
         const r = [...bar.querySelectorAll(`input[name="${k}"]`)].find((x) => x.value === v);
         if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); }
       }
+    }
+  }
+  // «Впечатления» on a coffee's page: how close each teller's taste is to the visitor's, now from the quiz's region
+  // (src/templates/people.mjs drew it against the account's placeholder purchases)
+  const people = document.querySelector("[data-people][data-close]");
+  if (people && t.region) {
+    const { w, close } = JSON.parse(people.dataset.close), c = t.region.center;
+    for (const li of people.querySelectorAll("[data-pos]")) {
+      const [bright, body, unusual] = li.dataset.pos.split(",").map(Number), pos = { bright, body, unusual };
+      const g = Math.sqrt(Object.keys(w).reduce((s, k) => s + (w[k] * (pos[k] - c[k])) ** 2, 0));
+      const line = li.querySelector(".buyer__close");
+      if (!line) continue;
+      line.querySelector("i")?.style.setProperty("--fill", Math.max(0.08, Math.min(1, 1 - g / 2.5)).toFixed(2));
+      line.lastChild.textContent = close.find(([max]) => g < max)[1];
     }
   }
   // the profile: what the quiz said
