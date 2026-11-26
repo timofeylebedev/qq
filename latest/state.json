@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T12:20:56.020Z",
- "commit": "50fdb94f6b16f890587f1d4224da6ac96612e449",
+ "generated": "2026-11-26T13:15:47.533Z",
+ "commit": "bbafe7d7d969cbcbe3d3e36c9f42b81fa5668d95",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T12:07:19.981Z",
+   "when": "2026-11-26T13:02:25.592Z",
    "quick": false,
-   "seconds": 458,
+   "seconds": 453,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T12:14:58.449Z",
+   "when": "2026-11-26T13:09:57.125Z",
    "quick": true,
-   "seconds": 357,
+   "seconds": 350,
    "errors": []
   }
  },
  "base": {
-  "commit": "70eb05f46ab6e23187f347da0e34dc4d59e39fe3",
-  "generated": "2026-11-26T12:00:56.314Z"
+  "commit": "50fdb94f6b16f890587f1d4224da6ac96612e449",
+  "generated": "2026-11-26T12:20:56.020Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,8 +38,8 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 55,
-  "warn": 8,
+  "pass": 54,
+  "warn": 9,
   "fail": 6,
   "info": 6,
   "findings": 134,
@@ -204,7 +204,7 @@
    "id": "box-mac-safari",
    "severity": "ask",
    "area": "Questions",
-   "title": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
+   "title": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
    "needs": [
     "mac-safari"
    ],
@@ -560,6 +560,22 @@
     "button.hero__info-btn: z-index 2"
    ],
    "rank": 108
+  },
+  {
+   "type": "rule",
+   "id": "weight.total",
+   "severity": "warn",
+   "area": "Weight",
+   "title": "A first visit does not get heavier",
+   "kind": "trend",
+   "why": "5 places · 749 KB",
+   "fresh": 0,
+   "sample": [
+    "html: 1 files, 18 KB sent (was 18 KB)",
+    "js: 8 files, 52 KB sent (was 62 KB)",
+    "css: 1 files, 19 KB sent (was 19 KB)"
+   ],
+   "rank": 105
   },
   {
    "type": "rule",
@@ -3290,13 +3306,13 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 563,
+   "value": 749,
    "unit": "KB",
    "was": {
     "status": "pass",
     "value": 563
    },
-   "status": "pass",
+   "status": "warn",
    "items": [
     {
      "key": "html",
@@ -3307,8 +3323,8 @@
     {
      "key": "js",
      "where": "js",
-     "what": "12 files, 62 KB sent (was 62 KB)",
-     "value": 62
+     "what": "8 files, 52 KB sent (was 62 KB)",
+     "value": 52
     },
     {
      "key": "css",
@@ -3319,8 +3335,8 @@
     {
      "key": "images",
      "where": "images",
-     "what": "10 files, 402 KB sent (was 402 KB)",
-     "value": 402
+     "what": "15 files, 597 KB sent (was 402 KB)",
+     "value": 597
     },
     {
      "key": "fonts",
@@ -3510,7 +3526,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "72 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "71 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3816,7 +3832,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "72 decisions: 47 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
+   "how": "71 decisions: 46 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3867,7 +3883,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Hovers never move",
-   "how": "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground (but the 2 photo zooms of decision hover-zoom) (build/rules.mjs) (read from the code).",
+   "how": "no :hover rule transforms, translates, scales or rotates anything: a hover tints its own ground (but the 4 picture zooms of decision hover-zoom) (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -5009,7 +5025,7 @@
   {
    "key": "weight.total::html",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "html",
    "what": "1 files, 18 KB sent (was 18 KB)",
    "at": "",
@@ -5018,16 +5034,16 @@
   {
    "key": "weight.total::js",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "js",
-   "what": "12 files, 62 KB sent (was 62 KB)",
+   "what": "8 files, 52 KB sent (was 62 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::css",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "css",
    "what": "1 files, 19 KB sent (was 19 KB)",
    "at": "",
@@ -5036,16 +5052,16 @@
   {
    "key": "weight.total::images",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "images",
-   "what": "10 files, 402 KB sent (was 402 KB)",
+   "what": "15 files, 597 KB sent (was 402 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::fonts",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "fonts",
    "what": "4 files, 63 KB sent (was 63 KB)",
    "at": "",
@@ -5122,7 +5138,7 @@
    "id": "page-transition",
    "kind": "decision",
    "state": "unbound",
-   "what": "Pages cross-fade (cross-document view transitions); a card opening its coffee carries its name and pack to the page's title and big pack. For the capture the packs show their stills. Chrome 126+, Safari 18.2+; elsewhere a page simply opens. public/vt.js, a plain script in <head>, names the parts",
+   "what": "Pages cross-fade (cross-document view transitions); a card opening its coffee carries its name and pack to the page's title and big pack. The packs are pictures, captured as they are. Chrome 126+, Safari 18.2+; elsewhere a page simply opens. public/vt.js, a plain script in <head>, names the parts",
    "decided": "Tim, 2026-10-20 (round 3)"
   },
   {
@@ -5143,7 +5159,7 @@
    "id": "pack-label",
    "kind": "placeholder",
    "state": "unbound",
-   "what": "Every 3D pack shows the label of Индонезия Суматра Паллунг",
+   "what": "Every pack shows the picture of Индонезия Суматра Паллунг (src/assets/pack/pack-512.webp and pack-1024.webp; the 3D pack is gone since 26 Nov 2026, these are its renders)",
    "decided": "Tim, 2026-10-19"
   },
   {
@@ -5297,7 +5313,7 @@
    "id": "photos-in-catalog",
    "kind": "decision",
    "state": "unbound",
-   "what": "Only a Special coffee may show a photo on its card instead of the 3D pack (components.mjs photoOf over data/site.json photos); three do (Вьетнам Куа Мон, the second card of the catalog, Кения Киси, Перу Монте Верде), as the Figma catalog mixes photos with packs. A Classic coffee always shows its pack",
+   "what": "Only a Special coffee may show a photo on its card instead of the pack (components.mjs photoOf over data/site.json photos); three do (Вьетнам Куа Мон, the second card of the catalog, Кения Киси, Перу Монте Верде), as the Figma catalog mixes photos with packs. A Classic coffee always shows its pack",
    "decided": "Claude, 2026-10-19"
   },
   {
@@ -5318,7 +5334,7 @@
    "id": "product-dense",
    "kind": "decision",
    "state": "unbound",
-   "what": "Tim's second pass (26 Nov): the pack stands still (no turn with the scroll); the tiles are divided by grey lines (the line colour) and every row is as tall as the tallest from L; «Свойства» is the card's taste panel's rows; a blend's countries tile is its sentence, larger; the lots have a hairline above each but the first; «Как готовить» is a menu that opens under the tiles; no line about the visitor's method or their answer under the name; «6 впечатлений». First pass: A coffee's first screen in two halves from M: the 3D pack on the left, pinned while the right half scrolls (the name, the line under it, the links, then the facts as cloud tiles one hairline apart in a grid: two a row once the half holds two of 16rem, an odd last tile across). Below M: the name, the pack, the tiles. The buy bar's place is after «Впечатления»: sticky, it follows the screen's foot through the stage, the story and «Впечатления» and lets go before «Что взять еще», never over the footer.",
+   "what": "Tim's second pass (26 Nov): the pack stands still (no turn with the scroll); the tiles are divided by grey lines (the line colour) and every row is as tall as the tallest from L; «Свойства» is the card's taste panel's rows; a blend's countries tile is its sentence, larger; the lots have a hairline above each but the first; «Как готовить» is a menu that opens under the tiles; no line about the visitor's method or their answer under the name; «6 впечатлений». First pass: A coffee's first screen in two halves from M: the pack on the left, pinned while the right half scrolls (the name, the line under it, the links, then the facts as cloud tiles one hairline apart in a grid: two a row once the half holds two of 16rem, an odd last tile across). Below M: the name, the pack, the tiles. The buy bar's place is after «Впечатления»: sticky, it follows the screen's foot through the stage, the story and «Впечатления» and lets go before «Что взять еще», never over the footer.",
    "decided": "Tim, 2026-11-26"
   },
   {
@@ -5476,17 +5492,10 @@
    "decided": "Tim, 2026-10-21 (round 7)"
   },
   {
-   "id": "pack-drag",
-   "kind": "decision",
-   "state": "unbound",
-   "what": "The big pack of a coffee's page turns exactly with the scroll (no easing behind it) and can be dragged: across turns it, down tilts it (at most 0.6 rad); let go, it turns back to the scroll's angle (5/s). While it is pinned the 3D canvas is fixed to the screen (pouch3d stage.fixed), so the pack never rides the page's scroll for the frame before it is drawn again. On a touch screen a drag across turns it and a drag up or down scrolls (touch-action: pan-y on the stage)",
-   "decided": "Tim, 2026-10-21 (round 7)"
-  },
-  {
    "id": "hover-zoom",
    "kind": "exception",
    "state": "unbound",
-   "what": "Hovered, the photo of a card (a product card with a photo, a business card) comes a little closer (scale 1.04 on --t-move, --ease-out), as a card's 3D pack does",
+   "what": "Hovered, the picture of a card (a product card's pack or photo, a business card's photo) comes a little closer (scale 1.04 on --t-move, --ease-out); until 26 Nov a card's 3D pack lifted towards the pointer instead",
    "decided": "Tim, 2026-10-21 (round 7)"
   },
   {
@@ -5770,7 +5779,7 @@
   },
   {
    "id": "box-mac-safari",
-   "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
+   "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
    "needs": [
     "mac-safari"
    ],
@@ -5786,7 +5795,6 @@
     "src/templates/layout.mjs",
     "src/scripts/scroller.js",
     "src/scripts/nav.js",
-    "src/scripts/pouch3d.js",
     "src/scripts/scroll.js",
     "public/vt.js"
    ],

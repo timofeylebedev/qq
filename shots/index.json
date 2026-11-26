@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-26T12:20:56.608Z",
- "commit": "50fdb94f6b16f890587f1d4224da6ac96612e449",
+ "generated": "2026-11-26T13:15:47.995Z",
+ "commit": "bbafe7d7d969cbcbe3d3e36c9f42b81fa5668d95",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -86,11 +86,11 @@
    "files": {
     "src/styles/sections/home.css": "3a3b97e8fc5e14eb2ea63e444d3f68388739d284",
     "src/scripts/curl.js": "dc8f7e174f65540850a9ab088930374014c03027",
-    "src/scripts/slider.js": "6969b2ac483abf3e8118cbfd0e1647c4e336c021",
+    "src/scripts/slider.js": "6ce6c59b5553a2c621224b8d4e1007a18af1d912",
     "src/templates/home.mjs": "25aae15cd0af455aeeeb97ec5c6c48c1bc49f151"
    },
-   "taken": "2026-11-26T06:01:37.671Z",
-   "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+   "taken": "2026-11-26T13:15:58.603Z",
+   "commit": "bbafe7d7d969cbcbe3d3e36c9f42b81fa5668d95",
    "sizes": [
     {
      "w": 390,
@@ -119,13 +119,12 @@
    "page": "",
    "selector": "main > section:nth-of-type(3)",
    "files": {
-    "src/styles/components/card.css": "c079ec435ee5876d17bc45e240a184ef0eddc264",
-    "src/scripts/slider.js": "6969b2ac483abf3e8118cbfd0e1647c4e336c021",
-    "src/scripts/packs.js": "5ad73a6296e564781bf974151bf0f3fe9f65bbf1",
-    "src/templates/components.mjs": "3960cb1917579fd100ca41cba67d84873b663e6f"
+    "src/styles/components/card.css": "20673cb838f3666be12df0d4d14b9f950dcb2714",
+    "src/scripts/slider.js": "6ce6c59b5553a2c621224b8d4e1007a18af1d912",
+    "src/templates/components.mjs": "d069a4f3bf6b7485b9d42490bc21b888838239c3"
    },
-   "taken": "2026-11-26T10:51:49.557Z",
-   "commit": "73c860d78acba7f16f242aad589038b7c79148da",
+   "taken": "2026-11-26T13:15:58.603Z",
+   "commit": "bbafe7d7d969cbcbe3d3e36c9f42b81fa5668d95",
    "sizes": [
     {
      "w": 390,
@@ -135,7 +134,7 @@
       "w": 390,
       "h": 643
      },
-     "bytes": 66285
+     "bytes": 76702
     },
     {
      "w": 1440,
@@ -145,7 +144,7 @@
       "w": 1440,
       "h": 807
      },
-     "bytes": 51809
+     "bytes": 52615
     }
    ]
   },
@@ -221,11 +220,11 @@
    "selector": "#business",
    "files": {
     "src/styles/sections/home.css": "3a3b97e8fc5e14eb2ea63e444d3f68388739d284",
-    "src/styles/components/blocks.css": "808d31e66156423ff773a24c718f640474b61ea8",
+    "src/styles/components/blocks.css": "371b43ebd4f444be2f98c7aff6352e9feea92f9e",
     "src/templates/home.mjs": "25aae15cd0af455aeeeb97ec5c6c48c1bc49f151"
    },
-   "taken": "2026-11-26T06:01:37.671Z",
-   "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+   "taken": "2026-11-26T13:15:58.603Z",
+   "commit": "bbafe7d7d969cbcbe3d3e36c9f42b81fa5668d95",
    "sizes": [
     {
      "w": 390,
@@ -245,7 +244,7 @@
       "w": 1440,
       "h": 1178
      },
-     "bytes": 82497
+     "bytes": 83190
     }
    ]
   },
