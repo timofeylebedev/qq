@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T10:51:41.508Z",
- "commit": "73c860d78acba7f16f242aad589038b7c79148da",
+ "generated": "2026-11-26T12:00:56.314Z",
+ "commit": "70eb05f46ab6e23187f347da0e34dc4d59e39fe3",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T10:38:35.128Z",
+   "when": "2026-11-26T11:47:49.181Z",
    "quick": false,
-   "seconds": 446,
+   "seconds": 447,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T10:46:00.976Z",
+   "when": "2026-11-26T11:55:15.684Z",
    "quick": true,
    "seconds": 340,
    "errors": []
   }
  },
  "base": {
-  "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
-  "generated": "2026-11-26T10:13:52.321Z"
+  "commit": "73c860d78acba7f16f242aad589038b7c79148da",
+  "generated": "2026-11-26T10:51:41.508Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,33 +38,17 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 54,
+  "pass": 55,
   "warn": 8,
-  "fail": 7,
+  "fail": 6,
   "info": 6,
-  "findings": 138,
-  "new": 3,
-  "fixed": 13,
+  "findings": 134,
+  "new": 0,
+  "fixed": 4,
   "accepted": 91,
   "questions": 17
  },
  "needs": [
-  {
-   "type": "rule",
-   "id": "shape.radii",
-   "severity": "fail",
-   "area": "Shape",
-   "title": "Corners are radius roles (or pills)",
-   "kind": "share",
-   "why": "100% of rounded boxes (wanted 90%)",
-   "fresh": 0,
-   "sample": [
-    "select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
-    "catalog/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)",
-    "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
-   ],
-   "rank": 304
-  },
   {
    "type": "rule",
    "id": "code.tokens-wired",
@@ -194,7 +178,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit), PR #18 (the guard)",
    "why": "open since 2026-11-23 (PR #17 (site-kit), PR #18 (the guard))",
-   "rank": 203
+   "rank": 204
   },
   {
    "type": "question",
@@ -213,7 +197,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (site-kit: the checks found no 404.html)",
    "why": "open since 2026-11-23 (PR #17 (site-kit: the checks found no 404.html))",
-   "rank": 203
+   "rank": 204
   },
   {
    "type": "question",
@@ -232,7 +216,7 @@
    "since": "2026-11-23",
    "from": "PR #18",
    "why": "open since 2026-11-23 (PR #18)",
-   "rank": 203
+   "rank": 204
   },
   {
    "type": "question",
@@ -251,7 +235,7 @@
    "since": "2026-11-23",
    "from": "PR #17 (the kit's audit in Firefox and WebKit at 280 × 653)",
    "why": "open since 2026-11-23 (PR #17 (the kit's audit in Firefox and WebKit at 280 × 653))",
-   "rank": 203
+   "rank": 204
   },
   {
    "type": "question",
@@ -271,7 +255,7 @@
    "since": "2026-11-24",
    "from": "session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md)",
    "why": "open since 2026-11-24 (session 3 of choosing coffee (data/choose.json asks; docs/choose-check/survey.md))",
-   "rank": 202
+   "rank": 203
   },
   {
    "type": "question",
@@ -290,7 +274,7 @@
    "since": "2026-11-24",
    "from": "session 5 of choosing coffee (PR #23)",
    "why": "open since 2026-11-24 (session 5 of choosing coffee (PR #23))",
-   "rank": 202
+   "rank": 203
   },
   {
    "type": "question",
@@ -309,7 +293,7 @@
    "since": "2026-11-24",
    "from": "session 5 of choosing coffee (docs/people-backend.md, decision 10)",
    "why": "open since 2026-11-24 (session 5 of choosing coffee (docs/people-backend.md, decision 10))",
-   "rank": 202
+   "rank": 203
   },
   {
    "type": "question",
@@ -328,7 +312,7 @@
    "since": "2026-11-26",
    "from": "session 4 of choosing coffee (docs/quiz.md; bench design/quiz-bench/)",
    "why": "open since 2026-11-26 (session 4 of choosing coffee (docs/quiz.md; bench design/quiz-bench/))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -349,7 +333,7 @@
    "since": "2026-11-26",
    "from": "session 4 of choosing coffee (docs/quiz-research.md)",
    "why": "open since 2026-11-26 (session 4 of choosing coffee (docs/quiz-research.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -369,7 +353,7 @@
    "since": "2026-11-26",
    "from": "session 4 of choosing coffee (marketing row 4)",
    "why": "open since 2026-11-26 (session 4 of choosing coffee (marketing row 4))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -388,7 +372,7 @@
    "since": "2026-11-26",
    "from": "session 4 of choosing coffee (session 0: «не знаю» → a tasting set)",
    "why": "open since 2026-11-26 (session 4 of choosing coffee (session 0: «не знаю» → a tasting set))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -406,7 +390,7 @@
    "since": "2026-11-26",
    "from": "session 6 of choosing coffee (docs/feedback.md)",
    "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -425,7 +409,7 @@
    "since": "2026-11-26",
    "from": "session 6 of choosing coffee (docs/feedback.md)",
    "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -443,7 +427,7 @@
    "since": "2026-11-26",
    "from": "session 6 of choosing coffee (docs/feedback.md)",
    "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -461,7 +445,7 @@
    "since": "2026-11-26",
    "from": "session 6 of choosing coffee (docs/feedback.md)",
    "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "question",
@@ -479,7 +463,7 @@
    "since": "2026-11-26",
    "from": "session 6 of choosing coffee (docs/feedback.md)",
    "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
-   "rank": 200
+   "rank": 201
   },
   {
    "type": "rule",
@@ -489,29 +473,13 @@
    "title": "Edges line up",
    "kind": "tolerance",
    "why": "20 places",
-   "fresh": 2,
+   "fresh": 0,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (6 blocks on it) (320x568)"
    ],
-   "rank": 170
-  },
-  {
-   "type": "rule",
-   "id": "images.sharp",
-   "severity": "warn",
-   "area": "Images",
-   "title": "Pictures are sharp",
-   "kind": "tolerance",
-   "why": "16 places",
-   "fresh": 1,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
-    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
-   ],
-   "rank": 166
+   "rank": 120
   },
   {
    "type": "rule",
@@ -542,6 +510,22 @@
     "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
     "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)",
     "svg.buy__chevron: lower than its text's line by 10.8px (320x568)"
+   ],
+   "rank": 116
+  },
+  {
+   "type": "rule",
+   "id": "images.sharp",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are sharp",
+   "kind": "tolerance",
+   "why": "16 places",
+   "fresh": 0,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
    ],
    "rank": 116
   },
@@ -699,8 +683,8 @@
    },
    "accepted": 0,
    "was": {
-    "status": "warn",
-    "value": 3
+    "status": "pass",
+    "value": 0
    }
   },
   {
@@ -776,54 +760,13 @@
    "total": 219,
    "pass": 90,
    "warn": 75,
-   "status": "fail",
-   "items": [
-    {
-     "key": "select.buy__select|5",
-     "where": "select.buy__select",
-     "what": "radius 5px on a 144×54 box",
-     "value": 5,
-     "n": 12,
-     "at": "320x568 390x844",
-     "note": "roles here: ",
-     "engine": "webkit"
-    },
-    {
-     "key": "catalog/ select.buy__select|5",
-     "where": "catalog/ select.buy__select",
-     "what": "radius 5px on a 144×54 box",
-     "value": 5,
-     "n": 50,
-     "at": "320x568 390x844",
-     "note": "roles here: ",
-     "engine": "webkit"
-    },
-    {
-     "key": "coffee/keniya-kisii/ select.buy__select|5",
-     "where": "coffee/keniya-kisii/ select.buy__select",
-     "what": "radius 5px on a 144×54 box",
-     "value": 5,
-     "n": 12,
-     "at": "320x568 390x844",
-     "note": "roles here: ",
-     "engine": "webkit"
-    },
-    {
-     "key": "coffee/q-optimistic/ select.buy__select|5",
-     "where": "coffee/q-optimistic/ select.buy__select",
-     "what": "radius 5px on a 144×54 box",
-     "value": 5,
-     "n": 12,
-     "at": "320x568 390x844",
-     "note": "roles here: ",
-     "engine": "webkit"
-    }
-   ],
+   "status": "pass",
+   "items": [],
    "webkit": {
-    "status": "fail",
-    "value": 71.8,
+    "status": "pass",
+    "value": 100,
     "on": 219,
-    "total": 305
+    "total": 219
    },
    "accepted": 0,
    "was": {
@@ -1258,7 +1201,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 27
+    "value": 20
    }
   },
   {
@@ -1639,7 +1582,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 3
+    "value": 1
    }
   },
   {
@@ -1879,7 +1822,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 15
+    "value": 16
    }
   },
   {
@@ -1898,8 +1841,8 @@
    },
    "accepted": 0,
    "was": {
-    "status": "warn",
-    "value": 1
+    "status": "pass",
+    "value": 0
    }
   },
   {
@@ -2781,7 +2724,7 @@
    "area": "Page health",
    "kind": "hard",
    "title": "Links on the site lead somewhere",
-   "how": "Every link that stays on the site (568), from every page, opened; one with #id must find it.",
+   "how": "Every link that stays on the site (572), from every page, opened; one with #id must find it.",
    "status": "pass",
    "items": [
     {
@@ -3533,7 +3476,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "74 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "75 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3788,7 +3731,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "No rounded corners",
-   "how": "border-radius only 999px (pills) or 50% (dots) (build/rules.mjs) (read from the code).",
+   "how": "border-radius only 999px (pills) or 50% (dots), or 0 (the browsers' own rounding taken off) (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3963,42 +3906,6 @@
    "where": "catalog/ h1.sr",
    "what": "30.07px PT Mono 700",
    "at": "1366x650",
-   "new": false
-  },
-  {
-   "key": "shape.radii::select.buy__select|5",
-   "rule": "shape.radii",
-   "status": "fail",
-   "where": "select.buy__select",
-   "what": "radius 5px on a 144×54 box",
-   "at": "320x568 390x844",
-   "new": false
-  },
-  {
-   "key": "shape.radii::catalog/ select.buy__select|5",
-   "rule": "shape.radii",
-   "status": "fail",
-   "where": "catalog/ select.buy__select",
-   "what": "radius 5px on a 144×54 box",
-   "at": "320x568 390x844",
-   "new": false
-  },
-  {
-   "key": "shape.radii::coffee/keniya-kisii/ select.buy__select|5",
-   "rule": "shape.radii",
-   "status": "fail",
-   "where": "coffee/keniya-kisii/ select.buy__select",
-   "what": "radius 5px on a 144×54 box",
-   "at": "320x568 390x844",
-   "new": false
-  },
-  {
-   "key": "shape.radii::coffee/q-optimistic/ select.buy__select|5",
-   "rule": "shape.radii",
-   "status": "fail",
-   "where": "coffee/q-optimistic/ select.buy__select",
-   "what": "radius 5px on a 144×54 box",
-   "at": "320x568 390x844",
    "new": false
   },
   {
@@ -4206,7 +4113,7 @@
    "where": "coffee/keniya-kisii/ div.footer__group a",
    "what": "right edge +2.96px off the line at 611.07 (3 blocks on it)",
    "at": "1024x768",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|611",
@@ -4215,7 +4122,7 @@
    "where": "coffee/q-optimistic/ div.footer__group a",
    "what": "right edge +2.96px off the line at 611.07 (3 blocks on it)",
    "at": "1024x768",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::catalog/ h2.card__title|left|707",
@@ -4710,7 +4617,7 @@
    "where": "coffee/q-optimistic/ picture.card__photo img",
    "what": "life-box-480-lODw2wHd.avif: 480px wide for 421 device px (×1)",
    "at": "1366x650",
-   "new": true
+   "new": false
   },
   {
    "key": "images.sharp::business-cafe-1200.avif",
@@ -5183,82 +5090,28 @@
  ],
  "fixed": [
   {
-   "key": "type.measure::coffee/q-optimistic/ div.pstory__cols p",
-   "rule": "type.measure",
-   "where": "coffee/q-optimistic/ div.pstory__cols p",
-   "what": "93 characters a line over 3 lines"
+   "key": "shape.radii::select.buy__select|5",
+   "rule": "shape.radii",
+   "where": "select.buy__select",
+   "what": "radius 5px on a 144×54 box"
   },
   {
-   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|439",
-   "rule": "align.edges",
-   "where": "coffee/keniya-kisii/ h3.card__title",
-   "what": "left edge +1.89px off the line at 438.84 (10 blocks on it)"
+   "key": "shape.radii::catalog/ select.buy__select|5",
+   "rule": "shape.radii",
+   "where": "catalog/ select.buy__select",
+   "what": "radius 5px on a 144×54 box"
   },
   {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|439",
-   "rule": "align.edges",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "left edge +1.89px off the line at 438.84 (10 blocks on it)"
+   "key": "shape.radii::coffee/keniya-kisii/ select.buy__select|5",
+   "rule": "shape.radii",
+   "where": "coffee/keniya-kisii/ select.buy__select",
+   "what": "radius 5px on a 144×54 box"
   },
   {
-   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
-   "rule": "align.edges",
-   "where": "coffee/keniya-kisii/ h3.card__title",
-   "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
-   "rule": "align.edges",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|538",
-   "rule": "align.edges",
-   "where": "coffee/keniya-kisii/ h3.card__title",
-   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|538",
-   "rule": "align.edges",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|707",
-   "rule": "align.edges",
-   "where": "coffee/keniya-kisii/ h3.card__title",
-   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|707",
-   "rule": "align.edges",
-   "where": "coffee/q-optimistic/ h3.card__title",
-   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)"
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h1.pstage__name|right|1004",
-   "rule": "align.edges",
-   "where": "coffee/q-optimistic/ h1.pstage__name",
-   "what": "right edge +0.61px off the line at 1003.66 (3 blocks on it)"
-  },
-  {
-   "key": "icons.colour::coffee/keniya-kisii/ svg.taste__plot",
-   "rule": "icons.colour",
-   "where": "coffee/keniya-kisii/ svg.taste__plot",
-   "what": "drawn in its own colour, not the text's (currentColor)"
-  },
-  {
-   "key": "icons.colour::coffee/q-optimistic/ svg.taste__plot",
-   "rule": "icons.colour",
-   "where": "coffee/q-optimistic/ svg.taste__plot",
-   "what": "drawn in its own colour, not the text's (currentColor)"
-  },
-  {
-   "key": "images.weight::life-box-1200.avif",
-   "rule": "images.weight",
-   "where": "coffee/q-optimistic/ picture.card__photo img",
-   "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px"
+   "key": "shape.radii::coffee/q-optimistic/ select.buy__select|5",
+   "rule": "shape.radii",
+   "where": "coffee/q-optimistic/ select.buy__select",
+   "what": "radius 5px on a 144×54 box"
   }
  ],
  "decisions": [
@@ -5392,7 +5245,7 @@
    "id": "quiz",
    "kind": "decision",
    "state": "unbound",
-   "what": "Since Tim's 26 Nov round: a dialog of the catalogue, «Подобрать кофе», opened by the button at the left of the filters' row and by catalog/?quiz (footer, profile); no page (start/ is gone) and no section on the home page; ← → in place of «Назад»; no «Вопрос N из 4», «или выбираю в подарок», «Это начало, а не приговор…», «Нажмите на ответ…» or «start here» set; «Показать в каталоге» ticks «Для вас»; no taste map in the result, and no result shared by link (Tim: fine). Before: The quiz «Выбрать кофе за минуту» (session 4 of choosing coffee; docs/quiz.md) is one quiz on one page, «Заказываю кофе впервые» (start/), entered from the home page (a section after the hero that answers the first question in place), from the catalogue (a line under the tabs) and from the footer. Four questions, one tap each: how you brew (the catalogue's eight methods and «Пока не знаю»), milk, what you drink now (an anchor of the taste model), what is closer in taste (four food groups and «Не знаю»); B2B is a link on the first screen, not a result. The answers place the visitor on the taste map as a wide region. The result is one coffee and two moves away from it (the coffee page's «Что взять еще» moves when they suit the visitor), or for «Не знаю» three different coffees (soft, middle, bright) with a 50 g set; each with its reasons in plain words and at most one downside; the region on the taste map; a link to the part of the catalogue that fits. The answers live in the address (Back, sharing, «Изменить» on each) and are saved in this browser (localStorage qq-taste) for the catalogue, a coffee's page (the roast and grind for the visitor's method; the closeness in «Впечатления») and the profile",
+   "what": "Since Tim's 26 Nov round: a dialog of the catalogue, «Подобрать кофе», opened by the button at the left of the filters' row and by catalog/?quiz (footer, profile); no page (start/ is gone) and no section on the home page; ← → in place of «Назад»; no «Вопрос N из 4», «или выбираю в подарок», «Это начало, а не приговор…», «Нажмите на ответ…» or «start here» set; «Показать в каталоге» ticks «Для вас»; the last answer closes the dialog onto the catalogue with «Для вас» ticked, and the dialog shows no coffees (opened again: the questions with the answers beside them, «Показать в каталоге», «Пройти заново»; Tim, 26 Nov); no taste map in the result, and no result shared by link (Tim: fine). Before: The quiz «Выбрать кофе за минуту» (session 4 of choosing coffee; docs/quiz.md) is one quiz on one page, «Заказываю кофе впервые» (start/), entered from the home page (a section after the hero that answers the first question in place), from the catalogue (a line under the tabs) and from the footer. Four questions, one tap each: how you brew (the catalogue's eight methods and «Пока не знаю»), milk, what you drink now (an anchor of the taste model), what is closer in taste (four food groups and «Не знаю»); B2B is a link on the first screen, not a result. The answers place the visitor on the taste map as a wide region. The result is one coffee and two moves away from it (the coffee page's «Что взять еще» moves when they suit the visitor), or for «Не знаю» three different coffees (soft, middle, bright) with a 50 g set; each with its reasons in plain words and at most one downside; the region on the taste map; a link to the part of the catalogue that fits. The answers live in the address (Back, sharing, «Изменить» on each) and are saved in this browser (localStorage qq-taste) for the catalogue, a coffee's page (the roast and grind for the visitor's method; the closeness in «Впечатления») and the profile",
    "decided": "Claude, 2026-11-26 (session 4), for Tim to confirm in the PR"
   },
   {
@@ -5766,7 +5619,7 @@
    "id": "feedback",
    "kind": "decision",
    "state": "unbound",
-   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; named in words only after 3 answers) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
+   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; grey dots, lavender for the coffees bought, that show the coffee's card above them on hover and open it on click, the axes named without arrows, the path dotted grey, the visitor now a «+», no words: Tim, 26 Nov), a question «Как вам <coffees>?» that × hides (qq-fb-closed) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why, under the lead «Вы отметили «…».» (Tim, 26 Nov). Nothing is said about a coffee not yet delivered. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
    "decided": "Claude, 2026-11-26 (session 6), for Tim to confirm in the PR"
   }
  ],
@@ -6122,7 +5975,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 73c860d, an earlier commit than this one (70eb05f)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (70eb05f)",
+ "own": true
 }
