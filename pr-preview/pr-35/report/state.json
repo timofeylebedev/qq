@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T11:01:16.312Z",
- "commit": "543bf8d15c9555f2218e081f26913f126579afcc",
- "ref": "claude/profile-round",
- "pr": "35",
+ "generated": "2026-11-26T10:51:41.508Z",
+ "commit": "73c860d78acba7f16f242aad589038b7c79148da",
+ "ref": "main",
+ "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T10:48:08.643Z",
+   "when": "2026-11-26T10:38:35.128Z",
    "quick": false,
    "seconds": 446,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T10:55:33.786Z",
+   "when": "2026-11-26T10:46:00.976Z",
    "quick": true,
-   "seconds": 342,
+   "seconds": 340,
    "errors": []
   }
  },
  "base": {
-  "commit": "73c860d78acba7f16f242aad589038b7c79148da",
-  "generated": "2026-11-26T10:51:41.508Z"
+  "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
+  "generated": "2026-11-26T10:13:52.321Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -43,8 +43,8 @@
   "fail": 7,
   "info": 6,
   "findings": 138,
-  "new": 0,
-  "fixed": 0,
+  "new": 3,
+  "fixed": 13,
   "accepted": 91,
   "questions": 17
  },
@@ -489,13 +489,29 @@
    "title": "Edges line up",
    "kind": "tolerance",
    "why": "20 places",
-   "fresh": 0,
+   "fresh": 2,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ div.footer__legal p: right edge -3px off the line at 256 (6 blocks on it) (320x568)"
    ],
-   "rank": 120
+   "rank": 170
+  },
+  {
+   "type": "rule",
+   "id": "images.sharp",
+   "severity": "warn",
+   "area": "Images",
+   "title": "Pictures are sharp",
+   "kind": "tolerance",
+   "why": "16 places",
+   "fresh": 1,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
+    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
+    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
+   ],
+   "rank": 166
   },
   {
    "type": "rule",
@@ -526,22 +542,6 @@
     "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
     "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)",
     "svg.buy__chevron: lower than its text's line by 10.8px (320x568)"
-   ],
-   "rank": 116
-  },
-  {
-   "type": "rule",
-   "id": "images.sharp",
-   "severity": "warn",
-   "area": "Images",
-   "title": "Pictures are sharp",
-   "kind": "tolerance",
-   "why": "16 places",
-   "fresh": 0,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 1440x900)",
-    "catalog/ picture.card__photo img: life-jacket-1200-DS7mzr4o.avif: 1200px wide for 1062 device px (×3) (390x844 844x390 768x1024 1440x900)",
-    "catalog/ picture.card__photo img: life-sweater-1200-C0cEvpL4.avif: 1200px wide for 1062 device px (×3) (390x844 844x390)"
    ],
    "rank": 116
   },
@@ -699,8 +699,8 @@
    },
    "accepted": 0,
    "was": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 3
    }
   },
   {
@@ -1258,7 +1258,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 20
+    "value": 27
    }
   },
   {
@@ -1639,7 +1639,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 1
+    "value": 3
    }
   },
   {
@@ -1879,7 +1879,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 16
+    "value": 15
    }
   },
   {
@@ -1898,8 +1898,8 @@
    },
    "accepted": 0,
    "was": {
-    "status": "pass",
-    "value": 0
+    "status": "warn",
+    "value": 1
    }
   },
   {
@@ -2781,7 +2781,7 @@
    "area": "Page health",
    "kind": "hard",
    "title": "Links on the site lead somewhere",
-   "how": "Every link that stays on the site (572), from every page, opened; one with #id must find it.",
+   "how": "Every link that stays on the site (568), from every page, opened; one with #id must find it.",
    "status": "pass",
    "items": [
     {
@@ -3533,7 +3533,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "75 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "74 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4206,7 +4206,7 @@
    "where": "coffee/keniya-kisii/ div.footer__group a",
    "what": "right edge +2.96px off the line at 611.07 (3 blocks on it)",
    "at": "1024x768",
-   "new": false
+   "new": true
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|611",
@@ -4215,7 +4215,7 @@
    "where": "coffee/q-optimistic/ div.footer__group a",
    "what": "right edge +2.96px off the line at 611.07 (3 blocks on it)",
    "at": "1024x768",
-   "new": false
+   "new": true
   },
   {
    "key": "align.edges::catalog/ h2.card__title|left|707",
@@ -4710,7 +4710,7 @@
    "where": "coffee/q-optimistic/ picture.card__photo img",
    "what": "life-box-480-lODw2wHd.avif: 480px wide for 421 device px (×1)",
    "at": "1366x650",
-   "new": false
+   "new": true
   },
   {
    "key": "images.sharp::business-cafe-1200.avif",
@@ -5181,7 +5181,86 @@
    "new": false
   }
  ],
- "fixed": [],
+ "fixed": [
+  {
+   "key": "type.measure::coffee/q-optimistic/ div.pstory__cols p",
+   "rule": "type.measure",
+   "where": "coffee/q-optimistic/ div.pstory__cols p",
+   "what": "93 characters a line over 3 lines"
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (10 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|439",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +1.89px off the line at 438.84 (10 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|406",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|538",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|538",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +0.74px off the line at 538.03 (9 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h3.card__title|left|707",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ h3.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|707",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h3.card__title",
+   "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h1.pstage__name|right|1004",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h1.pstage__name",
+   "what": "right edge +0.61px off the line at 1003.66 (3 blocks on it)"
+  },
+  {
+   "key": "icons.colour::coffee/keniya-kisii/ svg.taste__plot",
+   "rule": "icons.colour",
+   "where": "coffee/keniya-kisii/ svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)"
+  },
+  {
+   "key": "icons.colour::coffee/q-optimistic/ svg.taste__plot",
+   "rule": "icons.colour",
+   "where": "coffee/q-optimistic/ svg.taste__plot",
+   "what": "drawn in its own colour, not the text's (currentColor)"
+  },
+  {
+   "key": "images.weight::life-box-1200.avif",
+   "rule": "images.weight",
+   "where": "coffee/q-optimistic/ picture.card__photo img",
+   "what": "life-box-1200-CMKT4Nbr.avif: 1200px wide for 362 device px"
+  }
+ ],
  "decisions": [
   {
    "id": "font-headings",
@@ -5687,7 +5766,7 @@
    "id": "feedback",
    "kind": "decision",
    "state": "unbound",
-   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; grey dots that show the coffee on hover and open it on click, no words and no axes' arrows: Tim, 26 Nov), a question «Как вам <coffees>?» that × hides (qq-fb-closed) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why, under the lead «Вы отметили «…».» (Tim, 26 Nov). Nothing is said about a coffee not yet delivered. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
+   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; named in words only after 3 answers) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
    "decided": "Claude, 2026-11-26 (session 6), for Tim to confirm in the PR"
   }
  ],
@@ -6043,7 +6122,7 @@
    "state": "open"
   }
  ],
- "from": "this build",
- "whose": "measured on this commit (543bf8d)",
- "own": true
+ "from": "the last deploy of main",
+ "whose": "measured on main at 73c860d, before this change (claude/profile-round at bab4600)",
+ "own": false
 }
