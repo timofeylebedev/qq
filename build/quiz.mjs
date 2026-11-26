@@ -29,7 +29,7 @@ const P = new Map(products.map((p) => [p.slug, p])), TM = new Map(T.coffees.map(
 const MOVES = ["softer", "brighter", "denser", "lighter", "unusual", "classic"];
 const coffees = C.coffees.map((c) => {
   const t = TM.get(c.slug), p = P.get(c.slug);
-  const next = Object.fromEntries((t.next?.moves || []).filter((m) => MOVES.includes(m.id)).map((m) => [m.id, m.slug]));
+  const next = Object.fromEntries((t.next?.moves || []).filter((m) => MOVES.includes(m.id) && !m.extra).map((m) => [m.id, m.slug]));
   const dirs = Object.fromEntries(MOVES.map((d) => [d, (t.directions[d]?.ranked || []).map((r) => r.slug)]));
   const small = p.weights.find((w) => w.grams === 50);
   // each descriptor with its flavour families (data/flavours.json), so a reason names the notes that match an answer

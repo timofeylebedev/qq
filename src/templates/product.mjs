@@ -4,12 +4,10 @@
 // drinks it («Впечатления», people.mjs; the line under the name links to them); then the buy bar, which follows the
 // screen's foot through all of that and lets go there, before «Что взять еще» (the taste model's moves).
 import { page, head } from "./layout.mjs";
-import { card, pills, tasteChart, pack } from "./components.mjs";
+import { card, pills, tasteRows, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
 import { people, peopleLink } from "./people.mjs";
-import { account } from "./account-data.mjs";
-import { mineOf } from "../scripts/feedbackview.js";
 
 const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]));
 
@@ -38,14 +36,17 @@ function stage(ctx, p, out = false) {
         <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
         <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
       </div>
-      ${peopleLink(ctx, p)}${fitLine(p)}${mineLine(ctx, p)}${out ? `
+      ${peopleLink(ctx, p)}${fitLine(p)}${out ? `
       <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
-      <ul class="pstage__facts${tiles.length % 2 ? " pstage__facts--odd" : ""}" aria-label="О кофе">
-        ${tiles.map((t) => `<li class="ptile">
-          <h2 class="ptile__title">${esc(t.title)}</h2>
-          ${t.body}
-        </li>`).join("\n        ")}
-      </ul>
+      <div class="pstage__facts">
+        <ul class="pstage__tiles${tiles.length % 2 ? " pstage__tiles--odd" : ""}" aria-label="О кофе">
+          ${tiles.map((t) => `<li class="ptile">
+            ${t.title ? `<h2 class="ptile__title">${esc(t.title)}</h2>` : ""}
+            ${t.body}
+          </li>`).join("\n          ")}
+        </ul>
+        ${brew(p)}
+      </div>
     </div>
     <div class="pstage__pin">
       ${pack(p, { size: "hero", eager: true })}
@@ -54,8 +55,8 @@ function stage(ctx, p, out = false) {
 </section>`;
 }
 
-// the visitor's way of brewing, from the quiz (scripts/tastesaved.js fills it; hidden without a saved quiz): whether QQ
-// roasts this coffee for it, and the roast and grind the buy bar then starts on (src/data/choose.json, the catalogue's)
+// the visitor's way of brewing, from the quiz: the roast and grind the buy bar then starts on (src/data/choose.json, the
+// catalogue's; scripts/tastesaved.js reads it). Never shown: no line about it under the name (Tim, 26 Nov)
 const CHOOSE = read("src/data/choose.json"), QWORDS = read("data/quiz.json").words;
 function fitLine(p) {
   const c = CHOOSE.coffees.find((x) => x.slug === p.slug);
@@ -64,29 +65,33 @@ function fitLine(p) {
   return `\n    <p class="pstage__fit" data-fit="${esc(JSON.stringify(data))}" hidden></p>`;
 }
 
-// what the visitor said about this coffee after a delivery (session 6): the account's placeholder answers in the page;
-// scripts/tastesaved.js puts this browser's newer answer in its place (localStorage "qq-feedback")
-function mineLine(ctx, p) {
-  const acc = account(ctx.products), text = mineOf(acc.fb.answers, p.slug, acc.fb.F, acc.orders);
-  return `\n    <p class="pstage__fit pstage__mine" data-mine="${p.slug}"${text ? "" : " hidden"}>${esc(text || "")}</p>`;
-}
-
 const GRIND = { "В зернах": "Зерна", "Турка": "Для турки", "Фильтр": "Для фильтра", "Эспрессо": "Для эспрессо" };
 const num = (n) => String(n).replace(".", ",");
 
 function facts(p) {
   const tiles = [];
   if (p.descriptors.length) tiles.push({ title: "Дескрипторы", body: pills(p.descriptors) });
-  tiles.push({ title: "Свойства", body: tasteChart(p.taste) });
+  // the card's taste panel, in the tile (Tim, 26 Nov: «what we have in the info card»)
+  tiles.push({ title: "Свойства", body: tasteRows(p) });
+  // the lots: a hairline above each but the first
   const lots = `<ul class="ptile__lots">${p.composition.map((c) => `<li><span>${esc(c.lot)}</span><span>${c.share != null ? c.share + "%" : ""}</span></li>`).join("")}</ul>`;
   if (p.processing) tiles.push({ title: `${p.processing} обработка`, body: `<p class="ptile__text">${p.q ? `Оценка Q — <b>${num(p.q)}</b> из 100.` : ""} Как обрабатывают зерно, рассказываем ниже.</p>` });
   else tiles.push({ title: `Смесь ${p.composition.length} лотов`, body: lots });
-  tiles.push({ title: p.countries.join(" · ") || "Происхождение", body: p.processing ? lots : `<p class="ptile__text">${esc(p.short)}</p>` });
+  // a single origin: its country and lots; a blend: its sentence, larger, without a title (the countries are in the
+  // line under the name)
+  tiles.push(p.processing ? { title: p.countries.join(" · ") || "Происхождение", body: lots } : { body: `<p class="ptile__lead">${esc(p.short)}</p>` });
+  return tiles;
+}
+
+// «Как готовить» under the tiles: a menu that opens (details), so it never makes the tiles' rows uneven
+function brew(p) {
   const roasts = p.roasts.map((r) => `${r.use}${r.level ? ", " + lower(r.level) : ""}`).join(" / ");
   // «Вторая кофемолка» is QQ's word for cafés; it means nothing to someone buying for home (session 0), so it never shows
   const use = p.use.filter((u) => u !== "Вторая кофемолка");
-  tiles.push({ title: "Как готовить", body: `<p class="ptile__text">${roasts ? `Обжарка: ${esc(roasts)}.<br>` : ""}${use.length ? esc(use.join(", ")) + ".<br>" : ""}Помол: ${esc(p.grind.map((g) => lower(GRIND[g] || g)).join(", "))}.</p>` });
-  return tiles;
+  return `<details class="pbrew">
+          <summary class="pbrew__summary"><h2 class="ptile__title">Как готовить</h2>${icon("chevron-down")}</summary>
+          <p class="ptile__text pbrew__text">${roasts ? `Обжарка: ${esc(roasts)}.<br>` : ""}${use.length ? esc(use.join(", ")) + ".<br>" : ""}Помол: ${esc(p.grind.map((g) => lower(GRIND[g] || g)).join(", "))}.</p>
+        </details>`;
 }
 
 // the buy bar: the options as menu cells (the catalog's filters: blocks.mjs menu, opening upwards), the quantity, the
@@ -143,7 +148,7 @@ function next(ctx, p, out = false) {
   const tags = (list) => `<p class="next__tag">${list.map(esc).join(" · ")}</p>`;
   const item = (q, list, line) => `<div class="next__item">
         ${tags(list)}
-        ${card(ctx, q, { size: "quarter", text: esc(line) })}
+        ${card(ctx, q, { size: "third", text: esc(line) })}
       </div>`;
   const items = [];
   if (out) {

@@ -17,7 +17,7 @@ next three coffees honour the answer, each saying why → buy again.
 | The list of orders | as above | «Как вам кофе? Ответить» under the status; «Ответили про 1 из 2 — ответить про остальные»; «Спросим про вкус 16 августа» before | yes |
 | The profile | while an order asks and is under 30 days old | «Как вам A и B? Ответьте в заказе…» over the activity | yes |
 | Purchases | always | in place of the thumbs: «Вы сказали: «слишком ярко»», or «Как вам? Ответить» | yes |
-| A coffee's page | once answered | under its name: «Вы брали его в июле и сказали «слишком ярко».» | yes |
+| A coffee's page | — | nothing since Tim, 26 Nov (was «Вы брали его в июле и сказали «слишком ярко».» under its name) | — |
 | **A letter** | filter: day 7 after delivery, espresso: day 10; one reminder 7 days later | the first question's three buttons in the letter itself; each opens the order with that answer tapped (`account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>`, which the page already reads) | the page side; the letter needs the backend |
 | The pack | in the box | a small card: «Как вам кофе? Через неделю спросим в письме — или ответьте сейчас:» and a QR to the account's orders | a proposal for QQ |
 
@@ -133,7 +133,7 @@ read «фермент 1 против 2» as noise.
     move in lavender with why. Its link and «в корзину» carry the roast and grind for the visitor's method, or what they
     asked for after «помол не подошёл».
 - **Purchases:** what was said, per coffee.
-- **A coffee's page:** «Вы брали его в июле и сказали «слишком ярко».»
+- **A coffee's page:** nothing (Tim, 26 Nov; it said «Вы брали его в июле и сказали «слишком ярко».» under the name).
 - **«Впечатления»:** closeness to each teller is measured from the moved region (it was the quiz's, or the average of
   the purchases).
 

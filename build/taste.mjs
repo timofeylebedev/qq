@@ -457,6 +457,25 @@ export function model() {
       const lid = id === "similar2" ? "similar" : id;
       moves.push({ id, label, slug: pick.o.slug, far: pick.far, swapped: !!pick.swapped, line: moveLine(c, pick.o, lid, pick.far), text: id === "similar2" ? neighbourWhy(c, pick.o).text : stepText(c, pick.o, id, pick), ...(instead ? { instead } : {}) });
     }
+    // six cards (Tim, 26 Nov): after the three moves, the steps not taken yet (легче, плотнее, the other end of the
+    // unusual axis), then more similar coffees («Тоже похожий»), each a coffee not shown yet
+    const cards = () => moves.filter((m) => m.slug).length;
+    for (const f of ["lighter", "denser", unusualSide === "unusual" ? "classic" : "unusual"]) {
+      if (cards() >= 6) break;
+      if (taken.has(f) || moves.some((m) => m.id === f)) continue;
+      const pick = moveCands(c, f).find((x) => !x.wild && !x.far && !used.has(x.o.slug));
+      if (!pick) continue;
+      used.set(pick.o.slug, moves.length);
+      moves.push({ id: f, label: DIRECTIONS.find((d) => d.id === f).ru, slug: pick.o.slug, far: false, swapped: false, line: moveLine(c, pick.o, f), text: stepText(c, pick.o, f, pick), extra: true });
+    }
+    // then the nearest of the rest, even far (its line then says «в остальном заметно другой»), so there are always six
+    for (const farOk of [false, true]) for (const x of near) {
+      if (cards() >= 6) break;
+      if ((x.wild && !farOk) || (x.far && !farOk) || used.has(x.o.slug)) continue;
+      used.set(x.o.slug, moves.length);
+      const far = !!(x.far || x.wild);
+      moves.push({ id: "similar2", label: far ? "Ещё по вкусу" : "Тоже похожий", slug: x.o.slug, far, swapped: false, line: moveLine(c, x.o, "similar", far), text: neighbourWhy(c, x.o).text, extra: true });
+    }
     // sold out: the nearest of all leads (far or not); a move that picked the same coffee joins its card. A decaf's
     // lead has caffeine: the page says there is no other decaf.
     const first = near.reduce((a, x) => (x.rest < a.rest ? x : a), near[0]);   // the nearest in stock, roast or not
@@ -487,7 +506,7 @@ export function model() {
     const mine = a.descriptors.filter((d) => has(b, d)).map((d) => { const e = pair(d); return e && e.length < d.length ? e : d; });
     const theirs = b.descriptors.filter((d) => !has(a, d));
     const low = (xs) => xs.map((d) => d.toLowerCase());
-    if (mine.length) return `тоже ${low(mine).slice(0, 2).join(", ")}${theirs.length ? `; у него ещё ${low(theirs).slice(0, 2).join(", ")}` : ""}`;
+    if (mine.length) return `тоже ${low(mine).slice(0, 2).join(", ")}${theirs.length ? `; также добавляются ${low(theirs).slice(0, 2).join(", ")}` : ""}`;
     return low(b.descriptors).slice(0, 3).join(", ");
   }
   function lotBit(a, b) {
