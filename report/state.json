@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T03:41:31.662Z",
- "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
+ "generated": "2026-11-26T04:17:56.601Z",
+ "commit": "480244cec775548e09bbeb1b04821d283a86a60c",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T03:26:58.140Z",
+   "when": "2026-11-26T04:03:49.204Z",
    "quick": false,
-   "seconds": 506,
+   "seconds": 478,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T03:35:23.804Z",
+   "when": "2026-11-26T04:11:47.526Z",
    "quick": true,
-   "seconds": 367,
+   "seconds": 369,
    "errors": []
   }
  },
  "base": {
-  "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
-  "generated": "2026-11-26T00:14:03.756Z"
+  "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
+  "generated": "2026-11-26T03:41:31.662Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,11 +38,11 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 51,
+  "pass": 52,
   "warn": 10,
-  "fail": 8,
+  "fail": 7,
   "info": 6,
-  "findings": 151,
+  "findings": 150,
   "new": 0,
   "fixed": 1,
   "accepted": 95,
@@ -110,20 +110,6 @@
     "1440x900: 38.8% of the text shown, 7 of 10 headings, h1 shown (1440x900)"
    ],
    "rank": 302
-  },
-  {
-   "type": "rule",
-   "id": "logic.bag-add",
-   "severity": "fail",
-   "area": "Logic",
-   "title": "Shop: «В корзину» of the first card is pressed",
-   "kind": "scenario",
-   "why": "1 place",
-   "fresh": 0,
-   "sample": [
-    "Shop: locator.hover: Timeout 30000ms exceeded."
-   ],
-   "rank": 301
   },
   {
    "type": "rule",
@@ -660,8 +646,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2354,
-   "total": 2357,
+   "on": 2300,
+   "total": 2303,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -697,8 +683,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2354,
-    "total": 2357
+    "on": 2300,
+    "total": 2303
    },
    "accepted": 0,
    "was": {
@@ -762,8 +748,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3725,
-   "total": 3725,
+   "on": 3695,
+   "total": 3695,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -771,8 +757,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3726,
-    "total": 3726
+    "on": 3694,
+    "total": 3694
    },
    "accepted": 0,
    "was": {
@@ -791,7 +777,7 @@
      "key": "solid",
      "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
      "what": "solid",
-     "value": 39
+     "value": 38
     },
     {
      "key": "gradient",
@@ -897,7 +883,7 @@
      "key": "1",
      "where": "nav.tabbar, ul.hero__links, a.qopt, button.pager__dot, div.arrows, button.arrows__btn",
      "what": "1px",
-     "value": 65
+     "value": 64
     },
     {
      "key": "1.5",
@@ -2199,8 +2185,8 @@
     {
      "key": "filter",
      "where": ".filter",
-     "what": "8 on the page · variants: —, filter--taste",
-     "value": 8
+     "what": "7 on the page · variants: —, filter--taste",
+     "value": 7
     },
     {
      "key": "buyer",
@@ -2213,12 +2199,6 @@
      "where": ".ptile",
      "what": "5 on the page",
      "value": 5
-    },
-    {
-     "key": "check",
-     "where": ".check",
-     "what": "4 on the page",
-     "value": 4
     },
     {
      "key": "head",
@@ -2380,14 +2360,8 @@
    "kind": "scenario",
    "title": "Shop: «В корзину» of the first card is pressed",
    "how": "Given an empty bag, the catalog; when «В корзину» of the first card is pressed; then the bag (localStorage qq-bag) holds that coffee and the navbar's count shows 1. At 1440×900.",
-   "status": "fail",
-   "items": [
-    {
-     "key": "fail",
-     "where": "Shop",
-     "what": "locator.hover: Timeout 30000ms exceeded."
-    }
-   ],
+   "status": "pass",
+   "items": [],
    "scenario": {
     "given": "an empty bag, the catalog",
     "when": "«В корзину» of the first card is pressed",
@@ -2880,7 +2854,7 @@
    "accepted": 6,
    "was": {
     "status": "fail",
-    "value": 24
+    "value": 23
    }
   },
   {
@@ -3549,7 +3523,7 @@
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 19 KB sent (was 18 KB)",
+     "what": "1 files, 19 KB sent (was 19 KB)",
      "value": 19
     },
     {
@@ -3707,7 +3681,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "71 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "73 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -5040,15 +5014,6 @@
    "new": false
   },
   {
-   "key": "logic.bag-add::fail",
-   "rule": "logic.bag-add",
-   "status": "fail",
-   "where": "Shop",
-   "what": "locator.hover: Timeout 30000ms exceeded.",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "logic.catalog-filter::fail",
    "rule": "logic.catalog-filter",
    "status": "fail",
@@ -5422,7 +5387,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
-   "what": "1 files, 19 KB sent (was 18 KB)",
+   "what": "1 files, 19 KB sent (was 19 KB)",
    "at": "",
    "new": false
   },
@@ -5474,10 +5439,10 @@
  ],
  "fixed": [
   {
-   "key": "health.head::/account/purchases/desc",
-   "rule": "health.head",
-   "where": "/account/purchases/",
-   "what": "description of 41 characters (50–170)"
+   "key": "logic.bag-add::fail",
+   "rule": "logic.bag-add",
+   "where": "Shop",
+   "what": "locator.hover: Timeout 30000ms exceeded."
   }
  ],
  "decisions": [
@@ -5604,7 +5569,7 @@
    "id": "catalog-choose",
    "kind": "decision",
    "state": "unbound",
-   "what": "The catalog's way to choose (session 3 of choosing coffee; docs/choose.md), as Tim set it on 26 Nov: one row of menu cells — Сортировка, Цена, Вкус (three switches «мягче / все / ярче», «легче / все / плотнее», «классичнее / все / необычнее», and the taste groups), Приготовление (eight brewing methods by plain names; a method sets the roast and grind QQ sells for it on the cards, in the bag and on the coffee's page: data/choose.json), Страна, Обработка, Моносорт / смесь, Линейка — two a row below M, four from M, eight from L; under it a row of checkboxes (Под молоко, На каждый день, Необычные, Без кофеина), each with its count. A choice shows its matches, then «Похожие» (the nearest that miss a little; no text on them); the rest are not shown; with no match «Точно таких нет» over «Похожие». The taste map is kept for the quiz, not shown in the catalog. All on src/data/choose.json and src/scripts/choose.js",
+   "what": "The catalog's way to choose (session 3 of choosing coffee; docs/choose.md), as Tim set it on 26 Nov: one row of menu cells — Сортировка, Цена, Вкус (three switches «мягче / все / ярче», «легче / все / плотнее», «классичнее / все / необычнее», and the taste groups), Приготовление (eight brewing methods by plain names; a method sets the roast and grind QQ sells for it on the cards, in the bag and on the coffee's page: data/choose.json), Страна, Обработка, Особенности (моносорт, смесь, Classic, Special) — two a row below M, four from M, seven from L; under it a row of checkboxes without counts (Для вас — with a quiz kept in this browser, in place of the quiz line under the tabs —, Под молоко, На каждый день, Необычные, Без кофеина). The switches of «Вкус» are three equal cells without counts; «Приготовление» lists every method on one line. A choice shows only its matches; with no match «Точно таких нет» over «Похожие» (the nearest; no text on them). The taste map is kept for the quiz, not shown in the catalog. All on src/data/choose.json and src/scripts/choose.js",
    "decided": "Tim, 2026-11-26 (session 3; first built by Claude on 24 Nov)"
   },
   {
@@ -6334,7 +6299,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at e6ad94c, an earlier commit than this one (480244c)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (480244c)",
+ "own": true
 }
