@@ -125,8 +125,10 @@ read «фермент 1 против 2» as noise.
   - **«Ваш вкус»**, a tile in place of the radar of purchases (two pictures of taste would disagree, and the radar showed
     sweetness): the taste map in small, every coffee a dot, the visitor's region, the path of its centre answer by answer
     and where it is now;
-  - no words and no axes' arrows under it (Tim, 26 Nov); the dots are grey, a hover or focus shows the coffee (its
-    picture and name) and a click opens its page;
+  - no words under it; the axes named without arrows; the dots grey, lavender for the coffees bought; the path a grey
+    line of dots, the visitor now a «+» (not a coffee); a hover or focus shows the coffee's card (grey, its picture and
+    name) above its dot, the pointer may go onto it and a click opens the coffee; on a touch screen the first tap shows
+    it (Tim, 26 Nov);
   - **«Следующий кофе»** in place of «Подобрали для вас» (which scored the four scales itself, against CLAUDE.md's rule):
     the lead («Вы отметили «Хочу плотнее». Следующий — плотнее:», with room under it) and the three cards, each under its
     move in lavender with why («Вы отметили «В самый раз». …» on the one to take again). Its link and «в корзину» carry the roast and grind for the visitor's method, or what they

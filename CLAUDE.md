@@ -206,8 +206,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   visitor moved against the answer). The arithmetic is `src/scripts/feedback.js` (`replay` through taste.js `update()`,
   `nextOf`, `tasteName`, Node and browser); what the account says is `src/scripts/feedbackview.js`, the same in the
   template and the browser (`scripts/feedbackpage.js`); never score in a template or a page script. The profile's «Ваш
-  вкус» (the visitor on the taste map: grey dots, a hover shows the coffee's picture and name, a click opens it; no
-  words, no axes' arrows) and «Следующий кофе» («Вы отметили «Хочу плотнее».», in place of the old «Подобрали для вас»)
+  вкус» (the visitor on the taste map: grey dots, lavender for the coffees bought, a hover shows the coffee's
+  card above it — the pointer may go onto it, a click opens it —, the axes named without arrows, the path of answers
+  dotted grey, the visitor now a «+»; no words) and «Следующий кофе» («Вы отметили «Хочу плотнее».», in place of the old «Подобрали для вас»)
   read it; its question «Как вам Эфиопия Бекеле?» can be hidden with × (`qq-fb-closed`, until another order asks); so do purchases (no thumbs), the orders list, a coffee's page (`[data-mine]`) and
   «Впечатления» (closeness from the moved region, `qq-feedback`); a coffee's page no longer says what the visitor said (Tim, 26 Nov). The placeholder visitor's answers and his own today
   are `data/account.json` `feedback`, `today`. A letter's buttons open the order with the first answer tapped:

@@ -276,21 +276,26 @@ export function order(ctx, id) {
 }
 
 // ── the feedback: the visitor on the taste map (the profile's tile «Ваш вкус») ──────────────────────────────────────
-// The visitor's region as a soft ellipse, the path of its centre answer by answer, the centre now; every coffee a grey
-// dot where the taste map puts it (src/data/choose.json map), a link to its page: hovered or focused it shows the
-// coffee (its picture and name: scripts/feedbackpage.js). No words under it and no axes (Tim, 26 Nov).
+// The visitor's region as a soft ellipse, the path of its centre answer by answer (grey dots), the centre now (a «+»:
+// not a coffee); every coffee a dot where the taste map puts it (src/data/choose.json map), grey, or lavender for one
+// the visitor bought, a link to its page. Hovered or focused, a dot shows the coffee's card (its picture and name, a
+// link too) above it (scripts/feedbackpage.js). The four axes are named, without arrows; no words under it (Tim, 26 Nov).
 // scripts/feedbackpage.js redraws it with this browser's answers.
 const ell = (r) => `cx="${(r.u * 110).toFixed(2)}" cy="${(r.v * 100).toFixed(2)}" rx="${Math.max(3, r.ru * 110).toFixed(2)}" ry="${Math.max(3, r.rv * 100).toFixed(2)}"`;
 const trail = (list) => list.map((r) => `${(r.u * 110).toFixed(2)},${(r.v * 100).toFixed(2)}`).join(" ");
 function myMap(ctx, acc) {
   const F = acc.fb.F, S = fbState(acc), now = S.trail.at(-1), by = new Map(ctx.products.map((q) => [q.slug, q]));
+  const mine = new Set(acc.purchases.map((x) => x.slug));
   const list = F.coffees.filter((c) => !c.decaf && by.has(c.slug));
-  const dots = list.map((c) => `<a class="mymap__dot" href="${href(ctx, `coffee/${c.slug}/`)}" data-dot="${c.slug}" aria-label="${esc(c.name)}"><circle class="mymap__hit" cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}" r="5"/><circle class="mymap__pt" cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}" r="2.4"/></a>`).join("");
-  // one picture and name per coffee, hidden until its dot is hovered (a photo for a Special coffee, else the pack)
+  const at = (c) => `cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}"`;
+  // the visitor's own coffees last, so they lie over the others
+  const dots = [...list.filter((c) => !mine.has(c.slug)), ...list.filter((c) => mine.has(c.slug))].map((c) =>
+    `<a class="mymap__dot${mine.has(c.slug) ? " mymap__dot--mine" : ""}" href="${href(ctx, `coffee/${c.slug}/`)}" data-dot="${c.slug}" aria-label="${esc(c.name)}${mine.has(c.slug) ? ", вы брали" : ""}"><circle class="mymap__hit" ${at(c)} r="5"/><circle class="mymap__pt" ${at(c)} r="2.4"/></a>`).join("");
+  // one card per coffee, hidden until its dot is hovered (a photo for a Special coffee, else the pack)
   const tips = list.map((c) => {
     const q = by.get(c.slug), ph = photoOf(ctx, q);
     const img = ph ? picture(ph[0], "", { sizes: "120px", decorative: true }) : `<img src="/assets/pack/still-512.webp" alt="" width="512" height="512" loading="lazy" decoding="async">`;
-    return `<span class="mymap__tip${ph ? " mymap__tip--photo" : ""}" data-tip="${c.slug}" hidden><span class="mymap__img">${img}</span><span class="mymap__name">${esc(c.name)}</span></span>`;
+    return `<a class="mymap__tip${ph ? " mymap__tip--photo" : ""}" href="${href(ctx, `coffee/${c.slug}/`)}" data-tip="${c.slug}" tabindex="-1" aria-hidden="true" hidden><span class="mymap__img">${img}</span><span class="mymap__name">${esc(c.name)}</span></a>`;
   }).join("");
   return `<figure class="mymap" data-fb-map aria-label="Ваш вкус на карте кофе QQ">
       <div class="mymap__box">
@@ -298,8 +303,12 @@ function myMap(ctx, acc) {
           <ellipse class="mymap__area" data-fb-area ${ell(S.area)} aria-hidden="true"/>
           <polyline class="mymap__trail" data-fb-trail points="${trail(S.trail)}" aria-hidden="true"/>
           <g>${dots}</g>
-          <circle class="mymap__now" data-fb-now cx="${(now.u * 110).toFixed(2)}" cy="${(now.v * 100).toFixed(2)}" r="2.8" aria-hidden="true"/>
+          <path class="mymap__now" data-fb-now transform="translate(${(now.u * 110).toFixed(2)} ${(now.v * 100).toFixed(2)})" d="M-2.6 0H2.6M0 -2.6V2.6" aria-hidden="true"/>
         </svg>
+        <span class="mymap__axis mymap__axis--up" aria-hidden="true">Плотнее</span>
+        <span class="mymap__axis mymap__axis--down" aria-hidden="true">Легче</span>
+        <span class="mymap__axis mymap__axis--left" aria-hidden="true">Мягче</span>
+        <span class="mymap__axis mymap__axis--right" aria-hidden="true">Ярче</span>
         ${tips}
       </div>
     </figure>`;

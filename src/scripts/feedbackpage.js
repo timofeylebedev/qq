@@ -79,30 +79,40 @@ export function initFeedback() {
       if (p) { pr.dataset.fbKey = p.key; pr.querySelector("[data-fb-prompt-title]").textContent = p.title; pr.querySelector("[data-fb-prompt-link]").setAttribute("href", `${root()}account/orders/${p.order}/#feedback`); }
     }
   }
-  // the map's dots: hovered or focused, the coffee's picture and name stand over its dot (inside the tile, never past it)
+  // the map's dots: hovered or focused, the coffee's card stands above its dot; the pointer may move onto the card (it
+  // stays) and a click on it opens the coffee. On a touch screen the first tap on a dot shows its card.
   const mapEl = document.querySelector("[data-fb-map]");
   if (mapEl) {
     const box = mapEl.querySelector(".mymap__box");
-    let shown = null;
+    let shown = null, shownDot = null, timer = 0;
     const show = (dot) => {
+      clearTimeout(timer);
       const tip = box.querySelector(`[data-tip="${dot.dataset.dot}"]`);
       if (shown && shown !== tip) shown.hidden = true;
+      shownDot?.classList.remove("is-on");
       if (!tip) return;
-      tip.hidden = false; shown = tip;
+      tip.hidden = false; shown = tip; shownDot = dot; dot.classList.add("is-on");
       const b = box.getBoundingClientRect(), d = dot.querySelector(".mymap__pt").getBoundingClientRect();
       const x = d.left + d.width / 2 - b.left, y = d.top - b.top;
       const w = tip.offsetWidth, h = tip.offsetHeight;
       tip.style.left = `${Math.max(0, Math.min(b.width - w, x - w / 2))}px`;
-      // above the dot, or under it when there is no room above
-      tip.style.top = `${y - h - 8 >= 0 ? y - h - 8 : y + d.height + 8}px`;
+      tip.style.top = `${y - h - 6}px`;   // always above the dot, even past the tile (Tim, 26 Nov)
     };
-    const hide = () => { if (shown) shown.hidden = true; shown = null; };
+    const hide = () => { clearTimeout(timer); if (shown) shown.hidden = true; shownDot?.classList.remove("is-on"); shown = shownDot = null; };
+    const later = () => { clearTimeout(timer); timer = setTimeout(hide, 180); };
+    let touch = false;
     for (const dot of box.querySelectorAll("[data-dot]")) {
-      dot.addEventListener("pointerenter", () => show(dot));
-      dot.addEventListener("pointerleave", hide);
+      dot.addEventListener("pointerenter", (e) => { touch = e.pointerType === "touch"; if (!touch) show(dot); });
+      dot.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") later(); });
       dot.addEventListener("focus", () => show(dot));
-      dot.addEventListener("blur", hide);
+      dot.addEventListener("blur", later);
+      dot.addEventListener("click", (e) => { if (touch && shownDot !== dot) { e.preventDefault(); show(dot); } });
     }
+    for (const tip of box.querySelectorAll("[data-tip]")) {
+      tip.addEventListener("pointerenter", () => clearTimeout(timer));
+      tip.addEventListener("pointerleave", (e) => { if (e.pointerType !== "touch") later(); });
+    }
+    document.addEventListener("pointerdown", (e) => { if (shown && !e.target.closest?.("[data-dot], [data-tip]")) hide(); });
   }
   function drawMap() {
     const m = document.querySelector("[data-fb-map]");
@@ -112,7 +122,7 @@ export function initFeedback() {
     e.setAttribute("cx", (r.u * 110).toFixed(2)); e.setAttribute("cy", (r.v * 100).toFixed(2));
     e.setAttribute("rx", Math.max(3, r.ru * 110).toFixed(2)); e.setAttribute("ry", Math.max(3, r.rv * 100).toFixed(2));
     m.querySelector("[data-fb-trail]").setAttribute("points", S.trail.map(at).join(" "));
-    const n = m.querySelector("[data-fb-now]"); n.setAttribute("cx", (now.u * 110).toFixed(2)); n.setAttribute("cy", (now.v * 100).toFixed(2));
+    m.querySelector("[data-fb-now]").setAttribute("transform", `translate(${(now.u * 110).toFixed(2)} ${(now.v * 100).toFixed(2)})`);
   }
   function drawNext() {
     const part = document.querySelector("[data-fb-next]");
