@@ -202,7 +202,11 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 
 /* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
 .rform { --menu-min: 0; }
-.rform__set { display: grid; gap: 6px; min-width: 0; padding: 0; margin: 0; border: 0; }
+.rform__set { display: grid; min-width: 0; padding: 0; margin: 0; border: 0; }
+/* 16px under every caption of the form (Tim, 26 Nov), the same in every browser: the grid's gap set no space under a
+   legend in Safari, so the legend carries it alone */
+.rform__set > legend.fcell__label { margin-bottom: 16px; }
+.rform .fcell > .fcell__label { margin-bottom: 10px; }   /* + the cell's 6px gap */
 .rform__req { margin-left: 6px; text-transform: none; letter-spacing: 0; color: var(--c-ink-70); }
 .ropts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
 .ropt { position: relative; }
@@ -213,7 +217,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 @media (--mouse) { .ropt input:not(:checked):hover + span { background-color: var(--tint); transition-duration: var(--t-in); } }
 .seg--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); clear: both; }
 .seg--3 span { font-size: var(--type-body); }
-.rform__milk { margin-top: 6px; }
+.rform__milk { margin-top: 12px; }
 .rform__text { min-height: 4.5em; resize: vertical; font-size: max(16px, var(--type-body)); }
 .rform__other { font-size: var(--type-body); }
 .rform__other summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 0.25em; }
