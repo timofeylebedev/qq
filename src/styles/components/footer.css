@@ -11,6 +11,14 @@
 .footer__brand { --legal-pad: var(--gutter); order: 2; position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 48px; padding-block: var(--block-pad) calc(var(--legal-pad) + env(safe-area-inset-bottom, 0px)); }
 .footer__mark { display: block; width: var(--footer-logo); align-self: center; }   /* in the middle of its block at every size (Tim, round 7) */
 .footer__mark img { width: 100%; height: auto; }
+/* QQ's social pages (marketing's row 6): filled icons in ink-60 (a see-through ink; 3 : 1 and more on cloud, as a
+   graphic needs), ink when hovered; in the cell's top left corner, as far from its top and side as the copyright is
+   from its foot and side (the icon, not its 40px target). --brand-x is the cell's own left padding. */
+.footer__social { --brand-x: 0px; position: absolute; z-index: 1; top: calc(var(--legal-pad) - 8px); left: calc(var(--brand-x) - 8px); display: flex; }
+.footer__soc { display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-60); transition: color var(--t-out) var(--ease-out); }
+.footer__soc svg { width: 24px; height: 24px; }
+.footer__soc:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -4px; }
+@media (--mouse) { .footer__soc[href]:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
 /* the copyright and the policy: one size, one colour, one baseline; trimmed to their capitals, as far from the foot
    of the footer as from its side (the column's edge, or the frame's line once it is framed: --legal-pad, Tim, round 7) */
@@ -59,6 +67,7 @@
   .footer__inner { border-inline: var(--hair) solid var(--line); }
   .footer__news, .footer__group { --out-l: 0px; --out-r: 0px; }
   .footer__brand { padding-left: var(--tile-pad); --legal-pad: var(--tile-pad); }
+  .footer__social { --brand-x: var(--tile-pad); }
   .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
   .footer__news .field { margin-right: var(--tile-pad); }
 }
@@ -67,6 +76,7 @@
   .footer__inner { border-inline: var(--hair) solid var(--line); }
   .footer__news, .footer__group { --out-l: 0px; --out-r: 0px; }
   .footer__brand { padding-left: var(--tile-pad); --legal-pad: var(--tile-pad); }
+  .footer__social { --brand-x: var(--tile-pad); }
   .footer__group:nth-of-type(even) { padding-right: var(--tile-pad); }
   .footer__news .field { margin-right: var(--tile-pad); }
 }
