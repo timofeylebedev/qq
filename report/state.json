@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T04:17:56.601Z",
- "commit": "480244cec775548e09bbeb1b04821d283a86a60c",
+ "generated": "2026-11-26T06:01:20.673Z",
+ "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T04:03:49.204Z",
+   "when": "2026-11-26T05:47:28.441Z",
    "quick": false,
-   "seconds": 478,
+   "seconds": 469,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T04:11:47.526Z",
+   "when": "2026-11-26T05:55:17.564Z",
    "quick": true,
-   "seconds": 369,
+   "seconds": 362,
    "errors": []
   }
  },
  "base": {
-  "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
-  "generated": "2026-11-26T03:41:31.662Z"
+  "commit": "480244cec775548e09bbeb1b04821d283a86a60c",
+  "generated": "2026-11-26T04:17:56.601Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,17 +38,33 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 52,
-  "warn": 10,
+  "pass": 51,
+  "warn": 11,
   "fail": 7,
   "info": 6,
-  "findings": 150,
-  "new": 0,
-  "fixed": 1,
-  "accepted": 95,
+  "findings": 151,
+  "new": 4,
+  "fixed": 3,
+  "accepted": 91,
   "questions": 17
  },
  "needs": [
+  {
+   "type": "rule",
+   "id": "images.first",
+   "severity": "fail",
+   "area": "Images",
+   "title": "The first screen does not wait",
+   "kind": "hard",
+   "why": "3 places",
+   "fresh": 1,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
+    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
+   ],
+   "rank": 353
+  },
   {
    "type": "rule",
    "id": "shape.radii",
@@ -83,21 +99,6 @@
   },
   {
    "type": "rule",
-   "id": "images.first",
-   "severity": "fail",
-   "area": "Images",
-   "title": "The first screen does not wait",
-   "kind": "hard",
-   "why": "2 places",
-   "fresh": 0,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)"
-   ],
-   "rank": 302
-  },
-  {
-   "type": "rule",
    "id": "fallback.nojs",
    "severity": "fail",
    "area": "Fallbacks",
@@ -106,8 +107,8 @@
    "why": "2 places",
    "fresh": 0,
    "sample": [
-    "390x844: 49.5% of the text shown, 7 of 10 headings, h1 shown (390x844)",
-    "1440x900: 38.8% of the text shown, 7 of 10 headings, h1 shown (1440x900)"
+    "390x844: 46.3% of the text shown, 6 of 9 headings, h1 shown (390x844)",
+    "1440x900: 35% of the text shown, 6 of 9 headings, h1 shown (1440x900)"
    ],
    "rank": 302
   },
@@ -487,14 +488,14 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "29 places",
-   "fresh": 0,
+   "why": "32 places",
+   "fresh": 3,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ button.btn: left edge -0.55px off the line at 28 (4 blocks on it) (320x568)"
    ],
-   "rank": 129
+   "rank": 182
   },
   {
    "type": "rule",
@@ -503,14 +504,14 @@
    "area": "Icons",
    "title": "Icons sit on their text's line",
    "kind": "tolerance",
-   "why": "17 places",
+   "why": "16 places",
    "fresh": 0,
    "sample": [
     "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "a.iconlink: lower than its text's line by 9.89px (320x568 390x844)",
-    "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)"
+    "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)",
+    "svg.buy__chevron: lower than its text's line by 10.8px (320x568)"
    ],
-   "rank": 117
+   "rank": 116
   },
   {
    "type": "rule",
@@ -522,25 +523,9 @@
    "why": "16 places",
    "fresh": 0,
    "sample": [
-    "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, a.iconlink: 24×24",
+    "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn: 24×24",
     "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron: 20×20",
     "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
-   ],
-   "rank": 116
-  },
-  {
-   "type": "rule",
-   "id": "fallback.fonts",
-   "severity": "warn",
-   "area": "Fallbacks",
-   "title": "The fallback font keeps the layout",
-   "kind": "tolerance",
-   "why": "16 places",
-   "fresh": 0,
-   "sample": [
-    "p.qentry__lead: «Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font (390x844)",
-    "h3.qstep__q: «Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font (390x844)",
-    "p.featured__about: «Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font (390x844 1440x900)"
    ],
    "rank": 116
   },
@@ -562,6 +547,22 @@
   },
   {
    "type": "rule",
+   "id": "fallback.fonts",
+   "severity": "warn",
+   "area": "Fallbacks",
+   "title": "The fallback font keeps the layout",
+   "kind": "tolerance",
+   "why": "14 places",
+   "fresh": 0,
+   "sample": [
+    "p.featured__about: «Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font (390x844 1440x900)",
+    "p.featured__about: «Куа Мон в переводе с вье» 14 → 16 lines, 303 → 303px wide with the fallback font (390x844)",
+    "p.featured__about: «Алехандра Муньос пришла » 18 → 20 lines, 303 → 303px wide with the fallback font (390x844 1440x900)"
+   ],
+   "rank": 114
+  },
+  {
+   "type": "rule",
    "id": "layers.z",
    "severity": "warn",
    "area": "Layers",
@@ -578,6 +579,22 @@
   },
   {
    "type": "rule",
+   "id": "weight.total",
+   "severity": "warn",
+   "area": "Weight",
+   "title": "A first visit does not get heavier",
+   "kind": "trend",
+   "why": "5 places · 562 KB",
+   "fresh": 0,
+   "sample": [
+    "html: 1 files, 17 KB sent (was 17 KB)",
+    "js: 12 files, 62 KB sent (was 62 KB)",
+    "css: 1 files, 18 KB sent (was 19 KB)"
+   ],
+   "rank": 105
+  },
+  {
+   "type": "rule",
    "id": "shape.borders",
    "severity": "warn",
    "area": "Shape",
@@ -586,7 +603,7 @@
    "why": "3 places · 1 widths",
    "fresh": 0,
    "sample": [
-    "nav.tabbar, ul.hero__links, a.qopt, button.pager__dot, div.arrows, button.arrows__btn: 1px",
+    "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts: 1px",
     "catalog/ input.box: 1.5px",
     "catalog/ input.box: 1.33px"
    ],
@@ -646,8 +663,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2300,
-   "total": 2303,
+   "on": 2182,
+   "total": 2185,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -683,8 +700,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2300,
-    "total": 2303
+    "on": 2182,
+    "total": 2185
    },
    "accepted": 0,
    "was": {
@@ -748,8 +765,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3695,
-   "total": 3695,
+   "on": 3685,
+   "total": 3685,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -757,8 +774,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3694,
-    "total": 3694
+    "on": 3686,
+    "total": 3686
    },
    "accepted": 0,
    "was": {
@@ -777,7 +794,7 @@
      "key": "solid",
      "where": "a.skip, header.nav, div.nav__bar, nav.tabbar, section.hero, div.featured__text",
      "what": "solid",
-     "value": 38
+     "value": 39
     },
     {
      "key": "gradient",
@@ -881,7 +898,7 @@
    "items": [
     {
      "key": "1",
-     "where": "nav.tabbar, ul.hero__links, a.qopt, button.pager__dot, div.arrows, button.arrows__btn",
+     "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
      "what": "1px",
      "value": 64
     },
@@ -1155,7 +1172,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 29,
+   "value": 32,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -1200,6 +1217,27 @@
      "what": "right edge -3px off the line at 256 (4 blocks on it)",
      "value": 3,
      "at": "320x568"
+    },
+    {
+     "key": "catalog/ div.footer__group a|right|323",
+     "where": "catalog/ div.footer__group a",
+     "what": "right edge +1.52px off the line at 323.48 (26 blocks on it)",
+     "value": 1.52,
+     "at": "390x844"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.footer__group a|right|323",
+     "where": "coffee/keniya-kisii/ div.footer__group a",
+     "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
+     "value": 1.6,
+     "at": "390x844"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.footer__group a|right|323",
+     "where": "coffee/q-optimistic/ div.footer__group a",
+     "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
+     "value": 1.6,
+     "at": "390x844"
     },
     {
      "key": "h3.card__title|left|439",
@@ -1337,28 +1375,28 @@
     {
      "key": "li.fact|left|200",
      "where": "li.fact",
-     "what": "left edge +1px off the line at 200 (16 blocks on it)",
+     "what": "left edge +1px off the line at 200 (11 blocks on it)",
      "value": 1,
      "at": "1920x1080"
     },
     {
      "key": "li.fact|right|1720",
      "where": "li.fact",
-     "what": "right edge -0.99px off the line at 1719.99 (11 blocks on it)",
+     "what": "right edge -0.99px off the line at 1719.99 (8 blocks on it)",
      "value": 0.99,
      "at": "1920x1080"
     },
     {
      "key": "li.fact|left|520",
      "where": "li.fact",
-     "what": "left edge +1px off the line at 520 (16 blocks on it)",
+     "what": "left edge +1px off the line at 520 (11 blocks on it)",
      "value": 1,
      "at": "2560x1440"
     },
     {
      "key": "li.fact|right|2040",
      "where": "li.fact",
-     "what": "right edge -0.99px off the line at 2039.99 (11 blocks on it)",
+     "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
      "value": 0.99,
      "at": "2560x1440"
     }
@@ -1379,7 +1417,7 @@
    "kind": "tolerance",
    "title": "Icons sit on their text's line",
    "how": "An icon next to a label (a button, a link): the centre of the icon against the centre of the label's first line, at most 1px apart.",
-   "value": 17,
+   "value": 16,
    "unit": "off",
    "status": "warn",
    "items": [
@@ -1389,13 +1427,6 @@
      "what": "higher than its text's line by 8.5px",
      "value": 8.5,
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
-    },
-    {
-     "key": "a.iconlink",
-     "where": "a.iconlink",
-     "what": "lower than its text's line by 9.89px",
-     "value": 9.89,
-     "at": "320x568 390x844"
     },
     {
      "key": "button.about__info",
@@ -1505,7 +1536,7 @@
    ],
    "webkit": {
     "status": "warn",
-    "value": 17
+    "value": 16
    },
    "accepted": 0,
    "was": {
@@ -1786,7 +1817,7 @@
    "items": [
     {
      "key": "24×24",
-     "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, a.iconlink",
+     "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn",
      "what": "24×24"
     },
     {
@@ -2075,7 +2106,7 @@
    "kind": "hard",
    "title": "The first screen does not wait",
    "how": "Pictures on the first screen at any size are not lazy.",
-   "value": 2,
+   "value": 3,
    "unit": "lazy on the first screen",
    "status": "fail",
    "items": [
@@ -2090,6 +2121,12 @@
      "where": "catalog/ picture.card__photo img",
      "what": "life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy)",
      "at": "1024x768 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "life-jacket-1200.avif",
+     "where": "div.featured__media img",
+     "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
+     "at": "2560x1440"
     }
    ],
    "webkit": {
@@ -2177,12 +2214,6 @@
      "value": 25
     },
     {
-     "key": "qopt",
-     "where": ".qopt",
-     "what": "9 on the page",
-     "value": 9
-    },
-    {
      "key": "filter",
      "where": ".filter",
      "what": "7 on the page · variants: —, filter--taste",
@@ -2251,12 +2282,6 @@
     {
      "key": "hero",
      "where": ".hero",
-     "what": "1 on the page",
-     "value": 1
-    },
-    {
-     "key": "qentry",
-     "where": ".qentry",
      "what": "1 on the page",
      "value": 1
     },
@@ -2369,7 +2394,7 @@
    },
    "accepted": 0,
    "was": {
-    "status": "fail"
+    "status": "pass"
    }
   },
   {
@@ -2497,15 +2522,15 @@
     {
      "key": "390x844",
      "where": "390x844",
-     "what": "49.5% of the text shown, 7 of 10 headings, h1 shown",
-     "value": 49.5,
+     "what": "46.3% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 46.3,
      "at": "390x844"
     },
     {
      "key": "1440x900",
      "where": "1440x900",
-     "what": "38.8% of the text shown, 7 of 10 headings, h1 shown",
-     "value": 38.8,
+     "what": "35% of the text shown, 6 of 9 headings, h1 shown",
+     "value": 35,
      "at": "1440x900"
     }
    ],
@@ -2559,24 +2584,10 @@
    "kind": "tolerance",
    "title": "The fallback font keeps the layout",
    "how": "The web fonts never arrive (blocked): every heading, text and button against the normal page; a change of line count or more than 6% of width warns (the text would jump when the font comes).",
-   "value": 16,
+   "value": 14,
    "unit": "texts that jump",
    "status": "warn",
    "items": [
-    {
-     "key": "p.qentry__leadЧетыре вопроса — и три к",
-     "where": "p.qentry__lead",
-     "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font",
-     "value": 0,
-     "at": "390x844"
-    },
-    {
-     "key": "h3.qstep__qЧем вы варите кофе дома?",
-     "where": "h3.qstep__q",
-     "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font",
-     "value": 0,
-     "at": "390x844"
-    },
     {
      "key": "p.featured__aboutКения Найваша PB — регио",
      "where": "p.featured__about",
@@ -2910,7 +2921,7 @@
    "area": "Page health",
    "kind": "hard",
    "title": "Links on the site lead somewhere",
-   "how": "Every link that stays on the site (616), from every page, opened; one with #id must find it.",
+   "how": "Every link that stays on the site (564), from every page, opened; one with #id must find it.",
    "status": "pass",
    "items": [
     {
@@ -3422,36 +3433,12 @@
      "where": "about/",
      "what": "../catalog/#merch: no #merch",
      "accepted": "hash-states"
-    },
-    {
-     "key": "start/../catalog/#kaskara",
-     "where": "start/",
-     "what": "../catalog/#kaskara: no #kaskara",
-     "accepted": "hash-states"
-    },
-    {
-     "key": "start/../catalog/#dripy",
-     "where": "start/",
-     "what": "../catalog/#dripy: no #dripy",
-     "accepted": "hash-states"
-    },
-    {
-     "key": "start/../catalog/#sety",
-     "where": "start/",
-     "what": "../catalog/#sety: no #sety",
-     "accepted": "hash-states"
-    },
-    {
-     "key": "start/../catalog/#merch",
-     "where": "start/",
-     "what": "../catalog/#merch: no #merch",
-     "accepted": "hash-states"
     }
    ],
    "webkit": {
     "status": "fail"
    },
-   "accepted": 89,
+   "accepted": 85,
    "was": {
     "status": "pass"
    }
@@ -3500,13 +3487,13 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 486,
+   "value": 562,
    "unit": "KB",
    "was": {
     "status": "pass",
     "value": 486
    },
-   "status": "pass",
+   "status": "warn",
    "items": [
     {
      "key": "html",
@@ -3523,14 +3510,14 @@
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 19 KB sent (was 19 KB)",
-     "value": 19
+     "what": "1 files, 18 KB sent (was 19 KB)",
+     "value": 18
     },
     {
      "key": "images",
      "where": "images",
-     "what": "8 files, 326 KB sent (was 326 KB)",
-     "value": 326
+     "what": "10 files, 402 KB sent (was 326 KB)",
+     "value": 402
     },
     {
      "key": "fonts",
@@ -3838,7 +3825,7 @@
    "status": "pass",
    "value": 0,
    "unit": "places",
-   "note": "50 stylesheets loaded on their own",
+   "note": "49 stylesheets loaded on their own",
    "items": [],
    "accepted": 0,
    "was": {
@@ -3872,7 +3859,7 @@
    "status": "pass",
    "value": 0,
    "unit": "places",
-   "note": "50 pages with the box",
+   "note": "49 pages with the box",
    "items": [],
    "accepted": 0,
    "was": {
@@ -4162,7 +4149,7 @@
    "key": "shape.borders::1",
    "rule": "shape.borders",
    "status": "warn",
-   "where": "nav.tabbar, ul.hero__links, a.qopt, button.pager__dot, div.arrows, button.arrows__btn",
+   "where": "nav.tabbar, ul.hero__links, button.pager__dot, div.arrows, button.arrows__btn, div.featured__facts",
    "what": "1px",
    "at": "",
    "new": false
@@ -4310,6 +4297,33 @@
    "what": "right edge -3px off the line at 256 (4 blocks on it)",
    "at": "320x568",
    "new": false
+  },
+  {
+   "key": "align.edges::catalog/ div.footer__group a|right|323",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "catalog/ div.footer__group a",
+   "what": "right edge +1.52px off the line at 323.48 (26 blocks on it)",
+   "at": "390x844",
+   "new": true
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|323",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ div.footer__group a",
+   "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
+   "at": "390x844",
+   "new": true
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|323",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/q-optimistic/ div.footer__group a",
+   "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
+   "at": "390x844",
+   "new": true
   },
   {
    "key": "align.edges::h3.card__title|left|439",
@@ -4487,7 +4501,7 @@
    "rule": "align.edges",
    "status": "warn",
    "where": "li.fact",
-   "what": "left edge +1px off the line at 200 (16 blocks on it)",
+   "what": "left edge +1px off the line at 200 (11 blocks on it)",
    "at": "1920x1080",
    "new": false
   },
@@ -4496,7 +4510,7 @@
    "rule": "align.edges",
    "status": "warn",
    "where": "li.fact",
-   "what": "right edge -0.99px off the line at 1719.99 (11 blocks on it)",
+   "what": "right edge -0.99px off the line at 1719.99 (8 blocks on it)",
    "at": "1920x1080",
    "new": false
   },
@@ -4505,7 +4519,7 @@
    "rule": "align.edges",
    "status": "warn",
    "where": "li.fact",
-   "what": "left edge +1px off the line at 520 (16 blocks on it)",
+   "what": "left edge +1px off the line at 520 (11 blocks on it)",
    "at": "2560x1440",
    "new": false
   },
@@ -4514,7 +4528,7 @@
    "rule": "align.edges",
    "status": "warn",
    "where": "li.fact",
-   "what": "right edge -0.99px off the line at 2039.99 (11 blocks on it)",
+   "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
    "at": "2560x1440",
    "new": false
   },
@@ -4525,15 +4539,6 @@
    "where": "a.nav__tool",
    "what": "higher than its text's line by 8.5px",
    "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
-   "new": false
-  },
-  {
-   "key": "align.icons::a.iconlink",
-   "rule": "align.icons",
-   "status": "warn",
-   "where": "a.iconlink",
-   "what": "lower than its text's line by 9.89px",
-   "at": "320x568 390x844",
    "new": false
   },
   {
@@ -4702,7 +4707,7 @@
    "key": "icons.sizes::24×24",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, a.iconlink",
+   "where": "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn",
    "what": "24×24",
    "at": "",
    "new": false
@@ -5005,6 +5010,15 @@
    "new": false
   },
   {
+   "key": "images.first::life-jacket-1200.avif",
+   "rule": "images.first",
+   "status": "fail",
+   "where": "div.featured__media img",
+   "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
+   "at": "2560x1440",
+   "new": true
+  },
+  {
    "key": "states.timing::0",
    "rule": "states.timing",
    "status": "pass",
@@ -5027,7 +5041,7 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "390x844",
-   "what": "49.5% of the text shown, 7 of 10 headings, h1 shown",
+   "what": "46.3% of the text shown, 6 of 9 headings, h1 shown",
    "at": "390x844",
    "new": false
   },
@@ -5036,26 +5050,8 @@
    "rule": "fallback.nojs",
    "status": "fail",
    "where": "1440x900",
-   "what": "38.8% of the text shown, 7 of 10 headings, h1 shown",
+   "what": "35% of the text shown, 6 of 9 headings, h1 shown",
    "at": "1440x900",
-   "new": false
-  },
-  {
-   "key": "fallback.fonts::p.qentry__leadЧетыре вопроса — и три к",
-   "rule": "fallback.fonts",
-   "status": "warn",
-   "where": "p.qentry__lead",
-   "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font",
-   "at": "390x844",
-   "new": false
-  },
-  {
-   "key": "fallback.fonts::h3.qstep__qЧем вы варите кофе дома?",
-   "rule": "fallback.fonts",
-   "status": "warn",
-   "where": "h3.qstep__q",
-   "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font",
-   "at": "390x844",
    "new": false
   },
   {
@@ -5367,7 +5363,7 @@
   {
    "key": "weight.total::html",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "html",
    "what": "1 files, 17 KB sent (was 17 KB)",
    "at": "",
@@ -5376,7 +5372,7 @@
   {
    "key": "weight.total::js",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "js",
    "what": "12 files, 62 KB sent (was 62 KB)",
    "at": "",
@@ -5385,25 +5381,25 @@
   {
    "key": "weight.total::css",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "css",
-   "what": "1 files, 19 KB sent (was 19 KB)",
+   "what": "1 files, 18 KB sent (was 19 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::images",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "images",
-   "what": "8 files, 326 KB sent (was 326 KB)",
+   "what": "10 files, 402 KB sent (was 326 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::fonts",
    "rule": "weight.total",
-   "status": "pass",
+   "status": "warn",
    "where": "fonts",
    "what": "4 files, 63 KB sent (was 63 KB)",
    "at": "",
@@ -5439,10 +5435,22 @@
  ],
  "fixed": [
   {
-   "key": "logic.bag-add::fail",
-   "rule": "logic.bag-add",
-   "where": "Shop",
-   "what": "locator.hover: Timeout 30000ms exceeded."
+   "key": "align.icons::a.iconlink",
+   "rule": "align.icons",
+   "where": "a.iconlink",
+   "what": "lower than its text's line by 9.89px"
+  },
+  {
+   "key": "fallback.fonts::p.qentry__leadЧетыре вопроса — и три к",
+   "rule": "fallback.fonts",
+   "where": "p.qentry__lead",
+   "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font"
+  },
+  {
+   "key": "fallback.fonts::h3.qstep__qЧем вы варите кофе дома?",
+   "rule": "fallback.fonts",
+   "where": "h3.qstep__q",
+   "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font"
   }
  ],
  "decisions": [
@@ -5576,7 +5584,7 @@
    "id": "quiz",
    "kind": "decision",
    "state": "unbound",
-   "what": "The quiz «Выбрать кофе за минуту» (session 4 of choosing coffee; docs/quiz.md) is one quiz on one page, «Заказываю кофе впервые» (start/), entered from the home page (a section after the hero that answers the first question in place), from the catalogue (a line under the tabs) and from the footer. Four questions, one tap each: how you brew (the catalogue's eight methods and «Пока не знаю»), milk, what you drink now (an anchor of the taste model), what is closer in taste (four food groups and «Не знаю»); B2B is a link on the first screen, not a result. The answers place the visitor on the taste map as a wide region. The result is one coffee and two moves away from it (the coffee page's «Что взять еще» moves when they suit the visitor), or for «Не знаю» three different coffees (soft, middle, bright) with a 50 g set; each with its reasons in plain words and at most one downside; the region on the taste map; a link to the part of the catalogue that fits. The answers live in the address (Back, sharing, «Изменить» on each) and are saved in this browser (localStorage qq-taste) for the catalogue, a coffee's page (the roast and grind for the visitor's method; the closeness in «Впечатления») and the profile",
+   "what": "Since Tim's 26 Nov round: a dialog of the catalogue, «Подобрать кофе», opened by the button at the left of the filters' row and by catalog/?quiz (footer, profile); no page (start/ is gone) and no section on the home page; ← → in place of «Назад»; no «Вопрос N из 4», «или выбираю в подарок», «Это начало, а не приговор…», «Нажмите на ответ…» or «start here» set; «Показать в каталоге» ticks «Для вас»; no taste map in the result, and no result shared by link (Tim: fine). Before: The quiz «Выбрать кофе за минуту» (session 4 of choosing coffee; docs/quiz.md) is one quiz on one page, «Заказываю кофе впервые» (start/), entered from the home page (a section after the hero that answers the first question in place), from the catalogue (a line under the tabs) and from the footer. Four questions, one tap each: how you brew (the catalogue's eight methods and «Пока не знаю»), milk, what you drink now (an anchor of the taste model), what is closer in taste (four food groups and «Не знаю»); B2B is a link on the first screen, not a result. The answers place the visitor on the taste map as a wide region. The result is one coffee and two moves away from it (the coffee page's «Что взять еще» moves when they suit the visitor), or for «Не знаю» three different coffees (soft, middle, bright) with a 50 g set; each with its reasons in plain words and at most one downside; the region on the taste map; a link to the part of the catalogue that fits. The answers live in the address (Back, sharing, «Изменить» on each) and are saved in this browser (localStorage qq-taste) for the catalogue, a coffee's page (the roast and grind for the visitor's method; the closeness in «Впечатления») and the profile",
    "decided": "Claude, 2026-11-26 (session 4), for Tim to confirm in the PR"
   },
   {
@@ -5660,7 +5668,7 @@
    "id": "card-scale",
    "kind": "decision",
    "state": "unbound",
-   "what": "Every product card has a small taste scale in place of «Плотность 3 из 5. Кислотность 3 из 5.»: three rows, a dot on a line between the taste model's words («мягче · ярче», «легче · плотнее», «классичнее · необычнее»), the line QQ's own range (its softest to its brightest coffee…), positions from src/data/taste.json. It is hidden in the card's picture until asked for (Tim, 25 Nov): an info button in the bottom left corner, just above the buy row; hovered with a mouse or pressed (scripts/about.js), a sheet of the card's own ground rises from the buy row with the rows. The button's name reads «Вкус: Кислотность 3 из 5, средняя для QQ…» to a screen reader. The line is ink-60 (white-60 on a dark card) drawn as a 1px band, not a border, the dot ink (paper); no sweetness, no «Горечь», never «Оценка Q»",
+   "what": "Since Tim's 26 Nov round: a panel apart from the buy row and the card's edges, at most 22rem, in a hairline frame; with a mouse shown on the card's hover with no info button to see; on touch the button in the corner (equal space to the edge and the row) shows it above. Every product card has a small taste scale in place of «Плотность 3 из 5. Кислотность 3 из 5.»: three rows, a dot on a line between the taste model's words («мягкий · яркий», «лёгкий · плотный», «классический · необычный», both columns as wide as the longest word, left-aligned: Tim, 26 Nov), the line QQ's own range (its softest to its brightest coffee…), positions from src/data/taste.json. It is hidden in the card's picture until asked for (Tim, 25 Nov): an info button in the bottom left corner, just above the buy row; hovered with a mouse or pressed (scripts/about.js), a sheet of the card's own ground rises from the buy row with the rows. The button's name reads «Вкус: Кислотность 3 из 5, средняя для QQ…» to a screen reader. The line is ink-60 (white-60 on a dark card) drawn as a 1px band, not a border, the dot ink (paper); no sweetness, no «Горечь», never «Оценка Q»",
    "decided": "Claude, 2026-11-24 (session 3, for Tim's review in the PR)"
   },
   {
@@ -5919,7 +5927,7 @@
    "id": "hash-states",
    "kind": "decision",
    "state": "holding",
-   "covered": 95,
+   "covered": 91,
    "notes": [],
    "what": "The catalog's tabs (#all, #kofe, #kaskara, #dripy, #sety, #merch) and the checkout's «В подарок» (#gift) are states chosen by the address's hash, read by the scripts (filters.js, checkout.js): no element has that id",
    "decided": "Claude, 2026-11-23 (written down for site-kit's link checks; the tabs since round 4, the gift since round 4)",
@@ -6299,7 +6307,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 480244c, an earlier commit than this one (27ef7ed)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (27ef7ed)",
+ "own": true
 }
