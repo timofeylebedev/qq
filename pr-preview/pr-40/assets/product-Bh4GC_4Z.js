@@ -1,0 +1,1 @@
+function e(){let e=document.querySelector(`[data-buybar]`);if(!e)return;let t=()=>document.documentElement.style.setProperty(`--buybar-h`,e.offsetHeight+`px`);t(),new ResizeObserver(t).observe(e)}export{e as initStage};
