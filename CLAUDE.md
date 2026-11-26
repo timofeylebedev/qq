@@ -121,7 +121,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   never score in filters.js or a template. Every result of every option is listed in the generated
   `docs/choose-output.md`: read it after changing a rule. The taste map (`tasteMap()` in src/templates/map.mjs +
   `initTasteMap()` in scripts/tastemap.js) is neither on the catalogue nor in the quiz now (the profile's «Ваш вкус»
-  draws it); the quiz reads `src/data/choose.json` and `choose.js`.
+  is its own small map, `myMap()` in account.mjs); the quiz reads `src/data/choose.json` and `choose.js`.
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -206,8 +206,10 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   visitor moved against the answer). The arithmetic is `src/scripts/feedback.js` (`replay` through taste.js `update()`,
   `nextOf`, `tasteName`, Node and browser); what the account says is `src/scripts/feedbackview.js`, the same in the
   template and the browser (`scripts/feedbackpage.js`); never score in a template or a page script. The profile's «Ваш
-  вкус» (the visitor on the taste map, in words only after 3 answers) and «Следующий кофе» (in place of the old
-  «Подобрали для вас») read it; so do purchases (no thumbs), the orders list, a coffee's page (`[data-mine]`) and
+  вкус» (the visitor on the taste map: grey dots, lavender for the coffees bought, a hover shows the coffee's
+  card above it — the pointer may go onto it, a click opens it —, the axes named without arrows, the path of answers
+  dotted grey, the visitor now a «+»; no words) and «Следующий кофе» («Вы отметили «Хочу плотнее».», in place of the old «Подобрали для вас»)
+  read it; its question «Как вам Эфиопия Бекеле?» can be hidden with × (`qq-fb-closed`, until another order asks); so do purchases (no thumbs), the orders list, a coffee's page (`[data-mine]`) and
   «Впечатления» (closeness from the moved region, `qq-feedback`); a coffee's page no longer says what the visitor said (Tim, 26 Nov). The placeholder visitor's answers and his own today
   are `data/account.json` `feedback`, `today`. A letter's buttons open the order with the first answer tapped:
   `account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>`. What a backend needs: `docs/feedback-backend.md`. The

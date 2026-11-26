@@ -61,8 +61,8 @@ export function people(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
   // one button a tab, the same in size and words' spacing, no arrow: the one of the tab shown (CSS, pages/product.css)
-  const share = `<button class="btn people__act" type="button" data-for="stories" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
-  const ask = `<button class="btn people__act" type="button" data-for="questions" data-dialog="ask-${p.slug}">Задать вопрос</button>`;
+  const share = `<button class="btn btn--text people__act" type="button" data-for="stories" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
+  const ask = `<button class="btn btn--text people__act" type="button" data-for="questions" data-dialog="ask-${p.slug}">Задать вопрос</button>`;
   const you = visitor(ctx.products);
   return `<section class="section people" id="people" data-ground="paper" aria-label="${TITLE} и вопросы" data-people data-close="${esc(JSON.stringify({ w: W, close: CLOSE.map(([m, t]) => [Number.isFinite(m) ? m : 99, t]) }))}">
   <div class="col">

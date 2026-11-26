@@ -15,8 +15,8 @@ next three coffees honour the answer, each saying why → buy again.
 |---|---|---|---|
 | **The order** (account → «Заказы» → an order, `#feedback`) | from delivery: filter beans from day 4, espresso from day 7 (an order of both: the later) | the form, a few taps per coffee; then the reply under it | yes |
 | The list of orders | as above | «Как вам кофе? Ответить» under the status; «Ответили про 1 из 2 — ответить про остальные»; «Спросим про вкус 16 августа» before | yes |
-| The profile | while an order asks and is under 30 days old | «Как вам A и B? Ответьте в заказе…» over the activity | yes |
-| Purchases | always | in place of the thumbs: «Вы сказали: «слишком ярко»», or «Как вам? Ответить» | yes |
+| The profile | while an order asks and is under 30 days old, until its × hides it (`qq-fb-closed`, per order and coffees) | «Как вам A и B?» / «Поделитесь впечатлениями — следующий кофе подберём точнее.» and «Ответить» over the activity | yes |
+| Purchases | once delivered (nothing before: Tim, 26 Nov) | in place of the thumbs: «“Слишком ярко”» (what was ticked, in quotes), or «Как вам? Ответить» | yes |
 | A coffee's page | — | nothing since Tim, 26 Nov (was «Вы брали его в июле и сказали «слишком ярко».» under its name) | — |
 | **A letter** | filter: day 7 after delivery, espresso: day 10; one reminder 7 days later | the first question's three buttons in the letter itself; each opens the order with that answer tapped (`account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>`, which the page already reads) | the page side; the letter needs the backend |
 | The pack | in the box | a small card: «Как вам кофе? Через неделю спросим в письме — или ответьте сейчас:» and a QR to the account's orders | a proposal for QQ |
@@ -125,14 +125,16 @@ read «фермент 1 против 2» as noise.
   - **«Ваш вкус»**, a tile in place of the radar of purchases (two pictures of taste would disagree, and the radar showed
     sweetness): the taste map in small, every coffee a dot, the visitor's region, the path of its centre answer by answer
     and where it is now;
-  - under it, in words, only after 3 taste answers («Яркий и лёгкий, можно с лёгкой ферментацией, уже довольно точно.»).
-    Before that: «Пока это набросок по подбору и 1 ответу после доставки. Ещё 2 ответа — и назовём ваш вкус словами.»
-    (session 0: show «your taste» only after 3–5 answers);
+  - no words under it; the axes named without arrows; the dots grey, lavender for the coffees bought; the path a grey
+    line of dots, the visitor now a «+» (not a coffee); a hover or focus shows the coffee's card (grey, its picture and
+    name) above its dot, the pointer may go onto it and a click opens the coffee; on a touch screen the first tap shows
+    it (Tim, 26 Nov);
   - **«Следующий кофе»** in place of «Подобрали для вас» (which scored the four scales itself, against CLAUDE.md's rule):
-    the lead («Руанда Гицумби: вы сказали «хочу плотнее». Следующий — плотнее:») and the three cards, each under its
-    move in lavender with why. Its link and «в корзину» carry the roast and grind for the visitor's method, or what they
+    the lead («Вы отметили «Хочу плотнее». Следующий — плотнее:», with room under it) and the three cards, each under its
+    move in lavender with why («Вы отметили «В самый раз». …» on the one to take again). Its link and «в корзину» carry the roast and grind for the visitor's method, or what they
     asked for after «помол не подошёл».
-- **Purchases:** what was said, per coffee.
+- **Purchases:** what was ticked, per coffee, in quotes («“Хочу плотнее”»).
+- **«Ваш подбор»** (the saved quiz): its picks as product cards, each under its move in lavender.
 - **A coffee's page:** nothing (Tim, 26 Nov; it said «Вы брали его в июле и сказали «слишком ярко».» under the name).
 - **«Впечатления»:** closeness to each teller is measured from the moved region (it was the quiz's, or the average of
   the purchases).
