@@ -1,5 +1,6 @@
-// The stage of a coffee's page: how far the fact tiles have scrolled past the pinned pack, 0 at the start, 1 when the
-// pin lets go. scripts/packs.js turns the pack by it. Also keeps --buybar-h equal to the buy bar's real height, so
+// The stage of a coffee's page: how far its right half (the name and the fact tiles) has scrolled past the pinned pack,
+// 0 at the start, 1 when the pin lets go; when the half is about as short as the pin, the pack turns as the stage leaves
+// (at least 60% of the pin's height). Below M the pack stands under the name and turns as the tiles scroll past. scripts/packs.js turns the pack by it. Also keeps --buybar-h equal to the buy bar's real height, so
 // the pinned area fits between the navbar and the bar at every size.
 import { onScroll } from "./scroller.js";
 
@@ -17,7 +18,7 @@ export function initStage() {
 
   const update = () => {
     const r = section.getBoundingClientRect();
-    const run = section.offsetHeight - pin.offsetHeight - (parseFloat(getComputedStyle(section).paddingTop) || 0);
+    const run = Math.max(section.offsetHeight - pin.offsetHeight - (parseFloat(getComputedStyle(section).paddingTop) || 0), 0.6 * pin.offsetHeight);
     const done = -r.top;
     window.qqStage.progress = Math.min(1, Math.max(0, done / Math.max(1, run)));
     stage?.invalidate();
