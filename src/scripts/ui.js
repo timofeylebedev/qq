@@ -6,15 +6,13 @@
 //   [data-request]       the request form: checked, then a word that it is not sent yet (no server behind the site)
 //   [data-tabs]          tabs over panels (the beans): click or the arrow keys
 //   [data-copy]          copies its value (the referral link, a tracking number)
-//   [data-rate]          the rating of a coffee bought (localStorage "qq-rate"); up and down exclude each other
 //   [data-soon]          a control whose page or service does not exist yet: says so
-import { load, save, toast } from "./buy.js";
+import { toast } from "./buy.js";
 
 export function initUi() {
   const dialogs = document.querySelectorAll("[data-dialog-box]");
   if (dialogs.length) dialogsUi(dialogs);
   for (const t of document.querySelectorAll("[data-tabs]")) tabs(t);
-  rate();
   document.addEventListener("click", (e) => {
     const c = e.target.closest("[data-copy]"), s = e.target.closest("[data-soon]");
     if (c) {
@@ -100,16 +98,3 @@ function tabs(list) {
   });
 }
 
-function rate() {
-  const KEY = "qq-rate";
-  const sync = () => { const r = load(KEY, {}); for (const b of document.querySelectorAll("[data-rate]")) b.setAttribute("aria-pressed", String(r[b.dataset.slug] === b.dataset.rate)); };
-  if (!document.querySelector("[data-rate]")) return;
-  sync();
-  document.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-rate]");
-    if (!b) return;
-    const r = load(KEY, {});
-    if (r[b.dataset.slug] === b.dataset.rate) delete r[b.dataset.slug]; else r[b.dataset.slug] = b.dataset.rate;
-    save(KEY, r); sync();
-  });
-}

@@ -219,13 +219,3 @@
 .legal__key { font-weight: 500; }
 .legal__value a { text-decoration: underline; text-decoration-thickness: var(--hair); text-underline-offset: 0.2em; }
 
-/* ── the rating of a coffee bought: two cells at the foot of its picture, like the buy row of a card ─────────── */
-.rate { position: relative; z-index: 7; display: grid; grid-template-columns: 1fr 1fr; border-top: var(--hair) solid var(--line); }
-.rate button { position: relative; display: grid; place-items: center; min-height: var(--control-h); color: var(--g-fg); transition: background-color var(--t-out) var(--ease-out); }
-.rate .i-off { opacity: 0.7; }
-.rate button + button { border-left: var(--hair) solid var(--line); }
-.rate svg { width: 24px; height: 24px; }
-.rate .i-on { position: absolute; opacity: 0; }
-.rate [aria-pressed="true"] .i-on { opacity: 1; }
-.rate [aria-pressed="true"] .i-off { opacity: 0; }
-@media (--mouse) { .rate button:hover { background-color: var(--tint); transition-duration: var(--t-in); } }

@@ -1,0 +1,129 @@
+{
+  "$about": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md): when the site asks, what it asks, what each answer does, and the words of the reply. build/feedback.mjs → src/data/feedback.json; the arithmetic is src/scripts/feedback.js. The axes are the taste model's visible three (bright, body, unusual); an answer moves the visitor's region with update() of src/scripts/taste.js. Never a star, a score or a percent.",
+
+  "ask": {
+    "$about": "Days counted from the delivery, by the roast bought (QQ roasts to order, so a bag arrives 2–4 days after roasting). Beans settle: filter about 5–7 days after roasting, espresso 7–10 (docs/feedback-research.md), and a few cups take a few days more. The account asks from `from`, the letter (with the first question's buttons in it) goes on `letter`, one reminder on `remind`; after `quiet` days the profile stops asking (the order page still does). An order of both roasts follows the later. An answer can be given any day, even before `from`.",
+    "from": { "Фильтр": 4, "Эспрессо": 7 },
+    "letter": { "Фильтр": 7, "Эспрессо": 10 },
+    "remind": 7,
+    "quiet": 30
+  },
+
+  "axes": {
+    "$about": "One row per axis, three taps: less / ok / more. The words are Tim's («слишком ярко», «в самый раз», «хочу плотнее»): what the visitor would like next, not a grade. `move` names the taste model's direction each answer asks for. Every row shown is required. Unusual is asked only of a coffee that has some ferment to answer about (position.unusual ≥ `askFrom`), otherwise it is not asked and that axis does not move.",
+    "bright": { "title": "Кислинка", "less": "Слишком ярко", "ok": "В самый раз", "more": "Хочу ярче", "move": { "less": "softer", "more": "brighter" }, "need": true },
+    "body": { "title": "Плотность", "less": "Слишком плотно", "ok": "В самый раз", "more": "Хочу плотнее", "move": { "less": "lighter", "more": "denser" }, "need": true },
+    "unusual": { "title": "Необычность", "less": "Слишком необычно", "ok": "В самый раз", "more": "Хочу необычнее", "move": { "less": "classic", "more": "unusual" }, "need": true, "askFrom": 0.9, "hint": "Ферментация: винные, ромовые, тропические ноты" }
+  },
+
+  "issues": {
+    "$about": "Not about taste: kept apart, never reach update(), read by QQ (docs/feedback-backend.md).",
+    "grind": { "label": "Помол не подошёл", "reply": "Передали в QQ: напишем вам и, если нужно, заменим пачку. Вкус по этому ответу не двигаем.",
+      "ask": "Как вам удобнее?",
+      "need": { "beans": ["В зёрнах: мелю сам", "Дальше предложим в зёрнах."], "ground": ["Молотый под мой способ", "Дальше предложим помол под ваш способ."], "bags": ["Готовые дрип-пакеты", "Готовых дрип-пакетов у QQ пока нет: передали вопрос. Пока предложим помол для фильтра."] } },
+    "described": { "label": "Не как в описании", "reply": "Передали обжарщику: он сверит описание. Вкус по этому ответу не двигаем." }
+  },
+
+  "methodFromGrind": {
+    "$about": "The form's «Как заваривали» starts on the method the order's grind implies (one tap when it is right). Beans say nothing: the visitor's last method when it suits the roast bought, else the roast's own (methodFromRoast).",
+    "Эспрессо": "espresso", "Турка": "turka", "Фильтр": "pourover"
+  },
+  "methodFromRoast": {
+    "$about": "For beans: when the visitor's last method does not suit the roast bought, the roast's own method.",
+    "Фильтр": "pourover", "Эспрессо": "espresso"
+  },
+
+  "weights": {
+    "$about": "How much one answer counts in update() (1 = fully). A coffee brewed with a method its roast is not for (filter roast in a machine, espresso roast in a pour-over) tastes unlike itself, so its answer counts half and the reply says why.",
+    "wrongRoast": 0.5
+  },
+
+  "show": {
+    "$about": "«Ваш вкус» is named in words only after `named` taste answers (session 0: show «your taste» after 3–5); before that the map says it is a guess from the purchases or the quiz. `sure` is the mean spread under which the region is called settled.",
+    "named": 3,
+    "sure": 0.8
+  },
+
+  "next": {
+    "$about": "What the account offers after an answer (feedback.js nextOf). A step on an answered axis is one real step from that coffee (≥ step, the taste model's 0.45); an axis answered «в самый раз» stays within `near` of it. When nothing honours every answer, the least certain axis is dropped first (`drop`), and the reply says which.",
+    "step": 0.45,
+    "near": 0.8,
+    "drop": ["unusual", "body", "bright"],
+    "pagePrefer": 0.25,
+    "twin": 0.6,
+    "milkCost": 0.45
+  },
+
+  "words": {
+    "title": "Как вам кофе?",
+    "lead": "Пара касаний про каждую пачку — и следующий кофе подберём точнее. Отвечайте после нескольких чашек.",
+    "wait": "Спросим через {n} — после нескольких чашек. Можно ответить и сейчас.",
+    "method": "Как заваривали",
+    "milk": "С молоком",
+    "other": "Не про вкус",
+    "otherHint": "Такие ответы читает QQ, вкус по ним не двигаем.",
+    "send": "Готово",
+    "edit": "Изменить ответ",
+    "editTaste": "Ответить про вкус",
+    "share": "Рассказать на странице кофе",
+    "heard": "Учли.",
+    "half": "Этот кофе обжарен {roast}, а заваривали {method}: так он не похож на себя. Ответ учли наполовину.",
+    "methodIn": { "auto": "в автоматической кофемашине", "espresso": "в рожковой кофемашине", "moka": "в гейзере", "turka": "в турке", "pourover": "в воронке", "drip": "в капельной кофеварке", "aeropress": "в аэропрессе", "press": "во френч-прессе" },
+    "roastFor": { "Эспрессо": "под эспрессо", "Фильтр": "под фильтр" },
+    "moved": "Ваш вкус сдвинулся: {where}.",
+    "still": "Вкус остался на месте: этот кофе — ваш.",
+    "nextIs": "Следующий — {move}:",
+    "again": "Возьмите его снова или похожий:",
+    "againNot": "Для вашего способа заваривания мы его не обжариваем — вот что ещё по вашему вкусу:",
+    "againOnly": "Возьмите его снова. Похожего, но нового для вас, сейчас не нашли — вот что ещё по вашему вкусу:",
+    "edge": "{dir}, чем {name}, у нас нет: это {most}. Вот что ближе всего:",
+    "edgeNone": "Пока в эту сторону нам предложить нечего — следующие сорта появятся в каталоге.",
+    "edgeFar": "{dir}, чем {name}, у нас только {list}, а они совсем другие по {rows}. Вот что ближе всего:",
+    "rowsBy": { "bright": "кислинке", "body": "плотности", "unusual": "ферментации" },
+    "edgeMethod": "{dir}, чем {name}, у нас есть, но не в обжарке для заваривания {method}. Вот что ближе всего:",
+    "edgeMost": { "softer": "один из самых мягких наших кофе", "brighter": "один из самых ярких наших кофе", "lighter": "один из самых лёгких наших кофе", "denser": "один из самых плотных наших кофе", "classic": "один из самых классических наших кофе", "unusual": "один из самых необычных наших кофе" },
+    "edgeDir": { "softer": "Мягче", "brighter": "Ярче", "lighter": "Легче", "denser": "Плотнее", "classic": "Классичнее", "unusual": "Необычнее" },
+    "dropped": "Сразу {all} у нас нет — взяли {kept}.",
+    "lostFerment": "{move} и с той же ферментацией у нас нет: эти — классичнее.",
+    "shift": { "bright": ["мягче", "ярче"], "body": ["легче", "плотнее"], "unusual": ["классичнее", "необычнее"] },
+    "moves": { "softer": "мягче", "brighter": "ярче", "lighter": "легче", "denser": "плотнее", "classic": "классичнее", "unusual": "необычнее", "again": "снова", "similar": "похожий", "fit": "по вашему вкусу" },
+        "labels": { "method": "Ближе для вашего способа", "again": "Снова", "similar": "Похожий", "fit": "По вашему вкусу", "also": "Тоже" },
+    "because": "Вы сказали о {name}: {said}.",
+    "compare": "Для сравнения, {name}: {words}.",
+    "butClassic": "Но без ферментации.",
+    "noFerment": "без ферментации",
+    "okSaid": "Вы сказали о нём «в самый раз».",
+    "like": {
+      "theSame": ["та же", "те же"],
+      "same": { "bright": "кислинка", "body": "плотность", "unusual": "ферментация" },
+      "diff": { "bright": ["кислинка мягче", "кислинка ярче"], "body": ["тело легче", "тело плотнее"], "unusual": ["ферментации меньше", "ферментации больше"] }
+    },
+    "okFerment": [", можно с лёгкой ферментацией", ", можно и с заметной ферментацией"],
+    "guessAnd": " и {n} после доставки",
+    "yourTaste": "Ваш вкус",
+    "guess": "Пока это набросок по {from}. Ещё {n} — и назовём ваш вкус словами.",
+    "guessFrom": { "quiz": "подбору", "orders": "первому заказу" },
+    "named": "{taste}{sure}.",
+    "sureWords": [[0.8, ", уже довольно точно"], [1.2, ", пока примерно"], [9, ", пока широко"]],
+    "unusualWords": [[0.9, ", без ферментации"], [1.9, ", с лёгкой ферментацией"], [9, ", с заметной ферментацией"]],
+    "answers": { "one": "ответа", "few": "ответов", "many": "ответов" },
+    "prompt": "Как вам {names}? Ответьте в заказе — следующий кофе подберём точнее.",
+    "rowAsk": "Как вам кофе? Ответить",
+    "rowDone": "Ответили про {n} из {all}",
+    "rowWait": "Спросим про вкус {date}",
+    "mine": "Вы брали его {when} и сказали «{said}».",
+    "mineIssue": "Вы брали его {when}: {said}.",
+    "noTaste": "Пока нет ответов про вкус: ответьте в заказе, и здесь появится кофе под вас.",
+    "later": "Спросим про вкус после доставки, когда выпьете несколько чашек.",
+    "otherSummary": "Не про вкус: помол или описание",
+    "youSaid": "Вы сказали:",
+    "surer": "Учли: ваш вкус уточнился.",
+    "nextLine": { "move": "Следующий — {move}:", "again": "Возьмите его снова или попробуйте", "edge": "Ближе всего:", "none": "По вашему вкусу:" },
+    "allNext": "Все три — в профиле",
+    "rowLater": "Спросим про вкус после доставки",
+    "rowSome": "Ответили про {n} из {all} — ответить про остальные",
+    "cardSaid": "Вы сказали: «{said}»",
+    "cardAsk": "Как вам? Ответить",
+    "cardLater": "Спросим после доставки"
+  }
+}

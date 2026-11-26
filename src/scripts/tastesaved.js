@@ -5,7 +5,9 @@
 //                      bar starts on that roast and grind (unless the address chose them: ?roast=…&grind=…)
 //   «Впечатления»      [data-people][data-close]: how close each teller's taste is to the visitor's quiz region
 //   the profile        [data-taste-part]: what the quiz said, with a way back to it
-// and later by the feedback after delivery (session 6): its answers move this region (src/scripts/taste.js update).
+// The feedback after delivery (session 6, scripts/feedbackpage.js) keeps its answers and the region they moved the
+// visitor to in localStorage "qq-feedback" ({ v: 1, answers, region, mine: { slug: text } }): «Впечатления» then
+// measures closeness from that region, and a coffee's page says what the visitor said about it ([data-mine]).
 import { load, save } from "./buy.js";
 
 export const TASTE = "qq-taste";
@@ -14,7 +16,7 @@ const num = (x) => Number.isFinite(x);
 export const loadTaste = () => {
   const t = load(TASTE, {});
   const ok = t && t.v === 1 && t.answers && typeof t.answers === "object" && Array.isArray(t.picks) && t.picks.every((p) => p && p.slug && p.name)
-    && t.region?.center && ["bright", "body", "unusual"].every((k) => num(t.region.center[k]));
+    && t.region?.center && ["bright", "body", "unusual"].every((k) => num(t.region.center[k]) && num(t.region.spread?.[k]));
   return ok ? t : null;
 };
 // true when it is really kept (private mode or a full storage keep nothing)
@@ -29,11 +31,28 @@ const rootHref = () => document.documentElement.dataset.root || "";
 const quizHref = (t) => `${rootHref()}start/?${new URLSearchParams(t.answers)}`;
 const names = (t) => { const n = t.picks.map((p) => p.name); return n.length > 1 ? `${n.slice(0, -1).join(", ")} и ${n.at(-1)}` : n[0]; };
 
+export const FEEDBACK = "qq-feedback";
+export const loadFeedback = () => {
+  const f = load(FEEDBACK, {});
+  if (!f || f.v !== 1 || !Array.isArray(f.answers)) return null;
+  // a hand edit or an older shape: keep only answers that name a bag
+  return { ...f, answers: f.answers.filter((a) => a && typeof a === "object" && typeof a.order === "string" && typeof a.slug === "string") };
+};
+
 export function initSaved() {
-  const t = loadTaste();
+  const t = loadTaste(), f = loadFeedback();
+  // «Впечатления» and a coffee's own line read the feedback's region and answers, which need no quiz
+  const region = f?.region?.center && ["bright", "body", "unusual"].every((k) => num(f.region.center[k])) ? f.region : t?.region;
+  for (const part of [() => region && people({ region }), () => f && mine(f)]) try { part(); } catch (e) { console.warn("qq-feedback:", e); }
   if (!t) return;
   // each reader on its own: one that fails leaves the others working
-  for (const part of [catalogue, coffeePage, people, profile]) try { part(t); } catch (e) { console.warn("qq-taste:", e); }
+  for (const part of [catalogue, coffeePage, profile]) try { part(t); } catch (e) { console.warn("qq-taste:", e); }
+}
+
+// a coffee's page: what the visitor said about it after a delivery, this browser's newer answer in place of the page's
+function mine(f) {
+  const el = document.querySelector("[data-mine]"), text = el && f.mine?.[el.dataset.mine];
+  if (text) { el.textContent = text; el.hidden = false; }
 }
 
 function catalogue(t) {
@@ -65,8 +84,8 @@ function coffeePage(t) {
   }
 }
 
-// «Впечатления» on a coffee's page: how close each teller's taste is to the visitor's, now from the quiz's region
-// (src/templates/people.mjs drew it against the account's placeholder purchases)
+// «Впечатления» on a coffee's page: how close each teller's taste is to the visitor's, from the region the feedback
+// after delivery moved them to, else the quiz's (src/templates/people.mjs drew it against the account's placeholder)
 function people(t) {
   const people = document.querySelector("[data-people][data-close]");
   if (people) {

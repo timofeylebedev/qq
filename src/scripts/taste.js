@@ -80,12 +80,14 @@ export function fit(region, pos, S) {
 // An answer after a delivery, per axis: "less" («слишком ярко»), "ok" («в самый раз»), "more" («хочу ярче»), about a
 // coffee at `pos`. The centre moves halfway towards where the answer points (three quarters of a point past the coffee
 // for less / more, the coffee itself for ok) and the region narrows; it never gets narrower than half a point.
+// A "less" never moves the centre up, nor a "more" down: «слишком ярко» about a coffee when the visitor's centre is
+// already softer than that only narrows the region (session 6: before, it pulled the centre towards the coffee).
 // Answers "wrong grind" and "not as described" are not taste answers and must not reach this function.
 export function update(region, pos, answers) {
   const center = { ...region.center }, spread = { ...region.spread };
   for (const k of AXES) {
     const a = answers[k]; if (!a) continue;
-    const target = a === "less" ? pos[k] - 0.75 : a === "more" ? pos[k] + 0.75 : pos[k];
+    const target = a === "less" ? Math.min(center[k], pos[k] - 0.75) : a === "more" ? Math.max(center[k], pos[k] + 0.75) : pos[k];
     center[k] = center[k] + 0.5 * (target - center[k]);
     spread[k] = Math.max(0.5, spread[k] * (a === "ok" ? 0.7 : 0.85));
   }

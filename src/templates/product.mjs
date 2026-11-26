@@ -6,6 +6,8 @@ import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
 import { menu } from "./blocks.mjs";
 import { people, peopleLink } from "./people.mjs";
+import { account } from "./account-data.mjs";
+import { mineOf } from "../scripts/feedbackview.js";
 
 const TASTE = new Map(read("src/data/taste.json").coffees.map((c) => [c.slug, c]));
 
@@ -30,7 +32,7 @@ function stage(ctx, p, out = false) {
       <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
       <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
     </div>
-    ${peopleLink(ctx, p)}${fitLine(p)}${out ? `
+    ${peopleLink(ctx, p)}${fitLine(p)}${mineLine(ctx, p)}${out ? `
     <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
     ${pack(p, { size: "hero", eager: true })}
   </div>
@@ -51,6 +53,13 @@ function fitLine(p) {
   if (!c) return "";
   const data = { slug: p.slug, roasts: c.roasts, methods: c.methods, names: Object.fromEntries(CHOOSE.methods.map((m) => [m.id, m.ru])), roast: QWORDS.roast, grind: QWORDS.grind };
   return `\n    <p class="pstage__fit" data-fit="${esc(JSON.stringify(data))}" hidden></p>`;
+}
+
+// what the visitor said about this coffee after a delivery (session 6): the account's placeholder answers in the page;
+// scripts/tastesaved.js puts this browser's newer answer in its place (localStorage "qq-feedback")
+function mineLine(ctx, p) {
+  const acc = account(ctx.products), text = mineOf(acc.fb.answers, p.slug, acc.fb.F, acc.orders);
+  return `\n    <p class="pstage__fit pstage__mine" data-mine="${p.slug}"${text ? "" : " hidden"}>${esc(text || "")}</p>`;
 }
 
 const GRIND = { "В зернах": "Зерна", "Турка": "Для турки", "Фильтр": "Для фильтра", "Эспрессо": "Для эспрессо" };

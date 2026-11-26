@@ -150,7 +150,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   inside `<use>`: two states are two icons (`heart` / `heart-fill`).
 - **The taste model** (`build/taste.mjs` → `src/data/taste.json`; `docs/taste-model.md`): every surface that says
   which coffees are alike or offers a step (brighter, softer, denser, lighter, more unusual, more classic) reads it,
-  and no new one scores similarity on its own (the account's `forYou()` still does, until session 6). Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
+  and no new one scores similarity on its own. Never rank or boost by «Оценка Q»; never offer a relabel of the same green coffee
   or a decaf for a coffee with caffeine (the build fails if it does). The data is cleaned in the build, never by hand
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
 - **«Что взять еще»** (a coffee's page, `next()` in `src/templates/product.mjs`): the taste model's moves for that
@@ -182,10 +182,28 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   The answers live in the address (`?method=…&milk=…&now=…&taste=…`, `q` the question shown). The result is saved in this
   browser (`qq-taste`, `scripts/tastesaved.js`): the catalogue's line, a coffee's page (`[data-fit]`: the roast and grind
   for the visitor's method, which the buy bar starts on; the closeness in «Впечатления») and the profile read it; the
-  feedback after delivery (session 6) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.
+  feedback after delivery (below) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.
   Its moves start from the taste model's (`next`, `directions`) and add the quiz's own guards in quiz.js (`MOVES`,
   `near`: milk, method, no twins); a rule for the coffee page's moves still goes into `nextBlock`. The answers in the
   address: `q` the question shown, `r=1` back to the result after it. Saved only when answered on this page.
+- **The feedback after delivery** (the account; `docs/feedback.md`; decision `feedback`): one form per coffee on the
+  order's page (`#feedback`, `fbSection()` in src/templates/account.mjs), asked from day 4 (filter) / 7 (espresso) after
+  delivery: the method (set from the grind), milk, and the taste model's three rows in Tim's words («Слишком ярко · В
+  самый раз · Хочу ярче», плотность, and необычность only for a fermented coffee), with «Не про вкус» (помол, with how
+  the visitor wants it next; не как в описании) apart: it never moves the visitor. Every word and rule is
+  `data/feedback.json`; `build/feedback.mjs` → `src/data/feedback.json` and the generated `docs/feedback-output.md` (every
+  coffee × every answer: read it after changing a rule; the build fails on a sold-out, decaf or wrong-roast offer, a move
+  the wrong way on QQ's coded scales, a card that goes back against the answer or jumps on a row not asked about, or a
+  visitor moved against the answer). The arithmetic is `src/scripts/feedback.js` (`replay` through taste.js `update()`,
+  `nextOf`, `tasteName`, Node and browser); what the account says is `src/scripts/feedbackview.js`, the same in the
+  template and the browser (`scripts/feedbackpage.js`); never score in a template or a page script. The profile's «Ваш
+  вкус» (the visitor on the taste map, in words only after 3 answers) and «Следующий кофе» (in place of the old
+  «Подобрали для вас») read it; so do purchases (no thumbs), the orders list, a coffee's page (`[data-mine]`) and
+  «Впечатления» (closeness from the moved region, `qq-feedback`). The placeholder visitor's answers and his own today
+  are `data/account.json` `feedback`, `today`. A letter's buttons open the order with the first answer tapped:
+  `account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>`. What a backend needs: `docs/feedback-backend.md`. The
+  loop on the command line: `build/feedback-sim.mjs`; the simulated customers and the check against the texts:
+  `docs/feedback-check/`.
 - **Texts**: write them normally; site-kit's typesetter (`site-kit/typeset/vite` in vite.config.js; settings: `typeset`
   in site-kit.config.mjs, none so far) decides where lines may break (no-break spaces, word joiners, `<wbr>` in long
   links) by each text's `lang`, and never changes a visible letter: `npx site-kit typeset --lint src/index.html` lists
