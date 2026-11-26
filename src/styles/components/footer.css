@@ -17,8 +17,14 @@
 .footer__social { --brand-x: 0px; position: absolute; z-index: 1; top: calc(var(--legal-pad) - 8px); left: calc(var(--brand-x) - 8px); display: flex; }
 .footer__soc { display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-60); transition: color var(--t-out) var(--ease-out); }
 .footer__soc svg { width: 24px; height: 24px; }
+/* YouTube's mark is a wide, low rectangle (24 × 17 in its 24 box) beside a full circle and a full square: drawn 28px
+   wide (28 × 20) it reads as large as they do */
+.footer__soc[data-net="youtube"] svg { width: 28px; height: 28px; }
 .footer__soc:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -4px; }
-@media (--mouse) { .footer__soc[href]:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+/* a link is the whole 40px cell: the pointer, and ink when hovered or pressed */
+a.footer__soc { cursor: pointer; }
+a.footer__soc:active { color: var(--c-ink); }
+@media (--mouse) { a.footer__soc:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
 
 /* the copyright and the policy: one size, one colour, one baseline; trimmed to their capitals, as far from the foot
    of the footer as from its side (the column's edge, or the frame's line once it is framed: --legal-pad, Tim, round 7) */

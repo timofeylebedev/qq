@@ -98,8 +98,8 @@ function footer(ctx) {
  <div class="col"><div class="footer__inner">
   <div class="footer__brand">
     <ul class="footer__social" aria-label="QQ Coffee в соцсетях">${f.social.map(([name, ic, to]) => `<li>${to
-      ? `<a class="footer__soc" href="${esc(to)}" target="_blank" rel="noopener" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</a>`
-      : `<span class="footer__soc" role="img" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</span>`}</li>`).join("")}</ul>
+      ? `<a class="footer__soc" data-net="${ic}" href="${esc(to)}" target="_blank" rel="noopener" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</a>`
+      : `<span class="footer__soc" data-net="${ic}" role="img" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</span>`}</li>`).join("")}</ul>
     <picture class="footer__mark"><source media="(prefers-reduced-motion: reduce)" srcset="/assets/img/logo-flame-still.svg"><img src="/assets/img/logo-flame.svg" alt="QQ Coffee" width="218" height="332" loading="lazy" decoding="async"></picture>
     <div class="footer__legal">
       <p>${esc(f.copyright)}</p>
