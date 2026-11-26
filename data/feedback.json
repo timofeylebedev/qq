@@ -25,7 +25,7 @@
   },
 
   "methodFromGrind": {
-    "$about": "The form's «Как заваривали» starts on the method the order's grind implies (one tap when it is right). Beans say nothing, so the visitor's last method (an earlier answer, then the quiz) is used, else nothing is chosen.",
+    "$about": "The form's «Как заваривали» starts on the method the order's grind implies (one tap when it is right). Beans say nothing: the visitor's last method when it suits the roast bought, else the roast's own (methodFromRoast).",
     "Эспрессо": "espresso", "Турка": "turka", "Фильтр": "pourover"
   },
   "methodFromRoast": {
@@ -74,6 +74,7 @@
     "still": "Вкус остался на месте: этот кофе — ваш.",
     "nextIs": "Следующий — {move}:",
     "again": "Возьмите его снова или похожий:",
+    "againNot": "Для вашего способа заваривания мы его не обжариваем — вот что ещё по вашему вкусу:",
     "againOnly": "Возьмите его снова. Похожего, но нового для вас, сейчас не нашли — вот что ещё по вашему вкусу:",
     "edge": "{dir}, чем {name}, у нас нет: это {most}. Вот что ближе всего:",
     "edgeNone": "Пока в эту сторону нам предложить нечего — следующие сорта появятся в каталоге.",
@@ -86,7 +87,7 @@
     "lostFerment": "{move} и с той же ферментацией у нас нет: эти — классичнее.",
     "shift": { "bright": ["мягче", "ярче"], "body": ["легче", "плотнее"], "unusual": ["классичнее", "необычнее"] },
     "moves": { "softer": "мягче", "brighter": "ярче", "lighter": "легче", "denser": "плотнее", "classic": "классичнее", "unusual": "необычнее", "again": "снова", "similar": "похожий", "fit": "по вашему вкусу" },
-        "labels": { "again": "Снова", "similar": "Похожий", "fit": "По вашему вкусу", "also": "Тоже" },
+        "labels": { "method": "Ближе для вашего способа", "again": "Снова", "similar": "Похожий", "fit": "По вашему вкусу", "also": "Тоже" },
     "because": "Вы сказали о {name}: {said}.",
     "compare": "Для сравнения, {name}: {words}.",
     "butClassic": "Но без ферментации.",

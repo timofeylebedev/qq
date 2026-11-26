@@ -64,9 +64,12 @@ a grade. Sweetness is not asked: it is 3–5 on every coffee and off the visible
 - **An answer counts half** when the roast doesn't suit the method (a filter roast in a machine tastes unlike itself). The
   reply says so.
 - **«Не про вкус» answers never move anything.**
-- The centre stays inside QQ's range (a «хочу плотнее» about the densest coffee can't carry it off the map).
-- A later answer about the same bag of the same order replaces the earlier one (an edit). A taste answer and an issue
-  about one bag are two answers.
+- The centre stays inside QQ's range, taken from its coffees in the build (a «хочу плотнее» about the densest coffee
+  can't carry it off the map).
+- A later answer about the same bag of the same order replaces the earlier one of its kind. An edit counts as the
+  visitor's newest answer (their latest opinion), not in the place of the first. A taste answer and an issue about one
+  bag are two answers; the form is the bag's whole answer, so a kind left empty on an edit is withdrawn (a second tap on
+  a chosen option clears it).
 
 **The next coffees** (`nextOf`): three cards. Each is a coffee QQ roasts for the visitor's last method, in stock and with
 caffeine. None is a coffee already answered about (it was tried), and while anything else is left, none is one already bought.
@@ -95,7 +98,9 @@ caffeine. None is a coffee already answered about (it was tried), and while anyt
   плотность те же, ферментации меньше.»);
 - the region's best.
 
-When there is no such «Похожий», the lead says so: «Похожего, но нового для вас, сейчас не нашли».
+When there is no such «Похожий», the lead says so: «Похожего, но нового для вас, сейчас не нашли». When the coffee was
+brewed a way QQ doesn't roast it for, it can't be offered again for that way. The lead says so («Для вашего способа
+заваривания мы его не обжариваем»), and the nearest coffees for that way come under «Ближе для вашего способа».
 
 **At QQ's edge** («хочу плотнее» about Q-Optimistic, the densest), the lead says which it is, truthfully, then the nearest:
 - «Плотнее, чем Q-Optimistic, у нас нет: это один из самых плотных наших кофе.»;
@@ -112,7 +117,7 @@ read «фермент 1 против 2» as noise.
 
 - **Right under the answer, on the order:**
   - «Вы сказали: «слишком ярко».»;
-  - how it counted: «Учли: ваш вкус сдвинулся мягче.», or for «в самый раз» «Учли: ваш вкус уточнился.», or the half
+  - how it counted: «Ваш вкус сдвинулся: мягче.», or for «в самый раз» «Учли: ваш вкус уточнился.», or the half
     answer, or for «не про вкус» what happens (passed to QQ; «Дальше предложим в зёрнах»);
   - the next coffee named: «Следующий — мягче: Колумбия Антиокия. Все три — в профиле.»;
   - «Изменить ответ» and «Рассказать на странице кофе».
@@ -156,7 +161,8 @@ read «фермент 1 против 2» as noise.
 ## Checks
 
 - **build/feedback.mjs runs every answer:** every coffee in stock × every method QQ roasts it for × with and without milk
-  × every combination of the three rows, ~5,000 in all. It fails on:
+  × every combination of the rows asked about that coffee: 5,472 answers, every method the form offers, not only the
+  methods QQ roasts the coffee for. It fails on:
   - a sold-out, decaf or wrong-roast offer (checked against products.json and site.json);
   - a new coffee already answered about;
   - a move the wrong way on QQ's own coded scales;
@@ -164,7 +170,12 @@ read «фермент 1 против 2» as noise.
   - a filter roast in a machine not counting half;
   - the taste named before three answers;
   - an «у нас нет … самый» that a coffee on QQ's scales contradicts;
-  - an empty or broken word.
+  - an empty or broken word;
+  - «Возьмите его снова» without that card, or «Ближе для вашего способа» for a method QQ roasts the coffee for.
+- **What the build counts:** of the 5,472 answers, about one in five ends with the lead alone. Nothing in stock goes
+  the asked way while keeping the rows not asked about. Most of them are two or three directions at once, or a method
+  the coffee isn't roasted for. Of the 111 single answers in the listing, 14 end so, mostly fermented lots: where QQ's
+  range is thin (`docs/feedback-check/README.md`).
 - **The simulation and the check against the texts:** `docs/feedback-check/README.md`.
 
 ## Known limits
@@ -177,6 +188,8 @@ read «фермент 1 против 2» as noise.
   (`people-third-answer`) would catch it; Naked Wines and Crema separate liking from wanting again.
 - **The quiz doesn't ask whether you grind.** The first bag may come ground for someone with a grinder;
   «помол не подошёл» fixes the next ones.
+- **Without JavaScript** the form shows, but an answer isn't kept (as the rest of the placeholder account).
+- **The browser's redraw** writes text without the typesetter's holds (as the quiz does); the words are the same.
 - **No drip bags.** A drip-bag drinker gets filter grind and the reply says QQ has no bags (QQ's question).
 - **The coffee page's «Поделиться впечатлениями»** is still its own form with session 5's words («ярковато / хотелось
   ярче» against what you usually drink). The account's reply links to it; one form for both is the backend's.

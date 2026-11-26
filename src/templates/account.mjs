@@ -6,8 +6,7 @@ import { card, photoOf } from "./components.mjs";
 import { pageHead, subtabs, paneltabs, badge, coffeeMedia, panel, rows, dialog, field, check, meta } from "./blocks.mjs";
 import { esc, icon, href, cls, rub, read } from "./util.mjs";
 import { account, dateShort, dateTime, monthOf } from "./account-data.mjs";
-import { stateOf, replyOf, rowOf, promptOf, purchaseOf, formStart } from "../scripts/feedbackview.js";
-import { area } from "../scripts/feedback.js";
+import { replyOf, rowOf, promptOf, purchaseOf, formStart, replyHtml } from "../scripts/feedbackview.js";
 
 const TABS = [["Профиль", "account/"], ["Активность", null], ["Заказы", "account/orders/"], ["Покупки", "account/purchases/"], ["Настройки", "account/settings/"]];
 const COUNTRIES = read("design/countries.json");
@@ -35,10 +34,9 @@ const accountPage = (ctx, { title, here, body, description, extra = "" }) => {
 // The page is written in the placeholder visitor's state (data/account.json feedback); scripts/feedbackpage.js redraws
 // it with this browser's answers and the quiz's region. What it needs travels on the section: the orders (ids, status,
 // delivery, coffees with roast and grind), the placeholder's answers, the first order's coffees, the coffees bought.
-const fbAcc = (acc) => ({ today: acc.fb.today, first: [...acc.orders].sort((x, y) => x.date.localeCompare(y.date))[0].items.map((x) => x.slug), bought: acc.fb.bought,
-  orders: acc.orders.map((o) => ({ id: o.id, status: o.status, date: o.date, delivered: o.delivered || null, items: o.items.map((it) => ({ slug: it.slug, name: it.p.name, roast: it.roast, grind: it.grind })) })) });
+const fbAcc = (acc) => acc.fb.lite;
 const fbData = (acc) => ` data-fb-account="${esc(JSON.stringify({ ...fbAcc(acc), answers: acc.fb.answers }))}"`;
-const fbState = (acc) => (acc._fbs ||= stateOf(fbAcc(acc), acc.fb.answers, acc.fb.F));
+const fbState = (acc) => acc.fb.S;
 
 // the line under an order's row: answer, answered, or when the site will ask
 function fbLine(ctx, acc, o) {
@@ -345,10 +343,11 @@ function fbSection(ctx, acc, o) {
   const coffee = new Map(F.coffees.map((c) => [c.slug, c]));
   const forms = o.items.map((it) => {
     const id = `fb-${o.id}-${it.slug}`, a = S.byKey.get(`${o.id}/${it.slug}`) || null, start = formStart(S, it, F), c = coffee.get(it.slug);
+    const issueOf = S.answers.find((x) => x.issue && x.order === o.id && x.slug === it.slug) || null;
     const unusual = c.position.unusual >= A.unusual.askFrom;
     const row = (k) => `<fieldset class="fb__row">
             <legend class="fb__label">${esc(A[k].title)}</legend>${A[k].hint ? `<p class="fb__hint">${esc(A[k].hint)}</p>` : ""}
-            <div class="seg seg--3">${["less", "ok", "more"].map((v) => `<label><input type="radio" name="${k}" value="${v}"${a?.[k] === v ? " checked" : ""}${A[k].need ? " required" : ""}><span>${esc(A[k][v])}</span></label>`).join("")}</div>
+            <div class="seg seg--3">${["less", "ok", "more"].map((v) => `<label><input type="radio" name="${k}" value="${v}"${!a?.issue && a?.[k] === v ? " checked" : ""}${A[k].need ? " required" : ""}><span>${esc(A[k][v])}</span></label>`).join("")}</div>
           </fieldset>`;
     const method = a?.method || start.method;
     const r = a ? replyOf(S, fbAcc(acc), a, F) : null;
@@ -366,18 +365,20 @@ function fbSection(ctx, acc, o) {
           ${row("bright")}
           ${row("body")}
           ${unusual ? row("unusual") : ""}
-          <details class="rform__other fb__other"${a?.issue ? " open" : ""}>
+          <details class="rform__other fb__other"${issueOf ? " open" : ""}>
             <summary>${esc(W.otherSummary)}</summary>
             <p>${esc(W.otherHint)}</p>
-            <div class="ropts">${Object.entries(F.rules.issues).map(([k, x]) => `<label class="ropt"><input type="radio" name="issue" value="${k}"${a?.issue === k ? " checked" : ""}><span>${esc(x.label)}</span></label>`).join("")}</div>
-            <fieldset class="fb__need" data-fb-need${a?.issue === "grind" ? "" : " hidden"}>
+            <fieldset class="fb__issues"><legend class="sr">${esc(W.otherSummary)}</legend>
+              <div class="ropts">${Object.entries(F.rules.issues).map(([k, x]) => `<label class="ropt"><input type="radio" name="issue" value="${k}"${issueOf?.issue === k ? " checked" : ""}><span>${esc(x.label)}</span></label>`).join("")}</div>
+            </fieldset>
+            <fieldset class="fb__need" data-fb-need${issueOf?.issue === "grind" ? "" : " hidden"}>
               <legend class="fb__label">${esc(F.rules.issues.grind.ask)}</legend>
-              <div class="ropts">${Object.entries(F.rules.issues.grind.need).map(([k, [t]]) => `<label class="ropt"><input type="radio" name="need" value="${k}"${a?.need === k ? " checked" : ""}><span>${esc(t)}</span></label>`).join("")}</div>
+              <div class="ropts">${Object.entries(F.rules.issues.grind.need).map(([k, [t]]) => `<label class="ropt"><input type="radio" name="need" value="${k}"${issueOf?.need === k ? " checked" : ""}><span>${esc(t)}</span></label>`).join("")}</div>
             </fieldset>
           </details>
           <div class="fb__send"><button class="btn" type="submit">${esc(W.send)}</button></div>
         </div>
-        <div class="fb__reply" data-fb-reply tabindex="-1"${r ? "" : " hidden"}>${r ? replyHtml(ctx, r, it.slug, F) : ""}</div>
+        <div class="fb__reply" data-fb-reply tabindex="-1"${r ? "" : " hidden"}>${r ? replyHtml(r, it.slug, F, href(ctx, "")) : ""}</div>
       </form>`;
   });
   return `<section class="fbs" id="feedback" aria-labelledby="fb-title">
@@ -390,14 +391,5 @@ function fbSection(ctx, acc, o) {
       </section>`;
 }
 
-// the reply under an answer (the same words scripts/feedbackpage.js writes: feedbackview.js replyOf)
-export function replyHtml(ctx, r, slug, F) {
-  const W = F.words, root = href(ctx, "");
-  const next = r.next ? `<p class="fb__next">${esc(r.next.line)} <a class="link" href="${root}coffee/${r.next.slug}/">${esc(r.next.name)}</a>. <a class="link" href="${root}account/#next">${esc(W.allNext)}</a></p>` : "";
-  return `<p class="fb__said"><b>${esc(W.youSaid)}</b> «${esc(r.said)}».</p>
-          ${r.lines.map((l) => `<p class="fb__line">${esc(l)}</p>`).join("")}
-          ${next}
-          <p class="fb__actions"><button class="link" type="button" data-fb-edit>${esc(r.issue ? W.editTaste : W.edit)}</button>${r.issue ? "" : `<a class="link" href="${root}coffee/${slug}/#people">${esc(W.share)}</a>`}</p>`;
-}
 
 export const orderIds = (products) => account(products).orders.map((o) => o.id);

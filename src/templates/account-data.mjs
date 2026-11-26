@@ -3,7 +3,8 @@
 // profile (lots, processes, the best Q score), the countries, the descriptors tried, the taste profile; the history of
 // the beans. Pages read this, so every number on them adds up.
 import { read } from "./util.mjs";
-import { replay, baseRegion, nextOf, tasteName, askState, methodFor, saidOf, shiftOf, isTaste, area } from "../scripts/feedback.js";
+import { askState } from "../scripts/feedback.js";
+import { stateOf } from "../scripts/feedbackview.js";
 
 const MONTHS = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 const MONTHS_SHORT = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
@@ -80,31 +81,24 @@ export function account(products) {
 }
 
 // ── the feedback after delivery (session 6; docs/feedback.md) ────────────────────────────────────────────────────
-// The placeholder's answers (data/account.json feedback) replayed from where the visitor started (the first order's
-// coffees: the account has no quiz of its own), with the roast of each answer taken from its order; what the account
-// offers next; which orders ask. The browser does the same with this browser's answers added (scripts/feedbackpage.js).
+// The placeholder's answers (data/account.json feedback), each with the roast of its order, and the visitor's state
+// worked out once, by src/scripts/feedbackview.js stateOf (the browser does the same with this browser's answers added:
+// scripts/feedbackpage.js). The visitor starts from the first order's coffees (the account has no quiz of its own).
 const F = read("src/data/feedback.json");
 export function feedback(a, orders, purchases) {
   const today = a.today || new Date().toISOString().slice(0, 10);
-  const itemOf = (o, slug) => o?.items.find((x) => x.slug === slug);
   const answers = (a.feedback?.answers || []).map((x) => {
-    const o = orders.find((y) => y.id === x.order), it = itemOf(o, x.slug);
+    const it = orders.find((y) => y.id === x.order)?.items.find((i) => i.slug === x.slug);
     if (!it) throw new Error(`account.json feedback: order ${x.order} has no ${x.slug}`);
     return { ...x, roast: it.roast };
   });
   const first = [...orders].sort((x, y) => x.date.localeCompare(y.date))[0];
-  const base = baseRegion({ first: first ? first.items.map((x) => x.slug) : [] }, F);
-  const st = replay(base, answers, F);
-  const lastMethod = [...answers].reverse().find((x) => x.method)?.method || null;
-  const lastMilk = [...answers].reverse().find((x) => x.method)?.milk || false;
   const bought = purchases.map((x) => x.slug);
-  const next = nextOf(st, F, { method: lastMethod, milk: lastMilk, bought });
-  const answered = (o, slug) => answers.find((x) => x.order === o.id && x.slug === slug);
-  const asks = orders.map((o) => ({ id: o.id, ...askState(o, today, F), items: o.items.map((it) => ({ slug: it.slug, roast: it.roast, grind: it.grind, method: methodFor(it, lastMethod, F), answer: answered(o, it.slug) || null })) }));
-  return { F, today, base, st, answers, next, name: tasteName(st, F), asks, lastMethod, lastMilk, bought, area: area(st.region, F),
-    trail: [base.region, ...st.steps.filter((x) => x.w > 0).map((x) => x.after)].map((r) => area(r, F)) };
+  const lite = { today, first: first ? first.items.map((x) => x.slug) : [], bought,
+    orders: orders.map((o) => ({ id: o.id, status: o.status, date: o.date, delivered: o.delivered || null, items: o.items.map((it) => ({ slug: it.slug, name: it.p.name, roast: it.roast, grind: it.grind })) })) };
+  const S = stateOf(lite, answers, F);
+  return { F, today, answers, lite, S, st: S.st, bought, asks: orders.map((o) => ({ id: o.id, ...askState(o, today, F) })) };
 }
-export { saidOf, shiftOf, isTaste };
 
 function levelOf(b) {
   const sorted = [...b.levels].sort((x, y) => x[1] - y[1]);
@@ -112,9 +106,7 @@ function levelOf(b) {
   const cur = sorted[i], nxt = sorted[i + 1];
   return [cur[0], nxt ? { name: nxt[0], left: nxt[1] - b.balance, share: (b.balance - cur[1]) / (nxt[1] - cur[1]) } : null];
 }
-
 export function plural(n, one, few, many) {
   const m10 = n % 10, m100 = n % 100;
   return m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? few : many;
 }
-

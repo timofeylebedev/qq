@@ -16,7 +16,8 @@
 import { update, fit, START, AXES } from "./taste.js";
 
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-const LIMITS = { bright: [1, 4.6], body: [2, 5], unusual: [0, 3.3] };
+// the centre's range when F has none (the build writes F.limits: QQ's own range, from its coffees)
+const LIMITS = { bright: [0.9, 4.65], body: [2, 5], unusual: [-0.12, 3.52] };
 const word = (list, x) => list.find(([max]) => x <= max)?.[1] ?? "";
 const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
@@ -51,7 +52,8 @@ export function baseRegion({ quiz = null, first = [] } = {}, F) {
 // update() moves the centre halfway to where the answer points and narrows the spread; a half answer moves it half as
 // far and narrows it half as much. The centre stays inside QQ's range (a «хочу плотнее» about the densest coffee
 // cannot carry the visitor off the map). Answers are taken in the order they were given; a later answer about the
-// same coffee from the same order replaces the earlier one of its kind (an edit), taste or «не про вкус».
+// same coffee from the same order replaces the earlier one of its kind, taste or «не про вкус»: an edit counts as the
+// visitor's newest answer (their latest opinion), not in the place of the first.
 export function replay(base, answers, F) {
   const last = new Map();
   for (const a of answers) last.set(`${a.order}/${a.slug}/${a.issue ? "issue" : "taste"}`, a);   // a taste answer and an issue about one bag are two
@@ -65,7 +67,7 @@ export function replay(base, answers, F) {
       const full = update(region, c.position, a);
       const center = { ...region.center }, spread = { ...region.spread };
       for (const k of AXES) {
-        const [lo, hi] = LIMITS[k], was = region.center[k];   // never pushed by the limits: only kept from going past them
+        const [lo, hi] = (F.limits || LIMITS)[k], was = region.center[k];   // never pushed by the limits: only kept from going past them
         center[k] = +clamp(was + w * (full.center[k] - was), Math.min(lo, was), Math.max(hi, was)).toFixed(3);
         spread[k] = +(region.spread[k] * (full.spread[k] / region.spread[k]) ** w).toFixed(3);
       }
@@ -189,13 +191,18 @@ export function nextOf(st, F, { method = null, milk = false, bought = [] } = {})
     // they liked (the simulation, respondent 76: ferment 2 → 1 → 0 in three «в самый раз»); the taste model's distance
     // (which counts flavour) orders them. Wider only when nothing is that close.
     const close = (c, w) => Math.abs(c.position.bright - L.position.bright) <= w && Math.abs(c.position.body - L.position.body) <= w
-      && (L.position.unusual < 0.9 ? c.position.unusual < 0.9 : c.position.unusual >= Math.min(0.9, L.position.unusual - w / 2));
+      && (L.position.unusual < 0.9 ? c.position.unusual < 0.9 : c.position.unusual >= 0.9 && Math.abs(c.position.unusual - L.position.unusual) <= w);
     // no wider fallback: a «Похожий» that differs on a row the visitor approved is not similar (respondent 76, round 2)
     let sim = null;
     for (const list of [fresh, untried]) sim ||= [...list].filter((c) => c !== L && close(c, 0.6) && picks.every((p) => p.c === L || dist(p.c, c) >= N.twin)).sort((x, y) => dist(L, x) - dist(L, y))[0] || null;
     if (sim) add(sim, "similar", W.labels.similar, likeText(sim, L, F)); else again();
     finishFit();
-    return { mode: "again", lead: `${L.name}: вы сказали «${said}». ${sim ? W.again : W.againOnly}`, picks: out(picks) };
+    // nothing kept every row near (a coffee at QQ's edge, brewed a way it isn't roasted for): «в самый раз» went nowhere,
+    // so the region's nearest are honest here
+    if (!picks.length) for (const list of [fresh, untried]) for (const c of sorted(list)) if (picks.length < 3 && c !== L && !picks.some((p) => p.c === c) && notTwin(c) && (!c.robusta || hadRobusta)) add(c, "method", W.labels.method, fitText(c));
+    // with a method QQ doesn't roast this coffee for, it can't be offered again for it: the lead says so, not «снова»
+    const leadAgain = !pool.includes(L) ? W.againNot : sim ? W.again : W.againOnly;
+    return { mode: "again", lead: `${L.name}: вы сказали «${said}». ${leadAgain}`, picks: out(picks) };
   }
 
   // the directions asked, and what a candidate must do for each (the coffee page's guards: «мягче» not much denser or

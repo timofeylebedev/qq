@@ -21,7 +21,7 @@ export function stateOf(acc, answers, F, { quiz = null } = {}) {
   const list = [...new Map(answers.filter((a) => roastOf.has(key(a))).map((a) => [kind(a), { ...a, roast: roastOf.get(key(a)) }])).values()];
   const base = baseRegion({ quiz, first: acc.first }, F);
   const st = replay(base, list, F);
-  const last = [...list].sort((x, y) => String(x.at).localeCompare(String(y.at))).reverse().find((a) => a.method);
+  const last = [...list].sort((x, y) => String(x.at).localeCompare(String(y.at))).reverse().find((a) => a.method && !a.issue);
   const need = [...list].sort((x, y) => String(x.at).localeCompare(String(y.at))).reverse().find((a) => a.need)?.need || null;
   const opts = { method: last?.method || null, milk: !!last?.milk, bought: acc.bought };
   // per bag, the answer the form shows: the taste one when there is one, else the issue
@@ -52,6 +52,9 @@ export function replyOf(S, acc, a, F) {
   const pick = n.mode === "again" ? n.picks.find((p) => p.role !== "again") : n.picks[0];
   const move = n.mode === "move" ? pick.label.toLowerCase() : "";
   const line = fill(W.nextLine[n.mode] || W.nextLine.none, { move });
+  // an issue about the same bag is said too (both are kept: taste moves the visitor, the issue goes to QQ)
+  const issue = S.answers.find((x) => x.issue && key(x) === key(a));
+  if (issue) lines.push(`${F.rules.issues[issue.issue].label}: ${[F.rules.issues[issue.issue].reply, issue.issue === "grind" && issue.need ? F.rules.issues.grind.need[issue.need]?.[1] : ""].filter(Boolean).join(" ")}`);
   return { said: saidOf(a, F), lines, next: pick ? { slug: pick.slug, name: pick.name, label: pick.label, line } : null, mode: n.mode };
 }
 
@@ -88,10 +91,12 @@ export function purchaseOf(S, acc, slug, today, F) {
 }
 
 // on a coffee's page: what the visitor said about it, and when («Вы брали его в июле: «слишком ярко»»)
-export function mineOf(answers, slug, F) {
+export function mineOf(answers, slug, F, orders = []) {
   const a = [...answers].filter((x) => x.slug === slug).sort((x, y) => String(y.at).localeCompare(String(x.at)))[0];
   if (!a) return null;
-  const when = `в ${MONTHS[new Date(a.at.slice(0, 10) + "T00:00:00Z").getUTCMonth()]}`;
+  // when it was bought: the order's date (an answer may come weeks later)
+  const o = orders.find((x) => x.id === a.order), at = o?.date || a.at;
+  const when = `в ${MONTHS[new Date(at.slice(0, 10) + "T00:00:00Z").getUTCMonth()]}`;
   return a.issue ? fill(F.words.mineIssue, { when, said: F.rules.issues[a.issue].label.toLowerCase() }) : fill(F.words.mine, { when, said: saidOf(a, F) });
 }
 
@@ -101,6 +106,17 @@ export function formStart(S, it, F) {
   // milk as the visitor last drank coffee brewed this way (a pour-over black, a machine's with milk), else without
   const same = [...S.answers].filter((a) => a.method === method).sort((x, y) => String(y.at).localeCompare(String(x.at)))[0];
   return { method, milk: !!same?.milk };
+}
+
+// the reply's markup (the template and the browser write the same); root is the site's root (href / data-root)
+const esc = (x) => String(x ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+export function replyHtml(r, slug, F, root) {
+  const W = F.words;
+  const next = r.next ? `<p class="fb__next">${esc(r.next.line)} <a class="link" href="${root}coffee/${r.next.slug}/">${esc(r.next.name)}</a>. <a class="link" href="${root}account/#next">${esc(W.allNext)}</a></p>` : "";
+  return `<p class="fb__said"><b>${esc(W.youSaid)}</b> «${esc(r.said)}».</p>
+          ${r.lines.map((l) => `<p class="fb__line">${esc(l)}</p>`).join("\n          ")}
+          ${next}
+          <p class="fb__actions"><button class="link" type="button" data-fb-edit>${esc(r.issue ? W.editTaste : W.edit)}</button>${r.issue ? "" : ` <a class="link" href="${root}coffee/${slug}/#people">${esc(W.share)}</a>`}</p>`;
 }
 
 export { isTaste, plural };

@@ -16,7 +16,7 @@ const num = (x) => Number.isFinite(x);
 export const loadTaste = () => {
   const t = load(TASTE, {});
   const ok = t && t.v === 1 && t.answers && typeof t.answers === "object" && Array.isArray(t.picks) && t.picks.every((p) => p && p.slug && p.name)
-    && t.region?.center && ["bright", "body", "unusual"].every((k) => num(t.region.center[k]));
+    && t.region?.center && ["bright", "body", "unusual"].every((k) => num(t.region.center[k]) && num(t.region.spread?.[k]));
   return ok ? t : null;
 };
 // true when it is really kept (private mode or a full storage keep nothing)
@@ -34,7 +34,9 @@ const names = (t) => { const n = t.picks.map((p) => p.name); return n.length > 1
 export const FEEDBACK = "qq-feedback";
 export const loadFeedback = () => {
   const f = load(FEEDBACK, {});
-  return f && f.v === 1 && Array.isArray(f.answers) ? f : null;
+  if (!f || f.v !== 1 || !Array.isArray(f.answers)) return null;
+  // a hand edit or an older shape: keep only answers that name a bag
+  return { ...f, answers: f.answers.filter((a) => a && typeof a === "object" && typeof a.order === "string" && typeof a.slug === "string") };
 };
 
 export function initSaved() {

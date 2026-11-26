@@ -8,8 +8,8 @@
 // A letter's buttons open an order with the first answer already tapped: account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>.
 // Nothing is sent: there is no shop behind the site yet (docs/feedback-backend.md says what a backend keeps).
 import F from "../data/feedback.json";
-import { stateOf, replyOf, rowOf, promptOf, purchaseOf, mineOf, formStart } from "./feedbackview.js";
-import { setFor, area } from "./feedback.js";
+import { stateOf, replyOf, rowOf, promptOf, purchaseOf, mineOf, replyHtml } from "./feedbackview.js";
+import { setFor } from "./feedback.js";
 import { loadTaste, loadFeedback, FEEDBACK } from "./tastesaved.js";
 import { save } from "./buy.js";
 import { focusFrom } from "./focus.js";
@@ -27,27 +27,29 @@ export function initFeedback() {
   const coffee = new Map(F.coffees.map((c) => [c.slug, c]));
   let S;
 
-  const compute = () => { S = stateOf(acc, [...acc.answers, ...local], F, { quiz }); };
+  // this browser's answers over the placeholder's: one per bag and kind (taste, «не про вкус»); a kind the visitor
+  // cleared is kept as { …, kind, cleared: true }, so it also hides the placeholder's
+  const kindOf = (a) => (a.issue || a.kind === "issue" ? "issue" : "taste");
+  const merged = () => {
+    const m = new Map(acc.answers.map((a) => [`${a.order}/${a.slug}/${kindOf(a)}`, a]));
+    for (const a of local) { const k = `${a.order}/${a.slug}/${kindOf(a)}`; if (a.cleared) m.delete(k); else m.set(k, a); }
+    return [...m.values()];
+  };
+  const compute = () => { S = stateOf(acc, merged(), F, { quiz }); };
   const keep = () => {
     const mine = {};
-    for (const slug of new Set(S.answers.map((a) => a.slug))) mine[slug] = mineOf(S.answers, slug, F);
+    for (const slug of new Set(S.answers.map((a) => a.slug))) mine[slug] = mineOf(S.answers, slug, F, acc.orders);
     save(FEEDBACK, { v: 1, at: new Date().toISOString(), answers: local, region: S.st.region, mine });
   };
 
   // ── drawing ──
-  const replyHtml = (r, slug) => {
-    const W = F.words;
-    const next = r.next ? `<p class="fb__next">${esc(r.next.line)} <a class="link" href="${root()}coffee/${r.next.slug}/">${esc(r.next.name)}</a>. <a class="link" href="${root()}account/#next">${esc(W.allNext)}</a></p>` : "";
-    return `<p class="fb__said"><b>${esc(W.youSaid)}</b> «${esc(r.said)}».</p>${r.lines.map((l) => `<p class="fb__line">${esc(l)}</p>`).join("")}${next}
-      <p class="fb__actions"><button class="link" type="button" data-fb-edit>${esc(r.issue ? W.editTaste : W.edit)}</button>${r.issue ? "" : `<a class="link" href="${root()}coffee/${slug}/#people">${esc(W.share)}</a>`}</p>`;
-  };
   function drawForms() {
     for (const f of document.querySelectorAll("[data-fb-form]")) {
       const a = S.byKey.get(`${f.dataset.order}/${f.dataset.slug}`);
       const ask = f.querySelector("[data-fb-ask]"), rep = f.querySelector("[data-fb-reply]");
       if (a && !f.hasAttribute("data-editing")) {
         const r = replyOf(S, acc, a, F);
-        rep.innerHTML = r ? replyHtml(r, f.dataset.slug) : "";
+        rep.innerHTML = r ? replyHtml(r, f.dataset.slug, F, root()) : "";
         rep.hidden = false; ask.hidden = true;
       } else { rep.hidden = true; ask.hidden = false; }
     }
@@ -101,54 +103,72 @@ export function initFeedback() {
       grid.append(el);   // the three first, in their order, for the eye and for a screen reader alike
     }
   }
-  const draw = () => { compute(); drawForms(); drawRows(); drawMap(); drawNext(); };
+  // cards with 3D packs are shown and hidden: tell the stage (CLAUDE.md: a change of layout dispatches qq:layout)
+  const draw = () => { compute(); drawForms(); drawRows(); drawMap(); drawNext(); dispatchEvent(new Event("qq:layout")); };
 
   // ── the forms ──
+  // «не про вкус» needs no taste taps; «помол» asks how the visitor wants it next time
+  const sync = (f) => {
+    const issue = f.querySelector('input[name="issue"]:checked');
+    for (const i of f.querySelectorAll('.fb__row input[type="radio"]')) i.required = !issue;
+    f.querySelector("[data-fb-need]").hidden = issue?.value !== "grind";
+    if (issue) f.querySelector(".fb__other").open = true;
+  };
+  // the form shows what the reply says: the bag's answers, this browser's or the placeholder's
+  const fill = (f) => {
+    const k = `${f.dataset.order}/${f.dataset.slug}`;
+    const t = S.answers.find((x) => !x.issue && `${x.order}/${x.slug}` === k), i = S.answers.find((x) => x.issue && `${x.order}/${x.slug}` === k);
+    for (const r of AXES) for (const inp of f.querySelectorAll(`input[name="${r}"]`)) inp.checked = t?.[r] === inp.value;
+    for (const inp of f.querySelectorAll('input[name="issue"]')) inp.checked = i?.issue === inp.value;
+    for (const inp of f.querySelectorAll('input[name="need"]')) inp.checked = i?.need === inp.value;
+    const a = t || i;
+    if (a?.method) f.querySelector('select[name="method"]').value = a.method;
+    if (a) f.querySelector('input[name="milk"]').checked = !!a.milk;
+    sync(f);
+  };
   for (const f of document.querySelectorAll("[data-fb-form]")) {
-    const need = f.querySelector("[data-fb-need]");
-    const taste = () => [...f.querySelectorAll('input[name="bright"], input[name="body"]')];
-    f.addEventListener("change", (e) => {
-      if (e.target.name !== "issue") return;
-      // «не про вкус» needs no taste taps; «помол» asks how the visitor wants it next time
-      for (const i of taste()) i.required = false;
-      need.hidden = e.target.value !== "grind";
-    });
+    // a second tap on a chosen option clears it (a taste row, «не про вкус», how you want it): an answer can be withdrawn
+    let was = null;
+    f.addEventListener("pointerdown", (e) => { const i = e.target.closest("label")?.querySelector('input[type="radio"]'); was = i?.checked ? i : null; });
     f.addEventListener("click", (e) => {
-      if (!e.target.closest("[data-fb-edit]")) return;
-      f.setAttribute("data-editing", "");
-      drawForms();
-      focusFrom(f.querySelector("select, input"));
+      const i = e.target.closest('input[type="radio"]');
+      if (i && i === was) { i.checked = false; was = null; sync(f); }
+      if (e.target.closest("[data-fb-edit]")) { f.setAttribute("data-editing", ""); drawForms(); fill(f); focusFrom(f.querySelector("select")); }
     });
+    f.addEventListener("change", () => sync(f));
     f.addEventListener("submit", (e) => {
       e.preventDefault();
       if (!f.reportValidity()) return;
-      const d = new FormData(f), issue = d.get("issue") || null;
-      const a = { order: f.dataset.order, slug: f.dataset.slug, at: new Date().toISOString().slice(0, 16), method: d.get("method") || null, milk: d.get("milk") === "yes" };
-      for (const k of AXES) if (d.get(k)) a[k] = d.get(k);
-      if (issue) { a.issue = issue; if (issue === "grind" && d.get("need")) a.need = d.get("need"); }
-      if (!issue && !(a.bright && a.body)) return;
-      // an issue and a taste answer about the same bag are two answers (the taste one counts, the issue goes to QQ)
-      local = local.filter((x) => !(x.order === a.order && x.slug === a.slug && !!x.issue === !!a.issue));
-      if (issue && (a.bright || a.body)) {
-        const t = { ...a }; delete t.issue; delete t.need; t.at = a.at + ":01";
-        local.push({ order: a.order, slug: a.slug, at: a.at, method: a.method, milk: a.milk, issue, ...(a.need ? { need: a.need } : {}) }, t);
-      } else local.push(a);
+      const d = new FormData(f), issue = d.get("issue") || null, at = new Date().toISOString().slice(0, 16);
+      const base = { order: f.dataset.order, slug: f.dataset.slug, method: d.get("method") || null, milk: d.get("milk") === "yes" };
+      const taste = { ...base, at: at + ":01" };
+      for (const k of AXES) if (d.get(k)) taste[k] = d.get(k);
+      const hasTaste = !!(taste.bright && taste.body);
+      if (!issue && !hasTaste) return;
+      // the form is the bag's whole answer now: a kind it leaves empty is cleared
+      local = local.filter((x) => !(x.order === base.order && x.slug === base.slug));
+      local.push(hasTaste ? taste : { ...base, at, kind: "taste", cleared: true });
+      local.push(issue ? { ...base, at, issue, ...(issue === "grind" && d.get("need") ? { need: d.get("need") } : {}) } : { ...base, at, kind: "issue", cleared: true });
       f.removeAttribute("data-editing");
+      // a letter's address would reopen the form on every reload
+      if (new URLSearchParams(location.search).has("fb")) history.replaceState(history.state, "", location.pathname + location.hash);
       draw(); keep();
-      const rep = f.querySelector("[data-fb-reply]");
-      focusFrom(rep);
+      focusFrom(f.querySelector("[data-fb-reply]"));
     });
   }
 
-  // ── a letter's one-tap answer: ?fb=<slug>&bright=less (and the like) taps it in that coffee's form ──
+  // ── a letter's one-tap answer: ?fb=<slug>&bright=less (and the like) taps it in that coffee's form, unless that bag is
+  // already answered (then its reply shows; the address's #fb-… brings it into view) ──
+  compute();
   const q = new URLSearchParams(location.search), slug = q.get("fb");
   if (slug) {
     const f = document.querySelector(`[data-fb-form][data-slug="${CSS.escape(slug)}"]`);
-    if (f) {
+    if (f && !S.byKey.has(`${f.dataset.order}/${slug}`)) {
       f.setAttribute("data-editing", "");
       for (const k of AXES) { const v = q.get(k); const i = v && f.querySelector(`input[name="${k}"][value="${CSS.escape(v)}"]`); if (i) i.checked = true; }
-      requestAnimationFrame(() => f.scrollIntoView({ block: "start" }));
     }
   }
   draw();
+  // a later quiz moves the start: keep the coffee pages' region current
+  if (local.length) keep();
 }

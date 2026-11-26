@@ -58,7 +58,7 @@ function fitLine(p) {
 // what the visitor said about this coffee after a delivery (session 6): the account's placeholder answers in the page;
 // scripts/tastesaved.js puts this browser's newer answer in its place (localStorage "qq-feedback")
 function mineLine(ctx, p) {
-  const acc = account(ctx.products), text = mineOf(acc.fb.answers, p.slug, acc.fb.F);
+  const acc = account(ctx.products), text = mineOf(acc.fb.answers, p.slug, acc.fb.F, acc.orders);
   return `\n    <p class="pstage__fit pstage__mine" data-mine="${p.slug}"${text ? "" : " hidden"}>${esc(text || "")}</p>`;
 }
 
