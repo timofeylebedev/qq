@@ -35,6 +35,8 @@
 .qstep__ask:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 .qstep__q { font: 700 var(--type-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); overflow-wrap: anywhere; }
 .qstep__hint { font-size: var(--type-body); color: var(--c-ink-70); margin-bottom: 8px; }
+/* a question without a hint: the same 16px above its options as under a hint (the fieldset's gap skips its legend; Tim, 26 Nov) */
+.qstep__ask + .qopts { margin-top: 12px; }
 
 /* the options: cells divided by hairlines. The lines are the grid's own (its line colour between cells one hairline
    apart, and a frame), never the cells' borders: a filled or tinted cell then never covers a neighbour's line or shows
