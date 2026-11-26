@@ -150,12 +150,28 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 /* links inside the block's text: tall enough to tap (24px: the audit's targets), with no change to the line */
 .pstage__link { padding-block: 5px; }
 
-.people .head { margin-bottom: var(--section-y-s); }
 .people__empty { max-width: 36em; padding-top: var(--text-gap); font-size: var(--type-body-l); line-height: var(--lh-text); }
 
 
-/* the two actions on one line, centred; then the stories, two a row from M */
-.people__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-bottom: var(--section-y-s); }
+/* the tabs' row (Tim, 26 Nov): «Впечатления» and «Вопросы» on the left, the site's panel tabs; on the right the one
+   button of the tab shown, both the same .btn (one size of words and padding, no arrow). The row's hairline runs under
+   both, and the chosen tab's underline lies on it; it is also the list's first line. Below M the button goes under the
+   tabs, on the left. Then the
+   panel: the stories, two a row from M; or the questions. */
+.people__bar { display: grid; grid-template-columns: minmax(0, 1fr); row-gap: 16px; margin-bottom: var(--text-gap); }
+.people__bar .subtabs { margin-bottom: 0; }
+.people__actions { display: flex; justify-self: start; }
+@container col (width >= 43rem) {
+  .people__bar { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: var(--gap); border-bottom: var(--hair) solid var(--line); }
+  .people__bar .subtabs { border-bottom: 0; }
+  .people__actions { padding-bottom: 12px; }
+  /* the row's hairline is the list's first line: no second one under it */
+  .people__bar { margin-bottom: 0; }
+  .people__panel .buyers { border-top: 0; }
+}
+.people__act[data-for="questions"], .people:has(#people-tab-questions[aria-selected="true"]) .people__act[data-for="stories"] { display: none; }
+.people:has(#people-tab-questions[aria-selected="true"]) .people__act[data-for="questions"] { display: inline-flex; }
+.people__panel[hidden] { display: none; }
 .buyers { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--gap); border-top: var(--hair) solid var(--line); }
 @container col (width >= 43rem) { .buyers { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 

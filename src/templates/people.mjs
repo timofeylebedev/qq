@@ -1,15 +1,15 @@
-// «Отзывы» on a coffee's page (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка», then Tim's
-// changes of 24 Nov): its own section after the story. A centred title; the number of reviews and «Написать отзыв» on
-// one line; chips by way of brewing (scripts/people.js shows only those reviews); then the reviews, each headed by the
+// «Впечатления» on a coffee's page (session 5 of choosing coffee; the bench: design/people-bench/, form «Полка», then
+// Tim's changes of 24 and 26 Nov): its own section after the story. Two tabs on the left, «Впечатления» and «Вопросы»
+// (paneltabs, scripts/ui.js), and on the right of their row the one button of the tab shown («Поделиться
+// впечатлениями» or «Задать вопрос»: the same size, no arrow). Below, historically: chips by way of brewing (scripts/people.js shows only those reviews); then the reviews, each headed by the
 // reviewer's avatar and name, with how close their taste is to yours (in words and three dots, never a percent), their
 // answers against expectation per axis (кислотность: ярковато / в самый раз / хотелось ярче; плотность likewise) and
 // their words. No stars, scores or averages. The review form opens in a dialog.
 // Every review is a PLACEHOLDER until the shop has a backend (data/people.json → build/people.mjs;
 // docs/people-backend.md), and so is «your» taste: the account's placeholder visitor (data/account.json), placed on
 // the taste model by their first order and moved by their answers after delivery (session 6). Unmarked on the page (Tim).
-import { esc, read, icon } from "./util.mjs";
-import { head } from "./layout.mjs";
-import { dialog } from "./blocks.mjs";
+import { esc, read } from "./util.mjs";
+import { dialog, paneltabs } from "./blocks.mjs";
 import { account } from "./account-data.mjs";
 
 const D = read("src/data/people.json");
@@ -60,16 +60,24 @@ export function peopleLink(ctx, p) {
 export function people(ctx, p) {
   const pg = PAGE.get(p.slug);
   if (!pg) return "";
-  const share = `<button class="btn people__write" type="button" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
-  const ask = `<button class="btn-arrow" type="button" data-dialog="ask-${p.slug}"><span class="btn-arrow__label">Задать вопрос</span>${icon("arrow-right")}</button>`;
+  // one button a tab, the same in size and words' spacing, no arrow: the one of the tab shown (CSS, pages/product.css)
+  const share = `<button class="btn people__act" type="button" data-for="stories" data-dialog="review-${p.slug}">Поделиться впечатлениями</button>`;
+  const ask = `<button class="btn people__act" type="button" data-for="questions" data-dialog="ask-${p.slug}">Задать вопрос</button>`;
   const you = visitor(ctx.products);
-  return `<section class="section people" id="people" data-ground="paper" aria-labelledby="people-title" data-people data-close="${esc(JSON.stringify({ w: W, close: CLOSE.map(([m, t]) => [Number.isFinite(m) ? m : 99, t]) }))}">
+  return `<section class="section people" id="people" data-ground="paper" aria-label="${TITLE} и вопросы" data-people data-close="${esc(JSON.stringify({ w: W, close: CLOSE.map(([m, t]) => [Number.isFinite(m) ? m : 99, t]) }))}">
   <div class="col">
-    ${head({ title: TITLE, id: "people-title", center: true })}
-    <div class="people__actions">${share}${ask}</div>
-    ${pg.reviews.some((r) => r.text) ? `<ul class="buyers">
-      ${pg.reviews.filter((r) => r.text).map((r) => review(r, you)).join("\n      ")}
-    </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и как он вам: следующему будет проще выбрать.</p>`}
+    <div class="people__bar">
+      ${paneltabs([[TITLE, "stories"], ["Вопросы", "questions"]], { label: `${TITLE} и вопросы`, name: "people" })}
+      <div class="people__actions">${share}${ask}</div>
+    </div>
+    <div class="people__panel" id="people-stories" role="tabpanel" aria-labelledby="people-tab-stories">
+      ${pg.reviews.some((r) => r.text) ? `<ul class="buyers">
+        ${pg.reviews.filter((r) => r.text).map((r) => review(r, you)).join("\n        ")}
+      </ul>` : `<p class="people__empty">Пили этот кофе? Расскажите, как заваривали и как он вам: следующему будет проще выбрать.</p>`}
+    </div>
+    <div class="people__panel" id="people-questions" role="tabpanel" aria-labelledby="people-tab-questions" hidden>
+      <p class="people__empty">Вопросов пока нет. Спросите, как его заварить, под какую обжарку брать или чем он отличается от другого: ответит обжарщик QQ.</p>
+    </div>
   </div>
   ${writeDialog(ctx, p)}
   ${askDialog(p)}
