@@ -105,13 +105,16 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   longer says «… из 5».
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **Choosing in the catalogue** (`docs/choose.md`; decision `catalog-choose`): one row of menu cells (Сортировка, Цена,
-  Вкус, Приготовление, Страна, Обработка, Моносорт / смесь, Линейка: two a row below M, four from M, eight from L) and
-  under it a row of checkboxes (Под молоко, На каждый день, Необычные, Без кофеина). «Вкус» holds three switches
-  («мягче / все / ярче», «легче / все / плотнее», «классичнее / все / необычнее»: `axes` in `data/choose.json`) and the
-  taste groups. «Приготовление» is a brewing method: it names a roast and a grind QQ sells (`data/choose.json`;
+  Вкус, Приготовление, Страна, Обработка, Особенности — моносорт, смесь, Classic, Special: two a row below M, four from M,
+  seven from L, the last across two cells below L) and under it a row of checkboxes without counts (Для вас — only with
+  a quiz kept in this browser, and then no quiz line under the tabs —, Под молоко, На каждый день, Необычные, Без
+  кофеина). «Вкус» holds three switches of three equal cells without counts («мягче / все / ярче», «легче / все /
+  плотнее», «классичнее / все / необычнее»: `axes` in `data/choose.json`) and the taste groups; «Приготовление» lists
+  every method on one line. «Для вас» is `forYou()` of choose.js (the quiz's picks and the region, moved by the feedback
+  after delivery). «Приготовление» is a brewing method: it names a roast and a grind QQ sells (`data/choose.json`;
   build/choose.mjs fails otherwise) and sets them on the card's «в корзину» and its link (`?roast=…&grind=…`, read by
-  scripts/buy.js on the coffee's page). A choice shows its matches, then «Похожие» (the nearest, no text), never the
-  rest; with no match «Точно таких нет» over «Похожие» (Tim, 26 Nov). `rank()` of `src/scripts/choose.js` decides;
+  scripts/buy.js on the coffee's page). A choice shows only its matches; with no match «Точно таких нет» over
+  «Похожие» (the nearest, no text) (Tim, 26 Nov). `rank()` of `src/scripts/choose.js` decides;
   never score in filters.js or a template. Every result of every option is listed in the generated
   `docs/choose-output.md`: read it after changing a rule. The taste map (`tasteMap()` in src/templates/map.mjs +
   `initTasteMap()` in scripts/tastemap.js) is not on the catalogue now; the quiz reads it, `src/data/choose.json` and
