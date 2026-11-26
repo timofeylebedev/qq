@@ -77,12 +77,20 @@ export function tasteScale(p) {
 }
 
 // ── the pack ─────────────────────────────────────────────────────────────────────────────────────────────────────
-// A static picture of the coffee's pack (src/assets/pack/: a square on a transparent ground, the pack at 0.9 of it).
-// No 3D (Tim, 26 Nov). A coffee with its own picture (src/assets/pack/<slug>-512.webp and -1024.webp) shows it; the
-// rest show pack-512 / pack-1024, the one label there is for now (decision pack-label).
+// A coffee's lot image (assets-src/img/lot-<slug>.jpg: its pack set down in a concrete sculpture of the lot's story,
+// rounds 32–33 of the 3D project) fills its slot edge to edge, cropped to the slot's shape (Tim, 26 Nov: «the image
+// should always fit the card, no space around it»). A coffee without one keeps the static pack picture
+// (src/assets/pack/: a square on a transparent ground, the pack at 0.9 of it; a coffee's own <slug>-512/-1024.webp is
+// picked up). No 3D (Tim, 26 Nov).
 const PACKS = new URL("../assets/pack/", import.meta.url);
+const LOTS = read("src/data/images.json");
+export const lotImage = (p) => (LOTS[`lot-${p.slug}`] ? `lot-${p.slug}` : null);
 export const packSrc = (slug, px) => existsSync(new URL(`${slug}-${px}.webp`, PACKS)) ? `/assets/pack/${slug}-${px}.webp` : `/assets/pack/pack-${px}.webp`;
-export function pack(p, { size = "card", eager = false } = {}) {
+export function pack(p, { size = "card", eager = false, sizes } = {}) {
+  const lot = lotImage(p);
+  if (lot) return `<div class="${cls("pack", `pack--${size}`, "pack--scene")}">
+      ${picture(lot, `Пакет кофе ${p.name}`, { sizes: sizes || (size === "hero" ? "(min-width: 48em) 50vw, 100vw" : "(min-width: 64em) 33vw, (min-width: 48em) 50vw, 100vw"), cls: "pack__scene", eager })}
+    </div>`;
   const px = size === "hero" ? 1024 : 512;
   return `<div class="${cls("pack", `pack--${size}`)}">
       <img class="pack__img" src="${packSrc(p.slug, px)}" alt="Пакет кофе ${esc(p.name)}" width="${px}" height="${px}"${eager ? "" : ' loading="lazy"'} decoding="async">
@@ -131,7 +139,7 @@ export function card(ctx, p, { size = "third", heading = 3, wait = false, text =
   const sizes = size === "half" ? "(min-width: 64em) 50vw, (min-width: 48em) 50vw, 100vw" : "(min-width: 64em) 33vw, (min-width: 48em) 50vw, 100vw";
   return `<article class="${cls("card", `card--${size}`, `card--${tone}`)}" data-card data-slug="${p.slug}"${wait ? " data-wait" : ""}${filterData(p)}>
     <div class="card__media">
-      ${photo ? picture(photo[0], photo[1], { sizes, cls: "card__photo", decorative: true }) : pack(p)}
+      ${photo ? picture(photo[0], photo[1], { sizes, cls: "card__photo", decorative: true }) : pack(p, { sizes })}
       <div class="card__top">
         <h${heading} class="card__title"><a class="card__link" href="${href(ctx, `coffee/${p.slug}/`)}">${esc(p.name)}</a></h${heading}>
         <button class="fav" type="button" aria-pressed="false" aria-label="В избранное: ${esc(p.name)}" data-fav="${p.slug}">${icon("heart", 'class="i-off"')}${icon("heart-fill", 'class="i-on"')}</button>

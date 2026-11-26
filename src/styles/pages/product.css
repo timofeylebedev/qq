@@ -227,3 +227,6 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .rform__other { font-size: var(--type-body); }
 .rform__other summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 0.25em; }
 .rform__other p { margin-block: 8px; color: var(--c-ink-70); }
+
+/* a lot image fills the card edge to edge (card.css .pack--scene): no room kept for the name */
+.next__grid .card .pack--scene { margin: 0; }
