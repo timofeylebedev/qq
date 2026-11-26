@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T00:14:03.756Z",
- "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+ "generated": "2026-11-26T03:41:31.662Z",
+ "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
  "ref": "main",
  "pr": null,
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-25T23:59:31.300Z",
+   "when": "2026-11-26T03:26:58.140Z",
    "quick": false,
-   "seconds": 507,
+   "seconds": 506,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T00:07:57.207Z",
+   "when": "2026-11-26T03:35:23.804Z",
    "quick": true,
-   "seconds": 366,
+   "seconds": 367,
    "errors": []
   }
  },
  "base": {
-  "commit": "c47c2ff40786d7fce960b325671ca3c6b75e078c",
-  "generated": "2026-11-25T22:58:26.072Z"
+  "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+  "generated": "2026-11-26T00:14:03.756Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -42,41 +42,13 @@
   "warn": 10,
   "fail": 8,
   "info": 6,
-  "findings": 152,
-  "new": 5,
-  "fixed": 2,
+  "findings": 151,
+  "new": 0,
+  "fixed": 1,
   "accepted": 95,
-  "questions": 12
+  "questions": 17
  },
  "needs": [
-  {
-   "type": "rule",
-   "id": "logic.bag-add",
-   "severity": "fail",
-   "area": "Logic",
-   "title": "Shop: «В корзину» of the first card is pressed",
-   "kind": "scenario",
-   "why": "1 place",
-   "fresh": 1,
-   "sample": [
-    "Shop: locator.hover: Timeout 30000ms exceeded."
-   ],
-   "rank": 351
-  },
-  {
-   "type": "rule",
-   "id": "logic.catalog-filter",
-   "severity": "fail",
-   "area": "Logic",
-   "title": "Catalog: a country is ticked in the filter «Страна»",
-   "kind": "scenario",
-   "why": "1 place",
-   "fresh": 1,
-   "sample": [
-    "Catalog: page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')"
-   ],
-   "rank": 351
-  },
   {
    "type": "rule",
    "id": "shape.radii",
@@ -141,19 +113,47 @@
   },
   {
    "type": "rule",
+   "id": "logic.bag-add",
+   "severity": "fail",
+   "area": "Logic",
+   "title": "Shop: «В корзину» of the first card is pressed",
+   "kind": "scenario",
+   "why": "1 place",
+   "fresh": 0,
+   "sample": [
+    "Shop: locator.hover: Timeout 30000ms exceeded."
+   ],
+   "rank": 301
+  },
+  {
+   "type": "rule",
+   "id": "logic.catalog-filter",
+   "severity": "fail",
+   "area": "Logic",
+   "title": "Catalog: a country is ticked in the filter «Страна»",
+   "kind": "scenario",
+   "why": "1 place",
+   "fresh": 0,
+   "sample": [
+    "Catalog: page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')"
+   ],
+   "rank": 301
+  },
+  {
+   "type": "rule",
    "id": "health.head",
    "severity": "fail",
    "area": "Page health",
    "title": "Titles, descriptions, outline",
    "kind": "tolerance",
-   "why": "17 places · 24 notes",
+   "why": "16 places · 23 notes",
    "fresh": 0,
    "sample": [
     "/: no og:image",
     "/: no web manifest",
     "/cart/: description of 23 characters (50–170)"
    ],
-   "rank": 297
+   "rank": 296
   },
   {
    "type": "rule",
@@ -404,36 +404,95 @@
    "rank": 200
   },
   {
-   "type": "rule",
-   "id": "align.icons",
-   "severity": "warn",
-   "area": "Icons",
-   "title": "Icons sit on their text's line",
-   "kind": "tolerance",
-   "why": "17 places",
-   "fresh": 1,
-   "sample": [
-    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "a.iconlink: lower than its text's line by 9.89px (320x568 390x844)",
-    "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)"
+   "type": "question",
+   "id": "feedback-form",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The feedback after delivery: the order's «Как вам кофе?» (account/orders/432112/), the reply under an answer, «Ваш вкус» on the map and «Следующий кофе» in the profile, purchases without the thumbs. Does it look and read right on the PR preview, or iterate?",
+   "needs": [
+    "choice"
    ],
-   "rank": 167
+   "options": [
+    "Looks right",
+    "Iterate (say what)"
+   ],
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
+   "rank": 200
   },
   {
-   "type": "rule",
-   "id": "fallback.fonts",
-   "severity": "warn",
-   "area": "Fallbacks",
-   "title": "The fallback font keeps the layout",
-   "kind": "tolerance",
-   "why": "16 places",
-   "fresh": 2,
-   "sample": [
-    "p.qentry__lead: «Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font (390x844)",
-    "h3.qstep__q: «Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font (390x844)",
-    "p.featured__about: «Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font (390x844 1440x900)"
+   "type": "question",
+   "id": "feedback-letter",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "Send the letter «Как вам {кофе}?» on day 7 (filter) / 10 (espresso) after delivery, with the first question's three buttons inside it, and one reminder a week later? And the pack card with a QR to the orders, as a two-month test? (docs/feedback-backend.md)",
+   "needs": [
+    "choice"
    ],
-   "rank": 166
+   "options": [
+    "Letter and card",
+    "Letter only",
+    "Neither for now"
+   ],
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
+   "rank": 200
+  },
+  {
+   "type": "question",
+   "id": "feedback-edge",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "At QQ's edge the reply says so: «Плотнее, чем Q-Optimistic, у нас нет: это один из самых плотных наших кофе. Вот что ближе всего:». On the coffee page you chose no «у QQ нет» sentences; in the account, silence after «хочу плотнее» reads as not listening. Keep it here?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Keep it in the account",
+    "Show only the nearest, without the sentence"
+   ],
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
+   "rank": 200
+  },
+  {
+   "type": "question",
+   "id": "feedback-bitter",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "A simulated customer found a robusta blend too bitter as espresso and could only say «слишком плотно». Add a fourth row about bitterness (only for robusta blends?), or leave it to «Не про вкус» words?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Add a row for blends with robusta",
+    "Leave it"
+   ],
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
+   "rank": 200
+  },
+  {
+   "type": "question",
+   "id": "feedback-radar",
+   "severity": "ask",
+   "area": "Questions",
+   "title": "The profile's «Вкусовой профиль» radar (four scales of the coffees bought, sweetness included) is replaced by «Ваш вкус»: the taste map with the visitor's region and path. Two pictures of taste would disagree. Agree?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Yes, the map",
+    "Keep the radar too"
+   ],
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "why": "open since 2026-11-26 (session 6 of choosing coffee (docs/feedback.md))",
+   "rank": 200
   },
   {
    "type": "rule",
@@ -453,6 +512,22 @@
   },
   {
    "type": "rule",
+   "id": "align.icons",
+   "severity": "warn",
+   "area": "Icons",
+   "title": "Icons sit on their text's line",
+   "kind": "tolerance",
+   "why": "17 places",
+   "fresh": 0,
+   "sample": [
+    "a.nav__tool: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "a.iconlink: lower than its text's line by 9.89px (320x568 390x844)",
+    "button.about__info: higher than its text's line by 8.5px (320x568 390x844 844x390 768x1024 1024x768)"
+   ],
+   "rank": 117
+  },
+  {
+   "type": "rule",
    "id": "icons.sizes",
    "severity": "warn",
    "area": "Icons",
@@ -464,6 +539,22 @@
     "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, a.iconlink: 24×24",
     "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron: 20×20",
     "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
+   ],
+   "rank": 116
+  },
+  {
+   "type": "rule",
+   "id": "fallback.fonts",
+   "severity": "warn",
+   "area": "Fallbacks",
+   "title": "The fallback font keeps the layout",
+   "kind": "tolerance",
+   "why": "16 places",
+   "fresh": 0,
+   "sample": [
+    "p.qentry__lead: «Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font (390x844)",
+    "h3.qstep__q: «Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font (390x844)",
+    "p.featured__about: «Кения Найваша PB — регио» 16 → 17 lines, 303 → 303px wide with the fallback font (390x844 1440x900)"
    ],
    "rank": 116
   },
@@ -787,7 +878,7 @@
    },
    "accepted": 0,
    "was": {
-    "status": "warn",
+    "status": "fail",
     "value": 100
    }
   },
@@ -1433,7 +1524,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 16
+    "value": 17
    }
   },
   {
@@ -2022,7 +2113,7 @@
    "accepted": 0,
    "was": {
     "status": "fail",
-    "value": 3
+    "value": 2
    }
   },
   {
@@ -2304,7 +2395,7 @@
    },
    "accepted": 0,
    "was": {
-    "status": "pass"
+    "status": "fail"
    }
   },
   {
@@ -2346,7 +2437,7 @@
    },
    "accepted": 0,
    "was": {
-    "status": "pass"
+    "status": "fail"
    }
   },
   {
@@ -2614,7 +2705,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 14
+    "value": 16
    }
   },
   {
@@ -2636,7 +2727,7 @@
    "kind": "tolerance",
    "title": "Titles, descriptions, outline",
    "how": "Every page: lang and viewport (fail), one h1 (fail), a title of 10–65 characters, a description of 50–170, headings that do not skip a level, in-page links that name an id, og:image and a manifest on the home page.",
-   "value": 24,
+   "value": 23,
    "unit": "notes",
    "status": "fail",
    "items": [
@@ -2749,12 +2840,6 @@
      "at": ""
     },
     {
-     "key": "/account/purchases/desc",
-     "where": "/account/purchases/",
-     "what": "description of 41 characters (50–170)",
-     "at": ""
-    },
-    {
      "key": "/account/settings/desc",
      "where": "/account/settings/",
      "what": "description of 38 characters (50–170)",
@@ -2790,7 +2875,7 @@
    ],
    "webkit": {
     "status": "fail",
-    "value": 24
+    "value": 23
    },
    "accepted": 6,
    "was": {
@@ -2851,7 +2936,7 @@
    "area": "Page health",
    "kind": "hard",
    "title": "Links on the site lead somewhere",
-   "how": "Every link that stays on the site (569), from every page, opened; one with #id must find it.",
+   "how": "Every link that stays on the site (616), from every page, opened; one with #id must find it.",
    "status": "pass",
    "items": [
     {
@@ -3445,7 +3530,7 @@
    "unit": "KB",
    "was": {
     "status": "pass",
-    "value": 560
+    "value": 486
    },
    "status": "pass",
    "items": [
@@ -3458,19 +3543,19 @@
     {
      "key": "js",
      "where": "js",
-     "what": "12 files, 62 KB sent (was 61 KB)",
+     "what": "12 files, 62 KB sent (was 62 KB)",
      "value": 62
     },
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 18 KB sent (was 17 KB)",
-     "value": 18
+     "what": "1 files, 19 KB sent (was 18 KB)",
+     "value": 19
     },
     {
      "key": "images",
      "where": "images",
-     "what": "8 files, 326 KB sent (was 402 KB)",
+     "what": "8 files, 326 KB sent (was 326 KB)",
      "value": 326
     },
     {
@@ -3614,7 +3699,7 @@
    "accepted": 0,
    "was": {
     "status": "fail",
-    "value": 4
+    "value": 3
    }
   },
   {
@@ -3622,7 +3707,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "70 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "71 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3656,7 +3741,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "70 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "71 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3962,7 +4047,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "70 decisions: 45 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
+   "how": "71 decisions: 46 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4475,7 +4560,7 @@
    "where": "a.iconlink",
    "what": "lower than its text's line by 9.89px",
    "at": "320x568 390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.icons::button.about__info",
@@ -4961,7 +5046,7 @@
    "where": "Shop",
    "what": "locator.hover: Timeout 30000ms exceeded.",
    "at": "",
-   "new": true
+   "new": false
   },
   {
    "key": "logic.catalog-filter::fail",
@@ -4970,7 +5055,7 @@
    "where": "Catalog",
    "what": "page.evaluate: TypeError: Cannot read properties of undefined (reading 'split')",
    "at": "",
-   "new": true
+   "new": false
   },
   {
    "key": "fallback.nojs::390x844",
@@ -4997,7 +5082,7 @@
    "where": "p.qentry__lead",
    "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "fallback.fonts::h3.qstep__qЧем вы варите кофе дома?",
@@ -5006,7 +5091,7 @@
    "where": "h3.qstep__q",
    "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "fallback.fonts::p.featured__aboutКения Найваша PB — регио",
@@ -5234,15 +5319,6 @@
    "new": false
   },
   {
-   "key": "health.head::/account/purchases/desc",
-   "rule": "health.head",
-   "status": "fail",
-   "where": "/account/purchases/",
-   "what": "description of 41 characters (50–170)",
-   "at": "",
-   "new": false
-  },
-  {
    "key": "health.head::/account/settings/desc",
    "rule": "health.head",
    "status": "fail",
@@ -5337,7 +5413,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "js",
-   "what": "12 files, 62 KB sent (was 61 KB)",
+   "what": "12 files, 62 KB sent (was 62 KB)",
    "at": "",
    "new": false
   },
@@ -5346,7 +5422,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "css",
-   "what": "1 files, 18 KB sent (was 17 KB)",
+   "what": "1 files, 19 KB sent (was 18 KB)",
    "at": "",
    "new": false
   },
@@ -5355,7 +5431,7 @@
    "rule": "weight.total",
    "status": "pass",
    "where": "images",
-   "what": "8 files, 326 KB sent (was 402 KB)",
+   "what": "8 files, 326 KB sent (was 326 KB)",
    "at": "",
    "new": false
   },
@@ -5398,16 +5474,10 @@
  ],
  "fixed": [
   {
-   "key": "images.first::life-jacket-1200.avif",
-   "rule": "images.first",
-   "where": "div.featured__media img",
-   "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)"
-  },
-  {
-   "key": "code.tokens-wired::Code|defined, never used: --c-ink-10#1",
-   "rule": "code.tokens-wired",
-   "where": "Code",
-   "what": "defined, never used: --c-ink-10"
+   "key": "health.head::/account/purchases/desc",
+   "rule": "health.head",
+   "where": "/account/purchases/",
+   "what": "description of 41 characters (50–170)"
   }
  ],
  "decisions": [
@@ -5903,6 +5973,13 @@
    "state": "unbound",
    "what": "Every reviewer and review of «Отзывы» is invented (data/people.json → build/people.mjs): the answers are worked out from the taste model (the reviewer's usual coffee against this one, and how they brew), so they behave as real ones would; «your» taste, for how close a reviewer's is, is the account's placeholder visitor (data/account.json) placed by the coffees they bought. Tim, 24 Nov: no «пример» marks on the page; this decision, the PR and docs/people-backend.md say it instead. Sending a review says it is not sent yet. data/people.json also keeps invented ambassadors, not shown on the page (Tim, 24 Nov)",
    "decided": "Claude, 2026-11-24 (session 5 of choosing coffee)"
+  },
+  {
+   "id": "feedback",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; named in words only after 3 answers) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
+   "decided": "Claude, 2026-11-26 (session 6), for Tim to confirm in the PR"
   }
  ],
  "questions": [
@@ -6160,9 +6237,104 @@
    ],
    "status": "open",
    "state": "open"
+  },
+  {
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "status": "open",
+   "id": "feedback-form",
+   "ask": "The feedback after delivery: the order's «Как вам кофе?» (account/orders/432112/), the reply under an answer, «Ваш вкус» on the map and «Следующий кофе» in the profile, purchases without the thumbs. Does it look and read right on the PR preview, or iterate?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Looks right",
+    "Iterate (say what)"
+   ],
+   "about": [
+    "src/templates/account.mjs",
+    "src/scripts/feedbackpage.js",
+    "src/styles/pages/account.css",
+    "data/feedback.json"
+   ],
+   "state": "open"
+  },
+  {
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "status": "open",
+   "id": "feedback-letter",
+   "ask": "Send the letter «Как вам {кофе}?» on day 7 (filter) / 10 (espresso) after delivery, with the first question's three buttons inside it, and one reminder a week later? And the pack card with a QR to the orders, as a two-month test? (docs/feedback-backend.md)",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Letter and card",
+    "Letter only",
+    "Neither for now"
+   ],
+   "about": [
+    "docs/feedback-backend.md"
+   ],
+   "state": "open"
+  },
+  {
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "status": "open",
+   "id": "feedback-edge",
+   "ask": "At QQ's edge the reply says so: «Плотнее, чем Q-Optimistic, у нас нет: это один из самых плотных наших кофе. Вот что ближе всего:». On the coffee page you chose no «у QQ нет» sentences; in the account, silence after «хочу плотнее» reads as not listening. Keep it here?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Keep it in the account",
+    "Show only the nearest, without the sentence"
+   ],
+   "about": [
+    "data/feedback.json",
+    "src/scripts/feedback.js"
+   ],
+   "state": "open"
+  },
+  {
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "status": "open",
+   "id": "feedback-bitter",
+   "ask": "A simulated customer found a robusta blend too bitter as espresso and could only say «слишком плотно». Add a fourth row about bitterness (only for robusta blends?), or leave it to «Не про вкус» words?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Add a row for blends with robusta",
+    "Leave it"
+   ],
+   "about": [
+    "data/feedback.json"
+   ],
+   "state": "open"
+  },
+  {
+   "since": "2026-11-26",
+   "from": "session 6 of choosing coffee (docs/feedback.md)",
+   "status": "open",
+   "id": "feedback-radar",
+   "ask": "The profile's «Вкусовой профиль» radar (four scales of the coffees bought, sweetness included) is replaced by «Ваш вкус»: the taste map with the visitor's region and path. Two pictures of taste would disagree. Agree?",
+   "needs": [
+    "choice"
+   ],
+   "options": [
+    "Yes, the map",
+    "Keep the radar too"
+   ],
+   "about": [
+    "src/templates/account.mjs"
+   ],
+   "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 3e32625, an earlier commit than this one (e6ad94c)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (e6ad94c)",
+ "own": true
 }
