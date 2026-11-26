@@ -22,7 +22,6 @@ const AXES = ["sweet", "bright", "body", "unusual"];
 const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? few : many; };
 // the section is about how the coffee turned out in people's cups (Tim, 24 Nov: not «Отзывы»)
 export const TITLE = "Впечатления";
-const told = (n) => `${n} ${plural(n, "человек рассказал", "человека рассказали", "человек рассказали")}`;
 const MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
 const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`; };
 const groupOf = (r) => M[r.method].group;
@@ -53,7 +52,8 @@ export function peopleLink(ctx, p) {
   if (!pg) return "";
   // the stories with words (taps alone are counted for the taste model, not shown)
   const n = pg.reviews.filter((r) => r.text).length;
-  const text = n ? `Впечатления: ${told(n)}` : "Впечатлений пока нет — расскажите первым";
+  // «6 впечатлений» (Tim, 26 Nov)
+  const text = n ? `${n} ${plural(n, "впечатление", "впечатления", "впечатлений")}` : "Впечатлений пока нет — расскажите первым";
   return `<p class="pstage__people"><a class="pstage__link" href="#people">${esc(text)}</a></p>`;
 }
 

@@ -6,10 +6,9 @@
 //              A card rising into place carries its pack up: the pack trails it a little and tilts up and down as it
 //              goes. Pressed anywhere on its card, a pack moves away from the viewer and stays there while held (a
 //              quick click still shows it)
-//   product    the big pack of a coffee's page turns once around as its fact tiles scroll past (scripts/product.js
-//              gives the progress), exactly with the scroll (no easing behind it: Tim, round 7); it settles in from a
-//              quarter turn when the page opens. It can be dragged round (and tilted) by hand; let go, it turns back
-//              to the angle of the scroll. While it is pinned the canvas stands on the screen (stage.fixed), so the
+//   product    the big pack of a coffee's page stands at one angle and does not turn with the scroll (Tim, 26 Nov;
+//              until then it turned once around as the facts scrolled past); it settles in from a quarter turn when the
+//              page opens. It can be dragged round (and tilted) by hand; let go, it turns back to its angle. While it is pinned the canvas stands on the screen (stage.fixed), so the
 //              pack never rides the page's scroll for a frame before it is drawn again
 //
 // Until the canvas has drawn (and without WebGL on a real GPU: site-kit/runtime/gpu.js) each slot shows a still of the
@@ -180,8 +179,9 @@ export async function initPacks() {
       let rx = 0, ry = 0, lift = 0, scale = 1;
       if (p.hero && arriving()) { ry = 0; rx = 0; p.arrived = true; }
       else if (p.hero) {
-        const t = window.qqStage?.progress ?? 0;           // 0 → 1 over the fact tiles
-        const baseY = reduced ? 0 : -0.35 + t * Math.PI * 2, baseX = reduced ? 0 : -0.06 + 0.1 * Math.sin(t * Math.PI);
+        const t = window.qqStage?.progress ?? 0;           // 0 → 1 over the fact tiles: only whether it is pinned
+        // it no longer turns with the scroll (Tim, 26 Nov: «the pack should not spin»): one angle, a hand's on top
+        const baseY = reduced ? 0 : -0.35, baseX = reduced ? 0 : -0.06;
         // the pages have changed after arriving by a card: it turns from facing front to the scroll's angle, eased
         if (p.arrived) { p.drag.x = it.ry - baseY; p.drag.y = it.rx - baseX; p.arrived = false; }
         const d = p.drag, kd = d.on ? 1 - Math.exp(-dt * TUNE.dragFollow) : reduced ? 1 : 1 - Math.exp(-dt * TUNE.dragBack);

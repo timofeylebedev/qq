@@ -2,13 +2,13 @@
 // what a backend keeps): the answers, the region on the taste map, the three coffees. Read by
 //   the catalogue      «Для вас», the first checkbox, in place of the line «Выбираете впервые?» (scripts/filters.js,
 //                      through loadTaste and loadFeedback: the coffees inside the region, choose.js forYou)
-//   a coffee's page    [data-fit]: whether QQ roasts it for the visitor's way of brewing, and with what grind; the buy
-//                      bar starts on that roast and grind (unless the address chose them: ?roast=…&grind=…)
+//   a coffee's page    [data-fit]: the buy bar starts on the roast and grind of the visitor's way of brewing (unless the
+//                      address chose them: ?roast=…&grind=…); nothing is said about it on the page (Tim, 26 Nov)
 //   «Впечатления»      [data-people][data-close]: how close each teller's taste is to the visitor's quiz region
 //   the profile        [data-taste-part]: what the quiz said, with a way back to it
 // The feedback after delivery (session 6, scripts/feedbackpage.js) keeps its answers and the region they moved the
 // visitor to in localStorage "qq-feedback" ({ v: 1, answers, region, mine: { slug: text } }): «Впечатления» then
-// measures closeness from that region, and a coffee's page says what the visitor said about it ([data-mine]).
+// measures closeness from that region (a coffee's page no longer says what the visitor said about it: Tim, 26 Nov).
 import { load, save } from "./buy.js";
 
 export const TASTE = "qq-taste";
@@ -59,13 +59,10 @@ function mine(f) {
 function coffeePage(t) {
   const fit = document.querySelector("[data-fit]");
   if (!fit) return;
-  const F = JSON.parse(fit.dataset.fit), mine = t.picks.find((p) => p.slug === F.slug);
-  const f = t.answers.method && t.answers.method !== "none" ? F.methods[t.answers.method] : null, m = f && F.names[t.answers.method];
-  if (!f && !mine) return;
-  fit.textContent = (mine ? `Из вашего подбора. ` : "") + (!f ? "" : f.ok
-    ? `Ваш способ — ${m.toLowerCase()}: ${f.omni ? "омни-обжарка" : F.roast[f.roast]}, ${F.grind[f.grind]}.`
-    : `Ваш способ — ${m.toLowerCase()} — не подходит: этот кофе обжариваем только ${F.roast[F.roasts[0]].replace("обжарка ", "")}.`);
-  fit.hidden = false;
+  const F = JSON.parse(fit.dataset.fit);
+  const f = t.answers.method && t.answers.method !== "none" ? F.methods[t.answers.method] : null;
+  if (!f) return;
+  // no line about it under the name (Tim, 26 Nov): only the buy bar follows the visitor's way
   // the buy bar starts on the method's roast and grind, unless the address chose them (a card's link from the catalogue)
   const q = new URLSearchParams(location.search), bar = document.querySelector("[data-buybar]");
   if (f?.ok && bar && !q.has("roast") && !q.has("grind")) for (const [k, v] of [["roast", f.roast], ["grind", f.grind]]) {

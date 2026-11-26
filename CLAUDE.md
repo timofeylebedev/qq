@@ -105,7 +105,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   while the card is hovered and the info button is not seen (a keyboard's focus shows it); on a touch screen the button
   sits in the bottom left corner, as far from the edge as from the buy row, and a press shows the panel above it (it
   never follows the card's link); the button's name reads the values. The card's text no
-  longer says «… из 5».
+  longer says «… из 5». The same rows are a coffee's «Свойства» tile (`tasteRows()`).
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **Choosing in the catalogue** (`docs/choose.md`; decision `catalog-choose`): one row of menu cells (Сортировка, Цена,
   Вкус, Приготовление, Страна, Обработка, Особенности — моносорт, смесь, Classic, Special: two a row below M, four from M,
@@ -127,8 +127,8 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
 - **3D**: one canvas per page at z-index 5. While the product's pinned pack is on screen the canvas is fixed to the
-  screen (`stage.fixed`, else it would ride a scroll for a frame); the pack turns exactly with the scroll and can be
-  dragged (it turns back on release: decision `pack-drag`). What must show above packs is positioned with z-index ≥ 6 (fact tiles,
+  screen (`stage.fixed`, else it would ride a scroll for a frame); the pack stands at one angle, never turning with
+  the scroll (Tim, 26 Nov), and can be dragged (it turns back on release: decision `pack-drag`). What must show above packs is positioned with z-index ≥ 6 (fact tiles,
   captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
 - **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
   cross-document view transition to its coffee's page (on that page the name and the line under it, `.pstage__title`).
@@ -161,7 +161,8 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   in `data/products.csv`; a new descriptor gets its family in `data/flavours.json`, which also colours its dot.
 - **«Что взять еще»** (a coffee's page, `next()` in `src/templates/product.mjs`): the taste model's moves for that
   coffee (`next` in taste.json, `nextBlock` in build/taste.mjs; every coffee's list in `docs/next-output.md`): похожий,
-  мягче, ярче, необычнее or классичнее, as product cards in a grid, each under its move in lavender and with
+  мягче, ярче, необычнее or классичнее, then легче, плотнее, «Тоже похожий» or «Ещё по вкусу» up to six (`extra`: the
+  quiz and the feedback read only the first moves), as product cards in a grid, three a row from L (Tim, 26 Nov), each under its move in lavender and with
   one line from the data as its text (`card()` option `text`). Never a second scoring in the template: a new move or
   rule goes into `nextBlock`, which also never offers a sold-out coffee. **Sold out** = `data/site.json`
   `shop.unavailable`: the page stays, a pill under the name says it will be back, the buy bar (`buybar--out`) offers
@@ -207,7 +208,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   template and the browser (`scripts/feedbackpage.js`); never score in a template or a page script. The profile's «Ваш
   вкус» (the visitor on the taste map, in words only after 3 answers) and «Следующий кофе» (in place of the old
   «Подобрали для вас») read it; so do purchases (no thumbs), the orders list, a coffee's page (`[data-mine]`) and
-  «Впечатления» (closeness from the moved region, `qq-feedback`). The placeholder visitor's answers and his own today
+  «Впечатления» (closeness from the moved region, `qq-feedback`); a coffee's page no longer says what the visitor said (Tim, 26 Nov). The placeholder visitor's answers and his own today
   are `data/account.json` `feedback`, `today`. A letter's buttons open the order with the first answer tapped:
   `account/orders/<id>/?fb=<slug>&bright=less#fb-<id>-<slug>`. What a backend needs: `docs/feedback-backend.md`. The
   loop on the command line: `build/feedback-sim.mjs`; the simulated customers and the check against the texts:

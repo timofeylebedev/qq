@@ -49,6 +49,16 @@ const LONGEST = AXES.flatMap((a) => a.ends).reduce((w, x) => (x.length > w.lengt
 // On a card the scale lies in the picture, a panel apart from the buy row: with a mouse it shows while the card is
 // hovered (no button to see); on a touch screen the info button in the picture's bottom left corner shows it
 // (scripts/about.js). The button's name reads the values to a screen reader.
+// the same rows on their own, for a coffee's page (its «Свойства» tile): seen, with the values read to a screen reader
+export function tasteRows(p) {
+  const pos = POS.get(p.slug);
+  if (!pos) return "";
+  const at = (a) => (a.hi > a.lo ? (pos[a.id] - a.lo) / (a.hi - a.lo) : 0.5);
+  const say = AXES.map((a) => { const t = at(a); return `${a.label}: ${a.words[t < 1 / 3 ? 0 : t < 2 / 3 ? 1 : 2]} для QQ`; }).join(". ") + ".";
+  return `<div class="scale scale--tile"><div class="scale__rows" aria-hidden="true">${AXES.map((a) =>
+    `<span class="scale__end" data-w="${esc(LONGEST)}">${esc(a.ends[0])}</span><span class="scale__line"><i class="scale__dot" style="--t: ${at(a).toFixed(3)}"></i></span><span class="scale__end" data-w="${esc(LONGEST)}">${esc(a.ends[1])}</span>`).join("")}</div><p class="sr">${esc(say)}</p></div>`;
+}
+
 export function tasteScale(p) {
   const pos = POS.get(p.slug);
   if (!pos) return "";
