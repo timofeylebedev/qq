@@ -7,6 +7,7 @@
 import { replay, baseRegion, nextOf, tasteName, askState, methodFor, saidOf, shiftOf, isTaste, area, plural } from "./feedback.js";
 
 const fill = (s, o) => s.replace(/\{(\w+)\}/g, (_, k) => o[k] ?? "");
+const capFirst = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 const and = (list) => (list.length > 1 ? `${list.slice(0, -1).join(", ")} и ${list.at(-1)}` : list[0] || "");
 const MONTHS = ["январе", "феврале", "марте", "апреле", "мае", "июне", "июле", "августе", "сентябре", "октябре", "ноябре", "декабре"];
 const DAYS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"];
@@ -61,7 +62,8 @@ export function replyOf(S, acc, a, F) {
 // an order's line in the list of orders
 export function rowOf(S, o, today, F) {
   const W = F.words, A = askState(o, today, F);
-  if (o.status !== "delivered") return { kind: "later", text: W.rowLater };
+  // not delivered yet: nothing said (Tim, 26 Nov: no «Спросим после доставки»)
+  if (o.status !== "delivered") return { kind: "later", text: "" };
   const done = o.items.filter((it) => S.byKey.has(`${o.id}/${it.slug}`)).length;
   if (done === o.items.length) return { kind: "done", text: fill(W.rowDone, { n: done, all: o.items.length }) };
   if (!A.ask) return { kind: "wait", text: fill(W.rowWait, { date: dayOf(addDays(o.delivered, A.from)) }) };
@@ -70,12 +72,14 @@ export function rowOf(S, o, today, F) {
 const addDays = (iso, n) => new Date(Date.parse(iso.slice(0, 10)) + n * 864e5).toISOString().slice(0, 10);
 
 // the profile's question: the newest delivered order with coffee not answered about, while it is not old
+// (Tim, 26 Nov: the coffees in the title, «Как вам Эфиопия Бекеле?»; the text only «Поделитесь впечатлениями — …»);
+// `key` names the order and its coffees, so a closed question (×) stays closed until another order asks
 export function promptOf(S, acc, today, F) {
   for (const o of [...acc.orders].sort((x, y) => y.date.localeCompare(x.date))) {
     const A = askState(o, today, F);
     if (!A.ask || A.quiet) continue;
     const left = o.items.filter((it) => !S.byKey.has(`${o.id}/${it.slug}`));
-    if (left.length) return { order: o.id, text: fill(F.words.prompt, { names: and(left.map((it) => it.name)) }) };
+    if (left.length) return { order: o.id, key: `${o.id}:${left.map((it) => it.slug).join(",")}`, title: fill(F.words.promptTitle, { names: and(left.map((it) => it.name)) }), text: F.words.prompt };
   }
   return null;
 }
@@ -84,9 +88,9 @@ export function promptOf(S, acc, today, F) {
 export function purchaseOf(S, acc, slug, today, F) {
   const W = F.words;
   const mine = [...S.answers].filter((a) => a.slug === slug).sort((x, y) => String(y.at).localeCompare(String(x.at)))[0];
-  if (mine) return { kind: "done", order: mine.order, text: mine.issue ? F.rules.issues[mine.issue].label : fill(W.cardSaid, { said: saidOf(mine, F) }) };
+  if (mine) return { kind: "done", order: mine.order, text: mine.issue ? F.rules.issues[mine.issue].label : fill(W.cardSaid, { said: capFirst(saidOf(mine, F)) }) };
   const o = [...acc.orders].sort((x, y) => y.date.localeCompare(x.date)).find((x) => x.items.some((it) => it.slug === slug));
-  if (!o || o.status !== "delivered") return { kind: "later", order: o?.id, text: W.cardLater };
+  if (!o || o.status !== "delivered") return { kind: "later", order: o?.id, text: "" };
   return { kind: "ask", order: o.id, text: W.cardAsk };
 }
 

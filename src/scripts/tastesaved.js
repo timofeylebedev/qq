@@ -88,11 +88,20 @@ function people(t) {
   }
 }
 
-// the profile: what the quiz said
+// the profile: what the quiz said, as cards (Tim, 26 Nov): the three, in order, each under its move; the page holds every
+// coffee's card hidden
 function profile(t) {
   const part = document.querySelector("[data-taste-part]");
   if (part) {
-    part.querySelector("[data-taste-list]").innerHTML = t.picks.map((p) => `<li><a class="link" href="${rootHref()}coffee/${esc(p.slug)}/">${esc(p.name)}</a> <span class="taste-part__label">${esc(p.label)}</span></li>`).join("");
+    const grid = part.querySelector("[data-taste-list]"), items = new Map([...grid.querySelectorAll("[data-taste-item]")].map((el) => [el.dataset.tasteItem, el]));
+    for (const el of items.values()) el.hidden = true;
+    for (const p of t.picks) {
+      const el = items.get(p.slug);
+      if (!el) continue;
+      el.querySelector("[data-taste-tag]").textContent = p.label;
+      el.hidden = false; grid.append(el);
+    }
+    dispatchEvent(new Event("qq:layout"));
     part.querySelector("[data-taste-again]").setAttribute("href", quizHref(t));
     part.hidden = false;
   }

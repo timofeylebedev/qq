@@ -132,6 +132,8 @@
 .orow .status + .orow__fb { margin-top: -2px; }
 /* a coffee bought: what was said, under its name */
 .pcard__fb { margin-top: 6px; font-size: var(--type-body); color: var(--c-ink-70); }
+/* nothing to say about what is not delivered yet (Tim, 26 Nov): the line takes no room */
+.orow__fb:empty, .pcard__fb:empty { display: none; }
 .pcard__fb .link { display: inline-flex; align-items: center; min-height: 32px; color: var(--c-ink); }
 
 /* the order's «Как вам кофе?»: a title, a line, then a tile per coffee */
@@ -169,27 +171,46 @@
 .fb__actions { display: flex; flex-wrap: wrap; gap: 4px var(--gap); margin-top: 4px; }
 .fb__actions .link { display: inline-flex; align-items: center; min-height: 40px; }
 
-/* the profile's question */
+/* the profile's question (Tim, 26 Nov): «Как вам <the coffees>?» and one line on the left, «Ответить» on the right at
+   the home page's buttons' size, × in the top right corner closes it. Below M the button goes under the words. */
 .fbprompt[hidden] { display: none; }
-.fbprompt__box { display: grid; gap: var(--text-gap); justify-items: start; padding: var(--tile-pad); }
+.fbprompt__box { position: relative; display: grid; gap: var(--text-gap); justify-items: start; align-items: center; padding: var(--tile-pad); padding-right: calc(var(--tile-pad) + 40px); }
+.fbprompt__words { display: grid; gap: 12px; min-width: 0; }
 .fbprompt__title { font-size: var(--type-card-title); }
 .fbprompt__text { max-width: 40rem; font-size: var(--type-body); line-height: var(--lh-text); }
+.fbprompt__close { position: absolute; top: calc(var(--tile-pad) / 2); right: calc(var(--tile-pad) / 2); display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-70); transition: color var(--t-out) var(--ease-out); }
+.fbprompt__close svg { width: 24px; height: 24px; }
+.fbprompt__close:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
+@media (--mouse) { .fbprompt__close:hover { color: var(--c-ink); transition-duration: var(--t-in); } }
+@container col (width >= 43rem) { .fbprompt__box { grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--gap); } }
 
 /* the profile's tile «Ваш вкус»: the taste map in small, the visitor's region and path, the taste in words */
 .mymap { display: grid; gap: 12px; }
-.mymap__box { position: relative; aspect-ratio: 1.1; padding: 18px 18px; }
+.mymap__box { position: relative; aspect-ratio: 1.1; padding: 12px; }
 .mymap__svg { display: block; width: 100%; height: 100%; overflow: visible; }
-.mymap__dot { fill: var(--c-paper); }
 .mymap__area { fill: var(--c-lavender); fill-opacity: 0.55; stroke: var(--c-lavender-ink); stroke-width: 0.6; }
 .mymap__trail { fill: none; stroke: var(--c-ink); stroke-width: 0.7; stroke-dasharray: 1.6 1.4; stroke-linejoin: round; }
-.mymap__now { fill: var(--c-ink); }
-.mymap__axis { position: absolute; font-size: var(--type-small); line-height: 1; color: var(--c-ink-70); white-space: nowrap; }
-.mymap__axis--up { top: 0; left: 50%; transform: translateX(-50%); }
-.mymap__axis--down { bottom: 0; left: 50%; transform: translateX(-50%); }
-.mymap__axis--left { left: 0; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); }
-.mymap__axis--right { right: 0; top: 50%; writing-mode: vertical-rl; transform: translateY(-50%); }
-.mymap__say { font-size: var(--type-body); line-height: var(--lh-text); }
+.mymap__now { fill: var(--c-ink); pointer-events: none; }
+/* every coffee a grey dot, a link to its page (a wider ring takes the pointer); hovered or focused it turns ink */
+.mymap__hit { fill: transparent; }
+.mymap__pt { fill: var(--c-ink-60); transition: fill var(--t-out) var(--ease-out); }
+.mymap__dot { cursor: pointer; outline: none; }
+.mymap__dot:focus-visible .mymap__pt { fill: var(--c-ink); stroke: var(--c-ink); stroke-width: 1.2; }
+@media (--mouse) { .mymap__dot:hover .mymap__pt { fill: var(--c-ink); transition-duration: var(--t-in); } }
+/* the coffee over its dot: its picture and name on paper in a hairline frame */
+.mymap__tip { position: absolute; z-index: 8; display: grid; justify-items: center; gap: 6px; width: 8.5rem; padding: 8px 8px 10px; background: var(--c-paper); border: var(--hair) solid var(--line); pointer-events: none; }
+.mymap__tip[hidden] { display: none; }
+.mymap__img { display: block; width: 100%; aspect-ratio: 1; background: var(--c-cloud); overflow: hidden; }
+.mymap__tip--photo .mymap__img { background: var(--c-black); }
+.mymap__img img, .mymap__img picture { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mymap__tip:not(.mymap__tip--photo) .mymap__img img { object-fit: contain; }
+.mymap__name { font: 700 var(--type-small) / 1.2 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); text-align: center; }
 
 /* the profile's «Следующий кофе» */
-.fbnext__lead { max-width: 44rem; margin-bottom: var(--text-gap); font-size: var(--type-body); line-height: var(--lh-text); }
-.fbnext .next__item[hidden] { display: none; }
+.fbnext__lead { max-width: 44rem; margin-bottom: var(--section-gap); font-size: var(--type-body); line-height: var(--lh-text); }   /* more room under it: Tim, 26 Nov */
+.fbnext .next__item[hidden], .taste-part .next__item[hidden] { display: none; }
+
+/* the first block of every tab sits the tabs' own gap under them, no more (Tim, 26 Nov): no part's padding above it,
+   and when the profile's question is closed or answered, the next part neither draws a line nor keeps a margin */
+.account .subtabs ~ .part:first-of-type, .account .subtabs + .sr + .part, .account .fbprompt[hidden] + .part { padding-top: 0; }
+.account .fbprompt[hidden] + .part { margin-top: 0; border-top: 0; }

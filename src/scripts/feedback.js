@@ -186,7 +186,7 @@ export function nextOf(st, F, { method = null, milk = false, bought = [] } = {})
 
   if (!want.length) {
     // «в самый раз»: the same coffee again (in stock, for this method), the nearest new one, the region's best
-    if (pool.includes(L)) add(L, "again", W.labels.again, `${cap(said)} — так вы сказали в прошлый раз.`);
+    if (pool.includes(L)) add(L, "again", W.labels.again, `${fill(W.marked, { said: cap(said) })}`);
     // «Похожий» keeps every scale the visitor approved: acidity and body within half a point, as fermented as the coffee
     // they liked (the simulation, respondent 76: ferment 2 → 1 → 0 in three «в самый раз»); the taste model's distance
     // (which counts flavour) orders them. Wider only when nothing is that close.
@@ -202,7 +202,7 @@ export function nextOf(st, F, { method = null, milk = false, bought = [] } = {})
     if (!picks.length) for (const list of [fresh, untried]) for (const c of sorted(list)) if (picks.length < 3 && c !== L && !picks.some((p) => p.c === c) && notTwin(c) && (!c.robusta || hadRobusta)) add(c, "method", W.labels.method, fitText(c));
     // with a method QQ doesn't roast this coffee for, it can't be offered again for it: the lead says so, not «снова»
     const leadAgain = !pool.includes(L) ? W.againNot : sim ? W.again : W.againOnly;
-    return { mode: "again", lead: `${L.name}: вы сказали «${said}». ${leadAgain}`, picks: out(picks) };
+    return { mode: "again", lead: `${fill(W.marked, { said: cap(said) })} ${leadAgain}`, picks: out(picks) };
   }
 
   // the directions asked, and what a candidate must do for each (the coffee page's guards: «мягче» not much denser or
@@ -267,7 +267,7 @@ export function nextOf(st, F, { method = null, milk = false, bought = [] } = {})
     again(); finishFit();
     const dropped = (kept.length < want.length ? " " + fill(W.dropped, { all: and(want.map((k) => W.moves[dirOf(k)])), kept: moveWord }) : "")
       + (lostFerment && first.position.unusual < L.position.unusual - 0.6 ? " " + fill(W.lostFerment, { move: moveWord }) : "");
-    return { mode: "move", lead: `${L.name}: вы сказали «${said}». ${fill(W.nextIs, { move: moveWord })}${dropped}`, picks: out(picks), dirs: kept.map(dirOf) };
+    return { mode: "move", lead: `${fill(W.marked, { said: cap(said) })} ${fill(W.nextIs, { move: moveWord })}${dropped}`, picks: out(picks), dirs: kept.map(dirOf) };
   }
   // nothing honours the answer. Say which it is, truthfully: the coffee is QQ's softest (densest…) of all; or there are
   // softer ones, but each is much denser or wilder (the guards of «мягче»); or only in a roast not for this method.
@@ -284,7 +284,7 @@ export function nextOf(st, F, { method = null, milk = false, bought = [] } = {})
   again(); finishFit();
   // nothing at all that keeps to the answer: at QQ's corner the lead alone says so (the outside check, round 3: offering
   // the same coffee again after «слишком…» reads as «Снова» after a miss)
-  const lead = `${L.name}: вы сказали «${said}». ${picks.length ? tell : tell.replace(/ Вот что ближе всего:$/, "") + " " + W.edgeNone}`;
+  const lead = `${fill(W.marked, { said: cap(said) })} ${picks.length ? tell : tell.replace(/ Вот что ближе всего:$/, "") + " " + W.edgeNone}`;
   return { mode: "edge", edge: !others.length ? "most" : here.length ? "far" : "method", lead, picks: out(picks), dirs: [d] };
 
   function out(list) { return list.map((p) => ({ slug: p.c.slug, name: p.c.name, role: p.role, label: p.label, text: p.text, ...(p.dirs ? { dirs: p.dirs } : {}) })); }

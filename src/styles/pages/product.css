@@ -181,8 +181,6 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
   .people__bar { margin-bottom: 0; }
   .people__panel .buyers { border-top: 0; }
 }
-/* the buttons sized as the home page's («Наш подход»: body text, 20px each side, the control's height), filled ink */
-.people__act { font-size: var(--type-body); line-height: 1.2; padding: 0 20px; }
 .people__act[data-for="questions"], .people:has(#people-tab-questions[aria-selected="true"]) .people__act[data-for="stories"] { display: none; }
 .people:has(#people-tab-questions[aria-selected="true"]) .people__act[data-for="questions"] { display: inline-flex; }
 .people__panel[hidden] { display: none; }

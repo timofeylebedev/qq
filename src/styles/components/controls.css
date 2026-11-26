@@ -17,6 +17,9 @@
 /* the arrow button («Наш подход →»): one cell in a hairline of the ground, its label in bold capitals trimmed to
    them, the arrow after it (Figma 1114:35930, Tim, round 7: 20px before the label, 16 between and after, 16 above and
    below). It takes the colours of its ground; hovered, the tint behind it. */
+/* a filled button at the home page's buttons' size («Наш подход»: body text, 20px each side, the control's height):
+   the profile's question, «Впечатления» (Tim, 26 Nov) */
+.btn--text { font-size: var(--type-body); line-height: 1.2; padding: 0 20px; }
 .btn-arrow {
   display: inline-flex; align-items: center; gap: 16px; align-self: start;
   min-height: var(--control-h); padding: 0 16px 0 20px; border: var(--hair) solid var(--line); color: inherit;

@@ -11,7 +11,9 @@ import F from "../data/feedback.json";
 import { stateOf, replyOf, rowOf, promptOf, purchaseOf, mineOf, replyHtml } from "./feedbackview.js";
 import { setFor } from "./feedback.js";
 import { loadTaste, loadFeedback, FEEDBACK } from "./tastesaved.js";
-import { save } from "./buy.js";
+import { save, load } from "./buy.js";
+// the profile's question closed with × (Tim, 26 Nov): the order and coffees it asked about
+const CLOSED = "qq-fb-closed";
 import { focusFrom } from "./focus.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -25,6 +27,10 @@ export function initFeedback() {
   const quiz = loadTaste()?.region || null;
   let local = loadFeedback()?.answers || [];
   const coffee = new Map(F.coffees.map((c) => [c.slug, c]));
+  document.querySelector("[data-fb-prompt-close]")?.addEventListener("click", (e) => {
+    const pr = e.currentTarget.closest("[data-fb-prompt]");
+    save(CLOSED, pr.dataset.fbKey); pr.hidden = true;
+  });
   let S;
 
   // this browser's answers over the placeholder's: one per bag and kind (taste, «не про вкус»); a kind the visitor
@@ -68,8 +74,34 @@ export function initFeedback() {
     const pr = document.querySelector("[data-fb-prompt]");
     if (pr) {
       const p = promptOf(S, acc, today, F);
-      pr.hidden = !p;
-      if (p) { pr.querySelector("[data-fb-prompt-text]").textContent = p.text; pr.querySelector("[data-fb-prompt-link]").setAttribute("href", `${root()}account/orders/${p.order}/#feedback`); }
+      // closed with × for these coffees of this order: stays closed until another order (or coffee) asks
+      pr.hidden = !p || load(CLOSED, "") === p.key;
+      if (p) { pr.dataset.fbKey = p.key; pr.querySelector("[data-fb-prompt-title]").textContent = p.title; pr.querySelector("[data-fb-prompt-link]").setAttribute("href", `${root()}account/orders/${p.order}/#feedback`); }
+    }
+  }
+  // the map's dots: hovered or focused, the coffee's picture and name stand over its dot (inside the tile, never past it)
+  const mapEl = document.querySelector("[data-fb-map]");
+  if (mapEl) {
+    const box = mapEl.querySelector(".mymap__box");
+    let shown = null;
+    const show = (dot) => {
+      const tip = box.querySelector(`[data-tip="${dot.dataset.dot}"]`);
+      if (shown && shown !== tip) shown.hidden = true;
+      if (!tip) return;
+      tip.hidden = false; shown = tip;
+      const b = box.getBoundingClientRect(), d = dot.querySelector(".mymap__pt").getBoundingClientRect();
+      const x = d.left + d.width / 2 - b.left, y = d.top - b.top;
+      const w = tip.offsetWidth, h = tip.offsetHeight;
+      tip.style.left = `${Math.max(0, Math.min(b.width - w, x - w / 2))}px`;
+      // above the dot, or under it when there is no room above
+      tip.style.top = `${y - h - 8 >= 0 ? y - h - 8 : y + d.height + 8}px`;
+    };
+    const hide = () => { if (shown) shown.hidden = true; shown = null; };
+    for (const dot of box.querySelectorAll("[data-dot]")) {
+      dot.addEventListener("pointerenter", () => show(dot));
+      dot.addEventListener("pointerleave", hide);
+      dot.addEventListener("focus", () => show(dot));
+      dot.addEventListener("blur", hide);
     }
   }
   function drawMap() {
@@ -81,7 +113,6 @@ export function initFeedback() {
     e.setAttribute("rx", Math.max(3, r.ru * 110).toFixed(2)); e.setAttribute("ry", Math.max(3, r.rv * 100).toFixed(2));
     m.querySelector("[data-fb-trail]").setAttribute("points", S.trail.map(at).join(" "));
     const n = m.querySelector("[data-fb-now]"); n.setAttribute("cx", (now.u * 110).toFixed(2)); n.setAttribute("cy", (now.v * 100).toFixed(2));
-    m.querySelector("[data-fb-name]").textContent = S.name.text;
   }
   function drawNext() {
     const part = document.querySelector("[data-fb-next]");

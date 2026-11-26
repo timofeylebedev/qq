@@ -4,7 +4,7 @@
 import { page, head } from "./layout.mjs";
 import { card, photoOf } from "./components.mjs";
 import { pageHead, subtabs, paneltabs, badge, coffeeMedia, panel, rows, dialog, field, check, meta } from "./blocks.mjs";
-import { esc, icon, href, cls, rub, read } from "./util.mjs";
+import { esc, icon, href, cls, rub, read, picture } from "./util.mjs";
 import { account, dateShort, dateTime, monthOf } from "./account-data.mjs";
 import { replyOf, rowOf, promptOf, purchaseOf, formStart, replyHtml } from "../scripts/feedbackview.js";
 
@@ -149,7 +149,7 @@ export function profile(ctx, { beans = false } = {}) {
       <h2 class="part__title" id="activity-title">Активность</h2>
       <ul class="tiles tiles--cloud activity">
         <li class="tile"><div class="tile__head"><h3 class="tile__title">Зернышки</h3><a class="tile__more" href="${href(ctx, "account/beans/")}" data-dialog="beans" aria-label="Подробнее о зернышках">${icon("plus-round")}</a></div>${beansDial(acc)}</li>
-        <li class="tile"><div class="tile__head"><h3 class="tile__title">Ваш вкус</h3></div>${myMap(acc)}</li>
+        <li class="tile"><div class="tile__head"><h3 class="tile__title">Ваш вкус</h3></div>${myMap(ctx, acc)}</li>
         <li class="tile"><div class="tile__head"><h3 class="tile__title">Страны</h3></div>${countries(acc, ctx.products)}</li>
         <li class="tile"><div class="tile__head"><h3 class="tile__title">Дескрипторы</h3></div>${waffle(acc)}</li>
       </ul>
@@ -164,7 +164,12 @@ export function profile(ctx, { beans = false } = {}) {
     </section>
     <section class="part" aria-labelledby="quiztaste-title" data-taste-part hidden>
       <div class="part__head"><h2 class="part__title" id="quiztaste-title">Ваш подбор</h2><a class="iconlink" href="${href(ctx, "catalog/?quiz")}" data-taste-again><span>Открыть подбор</span>${icon("arrow-right")}</a></div>
-      <ul class="taste-part" data-taste-list></ul>
+      <div class="next__grid taste-part" data-taste-list>
+        ${ctx.products.filter((q) => acc.fb.F.coffees.some((c) => c.slug === q.slug && !c.decaf)).map((q) => `<div class="next__item" data-taste-item="${q.slug}" hidden>
+          <p class="next__tag" data-taste-tag></p>
+          ${card({ ...ctx, page: "quiztaste" }, q, { size: "third" })}
+        </div>`).join("\n        ")}
+      </div>
     </section>
     ${nextPart(ctx, acc)}`,
     extra: (acc) => beansDialog(ctx, acc, beans)
@@ -271,39 +276,47 @@ export function order(ctx, id) {
 }
 
 // ── the feedback: the visitor on the taste map (the profile's tile «Ваш вкус») ──────────────────────────────────────
-// Every coffee a faint dot where the taste map puts it (src/data/choose.json map), the visitor's region as a soft
-// ellipse, the path of its centre answer by answer, the centre now. In words under it: a guess until enough answers,
-// then the taste (feedback.js tasteName). scripts/feedbackpage.js redraws it with this browser's answers.
+// The visitor's region as a soft ellipse, the path of its centre answer by answer, the centre now; every coffee a grey
+// dot where the taste map puts it (src/data/choose.json map), a link to its page: hovered or focused it shows the
+// coffee (its picture and name: scripts/feedbackpage.js). No words under it and no axes (Tim, 26 Nov).
+// scripts/feedbackpage.js redraws it with this browser's answers.
 const ell = (r) => `cx="${(r.u * 110).toFixed(2)}" cy="${(r.v * 100).toFixed(2)}" rx="${Math.max(3, r.ru * 110).toFixed(2)}" ry="${Math.max(3, r.rv * 100).toFixed(2)}"`;
 const trail = (list) => list.map((r) => `${(r.u * 110).toFixed(2)},${(r.v * 100).toFixed(2)}`).join(" ");
-function myMap(acc) {
-  const F = acc.fb.F, S = fbState(acc), now = S.trail.at(-1);
-  const dots = F.coffees.filter((c) => !c.decaf).map((c) => `<circle class="mymap__dot" cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}" r="2.4"/>`).join("");
-  return `<figure class="mymap" data-fb-map aria-labelledby="mymap-say">
+function myMap(ctx, acc) {
+  const F = acc.fb.F, S = fbState(acc), now = S.trail.at(-1), by = new Map(ctx.products.map((q) => [q.slug, q]));
+  const list = F.coffees.filter((c) => !c.decaf && by.has(c.slug));
+  const dots = list.map((c) => `<a class="mymap__dot" href="${href(ctx, `coffee/${c.slug}/`)}" data-dot="${c.slug}" aria-label="${esc(c.name)}"><circle class="mymap__hit" cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}" r="5"/><circle class="mymap__pt" cx="${(c.map.u * 110).toFixed(2)}" cy="${(c.map.v * 100).toFixed(2)}" r="2.4"/></a>`).join("");
+  // one picture and name per coffee, hidden until its dot is hovered (a photo for a Special coffee, else the pack)
+  const tips = list.map((c) => {
+    const q = by.get(c.slug), ph = photoOf(ctx, q);
+    const img = ph ? picture(ph[0], "", { sizes: "120px", decorative: true }) : `<img src="/assets/pack/still-512.webp" alt="" width="512" height="512" loading="lazy" decoding="async">`;
+    return `<span class="mymap__tip${ph ? " mymap__tip--photo" : ""}" data-tip="${c.slug}" hidden><span class="mymap__img">${img}</span><span class="mymap__name">${esc(c.name)}</span></span>`;
+  }).join("");
+  return `<figure class="mymap" data-fb-map aria-label="Ваш вкус на карте кофе QQ">
       <div class="mymap__box">
-        <svg class="mymap__svg" viewBox="0 0 110 100" aria-hidden="true" focusable="false">
+        <svg class="mymap__svg" viewBox="0 0 110 100" focusable="false">
+          <ellipse class="mymap__area" data-fb-area ${ell(S.area)} aria-hidden="true"/>
+          <polyline class="mymap__trail" data-fb-trail points="${trail(S.trail)}" aria-hidden="true"/>
           <g>${dots}</g>
-          <ellipse class="mymap__area" data-fb-area ${ell(S.area)}/>
-          <polyline class="mymap__trail" data-fb-trail points="${trail(S.trail)}"/>
-          <circle class="mymap__now" data-fb-now cx="${(now.u * 110).toFixed(2)}" cy="${(now.v * 100).toFixed(2)}" r="2.8"/>
+          <circle class="mymap__now" data-fb-now cx="${(now.u * 110).toFixed(2)}" cy="${(now.v * 100).toFixed(2)}" r="2.8" aria-hidden="true"/>
         </svg>
-        <span class="mymap__axis mymap__axis--up" aria-hidden="true">↑ Плотнее</span>
-        <span class="mymap__axis mymap__axis--down" aria-hidden="true">↓ Легче</span>
-        <span class="mymap__axis mymap__axis--left" aria-hidden="true">← Мягче</span>
-        <span class="mymap__axis mymap__axis--right" aria-hidden="true">Ярче →</span>
+        ${tips}
       </div>
-      <figcaption class="mymap__say" id="mymap-say" data-fb-name>${esc(S.name.text)}</figcaption>
     </figure>`;
 }
 
 // ── the profile's question: the newest delivered order not answered about ───────────────────────────────────────
 function fbPrompt(ctx, acc) {
   const p = promptOf(fbState(acc), fbAcc(acc), acc.fb.today, acc.fb.F);
-  return `<section class="part fbprompt" data-fb-prompt aria-labelledby="fbp-title"${p ? "" : " hidden"}>
+  // the coffees in the title, the button on the right, × closes it (this browser keeps which: scripts/feedbackpage.js)
+  return `<section class="part fbprompt" data-fb-prompt data-fb-key="${esc(p?.key || "")}" aria-labelledby="fbp-title"${p ? "" : " hidden"}>
       <div class="fbprompt__box" data-tone="cloud">
-        <h2 class="fbprompt__title" id="fbp-title">${esc(acc.fb.F.words.title)}</h2>
-        <p class="fbprompt__text" data-fb-prompt-text>${esc(p?.text || "")}</p>
-        <a class="btn fbprompt__go" href="${href(ctx, `account/orders/${p?.order || acc.orders[0].id}/`)}#feedback" data-fb-prompt-link>Ответить</a>
+        <div class="fbprompt__words">
+          <h2 class="fbprompt__title" id="fbp-title" data-fb-prompt-title>${esc(p?.title || "")}</h2>
+          <p class="fbprompt__text">${esc(acc.fb.F.words.prompt)}</p>
+        </div>
+        <a class="btn btn--text fbprompt__go" href="${href(ctx, `account/orders/${p?.order || acc.orders[0].id}/`)}#feedback" data-fb-prompt-link>Ответить</a>
+        <button class="fbprompt__close" type="button" aria-label="Скрыть вопрос" data-fb-prompt-close>${icon("close")}</button>
       </div>
     </section>
     `;

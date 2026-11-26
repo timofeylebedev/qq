@@ -95,7 +95,6 @@
 
 /* ── the profile's part, a coffee's page ──────────────────────────────────────────────────────────────────── */
 .qres__decaf .link { display: inline-block; padding-block: 6px; }   /* a 24px target at least (WCAG 2.5.8) */
-.taste-part { display: grid; gap: 8px; font-size: var(--type-body-l); }
-.taste-part__label { margin-left: 8px; font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-lavender-ink); }
+/* the profile's «Ваш подбор»: the three as cards, each under its move (the «Что взять еще» grid: product.css) */
 .pstage__fit { justify-self: start; position: relative; z-index: 6; max-width: 32rem; font-size: var(--type-body); line-height: var(--lh-compact); }
 .pstage__fit[hidden] { display: none; }
