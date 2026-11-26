@@ -6299,7 +6299,7 @@
    "state": "open"
   }
  ],
- "from": "this build",
- "whose": "measured on this commit (480244c)",
- "own": true
+ "from": "the last deploy of main",
+ "whose": "measured on main at 480244c, an earlier commit than this one (27ef7ed)",
+ "own": false
 }
