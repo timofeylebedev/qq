@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T06:01:20.673Z",
- "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
- "ref": "main",
- "pr": null,
+ "generated": "2026-11-26T06:19:23.716Z",
+ "commit": "083e528a146961c01c10f1549d652748014e91e8",
+ "ref": "claude/footer-social",
+ "pr": "32",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T05:47:28.441Z",
+   "when": "2026-11-26T06:05:37.960Z",
    "quick": false,
-   "seconds": 469,
+   "seconds": 468,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T05:55:17.564Z",
+   "when": "2026-11-26T06:13:24.790Z",
    "quick": true,
-   "seconds": 362,
+   "seconds": 358,
    "errors": []
   }
  },
  "base": {
-  "commit": "480244cec775548e09bbeb1b04821d283a86a60c",
-  "generated": "2026-11-26T04:17:56.601Z"
+  "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+  "generated": "2026-11-26T06:01:20.673Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,33 +38,17 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 51,
-  "warn": 11,
+  "pass": 52,
+  "warn": 10,
   "fail": 7,
   "info": 6,
   "findings": 151,
-  "new": 4,
-  "fixed": 3,
+  "new": 0,
+  "fixed": 0,
   "accepted": 91,
   "questions": 17
  },
  "needs": [
-  {
-   "type": "rule",
-   "id": "images.first",
-   "severity": "fail",
-   "area": "Images",
-   "title": "The first screen does not wait",
-   "kind": "hard",
-   "why": "3 places",
-   "fresh": 1,
-   "sample": [
-    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
-    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
-   ],
-   "rank": 353
-  },
   {
    "type": "rule",
    "id": "shape.radii",
@@ -80,6 +64,22 @@
     "coffee/keniya-kisii/ select.buy__select: radius 5px on a 144×54 box (320x568 390x844)"
    ],
    "rank": 304
+  },
+  {
+   "type": "rule",
+   "id": "images.first",
+   "severity": "fail",
+   "area": "Images",
+   "title": "The first screen does not wait",
+   "kind": "hard",
+   "why": "3 places",
+   "fresh": 0,
+   "sample": [
+    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
+    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
+   ],
+   "rank": 303
   },
   {
    "type": "rule",
@@ -489,13 +489,13 @@
    "title": "Edges line up",
    "kind": "tolerance",
    "why": "32 places",
-   "fresh": 3,
+   "fresh": 0,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ button.btn: left edge -0.55px off the line at 28 (4 blocks on it) (320x568)"
    ],
-   "rank": 182
+   "rank": 132
   },
   {
    "type": "rule",
@@ -572,26 +572,10 @@
    "fresh": 0,
    "sample": [
     "picture.bcard__image: z-index -1",
-    "div.story__text: z-index 1",
+    "div.story__text, ul.footer__social, catalog/ ul.footer__social, coffee/keniya-kisii/ ul.footer__social, coffee/q-optimistic/ ul.footer__social: z-index 1",
     "button.hero__info-btn: z-index 2"
    ],
    "rank": 108
-  },
-  {
-   "type": "rule",
-   "id": "weight.total",
-   "severity": "warn",
-   "area": "Weight",
-   "title": "A first visit does not get heavier",
-   "kind": "trend",
-   "why": "5 places · 562 KB",
-   "fresh": 0,
-   "sample": [
-    "html: 1 files, 17 KB sent (was 17 KB)",
-    "js: 12 files, 62 KB sent (was 62 KB)",
-    "css: 1 files, 18 KB sent (was 19 KB)"
-   ],
-   "rank": 105
   },
   {
    "type": "rule",
@@ -765,8 +749,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3685,
-   "total": 3685,
+   "on": 3712,
+   "total": 3712,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -774,8 +758,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3686,
-    "total": 3686
+    "on": 3713,
+    "total": 3713
    },
    "accepted": 0,
    "was": {
@@ -1002,7 +986,7 @@
     },
     {
      "key": "1",
-     "where": "div.story__text",
+     "where": "div.story__text, ul.footer__social, catalog/ ul.footer__social, coffee/keniya-kisii/ ul.footer__social, coffee/q-optimistic/ ul.footer__social",
      "what": "z-index 1",
      "value": 1
     },
@@ -1408,7 +1392,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 29
+    "value": 32
    }
   },
   {
@@ -1541,7 +1525,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 17
+    "value": 16
    }
   },
   {
@@ -2136,7 +2120,7 @@
    "accepted": 0,
    "was": {
     "status": "fail",
-    "value": 2
+    "value": 3
    }
   },
   {
@@ -2690,7 +2674,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 16
+    "value": 14
    }
   },
   {
@@ -3487,19 +3471,19 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 562,
+   "value": 563,
    "unit": "KB",
    "was": {
-    "status": "pass",
-    "value": 486
+    "status": "warn",
+    "value": 562
    },
-   "status": "warn",
+   "status": "pass",
    "items": [
     {
      "key": "html",
      "where": "html",
-     "what": "1 files, 17 KB sent (was 17 KB)",
-     "value": 17
+     "what": "1 files, 18 KB sent (was 17 KB)",
+     "value": 18
     },
     {
      "key": "js",
@@ -3510,13 +3494,13 @@
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 18 KB sent (was 19 KB)",
-     "value": 18
+     "what": "1 files, 19 KB sent (was 18 KB)",
+     "value": 19
     },
     {
      "key": "images",
      "where": "images",
-     "what": "10 files, 402 KB sent (was 326 KB)",
+     "what": "10 files, 402 KB sent (was 402 KB)",
      "value": 402
     },
     {
@@ -3635,7 +3619,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "143 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "144 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
    "value": 3,
    "unit": "places",
@@ -3974,7 +3958,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "132 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "133 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4185,7 +4169,7 @@
    "key": "layers.z::1",
    "rule": "layers.z",
    "status": "warn",
-   "where": "div.story__text",
+   "where": "div.story__text, ul.footer__social, catalog/ ul.footer__social, coffee/keniya-kisii/ ul.footer__social, coffee/q-optimistic/ ul.footer__social",
    "what": "z-index 1",
    "at": "",
    "new": false
@@ -4305,7 +4289,7 @@
    "where": "catalog/ div.footer__group a",
    "what": "right edge +1.52px off the line at 323.48 (26 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|323",
@@ -4314,7 +4298,7 @@
    "where": "coffee/keniya-kisii/ div.footer__group a",
    "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|323",
@@ -4323,7 +4307,7 @@
    "where": "coffee/q-optimistic/ div.footer__group a",
    "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::h3.card__title|left|439",
@@ -5016,7 +5000,7 @@
    "where": "div.featured__media img",
    "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
    "at": "2560x1440",
-   "new": true
+   "new": false
   },
   {
    "key": "states.timing::0",
@@ -5363,16 +5347,16 @@
   {
    "key": "weight.total::html",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "html",
-   "what": "1 files, 17 KB sent (was 17 KB)",
+   "what": "1 files, 18 KB sent (was 17 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::js",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "js",
    "what": "12 files, 62 KB sent (was 62 KB)",
    "at": "",
@@ -5381,25 +5365,25 @@
   {
    "key": "weight.total::css",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "css",
-   "what": "1 files, 18 KB sent (was 19 KB)",
+   "what": "1 files, 19 KB sent (was 18 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::images",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "images",
-   "what": "10 files, 402 KB sent (was 326 KB)",
+   "what": "10 files, 402 KB sent (was 402 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::fonts",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "fonts",
    "what": "4 files, 63 KB sent (was 63 KB)",
    "at": "",
@@ -5433,26 +5417,7 @@
    "new": false
   }
  ],
- "fixed": [
-  {
-   "key": "align.icons::a.iconlink",
-   "rule": "align.icons",
-   "where": "a.iconlink",
-   "what": "lower than its text's line by 9.89px"
-  },
-  {
-   "key": "fallback.fonts::p.qentry__leadЧетыре вопроса — и три к",
-   "rule": "fallback.fonts",
-   "where": "p.qentry__lead",
-   "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font"
-  },
-  {
-   "key": "fallback.fonts::h3.qstep__qЧем вы варите кофе дома?",
-   "rule": "fallback.fonts",
-   "where": "h3.qstep__q",
-   "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font"
-  }
- ],
+ "fixed": [],
  "decisions": [
   {
    "id": "font-headings",
@@ -6307,7 +6272,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 27ef7ed, before this change (claude/footer-social at 083e528)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (083e528)",
+ "own": true
 }
