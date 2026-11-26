@@ -2,7 +2,7 @@
 // purchases, the beans (a dialog over the profile, and its own address), the settings. The visitor is a placeholder
 // (data/account.json, design/decisions.json "account-placeholder"); everything shown is worked out from their orders.
 import { page, head } from "./layout.mjs";
-import { card, photoOf } from "./components.mjs";
+import { card, photoOf, packSrc } from "./components.mjs";
 import { pageHead, subtabs, paneltabs, badge, coffeeMedia, panel, rows, dialog, field, check, meta } from "./blocks.mjs";
 import { esc, icon, href, cls, rub, read, picture } from "./util.mjs";
 import { account, dateShort, dateTime, monthOf } from "./account-data.mjs";
@@ -294,7 +294,7 @@ function myMap(ctx, acc) {
   // one card per coffee, hidden until its dot is hovered (a photo for a Special coffee, else the pack)
   const tips = list.map((c) => {
     const q = by.get(c.slug), ph = photoOf(ctx, q);
-    const img = ph ? picture(ph[0], "", { sizes: "120px", decorative: true }) : `<img src="/assets/pack/still-512.webp" alt="" width="512" height="512" loading="lazy" decoding="async">`;
+    const img = ph ? picture(ph[0], "", { sizes: "120px", decorative: true }) : `<img src="${packSrc(c.slug, 512)}" alt="" width="512" height="512" loading="lazy" decoding="async">`;
     return `<a class="mymap__tip${ph ? " mymap__tip--photo" : ""}" href="${href(ctx, `coffee/${c.slug}/`)}" data-tip="${c.slug}" tabindex="-1" aria-hidden="true" hidden><span class="mymap__img">${img}</span><span class="mymap__name">${esc(c.name)}</span></a>`;
   }).join("");
   return `<figure class="mymap" data-fb-map aria-label="Ваш вкус на карте кофе QQ">

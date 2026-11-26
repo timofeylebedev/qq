@@ -28,7 +28,7 @@ export function paneltabs(items, { label, name }) {
 // ── a count in a dot (how many coffees an order holds, how often one was bought)
 export const badge = (n, label) => `<span class="badge"><span aria-hidden="true">${n}</span><span class="sr">${esc(label)}</span></span>`;
 
-// ── the picture of a coffee: its photo when it has one (photoOf: a Special coffee with a photo in data/site.json), else the 3D pack on the cloud ground
+// ── the picture of a coffee: its photo when it has one (photoOf: a Special coffee with a photo in data/site.json), else the pack's picture on the cloud ground
 export function coffeeMedia(ctx, p, { sizes = "(min-width: 64em) 25vw, 50vw" } = {}) {
   const photo = photoOf(ctx, p);
   return photo

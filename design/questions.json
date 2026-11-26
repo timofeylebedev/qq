@@ -71,13 +71,13 @@
     },
     {
       "id": "box-mac-safari",
-      "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned and turn with the scroll, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
+      "ask": "On your Mac, in Safari (26 or later): the page now scrolls in its own box, as on Flow Medium, so Safari's top bar should stay solid instead of glass over the page. Open the home page, the catalog and a coffee's page, in light and dark mode: is the bar solid? Then scroll each one through: does the navbar change colour with the sections, does the coffee's pack stay pinned, do the space bar, the arrows and Page Down scroll the page, does a reload keep the place, does a card open its coffee with the transition (and back)? With ?qqbox=0 at the end of the address the box is off, to compare (the link has ?qqbox=1, which only forces the box; in Safari 26+ it is on by itself, and links to the next page do not carry the parameter). The link is the test site: it shows this once PR #18 has merged (before that, PR #18's preview: https://timofeylebedev.github.io/qq/pr-preview/pr-18/).",
       "needs": ["mac-safari"],
       "link": "https://timofeylebedev.github.io/qq/?qqbox=1",
       "since": "2026-11-23",
       "from": "PR #18",
       "options": ["Solid bar, everything works", "Something is off (say what and where)"],
-      "about": ["src/styles/base/safari.css", "src/templates/layout.mjs", "src/scripts/scroller.js", "src/scripts/nav.js", "src/scripts/pouch3d.js", "src/scripts/scroll.js", "public/vt.js"],
+      "about": ["src/styles/base/safari.css", "src/templates/layout.mjs", "src/scripts/scroller.js", "src/scripts/nav.js", "src/scripts/scroll.js", "public/vt.js"],
       "status": "open"
     },
     { "id": "checkout-sideways",

@@ -101,7 +101,6 @@ function profile(t) {
       el.querySelector("[data-taste-tag]").textContent = p.label;
       el.hidden = false; grid.append(el);
     }
-    dispatchEvent(new Event("qq:layout"));
     part.querySelector("[data-taste-again]").setAttribute("href", quizHref(t));
     part.hidden = false;
   }

@@ -1,5 +1,5 @@
-// The script of every page: each part starts only if its markup is on the page. The 3D packs, the catalog filters
-// and the product stage load on demand (their own files).
+// The script of every page: each part starts only if its markup is on the page. The catalog filters, the product
+// stage and the other big parts load on demand (their own files).
 import "./focus.js";   // focus rings for the keyboard only
 import { initScroll, initResizeKeep } from "./scroll.js";
 import { initNav } from "./nav.js";
@@ -29,7 +29,6 @@ initBuy();
 initAbout();
 initSliders();
 initFacts();
-// the bag and the favourites write their cards before the 3D packs are set up below, so their packs are drawn
 initCart();
 initFavs();
 initUi();
@@ -39,11 +38,10 @@ initMenus();
 if (document.documentElement.hasAttribute("data-intro")) import("./hero.js").then((m) => m.initHero());
 if (document.querySelector("[data-hero-video]")) import("./video.js").then((m) => m.initVideo());
 if (document.querySelector("[data-curl]")) import("./curl.js").then((m) => m.initCurl());
-if (document.querySelector("[data-pack]")) import("./packs.js").then((m) => m.initPacks());
 if (document.querySelector("[data-stage]")) import("./product.js").then((m) => m.initStage());
 if (document.querySelector("[data-people]")) import("./people.js").then((m) => m.initPeople());
 if (document.querySelector("[data-filters]")) import("./filters.js").then((m) => m.initFilters());
-// the quiz (its dialog on the catalogue) writes its result cards before the packs are measured again (qq:layout); what it saved shows on
+// the quiz (its dialog on the catalogue) writes its result cards; what it saved shows on
 // the catalogue, a coffee's page and the profile (scripts/tastesaved.js)
 if (document.querySelector("[data-quiz]")) import("./quizpage.js").then((m) => m.initQuiz());
 if (document.querySelector("[data-fit], [data-taste-part], [data-people], [data-mine]")) import("./tastesaved.js").then((m) => m.initSaved());

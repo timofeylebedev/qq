@@ -35,7 +35,6 @@ npm run checks:state # the state again from the last record
 npm run report       # site-kit report: the review page into .site-kit/report/ (open its index.html)
 npm run images       # assets-src/img → src/assets/img (AVIF/WebP; commit the outputs)
 npm run fonts        # assets-src/fonts → src/assets/fonts (pip install fonttools brotli)
-node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws, and without WebGL)
 ```
 
 ## Where things are
@@ -49,16 +48,14 @@ node build/pack-still.mjs   # the still of the 3D pack (shown before WebGL draws
 | `data/site.json` | everything that is not a coffee: navigation, the home page's texts, which coffees each block shows, the roast schedule, the footer, delivery prices (`shop`) |
 | `data/business.json`, `about.json`, `faq.json`, `privacy.json`, `company.json` | the texts of the information pages; the company's places and legal details (the contacts block of three pages) |
 | `data/account.json` | **placeholder** visitor of the account pages and their orders (every number on the account is worked out from them) |
-| `src/templates/` | the pages as functions: `layout.mjs` (head, navbar, footer), `components.mjs` (card, pills, taste chart, 3D slot, buy row), `blocks.mjs` (page head, tabs, tiles, form cells, the dark panel, dialogs, contacts), `home.mjs`, `catalog.mjs`, `map.mjs` (the taste map), `product.mjs`, `shop.mjs` (bag, favourites, checkout), `account.mjs` (+ `account-data.mjs`), `info.mjs` (business, FAQ, delivery, contacts, privacy, about) |
+| `src/templates/` | the pages as functions: `layout.mjs` (head, navbar, footer), `components.mjs` (card, pills, taste chart, pack picture, buy row), `blocks.mjs` (page head, tabs, tiles, form cells, the dark panel, dialogs, contacts), `home.mjs`, `catalog.mjs`, `map.mjs` (the taste map), `product.mjs`, `shop.mjs` (bag, favourites, checkout), `account.mjs` (+ `account-data.mjs`), `info.mjs` (business, FAQ, delivery, contacts, privacy, about) |
 | `src/styles/` | `base/` (tokens, fonts, layout), `components/` (+ `blocks.css`, `forms.css`), `sections/` (home), `pages/` (catalog, product, shop, account, info) |
-| `src/scripts/` | one file per part: `main.js` starts them; `pouch3d.js` the 3D renderer, `packs.js` the packs' motion, `product.js` the product stage, `filters.js` the catalog, `curl.js` new arrivals turning like pages, `hero.js` the hero's entrance, `cart.js` and `favs.js` the bag and the favourites, `checkout.js` its steps, `ui.js` dialogs, tabs, copy, ratings |
+| `src/scripts/` | one file per part: `main.js` starts them; `product.js` the product stage, `filters.js` the catalog, `curl.js` new arrivals turning like pages, `hero.js` the hero's entrance, `cart.js` and `favs.js` the bag and the favourites, `checkout.js` its steps, `ui.js` dialogs, tabs, copy, ratings |
 | `design/` | `scale.json` (every size), `colors.json` (every colour), `intro.json` (the hero's entrance; tuned in `intro-tuner/`), `fade-tuner/` and `intro-tuner/` (Tim's tuning artifacts), `taste-bench/` (the taste model's map, an artifact), `next-bench/` and `catalogue-bench/` (forms compared on the real data, artifacts), `decisions.json` (every exception and stand-in), `countries.json` (outlines of the coffee countries for the account) |
-| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/next-output.md`, `docs/notion-fixes.md`), `choose.mjs` (what each coffee fits → choose.json, `docs/choose-output.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, `pack-still.mjs`, the Vite plugins |
+| `build/` | `data.mjs` (CSV → products.json), `taste.mjs` (the taste model → taste.json, `docs/taste-output.md`, `docs/next-output.md`, `docs/notion-fixes.md`), `choose.mjs` (what each coffee fits → choose.json, `docs/choose-output.md`), `pages.mjs` (templates → HTML), `tokens.mjs`, `rules.mjs`, `images.mjs`, `fonts.py`, the Vite plugins |
 | `site-kit.config.mjs` | QQ's adapter for site-kit: the pages, sizes, probes and scenarios of the checks, the audit's settings, the review page's blocks |
 | `design/questions.json` | questions for Tim a check cannot answer (the review page shows them with answer buttons) |
-| `public/pack/` | the 3D pack: mesh, effect maps, label art (fetched by the page) |
-| `public/lab/3d-pack.html` | the 3D pack test bench (look sliders, a 24–200 pack stress test) |
-| `docs/3d-pack-notes.md` | how the 3D pack is built |
+| `src/assets/pack/` | the pack's static pictures: `pack-512.webp` (cards), `pack-1024.webp` (a coffee's page), and a coffee's own as `<slug>-512.webp` / `<slug>-1024.webp` |
 | `docs/taste-model.md` | the taste model: how it works, where it lives, what is open (+ `taste-check.md`, `taste-lexicon.md`, the generated `taste-output.md` and `notion-fixes.md`) |
 | `docs/choose.md` | choosing in the catalogue (methods, chips, the ranking, the taste map) and what the quiz reuses (+ `choose-research.md`, `choose-check/`, the generated `choose-output.md`) |
 | `assets-src/` | originals of the pictures and fonts (not published) |
@@ -70,7 +67,7 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` and
 ## Changing things
 
 - **A coffee:** in the price table, export it as `data/products.csv`. Prices: `data/prices.json` (or a price column).
-- **Its label on the 3D pack:** `public/pack/labels/<name>-front-512.webp` (and `-back-`, and `-1024`), then `art` in `build/data.mjs`.
+- **Its pack picture:** `src/assets/pack/<slug>-512.webp` and `<slug>-1024.webp` (a square on a transparent ground, the pack fitted to 0.9 of it, as `pack-512.webp`); without them it shows `pack-512` / `pack-1024`.
 - **A text of the home page, the navigation, the footer, the roast schedule, delivery prices:** `data/site.json`.
 - **A text of an information page:** `data/business.json`, `faq.json`, `about.json`, `privacy.json`; addresses, phones, legal details: `data/company.json`.
 - **A new page:** a template function, then its address in `PAGES` of `build/pages.mjs` (and in `.gitignore`, the dev server's `ignored` in `vite.config.js`, `check` in `package.json`, `PAGES` of `site-kit.config.mjs`).
@@ -82,8 +79,7 @@ Generated and not committed: `src/index.html`, `src/catalog/`, `src/coffee/` and
 
 Chrome and Edge 111+, Safari and iOS 16.4+, Firefox 121+: the layout relies on container queries and `:has()`
 (the build targets in `vite.config.js`). Without WebGL on a real GPU (a GPU the browser has turned off, a virtual
-machine, a headless browser) the packs are stills and the new arrivals change without a turn; `?qqgl=1` draws them in
-software WebGL anyway. In Safari 26+ on a Mac the page scrolls in its own box, so Safari's top bar stays solid
+machine, a headless browser) the new arrivals change without a turn; `?qqgl=1` draws it in software WebGL anyway. In Safari 26+ on a Mac the page scrolls in its own box, so Safari's top bar stays solid
 (`?qqbox=1` / `?qqbox=0` turn the box on or off in any browser, on the page whose address has it: links do not carry it).
 
 ## Status
@@ -92,5 +88,5 @@ Home, catalog, coffee pages and the pages of round 4 (bag, favourites, checkout,
 contacts, privacy, about) are built and checked (rules, HTML, the audit at 12 sizes, the design system's checks). There is no shop behind them yet:
 the bag and favourites live in the visitor's browser, the checkout and the forms send nothing, the account shows a
 placeholder visitor. Not built yet: search, offices, the other categories (cascara, drips, sets, merch), the journal,
-the 404 page, sign-up and letters, the mobile menu's design, the animated footer logo. Placeholders (prices, photos, the 3D label, the
+the 404 page, sign-up and letters, the mobile menu's design, the animated footer logo. Placeholders (prices, photos, the pack's label, the
 roast schedule) are listed in `design/decisions.json` with what replaces each.

@@ -94,7 +94,7 @@ export default {
       { w: 768, h: 1024, dpr: 2, touch: true }, { w: 1024, h: 768, dpr: 2, touch: true }, { w: 1366, h: 650, dpr: 1 },
       { w: 1440, h: 900, dpr: 2 }, { w: 1920, h: 1080, dpr: 1 }, { w: 2560, h: 1440, dpr: 1 },
     ],
-    // left out of every design check: the 3D canvas and its stills (pictures of packs), the curl sheet of the new arrivals,
+    // left out of every design check: the pictures of packs, the curl sheet of the new arrivals (a canvas),
     // the hero's video, the icon sprite, QQ Digits (an SVG drawing of the countdown)
     skip: "canvas, .pack, .curl-sheet, video, .hero__bg, .sprite, .digits",
     notIcons: ".pack, .digits, .sprite",
@@ -278,7 +278,7 @@ export default {
     stretched: "skip",
     // the page is looked at once, at its top, after the scroll-through (as build/audit.mjs did)
     sections: ["body"],
-    // the one canvas draws packs, not a ground under text
+    // the curl's canvas draws a turning page, not a ground under text
     canvases: null,
     // QQ's own: the navbar's sections never run into the logo or the tools (each step of media.css must fit its row);
     // the hero's countdown: the day row and the digits (or the date) as wide as a one-line caption, a caption on two
@@ -330,7 +330,7 @@ export default {
       { id: "nav", title: "Navbar", selector: ".nav", files: ["src/styles/components/nav.css", "src/scripts/nav.js", "src/templates/layout.mjs"] },
       { id: "hero", title: "Hero", selector: ".hero", files: ["src/styles/sections/home.css", "src/scripts/hero.js", "src/scripts/digits.js", "src/scripts/video.js", "src/templates/home.mjs", "design/intro.json", "design/digits.json"] },
       { id: "featured", title: "New arrivals", selector: ".featured", files: ["src/styles/sections/home.css", "src/scripts/curl.js", "src/scripts/slider.js", "src/templates/home.mjs"] },
-      { id: "recs", title: "Recommendations", selector: "main > section:nth-of-type(3)", files: ["src/styles/components/card.css", "src/scripts/slider.js", "src/scripts/packs.js", "src/templates/components.mjs"] },
+      { id: "recs", title: "Recommendations", selector: "main > section:nth-of-type(3)", files: ["src/styles/components/card.css", "src/scripts/slider.js", "src/templates/components.mjs"] },
       { id: "approach", title: "Approach", anchor: "approach", selector: "#approach", files: ["src/styles/sections/home.css", "src/templates/home.mjs"] },
       { id: "about", title: "About", anchor: "about", selector: "#about", files: ["src/styles/sections/home.css", "src/templates/home.mjs"] },
       { id: "business", title: "Business", anchor: "business", selector: "#business", files: ["src/styles/sections/home.css", "src/styles/components/blocks.css", "src/templates/home.mjs"] },

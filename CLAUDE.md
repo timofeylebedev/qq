@@ -126,15 +126,13 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
   scrolls sideways).
-- **3D**: one canvas per page at z-index 5. While the product's pinned pack is on screen the canvas is fixed to the
-  screen (`stage.fixed`, else it would ride a scroll for a frame); the pack stands at one angle, never turning with
-  the scroll (Tim, 26 Nov), and can be dragged (it turns back on release: decision `pack-drag`). What must show above packs is positioned with z-index ≥ 6 (fact tiles,
-  captions); the navbar 50, the buy bar 20. A pack inside a `[data-slider]` row is clipped to it.
+- **No 3D** (Tim, 26 Nov): every pack is a static picture, `pack()` in `src/templates/components.mjs` (`src/assets/pack/pack-512.webp`
+  on cards, `pack-1024.webp` on a coffee's page; a coffee's own `<slug>-512.webp` / `-1024.webp` there is picked up). A
+  hovered card's pack comes a little closer, as a photo does (decision `hover-zoom`). The WebGL pack (`pouch3d.js`,
+  `packs.js`, `public/pack/`, the lab) is gone; `docs/3d-pack-notes.md` keeps how it was made. Don't bring a renderer back.
 - **Page transitions**: `public/vt.js` (a plain script in `<head>`, not bundled) names a card's name and pack for the
   cross-document view transition to its coffee's page (on that page the name and the line under it, `.pstage__title`).
-  Leaving, `qqPacks.freeze()` leaves a picture of every pack as the canvas draws it (`stage.shot`); arriving, packs
-  face front until the pages have changed. A still must stand exactly where the canvas draws its pack (rerun
-  `build/pack-still.mjs` when the model or the look changes). `data-out` hides the favourites' cards that are not chosen and the catalog's that a choice leaves out; the reel's and the catalog's waiting
+  `data-out` hides the favourites' cards that are not chosen and the catalog's that a choice leaves out; the reel's and the catalog's waiting
   cards are `data-wait` (on a reload or a step back the cards in view do not rise again; the catalog's rise one after
   another: `riseGrid` in `scripts/slider.js`, `html[data-enter]`).
 - **New arrivals turn like pages** (`scripts/curl.js`, «Изгиб» of Tim's artifact): the slides lie in one cell
@@ -145,7 +143,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   an anchor of the same page that is not the home page is written as is (`#contacts`), not through `href`.
 - **Shared blocks** of the new pages are in `src/templates/blocks.mjs` (page head, tabs, tiles, form cells, the dark
   panel, dialogs, contacts, the menu cell of the filters and the buy bar: `menu`, `scripts/menus.js`): reuse them before writing new markup. The bag and the favourites are written by their
-  scripts before the 3D packs start (`main.js`), so their packs are drawn; a change of layout dispatches `qq:layout`.
+  scripts (`main.js`).
 - **The countdown's digits** are QQ Digits drawn as SVG (`build/digits.mjs` from `design/digits.json`, Tim's settings
   from the artifact «QQ Digits»); `scripts/digits.js` lights the segments. Change the drawing in the JSON, not the SVG.
 - **The hero's entrance** is GSAP (`scripts/hero.js`, loaded only on the home page): `html[data-intro]`, set by the
@@ -239,18 +237,17 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   the page scrolls inside its own box (`html.boxed`, `<div class="page" data-page>` around everything in `<body>`:
   `src/templates/layout.mjs`), so Safari's top bar stays solid; `site-kit/runtime/box.js` decides it, inlined first in
   every `<head>` (`inlineScripts` in build/plugins.js), and `?qqbox=1` / `?qqbox=0` turn the box on or off in any
-  browser. In the box the navbar is sticky, not fixed (`src/styles/base/safari.css`), the 3D canvas is inside the box,
+  browser. In the box the navbar is sticky, not fixed (`src/styles/base/safari.css`),
   and an IntersectionObserver with a `rootMargin` takes `root: ioRoot`. `.bar-guard` (site-kit/runtime/safari.css: an
   empty fixed block that takes taps) keeps Safari's bottom bar on iPhone plain glass; never give it a background or a
   backdrop filter. Whether it does so over QQ's own tab bar is Tim's iPhone's to say (design/questions.json).
-- **WebGL only on a real GPU**: `pouch3d.js` and `curl.js` take their context through `gpuContext()` of
+- **WebGL only on a real GPU**: `curl.js` (the one WebGL left) takes its context through `gpuContext()` of
   `site-kit/runtime/gpu.js`. Without a real GPU (Chrome copies a WebGL canvas back to the processor every frame) the
-  packs keep their stills and the new arrivals change without a turn; `?qqgl=1` forces WebGL (tests; build/pack-still.mjs
-  forces it too).
+  new arrivals change without a turn; `?qqgl=1` forces WebGL (tests).
 
 ## Testing tips
 
-- Headless Chromium has no GPU: the packs are stills and the curl is off unless the address has `?qqgl=1`. Test the
+- Headless Chromium has no GPU: the curl is off unless the address has `?qqgl=1`. Test the
   box with `?qqbox=1` (the navbar following the grounds, the product's pinned pack, the reload's place, the buy bar on
   the tab bar). The parameter is read by each page from its own address and links do not carry it: a page reached by a
   link (a card, the navbar) opens without the box. So a view transition from a boxed page to a boxed page is seen only
@@ -258,9 +255,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   The catalog's filters keep the address's other parameters, so `?qqbox` / `?qqgl` stay there while filtering.
 - `npm run rules` runs QQ's `build/rules.mjs` (the twelve rules of the system; it fails) and then `site-kit rules`
   (the same twelve as `qq.*` and the kit's lessons, `learn.*`); `npx site-kit rules` alone runs only the second part.
-- Full-page screenshots lie about the 3D packs (the canvas covers the screen, not the page): take screen-sized frames
-  at scroll positions instead. Headless Chromium: `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
-- `window.qqPacks` (the stage and `TUNE`: turn, hover, the carry of a rising card, the press) and `window.qqStage.progress` in the console.
+- Headless Chromium with WebGL (the curl): `--use-gl=swiftshader --enable-unsafe-swiftshader --ignore-gpu-blocklist`.
 - A reload keeps the scroll place (`scripts/scroll.js`, sessionStorage): to test from the top, open the page anew.
 - Bigger browser text: DevTools `Page.setFontSizes` (the audit does 24px).
 - The audit (`site-kit audit`, settings under `audit` in the adapter) puts a bag and favourites into the browser before

@@ -1,9 +1,9 @@
 /* The motion of the site: three curves and two hover times, nothing else (build/rules.mjs checks).
      out    things arriving, settling (hover in, a panel opening)
-     move   things travelling from one place to another (a slider, a pack turning back)
+     move   things travelling from one place to another (a slider, a card rising)
      leave  things going away
    Hovers come in at --t-in and go out slower at --t-out, so a pointer passing over a list leaves a soft trail.
-   With «reduce motion» transitions are instant and the packs stand still. */
+   With «reduce motion» transitions are instant. */
 :root {
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
@@ -36,7 +36,7 @@
 @keyframes vt-name-out { 35%, to { opacity: 0; } }
 @keyframes vt-name-in { from, 35% { opacity: 0; } }
 ::view-transition-old(coffee-pack), ::view-transition-new(coffee-pack) { height: 100%; width: auto; margin-inline: auto; mix-blend-mode: normal; }
-/* the pack: the new one shows whole from the start and the old one (the card's pack as it was drawn, a little turned)
+/* the pack: the new one shows whole from the start and the old one (the card's pack)
    leaves it in the first part of the way: two packs half seen over each other read as a shadow (Tim, round 8) */
 ::view-transition-new(coffee-pack) { animation: none; opacity: 1; }
 ::view-transition-old(coffee-pack) { animation: vt-pack-out var(--t-move) var(--ease-out) both; }
@@ -49,10 +49,5 @@ html[data-vt] .tabbar { view-transition-name: qq-tabbar; }
 html[data-vt]::view-transition-old(root) { animation: vt-name-out var(--t-move) var(--ease-out) both; }
 html[data-vt]::view-transition-new(root) { animation: vt-name-in var(--t-move) var(--ease-out) both; }
 html[data-vt]::view-transition-old(root), html[data-vt]::view-transition-new(root) { mix-blend-mode: normal; }
-/* while the pages are captured the 3D canvas stays out and every pack shows its still */
-html[data-vt] canvas:not(.pack__shot) { visibility: hidden; }
-html[data-vt] .pack .pack__still { opacity: 1 !important; transition: none !important; }
-/* leaving, the picture each pack left of itself (scripts/packs.js freeze) stands in for it, over its pad */
-.pack__shot { display: none; }
-html[data-vt] .pack__shot { display: block; position: absolute; inset: -25%; width: 150%; height: 150%; max-width: none; pointer-events: none; }
-html[data-vt] .pack:has(.pack__shot) .pack__still { opacity: 0 !important; }
+/* while the pages are captured a WebGL canvas (the new arrivals' turning sheet) stays out */
+html[data-vt] canvas { visibility: hidden; }

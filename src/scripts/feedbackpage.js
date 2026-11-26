@@ -144,8 +144,7 @@ export function initFeedback() {
       grid.append(el);   // the three first, in their order, for the eye and for a screen reader alike
     }
   }
-  // cards with 3D packs are shown and hidden: tell the stage (CLAUDE.md: a change of layout dispatches qq:layout)
-  const draw = () => { compute(); drawForms(); drawRows(); drawMap(); drawNext(); dispatchEvent(new Event("qq:layout")); };
+  const draw = () => { compute(); drawForms(); drawRows(); drawMap(); drawNext(); };
 
   // ── the forms ──
   // «не про вкус» needs no taste taps; «помол» asks how the visitor wants it next time

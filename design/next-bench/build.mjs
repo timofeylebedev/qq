@@ -27,7 +27,7 @@ mkdirSync(join(out, "forms"), { recursive: true }); mkdirSync(join(out, "fonts")
 writeFileSync(join(out, "data.js"), `window.QQ_DATA = ${JSON.stringify({ coffees })};\n`);
 for (const f of forms) copyFileSync(join(here, "forms", f), join(out, "forms", f));
 for (const f of ["apercu-400", "apercu-500", "pt-mono-700"]) copyFileSync(join(root, `src/assets/fonts/${f}.woff2`), join(out, `fonts/${f}.woff2`));
-copyFileSync(join(root, "src/assets/pack/still-512.webp"), join(out, "pack.webp"));
+copyFileSync(join(root, "src/assets/pack/pack-512.webp"), join(out, "pack.webp"));
 copyFileSync(join(here, "base.css"), join(out, "base.css"));
 copyFileSync(join(here, "notes.js"), join(out, "notes.js"));
 const ids = forms.filter((f) => f.endsWith(".js")).map((f) => f.slice(0, -3));

@@ -3,8 +3,7 @@
 // work as they do anywhere: the row is an ordinary scrolling box.
 //
 // A reel (recommended) shows whole cards only, clipped at the column (Tim, round 7). Its cards rise into place from
-// below as they come into view (the section reaching the screen, or a card sliding in); their packs are carried up
-// with them (scripts/packs.js, the event qq:carry).
+// below as they come into view (the section reaching the screen, or a card sliding in).
 import { ioRoot } from "./scroller.js";
 
 const calm = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -76,13 +75,11 @@ function rise(track) {
     if (!("wait" in c.dataset)) return;
     c.style.transitionDelay = `${delay}ms`;
     delete c.dataset.wait;
-    dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 1100 + delay } }));
   };
   const down = (c) => {
     if ("wait" in c.dataset) return;
     c.style.transitionDelay = "0ms";
     c.dataset.wait = "out";              // leaving: the rise reversed (layout.css), not the instant wait of a card never shown
-    dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 700, tilt: false } }));   // its pack goes with it, upright
   };
   // sideways: in the row's own box (the column)
   let side = null;
@@ -120,7 +117,7 @@ function rise(track) {
 // 90ms apart in reading order, then each as it comes onto the screen (cards arriving together still in turn). deal()
 // sends the cards shown back down to rise again (the filters changed what the grid shows). The page's inline script
 // sets html[data-enter] when this may run; otherwise (reduced motion, coming back to the page, no observer) the cards
-// stop waiting at once. Their packs fade and are carried up with them (scripts/packs.js, qq:carry).
+// stop waiting at once.
 export function riseGrid(grid) {
   const cards = [...grid.children];
   const stand = () => { for (const c of cards) delete c.dataset.wait; return { deal() {} }; };
@@ -135,7 +132,6 @@ export function riseGrid(grid) {
         const delay = start + i * 90;
         c.style.transitionDelay = `${delay}ms`;
         delete c.dataset.wait;
-        dispatchEvent(new CustomEvent("qq:carry", { detail: { el: c, ms: 1100 + delay } }));
         last = now + delay + 90;
       });
     queue = [];

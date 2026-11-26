@@ -39,7 +39,7 @@ writeFileSync(join(out, "data.js"), `window.QQ_DATA = ${JSON.stringify({ dots, c
 const forms = readdirSync(join(here, "forms")).filter((f) => /\.(js|css)$/.test(f)).sort();
 for (const f of forms) copyFileSync(join(here, "forms", f), join(out, "forms", f));
 for (const f of ["apercu-400", "apercu-500", "pt-mono-700"]) copyFileSync(join(root, `src/assets/fonts/${f}.woff2`), join(out, `fonts/${f}.woff2`));
-copyFileSync(join(root, "src/assets/pack/still-512.webp"), join(out, "pack.webp"));
+copyFileSync(join(root, "src/assets/pack/pack-512.webp"), join(out, "pack.webp"));
 for (const f of ["base.css", "kit.js", "notes.js"]) copyFileSync(join(here, f), join(out, f));
 const ids = forms.filter((f) => f.endsWith(".js")).map((f) => f.slice(0, -3));
 writeFileSync(join(out, "index.html"), readFileSync(join(here, "page.html"), "utf8")

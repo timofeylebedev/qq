@@ -1,4 +1,9 @@
-# 3D coffee pack for the web — working notes
+# 3D coffee pack for the web — working notes (retired)
+
+**Retired 26 Nov 2026 (Tim: «we won't use 3D»).** The site shows a static picture of the pack everywhere
+(`src/assets/pack/pack-512.webp`, `pack-1024.webp`: the renders this model made; `pack()` in
+`src/templates/components.mjs`). The renderer, its motion, the mesh and maps, the label art and the test bench were
+removed from the repo; they are in git history before that date. The notes below describe the 3D pack as it was.
 
 Status (20 Oct 2026): model and renderer on the site; hover, press and the carry of a rising card are designed (rounds 2–5; no lag or lean with the scroll since round 5), the look values still wait for the designer.
 

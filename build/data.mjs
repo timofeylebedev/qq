@@ -90,9 +90,7 @@ function product(r) {
     created: r["Создан"] ? new Date(r["Создан"] + " UTC").toISOString().slice(0, 10) : null,
     priceGroup: group,
     weights: weights.map((w) => ({ label: w, grams: weightGrams(w), price: PRICE.groups[group]?.[w] ?? null })),
-    pricePlaceholder: PRICE.placeholder === true,
-    // label art of the 3D pack: every coffee shows the one label that exists for now (design/decisions.json, "pack-label")
-    art: { front: "sumatra-front", back: "sumatra-back" }
+    pricePlaceholder: PRICE.placeholder === true
   };
 }
 

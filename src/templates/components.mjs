@@ -1,5 +1,6 @@
-// The components every page shares: the product card, the descriptor pills, the taste chart, the 3D pack slot, the
+// The components every page shares: the product card, the descriptor pills, the taste chart, the pack picture, the
 // weight choice with its add-to-bag button. One markup each; their looks are in src/styles/components/.
+import { existsSync } from "node:fs";
 import { esc, icon, href, cls, picture, rub, taste, lower, read } from "./util.mjs";
 
 // ── descriptors ──────────────────────────────────────────────────────────────────────────────────────────────────
@@ -75,12 +76,16 @@ export function tasteScale(p) {
       </div>`;
 }
 
-// ── the 3D pack ──────────────────────────────────────────────────────────────────────────────────────────────────
-// An empty slot that scripts/packs.js hands to the one WebGL canvas of the page; until then (and without WebGL)
-// the slot shows a still of the same pack rendered by build/pack-still.mjs.
+// ── the pack ─────────────────────────────────────────────────────────────────────────────────────────────────────
+// A static picture of the coffee's pack (src/assets/pack/: a square on a transparent ground, the pack at 0.9 of it).
+// No 3D (Tim, 26 Nov). A coffee with its own picture (src/assets/pack/<slug>-512.webp and -1024.webp) shows it; the
+// rest show pack-512 / pack-1024, the one label there is for now (decision pack-label).
+const PACKS = new URL("../assets/pack/", import.meta.url);
+export const packSrc = (slug, px) => existsSync(new URL(`${slug}-${px}.webp`, PACKS)) ? `/assets/pack/${slug}-${px}.webp` : `/assets/pack/pack-${px}.webp`;
 export function pack(p, { size = "card", eager = false } = {}) {
-  return `<div class="${cls("pack", `pack--${size}`)}" data-pack="${size}" data-front="${p.art.front}" data-back="${p.art.back}" role="img" aria-label="Пакет кофе ${esc(p.name)}">
-      <img class="pack__still" src="/assets/pack/still-${size === "hero" ? 1024 : 512}.webp" alt="" width="${size === "hero" ? 1024 : 512}" height="${size === "hero" ? 1024 : 512}"${eager ? "" : ' loading="lazy"'} decoding="async">
+  const px = size === "hero" ? 1024 : 512;
+  return `<div class="${cls("pack", `pack--${size}`)}">
+      <img class="pack__img" src="${packSrc(p.slug, px)}" alt="Пакет кофе ${esc(p.name)}" width="${px}" height="${px}"${eager ? "" : ' loading="lazy"'} decoding="async">
     </div>`;
 }
 
@@ -109,11 +114,11 @@ export function cardText(p) {
 }
 
 // ── a coffee's photo: only a Special coffee shows one (Tim, round 7), when data/site.json photos gives it one; the
-// rest show their 3D pack
+// rest show their pack
 export const photoOf = (ctx, p) => (p?.line === "Special" && ctx.site.photos.bySlug[p.slug]) || null;
 
 // ── the product card ─────────────────────────────────────────────────────────────────────────────────────────────
-// Two looks, one markup: a pack on the light ground (the 3D pack), or a photo on dark (a Special coffee that site.json
+// Two looks, one markup: a pack on the light ground (its picture), or a photo on dark (a Special coffee that site.json
 // gives a photo: photoOf). A card that rises into place when it comes into view (the catalog) starts waiting (wait). The whole card, its text too, links to the coffee's page (the name's link stretched over it); the heart and the buy row sit above that link.
 // A card may carry its own text in place of the description (on a coffee's page: why it is offered, one line of the
 // taste model; already escaped).
