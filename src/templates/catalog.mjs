@@ -4,11 +4,13 @@
 // sets the roast and grind QQ sells for it; each on one line —, Страна, Обработка, Особенности — моносорт, смесь,
 // Classic, Special) and under it a row of checkboxes without counts (Для вас — only with a saved quiz —, Под молоко, На
 // каждый день, Необычные, Без кофеина). A choice shows only its matches; with none, «Точно таких нет» over the nearest
-// (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
+// (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js). At the left of the row, apart from the
+// cells, «Подобрать кофе» opens the quiz in a dialog (quiz.mjs, scripts/quizpage.js).
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
-import { esc, icon, read, href } from "./util.mjs";
+import { esc, icon, read } from "./util.mjs";
 import { menu } from "./blocks.mjs";
+import { quizDialog } from "./quiz.mjs";
 
 const choice = (name, caption, type, options, checked = null, summary = null) => menu(name, caption, type, options, { checked, summary });
 
@@ -79,16 +81,19 @@ export function render(ctx) {
       <li>${icon("truck")}<span data-ship-date>Передадим в доставку на следующий рабочий день после обжарки</span></li>
     </ul>
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
-    <p class="catalog__quiz" data-quiz-entry><span data-quiz-entry-text>Выбираете впервые?</span> <a class="link" href="${href(ctx, "start/")}" data-quiz-entry-link>Выбрать кофе за минуту</a></p>
     <form class="filters" data-filters aria-label="Выбор кофе">
-      <div class="filters__row">
+      <div class="filters__bar">
+        <button class="btn filters__quiz" type="button" data-dialog="quiz">Подобрать кофе</button>
+        <div class="filters__row">
         ${cells}
+        </div>
       </div>
       <fieldset class="filters__checks"><legend class="sr">Что хочется</legend>${checks}<button class="filters__reset" type="reset" data-reset hidden>Сбросить всё</button></fieldset>
       <p class="sr" role="status" data-status></p>
       <button class="sr" type="submit" tabindex="-1">Показать</button>
     </form>
     <script type="application/json" id="choose-data">${json}</script>
+    ${quizDialog(ctx)}
     <div class="grid grid--catalog" data-grid data-rise>
       <h2 class="grid__head" data-head="exact" hidden>Точно таких нет</h2>
       ${list.map((p, i) => card(ctx, p, { size: i < site.catalog.featuredCount ? "half" : "third", heading: 2, wait: true, choose: true })).join("\n      ")}

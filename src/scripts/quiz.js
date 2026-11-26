@@ -195,16 +195,16 @@ function reasons(p, first, a, region, D) {
 }
 
 // the result in one sentence: what kind of coffee to start with (the first coffee's region of the map), and why (from
-// the answers), then that it is a start
+// the answers)
 const CONTRARY = /кислинк|мягче, чем|классичнее|необычнее/;
 function summary(a, first, spread, D, card) {
   const W = D.words;
-  if (spread) return [W.spread, W.start];
+  if (spread) return [W.spread];
   // milk is a reason only when the first coffee is one QQ advises for milk
   const because = [(a.milk === "yes" || a.milk === "some") && first.milk ? W.because[`milk-${a.milk}`] : "", a.now && a.now !== "none" ? W.because[`now-${a.now}`] : "", CONTRARY.test(card?.but || "") ? "" : W.because[`taste-${a.taste}`] || ""].filter(Boolean);
   const list = because.length > 1 ? `${because.slice(0, -1).join(", ")} и ${because.at(-1)}` : because[0] || "";
   const adj = first.position.unusual >= 1.5 ? W.unusualStart : W.regions[first.region][1];
-  return [`Начните ${/^с[^аеёиоуыэюя]/.test(adj) ? "со" : "с"} ${adj} кофе${list ? `: вы ${list}` : ""}.`, W.start];
+  return [`Начните ${/^с[^аеёиоуыэюя]/.test(adj) ? "со" : "с"} ${adj} кофе${list ? `: вы ${list}` : ""}.`];
 }
 
 // the part of the catalogue that fits: the method, milk, and the taste as the catalogue's own switches and checkboxes

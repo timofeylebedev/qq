@@ -8,15 +8,18 @@ https://claude.ai/artifact/AZFRK774BDY4sEPQq1EspK: any answers with three forms 
 respondents of the survey check with their verdicts.
 
 ## Where it is
-- **One quiz, one page:** «Заказываю кофе впервые» (`start/`, `src/templates/start.mjs`). The quiz comes first; under it
-  the «start here» set of three, «Под эспрессо или под фильтр», «Что значат слова на странице кофе» and «Как мы
-  обжариваем и доставляем» (marketing's section 15: an introduction for a first order that doesn't repeat the catalogue).
-- **Ways in** (all lead to the same page):
-  - the home page: the section right after the hero (`quizEntry()`) asks the first question in place; each method is a
-    link that opens the quiz on question 2 (`start/?method=…`);
-  - the catalogue: a line under the tabs, «Выбираете впервые? Выбрать кофе за минуту» (after a quiz the line is
-    gone and «Для вас» is the first checkbox under the filters);
-  - the footer: «Заказываю кофе впервые» under «Покупателям».
+- **A dialog of the catalogue, «Подобрать кофе»** (Tim, 26 Nov: no page, no section): `src/templates/quiz.mjs`
+  `quizDialog()`, opened by the button at the left of the filters' row (apart from the cells by the gap; below L on its
+  own line above them), by `catalog/?quiz` (the footer's «Подобрать кофе», the profile's «Открыть подбор») and, with a
+  quiz kept in this browser, straight onto its result. The page «Заказываю кофе впервые» (`start/`: the «start here»
+  set of three, the roasts, the words, roasting and delivery) and the home page's section after the hero are gone.
+- **In the dialog:** four bars and ← → at the top (→ only once the question is answered), the question and its options
+  (no «Вопрос 1 из 4» but for a screen reader, no «или выбираю в подарок»). The result: «Ваш подбор», one sentence, the
+  answers (each reopens its question and comes straight back), the three cards, «Показать в каталоге» (ticks «Для вас»
+  under the filters with the visitor's method, and closes), «Пройти заново», the taste map. No «Это начало, а не
+  приговор…», no «Нажмите на ответ…», no line about what was saved. The answers live in the dialog, not in an address.
+- **The options' lines** are the grid's own (its line colour one hairline between cells, and a frame), not the cells'
+  overlapping borders: a chosen or tinted cell never covers or doubles a neighbour's line (Tim, 26 Nov).
 - **B2B** is a link on the first screen («Для кофейни или офиса: подберём с менеджером и на дегустации» → business/),
   not a result: business buyers choose with a manager and a cupping (marketing's row 5; the B2B survey).
 
