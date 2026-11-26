@@ -166,6 +166,206 @@
   ],
   "ratio": 1
  },
+ "lot-braziliya-rancho-grande": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-braziliya-santa-mariya": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-efiopiya-bekele": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-efiopiya-gudzhi": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-indoneziya-meruri": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-indoneziya-vonosalam": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-keniya-kisii": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-keniya-nayvasha-pb": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-antiokiya": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-chayna-alta": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-dekaf": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-el-plaser-ipa": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-la-sirena": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-kolumbiya-vush-vush": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-peru-monte-verde": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-peru-palma-real": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-q-berry": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-q-finch": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-q-optimistic": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-q-profit": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-q-punch": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-ruanda-gitsumbi": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-ruanda-nyaki": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-uganda-luna": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
+ "lot-vetnam-kua-mon": {
+  "widths": [
+   480,
+   800,
+   1200
+  ],
+  "ratio": 1
+ },
  "map-office": {
   "widths": [
    480,

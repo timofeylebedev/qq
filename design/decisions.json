@@ -293,7 +293,7 @@
       "what": "Hovered, the picture of a card (a product card's pack or photo, a business card's photo) comes a little closer (scale 1.04 on --t-move, --ease-out); until 26 Nov a card's 3D pack lifted towards the pointer instead",
       "why": "Tim, round 7: «as with the product cards, the picture should zoom on hover»; the one exception to «Hovers never move»",
       "decided": "Tim, 2026-10-21 (round 7)",
-      "hover": [".card:hover .card__photo img", ".card:hover .pack__img", ".bcard:hover .bcard__image img"],
+      "hover": [".card:hover .card__photo img", ".card:hover .pack__img", ".card:hover .pack__scene img", ".bcard:hover .bcard__image img"],
       "fix": "" },
     { "id": "nav-leading-edge", "kind": "decision",
       "what": "The navbar and the tab bar take the ground of a section the moment their leading edge touches it: scrolling down the lower edge, up the upper one (scripts/nav.js)",
