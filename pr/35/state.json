@@ -1,24 +1,24 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T11:01:16.312Z",
- "commit": "543bf8d15c9555f2218e081f26913f126579afcc",
+ "generated": "2026-11-26T11:17:35.744Z",
+ "commit": "bab4600cd3d2b1f4ceed18a6ce0e477f69ea3aa6",
  "ref": "claude/profile-round",
  "pr": "35",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T10:48:08.643Z",
+   "when": "2026-11-26T11:04:18.435Z",
    "quick": false,
-   "seconds": 446,
+   "seconds": 450,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T10:55:33.786Z",
+   "when": "2026-11-26T11:11:48.616Z",
    "quick": true,
-   "seconds": 342,
+   "seconds": 346,
    "errors": []
   }
  },
@@ -5687,7 +5687,7 @@
    "id": "feedback",
    "kind": "decision",
    "state": "unbound",
-   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; grey dots that show the coffee on hover and open it on click, no words and no axes' arrows: Tim, 26 Nov), a question «Как вам <coffees>?» that × hides (qq-fb-closed) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why, under the lead «Вы отметили «…».» (Tim, 26 Nov). Nothing is said about a coffee not yet delivered. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
+   "what": "The feedback after delivery (session 6 of choosing coffee; docs/feedback.md). The order page asks «Как вам кофе?» per coffee from day 4 (filter) / 7 (espresso) after delivery: how it was brewed (set from the grind), milk, then three rows in the taste model's words, «Слишком ярко · В самый раз · Хочу ярче», «Слишком плотно · В самый раз · Хочу плотнее», and for a fermented coffee «Слишком необычно · В самый раз · Хочу необычнее»; «Не про вкус» (помол, with how you want it next time; не как в описании) kept apart. The orders list, the profile's question and purchases (in place of the thumbs) point to it; a letter's buttons open it with the first answer tapped (?fb=<slug>&bright=…). Every taste answer moves the visitor's region with update() of taste.js (half for a roast brewed the wrong way; never for «не про вкус»). The profile shows «Ваш вкус» on the taste map (the region and its path, in place of the radar of purchases; grey dots, lavender for the coffees bought, that show the coffee's card above them on hover and open it on click, the axes named without arrows, the path dotted grey, the visitor now a «+», no words: Tim, 26 Nov), a question «Как вам <coffees>?» that × hides (qq-fb-closed) and «Следующий кофе» (in place of «Подобрали для вас»): a move that honours the last answer, a second one, «Снова» for a coffee called «в самый раз» or «По вашему вкусу», each with why, under the lead «Вы отметили «…».» (Tim, 26 Nov). Nothing is said about a coffee not yet delivered. The reply under each answer says what counted and names the next coffee. Nothing is sent: answers live in this browser (qq-feedback) over the placeholder visitor's own (data/account.json feedback).",
    "decided": "Claude, 2026-11-26 (session 6), for Tim to confirm in the PR"
   }
  ],
