@@ -180,7 +180,6 @@ export function initFilters() {
     // a screen reader hears what a change found (only a visitor's change: not on load, not on Back)
     if (push === true) status.textContent = !any ? `Все ${R.exact.length} кофе` : R.empty ? `Точно таких нет. Похожих: ${near.length}` : `Подходят ${R.exact.length}`;
     write(push === true);
-    dispatchEvent(new Event("qq:layout"));
   }
 
   // ── the tabs: «Все» and «Кофе» show the coffee; the others are not in the shop yet ──
@@ -191,7 +190,6 @@ export function initFilters() {
     document.querySelector(`.tab[data-tab="${what || id === "kofe" ? id : "all"}"]`)?.setAttribute("aria-current", "page");
     grid.hidden = !!what; form.hidden = !!what; soon.hidden = !what;
     if (what) soonWhat.textContent = what;
-    dispatchEvent(new Event("qq:layout"));
   };
 
   // the cards rise into place one after another, and again when a change of the choice deals them anew

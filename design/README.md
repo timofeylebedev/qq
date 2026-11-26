@@ -76,7 +76,7 @@ card-title/body-l, and hero/display. Labels (control text, prices) are set apart
 | `hero/max` | `--hero-max` | 960 → 1200 (size) | the most the hero may be tall; below it the hero is the screen less a 24px peek |
 | `story/min-h` | `--story-h` | 400 → 680 (size) | least height of the image blocks (approach, about) |
 | `footer/logo` | `--footer-logo` | 104 → 216 (size) | width of the flame mark in the footer |
-| `product/stage` | `--stage` | 320 → 720 (size) | the 3D pack on a product page: the side of its square (also capped by the screen's height) |
+| `product/stage` | `--stage` | 320 → 720 (size) | the pack on a product page: the side of its square (also capped by the screen's height) |
 
 ## Layout: one column, three steps
 
@@ -129,20 +129,19 @@ ink-60 and ink-50 fail for small text: decision `secondary-text`).
 - **A card is one step off its ground**: cloud cards on white, black photo cards, black business cards on cool grey.
 - **Names are mono capitals**, everything you read is Apercu.
 - **Motion:** things arrive on `--ease-out`, travel on `--ease-move`, leave on `--ease-leave`; hovers come in at 0.2s and
-  go out at 0.45s. The 3D packs face a little toward the middle of the screen and turn toward the pointer; they stay
-  exactly in their slots while the page scrolls or a row slides; a card rising into place carries its pack up;
-  pressed anywhere on its card, a pack moves away from the viewer and stays while held. On a coffee's page the pack
-  turns once around as its facts pass. Cards of
+  go out at 0.45s. The packs are static pictures: they move only with their card
+  (a card rising into place brings its pack with it). Cards of
   a sideways row show only inside the column: they rise in and sink away. When the home page opens the hero's dock
   rises (`--t-intro`) and its cells arrive part by part: the title line by line, the countdown row by row, the links
   one by one (GSAP, `scripts/hero.js`). The countdown's segments fade on and off like LCD glass (`--ease-glass`).
   The burger's menu slides down from under the bar. With «reduce motion» nothing moves.
 
-## The 3D pack
+## The pack
 
-One WebGL canvas per page draws every pack into its slot (`src/scripts/pouch3d.js`, about 10 KB, no libraries), so 25
-packs cost one context. A still of the same pack shows until the canvas has drawn, and for good without WebGL. Every
-pack shows the Sumatra label for now (decision `pack-label`). How the model is built: `docs/3d-pack-notes.md`.
+Every pack is a static picture (`src/assets/pack/pack-512.webp` on cards, `pack-1024.webp` on a coffee's page: a
+square on a transparent ground, the pack at 0.9 of it), written by `pack()` in `src/templates/components.mjs`. There
+is no 3D on the site (Tim, 26 Nov 2026). Every pack shows the Sumatra label for now (decision `pack-label`). The old
+3D pack is described in `docs/3d-pack-notes.md` (retired).
 
 ## Decisions
 

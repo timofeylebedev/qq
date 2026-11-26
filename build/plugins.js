@@ -82,11 +82,11 @@ export function minifyPages() {
 const POLICY = {
   "default-src": ["'self'"],
   "script-src": ["'self'"],
-  "style-src": ["'self'", "'unsafe-inline'"],          // scripts set styles on the elements they move (the 3D canvas, the pinned pack)
+  "style-src": ["'self'", "'unsafe-inline'"],          // scripts set styles on the elements they move (the curl's sheet, the hero's parts, the cards that rise)
   "img-src": ["'self'", "data:", "blob:"],
   "media-src": ["'self'"],                          // the heroes' video (build/video.mjs)
   "font-src": ["'self'"],
-  "connect-src": ["'self'"],                           // the 3D pack fetches its mesh and labels from the site itself
+  "connect-src": ["'self'"],                           // the site's own data only
   "frame-src": ["'none'"],
   "object-src": ["'none'"],
   "base-uri": ["'self'"],

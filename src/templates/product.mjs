@@ -1,5 +1,5 @@
-// A coffee's page (marketing's rows 16 and 17, Tim, 26 Nov): the first screen in two halves from M, the 3D pack on the
-// left (pinned under the navbar while the right half scrolls, turning as it does) and on the right the name, the line
+// A coffee's page (marketing's rows 16 and 17, Tim, 26 Nov): the first screen in two halves from M, the pack's picture on the
+// left (pinned under the navbar while the right half scrolls) and on the right the name, the line
 // under it and the facts as tiles in a grid; the story (a sentence, a photo, the text of the table in columns); who
 // drinks it («Впечатления», people.mjs; the line under the name links to them); then the buy bar, which follows the
 // screen's foot through all of that and lets go there, before «Что взять еще» (the taste model's moves).

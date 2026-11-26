@@ -28,7 +28,7 @@ export function cart(ctx) {
   const courier = site.shop.delivery.find((d) => d.id === "courier");
   const bySlug = new Map(products.map((p) => [p.slug, p]));
 
-  // one picture per coffee, cloned by scripts/cart.js into each line of the bag (so the 3D packs are there when the page starts)
+  // one picture per coffee, cloned by scripts/cart.js into each line of the bag
   const media = products.map((p) => `<template data-media="${p.slug}">${coffeeMedia(ctx, p, { sizes: "(min-width: 64em) 30vw, (min-width: 48em) 50vw, 100vw" })}</template>`).join("");
 
   const item = `<template data-cart-item><article class="bitem" data-bag-item>

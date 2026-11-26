@@ -2,9 +2,6 @@
 // each with its quantity, weight, grind and roast. A line whose box is unticked waits under «Отложенные» and is not
 // ordered; a coffee no longer on sale (data/site.json shop.unavailable) waits under «Нет в наличии». The panel adds
 // up what is ticked: the goods, delivery (free from shop.free), the beans if spent, what the order will earn.
-//
-// The lines are written when the page starts, before the 3D packs are set up, so every line's pack is drawn; later
-// changes move or remove the same elements and tell the packs to measure again (qq:layout).
 import { KEY, load, save, rub, badge, toast } from "./buy.js";
 
 const plural = (n, one, few, many) => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? one : a >= 2 && a <= 4 && (b < 10 || b >= 20) ? few : many; };
@@ -107,7 +104,7 @@ export function initCart() {
     empty.hidden = lines.length > 0; bar.hidden = !lines.length; panel.hidden = !lines.length; list.hidden = !live.some((l) => !l.later);
     for (const a of panel.querySelectorAll("[data-checkout]")) a.toggleAttribute("aria-disabled", !n);
   }
-  const changed = () => { store(); sum(); dispatchEvent(new Event("qq:layout")); };
+  const changed = () => { store(); sum(); };
   sum(); badge();
 
   const lineOf = (el) => { const n = el.closest("[data-bag-item]"); for (const [l, x] of nodes) if (x === n) return [l, n]; return []; };

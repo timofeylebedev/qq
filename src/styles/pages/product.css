@@ -12,7 +12,6 @@
 :root:has(.product) { --buybar-h: 88px; }
 body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16px); }
 
-.pstage { touch-action: pan-y; }   /* a drag across turns the pack (scripts/packs.js); up and down scroll the page */
 .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); position: relative; padding-top: var(--nav-h); padding-bottom: var(--section-y-s); }
 @media (--short) { .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--tabbar-h)); } }
 .pstage__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--block-pad) var(--gap); }
@@ -26,7 +25,7 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
    square as tall as the screen allows */
 .pstage__pin { grid-row: 2; display: grid; place-items: center; min-width: 0; }
 .pack--hero { position: relative; inset: auto; width: min(var(--stage), 100%, var(--pin-h)); height: auto; aspect-ratio: 1; }
-.pack--hero .pack__still { height: 100%; }
+.pack--hero .pack__img { height: 100%; }
 @container col (width >= 43rem) {
   .pstage__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pstage__pin { grid-row: 1; grid-column: 1; position: sticky; top: var(--nav-h); align-self: start; height: var(--pin-h); min-height: 18rem; }

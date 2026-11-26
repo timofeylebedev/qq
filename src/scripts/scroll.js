@@ -1,5 +1,5 @@
 // A reload keeps the place on the page. Browsers restore it on their own, but not reliably here: the page grows as
-// fonts, pictures and the 3D packs come in, and with smooth scrolling on (base.css) some browsers restore before
+// fonts and pictures come in, and with smooth scrolling on (base.css) some browsers restore before
 // the page is tall enough or animate from the top. So the site does it itself: the place is kept per address in this
 // tab (sessionStorage) and put back, instantly, after a reload or a step back, and again while the page settles,
 // until the visitor scrolls on their own.

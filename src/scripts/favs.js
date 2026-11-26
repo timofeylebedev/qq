@@ -1,6 +1,6 @@
 // The favourites page: every coffee's card is on the page, hidden; the visitor's favourites (localStorage "qq-fav",
 // the hearts of the site, oldest first) are shown in the order chosen: newest added first, cheaper, dearer, by name.
-// A heart taken off here hides its card. Runs before the 3D packs are set up, so the shown cards get their packs.
+// A heart taken off here hides its card.
 import { FAV, load, save, badge, toast } from "./buy.js";
 
 export function initFavs() {
@@ -24,7 +24,6 @@ export function initFavs() {
     for (const slug of order) grid.append(cards.get(slug));
     count.textContent = fav.length || "";
     empty.hidden = fav.length > 0; bar.hidden = !fav.length; grid.hidden = !fav.length;
-    dispatchEvent(new Event("qq:layout"));
   }
   show();
   sort.addEventListener("change", show);
