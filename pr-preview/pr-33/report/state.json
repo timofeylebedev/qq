@@ -1,30 +1,30 @@
 {
  "schema": 1,
  "site": "QQ Coffee",
- "generated": "2026-11-26T06:01:20.673Z",
- "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
- "ref": "main",
- "pr": null,
+ "generated": "2026-11-26T08:50:56.625Z",
+ "commit": "1ff0e28882351d7ba8e4d7f34be1c879a52ded83",
+ "ref": "claude/product-dense",
+ "pr": "33",
  "errors": [],
  "engines": {
   "chromium": {
    "version": "141.0.7390.37",
-   "when": "2026-11-26T05:47:28.441Z",
+   "when": "2026-11-26T08:37:31.987Z",
    "quick": false,
-   "seconds": 469,
+   "seconds": 449,
    "errors": []
   },
   "webkit": {
    "version": "26.0",
-   "when": "2026-11-26T05:55:17.564Z",
+   "when": "2026-11-26T08:45:01.924Z",
    "quick": true,
-   "seconds": 362,
+   "seconds": 354,
    "errors": []
   }
  },
  "base": {
-  "commit": "480244cec775548e09bbeb1b04821d283a86a60c",
-  "generated": "2026-11-26T04:17:56.601Z"
+  "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+  "generated": "2026-11-26T06:01:20.673Z"
  },
  "kinds": {
   "hard": "any item is a failure",
@@ -38,32 +38,32 @@
  "summary": {
   "rules": 75,
   "errors": 0,
-  "pass": 51,
-  "warn": 11,
+  "pass": 52,
+  "warn": 10,
   "fail": 7,
   "info": 6,
-  "findings": 151,
+  "findings": 149,
   "new": 4,
-  "fixed": 3,
+  "fixed": 6,
   "accepted": 91,
   "questions": 17
  },
  "needs": [
   {
    "type": "rule",
-   "id": "images.first",
+   "id": "code.tokens-wired",
    "severity": "fail",
-   "area": "Images",
-   "title": "The first screen does not wait",
+   "area": "Code",
+   "title": "Every var() defined, every token used",
    "kind": "hard",
-   "why": "3 places",
+   "why": "4 places",
    "fresh": 1,
    "sample": [
-    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
-    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
-    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
+    "Code: defined, never used: --c-cloud-70",
+    "Code: defined, never used: --c-graphite",
+    "Code: defined, never used: --trace-light"
    ],
-   "rank": 353
+   "rank": 354
   },
   {
    "type": "rule",
@@ -83,17 +83,17 @@
   },
   {
    "type": "rule",
-   "id": "code.tokens-wired",
+   "id": "images.first",
    "severity": "fail",
-   "area": "Code",
-   "title": "Every var() defined, every token used",
+   "area": "Images",
+   "title": "The first screen does not wait",
    "kind": "hard",
    "why": "3 places",
    "fresh": 0,
    "sample": [
-    "Code: defined, never used: --c-graphite",
-    "Code: defined, never used: --trace-light",
-    "Code: defined, never used: --c-taste-other"
+    "catalog/ picture.card__photo img: life-box-800-DpMwwL7W.avif is on the first screen but waits (loading=lazy) (768x1024 1366x650)",
+    "catalog/ picture.card__photo img: life-box-1200-CMKT4Nbr.avif is on the first screen but waits (loading=lazy) (1024x768 1440x900 1920x1080 2560x1440)",
+    "div.featured__media img: life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy) (2560x1440)"
    ],
    "rank": 303
   },
@@ -488,14 +488,14 @@
    "area": "Alignment",
    "title": "Edges line up",
    "kind": "tolerance",
-   "why": "32 places",
+   "why": "29 places",
    "fresh": 3,
    "sample": [
     "div.footer__group a: right edge -3px off the line at 144 (4 blocks on it) (320x568)",
     "catalog/ div.footer__legal p: right edge -3px off the line at 256 (25 blocks on it) (320x568)",
     "coffee/keniya-kisii/ button.btn: left edge -0.55px off the line at 28 (4 blocks on it) (320x568)"
    ],
-   "rank": 182
+   "rank": 179
   },
   {
    "type": "rule",
@@ -525,7 +525,7 @@
    "sample": [
     "a.nav__tool, button.nav__tool, a.tabbar__item, a.hero__link, button.arrows__btn: 24×24",
     "button.hero__info-btn, svg.buy__chevron, catalog/ svg.buy__chevron, coffee/keniya-kisii/ svg.buy__chevron, coffee/q-optimistic/ svg.buy__chevron: 20×20",
-    "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot: 72×98"
+    "svg.taste__plot: 72×98"
    ],
    "rank": 116
   },
@@ -579,22 +579,6 @@
   },
   {
    "type": "rule",
-   "id": "weight.total",
-   "severity": "warn",
-   "area": "Weight",
-   "title": "A first visit does not get heavier",
-   "kind": "trend",
-   "why": "5 places · 562 KB",
-   "fresh": 0,
-   "sample": [
-    "html: 1 files, 17 KB sent (was 17 KB)",
-    "js: 12 files, 62 KB sent (was 62 KB)",
-    "css: 1 files, 18 KB sent (was 19 KB)"
-   ],
-   "rank": 105
-  },
-  {
-   "type": "rule",
    "id": "shape.borders",
    "severity": "warn",
    "area": "Shape",
@@ -620,8 +604,8 @@
    "fresh": 0,
    "sample": [
     "svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "coffee/keniya-kisii/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
-    "coffee/q-optimistic/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
+    "coffee/keniya-kisii/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)",
+    "coffee/q-optimistic/ svg.taste__plot: drawn in its own colour, not the text's (currentColor) (844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440)"
    ],
    "rank": 103
   },
@@ -663,8 +647,8 @@
    "how": "Every text holder at every measured size: its size against each role of the scale at that screen (±0.6px). Objects sized as a whole or fitted to their box (checks.typeObjects) are left out.",
    "value": 99.9,
    "unit": "% of text holders",
-   "on": 2182,
-   "total": 2185,
+   "on": 2180,
+   "total": 2183,
    "pass": 97,
    "warn": 90,
    "status": "pass",
@@ -700,8 +684,8 @@
    "webkit": {
     "status": "pass",
     "value": 99.9,
-    "on": 2182,
-    "total": 2185
+    "on": 2180,
+    "total": 2183
    },
    "accepted": 0,
    "was": {
@@ -765,8 +749,8 @@
    "how": "Every text, background, border and icon colour the browser drew (drawings and canvases left out) against the colours of the palette (±1.5 a channel, ±1.5% alpha).",
    "value": 100,
    "unit": "% of colour uses",
-   "on": 3685,
-   "total": 3685,
+   "on": 3638,
+   "total": 3638,
    "pass": 99,
    "warn": 95,
    "status": "pass",
@@ -774,8 +758,8 @@
    "webkit": {
     "status": "pass",
     "value": 100,
-    "on": 3686,
-    "total": 3686
+    "on": 3639,
+    "total": 3639
    },
    "accepted": 0,
    "was": {
@@ -804,9 +788,9 @@
     },
     {
      "key": "alpha",
-     "where": "coffee/keniya-kisii/ li.ptile, coffee/q-optimistic/ li.ptile, coffee/q-optimistic/ span.buyer__meter",
+     "where": "coffee/q-optimistic/ span.buyer__meter",
      "what": "alpha",
-     "value": 11
+     "value": 6
     }
    ],
    "status": "info",
@@ -826,8 +810,8 @@
    "how": "Every rounded box: its corner against radius/s, m, l at that screen (±0.6px), a pill (half its height), or a listed object. Inner corners (outer − inset) show up here as their own values.",
    "value": 100,
    "unit": "% of rounded boxes",
-   "on": 189,
-   "total": 189,
+   "on": 177,
+   "total": 177,
    "pass": 90,
    "warn": 75,
    "status": "fail",
@@ -875,9 +859,9 @@
    ],
    "webkit": {
     "status": "fail",
-    "value": 70.8,
-    "on": 189,
-    "total": 267
+    "value": 69.4,
+    "on": 177,
+    "total": 255
    },
    "accepted": 0,
    "was": {
@@ -960,18 +944,6 @@
      "where": "div.hero__bg video",
      "what": "video: 320×521",
      "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
-    },
-    {
-     "key": "backdrop-filtercoffee/keniya-kisii/ li.ptile",
-     "where": "coffee/keniya-kisii/ li.ptile",
-     "what": "backdrop-filter: blur(40px)",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
-    },
-    {
-     "key": "backdrop-filtercoffee/q-optimistic/ li.ptile",
-     "where": "coffee/q-optimistic/ li.ptile",
-     "what": "backdrop-filter: blur(40px)",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "status": "info",
@@ -1014,7 +986,7 @@
     },
     {
      "key": "6",
-     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ p.pstage__people",
+     "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__info, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ ul.pstage__facts, coffee/q-optimistic/ div.pstage__info",
      "what": "z-index 6",
      "value": 6
     },
@@ -1115,12 +1087,6 @@
      "at": "320x568 390x844"
     },
     {
-     "key": "coffee/keniya-kisii/ div.pstage__pin",
-     "where": "coffee/keniya-kisii/ div.pstage__pin",
-     "what": "sticky",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
-    },
-    {
      "key": "coffee/keniya-kisii/ form.buybar",
      "where": "coffee/keniya-kisii/ form.buybar",
      "what": "sticky, z 20",
@@ -1145,16 +1111,22 @@
      "at": "320x568 390x844"
     },
     {
-     "key": "coffee/q-optimistic/ div.pstage__pin",
-     "where": "coffee/q-optimistic/ div.pstage__pin",
-     "what": "sticky",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
-    },
-    {
      "key": "coffee/q-optimistic/ form.buybar",
      "where": "coffee/q-optimistic/ form.buybar",
      "what": "sticky, z 20",
      "at": "320x568 390x844 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ div.pstage__pin",
+     "where": "coffee/keniya-kisii/ div.pstage__pin",
+     "what": "sticky",
+     "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+    },
+    {
+     "key": "coffee/q-optimistic/ div.pstage__pin",
+     "where": "coffee/q-optimistic/ div.pstage__pin",
+     "what": "sticky",
+     "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "status": "info",
@@ -1172,7 +1144,7 @@
    "kind": "tolerance",
    "title": "Edges line up",
    "how": "The left and right edges of headings, texts, buttons and cards at every measured size, grouped into lines (3+ edges within 0.5px). An edge 0.5–3px from a line is a near miss: it looks aligned and is not.",
-   "value": 32,
+   "value": 29,
    "unit": "near misses",
    "status": "warn",
    "items": [
@@ -1275,24 +1247,10 @@
      "at": "768x1024"
     },
     {
-     "key": "coffee/keniya-kisii/ div.footer__group a|right|538",
-     "where": "coffee/keniya-kisii/ div.footer__group a",
-     "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
-     "value": 0.79,
-     "at": "768x1024"
-    },
-    {
      "key": "coffee/q-optimistic/ h3.card__title|left|406",
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)",
      "value": 1.2,
-     "at": "768x1024"
-    },
-    {
-     "key": "coffee/q-optimistic/ div.footer__group a|right|538",
-     "where": "coffee/q-optimistic/ div.footer__group a",
-     "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
-     "value": 0.79,
      "at": "768x1024"
     },
     {
@@ -1338,20 +1296,6 @@
      "at": "1366x650"
     },
     {
-     "key": "coffee/q-optimistic/ h2.ptile__title|left|772",
-     "where": "coffee/q-optimistic/ h2.ptile__title",
-     "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
-     "value": 0.53,
-     "at": "1366x650"
-    },
-    {
-     "key": "coffee/q-optimistic/ p.ptile__text|left|772",
-     "where": "coffee/q-optimistic/ p.ptile__text",
-     "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
-     "value": 0.53,
-     "at": "1366x650"
-    },
-    {
      "key": "coffee/q-optimistic/ h3.card__title|left|707",
      "where": "coffee/q-optimistic/ h3.card__title",
      "what": "left edge +0.95px off the line at 707.28 (9 blocks on it)",
@@ -1359,18 +1303,11 @@
      "at": "1366x650"
     },
     {
-     "key": "coffee/keniya-kisii/ h2.ptile__title|left|1074",
-     "where": "coffee/keniya-kisii/ h2.ptile__title",
-     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
-     "value": 1.67,
-     "at": "1440x900"
-    },
-    {
-     "key": "coffee/q-optimistic/ h2.ptile__title|left|1074",
-     "where": "coffee/q-optimistic/ h2.ptile__title",
-     "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
-     "value": 1.67,
-     "at": "1440x900"
+     "key": "coffee/q-optimistic/ h1.pstage__name|right|1004",
+     "where": "coffee/q-optimistic/ h1.pstage__name",
+     "what": "right edge +0.61px off the line at 1003.66 (3 blocks on it)",
+     "value": 0.61,
+     "at": "1366x650"
     },
     {
      "key": "li.fact|left|200",
@@ -1387,6 +1324,13 @@
      "at": "1920x1080"
     },
     {
+     "key": "coffee/keniya-kisii/ p.pstage__people|right|1314",
+     "where": "coffee/keniya-kisii/ p.pstage__people",
+     "what": "right edge +2.5px off the line at 1313.5 (3 blocks on it)",
+     "value": 2.5,
+     "at": "1920x1080"
+    },
+    {
      "key": "li.fact|left|520",
      "where": "li.fact",
      "what": "left edge +1px off the line at 520 (11 blocks on it)",
@@ -1399,6 +1343,13 @@
      "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
      "value": 0.99,
      "at": "2560x1440"
+    },
+    {
+     "key": "coffee/keniya-kisii/ p.pstage__people|right|1634",
+     "where": "coffee/keniya-kisii/ p.pstage__people",
+     "what": "right edge +2.5px off the line at 1633.5 (3 blocks on it)",
+     "value": 2.5,
+     "at": "2560x1440"
     }
    ],
    "webkit": {
@@ -1408,7 +1359,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 29
+    "value": 32
    }
   },
   {
@@ -1541,7 +1492,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 17
+    "value": 16
    }
   },
   {
@@ -1648,12 +1599,6 @@
      "value": 1
     },
     {
-     "key": "coffee/keniya-kisii/ li.ptile",
-     "where": "coffee/keniya-kisii/ li.ptile",
-     "what": "1.09 – 1.33 · changes with the screen",
-     "value": 2
-    },
-    {
      "key": "coffee/keniya-kisii/ picture.pstory__image",
      "where": "coffee/keniya-kisii/ picture.pstory__image",
      "what": "1.68",
@@ -1682,12 +1627,6 @@
      "where": "coffee/keniya-kisii/ picture.footer__mark img",
      "what": "0.66 · css auto 218 / 332 · 2:3",
      "value": 1
-    },
-    {
-     "key": "coffee/q-optimistic/ li.ptile",
-     "where": "coffee/q-optimistic/ li.ptile",
-     "what": "1.09 – 1.33 · changes with the screen",
-     "value": 2
     },
     {
      "key": "coffee/q-optimistic/ picture.pstory__image",
@@ -1730,6 +1669,18 @@
      "where": "coffee/q-optimistic/ picture.footer__mark img",
      "what": "0.66 · css auto 218 / 332 · 2:3",
      "value": 1
+    },
+    {
+     "key": "coffee/keniya-kisii/ li.ptile",
+     "where": "coffee/keniya-kisii/ li.ptile",
+     "what": "1.42 – 4.26 · changes with the screen",
+     "value": 23
+    },
+    {
+     "key": "coffee/q-optimistic/ li.ptile",
+     "where": "coffee/q-optimistic/ li.ptile",
+     "what": "1.47 – 4.6 · changes with the screen",
+     "value": 23
     },
     {
      "key": "coffee/keniya-kisii/ div.cell",
@@ -1785,13 +1736,13 @@
      "key": "coffee/keniya-kisii/ svg.taste__plot",
      "where": "coffee/keniya-kisii/ svg.taste__plot",
      "what": "drawn in its own colour, not the text's (currentColor)",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+     "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     },
     {
      "key": "coffee/q-optimistic/ svg.taste__plot",
      "where": "coffee/q-optimistic/ svg.taste__plot",
      "what": "drawn in its own colour, not the text's (currentColor)",
-     "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
+     "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440"
     }
    ],
    "webkit": {
@@ -1827,7 +1778,7 @@
     },
     {
      "key": "72×98",
-     "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+     "where": "svg.taste__plot",
      "what": "72×98"
     },
     {
@@ -2136,7 +2087,7 @@
    "accepted": 0,
    "was": {
     "status": "fail",
-    "value": 2
+    "value": 3
    }
   },
   {
@@ -2346,12 +2297,6 @@
      "value": 1
     },
     {
-     "key": "buybar",
-     "where": ".buybar",
-     "what": "1 on the page",
-     "value": 1
-    },
-    {
      "key": "pstory",
      "where": ".pstory",
      "what": "1 on the page",
@@ -2360,6 +2305,12 @@
     {
      "key": "people",
      "where": ".people",
+     "what": "1 on the page",
+     "value": 1
+    },
+    {
+     "key": "buybar",
+     "where": ".buybar",
      "what": "1 on the page",
      "value": 1
     },
@@ -2690,7 +2641,7 @@
    "accepted": 0,
    "was": {
     "status": "warn",
-    "value": 16
+    "value": 14
    }
   },
   {
@@ -3487,13 +3438,13 @@
    "kind": "trend",
    "title": "A first visit does not get heavier",
    "how": "The bytes of a first visit scrolled top to bottom at 1440×900 (×2), as sent (Brotli for text), against the last deploy of main: more than 10% more warns (scripts alone: 5%).",
-   "value": 562,
+   "value": 485,
    "unit": "KB",
    "was": {
-    "status": "pass",
-    "value": 486
+    "status": "warn",
+    "value": 562
    },
-   "status": "warn",
+   "status": "pass",
    "items": [
     {
      "key": "html",
@@ -3510,14 +3461,14 @@
     {
      "key": "css",
      "where": "css",
-     "what": "1 files, 18 KB sent (was 19 KB)",
+     "what": "1 files, 18 KB sent (was 18 KB)",
      "value": 18
     },
     {
      "key": "images",
      "where": "images",
-     "what": "10 files, 402 KB sent (was 326 KB)",
-     "value": 402
+     "what": "8 files, 326 KB sent (was 402 KB)",
+     "value": 326
     },
     {
      "key": "fonts",
@@ -3635,12 +3586,17 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every var() defined, every token used",
-   "how": "143 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
+   "how": "142 custom properties used, 85 tokens in tokens.gen.css (read from the code).",
    "status": "fail",
-   "value": 3,
+   "value": 4,
    "unit": "places",
    "note": "",
    "items": [
+    {
+     "key": "Code|defined, never used: --c-cloud-70#1",
+     "where": "Code",
+     "what": "defined, never used: --c-cloud-70"
+    },
     {
      "key": "Code|defined, never used: --c-graphite#1",
      "where": "Code",
@@ -3668,7 +3624,7 @@
    "area": "Layout",
    "kind": "hard",
    "title": "Layouts change only at the shared steps or a declared own step",
-   "how": "73 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
+   "how": "72 width container queries against 22rem, 43rem, 58rem, 1520px and the declared own steps () (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3702,7 +3658,7 @@
    "area": "Decisions",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "71 entries: id, kind, what, why, decided; ids unique (read from the code).",
+   "how": "72 entries: id, kind, what, why, decided; ids unique (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3889,7 +3845,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Sizes only from the scale",
-   "how": "font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 10 rules listed in decisions.json (build/rules.mjs) (read from the code).",
+   "how": "font sizes are --type-* (or the 16px floor of fields, 12px of the counter); screen units only in 9 rules listed in decisions.json (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -3974,7 +3930,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every token defined and used",
-   "how": "132 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
+   "how": "131 variables used, 36 scale roles (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4008,7 +3964,7 @@
    "area": "Code",
    "kind": "hard",
    "title": "Every decision complete",
-   "how": "71 decisions: 46 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
+   "how": "72 decisions: 47 decisions, 9 exceptions, 16 placeholders (build/rules.mjs) (read from the code).",
    "status": "pass",
    "value": 0,
    "unit": "places",
@@ -4203,7 +4159,7 @@
    "key": "layers.z::6",
    "rule": "layers.z",
    "status": "warn",
-   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ div.col, coffee/q-optimistic/ div.pstage__head, coffee/q-optimistic/ p.pstage__people",
+   "where": "p.featured__caption, coffee/keniya-kisii/ div.pstage__info, coffee/keniya-kisii/ div.pstage__head, coffee/keniya-kisii/ p.pstage__people, coffee/keniya-kisii/ ul.pstage__facts, coffee/q-optimistic/ div.pstage__info",
    "what": "z-index 6",
    "at": "",
    "new": false
@@ -4305,7 +4261,7 @@
    "where": "catalog/ div.footer__group a",
    "what": "right edge +1.52px off the line at 323.48 (26 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|323",
@@ -4314,7 +4270,7 @@
    "where": "coffee/keniya-kisii/ div.footer__group a",
    "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|323",
@@ -4323,7 +4279,7 @@
    "where": "coffee/q-optimistic/ div.footer__group a",
    "what": "right edge +1.6px off the line at 323.4 (5 blocks on it)",
    "at": "390x844",
-   "new": true
+   "new": false
   },
   {
    "key": "align.edges::h3.card__title|left|439",
@@ -4371,29 +4327,11 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/keniya-kisii/ div.footer__group a",
-   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
-   "at": "768x1024",
-   "new": false
-  },
-  {
    "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|406",
    "rule": "align.edges",
    "status": "warn",
    "where": "coffee/q-optimistic/ h3.card__title",
    "what": "left edge +1.2px off the line at 406.38 (10 blocks on it)",
-   "at": "768x1024",
-   "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ div.footer__group a",
-   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)",
    "at": "768x1024",
    "new": false
   },
@@ -4452,24 +4390,6 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|772",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h2.ptile__title",
-   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
-   "at": "1366x650",
-   "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ p.ptile__text|left|772",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ p.ptile__text",
-   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)",
-   "at": "1366x650",
-   "new": false
-  },
-  {
    "key": "align.edges::coffee/q-optimistic/ h3.card__title|left|707",
    "rule": "align.edges",
    "status": "warn",
@@ -4479,22 +4399,13 @@
    "new": false
   },
   {
-   "key": "align.edges::coffee/keniya-kisii/ h2.ptile__title|left|1074",
+   "key": "align.edges::coffee/q-optimistic/ h1.pstage__name|right|1004",
    "rule": "align.edges",
    "status": "warn",
-   "where": "coffee/keniya-kisii/ h2.ptile__title",
-   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
-   "at": "1440x900",
-   "new": false
-  },
-  {
-   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|1074",
-   "rule": "align.edges",
-   "status": "warn",
-   "where": "coffee/q-optimistic/ h2.ptile__title",
-   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)",
-   "at": "1440x900",
-   "new": false
+   "where": "coffee/q-optimistic/ h1.pstage__name",
+   "what": "right edge +0.61px off the line at 1003.66 (3 blocks on it)",
+   "at": "1366x650",
+   "new": true
   },
   {
    "key": "align.edges::li.fact|left|200",
@@ -4515,6 +4426,15 @@
    "new": false
   },
   {
+   "key": "align.edges::coffee/keniya-kisii/ p.pstage__people|right|1314",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ p.pstage__people",
+   "what": "right edge +2.5px off the line at 1313.5 (3 blocks on it)",
+   "at": "1920x1080",
+   "new": true
+  },
+  {
    "key": "align.edges::li.fact|left|520",
    "rule": "align.edges",
    "status": "warn",
@@ -4531,6 +4451,15 @@
    "what": "right edge -0.99px off the line at 2039.99 (8 blocks on it)",
    "at": "2560x1440",
    "new": false
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ p.pstage__people|right|1634",
+   "rule": "align.edges",
+   "status": "warn",
+   "where": "coffee/keniya-kisii/ p.pstage__people",
+   "what": "right edge +2.5px off the line at 1633.5 (3 blocks on it)",
+   "at": "2560x1440",
+   "new": true
   },
   {
    "key": "align.icons::a.nav__tool",
@@ -4691,7 +4620,7 @@
    "status": "warn",
    "where": "coffee/keniya-kisii/ svg.taste__plot",
    "what": "drawn in its own colour, not the text's (currentColor)",
-   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
    "new": false
   },
   {
@@ -4700,7 +4629,7 @@
    "status": "warn",
    "where": "coffee/q-optimistic/ svg.taste__plot",
    "what": "drawn in its own colour, not the text's (currentColor)",
-   "at": "320x568 390x844 844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
+   "at": "844x390 768x1024 1024x768 1366x650 1440x900 1920x1080 2560x1440",
    "new": false
   },
   {
@@ -4725,7 +4654,7 @@
    "key": "icons.sizes::72×98",
    "rule": "icons.sizes",
    "status": "warn",
-   "where": "svg.taste__plot, coffee/keniya-kisii/ svg.taste__plot, coffee/q-optimistic/ svg.taste__plot",
+   "where": "svg.taste__plot",
    "what": "72×98",
    "at": "",
    "new": false
@@ -5016,7 +4945,7 @@
    "where": "div.featured__media img",
    "what": "life-jacket-1200-DS7mzr4o.avif is on the first screen but waits (loading=lazy)",
    "at": "2560x1440",
-   "new": true
+   "new": false
   },
   {
    "key": "states.timing::0",
@@ -5363,7 +5292,7 @@
   {
    "key": "weight.total::html",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "html",
    "what": "1 files, 17 KB sent (was 17 KB)",
    "at": "",
@@ -5372,7 +5301,7 @@
   {
    "key": "weight.total::js",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "js",
    "what": "12 files, 62 KB sent (was 62 KB)",
    "at": "",
@@ -5381,29 +5310,38 @@
   {
    "key": "weight.total::css",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "css",
-   "what": "1 files, 18 KB sent (was 19 KB)",
+   "what": "1 files, 18 KB sent (was 18 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::images",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "images",
-   "what": "10 files, 402 KB sent (was 326 KB)",
+   "what": "8 files, 326 KB sent (was 402 KB)",
    "at": "",
    "new": false
   },
   {
    "key": "weight.total::fonts",
    "rule": "weight.total",
-   "status": "warn",
+   "status": "pass",
    "where": "fonts",
    "what": "4 files, 63 KB sent (was 63 KB)",
    "at": "",
    "new": false
+  },
+  {
+   "key": "code.tokens-wired::Code|defined, never used: --c-cloud-70#1",
+   "rule": "code.tokens-wired",
+   "status": "fail",
+   "where": "Code",
+   "what": "defined, never used: --c-cloud-70",
+   "at": "",
+   "new": true
   },
   {
    "key": "code.tokens-wired::Code|defined, never used: --c-graphite#1",
@@ -5435,22 +5373,40 @@
  ],
  "fixed": [
   {
-   "key": "align.icons::a.iconlink",
-   "rule": "align.icons",
-   "where": "a.iconlink",
-   "what": "lower than its text's line by 9.89px"
+   "key": "align.edges::coffee/keniya-kisii/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ div.footer__group a",
+   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)"
   },
   {
-   "key": "fallback.fonts::p.qentry__leadЧетыре вопроса — и три к",
-   "rule": "fallback.fonts",
-   "where": "p.qentry__lead",
-   "what": "«Четыре вопроса — и три к» 2 → 3 lines, 354 → 354px wide with the fallback font"
+   "key": "align.edges::coffee/q-optimistic/ div.footer__group a|right|538",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ div.footer__group a",
+   "what": "right edge +0.79px off the line at 537.59 (7 blocks on it)"
   },
   {
-   "key": "fallback.fonts::h3.qstep__qЧем вы варите кофе дома?",
-   "rule": "fallback.fonts",
-   "where": "h3.qstep__q",
-   "what": "«Чем вы варите кофе дома?» 2 → 1 lines, 354 → 354px wide with the fallback font"
+   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|772",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h2.ptile__title",
+   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ p.ptile__text|left|772",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ p.ptile__text",
+   "what": "left edge -0.53px off the line at 772.09 (12 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/keniya-kisii/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "where": "coffee/keniya-kisii/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)"
+  },
+  {
+   "key": "align.edges::coffee/q-optimistic/ h2.ptile__title|left|1074",
+   "rule": "align.edges",
+   "where": "coffee/q-optimistic/ h2.ptile__title",
+   "what": "left edge -1.67px off the line at 1074.23 (3 blocks on it)"
   }
  ],
  "decisions": [
@@ -5626,7 +5582,7 @@
    "id": "product-pin",
    "kind": "exception",
    "state": "unbound",
-   "what": "The product stage is pinned at the height of the screen less the navbar and the buy bar; the fact tiles are spaced by 40% of the screen's height (28% from L)",
+   "what": "The product stage's pack is pinned (from M, in the left half) at the height of the screen less the navbar and the buy bar. Before Tim's 26 Nov round the fact tiles also floated, spaced by 40% of the screen's height; now they are a grid beside the pack (decision product-dense)",
    "decided": "Claude, 2026-10-19"
   },
   {
@@ -5679,10 +5635,17 @@
    "decided": "Claude, 2026-10-19 (to check with the designer)"
   },
   {
+   "id": "product-dense",
+   "kind": "decision",
+   "state": "unbound",
+   "what": "A coffee's first screen in two halves from M: the 3D pack on the left, pinned while the right half scrolls (the name, the line under it, the links, then the facts as cloud tiles one hairline apart in a grid: two a row once the half holds two of 16rem, an odd last tile across). Below M: the name, the pack, the tiles. The buy bar's place is after «Впечатления»: sticky, it follows the screen's foot through the stage, the story and «Впечатления» and lets go before «Что взять еще», never over the footer.",
+   "decided": "Tim, 2026-11-26"
+  },
+  {
    "id": "short-screens",
    "kind": "decision",
    "state": "unbound",
-   "what": "On a screen under 32em tall (a phone sideways) the buy bar waits after the product stage instead of following the screen, and the stage pins at the whole screen under the navbar (no 22rem floor)",
+   "what": "On a screen under 32em tall (a phone sideways) the buy bar waits in its place (since Tim's 26 Nov round: after «Впечатления») instead of following the screen, and the stage pins at the whole screen under the navbar (no 22rem floor)",
    "decided": "Claude, 2026-10-19"
   },
   {
@@ -6307,7 +6270,7 @@
    "state": "open"
   }
  ],
- "from": "the last deploy of main",
- "whose": "measured on main at 27ef7ed, before this change (claude/product-dense at 1ff0e28)",
- "own": false
+ "from": "this build",
+ "whose": "measured on this commit (1ff0e28)",
+ "own": true
 }
