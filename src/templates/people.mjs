@@ -111,19 +111,23 @@ function writeDialog(ctx, p) {
   const opt = (name, value, text, type = "radio", extra = "") => `<label class="ropt"><input type="${type}" name="${name}" value="${esc(value)}"${extra}><span>${esc(text)}</span></label>`;
   // a fieldset inside its cell: the cell draws the line (Safari draws a fieldset's box from the middle of its legend, so
   // a line of the fieldset's own ran through the caption: Tim, 26 Nov, «things overlap»)
-  const set = (legend, inner, cls = "") => `<div class="fcell${cls ? ` ${cls}` : ""}"><fieldset class="rform__set">
+  const fs = (legend, inner) => `<fieldset class="rform__set">
         <legend class="fcell__label">${legend}</legend>
         ${inner}
-      </fieldset></div>`;
-  const req = ` <span class="rform__req">обязательно</span>`;
-  const three = (axis, need = true) => set(`${A[axis].title}${need ? req : ""}`, `<div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}"${need ? " required" : ""}><span>${A[axis][k]}</span></label>`).join("")}</div>`, "rform__axis");
+      </fieldset>`;
+  const set = (legend, inner) => `<div class="fcell">${fs(legend, inner)}</div>`;
+  // required: a star by the caption (the inputs say «required» themselves) (Tim, 26 Nov)
+  const req = `<span class="rform__req" aria-hidden="true">*</span>`;
+  const three = (axis, need = true) => fs(`${A[axis].title}${need ? req : ""}`, `<div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}"${need ? " required" : ""}><span>${A[axis][k]}</span></label>`).join("")}</div>`);
   const body = `<form class="form form--dialog rform" data-tone="cloud" data-review-form data-coffee="${esc(p.name)}" action="#">
       ${set(`Как заваривали${req}`, `<div class="ropts">${Object.entries(M).map(([k, m]) => opt("method", k, m.label, "radio", " required")).join("")}</div>
         <label class="choice choice--check rform__milk"><input class="box" type="checkbox" name="milk" value="yes"><span>С молоком</span></label>`)}
-      ${three("bright")}
-      ${three("body")}
-      ${three("unusual", false)}
-      ${p.descriptors.length ? set("Какие ноты узнали", `<div class="ropts">${p.descriptors.map((d) => opt("heard", d, d, "checkbox")).join("")}</div>`) : ""}
+      <div class="fcell rform__taste">
+        ${three("bright")}
+        ${three("body")}
+        ${three("unusual", false)}
+        ${p.descriptors.length ? fs("Какие ноты узнали", `<div class="ropts">${p.descriptors.map((d) => opt("heard", d, d, "checkbox")).join("")}</div>`) : ""}
+      </div>
       ${set("Сколько чашек уже выпили", `<div class="ropts">${[["2", "1–2"], ["4", "3–5"], ["6", "6 и больше"]].map(([v, t]) => opt("cups", v, t)).join("")}</div>`)}
       <div class="fcell"><label class="fcell__label" for="${id}-text">Пара слов о кофе</label><textarea class="fcell__input rform__text" id="${id}-text" name="text" rows="3" placeholder="Что понравилось, что бы поменяли, кому посоветуете"></textarea></div>
       <div class="fcell fcell--checks"><label class="choice choice--check"><input class="box" type="checkbox" name="consent" required><span>Согласен(на), что впечатление будет видно на сайте</span></label></div>

@@ -203,11 +203,17 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 /* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
 .rform { --menu-min: 0; }
 .rform__set { display: grid; min-width: 0; padding: 0; margin: 0; border: 0; }
+/* the taste in one cell: кислотность, плотность, характер and the notes, 24px apart (Tim, 26 Nov) */
+.rform__taste { gap: 24px; }
+/* the button ends the dialog: its ground runs a pixel lower, so no paper shows under it when the dialog's height is a
+   fraction of a pixel (Tim, 26 Nov: «1px space under the button») */
+.dialog .form__submit { box-shadow: 0 1px 0 var(--c-ink); transition-property: background, box-shadow; }
+@media (--mouse) { .dialog .form__submit:hover { box-shadow: 0 1px 0 var(--c-black); } }
 /* 16px under every caption of the form (Tim, 26 Nov), the same in every browser: the grid's gap set no space under a
    legend in Safari, so the legend carries it alone */
 .rform__set > legend.fcell__label { margin-bottom: 16px; }
 .rform .fcell > .fcell__label { margin-bottom: 10px; }   /* + the cell's 6px gap */
-.rform__req { margin-left: 6px; text-transform: none; letter-spacing: 0; color: var(--c-ink-70); }
+.rform__req { margin-left: 2px; }
 .ropts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
 .ropt { position: relative; }
 .ropt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
