@@ -1,62 +1,50 @@
 /* A coffee's page.
 
-   The stage: the name and the 3D pack are pinned under the navbar for as long as the five fact tiles take to scroll
-   past; the pack turns once around as they do (scripts/product.js). The tiles are frosted (cloud at 70% with a blur),
-   so the pack shows through them as they cross it. Pinned height: the screen less the navbar and the buy bar.
-   From L the tiles stand at different places across the column (Figma: a scatter); below, one under another.
+   The stage (marketing's row 16, Tim, 26 Nov: denser, in two halves, the tiles in a grid): from M the column splits in
+   two. The left half holds the 3D pack, pinned under the navbar (the screen less the navbar and the buy bar) while the
+   right half scrolls past it; the pack turns once around as it does (scripts/product.js). The right half: the name,
+   the line under it, the links under that, then the facts as tiles in a grid, cloud cells one hairline apart (two a
+   row once the half is wide enough for two of 16rem; an odd last tile runs across). Below M: the name, the pack (as
+   tall as the screen allows), the tiles.
 
-   The buy bar stays at the foot of the screen through the page, on cool grey (the ink ground): the options as menu cells, the price,
-   «В корзину».
-   On a short screen (a phone sideways) it would take a third of the screen and cover the pack: there it waits after
-   the stage, and the stage pins at the whole screen under the navbar. */
+   The buy bar follows the screen's foot on cool grey (the ink ground) through the stage, the story and «Впечатления»,
+   and lets go at its own place after them, before «Что взять еще» (row 17): the options as menu cells, the price,
+   «В корзину». On a short screen (a phone sideways) it would take a third of the screen: there it waits in its place. */
 :root:has(.product) { --buybar-h: 88px; }
 body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16px); }
 
 .pstage { touch-action: pan-y; }   /* a drag across turns the pack (scripts/packs.js); up and down scroll the page */
-.pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); position: relative; padding-top: var(--nav-h); }
-.pstage__pin {
-  position: sticky; top: var(--nav-h); height: var(--pin-h); min-height: 22rem;
-  display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: center;
-  width: min(100% - 2 * var(--gutter), var(--col-max)); margin-inline: auto;
-}
-.pstage__head { justify-self: stretch; padding-top: var(--section-y-s); display: grid; gap: 8px; position: relative; z-index: 6; }
+.pstage { --pin-h: calc(100vh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--buybar-h) - var(--tabbar-h)); position: relative; padding-top: var(--nav-h); padding-bottom: var(--section-y-s); }
+@media (--short) { .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--tabbar-h)); } }
+.pstage__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--block-pad) var(--gap); }
+.pstage__info { position: relative; z-index: 6; display: contents; }
+.pstage__head, .pstage__facts { position: relative; z-index: 6; }
+.pstage__head { padding-top: var(--section-y-s); display: grid; gap: 8px; justify-items: start; }
 .pstage__title { display: grid; gap: 24px; justify-items: start; }   /* the name and the line under it: one group as a card opens its page (public/vt.js) */
 .pstage__name { font-size: var(--type-h2); max-width: 14em; text-box: trim-both cap alphabetic; }
 .pstage__meta { font-size: var(--type-body); color: var(--c-ink-70); }
-.pack--hero { position: relative; inset: auto; max-width: 100%; width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: 1; }
+/* the pack's half: below M between the name and the tiles (the right half's box gives way: display contents), a
+   square as tall as the screen allows */
+.pstage__pin { grid-row: 2; display: grid; place-items: center; min-width: 0; }
+.pack--hero { position: relative; inset: auto; width: min(var(--stage), 100%, var(--pin-h)); height: auto; aspect-ratio: 1; }
 .pack--hero .pack__still { height: 100%; }
-
-@media (--short) {
-  .pstage { --pin-h: calc(100vh - var(--nav-h) - var(--tabbar-h)); --pin-h: calc(100svh - var(--nav-h) - var(--tabbar-h)); }
-  .pstage__pin { min-height: 0; }
+@container col (width >= 43rem) {
+  .pstage__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pstage__pin { grid-row: 1; grid-column: 1; position: sticky; top: var(--nav-h); align-self: start; height: var(--pin-h); min-height: 18rem; }
+  .pstage__info { grid-column: 2; display: grid; align-content: start; gap: var(--block-pad); min-width: 0; }
+  .pack--hero { width: min(var(--stage), 100%); height: min(var(--stage), 100%); aspect-ratio: auto; }
 }
 
-.pstage__col { position: relative; z-index: 6; margin-top: calc(-0.18 * var(--pin-h)); padding-bottom: calc(0.4 * var(--pin-h)); }
-.pstage__facts { display: grid; gap: max(40vh, 18rem); gap: max(40svh, 18rem); justify-items: center; }
-.ptile {
-  width: min(100%, 22rem); min-height: 16.5rem; display: flex; flex-direction: column; gap: var(--text-gap);
-  padding: var(--tile-pad); background: var(--c-cloud-70);
-  -webkit-backdrop-filter: blur(40px); backdrop-filter: blur(40px);
-}
+/* the facts: tiles in a grid (the site's cloud tiles: cloud cells one hairline apart), as tall as their row */
+.pstage__facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr)); gap: var(--hair); }
+.pstage__facts--odd > .ptile:last-child { grid-column: 1 / -1; }
+.ptile { display: flex; flex-direction: column; gap: var(--text-gap); min-width: 0; padding: var(--tile-pad); background: var(--c-cloud); }
 .ptile__title { font-size: var(--type-card-title); }
 .ptile__text { font-size: var(--type-body); line-height: var(--lh-text); }
 .ptile__text b { font-weight: 700; }
 .ptile__lots { display: grid; gap: 6px; font-size: var(--type-body); }
 .ptile__lots li { display: flex; justify-content: space-between; gap: 12px; border-bottom: var(--hair) solid var(--line); padding-bottom: 6px; }
 .ptile__lots li span:last-child { font-feature-settings: "tnum" 1; }
-@container col (width >= 58rem) {
-  .pstage__facts { justify-items: start; gap: max(28vh, 12rem); gap: max(28svh, 12rem); }
-  .ptile:nth-child(5n + 1) { justify-self: start; margin-left: 4%; }
-  .ptile:nth-child(5n + 2) { justify-self: end; margin-right: 0; }
-  .ptile:nth-child(5n + 3) { justify-self: center; }
-  .ptile:nth-child(5n + 4) { justify-self: start; margin-left: 16%; }
-  .ptile:nth-child(5n + 5) { justify-self: end; margin-right: 18%; }
-}
-@container col (width >= 43rem) {
-  .pstage__head { position: absolute; top: 0; left: 0; }
-  .pstage__pin { grid-template-rows: minmax(0, 1fr); }
-  .pack--hero { grid-row: 1; }
-}
 
 /* the buy bar: cool grey (the ink ground: Tim, round 8; black in round 7), no line above it (Tim, round 7). Below L two rows of cells (the options; the quantity, the price
    and the button), from L one row with the button apart on the right, as in Figma. The options are menu cells, the

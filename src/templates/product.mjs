@@ -1,6 +1,8 @@
-// A coffee's page: its name and the 3D pack pinned to the screen, turning as five fact tiles scroll past; the buy bar;
-// the story (a sentence, a photo, the text of the table in columns); who drinks it (reviews and named picks,
-// people.mjs; the line under the name links to them); «Что взять еще» (the taste model's moves).
+// A coffee's page (marketing's rows 16 and 17, Tim, 26 Nov): the first screen in two halves from M, the 3D pack on the
+// left (pinned under the navbar while the right half scrolls, turning as it does) and on the right the name, the line
+// under it and the facts as tiles in a grid; the story (a sentence, a photo, the text of the table in columns); who
+// drinks it («Впечатления», people.mjs; the line under the name links to them); then the buy bar, which follows the
+// screen's foot through all of that and lets go there, before «Что взять еще» (the taste model's moves).
 import { page, head } from "./layout.mjs";
 import { card, pills, tasteChart, pack } from "./components.mjs";
 import { esc, icon, picture, rub, lower, read, href } from "./util.mjs";
@@ -16,7 +18,9 @@ export function render(ctx, p) {
   // back, the buy bar offers the nearest coffee in stock instead (from the first screen on), and «Что взять еще» begins
   // with that coffee
   const out = ctx.site.shop.unavailable.includes(p.slug);
-  const body = [stage(ctx, p, out), out ? outbar(ctx, p) : buybar(p), story(p), people(ctx, p), next(ctx, p, out)].join("\n");
+  // the buy bar stands after everything about this coffee: sticky to the screen's foot, it stays there through the stage,
+  // the story and «Впечатления», and lets go where its own place comes, before «Что взять еще» (Tim, 26 Nov; row 17)
+  const body = [stage(ctx, p, out), story(p), people(ctx, p), out ? outbar(ctx, p) : buybar(p), next(ctx, p, out)].join("\n");
   return page(ctx, {
     title: `${p.name} — QQ Coffee`,
     description: `${p.name}: ${p.short}. ${p.descriptors.join(", ")}.`,
@@ -26,22 +30,27 @@ export function render(ctx, p) {
 
 function stage(ctx, p, out = false) {
   const tiles = facts(p);
-  return `<section class="pstage" data-stage data-ground="paper" aria-labelledby="product-title" style="--tiles: ${tiles.length}">
-  <div class="pstage__pin">
-    <div class="pstage__head"><div class="pstage__title">
-      <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
-      <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
+  // the pack's half comes second in the markup (the name is read first) and first on the screen
+  return `<section class="pstage" data-stage data-ground="paper" aria-labelledby="product-title">
+  <div class="col"><div class="pstage__grid">
+    <div class="pstage__info">
+      <div class="pstage__head"><div class="pstage__title">
+        <h1 class="pstage__name" id="product-title" data-typeset="spaces">${esc(p.name)}</h1>
+        <p class="pstage__meta">${[p.line, p.type, p.countries.join(", ")].filter(Boolean).map(esc).join(" · ")}</p>
+      </div>
+      ${peopleLink(ctx, p)}${fitLine(p)}${mineLine(ctx, p)}${out ? `
+      <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
+      <ul class="pstage__facts${tiles.length % 2 ? " pstage__facts--odd" : ""}" aria-label="О кофе">
+        ${tiles.map((t) => `<li class="ptile">
+          <h2 class="ptile__title">${esc(t.title)}</h2>
+          ${t.body}
+        </li>`).join("\n        ")}
+      </ul>
     </div>
-    ${peopleLink(ctx, p)}${fitLine(p)}${mineLine(ctx, p)}${out ? `
-    <p class="pstage__out">${p.type === "Смесь" ? "Пока нет в наличии" : "Лота пока нет"}, скоро вернётся</p>` : ""}</div>
-    ${pack(p, { size: "hero", eager: true })}
-  </div>
-  <div class="col pstage__col"><ul class="pstage__facts" aria-label="О кофе">
-    ${tiles.map((t, i) => `<li class="ptile" style="--i: ${i}">
-      <h2 class="ptile__title">${esc(t.title)}</h2>
-      ${t.body}
-    </li>`).join("\n    ")}
-  </ul></div>
+    <div class="pstage__pin">
+      ${pack(p, { size: "hero", eager: true })}
+    </div>
+  </div></div>
 </section>`;
 }
 
