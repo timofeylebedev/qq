@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "predev": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/tokens.mjs",
+    "predev": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/feedback.mjs && node build/tokens.mjs",
     "dev": "vite",
-    "prebuild": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/tokens.mjs",
+    "prebuild": "node build/data.mjs && node build/taste.mjs && node build/people.mjs && node build/choose.mjs && node build/quiz.mjs && node build/feedback.mjs && node build/tokens.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "images": "node build/images.mjs",
@@ -25,6 +25,7 @@
     "people:bench": "node build/taste.mjs && node build/people.mjs && node design/people-bench/build.mjs",
     "choose": "node build/choose.mjs",
     "quiz": "node build/taste.mjs && node build/choose.mjs && node build/quiz.mjs",
+    "feedback": "node build/taste.mjs && node build/choose.mjs && node build/quiz.mjs && node build/feedback.mjs",
     "choose:bench": "node build/taste.mjs && node build/choose.mjs && node design/catalogue-bench/build.mjs"
   },
   "dependencies": {

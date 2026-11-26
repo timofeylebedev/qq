@@ -6,7 +6,7 @@
 // their words. No stars, scores or averages. The review form opens in a dialog.
 // Every review is a PLACEHOLDER until the shop has a backend (data/people.json → build/people.mjs;
 // docs/people-backend.md), and so is «your» taste: the account's placeholder visitor (data/account.json), placed on
-// the taste model by the coffees they bought. The page says so.
+// the taste model by their first order and moved by their answers after delivery (session 6). Unmarked on the page (Tim).
 import { esc, read, icon } from "./util.mjs";
 import { head } from "./layout.mjs";
 import { dialog } from "./blocks.mjs";
@@ -28,16 +28,13 @@ const day = (iso) => { const d = new Date(iso + "T00:00:00Z"); return `${d.getUT
 const groupOf = (r) => M[r.method].group;
 const initials = (name) => name.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase();
 
-// «your» taste: where the coffees the visitor bought sit on the taste model, weighted by how often (the account's
-// placeholder visitor until there are real accounts); null with no purchases
+// «your» taste: the account's placeholder visitor's place on the taste model, moved by their answers after delivery
+// (session 6: account-data.mjs feedback(), from the first order's coffees through every answer); null with no orders
 let mine;
 function visitor(products) {
   if (mine !== undefined) return mine;
-  const bought = account(products).purchases.filter((x) => POS.has(x.slug));
-  const n = bought.reduce((s, x) => s + x.count, 0);
-  if (!n) return (mine = null);
-  const avg = (k) => bought.reduce((s, x) => s + POS.get(x.slug)[k] * x.count, 0) / n;
-  return (mine = { bright: avg("bright"), body: avg("body"), unusual: avg("unusual") });
+  const acc = account(products);
+  return (mine = acc.orders.length ? { ...acc.fb.st.region.center } : null);
 }
 // how close two tastes are on the visible axes (the taste model's weights), in three steps and in words
 const W = { bright: 1, body: 0.75, unusual: 0.85 };

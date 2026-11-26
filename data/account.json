@@ -1,6 +1,20 @@
 {
   "$about": "PLACEHOLDER account: the visitor «Марк Новиков» of the Figma account pages, so the profile, orders, an order, purchases, beans and settings can be built and reviewed before there is a shop behind the site (decision account-placeholder). Items name a coffee by slug, a weight, a grind and a roast (its use); prices come from the coffee (data/prices.json, placeholders too), so totals add up. Everything the profile shows (lots, processes, Q, countries, descriptors, the taste profile, purchases, the beans) is worked out from these orders and beans.opening / beans.before by src/templates/account-data.mjs.",
   "placeholder": true,
+  "today": "2026-08-19",
+  "$today": "The placeholder's own today: his last order (433273) is still waiting for roasting, so the account's questions after delivery (data/feedback.json ask) are asked as of this day. A real account uses the real date.",
+  "feedback": {
+    "$about": "PLACEHOLDER answers after delivery (session 6, docs/feedback.md): what Марк said about the coffees of his three earliest orders, so the profile shows a taste that has moved, «Следующий кофе» with its reason, and one «не про вкус». The two later orders are left unanswered, to try the form. The roast of each answer is the order's; the method is how he brewed it.",
+    "answers": [
+      { "order": "429876", "slug": "q-finch", "at": "2026-07-12T09:10", "method": "espresso", "milk": true, "bright": "ok", "body": "ok" },
+      { "order": "429876", "slug": "q-optimistic", "at": "2026-07-12T09:11", "method": "espresso", "milk": true, "bright": "more", "body": "less" },
+      { "order": "430411", "slug": "indoneziya-meruri", "at": "2026-07-24T08:30", "method": "pourover", "milk": false, "bright": "ok", "body": "ok" },
+      { "order": "430411", "slug": "peru-monte-verde", "at": "2026-07-24T08:31", "method": "pourover", "milk": false, "bright": "ok", "body": "ok", "unusual": "less" },
+      { "order": "430411", "slug": "kolumbiya-antiokiya", "at": "2026-07-25T09:00", "method": "espresso", "milk": true, "bright": "ok", "body": "ok" },
+      { "order": "430954", "slug": "ruanda-gitsumbi", "at": "2026-08-03T08:40", "method": "pourover", "milk": false, "bright": "ok", "body": "more" },
+      { "order": "430954", "slug": "q-finch", "at": "2026-08-03T08:41", "method": "turka", "milk": true, "issue": "grind" }
+    ]
+  },
   "person": { "first": "Марк", "last": "Новиков", "phone": "+7 915 800 65 45", "email": "mnovikov@gmail.com" },
   "addresses": [
     { "type": "Курьером", "address": "г Москва, Мещерский пр-кт, д 3" },

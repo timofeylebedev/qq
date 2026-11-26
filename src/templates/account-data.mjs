@@ -3,6 +3,7 @@
 // profile (lots, processes, the best Q score), the countries, the descriptors tried, the taste profile; the history of
 // the beans. Pages read this, so every number on them adds up.
 import { read } from "./util.mjs";
+import { replay, baseRegion, nextOf, tasteName, askState, methodFor, saidOf, shiftOf, isTaste, area } from "../scripts/feedback.js";
 
 const MONTHS = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
 const MONTHS_SHORT = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
@@ -75,8 +76,35 @@ export function account(products) {
   const [level, next] = levelOf({ ...a.beans, balance });
 
   return { ...a, orders, purchases, coffees, stats, countries: countryList, descriptors: { all: all.length, tried: tried.size }, taste,
-    beans: { ...a.beans, balance, monthly, level, next, earned, spent: spentList } };
+    beans: { ...a.beans, balance, monthly, level, next, earned, spent: spentList }, fb: feedback(a, orders, purchases) };
 }
+
+// ── the feedback after delivery (session 6; docs/feedback.md) ────────────────────────────────────────────────────
+// The placeholder's answers (data/account.json feedback) replayed from where the visitor started (the first order's
+// coffees: the account has no quiz of its own), with the roast of each answer taken from its order; what the account
+// offers next; which orders ask. The browser does the same with this browser's answers added (scripts/feedbackpage.js).
+const F = read("src/data/feedback.json");
+export function feedback(a, orders, purchases) {
+  const today = a.today || new Date().toISOString().slice(0, 10);
+  const itemOf = (o, slug) => o?.items.find((x) => x.slug === slug);
+  const answers = (a.feedback?.answers || []).map((x) => {
+    const o = orders.find((y) => y.id === x.order), it = itemOf(o, x.slug);
+    if (!it) throw new Error(`account.json feedback: order ${x.order} has no ${x.slug}`);
+    return { ...x, roast: it.roast };
+  });
+  const first = [...orders].sort((x, y) => x.date.localeCompare(y.date))[0];
+  const base = baseRegion({ first: first ? first.items.map((x) => x.slug) : [] }, F);
+  const st = replay(base, answers, F);
+  const lastMethod = [...answers].reverse().find((x) => x.method)?.method || null;
+  const lastMilk = [...answers].reverse().find((x) => x.method)?.milk || false;
+  const bought = purchases.map((x) => x.slug);
+  const next = nextOf(st, F, { method: lastMethod, milk: lastMilk, bought });
+  const answered = (o, slug) => answers.find((x) => x.order === o.id && x.slug === slug);
+  const asks = orders.map((o) => ({ id: o.id, ...askState(o, today, F), items: o.items.map((it) => ({ slug: it.slug, roast: it.roast, grind: it.grind, method: methodFor(it, lastMethod, F), answer: answered(o, it.slug) || null })) }));
+  return { F, today, base, st, answers, next, name: tasteName(st, F), asks, lastMethod, lastMilk, bought, area: area(st.region, F),
+    trail: [base.region, ...st.steps.filter((x) => x.w > 0).map((x) => x.after)].map((r) => area(r, F)) };
+}
+export { saidOf, shiftOf, isTaste };
 
 function levelOf(b) {
   const sorted = [...b.levels].sort((x, y) => x[1] - y[1]);
@@ -90,10 +118,3 @@ export function plural(n, one, few, many) {
   return m10 === 1 && m100 !== 11 ? one : m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20) ? few : many;
 }
 
-// coffees for this visitor: nearest to the taste of what they bought, not bought yet (the taste model's job since session 2: move it to `fit()`)
-export function forYou(products, acc, count = 6) {
-  const bought = new Set(acc.purchases.map((x) => x.slug));
-  const t = acc.taste;
-  const score = (q) => ["density", "acidity", "sweetness", "ferment"].reduce((s, k) => s + Math.abs((q.taste[k] ?? 0) - t[k]), 0);
-  return products.filter((q) => !bought.has(q.slug)).sort((x, y) => score(x) - score(y)).slice(0, count);
-}

@@ -26,6 +26,7 @@ src/data/choose.json
 src/data/taste.json
 src/data/people.json
 src/data/quiz.json
+src/data/feedback.json
 design/fade-tuner/out/
 design/intro-tuner/out/
 design/report/out-*.html

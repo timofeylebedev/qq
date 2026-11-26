@@ -46,4 +46,5 @@ if (document.querySelector("[data-filters]")) import("./filters.js").then((m) =>
 // the quiz (start/) writes its result cards before the packs are measured again (qq:layout); what it saved shows on
 // the catalogue, a coffee's page and the profile (scripts/tastesaved.js)
 if (document.querySelector("[data-quiz]")) import("./quizpage.js").then((m) => m.initQuiz());
-if (document.querySelector("[data-quiz-entry], [data-fit], [data-taste-part], [data-people]")) import("./tastesaved.js").then((m) => m.initSaved());
+if (document.querySelector("[data-quiz-entry], [data-fit], [data-taste-part], [data-people], [data-mine]")) import("./tastesaved.js").then((m) => m.initSaved());
+if (document.querySelector("[data-fb-account]")) import("./feedbackpage.js").then((m) => m.initFeedback());
