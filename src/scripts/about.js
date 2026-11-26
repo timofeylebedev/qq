@@ -1,6 +1,6 @@
-// A card's taste sheet (components.mjs tasteScale): the info button in the picture's bottom left corner opens the
-// scale over the buy row. With a mouse it shows while the pointer is on the button or the sheet (CSS); a press (a
-// tap, a click, Enter) pins it open until the next press, a press on another card's button, a press anywhere else
+// A card's taste panel (components.mjs tasteScale): with a mouse it shows while the card is hovered (CSS, no button to
+// see); on a touch screen the info button in the picture's bottom left corner shows it. A press (a tap, Enter) pins it
+// open until the next press, a press on another card's button, a press anywhere else
 // or Esc. One listener for the whole page, so cards written later by a script (the bag, the favourites) work too.
 export function initAbout() {
   const open = (about, on) => {

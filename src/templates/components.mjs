@@ -27,7 +27,8 @@ export function tasteChart(t) {
 }
 
 // ── the card's taste scale: where this coffee stands among QQ's own 25, on the taste model's three axes ──────────
-// A dot on a short line between the axis's words («мягче · ярче», «легче · плотнее», «классичнее · необычнее»): the
+// A dot on a short line between the axis's words («мягкий · яркий», «лёгкий · плотный», «классический · необычный»;
+// Tim, 26 Nov: what the coffee is, not a step from another, as on the filters' switches): the
 // line runs from QQ's softest (lightest, most classic) coffee to its brightest (densest, most unusual), so the dot says
 // «for QQ», not «for coffee in general». Positions are the taste model's (src/data/taste.json: acidity and ferment
 // moved at most a little by the descriptors), never computed here. Only the axes that separate QQ's coffees: no
@@ -36,15 +37,18 @@ export function tasteChart(t) {
 const TASTE = read("src/data/taste.json");
 const POS = new Map(TASTE.coffees.map((c) => [c.slug, c.position]));
 const AXES = [
-  { id: "bright", coded: "acidity", label: "Кислотность", of: 5, words: ["мягкая", "средняя", "яркая"] },
-  { id: "body", coded: "density", label: "Плотность", of: 5, words: ["лёгкая", "средняя", "высокая"] },
-  { id: "unusual", coded: "ferment", label: "Фермент", of: 4, words: ["классический вкус", "чуть необычный вкус", "необычный вкус"] }
+  { id: "bright", coded: "acidity", label: "Кислотность", of: 5, words: ["мягкая", "средняя", "яркая"], ends: ["мягкий", "яркий"] },
+  { id: "body", coded: "density", label: "Плотность", of: 5, words: ["лёгкая", "средняя", "высокая"], ends: ["лёгкий", "плотный"] },
+  { id: "unusual", coded: "ferment", label: "Фермент", of: 4, words: ["классический вкус", "чуть необычный вкус", "необычный вкус"], ends: ["классический", "необычный"] }
 ].map((a) => {
   const v = TASTE.coffees.map((c) => c.position[a.id]);
-  return { ...a, lo: Math.min(...v), hi: Math.max(...v), ends: TASTE.axes.find((x) => x.id === a.id).ru.split(" — ") };
+  return { ...a, lo: Math.min(...v), hi: Math.max(...v) };
 });
-// On a card the scale lies in the picture, as a sheet over the buy row, shown by the info button in the picture's
-// bottom left corner (hovered or pressed: scripts/about.js); the button's name reads the values to a screen reader.
+// both columns of words are as wide as the longest word of all (each word carries it, unseen: card.css .scale__end)
+const LONGEST = AXES.flatMap((a) => a.ends).reduce((w, x) => (x.length > w.length ? x : w), "");
+// On a card the scale lies in the picture, a panel apart from the buy row: with a mouse it shows while the card is
+// hovered (no button to see); on a touch screen the info button in the picture's bottom left corner shows it
+// (scripts/about.js). The button's name reads the values to a screen reader.
 export function tasteScale(p) {
   const pos = POS.get(p.slug);
   if (!pos) return "";
@@ -54,7 +58,7 @@ export function tasteScale(p) {
     return `${a.label} ${v} из ${a.of}, ${w} для QQ`;
   }).join(". ") + ".";
   const rows = `<div class="scale__rows">${AXES.map((a) =>
-    `<span class="scale__end">${esc(a.ends[0])}</span><span class="scale__line"><i class="scale__dot" style="--t: ${at(a).toFixed(3)}"></i></span><span class="scale__end">${esc(a.ends[1])}</span>`).join("")}</div>`;
+    `<span class="scale__end" data-w="${esc(LONGEST)}">${esc(a.ends[0])}</span><span class="scale__line"><i class="scale__dot" style="--t: ${at(a).toFixed(3)}"></i></span><span class="scale__end" data-w="${esc(LONGEST)}">${esc(a.ends[1])}</span>`).join("")}</div>`;
   return `<div class="about" data-about>
         <div class="about__sheet scale" aria-hidden="true">${rows}</div>
         <button class="about__info" type="button" aria-expanded="false" data-about-toggle>${icon("info")}<span class="sr">Вкус: ${esc(say)}</span></button>

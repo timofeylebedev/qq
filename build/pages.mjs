@@ -18,14 +18,13 @@ import * as product from "../src/templates/product.mjs";
 import * as info from "../src/templates/info.mjs";
 import * as shop from "../src/templates/shop.mjs";
 import * as acc from "../src/templates/account.mjs";
-import * as start from "../src/templates/start.mjs";
 
 const src = resolve(import.meta.dirname, "../src");
 
 // the pages of round 4: address → [the template, the navbar item that is current there]
 const PAGES = [
   ["business/", info.business, "business/"], ["faq/", info.faq], ["delivery/", info.delivery], ["contacts/", info.contactsPage, "contacts/"],
-  ["privacy/", info.privacy], ["about/", info.about], ["start/", start.render],
+  ["privacy/", info.privacy], ["about/", info.about],
   ["cart/", shop.cart, "cart/"], ["favourites/", shop.favourites, "favourites/"],
   ["checkout/", shop.checkoutSignIn], ["checkout/details/", shop.checkoutDetails], ["checkout/delivery/", shop.checkoutDelivery],
   ["account/", acc.profile, "account/"], ["account/beans/", (ctx) => acc.profile(ctx, { beans: true }), "account/"],

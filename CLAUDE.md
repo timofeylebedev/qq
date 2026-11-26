@@ -98,10 +98,13 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   hero goes further: its cells themselves reach over the gutters (`--bleed`) and each is padded by the gutter on both
   sides (Tim, round 6: a cell's padding is its own, never a higher box's).
 - **The card's taste scale** (`tasteScale()` in components.mjs, `scripts/about.js`; decision `card-scale`): three
-  rows, a dot on a line between the taste model's words, the line QQ's own range; positions from taste.json, never
-  computed in a template; no sweetness, no «Горечь», no «Оценка Q». It is hidden in the picture: an info button in
-  the bottom left corner above the buy row (z-index 7, like the heart) raises it as a sheet from the buy row, hovered
-  with a mouse or pressed (it never follows the card's link); the button's name reads the values. The card's text no
+  rows, a dot on a line between «мягкий · яркий», «лёгкий · плотный», «классический · необычный» (both columns of words
+  as wide as the longest, left-aligned), the line QQ's own range; positions from taste.json, never computed in a
+  template; no sweetness, no «Горечь», no «Оценка Q». A panel in the picture, apart from the buy row and the card's
+  edges by the card's padding, at most 22rem, in a hairline frame (z-index 7, like the heart). With a mouse it shows
+  while the card is hovered and the info button is not seen (a keyboard's focus shows it); on a touch screen the button
+  sits in the bottom left corner, as far from the edge as from the buy row, and a press shows the panel above it (it
+  never follows the card's link); the button's name reads the values. The card's text no
   longer says «… из 5».
 - **Photos** on cards only for Special coffees (`photoOf` in `components.mjs`; decision `photos-in-catalog`).
 - **Choosing in the catalogue** (`docs/choose.md`; decision `catalog-choose`): one row of menu cells (Сортировка, Цена,
@@ -117,8 +120,8 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   «Похожие» (the nearest, no text) (Tim, 26 Nov). `rank()` of `src/scripts/choose.js` decides;
   never score in filters.js or a template. Every result of every option is listed in the generated
   `docs/choose-output.md`: read it after changing a rule. The taste map (`tasteMap()` in src/templates/map.mjs +
-  `initTasteMap()` in scripts/tastemap.js) is not on the catalogue now; the quiz reads it, `src/data/choose.json` and
-  `choose.js`.
+  `initTasteMap()` in scripts/tastemap.js) is neither on the catalogue nor in the quiz now (the profile's «Ваш вкус»
+  draws it); the quiz reads `src/data/choose.json` and `choose.js`.
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -175,20 +178,21 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `build/people.mjs`: today PLACEHOLDERS from `data/people.json`, and «your» taste is the account's placeholder visitor, or the saved quiz's region once there is one
   (decision `people-placeholder`; unmarked on the page, Tim); what a backend must do is `docs/people-backend.md`. The bench of
   forms: `design/people-bench/` (`npm run people:bench`).
-- **The quiz «Выбрать кофе за минуту»** (`start/`, «Заказываю кофе впервые»: `src/templates/start.mjs`,
-  `scripts/quizpage.js`; decision `quiz`; `docs/quiz.md`): one quiz, entered from the home page (`quizEntry()`, the
-  section after the hero answers the first question), the catalogue (the line under the tabs) and the footer; never a
-  second one. The questions and their effects are `data/quiz.json`; the methods are the catalogue's (`data/choose.json`),
+- **The quiz «Подобрать кофе»** (a dialog of the catalogue: `src/templates/quiz.mjs` `quizDialog()`,
+  `scripts/quizpage.js`; decision `quiz`; `docs/quiz.md`): one quiz, opened by the button at the left of the filters'
+  row and by `catalog/?quiz` (the footer, the profile); no page and no section of its own (Tim, 26 Nov); never a
+  second one. ← → at the top; the options are cells whose lines are the grid's own (gap + line colour), never
+  overlapping borders. The questions and their effects are `data/quiz.json`; the methods are the catalogue's (`data/choose.json`),
   the anchors and moves the taste model's; `build/quiz.mjs` → `src/data/quiz.json`; the arithmetic is
   `src/scripts/quiz.js` (Node and browser); every answer's result is in the generated `docs/quiz-output.md` (read it after
   changing a rule; the build fails on a sold-out, decaf or wrong-roast offer). Never score in quizpage.js or a template.
-  The answers live in the address (`?method=…&milk=…&now=…&taste=…`, `q` the question shown). The result is saved in this
-  browser (`qq-taste`, `scripts/tastesaved.js`): the catalogue's line, a coffee's page (`[data-fit]`: the roast and grind
+  The answers live in the dialog (a result is not shared by link: Tim); the result shows no taste map. It is saved in this
+  browser (`qq-taste`, `scripts/tastesaved.js`) and told to the catalogue (event `qq:taste`): «Для вас» under the filters, a coffee's page (`[data-fit]`: the roast and grind
   for the visitor's method, which the buy bar starts on; the closeness in «Впечатления») and the profile read it; the
   feedback after delivery (below) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.
   Its moves start from the taste model's (`next`, `directions`) and add the quiz's own guards in quiz.js (`MOVES`,
-  `near`: milk, method, no twins); a rule for the coffee page's moves still goes into `nextBlock`. The answers in the
-  address: `q` the question shown, `r=1` back to the result after it. Saved only when answered on this page.
+  `near`: milk, method, no twins); a rule for the coffee page's moves still goes into `nextBlock`. Saved only when
+  answered (a result reopened from what was kept is not saved again).
 - **The feedback after delivery** (the account; `docs/feedback.md`; decision `feedback`): one form per coffee on the
   order's page (`#feedback`, `fbSection()` in src/templates/account.mjs), asked from day 4 (filter) / 7 (espresso) after
   delivery: the method (set from the grind), milk, and the taste model's three rows in Tim's words («Слишком ярко · В

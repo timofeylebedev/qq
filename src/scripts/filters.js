@@ -44,16 +44,18 @@ export function initFilters() {
   const order = new Map(coffees.map((c, i) => [c, i]));
   const dist = (a, b) => D.dist[a.i][b.i];
 
-  // «Для вас»: with a quiz kept in this browser, the first checkbox, in place of the line about the quiz under the tabs;
-  // the region is where the feedback after delivery moved the visitor, else the quiz's
-  const taste = loadTaste(), fb = loadFeedback(), youEl = form.querySelector("[data-you]");
-  let you = null;
-  if (taste) {
+  // «Для вас»: with a quiz kept in this browser, the first checkbox; the region is where the feedback after delivery
+  // moved the visitor, else the quiz's. The quiz's dialog (scripts/quizpage.js) tells of a new result ("qq:taste")
+  const fb = loadFeedback(), youEl = form.querySelector("[data-you]"), youBox = youEl.querySelector("input");
+  let you = null, youTaste = null;
+  const setYou = (taste) => {
+    youTaste = taste;
     const moved = fb?.region?.center && fb.region.spread ? fb.region : null;
-    you = forYou(D.coffees, moved || taste.region, { picks: taste.picks.map((p) => p.slug), method: taste.answers.method });
-    youEl.hidden = false;
-    document.querySelector("[data-quiz-entry]")?.remove();
-  } else youEl.remove();
+    you = taste ? forYou(D.coffees, moved || taste.region, { picks: taste.picks.map((p) => p.slug), method: taste.answers.method }) : null;
+    youEl.hidden = !taste; youBox.disabled = !taste;
+    if (!taste) youBox.checked = false;
+  };
+  setYou(loadTaste());
 
   // ── the form ↔ the state ↔ the address ──
   const state = () => {
@@ -203,6 +205,23 @@ export function initFilters() {
   form.addEventListener("reset", () => setTimeout(() => { changed(true); focusFrom(form.querySelector(".filter summary")); }));
   addEventListener("hashchange", tab);
   addEventListener("popstate", () => { read(); apply(); });
+  // a result of the quiz: «Для вас» follows it; «Показать в каталоге» ticks it, with the visitor's method
+  addEventListener("qq:taste", (e) => {
+    const t = e.detail?.taste;
+    if (!t) return;
+    setYou(t);
+    if (e.detail.show) {
+      for (const el of form.elements) {
+        if (el.type === "checkbox") el.checked = false;
+        else if (el.type === "radio") el.checked = (DEFAULT[el.name] ?? "") === el.value;
+        else if (el.type === "number") el.value = "";
+      }
+      youBox.checked = true;
+      const m = t.answers.method && t.answers.method !== "none" && form.querySelector(`input[name="method"][value="${t.answers.method}"]`);
+      if (m) m.checked = true;
+      changed(true);
+    } else apply();
+  });
   read();
   apply(); tab();
 }

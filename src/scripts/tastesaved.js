@@ -29,7 +29,7 @@ export const saveTaste = (t) => {
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const rootHref = () => document.documentElement.dataset.root || "";
-const quizHref = (t) => `${rootHref()}start/?${new URLSearchParams(t.answers)}`;
+const quizHref = () => `${rootHref()}catalog/?quiz`;
 
 export const FEEDBACK = "qq-feedback";
 export const loadFeedback = () => {

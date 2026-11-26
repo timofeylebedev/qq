@@ -1,33 +1,42 @@
-/* The quiz «Выбрать кофе за минуту» (src/templates/start.mjs, scripts/quizpage.js; docs/quiz.md) on «Заказываю кофе
-   впервые» and its way in on the home page. The grammar of the site: the options are cells divided by hairlines (one
-   column below S, two from S, three from L), the name in Apercu, a hint under it in ink-70; the chosen one fills with
-   ink, the one under the pointer takes the tint. One question at a time once the script runs (data-js); without it
-   the four stand one under another. */
-.start .phead { margin-bottom: var(--section-gap); }
-.qentry__title { font-size: var(--type-h3); margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
+/* The quiz «Подобрать кофе» (src/templates/quiz.mjs, scripts/quizpage.js; docs/quiz.md): a dialog of the catalogue.
+   The grammar of the site: the options are cells divided by hairlines (one column below S, two from S, three from L),
+   the name in Apercu, a hint under it in ink-70; the chosen one fills with ink, the one under the pointer takes the
+   tint. One question at a time; ← and → at the top. */
+/* the dialog: wide enough for three cards in a row; its box is the quiz's own column (container queries measure it) */
+.dialog--quiz { width: min(100% - 2 * var(--gutter), 75rem); }
+.quizbox { container: col / inline-size; padding: var(--tile-pad); }
 .quiz { display: grid; gap: var(--section-gap); }
-.quiz__form { display: grid; gap: var(--text-gap); }
+.quiz__form { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--text-gap); }
 .quiz__top { display: flex; align-items: center; justify-content: space-between; gap: var(--gap); min-height: 40px; }
 .quiz:not([data-js]) .quiz__top { display: none; }
 /* how far along: four short bars, the passed ones in ink */
-.quiz__progress { display: flex; gap: 4px; }
-.quiz__progress i { width: 32px; height: 3px; background: var(--c-ink-20); }
+.quiz__progress { display: flex; gap: 4px; min-width: 0; }
+.quiz__progress i { flex: 0 1 32px; min-width: 12px; height: 3px; background: var(--c-ink-20); }   /* narrower on a 280px screen, beside ← → */
 .quiz__progress i[data-on] { background: var(--c-ink); }
-.quiz__back { margin-left: auto; }
-.quiz__back, .qres__actions .iconlink { min-height: 44px; }   /* the site's iconlink is 40: these are the quiz's main ways back */
-.quiz__back[hidden], .quiz__show[hidden] { display: none; }
+/* ← and →: square cells side by side, a hairline between them; one that can't go is faded */
+.quiz__nav { display: flex; margin-left: auto; border: var(--hair) solid var(--line); }
+.quiz__arrow { display: grid; place-items: center; width: 48px; height: 48px; transition: background-color var(--t-out) var(--ease-out); }
+.quiz__arrow + .quiz__arrow { border-left: var(--hair) solid var(--line); }
+.quiz__arrow svg { width: 24px; height: 24px; }
+.quiz__arrow:disabled { cursor: default; }
+.quiz__arrow:disabled svg { opacity: 0.3; }   /* as the menus' chevrons: the text's colour at 30% */
+.quiz__arrow:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
+@media (--mouse) { .quiz__arrow:not(:disabled):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+.qres__actions .iconlink { min-height: 44px; }   /* the site's iconlink is 40: the quiz's main way back */
 
 .qstep { display: grid; gap: 8px; min-width: 0; padding: 0; margin: 0; border: 0; }
 .qstep[hidden] { display: none; }
 .quiz:not([data-js]) .qstep + .qstep { padding-top: var(--section-gap); }
 .qstep__ask { display: grid; gap: 8px; padding: 0; margin-bottom: 4px; }
 .qstep__ask:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
-.qstep__n { font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-lavender-ink); }
 .qstep__q { font: 700 var(--type-title) / var(--lh-heading) var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); overflow-wrap: anywhere; }
 .qstep__hint { font-size: var(--type-body); color: var(--c-ink-70); margin-bottom: 8px; }
 
-/* the options: cells divided by hairlines (the tiles' way: each cell's border, overlapping by one) */
-.qopts { display: grid; grid-template-columns: minmax(0, 1fr); padding: 0 1px 1px 0; }
+/* the options: cells divided by hairlines. The lines are the grid's own (its line colour between cells one hairline
+   apart, and a frame), never the cells' borders: a filled or tinted cell then never covers a neighbour's line or shows
+   one inside its own edge (Tim, 26 Nov: the overlapping borders looked doubled where a chosen cell met another). Every
+   layout fills its rows (an odd last cell takes the whole row), so no line colour shows in an empty place. */
+.qopts { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hair); background: var(--line); border: var(--hair) solid var(--line); }
 .qopts > li { display: grid; }
 @container col (width >= 22rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 43rem) { .qopts--few { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -38,7 +47,7 @@
 @container col (width >= 22rem) and (width < 58rem) { .qopts--many > :last-child:nth-child(odd), .qopts--some > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .qopt {
   position: relative; display: grid; align-content: start; gap: 4px; min-height: 72px; padding: var(--tile-pad);
-  border: var(--hair) solid var(--line); margin: 0 -1px -1px 0; cursor: pointer; touch-action: manipulation;
+  background: var(--c-paper); cursor: pointer; touch-action: manipulation;
   transition: background-color var(--t-out) var(--ease-out), color var(--t-out) var(--ease-out);
 }
 .qopt__input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
@@ -50,9 +59,12 @@
 .qopt:has(:checked) .qopt__hint { color: var(--c-white-80); }
 .qopt:has(:focus-visible), a.qopt:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -4px; }
 .qopt:has(:checked:focus-visible) { outline-color: var(--c-paper); }
-@media (--mouse) { .qopt:not(:has(:checked)):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
+/* the tint lies over the cell's own paper (a layer under its words), not in place of it: the grid's line colour behind
+   the cells must not show through */
+.qopt { isolation: isolate; }
+.qopt::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--tint); opacity: 0; transition: opacity var(--t-out) var(--ease-out); }
+@media (--mouse) { .qopt:not(:has(:checked)):hover::before { opacity: 1; transition-duration: var(--t-in); } }
 
-.quiz__show { justify-self: start; }
 .quiz__b2b { padding-top: 8px; }
 
 /* ── the result ─────────────────────────────────────────────────────────────────────────────────────────────── */
@@ -60,17 +72,14 @@
 .quiz__result[hidden] { display: none; }
 .quiz__result:focus { outline: none; }
 .qres__head { display: grid; gap: var(--text-gap); max-width: 48rem; }
-.qres__title-main { font-size: var(--type-h3); text-box: trim-both cap alphabetic; }
-.qres__title-main:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.qres__summary:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 .qres__summary { font-size: var(--type-lead); font-weight: 500; line-height: var(--lh-text); }
-.qres__start { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 /* the answers in one line, each a way back to its question (and then straight back here) */
 .qres__answers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .qres__answer {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border: var(--hair) solid var(--line);
   font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out);
 }
-.qres__edit { font-size: var(--type-small); color: var(--c-ink-70); }
 @media (--mouse) { .qres__answer:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
 
 /* the three cards: the move in lavender over the reasons, never cut; the downside and what the method sets after */
@@ -82,32 +91,10 @@
 .qres__actions .iconlink { justify-self: start; }
 @container col (width >= 43rem) { .qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); } }
 .qres__actions .btn[hidden] { display: none; }
-.qres__saved, .qres__decaf, .qres__note { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
-.qres__saved[hidden], .qres__saved [hidden] { display: none; }
-.qres__saved:has(> [hidden]:only-child) { display: none; }
-.qres__map { display: grid; gap: var(--text-gap); }
-.qres__maptext { display: grid; gap: 12px; align-content: start; max-width: 34rem; }
-.qres__map .tmap { max-width: 34rem; }
-/* from L the words stand beside the map, not under an empty half of the column */
-@container col (width >= 58rem) { .qres__map { grid-template-columns: minmax(0, 1fr) minmax(0, 34rem); align-items: start; } }
-.qres__title { font-size: var(--type-card-title); }
+.qres__decaf { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 
-/* ── the rest of «Заказываю кофе впервые» ───────────────────────────────────────────────────────────────────── */
-.start__lead { max-width: 40rem; margin-bottom: var(--section-gap); padding-top: 8px; font-size: var(--type-body-l); line-height: var(--lh-text); }
-.start__more { display: flex; flex-wrap: wrap; gap: 12px; padding-top: var(--section-gap); }
-.start-page .part__title { margin-bottom: var(--text-gap); text-box: trim-both cap alphabetic; }
-.start-page .part__title + .tiles, .start-page .part__title + .grid { margin-top: var(--section-gap); }
-
-/* ── the home page's way in: the first question, each method a link into the quiz ────────────────────────── */
-.qentry__head { display: grid; gap: 8px; margin-bottom: var(--section-gap); max-width: 44rem; }
-.qentry__lead { font-size: var(--type-body-l); line-height: var(--lh-text); }
-.qentry .qentry__title { margin-bottom: 0; }
-.qentry .qstep__n { display: block; margin-bottom: 8px; }
-.qentry__q { margin-bottom: var(--text-gap); }
-
-/* ── the catalogue's way in, and the profile's part ─────────────────────────────────────────────────────── */
-.catalog__quiz { margin-bottom: var(--text-gap); font-size: var(--type-body); }
-.catalog__quiz .link, .qres__saved .link, .qres__decaf .link { display: inline-block; padding-block: 6px; }   /* a 24px target at least (WCAG 2.5.8) */
+/* ── the profile's part, a coffee's page ──────────────────────────────────────────────────────────────────── */
+.qres__decaf .link { display: inline-block; padding-block: 6px; }   /* a 24px target at least (WCAG 2.5.8) */
 .taste-part { display: grid; gap: 8px; font-size: var(--type-body-l); }
 .taste-part__label { margin-left: 8px; font: 700 var(--type-small) / 1 var(--mono); text-transform: uppercase; letter-spacing: var(--track-mono); color: var(--c-lavender-ink); }
 .pstage__fit { justify-self: start; position: relative; z-index: 6; max-width: 32rem; font-size: var(--type-body); line-height: var(--lh-compact); }

@@ -3,7 +3,6 @@ import { page, head, arrows } from "./layout.mjs";
 import { card, pills, tasteChart, cardText, photoOf } from "./components.mjs";
 import { esc, icon, href, picture, cls, heroVideo } from "./util.mjs";
 import { digitsSVG } from "../../build/digits.mjs";
-import { quizEntry } from "./start.mjs";
 
 export function render(ctx) {
   const { site, products } = ctx;
@@ -14,8 +13,7 @@ export function render(ctx) {
     .slice(0, site.featured.count);
   const recommended = site.recommended.slugs.map((s) => bySlug.get(s)).filter(Boolean);
 
-  // the quiz «Выбрать кофе за минуту» right after the hero (marketing, row 4): its first question, answered in place
-  const body = [hero(ctx), quizEntry(ctx), featured(ctx, fresh), recs(ctx, recommended), ...site.approach.map((b) => imageBlock(ctx, b)), business(ctx), facts(ctx)].join("\n");
+  const body = [hero(ctx), featured(ctx, fresh), recs(ctx, recommended), ...site.approach.map((b) => imageBlock(ctx, b)), business(ctx), facts(ctx)].join("\n");
   return page(ctx, {
     title: "QQ Coffee — кофе свежей обжарки",
     description: "QQ Coffee — обжарщик спешелти-кофе: свежая обжарка каждый будний день, доставка по Москве и России.",
@@ -77,7 +75,7 @@ function featured(ctx, list) {
       <div class="featured__media">${picture(photo[0], photo[1], { sizes: "(min-width: 64em) 50vw, 100vw", decorative: true })}<p class="featured__caption">${esc(p.short)}</p></div>
     </article>`;
   }).join("\n    ");
-  return `<section class="section section--after-tight featured" data-ground="paper" aria-labelledby="featured-title">
+  return `<section class="section section--first featured" data-ground="paper" aria-labelledby="featured-title">
   <div class="col">
     ${head({ title: ctx.site.featured.title, id: "featured-title", middle: pager, aside: arrows("Новинки", "featured") })}
     <div class="featured__track" data-curl="featured">

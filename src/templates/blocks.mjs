@@ -70,8 +70,8 @@ export const rows = (list, c = "") => `<dl class="${cls("prows", c)}">${list.map
 
 // ── a dialog over the page (the request of the business page, the beans of the account): a head with its title and
 //    the close cross, then the content. Opened by [data-dialog="id"], closed by its cross, Escape or a click outside.
-export function dialog({ id, title, body, wide = false, open = false, home = "", homeTitle = "" }) {
-  return `<dialog class="${cls("dialog", wide && "dialog--wide")}" id="${id}" aria-labelledby="${id}-title" data-dialog-box${open ? " data-open-on-load" : ""}${home ? ` data-home="${home}" data-home-title="${esc(homeTitle)}"` : ""}>
+export function dialog({ id, title, body, wide = false, open = false, home = "", homeTitle = "", extra = "" }) {
+  return `<dialog class="${cls("dialog", wide && "dialog--wide", extra)}" id="${id}" aria-labelledby="${id}-title" data-dialog-box${open ? " data-open-on-load" : ""}${home ? ` data-home="${home}" data-home-title="${esc(homeTitle)}"` : ""}>
   <div class="dialog__head">
     <h2 class="dialog__title" id="${id}-title" data-dialog-title>${esc(title)}</h2>
     <button class="dialog__close" type="button" aria-label="Закрыть" data-dialog-close>${icon("close")}</button>
