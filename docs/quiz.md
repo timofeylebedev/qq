@@ -11,13 +11,15 @@ respondents of the survey check with their verdicts.
 - **A dialog of the catalogue, «Подобрать кофе»** (Tim, 26 Nov: no page, no section): `src/templates/quiz.mjs`
   `quizDialog()`, opened by the button at the left of the filters' row (apart from the cells by the gap; below L on its
   own line above them), by `catalog/?quiz` (the footer's «Подобрать кофе», the profile's «Открыть подбор») and, with a
-  quiz kept in this browser, straight onto its result. The page «Заказываю кофе впервые» (`start/`: the «start here»
+  quiz kept in this browser, straight onto its answers. The page «Заказываю кофе впервые» (`start/`: the «start here»
   set of three, the roasts, the words, roasting and delivery) and the home page's section after the hero are gone.
 - **In the dialog:** four bars and ← → at the top (→ only once the question is answered), the question and its options
-  (no «Вопрос 1 из 4» but for a screen reader, no «или выбираю в подарок»). The result: one sentence (no «Ваш подбор» heading but for a screen reader: Tim, 26 Nov), the
-  answers (each reopens its question and comes straight back), the three cards, «Показать в каталоге» (ticks «Для вас»
-  under the filters with the visitor's method, and closes), «Пройти заново», the decaf line. No taste map (Tim, 26 Nov:
-  it made the dialog long), no «Это начало, а не приговор…», no «Нажмите на ответ…», no line about what was saved.
+  (no «Вопрос 1 из 4» but for a screen reader, no «или выбираю в подарок»); the questions share one cell, so the dialog
+  is as tall as the tallest and never jumps between steps. **The last answer closes the dialog onto the catalogue** with
+  «Для вас» ticked (and the visitor's method): the coffees are seen there, never in the dialog (Tim, 26 Nov: no
+  sentence, no cards, no «Взять все три по 50 г», no decaf line in the dialog). Opened again, it shows the questions
+  on the left and the answers beside them as text, «Показать в каталоге» and «Пройти заново» (the home page's buttons'
+  size, no arrows). No taste map, no «Это начало, а не приговор…», no «Нажмите на ответ…», no line about what was saved.
   The answers live in the dialog, not in an address, so a result is not shared by link (Tim: fine).
 - **The options' lines** are the grid's own (its line colour one hairline between cells, and a frame), not the cells'
   overlapping borders: a chosen or tinted cell never covers or doubles a neighbour's line (Tim, 26 Nov).

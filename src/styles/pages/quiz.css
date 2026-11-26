@@ -22,10 +22,14 @@
 .quiz__arrow:disabled svg { opacity: 0.3; }   /* as the menus' chevrons: the text's colour at 30% */
 .quiz__arrow:focus-visible { outline: 2px solid var(--c-ink); outline-offset: -2px; }
 @media (--mouse) { .quiz__arrow:not(:disabled):hover { background-color: var(--tint); transition-duration: var(--t-in); } }
-.qres__actions .iconlink { min-height: 44px; }   /* the site's iconlink is 40: the quiz's main way back */
 
 .qstep { display: grid; gap: 8px; min-width: 0; padding: 0; margin: 0; border: 0; }
 .qstep[hidden] { display: none; }
+/* the questions lie in one cell, the ones not shown hidden but keeping their place: the dialog is as tall as the
+   tallest question and never jumps between steps (Tim, 26 Nov) */
+.quiz[data-js] .quiz__steps { display: grid; }
+.quiz[data-js] .qstep { grid-area: 1 / 1; align-content: start; }
+.quiz[data-js] .qstep[data-off] { visibility: hidden; }
 .quiz:not([data-js]) .qstep + .qstep { padding-top: var(--section-gap); }
 .qstep__ask { display: grid; gap: 8px; padding: 0; margin-bottom: 4px; }
 .qstep__ask:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
@@ -36,7 +40,7 @@
    apart, and a frame), never the cells' borders: a filled or tinted cell then never covers a neighbour's line or shows
    one inside its own edge (Tim, 26 Nov: the overlapping borders looked doubled where a chosen cell met another). Every
    layout fills its rows (an odd last cell takes the whole row), so no line colour shows in an empty place. */
-.qopts { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hair); background: var(--line); border: var(--hair) solid var(--line); }
+.qopts { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--hair); background: var(--line) padding-box; border: var(--hair) solid var(--line); }   /* padding-box: the line colour under the frame would darken it (Tim, 26 Nov: the frame darker than the lines between) */
 .qopts > li { display: grid; }
 @container col (width >= 22rem) { .qopts--many, .qopts--some { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @container col (width >= 43rem) { .qopts--few { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -67,34 +71,20 @@
 
 .quiz__b2b { padding-top: 8px; }
 
-/* ── the result ─────────────────────────────────────────────────────────────────────────────────────────────── */
+/* ── the answers kept (the dialog opened again): the questions on the left, the answers beside them as text; then
+   «Показать в каталоге» and «Пройти заново» at the home page's buttons' size (Tim, 26 Nov). No coffees here: the
+   last answer closes the dialog onto the catalogue's «Для вас». ───────────────────────────────────────────────── */
 .quiz__result { display: grid; gap: var(--section-gap); }
 .quiz__result[hidden] { display: none; }
-.quiz__result:focus { outline: none; }
-.qres__head { display: grid; gap: var(--text-gap); max-width: 48rem; }
-.qres__summary:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
-.qres__summary { font-size: var(--type-lead); font-weight: 500; line-height: var(--lh-text); }
-/* the answers in one line, each a way back to its question (and then straight back here) */
-.qres__answers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.qres__answer {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border: var(--hair) solid var(--line);
-  font-size: var(--type-body); transition: background-color var(--t-out) var(--ease-out);
-}
-@media (--mouse) { .qres__answer:hover { background-color: var(--tint); transition-duration: var(--t-in); } }
-
-/* the three cards: the move in lavender over the reasons, never cut; the downside and what the method sets after */
-.qres__picks .card__text { display: block; -webkit-line-clamp: none; line-clamp: none; }   /* a -webkit-box drops the space between the reason's spans */
-.card__but { color: var(--c-ink); font-weight: 500; }
-.card__set, .card__lead { color: var(--c-ink); font-weight: 500; }
-.qres__actions { display: grid; justify-items: stretch; gap: 12px; }
-.qres__actions .btn-arrow { justify-content: space-between; white-space: normal; text-align: left; }
-.qres__actions .iconlink { justify-self: start; }
-@container col (width >= 43rem) { .qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); } }
-.qres__actions .btn[hidden] { display: none; }
-.qres__decaf { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.quiz__result :focus { outline: none; }
+.qres__answers { display: grid; border-top: var(--hair) solid var(--line); }
+.qres__row { display: grid; gap: 4px; padding-block: 16px; border-bottom: var(--hair) solid var(--line); }
+@container col (width >= 43rem) { .qres__row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--gap); } }
+.qres__row dt { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.qres__row dd { margin: 0; font-size: var(--type-body-l); font-weight: 500; line-height: var(--lh-compact); }
+.qres__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; }
 
 /* ── the profile's part, a coffee's page ──────────────────────────────────────────────────────────────────── */
-.qres__decaf .link { display: inline-block; padding-block: 6px; }   /* a 24px target at least (WCAG 2.5.8) */
 /* the profile's «Ваш подбор»: the three as cards, each under its move (the «Что взять еще» grid: product.css) */
 .pstage__fit { justify-self: start; position: relative; z-index: 6; max-width: 32rem; font-size: var(--type-body); line-height: var(--lh-compact); }
 .pstage__fit[hidden] { display: none; }

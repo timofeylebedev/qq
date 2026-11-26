@@ -5,7 +5,7 @@
 //  2. sizes only from the scale: no font-size in px or rem but a short list (the 16px floor of fields, the 12px of
 //     the bag counter), and no screen units (vw, vh, svh, cqi…) outside the rules a decision lists (decisions.json css)
 //  3. layout steps only at S 22rem, M 43rem, L 58rem, max 1520px (container queries) and the page steps of media.css
-//  4. no rounded corners but pills and dots (radius 999px or 50%)
+//  4. no rounded corners but pills and dots (radius 999px or 50%; 0 takes a browser's own rounding off)
 //  5. motion only from motion.css: transitions and animations use var(--t-…) and var(--ease-…)
 //  6. faces only through var(--sans), var(--mono), var(--digits)
 //  7. every var() is defined somewhere, and every token of the scale is used
@@ -87,8 +87,8 @@ const where = (b) => `${b.file}:${b.line} ${b.selector.slice(0, 60)}`;
 }
 // 4
 {
-  const fails = blocks.filter((b) => [...b.body.matchAll(/border(-(top|bottom|start|end)-(left|right|start|end))?-radius\s*:\s*([^;]+)/g)].some((m) => !/^(999px|50%)$/.test(m[4].trim())) || /clip-path\s*:[^;]*\bround\b/.test(b.body)).map(where);
-  rule("No rounded corners", "border-radius only 999px (pills) or 50% (dots)", fails);
+  const fails = blocks.filter((b) => [...b.body.matchAll(/border(-(top|bottom|start|end)-(left|right|start|end))?-radius\s*:\s*([^;]+)/g)].some((m) => !/^(999px|50%|0)$/.test(m[4].trim())) || /clip-path\s*:[^;]*\bround\b/.test(b.body)).map(where);
+  rule("No rounded corners", "border-radius only 999px (pills) or 50% (dots), or 0 (the browsers' own rounding taken off)", fails);
 }
 // 5
 {

@@ -11,7 +11,7 @@
 
   "axes": {
     "$about": "One row per axis, three taps: less / ok / more. The words are Tim's («слишком ярко», «в самый раз», «хочу плотнее»): what the visitor would like next, not a grade. `move` names the taste model's direction each answer asks for. Every row shown is required. Unusual is asked only of a coffee that has some ferment to answer about (position.unusual ≥ `askFrom`), otherwise it is not asked and that axis does not move.",
-    "bright": { "title": "Кислинка", "less": "Слишком ярко", "ok": "В самый раз", "more": "Хочу ярче", "move": { "less": "softer", "more": "brighter" }, "need": true },
+    "bright": { "title": "Кислотность", "less": "Слишком ярко", "ok": "В самый раз", "more": "Хочу ярче", "move": { "less": "softer", "more": "brighter" }, "need": true },
     "body": { "title": "Плотность", "less": "Слишком плотно", "ok": "В самый раз", "more": "Хочу плотнее", "move": { "less": "lighter", "more": "denser" }, "need": true },
     "unusual": { "title": "Необычность", "less": "Слишком необычно", "ok": "В самый раз", "more": "Хочу необычнее", "move": { "less": "classic", "more": "unusual" }, "need": true, "askFrom": 0.9, "hint": "Ферментация: винные, ромовые, тропические ноты" }
   },
@@ -70,7 +70,7 @@
     "half": "Этот кофе обжарен {roast}, а заваривали {method}: так он не похож на себя. Ответ учли наполовину.",
     "methodIn": { "auto": "в автоматической кофемашине", "espresso": "в рожковой кофемашине", "moka": "в гейзере", "turka": "в турке", "pourover": "в воронке", "drip": "в капельной кофеварке", "aeropress": "в аэропрессе", "press": "во френч-прессе" },
     "roastFor": { "Эспрессо": "под эспрессо", "Фильтр": "под фильтр" },
-    "moved": "Ваш вкус сдвинулся: {where}.",
+    "moved": "Ваш вкус обновлён: {where}.",
     "still": "Вкус остался на месте: этот кофе — ваш.",
     "nextIs": "Следующий — {move}:",
     "again": "Возьмите его снова или похожий:",
@@ -119,7 +119,6 @@
     "noTaste": "Пока нет ответов про вкус: ответьте в заказе, и здесь появится кофе под вас.",
     "later": "Спросим про вкус после доставки, когда выпьете несколько чашек.",
     "otherSummary": "Не про вкус: помол или описание",
-    "youSaid": "Вы сказали:",
     "surer": "Учли: ваш вкус уточнился.",
     "nextLine": { "move": "Следующий — {move}:", "again": "Возьмите его снова или попробуйте", "edge": "Ближе всего:", "none": "По вашему вкусу:" },
     "allNext": "Все три — в профиле",

@@ -31,7 +31,7 @@
    on its own line above them */
 .filters__bar { display: grid; gap: 12px; }
 .filters__quiz { justify-self: start; }
-@container col (width >= 58rem) { .filters__bar { grid-template-columns: auto minmax(0, 1fr); gap: var(--gap); } .filters__quiz { align-self: stretch; height: auto; } }
+@container col (width >= 58rem) { .filters__bar { grid-template-columns: auto minmax(0, 1fr); gap: 16px; }   /* 16px after «Подобрать кофе» (Tim, 26 Nov) */ .filters__quiz { align-self: stretch; height: auto; } }
 .filters__row { --cell-min: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .filters__row > .filter { --menu-min: 12rem; }
 .filters__row > .filter:last-child { grid-column: span 2; }
