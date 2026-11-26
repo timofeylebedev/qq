@@ -1,6 +1,7 @@
 // The quiz's result, kept in this browser until the account has a backend (localStorage "qq-taste"; docs/quiz.md says
 // what a backend keeps): the answers, the region on the taste map, the three coffees. Read by
-//   the catalogue      [data-quiz-entry]: «Ваш подбор: …» in place of «Выбираете впервые?»
+//   the catalogue      «Для вас», the first checkbox, in place of the line «Выбираете впервые?» (scripts/filters.js,
+//                      through loadTaste and loadFeedback: the coffees inside the region, choose.js forYou)
 //   a coffee's page    [data-fit]: whether QQ roasts it for the visitor's way of brewing, and with what grind; the buy
 //                      bar starts on that roast and grind (unless the address chose them: ?roast=…&grind=…)
 //   «Впечатления»      [data-people][data-close]: how close each teller's taste is to the visitor's quiz region
@@ -29,7 +30,6 @@ export const saveTaste = (t) => {
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const rootHref = () => document.documentElement.dataset.root || "";
 const quizHref = (t) => `${rootHref()}start/?${new URLSearchParams(t.answers)}`;
-const names = (t) => { const n = t.picks.map((p) => p.name); return n.length > 1 ? `${n.slice(0, -1).join(", ")} и ${n.at(-1)}` : n[0]; };
 
 export const FEEDBACK = "qq-feedback";
 export const loadFeedback = () => {
@@ -46,23 +46,13 @@ export function initSaved() {
   for (const part of [() => region && people({ region }), () => f && mine(f)]) try { part(); } catch (e) { console.warn("qq-feedback:", e); }
   if (!t) return;
   // each reader on its own: one that fails leaves the others working
-  for (const part of [catalogue, coffeePage, profile]) try { part(t); } catch (e) { console.warn("qq-taste:", e); }
+  for (const part of [coffeePage, profile]) try { part(t); } catch (e) { console.warn("qq-taste:", e); }
 }
 
 // a coffee's page: what the visitor said about it after a delivery, this browser's newer answer in place of the page's
 function mine(f) {
   const el = document.querySelector("[data-mine]"), text = el && f.mine?.[el.dataset.mine];
   if (text) { el.textContent = text; el.hidden = false; }
-}
-
-function catalogue(t) {
-  // the catalogue: the visitor's three, and the way back to the result
-  const entry = document.querySelector("[data-quiz-entry]");
-  if (entry) {
-    entry.querySelector("[data-quiz-entry-text]").textContent = `Ваш подбор: ${names(t)}.`;
-    const a = entry.querySelector("[data-quiz-entry-link]");
-    a.textContent = "Открыть подбор"; a.setAttribute("href", quizHref(t));
-  }
 }
 
 // a coffee's page: the visitor's way of brewing, and whether it is one of the three

@@ -2,7 +2,7 @@
 
 Written by `build/choose.mjs` (`npm run choose`) from `data/choose.json` and the coffees of the site. Do not edit: change the data or the rules and rebuild. How it works: `docs/choose.md`.
 
-25 coffees; nothing is sold out (data/site.json shop.unavailable). The catalogue never hides a coffee: a choice lifts its matches to the top, then the nearest misses with what they miss, then the rest.
+25 coffees; nothing is sold out (data/site.json shop.unavailable). The catalogue shows only a choice's matches; with none, «Точно таких нет» over the nearest misses. The lists below also give the nearest misses with what they miss (the bench's «Почти»).
 
 ## Brewing methods
 

@@ -1,9 +1,10 @@
 // The catalog: the roast and shipping line, the category tabs, the way to choose, the grid of every coffee.
 // Choosing (session 3 of choosing coffee; docs/choose.md): one row of menu cells (Сортировка, Цена, Вкус — three
-// switches «мягче / все / ярче»… and the taste groups —, Приготовление — a brewing method sets the roast and grind QQ
-// sells for it —, Страна, Обработка, Моносорт / смесь, Линейка) and under it a row of checkboxes (Под молоко, На каждый
-// день, Необычные, Без кофеина). A choice shows its matches, then «Похожие» (the nearest that miss a little); never an
-// empty page (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
+// switches «мягче / все / ярче»… of equal cells, no counts, and the taste groups —, Приготовление — a brewing method
+// sets the roast and grind QQ sells for it; each on one line —, Страна, Обработка, Особенности — моносорт, смесь,
+// Classic, Special) and under it a row of checkboxes without counts (Для вас — only with a saved quiz —, Под молоко, На
+// каждый день, Необычные, Без кофеина). A choice shows only its matches; with none, «Точно таких нет» over the nearest
+// (scripts/filters.js, over src/data/choose.json through src/scripts/choose.js).
 import { page } from "./layout.mjs";
 import { card } from "./components.mjs";
 import { esc, icon, read, href } from "./util.mjs";
@@ -33,11 +34,21 @@ export function render(ctx) {
   const cnt = (fn) => String(n(fn));
   // Вкус: three switches (a radio each: the low side, all, the high side) and the taste groups (checkboxes)
   const axes = C.axes.map((a) => `<fieldset class="switch"><legend class="switch__name">${esc(a.ru)}</legend><div class="seg">${[["low", a.low.ru], ["", "все"], ["high", a.high.ru]].map(([v, t]) =>
-    `<label class="switch__opt"><input type="radio" name="${a.id}" value="${v}"${v ? "" : " checked"}><span>${esc(t)}</span>${v ? `<span class="option__n" data-n>${cnt((c) => c.axes[a.id] === v)}</span>` : ""}</label>`).join("")}</div></fieldset>`).join("");
+    `<label class="switch__opt"><input type="radio" name="${a.id}" value="${v}"${v ? "" : " checked"}><span>${esc(t)}</span></label>`).join("")}</div></fieldset>`).join("");
   const tastes = C.tastes.map((t) => `<label class="option"><input class="box" type="checkbox" name="taste" value="${t.id}"><span>${esc(t.ru)}</span><span class="option__n" data-n>${cnt((c) => c.tastes.includes(t.id))}</span></label>`).join("");
   const taste = `<details class="filter filter--taste" data-filter="taste">
         <summary class="filter__summary"><span class="filter__caption">Вкус</span><span class="filter__value" data-filter-value data-all="Любой">Любой</span></summary>
         <div class="filter__options filter__options--taste">${axes}<fieldset class="filter__group"><legend class="sr">Во вкусе</legend>${tastes}</fieldset></div>
+      </details>`;
+  // Особенности: моносорт or смесь, and the line (Classic, Special): two conditions in one cell (inside each, any of
+  // the ticked; between them, both)
+  const feat = [["type", "Моносорт", "Моносорт"], ["type", "Смесь", "Смесь"], ["line", "Classic", "Classic"], ["line", "Special", "Special"]]
+    .map(([k, v, t]) => `<label class="option"><input class="box" type="checkbox" name="${k}" value="${v}"><span>${esc(t)}</span><span class="option__n" data-n>${cnt((c) => c[k] === v)}</span></label>`).join("\n          ");
+  const features = `<details class="filter" data-filter="features">
+        <summary class="filter__summary"><span class="filter__caption">Особенности</span><span class="filter__value" data-filter-value data-all="Любые">Любые</span></summary>
+        <fieldset class="filter__options"><legend class="sr">Особенности</legend>
+          ${feat}
+        </fieldset>
       </details>`;
   const cells = [
     choice("sort", "Сортировка", "radio", [["popular", "Популярные"], ["new", "Новинки"], ["soft", "Мягче"], ["bright", "Ярче"], ["expensive", "Дороже"], ["cheap", "Дешевле"]], "popular"),
@@ -46,11 +57,12 @@ export function render(ctx) {
     choice("method", "Приготовление", "radio", [["", "Любое", "", String(live.length)], ...C.methods.map((m) => [m.id, m.ru, "", cnt((c) => c.methods[m.id].ok)])], "", "Любое"),
     choice("country", "Страна", "checkbox", countries.map((x) => [x, x, "", String(products.filter((p) => p.countries.includes(x) && !of(p).out).length)]), null, plural(countries.length, "страна", "страны", "стран")),
     choice("process", "Обработка", "checkbox", processes.map((x) => [x, x, "", String(products.filter((p) => p.processes.includes(x) && !of(p).out).length)]), null, plural(processes.length, "тип", "типа", "типов")),
-    choice("type", "Моносорт / смесь", "checkbox", [["Моносорт", "Моносорт"], ["Смесь", "Смесь"]].map(([v, t]) => [v, t, "", cnt((c) => c.type === v)]), null, "Моносорт, смесь"),
-    choice("line", "Линейка", "checkbox", [["Classic", "Classic"], ["Special", "Special"]].map(([v, t]) => [v, t, "", cnt((c) => c.line === v)]), null, "Classic, Special")
+    features
   ].join("\n        ");
-  // under the row: the scenarios, as checkboxes (any number; each is a condition), each with its count
-  const checks = C.chips.map((k) => `<label class="check"><input class="box" type="checkbox" name="chip" value="${k.id}"><span>${esc(k.ru)}</span><span class="check__n" data-n>${cnt((c) => c.chips.includes(k.id))}</span></label>`).join("");
+  // under the row: the scenarios, as checkboxes without counts (any number; each is a condition). «Для вас» first: the
+  // coffees for the visitor's saved taste (choose.js forYou); filters.js removes it when this browser keeps no quiz
+  const checks = `<label class="check" data-you hidden><input class="box" type="checkbox" name="chip" value="you"><span>Для вас</span></label>`
+    + C.chips.map((k) => `<label class="check"><input class="box" type="checkbox" name="chip" value="${k.id}"><span>${esc(k.ru)}</span></label>`).join("");
   // what the script reads: each coffee's choices, the methods, the chips' rules and words, the taste distances
   const json = JSON.stringify({
     methods: C.methods, chips: read("data/choose.json").chips.map(({ id, ru, when, miss, why }) => ({ id, ru, when, miss, why })), axes: C.axes,

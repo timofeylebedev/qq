@@ -6,14 +6,17 @@
 //   taste                           any of the ticked taste groups
 //   method                          «Приготовление»: a coffee QQ roasts for it matches; its card then puts the method's
 //                                   roast and grind into the bag and opens its page on them (?roast=…&grind=…)
-//   country, process, type, line    any of the ticked values (none ticked: any)
-//   chip                            the checkboxes under the row: each ticked one must hold
-// A choice shows its matches, then «Похожие» (the nearest that miss as little as possible); the rest are not shown.
-// With no match: «Точно таких нет», then «Похожие». Every option shows how many it would find with the rest of the
-// choice. The choice is kept in the address (?method=moka&chip=milk): every change is a step of the browser's history,
+//   country, process                any of the ticked values (none ticked: any)
+//   type, line                      «Особенности»: any ticked of each (моносорт / смесь; Classic / Special), both must hold
+//   chip                            the checkboxes under the row: each ticked one must hold. «you» («Для вас», first, only
+//                                   when this browser keeps a quiz): the coffees for the visitor's taste (choose.js forYou)
+// A choice shows only its matches. With no match: «Точно таких нет», then «Похожие» (the nearest that miss as little as
+// possible). Every option of a menu shows how many it would find with the rest of the choice; the switches of «Вкус»
+// and the checkboxes under the row show none (a checkbox that would find nothing is greyed). The choice is kept in the address (?method=moka&chip=milk): every change is a step of the browser's history,
 // so a choice can be shared and Back undoes it.
 import { riseGrid } from "./slider.js";
-import { rank, nearOf, roastMiss } from "./choose.js";
+import { rank, nearOf, roastMiss, forYou } from "./choose.js";
+import { loadTaste, loadFeedback } from "./tastesaved.js";
 import { focusFrom } from "./focus.js";
 
 const ROAST = { Эспрессо: "под эспрессо", Фильтр: "под фильтр" };
@@ -40,6 +43,17 @@ export function initFilters() {
   });
   const order = new Map(coffees.map((c, i) => [c, i]));
   const dist = (a, b) => D.dist[a.i][b.i];
+
+  // «Для вас»: with a quiz kept in this browser, the first checkbox, in place of the line about the quiz under the tabs;
+  // the region is where the feedback after delivery moved the visitor, else the quiz's
+  const taste = loadTaste(), fb = loadFeedback(), youEl = form.querySelector("[data-you]");
+  let you = null;
+  if (taste) {
+    const moved = fb?.region?.center && fb.region.spread ? fb.region : null;
+    you = forYou(D.coffees, moved || taste.region, { picks: taste.picks.map((p) => p.slug), method: taste.answers.method });
+    youEl.hidden = false;
+    document.querySelector("[data-quiz-entry]")?.remove();
+  } else youEl.remove();
 
   // ── the form ↔ the state ↔ the address ──
   const state = () => {
@@ -80,6 +94,7 @@ export function initFilters() {
     }
     if (s.taste.length) k.push({ id: "taste", test: (c) => s.taste.some((t) => c.tastes.includes(t)), miss: none });
     for (const id of s.chip) {
+      if (id === "you") { if (you) k.push({ id: "chip-you", test: (c) => you.has(c.slug), miss: none }); continue; }
       const ch = D.chips.find((x) => x.id === id);
       if (ch) k.push({ id: "chip-" + id, test: (c) => c.chips.includes(id), miss: none, near: (c) => nearOf(c, ch) });
     }
@@ -109,16 +124,16 @@ export function initFilters() {
     const R = rank(sorted, K, { dist });
     const any = K.length > 0, m = s.method && D.methods.find((x) => x.id === s.method);
     const near = R.near.map((x) => x.c);
-    // the matches, then «Похожие»; with no choice, every coffee (the sold-out ones last)
-    const shown = any ? [...R.exact, ...near] : [...R.exact, ...R.rest];
-    const seq = any ? [heads.exact, ...R.exact, heads.near, ...near] : shown;
+    // the matches only; with none, «Точно таких нет» over «Похожие»; with no choice, every coffee (the sold-out ones last)
+    const shown = !any ? [...R.exact, ...R.rest] : R.empty ? near : R.exact;
+    const seq = any && R.empty ? [heads.exact, heads.near, ...near] : shown;
     for (const x of seq) grid.append(x.el || x);
     for (const c of coffees) {
       if (shown.includes(c)) { c.el.removeAttribute("data-out"); continue; }
       grid.append(c.el); c.el.setAttribute("data-out", "");
     }
     heads.exact.hidden = !any || !R.empty; heads.exact.textContent = "Точно таких нет";
-    heads.near.hidden = !any || !near.length;
+    heads.near.hidden = !any || !R.empty || !near.length;
     // sizes: the first cards take half a row in the page's own order and look, the rest a third; any choice, all thirds
     let big = !any && s.sort === "popular" ? 4 : 0;
     for (const c of shown) {
@@ -138,11 +153,13 @@ export function initFilters() {
       if (name === "method" || AXES.includes(name)) return exactCount({ ...s, [name]: value });
       return exactCount({ ...s, [name]: [value] });
     };
+    // (the checkboxes under the row have no number: one that would find nothing is only greyed)
     for (const i of form.querySelectorAll("input[name]")) {
       const label = i.closest("label"), nEl = label?.querySelector("[data-n]");
-      if (!nEl) continue;
+      if (!nEl && !label?.classList.contains("check")) continue;
       const v = countOf(i.name, i.value);
-      nEl.textContent = v; label.toggleAttribute("data-none", v === 0);
+      if (nEl) nEl.textContent = v;
+      label.toggleAttribute("data-none", v === 0);
     }
     // what each cell says when closed: the choice, or everything
     for (const d of form.querySelectorAll("[data-filter]")) {
@@ -153,12 +170,13 @@ export function initFilters() {
       if (f === "price") { if (nums[0] || nums[1]) { text = `${nums[0] || "…"} — ${nums[1] || "…"}`; on = true; } }
       else if (f === "sort") { text = picked[0] || text; on = s.sort !== "popular"; }
       else if (f === "method") { text = picked[0] || text; on = !!s.method; }
-      else if (picked.length) { text = picked.map((t, j) => (j ? t.toLowerCase() : t[0].toUpperCase() + t.slice(1))).join(", "); on = true; }
+      // names stay as they are (countries, Classic, Special); the taste groups and processes continue in small letters
+      else if (picked.length) { text = picked.map((t, j) => (j && f !== "country" && f !== "features" ? t.toLowerCase() : t[0].toUpperCase() + t.slice(1))).join(", "); on = true; }
       v.textContent = text; d.toggleAttribute("data-active", on);
     }
     reset.hidden = !any && s.sort === "popular";
     // a screen reader hears what a change found (only a visitor's change: not on load, not on Back)
-    if (push === true) status.textContent = !any ? `Все ${R.exact.length} кофе` : R.empty ? `Точно таких нет. Похожих: ${near.length}` : `Подходят ${R.exact.length}${near.length ? `, похожих ${near.length}` : ""}`;
+    if (push === true) status.textContent = !any ? `Все ${R.exact.length} кофе` : R.empty ? `Точно таких нет. Похожих: ${near.length}` : `Подходят ${R.exact.length}`;
     write(push === true);
     dispatchEvent(new Event("qq:layout"));
   }

@@ -6,11 +6,13 @@
 //   meets(coffee, when)         whether a coffee meets a chip's conditions (data/choose.json `when`)
 //   rank(coffees, conditions)   matches first, then the nearest misses with what they miss, then the rest: never empty
 //   missOf(c, chip), roastMiss(c)  the words for what a coffee misses; nearOf(c, chip) how far it is from a chip
+//   forYou(coffees, region, o)  «Для вас» in the catalogue: the coffees inside the visitor's region, the quiz's picks first
 //   layout(points, opts)        the taste map: places dots so none covers another (deterministic)
 //   clearance(layout, opts)     the smallest gap between two of its dots, in dots
 //
 // A coffee here is { slug, roasts: ["Эспрессо", "Фильтр"], grind: [...], use: [...], line, decaf, coded: { acidity,
 // density, ferment, sweetness }, position: { bright, body, unusual }, out } (src/data/choose.json `coffees`).
+import { fit } from "./taste.js";
 
 // ── a brewing method → what QQ sells ──────────────────────────────────────────────────────────────────────────────
 // ok: QQ roasts this coffee for the method (a method that takes "any" roast fits every coffee; an omni roast, c.omni,
@@ -82,6 +84,20 @@ export function rank(coffees, conditions, { dist = () => 0, nearMax = 3, nearMax
     rest: coffees.filter((c) => !exact.includes(c) && !inNear.has(c)),
     empty: !exact.length
   };
+}
+
+// «Для вас»: the coffees for the visitor's saved taste (the quiz's region, or where the feedback after delivery moved
+// it). The quiz's own picks, then the coffees inside the region (fit ≤ 1 on the three visible axes; the catalogue has
+// no flavour profiles), nearest first, `most` in all; never fewer than `least` (the nearest fill up). Only coffees in
+// stock, with caffeine, and roasted for the visitor's method. Returns a Set of slugs.
+export function forYou(coffees, region, { picks = [], method = null, least = 3, most = 8 } = {}) {
+  const pool = coffees.filter((c) => !c.out && !c.decaf && (!method || method === "none" || c.methods[method]?.ok));
+  const r = { center: region.center, spread: region.spread };
+  const cost = new Map(pool.map((c) => [c, fit(r, c.position)]));
+  const by = [...pool].sort((a, b) => cost.get(a) - cost.get(b) || a.i - b.i);
+  const set = new Set(picks.filter((s) => pool.some((c) => c.slug === s)));
+  for (const c of by) if (set.size < most && (cost.get(c) <= 1 || set.size < least)) set.add(c.slug);
+  return set;
 }
 
 // The words for what a coffee misses of a chip: each failed condition of `when`, through the chip's `miss` texts

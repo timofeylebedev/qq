@@ -14,8 +14,8 @@ respondents of the survey check with their verdicts.
 - **Ways in** (all lead to the same page):
   - the home page: the section right after the hero (`quizEntry()`) asks the first question in place; each method is a
     link that opens the quiz on question 2 (`start/?method=…`);
-  - the catalogue: a line under the tabs, «Выбираете впервые? Выбрать кофе за минуту» (after a quiz: «Ваш подбор: …
-    Открыть подбор»);
+  - the catalogue: a line under the tabs, «Выбираете впервые? Выбрать кофе за минуту» (after a quiz the line is
+    gone and «Для вас» is the first checkbox under the filters);
   - the footer: «Заказываю кофе впервые» under «Покупателям».
 - **B2B** is a link on the first screen («Для кофейни или офиса: подберём с менеджером и на дегустации» → business/),
   not a result: business buyers choose with a manager and a cupping (marketing's row 5; the B2B survey).
@@ -116,7 +116,8 @@ Until the account has a backend, the result is kept in this browser, only when t
 (a shared result offers «Сделать этот подбор моим» instead of replacing theirs): localStorage `qq-taste` =
 `{ v: 1, at, answers: { method, milk, now, taste }, region: { center, spread, flavour? }, mode, picks: [{ slug, label, name }] }`
 (`scripts/tastesaved.js`). Read by:
-- **the catalogue:** its line becomes «Ваш подбор: A, B и C. Открыть подбор»;
+- **the catalogue:** «Для вас», the first checkbox under the filters (choose.js `forYou`: the three and the coffees
+  inside the region), in place of the line about the quiz;
 - **a coffee's page** (`[data-fit]` under the name):
   - «Ваш способ — рожковая кофемашина: обжарка под эспрессо, помол для эспрессо.», or «Для вашего способа — … — не
     подходит: его обжариваем только под фильтр.»;

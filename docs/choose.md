@@ -7,16 +7,28 @@ from a brewing method to what QQ sells, and the taste map. Research: `docs/choos
 ## The catalogue now (Tim, 26 Nov)
 
 Tim reshaped the first build (24 Nov, described below) into the catalogue's original row of cells:
-- **The row:** Сортировка · Цена · **Вкус** · **Приготовление** · Страна · Обработка · Моносорт / смесь · Линейка (two a
-  row below M, four from M, eight from L). «Вкус» holds three switches and the seven taste groups; «Приготовление» is
-  the eight methods (below), each setting the roast and grind.
+- **The row:** Сортировка · Цена · **Вкус** · **Приготовление** · Страна · Обработка · **Особенности** (two a row below
+  M, four from M, seven from L; below L the last cell runs across two). «Вкус» holds three switches and the seven taste
+  groups; «Приготовление» is the eight methods (below), each setting the roast and grind, every method on one line (the
+  list as wide as its longest; below M it opens across the row; only on a 280px screen does
+  «Автоматическая кофемашина» wrap). «Особенности» is моносорт, смесь, Classic, Special (`type` and `line`: any ticked
+  of each, both must hold; it replaced «Моносорт / смесь» and «Линейка», Tim, 26 Nov).
 - **The switches** (`axes` in data/choose.json; «все» is no condition, the middle of an axis is on neither side):
   Кислотность мягче (acidity ≤ 2, 5) / ярче (≥ 3.5, 7); Плотность легче (density ≤ 2, 6) / плотнее (≥ 4, 7); Характер
-  классичнее (the model's unusual < 0.3, 17) / необычнее (≥ 1, 7).
-- **The checkboxes under the row** (`chips`; any number, each a condition): Под молоко 10, На каждый день 13,
-  Необычные 5 (unusual ≥ 2), Без кофеина 1. «Мягкая кислотность» left: it is the «мягче» switch.
-- **The result:** the matches, then «Похожие» (`rank()`'s near misses, without the words of what they miss), and
-  nothing else; with no match, «Точно таких нет» over «Похожие». A match still carries the method's roast and grind in
+  классичнее (the model's unusual < 0.3, 17) / необычнее (≥ 1, 7). The three cells of a switch are of equal width and
+  carry no count (Tim, 26 Nov); the taste groups and the other menus' options keep theirs.
+- **The checkboxes under the row** (`chips`; any number, each a condition), without counts (one that would find
+  nothing is greyed): Под молоко 10, На каждый день 13, Необычные 5 (unusual ≥ 2), Без кофеина 1. «Мягкая кислотность»
+  left: it is the «мягче» switch.
+- **«Для вас»,** the first checkbox, only when this browser keeps a quiz (`qq-taste`); then the line «Выбираете
+  впервые? Выбрать кофе за минуту» under the tabs is gone (no «Ваш подбор: …» line any more; Tim, 26 Nov). It is
+  `forYou()` of choose.js: the quiz's three picks, then the coffees inside the visitor's region (`fit` ≤ 1 on the three
+  visible axes of the taste model; the catalogue has no flavour profiles), nearest first, 8 at most and never fewer than
+  3; only in stock, with caffeine, roasted for the visitor's method. The region is where the feedback after delivery
+  moved the visitor (`qq-feedback`), else the quiz's. Over the quiz's 675 answer sets this is 3–8 coffees. In the
+  address: `?chip=you` (ignored in a browser without a quiz).
+- **The result:** only the matches (Tim, 26 Nov: «make them actually filter»; before, «Похожие» followed them). With no
+  match, «Точно таких нет» over «Похожие» (`rank()`'s near misses, without the words of what they miss). A match still carries the method's roast and grind in
   lavender. Below M the «Вкус» menu opens across the whole row of cells (it is wider than one cell).
 - **Not on the catalogue now:** the taste map (kept for the quiz), the chips with pills, «Ещё фильтры», the applied
   pills, the method's line under the cells, «Остальные».
@@ -27,7 +39,7 @@ Tim reshaped the first build (24 Nov, described below) into the catalogue's orig
 |---|---|---|
 | Methods, chips, acidity levels, taste groups (hand-written data) | `data/choose.json` | build/choose.mjs |
 | What every coffee is: methods it fits (roast, grind), chips, acidity level, taste groups, region and place on the map, the taste distances | `build/choose.mjs` → `src/data/choose.json` (generated; runs before dev and build) | the catalogue; the quiz |
-| The arithmetic: `methodFit`, `meets`, `rank` (matches → «Почти» → the rest), `missOf` / `nearOf` / `roastMiss` (what a coffee misses, and how far), `layout` (the map's places) | `src/scripts/choose.js` (Node and browser) | build/choose.mjs, scripts/filters.js; the quiz |
+| The arithmetic: `methodFit`, `meets`, `rank` (matches → «Почти» → the rest), `forYou` («Для вас»), `missOf` / `nearOf` / `roastMiss` (what a coffee misses, and how far), `layout` (the map's places) | `src/scripts/choose.js` (Node and browser) | build/choose.mjs, scripts/filters.js; the quiz |
 | The taste map's markup | `src/templates/map.mjs` `tasteMap(ctx, { id, label })` | the catalogue; the quiz |
 | The taste map in the browser: `light(slugs)`, `regions(ids)`, `area({ u, v, ru, rv })` (a visitor's wide region), `show(slug)` | `src/scripts/tastemap.js` `initTasteMap(el, { onRegion, onDot, info })` | scripts/filters.js; the quiz |
 | The catalogue | `src/templates/catalog.mjs`, `src/scripts/filters.js`, `src/styles/pages/catalog.css`, `src/styles/components/map.css` | — |
