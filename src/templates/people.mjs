@@ -104,42 +104,29 @@ function review(r, you) {
 }
 
 // ── the review form (a dialog) ───────────────────────────────────────────────────────────────────────────────────
+// Wide; the taste model's three rows (кислотность, плотность, характер), no name, city or «обычно пью», no hints about
+// what the answers are against (Tim, 26 Nov): the name is the account's.
 function writeDialog(ctx, p) {
   const id = `review-${p.slug}`;
   const opt = (name, value, text, type = "radio", extra = "") => `<label class="ropt"><input type="${type}" name="${name}" value="${esc(value)}"${extra}><span>${esc(text)}</span></label>`;
-  const three = (axis, need = true) => `<fieldset class="fcell rform__axis">
-        <legend class="fcell__label">${A[axis].title}${need ? ` <span class="rform__req">обязательно</span>` : ""}</legend>
-        <p class="rform__hint">Против того, что вы обычно пьёте. Ни один ответ не лучше другого.</p>
-        <div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}"${need ? " required" : ""}><span>${A[axis][k]}</span></label>`).join("")}</div>
-      </fieldset>`;
-  // what you usually drink is never this coffee: the answers are against something else
-  const usual = [...ctx.products.filter((q) => q.slug !== p.slug).map((q) => [q.slug, q.name]), ...Object.entries(D.styles).map(([k, v]) => [k, v.charAt(0).toUpperCase() + v.slice(1)])];
+  // a fieldset inside its cell: the cell draws the line (Safari draws a fieldset's box from the middle of its legend, so
+  // a line of the fieldset's own ran through the caption: Tim, 26 Nov, «things overlap»)
+  const set = (legend, inner, cls = "") => `<div class="fcell${cls ? ` ${cls}` : ""}"><fieldset class="rform__set">
+        <legend class="fcell__label">${legend}</legend>
+        ${inner}
+      </fieldset></div>`;
+  const req = ` <span class="rform__req">обязательно</span>`;
+  const three = (axis, need = true) => set(`${A[axis].title}${need ? req : ""}`, `<div class="seg seg--3">${["less", "ok", "more"].map((k) => `<label><input type="radio" name="${axis}" value="${k}"${need ? " required" : ""}><span>${A[axis][k]}</span></label>`).join("")}</div>`, "rform__axis");
   const body = `<form class="form form--dialog rform" data-tone="cloud" data-review-form data-coffee="${esc(p.name)}" action="#">
-      <p class="fcell rform__lead">Лучше после нескольких чашек. Важно, как вы заваривали и куда кофе ушёл от того, что вы обычно пьёте.</p>
-      <fieldset class="fcell">
-        <legend class="fcell__label">Как заваривали <span class="rform__req">обязательно</span></legend>
-        <div class="ropts">${Object.entries(M).map(([k, m]) => opt("method", k, m.label, "radio", " required")).join("")}</div>
-        <label class="choice choice--check rform__milk"><input class="box" type="checkbox" name="milk" value="yes"><span>С молоком</span></label>
-      </fieldset>
-      ${three("sweet", false)}
+      ${set(`Как заваривали${req}`, `<div class="ropts">${Object.entries(M).map(([k, m]) => opt("method", k, m.label, "radio", " required")).join("")}</div>
+        <label class="choice choice--check rform__milk"><input class="box" type="checkbox" name="milk" value="yes"><span>С молоком</span></label>`)}
       ${three("bright")}
       ${three("body")}
       ${three("unusual", false)}
-      ${p.descriptors.length ? `<fieldset class="fcell">
-        <legend class="fcell__label">Какие ноты узнали</legend>
-        <div class="ropts">${p.descriptors.map((d) => opt("heard", d, d, "checkbox")).join("")}</div>
-      </fieldset>` : ""}
-      <fieldset class="fcell">
-        <legend class="fcell__label">Сколько чашек уже выпили</legend>
-        <div class="ropts">${[["2", "1–2"], ["4", "3–5"], ["6", "6 и больше"]].map(([v, t]) => opt("cups", v, t)).join("")}</div>
-      </fieldset>
+      ${p.descriptors.length ? set("Какие ноты узнали", `<div class="ropts">${p.descriptors.map((d) => opt("heard", d, d, "checkbox")).join("")}</div>`) : ""}
+      ${set("Сколько чашек уже выпили", `<div class="ropts">${[["2", "1–2"], ["4", "3–5"], ["6", "6 и больше"]].map(([v, t]) => opt("cups", v, t)).join("")}</div>`)}
       <div class="fcell"><label class="fcell__label" for="${id}-text">Пара слов о кофе</label><textarea class="fcell__input rform__text" id="${id}-text" name="text" rows="3" placeholder="Что понравилось, что бы поменяли, кому посоветуете"></textarea></div>
-      <div class="fcell"><label class="fcell__label" for="${id}-usual">Обычно пью</label><select class="fcell__input" id="${id}-usual" name="usual"><option value="">Выберите — сохранится в профиле</option>${usual.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("")}</select></div>
-      <div class="fcell rform__pair">
-        <div><label class="fcell__label" for="${id}-name">Имя</label><input class="fcell__input" id="${id}-name" name="name" autocomplete="given-name" placeholder="на сайте — имя и первая буква фамилии"></div>
-        <div><label class="fcell__label" for="${id}-city">Город</label><input class="fcell__input" id="${id}-city" name="city" autocomplete="address-level2" placeholder="по желанию"></div>
-      </div>
-      <div class="fcell fcell--checks"><label class="choice choice--check"><input class="box" type="checkbox" name="consent" required><span>Согласен(на), что имя, город и ответы будут видны на сайте</span></label></div>
+      <div class="fcell fcell--checks"><label class="choice choice--check"><input class="box" type="checkbox" name="consent" required><span>Согласен(на), что впечатление будет видно на сайте</span></label></div>
       <details class="fcell rform__other">
         <summary>Не про вкус: помол не подошёл или не как в описании</summary>
         <p>Такие ответы не идут в счёт вкуса: их читает QQ и отвечает. Отметьте и напишите в поле «Пара слов о кофе».</p>
@@ -147,7 +134,7 @@ function writeDialog(ctx, p) {
       </details>
       <button class="btn form__submit" type="submit">Отправить</button>
     </form>`;
-  return dialog({ id, title: `Ваша чашка · ${p.name}`, body });
+  return dialog({ id, title: `${p.name} — впечатления`, body, wide: true });
 }
 
 // «Задать вопрос»: a question about this coffee to QQ (answered by QQ; there is no backend yet: scripts/people.js says so)
@@ -158,5 +145,5 @@ function askDialog(p) {
       <div class="fcell"><label class="fcell__label" for="${id}-name">Имя</label><input class="fcell__input" id="${id}-name" name="name" autocomplete="given-name"></div>
       <button class="btn form__submit" type="submit">Отправить</button>
     </form>`;
-  return dialog({ id, title: `Вопрос · ${p.name}`, body });
+  return dialog({ id, title: `${p.name} — вопрос`, body });
 }

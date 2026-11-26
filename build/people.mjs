@@ -19,12 +19,14 @@ const root = resolve(import.meta.dirname, "..");
 const read = (f) => JSON.parse(readFileSync(resolve(root, f), "utf8"));
 const OUT = resolve(root, "src/data/people.json");
 
-// the review's answers, one per axis; the words are the page's («слишком ярко / в самый раз / хочу ярче» of session 6)
+// the review's answers, one per axis; the words are the page's («слишком ярко / в самый раз / хочу ярче» of session 6).
+// The form asks the taste model's three (кислотность, плотность, характер: Tim, 26 Nov); sweetness stays in the
+// placeholders' answers, never asked.
 export const ANSWERS = {
   sweet: { less: "приторно", ok: "в самый раз", more: "хотелось слаще", title: "Сладость" },
   bright: { less: "ярковато", ok: "в самый раз", more: "хотелось ярче", title: "Кислотность" },
   body: { less: "тяжеловато", ok: "в самый раз", more: "хотелось плотнее", title: "Плотность" },
-  unusual: { less: "многовато", ok: "в самый раз", more: "хотелось необычнее", title: "Ферментация" }
+  unusual: { less: "слишком необычно", ok: "в самый раз", more: "хотелось необычнее", title: "Характер" }
 };
 export const AXES = ["sweet", "bright", "body", "unusual"];
 

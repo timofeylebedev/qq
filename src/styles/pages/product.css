@@ -202,9 +202,8 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 
 /* the review form (a dialog): the site's form of cells; choices as pills, the answers per axis as a switch of three */
 .rform { --menu-min: 0; }
-.rform__lead { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
+.rform__set { display: grid; gap: 6px; min-width: 0; padding: 0; margin: 0; border: 0; }
 .rform__req { margin-left: 6px; text-transform: none; letter-spacing: 0; color: var(--c-ink-70); }
-.rform__hint { clear: both; font-size: var(--type-small); color: var(--c-ink-70); }
 .ropts { display: flex; flex-wrap: wrap; gap: 6px; clear: both; }
 .ropt { position: relative; }
 .ropt input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
@@ -216,9 +215,6 @@ body:has(.product) .toast { bottom: calc(var(--tabbar-h) + var(--buybar-h) + 16p
 .seg--3 span { font-size: var(--type-body); }
 .rform__milk { margin-top: 6px; }
 .rform__text { min-height: 4.5em; resize: vertical; font-size: max(16px, var(--type-body)); }
-.rform__pair { display: grid; gap: var(--card-pad); }
-.rform__pair > div { display: grid; gap: 6px; }
-@container col (width >= 22rem) { .rform__pair { grid-template-columns: 1fr 1fr; } }
 .rform__other { font-size: var(--type-body); }
 .rform__other summary { display: flex; align-items: center; min-height: 40px; cursor: pointer; color: var(--c-ink-70); text-decoration: underline; text-underline-offset: 0.25em; }
 .rform__other p { margin-block: 8px; color: var(--c-ink-70); }
