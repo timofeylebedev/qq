@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-26T10:13:52.758Z",
- "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
+ "generated": "2026-11-26T10:51:42.048Z",
+ "commit": "73c860d78acba7f16f242aad589038b7c79148da",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -121,11 +121,11 @@
    "files": {
     "src/styles/components/card.css": "c079ec435ee5876d17bc45e240a184ef0eddc264",
     "src/scripts/slider.js": "6969b2ac483abf3e8118cbfd0e1647c4e336c021",
-    "src/scripts/packs.js": "3365015f5d05dce20f644ddd944a7cce41b26fb9",
-    "src/templates/components.mjs": "05a720b6b77edf907d2ac215a45910332cb515aa"
+    "src/scripts/packs.js": "5ad73a6296e564781bf974151bf0f3fe9f65bbf1",
+    "src/templates/components.mjs": "3960cb1917579fd100ca41cba67d84873b663e6f"
    },
-   "taken": "2026-11-26T06:01:37.671Z",
-   "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+   "taken": "2026-11-26T10:51:49.557Z",
+   "commit": "73c860d78acba7f16f242aad589038b7c79148da",
    "sizes": [
     {
      "w": 390,
@@ -135,7 +135,7 @@
       "w": 390,
       "h": 643
      },
-     "bytes": 65108
+     "bytes": 66285
     },
     {
      "w": 1440,
