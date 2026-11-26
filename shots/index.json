@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-26T12:00:56.803Z",
- "commit": "70eb05f46ab6e23187f347da0e34dc4d59e39fe3",
+ "generated": "2026-11-26T12:20:56.608Z",
+ "commit": "50fdb94f6b16f890587f1d4224da6ac96612e449",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -288,11 +288,11 @@
    "page": "",
    "selector": "footer",
    "files": {
-    "src/styles/components/footer.css": "b373968f8d92845738c220e0fe399f1aa5f622d0",
+    "src/styles/components/footer.css": "8a74954cb01758d0603c73f42a00093df0716825",
     "src/templates/layout.mjs": "faa09fd11ac852076d633c617ddf4d766ffea3c8"
    },
-   "taken": "2026-11-26T10:14:04.192Z",
-   "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
+   "taken": "2026-11-26T12:21:04.555Z",
+   "commit": "50fdb94f6b16f890587f1d4224da6ac96612e449",
    "sizes": [
     {
      "w": 390,
@@ -312,7 +312,7 @@
       "w": 1440,
       "h": 673
      },
-     "bytes": 28945
+     "bytes": 28944
     }
    ]
   },
