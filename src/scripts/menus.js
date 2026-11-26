@@ -23,8 +23,11 @@ export function initMenus() {
     const open = cells.find((d) => d.open);
     if (open) { open.open = false; focusFrom(open.querySelector("summary")); }
   });
-  // an open list must not cover what the keyboard focuses next
-  cells.forEach((d) => d.addEventListener("focusout", (e) => { if (d.open && !d.contains(e.relatedTarget) && e.relatedTarget) d.open = false; }));
+  // an open list must not cover what the keyboard focuses next. Not when the focus goes to something that holds the menu:
+  // a press on an option's words (not focusable) hands the focus to the nearest focusable box around it, and in Safari
+  // on a Mac that is the page's own box (site-kit/runtime/box.js gives it tabindex -1), which closed the menu before
+  // the click could tick the option
+  cells.forEach((d) => d.addEventListener("focusout", (e) => { const to = e.relatedTarget; if (d.open && to && !d.contains(to) && !to.contains(d)) d.open = false; }));
 
   for (const d of cells) {
     if (!d.querySelector('input[type="radio"]')) continue;
