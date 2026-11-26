@@ -18,14 +18,14 @@ here for when QQ wants them.
 
 The page already reads these shapes; a backend has to produce them (`build/people.mjs` documents the fields).
 
-- **Reviewer's profile** (asked once, saved; on the page only through the closeness and the chips): first name + initial of the surname, city
-  (optional), **how they usually brew** (one of 9 methods), milk or not, and **what they usually drink** (a QQ coffee or
-  one of four styles). The page places the reviewer on the taste map from that. The usual coffee is never the coffee
-  being reviewed (the form leaves it out of the list): the answers are «against what you usually drink». The profile's
-  method only prefills the review's; the method of the review is what counts.
+- **Reviewer's profile** (on the page only through the closeness and the chips): the name comes from the account (first
+  name + initial of the surname), and the taste from what the account knows (orders, the quiz, the feedback after
+  delivery). **The form no longer asks for a name, a city or «обычно пью»** (Tim, 26 Nov): the backend takes them from the
+  signed-in account. The profile's method only prefills the review's; the method of the review is what counts.
 - **Review** (one per person per coffee; a later bag updates it, and its author can edit or delete it): date, how
-  this coffee was brewed, milk, the two **direction answers** against expectation (кислотность: ярковато / в самый раз /
-  хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее; both required), the notes heard (from the
+  this coffee was brewed, milk, the taste model's three **direction answers** (кислотность: ярковато / в самый раз /
+  хотелось ярче; плотность: тяжеловато / в самый раз / хотелось плотнее, both required; характер: слишком необычно / в самый
+  раз / хотелось необычнее, optional; no sweetness: Tim, 26 Nov), the notes heard (from the
   coffee's own descriptors), after how many cups (1–2 / 3–5 / 6+), optional text («Пара слов о кофе»), whether it is a
   verified purchase, and QQ's reply if there is one.
 - **Not about taste** (kept out of the counts): «помол не подошёл», «не как в описании», each with text and QQ's reply.
