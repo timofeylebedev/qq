@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-26T00:14:04.294Z",
- "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+ "generated": "2026-11-26T03:41:32.177Z",
+ "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -221,11 +221,11 @@
    "selector": "#business",
    "files": {
     "src/styles/sections/home.css": "3a3b97e8fc5e14eb2ea63e444d3f68388739d284",
-    "src/styles/components/blocks.css": "3bd7825fd94d7b636930c66de61ee3ae14118600",
+    "src/styles/components/blocks.css": "808d31e66156423ff773a24c718f640474b61ea8",
     "src/templates/home.mjs": "d45aac3e9f68e1567a8d9fe3f4f3c8e5b3fecc16"
    },
-   "taken": "2026-11-26T00:14:23.061Z",
-   "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+   "taken": "2026-11-26T03:41:39.991Z",
+   "commit": "e6ad94cbbec5baddc0a7e7d1ecfc6a7e3d4c1d0b",
    "sizes": [
     {
      "w": 390,
