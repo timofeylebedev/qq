@@ -1,6 +1,6 @@
 {
- "generated": "2026-11-26T06:01:21.266Z",
- "commit": "27ef7ed00fe357723690d38c2252c19b0685e4cf",
+ "generated": "2026-11-26T10:13:52.758Z",
+ "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
  "mode": "changed",
  "sizes": [
   "390x844",
@@ -14,10 +14,10 @@
    "files": {
     "src/styles/components/nav.css": "a544e408c71ff88323e633533a3c866660965bc5",
     "src/scripts/nav.js": "7d6711be143e9f481bcd319e2a7a6c3b1188db3d",
-    "src/templates/layout.mjs": "9e78d772eee1f63bf884fc01695fa7f3b657f2ec"
+    "src/templates/layout.mjs": "faa09fd11ac852076d633c617ddf4d766ffea3c8"
    },
-   "taken": "2026-11-26T00:14:23.061Z",
-   "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+   "taken": "2026-11-26T10:14:04.192Z",
+   "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
    "sizes": [
     {
      "w": 390,
@@ -288,11 +288,11 @@
    "page": "",
    "selector": "footer",
    "files": {
-    "src/styles/components/footer.css": "d88f1ff935b03f3f14da28619315d57e9d0b3f47",
-    "src/templates/layout.mjs": "9e78d772eee1f63bf884fc01695fa7f3b657f2ec"
+    "src/styles/components/footer.css": "b373968f8d92845738c220e0fe399f1aa5f622d0",
+    "src/templates/layout.mjs": "faa09fd11ac852076d633c617ddf4d766ffea3c8"
    },
-   "taken": "2026-11-23T22:25:38.842Z",
-   "commit": "9a4eefd0413dc0d37cde1b9496df44b34d1a5ccd",
+   "taken": "2026-11-26T10:14:04.192Z",
+   "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
    "sizes": [
     {
      "w": 390,
@@ -300,9 +300,9 @@
      "file": "footer/390x844.jpg",
      "css": {
       "w": 390,
-      "h": 826
+      "h": 855
      },
-     "bytes": 71066
+     "bytes": 82771
     },
     {
      "w": 1440,
@@ -312,7 +312,7 @@
       "w": 1440,
       "h": 673
      },
-     "bytes": 28598
+     "bytes": 28945
     }
    ]
   },
@@ -323,10 +323,10 @@
    "files": {
     "src/styles/components/nav.css": "a544e408c71ff88323e633533a3c866660965bc5",
     "src/scripts/nav.js": "7d6711be143e9f481bcd319e2a7a6c3b1188db3d",
-    "src/templates/layout.mjs": "9e78d772eee1f63bf884fc01695fa7f3b657f2ec"
+    "src/templates/layout.mjs": "faa09fd11ac852076d633c617ddf4d766ffea3c8"
    },
-   "taken": "2026-11-26T00:14:23.061Z",
-   "commit": "3e32625230fd757d5df39f6e5ac6783c4a40b97c",
+   "taken": "2026-11-26T10:14:04.192Z",
+   "commit": "93d2e820a1f47c0ce85bfd5e0898623ca3f84e13",
    "sizes": [
     {
      "w": 390,
