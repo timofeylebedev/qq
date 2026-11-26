@@ -14,7 +14,7 @@
 /* QQ's social pages (marketing's row 6): filled icons in ink-60 (a see-through ink; 3 : 1 and more on cloud, as a
    graphic needs), ink when hovered; in the cell's top left corner, as far from its top and side as the copyright is
    from its foot and side (the icon, not its 40px target). --brand-x is the cell's own left padding. */
-.footer__social { --brand-x: 0px; position: absolute; z-index: 1; top: calc(var(--legal-pad) - 8px); left: calc(var(--brand-x) - 8px); display: flex; }
+.footer__social { --brand-x: 0px; position: absolute; z-index: 1; top: calc(var(--legal-pad) - 8px); left: calc(var(--brand-x) - 8px); display: flex; gap: 8px; }   /* 8px more between the icons (Tim, 26 Nov): 24px between the marks */
 .footer__soc { display: grid; place-items: center; width: 40px; height: 40px; color: var(--c-ink-60); transition: color var(--t-out) var(--ease-out); }
 .footer__soc svg { width: 24px; height: 24px; }
 /* YouTube's mark is a wide, low rectangle (24 × 17 in its 24 box) beside a full circle and a full square: drawn 28px
