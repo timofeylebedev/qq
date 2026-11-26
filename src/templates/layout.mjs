@@ -84,8 +84,9 @@ function navbar(ctx, ground) {
     : `<a class="tabbar__item"${ic === "bag" ? " data-bag" : ""}>`}${icon(ic)}<span>${esc(t)}</span>${ic === "bag" ? '<span class="nav__count" data-bag-count hidden></span>' : ""}</a></li>`).join("")}</ul></nav>`;
 }
 
-// The footer: the animated flame (the logo from Tim, round 3) with the copyright on the left, the newsletter and four
-// groups of links on the right. From L the two halves are squares. The flame is a file (SMIL, about 27 KB gzipped,
+// The footer: the animated flame (the logo from Tim, round 3) with QQ's social pages in its cell's top left corner
+// (marketing's row 6: filled icons in a see-through ink) and the copyright at its foot on the left, the newsletter and
+// four groups of links on the right. A social page without an address yet is the icon alone (no link). From L the two halves are squares. The flame is a file (SMIL, about 27 KB gzipped,
 // loaded lazily); with «reduce motion» its first frame stands still.
 function footer(ctx) {
   const f = ctx.site.footer;
@@ -96,6 +97,9 @@ function footer(ctx) {
   return `<footer class="footer" data-ground="cloud">
  <div class="col"><div class="footer__inner">
   <div class="footer__brand">
+    <ul class="footer__social" aria-label="QQ Coffee в соцсетях">${f.social.map(([name, ic, to]) => `<li>${to
+      ? `<a class="footer__soc" data-net="${ic}" href="${esc(to)}" target="_blank" rel="noopener" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</a>`
+      : `<span class="footer__soc" data-net="${ic}" role="img" aria-label="${esc(name)}" title="${esc(name)}">${icon(ic)}</span>`}</li>`).join("")}</ul>
     <picture class="footer__mark"><source media="(prefers-reduced-motion: reduce)" srcset="/assets/img/logo-flame-still.svg"><img src="/assets/img/logo-flame.svg" alt="QQ Coffee" width="218" height="332" loading="lazy" decoding="async"></picture>
     <div class="footer__legal">
       <p>${esc(f.copyright)}</p>

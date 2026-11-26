@@ -71,6 +71,12 @@
       ["Бизнесу", [["Кофейням", "business/"], ["Офисам", "#business"], ["Корпоративные подарки", "#"]]],
       ["Компания", [["О компании", "about/"], ["Работа в QQ", "#"], ["Контакты", "contacts/"]]]
     ],
+    "$social": "Marketing's row 6: QQ's social pages as icons in the top left corner of the flame's cell. [name, icon in src/assets/icons, address]. Telegram: the channel qqcoffee.ru itself links to («Подписывайся на наш Телеграм канал»). An address of null is a placeholder (the icon shows, without a link) until QQ gives the official page: no VK, YouTube or Rutube page of QQ was found on the web (26 Nov). Rutube waits for its logo (no free icon set carries it).",
+    "social": [
+      ["Telegram", "telegram", "https://t.me/QQ_COFFEE"],
+      ["ВКонтакте", "vk", null],
+      ["YouTube", "youtube", null]
+    ],
     "copyright": "2026 © QQ Coffee. Раскрывая потенциал",
     "privacy": ["Политика конфиденциальности", "privacy/"]
   },
