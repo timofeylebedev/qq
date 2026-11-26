@@ -72,8 +72,7 @@
 .quiz__result[hidden] { display: none; }
 .quiz__result:focus { outline: none; }
 .qres__head { display: grid; gap: var(--text-gap); max-width: 48rem; }
-.qres__title-main { font-size: var(--type-h3); text-box: trim-both cap alphabetic; }
-.qres__title-main:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
+.qres__summary:focus-visible { outline: 2px solid var(--c-ink); outline-offset: 4px; }
 .qres__summary { font-size: var(--type-lead); font-weight: 500; line-height: var(--lh-text); }
 /* the answers in one line, each a way back to its question (and then straight back here) */
 .qres__answers { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
@@ -92,13 +91,7 @@
 .qres__actions .iconlink { justify-self: start; }
 @container col (width >= 43rem) { .qres__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px var(--gap); } }
 .qres__actions .btn[hidden] { display: none; }
-.qres__decaf, .qres__note { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
-.qres__map { display: grid; gap: var(--text-gap); }
-.qres__maptext { display: grid; gap: 12px; align-content: start; max-width: 34rem; }
-.qres__map .tmap { max-width: 34rem; }
-/* from L the words stand beside the map, not under an empty half of the column */
-@container col (width >= 58rem) { .qres__map { grid-template-columns: minmax(0, 1fr) minmax(0, 34rem); align-items: start; } }
-.qres__title { font-size: var(--type-card-title); }
+.qres__decaf { font-size: var(--type-body); line-height: var(--lh-text); color: var(--c-ink-70); }
 
 /* ── the profile's part, a coffee's page ──────────────────────────────────────────────────────────────────── */
 .qres__decaf .link { display: inline-block; padding-block: 6px; }   /* a 24px target at least (WCAG 2.5.8) */

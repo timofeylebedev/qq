@@ -5,7 +5,6 @@
 // src/scripts/quiz.js, the dialog's behaviour in src/scripts/quizpage.js. How it works: docs/quiz.md.
 import { card } from "./components.mjs";
 import { dialog } from "./blocks.mjs";
-import { tasteMap } from "./map.mjs";
 import { esc, icon, href, read } from "./util.mjs";
 import { tasteWords } from "../scripts/quiz.js";
 
@@ -45,8 +44,8 @@ function quizBlock(ctx) {
     </form>
     <section class="quiz__result" data-quiz-result hidden aria-labelledby="quiz-summary">
       <div class="qres__head">
-        <h3 class="qres__title-main" id="quiz-summary" tabindex="-1">Ваш подбор</h3>
-        <p class="qres__summary" data-quiz-summary></p>
+        <h3 class="sr" id="quiz-summary">Ваш подбор</h3>
+        <p class="qres__summary" tabindex="-1" data-quiz-summary></p>
         <ul class="qres__answers" aria-label="Ваши ответы: нажмите, чтобы изменить" data-quiz-answers></ul>
       </div>
       <div class="grid grid--thirds qres__picks" data-quiz-picks>
@@ -57,14 +56,7 @@ function quizBlock(ctx) {
         <button class="btn-arrow" type="button" data-quiz-show><span class="btn-arrow__label">Показать в каталоге</span>${icon("arrow-right")}</button>
         <button class="iconlink" type="button" data-quiz-again>${icon("arrow-left")}<span>Пройти заново</span></button>
       </div>
-      <section class="qres__map" aria-labelledby="quiz-map-title">
-        <div class="qres__maptext">
-          <h4 class="qres__title" id="quiz-map-title">Где ваш вкус на карте</h4>
-          <p class="qres__note">Пятно — ваш вкус по ответам. Оно широкое: это начало, а не точка. Точки — все кофе QQ, три из подбора подписаны. Влево — мягче, вправо — ярче, вверх — плотнее.</p>
-          ${decaf ? `<p class="qres__decaf">Пьёте без кофеина? Есть <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>. ${esc(tasteWords(decaf, D.words))}${decaf.milk ? " QQ советует его для капучино и латте." : ""}${C.coffees.find((c) => c.slug === decaf.slug)?.omni ? " Омни-обжарка: подходит к любому способу." : ""}</p>` : ""}
-        </div>
-        ${tasteMap(ctx, { id: "quiz-map", label: "Карта вкуса" })}
-      </section>
+      ${decaf ? `<p class="qres__decaf">Пьёте без кофеина? Есть <a class="link" href="${href(ctx, `coffee/${decaf.slug}/`)}">${esc(decaf.name)}</a>. ${esc(tasteWords(decaf, D.words))}${decaf.milk ? " QQ советует его для капучино и латте." : ""}${C.coffees.find((c) => c.slug === decaf.slug)?.omni ? " Омни-обжарка: подходит к любому способу." : ""}</p>` : ""}
     </section>
     <script type="application/json" id="quiz-data">${json}</script>
   </div>`;

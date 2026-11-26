@@ -3,12 +3,11 @@
 // option answers and moves on; the arrow keys only choose. The answers live in the dialog (no address of their own):
 // opened again, it shows the result kept in this browser, if any.
 // The result is src/scripts/quiz.js's: the coffees (the dialog holds every card, hidden; three are shown, in order,
-// each with its move and its reasons), the visitor's region on the taste map (scripts/tastemap.js area); it is saved in
+// each with its move and its reasons); it is saved in
 // this browser (scripts/tastesaved.js, localStorage "qq-taste") and the catalogue learns of it (event "qq:taste"):
 // «Для вас» appears under the filters, and «Показать в каталоге» ticks it (with the visitor's method) and closes.
 // catalog/?quiz opens the dialog on load (the footer, the profile).
 import { result, answered } from "./quiz.js";
-import { initTasteMap } from "./tastemap.js";
 import { focusFrom } from "./focus.js";
 import { saveTaste, loadTaste } from "./tastesaved.js";
 import { KEY, load, save, badge, toast, rub } from "./buy.js";
@@ -31,7 +30,7 @@ export function initQuiz() {
   }]));
   const coffee = new Map(D.coffees.map((c) => [c.slug, c]));
   const setBtn = res.querySelector("[data-quiz-set]");
-  let map = null, picks = [];
+  let picks = [];
   root.setAttribute("data-js", "");
 
   // ── where the dialog is: the answers, the question shown (null: the result), and whether a question was opened from
@@ -122,22 +121,14 @@ export function initQuiz() {
     const small = r.mode === "spread" && r.picks.every((p) => coffee.get(p.slug).small);
     setBtn.hidden = !small; setBtn.disabled = false;
     if (small) setBtn.textContent = `Взять все три по 50 г — ${rub(r.picks.reduce((s, p) => s + coffee.get(p.slug).small.price, 0))}`;
-    // the map: the region, the three lit and named
-    if (!map) map = initTasteMap(res.querySelector("[data-tmap]"), { info: (slug) => mapInfo(slug) });
-    map.light(r.picks.map((p) => p.slug)); map.area(r.area);
     // kept in this browser when answered here (a result opened from what was kept is already there); the catalogue's
     // «Для вас» follows it
     last = { answers: { ...a }, region: r.region, mode: r.mode, picks: r.picks.map((p) => ({ slug: p.slug, label: p.label, name: coffee.get(p.slug).name })) };
     if (mine) { saveTaste(last); mine = false; }
     dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last } }));
     dispatchEvent(new Event("qq:layout"));
-    if (moved) { focusFrom(res.querySelector("#quiz-summary")); scrollTop(); }
+    if (moved) { focusFrom(res.querySelector("[data-quiz-summary]")); scrollTop(); }
   }
-  const mapInfo = (slug) => {
-    const c = coffee.get(slug), p = picks.find((x) => x.slug === slug);
-    const link = cards.has(slug) && !cards.get(slug).el.hasAttribute("data-out") ? cards.get(slug).link.getAttribute("href") : `${document.documentElement.dataset.root || ""}coffee/${slug}/`;
-    return `<b>${esc(c.name)}</b>${p ? `<span class="tmap__miss">${esc(p.label)}</span>` : ""}<span>${esc(c.short || "")}</span><a class="link" href="${esc(link)}">К кофе →</a>`;
-  };
   // «Показать в каталоге»: «Для вас» ticked under the filters (scripts/filters.js), the dialog closed
   res.querySelector("[data-quiz-show]").addEventListener("click", () => {
     dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last, show: true } }));

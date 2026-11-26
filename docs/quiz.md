@@ -14,10 +14,11 @@ respondents of the survey check with their verdicts.
   quiz kept in this browser, straight onto its result. The page «Заказываю кофе впервые» (`start/`: the «start here»
   set of three, the roasts, the words, roasting and delivery) and the home page's section after the hero are gone.
 - **In the dialog:** four bars and ← → at the top (→ only once the question is answered), the question and its options
-  (no «Вопрос 1 из 4» but for a screen reader, no «или выбираю в подарок»). The result: «Ваш подбор», one sentence, the
+  (no «Вопрос 1 из 4» but for a screen reader, no «или выбираю в подарок»). The result: one sentence (no «Ваш подбор» heading but for a screen reader: Tim, 26 Nov), the
   answers (each reopens its question and comes straight back), the three cards, «Показать в каталоге» (ticks «Для вас»
-  under the filters with the visitor's method, and closes), «Пройти заново», the taste map. No «Это начало, а не
-  приговор…», no «Нажмите на ответ…», no line about what was saved. The answers live in the dialog, not in an address.
+  under the filters with the visitor's method, and closes), «Пройти заново», the decaf line. No taste map (Tim, 26 Nov:
+  it made the dialog long), no «Это начало, а не приговор…», no «Нажмите на ответ…», no line about what was saved.
+  The answers live in the dialog, not in an address, so a result is not shared by link (Tim: fine).
 - **The options' lines** are the grid's own (its line colour one hairline between cells, and a frame), not the cells'
   overlapping borders: a chosen or tinted cell never covers or doubles a neighbour's line (Tim, 26 Nov).
 - **B2B** is a link on the first screen («Для кофейни или офиса: подберём с менеджером и на дегустации» → business/),

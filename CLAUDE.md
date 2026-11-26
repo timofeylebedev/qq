@@ -120,8 +120,8 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   «Похожие» (the nearest, no text) (Tim, 26 Nov). `rank()` of `src/scripts/choose.js` decides;
   never score in filters.js or a template. Every result of every option is listed in the generated
   `docs/choose-output.md`: read it after changing a rule. The taste map (`tasteMap()` in src/templates/map.mjs +
-  `initTasteMap()` in scripts/tastemap.js) is not on the catalogue now; the quiz reads it, `src/data/choose.json` and
-  `choose.js`.
+  `initTasteMap()` in scripts/tastemap.js) is neither on the catalogue nor in the quiz now (the profile's «Ваш вкус»
+  draws it); the quiz reads `src/data/choose.json` and `choose.js`.
 - **A whole card is its link**: the name's link is stretched (`::after`) over `.card`; nothing between them may be
   positioned (the picture's layers share one grid cell). The heart and the buy row sit above it (z-index 7).
 - **Every row that scrolls sideways is `position: relative`** (else positioned children escape its clip and the page
@@ -186,7 +186,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   the anchors and moves the taste model's; `build/quiz.mjs` → `src/data/quiz.json`; the arithmetic is
   `src/scripts/quiz.js` (Node and browser); every answer's result is in the generated `docs/quiz-output.md` (read it after
   changing a rule; the build fails on a sold-out, decaf or wrong-roast offer). Never score in quizpage.js or a template.
-  The answers live in the dialog. The result is saved in this
+  The answers live in the dialog (a result is not shared by link: Tim); the result shows no taste map. It is saved in this
   browser (`qq-taste`, `scripts/tastesaved.js`) and told to the catalogue (event `qq:taste`): «Для вас» under the filters, a coffee's page (`[data-fit]`: the roast and grind
   for the visitor's method, which the buy bar starts on; the closeness in «Впечатления») and the profile read it; the
   feedback after delivery (below) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.
