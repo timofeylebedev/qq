@@ -162,14 +162,12 @@
 .fb .seg label { min-height: 44px; }
 .fb__need { display: grid; gap: 6px; margin-top: 8px; }
 .fb__need[hidden] { display: none; }
-.fb__send .btn { min-width: 10rem; }
 .fb__reply { display: grid; gap: 6px; font-size: var(--type-body); line-height: var(--lh-text); }
 .fb__reply:focus { outline: none; }
-.fb__said b { font-weight: 500; }
+.fb__said { font-size: var(--type-body-l); font-weight: 500; line-height: var(--lh-compact); }   /* what was ticked, in quotes (Tim, 26 Nov) */
 .fb__line, .fb__next { color: var(--c-ink-70); }
 .fb__next .link { color: var(--c-ink); }
-.fb__actions { display: flex; flex-wrap: wrap; gap: 4px var(--gap); margin-top: 4px; }
-.fb__actions .link { display: inline-flex; align-items: center; min-height: 40px; }
+.fb__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin-top: calc(var(--text-gap) - 6px); }   /* the reply's gap is 6px */
 
 /* the profile's question (Tim, 26 Nov): «Как вам <the coffees>?» and one line on the left, «Ответить» on the right at
    the home page's buttons' size, × in the top right corner closes it. Below M the button goes under the words. */

@@ -40,7 +40,7 @@ Per coffee of the order, in a tile:
 1. **Как заваривали:** the catalogue's eight methods. It starts on the method the grind implies: espresso grind → рожковая,
    turka → турка, filter → воронка. For beans it starts on the visitor's last method when that suits the roast, else
    on the roast's own. **С молоком:** as the visitor last drank coffee brewed that way.
-2. **Кислинка:** «Слишком ярко · В самый раз · Хочу ярче» (required).
+2. **Кислотность:** «Слишком ярко · В самый раз · Хочу ярче» (required).
 3. **Плотность:** «Слишком плотно · В самый раз · Хочу плотнее» (required).
 4. **Необычность** («Ферментация: винные, ромовые, тропические ноты»): «Слишком необычно · В самый раз · Хочу
    необычнее». Asked only about a coffee with some ferment (position.unusual ≥ 0.9).
@@ -116,11 +116,12 @@ read «фермент 1 против 2» as noise.
 ## How the site shows it listened
 
 - **Right under the answer, on the order:**
-  - «Вы сказали: «слишком ярко».»;
-  - how it counted: «Ваш вкус сдвинулся: мягче.», or for «в самый раз» «Учли: ваш вкус уточнился.», or the half
+  - «“Слишком ярко”», larger (Tim, 26 Nov);
+  - how it counted: «Ваш вкус обновлён: мягче.», or for «в самый раз» «Учли: ваш вкус уточнился.», or the half
     answer, or for «не про вкус» what happens (passed to QQ; «Дальше предложим в зёрнах»);
   - the next coffee named: «Следующий — мягче: Колумбия Антиокия. Все три — в профиле.»;
-  - «Изменить ответ» and «Рассказать на странице кофе».
+  - «Рассказать на странице кофе» (a filled button) and «Изменить ответ» (outlined, on its right), at the home page's
+    buttons' size, as is «Готово» (Tim, 26 Nov).
 - **The profile:**
   - **«Ваш вкус»**, a tile in place of the radar of purchases (two pictures of taste would disagree, and the radar showed
     sweetness): the taste map in small, every coffee a dot, the visitor's region, the path of its centre answer by answer

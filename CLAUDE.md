@@ -83,7 +83,7 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   facts: decision `footer-no-line`).
 - **Navbar links** go only to pages that exist; an item without a page is `<a>` without `href` (data/site.json nav).
   The hero's and the footer's links are not under this rule yet (a question to Tim, round 2).
-- **Grammar**: no rounded corners (pills and dots only); cells divided by hairlines (`--hair`, `--line`); mono bold
+- **Grammar**: no rounded corners (pills and dots only; `border-radius: 0` on controls takes Safari's own off); cells divided by hairlines (`--hair`, `--line`); mono bold
   capitals (PT Mono Bold) for names and headings, Apercu for text; one hover timing (`--t-in` 0.2s in, `--t-out` 0.45s out) and the
   curves of `motion.css`; a hover tints only its own item (`--tint`: white on dark grounds, ink on light) and never
   moves anything (no transform in a `:hover` rule: «Hovers never move»; the one exception, the photo of a card coming a
@@ -188,7 +188,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   the anchors and moves the taste model's; `build/quiz.mjs` → `src/data/quiz.json`; the arithmetic is
   `src/scripts/quiz.js` (Node and browser); every answer's result is in the generated `docs/quiz-output.md` (read it after
   changing a rule; the build fails on a sold-out, decaf or wrong-roast offer). Never score in quizpage.js or a template.
-  The answers live in the dialog (a result is not shared by link: Tim); the result shows no taste map. It is saved in this
+  The answers live in the dialog (a result is not shared by link: Tim). The last answer closes it onto the catalogue with
+  «Для вас» ticked; the dialog never shows coffees (opened again: the questions, the answers beside them, «Показать в
+  каталоге», «Пройти заново»), and its questions share one cell so it never jumps (Tim, 26 Nov). It is saved in this
   browser (`qq-taste`, `scripts/tastesaved.js`) and told to the catalogue (event `qq:taste`): «Для вас» under the filters, a coffee's page (`[data-fit]`: the roast and grind
   for the visitor's method, which the buy bar starts on; the closeness in «Впечатления») and the profile read it; the
   feedback after delivery (below) moves its region with `update()` of taste.js. Bench: `design/quiz-bench/`.

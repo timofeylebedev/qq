@@ -20,6 +20,9 @@
 /* a filled button at the home page's buttons' size («Наш подход»: body text, 20px each side, the control's height):
    the profile's question, «Впечатления» (Tim, 26 Nov) */
 .btn--text { font-size: var(--type-body); line-height: 1.2; padding: 0 20px; }
+/* the same, outlined: a hairline of the ground, its text, the tint when hovered («Изменить ответ») */
+.btn--line { background: transparent; color: var(--g-fg, var(--c-ink)); border: var(--hair) solid var(--line); transition-property: background-color; }
+@media (--mouse) { .btn--line:hover { background: var(--tint); } }
 .btn-arrow {
   display: inline-flex; align-items: center; gap: 16px; align-self: start;
   min-height: var(--control-h); padding: 0 16px 0 20px; border: var(--hair) solid var(--line); color: inherit;

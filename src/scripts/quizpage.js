@@ -2,18 +2,16 @@
 // time; ← and → at the top go back and on (→ only once the question is answered; Enter does the same). A tap on an
 // option answers and moves on; the arrow keys only choose. The answers live in the dialog (no address of their own):
 // opened again, it shows the result kept in this browser, if any.
-// The result is src/scripts/quiz.js's: the coffees (the dialog holds every card, hidden; three are shown, in order,
-// each with its move and its reasons); it is saved in
-// this browser (scripts/tastesaved.js, localStorage "qq-taste") and the catalogue learns of it (event "qq:taste"):
-// «Для вас» appears under the filters, and «Показать в каталоге» ticks it (with the visitor's method) and closes.
+// The result is src/scripts/quiz.js's: it is saved in this browser (scripts/tastesaved.js, localStorage "qq-taste")
+// and the catalogue learns of it (event "qq:taste"). The last answer closes the dialog with «Для вас» ticked under the
+// filters (with the visitor's method): the coffees are seen in the catalogue, never in the dialog (Tim, 26 Nov).
+// Opened again, the dialog shows the questions with the answers beside them, «Показать в каталоге», «Пройти заново».
 // catalog/?quiz opens the dialog on load (the footer, the profile).
 import { result, answered } from "./quiz.js";
 import { focusFrom } from "./focus.js";
 import { saveTaste, loadTaste } from "./tastesaved.js";
-import { KEY, load, save, badge, toast, rub } from "./buy.js";
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const cap = (s) => s && s[0].toUpperCase() + s.slice(1);
 
 export function initQuiz() {
   const root = document.querySelector("[data-quiz]");
@@ -23,14 +21,7 @@ export function initQuiz() {
   const steps = [...form.querySelectorAll("[data-step]")], bars = [...form.querySelectorAll("[data-bar]")];
   const back = form.querySelector("[data-quiz-back]"), next = form.querySelector("[data-quiz-next]");
   const IDS = D.steps.map((s) => s.id);
-  const grid = res.querySelector("[data-quiz-picks]");
-  const cards = new Map([...grid.querySelectorAll("[data-card]")].map((el) => [el.dataset.slug, {
-    el, link: el.querySelector(".card__link"), href: el.querySelector(".card__link").getAttribute("href"), tag: el.querySelector("[data-tag]"),
-    text: el.querySelector(".card__text"), set: Object.fromEntries([...el.querySelectorAll("[data-set]")].map((i) => [i.dataset.set, i]))
-  }]));
   const coffee = new Map(D.coffees.map((c) => [c.slug, c]));
-  const setBtn = res.querySelector("[data-quiz-set]");
-  let picks = [];
   root.setAttribute("data-js", "");
 
   // ── where the dialog is: the answers, the question shown (null: the result), and whether a question was opened from
@@ -49,7 +40,8 @@ export function initQuiz() {
     const cur = Math.min(S.at, done);
     S.at = cur;
     form.hidden = false; res.hidden = true;
-    steps.forEach((s, k) => { s.hidden = k !== cur; });
+    // the questions share one cell: the others keep their place, unseen and out of reach (the dialog never jumps)
+    steps.forEach((s, k) => { s.hidden = false; s.toggleAttribute("data-off", k !== cur); s.inert = k !== cur; });
     bars.forEach((b, k) => b.toggleAttribute("data-on", k <= cur));
     back.disabled = cur === 0;
     next.disabled = !S.a[IDS[cur]];
@@ -88,62 +80,34 @@ export function initQuiz() {
   form.addEventListener("submit", (e) => { e.preventDefault(); if (S.a[IDS[S.at]]) advance(); });
   back.addEventListener("click", () => { if (S.at > 0) go(S.at - 1); });
   res.querySelector("[data-quiz-again]").addEventListener("click", () => { S.a = {}; go(0); });
-  res.addEventListener("click", (e) => {
-    const ed = e.target.closest("[data-edit]");
-    if (ed) go(Number(ed.dataset.edit), { ret: true });
-  });
 
   // ── the result ──
+  // worked out and kept (a result opened from what was kept is already there); answered here, the dialog closes onto
+  // the catalogue with «Для вас» ticked; opened again, it shows the questions and the answers beside them
   let last = null;
   function showResult(moved) {
     const a = S.a, r = result(a, D);
-    form.hidden = true; res.hidden = false;
-    res.querySelector("[data-quiz-summary]").textContent = r.summary[0];
-    // the answers, each a way back to its question (and then straight back here)
-    res.querySelector("[data-quiz-answers]").innerHTML = D.steps.map((s, k) => {
-      const o = s.options.find((x) => x.id === a[s.id]);
-      return `<li><button class="qres__answer" type="button" data-edit="${k}" aria-label="${esc(s.ask)} ${esc(o.ru)}. Изменить">${esc(o.ru)}</button></li>`;
-    }).join("");
-    // the three coffees, in order; the others stay hidden
-    picks = r.picks;
-    for (const [, c] of cards) c.el.setAttribute("data-out", "");
-    for (const p of r.picks) {
-      const c = cards.get(p.slug);
-      c.el.removeAttribute("data-out"); grid.append(c.el);
-      c.tag.hidden = false; c.tag.textContent = p.label;
-      const why = p.why.length ? `${cap(p.why.join("; "))}. ` : "";
-      c.text.innerHTML = `${esc(why)}${esc(p.taste)}${p.but ? ` <span class="card__but">${esc(p.but)}</span>` : ""}${p.set ? ` <span class="card__set">${esc(p.set.text)}.</span>` : ""}`;
-      c.set.roast.value = p.set?.roast || ""; c.set.grind.value = p.set?.grind || "";
-      const params = p.set ? Object.entries({ roast: p.set.roast, grind: p.set.grind }).filter(([, v]) => v) : [];
-      c.link.setAttribute("href", params.length ? `${c.href}?${new URLSearchParams(params)}` : c.href);
-    }
-    // three different coffees: all three in small packs, when QQ sells each in 50 g
-    const small = r.mode === "spread" && r.picks.every((p) => coffee.get(p.slug).small);
-    setBtn.hidden = !small; setBtn.disabled = false;
-    if (small) setBtn.textContent = `Взять все три по 50 г — ${rub(r.picks.reduce((s, p) => s + coffee.get(p.slug).small.price, 0))}`;
-    // kept in this browser when answered here (a result opened from what was kept is already there); the catalogue's
-    // «Для вас» follows it
     last = { answers: { ...a }, region: r.region, mode: r.mode, picks: r.picks.map((p) => ({ slug: p.slug, label: p.label, name: coffee.get(p.slug).name })) };
-    if (mine) { saveTaste(last); mine = false; }
-    dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last } }));
-    dispatchEvent(new Event("qq:layout"));
-    if (moved) { focusFrom(res.querySelector("[data-quiz-summary]")); scrollTop(); }
-  }
-  // «Показать в каталоге»: «Для вас» ticked under the filters (scripts/filters.js), the dialog closed
-  res.querySelector("[data-quiz-show]").addEventListener("click", () => {
-    dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last, show: true } }));
-    dialog.querySelector("[data-dialog-close]").click();
-  });
-  setBtn.addEventListener("click", () => {
-    const a = S.a, bag = load(KEY, []);
-    for (const p of picks) {
-      const c = coffee.get(p.slug), f = a.method && a.method !== "none" ? c.methods[a.method] : null;
-      const set = p.set || {};
-      bag.push({ slug: p.slug, weight: c.small.label, grind: f ? f.grind : set.grind || "В зернах", roast: f ? f.roast : set.roast || null, qty: 1, price: c.small.price });
+    if (mine) {
+      mine = false;
+      saveTaste(last);
+      // back to the first question for the next time it opens empty-handed (the answers stay: it opens on them)
+      return show();
     }
-    save(KEY, bag); badge(); toast("Три кофе по 50 г — в корзине");
-    setBtn.disabled = true; setBtn.textContent = "Уже в корзине";
-  });
+    form.hidden = true; res.hidden = false;
+    res.querySelector("[data-quiz-answers]").innerHTML = D.steps.map((s) => {
+      const o = s.options.find((x) => x.id === a[s.id]);
+      return `<div class="qres__row"><dt>${esc(s.ask)}</dt><dd>${esc(o?.ru || "")}</dd></div>`;
+    }).join("");
+    dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last } }));
+    if (moved) { focusFrom(res.querySelector("#quiz-summary")); scrollTop(); }
+  }
+  // «Показать в каталоге» (and the last answer): «Для вас» ticked under the filters (scripts/filters.js), the dialog closed
+  function show() {
+    dispatchEvent(new CustomEvent("qq:taste", { detail: { taste: last, show: true } }));
+    if (dialog.open) dialog.querySelector("[data-dialog-close]").click();
+  }
+  res.querySelector("[data-quiz-show]").addEventListener("click", show);
 
   // the dialog opens on the question or the result it was left on; catalog/?quiz opens it on load
   new MutationObserver(() => { if (dialog.open) draw(true); }).observe(dialog, { attributes: true, attributeFilter: ["open"] });

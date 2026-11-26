@@ -117,10 +117,13 @@ const esc = (x) => String(x ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").
 export function replyHtml(r, slug, F, root) {
   const W = F.words;
   const next = r.next ? `<p class="fb__next">${esc(r.next.line)} <a class="link" href="${root}coffee/${r.next.slug}/">${esc(r.next.name)}</a>. <a class="link" href="${root}account/#next">${esc(W.allNext)}</a></p>` : "";
-  return `<p class="fb__said"><b>${esc(W.youSaid)}</b> «${esc(r.said)}».</p>
+  // what was ticked, in quotes and larger; the buttons at the home page's size: «Рассказать на странице кофе» filled,
+  // «Изменить ответ» outlined on its right (Tim, 26 Nov)
+  const said = String(r.said || ""), cap = said ? said[0].toUpperCase() + said.slice(1) : said;
+  return `<p class="fb__said">«${esc(cap)}»</p>
           ${r.lines.map((l) => `<p class="fb__line">${esc(l)}</p>`).join("\n          ")}
           ${next}
-          <p class="fb__actions"><button class="link" type="button" data-fb-edit>${esc(r.issue ? W.editTaste : W.edit)}</button>${r.issue ? "" : ` <a class="link" href="${root}coffee/${slug}/#people">${esc(W.share)}</a>`}</p>`;
+          <p class="fb__actions">${r.issue ? "" : `<a class="btn btn--text" href="${root}coffee/${slug}/#people">${esc(W.share)}</a> `}<button class="btn btn--text btn--line" type="button" data-fb-edit>${esc(r.issue ? W.editTaste : W.edit)}</button></p>`;
 }
 
 export { isTaste, plural };

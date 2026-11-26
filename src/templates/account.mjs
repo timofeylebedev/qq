@@ -398,7 +398,7 @@ function fbSection(ctx, acc, o) {
               <div class="ropts">${Object.entries(F.rules.issues.grind.need).map(([k, [t]]) => `<label class="ropt"><input type="radio" name="need" value="${k}"${issueOf?.need === k ? " checked" : ""}><span>${esc(t)}</span></label>`).join("")}</div>
             </fieldset>
           </details>
-          <div class="fb__send"><button class="btn" type="submit">${esc(W.send)}</button></div>
+          <div class="fb__send"><button class="btn btn--text" type="submit">${esc(W.send)}</button></div>
         </div>
         <div class="fb__reply" data-fb-reply tabindex="-1"${r ? "" : " hidden"}>${r ? replyHtml(r, it.slug, F, href(ctx, "")) : ""}</div>
       </form>`;

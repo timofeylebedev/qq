@@ -83,7 +83,7 @@ export function render(ctx) {
     <nav class="tabs" aria-label="Категории"><ul>${tabs}</ul></nav>
     <form class="filters" data-filters aria-label="Выбор кофе">
       <div class="filters__bar">
-        <button class="btn filters__quiz" type="button" data-dialog="quiz">Подобрать кофе</button>
+        <button class="btn btn--text filters__quiz" type="button" data-dialog="quiz">Подобрать кофе</button>
         <div class="filters__row">
         ${cells}
         </div>
