@@ -169,8 +169,9 @@ kit's lessons (`code.learn.*`: they report, and fail a PR only once the site job
   `similar-coffees`).
 - **«Впечатления»** (a coffee's page, its own section after the story: `src/templates/people.mjs`, `scripts/people.js`;
   decision `people-block`): how the coffee turned out in people's cups (not «отзывы»: Tim), **without stars, scores,
-  averages or percents**, and no ambassadors. A centred title; «Поделиться впечатлениями» and «Задать вопрос» centred on
-  one line; the stories two a row from M, each: the avatar in its own column (as tall as the name and the closeness
+  averages or percents**, and no ambassadors. Two tabs on the left, «Впечатления» and «Вопросы» (`paneltabs`), and on
+  the right of their row the one button of the tab shown, «Поделиться впечатлениями» or «Задать вопрос» (both `.btn`,
+  no arrow; below M under the tabs) (Tim, 26 Nov); «Вопросы» has no questions yet (an invitation); the stories two a row from M, each: the avatar in its own column (as tall as the name and the closeness
   line), the name, how close the teller's taste is to yours (a short line filled by closeness and «Очень похожие
   вкусы» / «Похожие вкусы» / «Разные вкусы», from the taste model), the words, the date and after how many cups (the
   closeness and the date in one grey size). The answers against expectation (сладость, кислотность, плотность,
