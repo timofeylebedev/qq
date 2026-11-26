@@ -1,0 +1,1 @@
+var e=!1,t=t=>{e=t,document.documentElement.toggleAttribute(`data-keyed`,t)};addEventListener(`keydown`,n=>{!n.metaKey&&!n.altKey&&!n.ctrlKey&&!e&&t(!0)},!0),addEventListener(`pointerdown`,()=>{e&&t(!1)},!0);function n(t,n={}){t?.focus({preventScroll:!0,...n,focusVisible:e})}export{n as t};
